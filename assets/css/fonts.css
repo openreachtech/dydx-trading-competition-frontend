@@ -17,3 +17,13 @@
   font-display: swap;
   font-style: italic;
 }
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/space-grotesk/SpaceGrotesk-Variable.woff2') format('woff2'),
+    url('/fonts/space-grotesk/SpaceGrotesk-Variable.woff') format('woff'),
+    url('/fonts/space-grotesk/SpaceGrotesk-Variable.ttf') format('truetype');
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: italic;
+}
