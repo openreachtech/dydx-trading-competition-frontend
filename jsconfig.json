@@ -1,0 +1,9 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "types": [
+      "jest"
+    ]
+  }
+}
