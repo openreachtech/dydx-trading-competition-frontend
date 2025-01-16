@@ -6,6 +6,10 @@ import furoEnv from './app/globals/furo-env'
 
 // Reference: https://nuxt.com/docs/api/nuxt-config.
 export default defineNuxtConfig({
+  // https://nuxt.com/docs/api/nuxt-config#compatibilitydate
+  // NOTE: Please keep `compatibilityDate` up to date with each release. The format is `yyyy-mm-dd`.
+  compatibilityDate: '2025-01-16',
+
   // Nuxt App configuration: https://nuxt.com/docs/api/nuxt-config#app.
   app: {
     head: {
