@@ -1,13 +1,34 @@
 :root {
   /* Palette */
-  --palette-black: #000;
   --palette-blue: #37f;
   --palette-blue-light: #69f;
   --palette-gray: #bcbcbc;
   --palette-gray-light: #f7f7f7;
-  --palette-white: #fff;
 
   --palette-ivory: #fefefe;
+
+  /* Tweaked Palette */
+  --palette-purple: #6966ff;
+  --palette-purple-lighter: #817eff;
+  --palette-purple-faded: #6966ff29;
+  --palette-green: #3ed9a4;
+  --palette-green-faded: #3ed9a429;
+  --palette-yellow: #ffcc48;
+  --palette-yellow-faded: #ffcc4829;
+  --palette-red: #e45555;
+  --palette-red-faded: #e4555529;
+  --palette-black: #000;
+  --palette-white: #fff;
+
+  /* Layer Palette */
+  --palette-layer-0: #08080c;
+  --palette-layer-1: #101018;
+  --palette-layer-2: #181825;
+  --palette-layer-3: #212131;
+  --palette-layer-4: #29293d;
+  --palette-layer-5: #303045;
+  --palette-layer-6: #38384d;
+  --palette-layer-7: #464659;
 
   /* Colors */
   --color-primary: var(--palette-blue);
@@ -21,7 +42,15 @@
 
   /* Text */
   --color-text: var(--palette-black);
-  --color-text-primary: var(--palette-white);
+  --color-text-primary: #fafafd;
+  --color-text-secondary: #c8c7d8;
+  --color-text-tertiary: #807e98;
+  --color-text-placeholder: #5f5e72;
+
+  /* Border Colors */
+  --color-border-default: #303045;
+  --color-border-destructive: #e4555533;
+  --color-border-button: #fff3;
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
@@ -41,9 +70,18 @@
   --size-thinnest: 1px;
 
   --size-screen-height: 100dvh;
-  --size-header-height: 4.5rem;
-  --size-footer-height: 6rem;
-  --size-nav-width: 15rem;
+  --size-body-max-width: 75rem;
+  --size-header-height: 4.25rem;
+  --size-footer-height: 3.25rem;
+  --size-nav-width: 20rem;
+  --size-search-width-desktop: 25rem;
+  --size-search-width-mobile: 100%;
+
+  --size-body-padding-inline-desktop: 1.5rem;
+  --size-body-padding-inline-mobile: 1rem;
+
+  /* Animation */
+  --transition-timing-base: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Values */
   --value-golden-ratio: 1.618;
