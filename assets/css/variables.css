@@ -1,17 +1,38 @@
 :root {
   /* Palette */
-  --palette-black: #000;
   --palette-blue: #37f;
   --palette-blue-light: #69f;
   --palette-gray: #bcbcbc;
   --palette-gray-light: #f7f7f7;
-  --palette-white: #fff;
 
   --palette-ivory: #fefefe;
+
+  /* Tweaked Palette */
+  --palette-purple: #6966ff;
+  --palette-purple-lighter: #817eff;
+  --palette-purple-faded: #6966ff29;
+  --palette-green: #3ed9a4;
+  --palette-green-faded: #3ed9a429;
+  --palette-yellow: #ffcc48;
+  --palette-yellow-faded: #ffcc4829;
+  --palette-red: #e45555;
+  --palette-red-faded: #e4555529;
+  --palette-black: #000;
+  --palette-white: #fff;
 
   /* Colors */
   --color-primary: var(--palette-blue);
   --color-secondary: var(--palette-yellow-300);
+
+  /* Layer Colors */
+  --color-layer-0: #08080c;
+  --color-layer-1: #101018;
+  --color-layer-2: #181825;
+  --color-layer-3: #212131;
+  --color-layer-4: #29293d;
+  --color-layer-5: #303045;
+  --color-layer-6: #38384d;
+  --color-layer-7: #464659;
 
   /* Backgrounds */
   --color-background: var(--palette-gray-light);
@@ -21,7 +42,15 @@
 
   /* Text */
   --color-text: var(--palette-black);
-  --color-text-primary: var(--palette-white);
+  --color-text-primary: #fafafd;
+  --color-text-secondary: #c8c7d8;
+  --color-text-tertiary: #807e98;
+  --color-text-placeholder: #5f5e72;
+
+  /* Border Colors */
+  --color-border-default: #303045;
+  --color-border-destructive: #e4555533;
+  --color-border-button: #fff3;
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
