@@ -41,9 +41,15 @@
   --size-thinnest: 1px;
 
   --size-screen-height: 100dvh;
+  --size-body-max-width: 75rem;
   --size-header-height: 4.25rem;
   --size-footer-height: 3.25rem;
   --size-nav-width: 20rem;
+  --size-search-width-desktop: 25rem;
+  --size-search-width-mobile: 100%;
+
+  --size-body-padding-inline-base: 1.5rem;
+  --size-body-padding-inline-small: 1rem;
 
   /* Values */
   --value-golden-ratio: 1.618;
