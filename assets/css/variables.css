@@ -77,8 +77,8 @@
   --size-search-width-desktop: 25rem;
   --size-search-width-mobile: 100%;
 
-  --size-body-padding-inline-base: 1.5rem;
-  --size-body-padding-inline-small: 1rem;
+  --size-body-padding-inline-desktop: 1.5rem;
+  --size-body-padding-inline-mobile: 1rem;
 
   /* Animation */
   --transition-timing-base: cubic-bezier(0.4, 0, 0.2, 1);
