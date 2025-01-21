@@ -20,19 +20,19 @@
   --palette-black: #000;
   --palette-white: #fff;
 
+  /* Layer Palette */
+  --palette-layer-0: #08080c;
+  --palette-layer-1: #101018;
+  --palette-layer-2: #181825;
+  --palette-layer-3: #212131;
+  --palette-layer-4: #29293d;
+  --palette-layer-5: #303045;
+  --palette-layer-6: #38384d;
+  --palette-layer-7: #464659;
+
   /* Colors */
   --color-primary: var(--palette-blue);
   --color-secondary: var(--palette-yellow-300);
-
-  /* Layer Colors */
-  --color-layer-0: #08080c;
-  --color-layer-1: #101018;
-  --color-layer-2: #181825;
-  --color-layer-3: #212131;
-  --color-layer-4: #29293d;
-  --color-layer-5: #303045;
-  --color-layer-6: #38384d;
-  --color-layer-7: #464659;
 
   /* Backgrounds */
   --color-background: var(--palette-gray-light);
