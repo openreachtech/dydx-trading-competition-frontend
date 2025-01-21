@@ -41,9 +41,9 @@
   --size-thinnest: 1px;
 
   --size-screen-height: 100dvh;
-  --size-header-height: 4.5rem;
-  --size-footer-height: 6rem;
-  --size-nav-width: 15rem;
+  --size-header-height: 4.25rem;
+  --size-footer-height: 3.25rem;
+  --size-nav-width: 20rem;
 
   /* Values */
   --value-golden-ratio: 1.618;
