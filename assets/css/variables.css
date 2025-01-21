@@ -51,6 +51,9 @@
   --size-body-padding-inline-base: 1.5rem;
   --size-body-padding-inline-small: 1rem;
 
+  /* Animation */
+  --transition-timing-base: cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Values */
   --value-golden-ratio: 1.618;
 }
