@@ -1,3 +1,7 @@
+html {
+  color-scheme: dark;
+}
+
 body {
   font-family: var(--font-family-body);
 
