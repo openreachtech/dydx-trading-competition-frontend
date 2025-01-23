@@ -214,13 +214,9 @@ export default defineComponent({
   padding-block: 1rem;
   padding-inline: 1.5rem;
 
-  width: var(--size-search-width-mobile);
+  width: min(var(--size-search-width), 100%);
 
   background-color: var(--color-background-search-panel);
-
-  @media (30rem < width) {
-    width: var(--size-search-width-desktop);
-  }
 }
 
 .unit-body.open-search > .search {

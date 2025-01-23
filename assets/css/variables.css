@@ -105,8 +105,7 @@
   --size-header-height: 4.25rem;
   --size-footer-height: 3.25rem;
   --size-nav-width: 20rem;
-  --size-search-width-desktop: 25rem;
-  --size-search-width-mobile: 100%;
+  --size-search-width: 25rem;
 
   --size-body-padding-inline-desktop: 1.5rem;
   --size-body-padding-inline-mobile: 1rem;
