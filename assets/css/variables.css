@@ -35,10 +35,15 @@
   --color-secondary: var(--palette-yellow-300);
 
   /* Backgrounds */
-  --color-background: var(--palette-gray-light);
+  --color-background: var(--palette-layer-1);
 
-  --color-background-header: var(--palette-ivory);
-  --color-background-nav: var(--palette-ivory);
+  --color-background-header: var(--palette-layer-1);
+  --color-background-footer: var(--palette-layer-1);
+
+  --color-background-nav: var(--palette-layer-2);
+  --color-background-search-panel: var(--palette-layer-2);
+
+  --color-background-menu-entry-hover: var(--palette-layer-5);
 
   /* Text */
   --color-text: var(--palette-black);
@@ -100,8 +105,7 @@
   --size-header-height: 4.25rem;
   --size-footer-height: 3.25rem;
   --size-nav-width: 20rem;
-  --size-search-width-desktop: 25rem;
-  --size-search-width-mobile: 100%;
+  --size-search-width: 25rem;
 
   --size-body-padding-inline-desktop: 1.5rem;
   --size-body-padding-inline-mobile: 1rem;
