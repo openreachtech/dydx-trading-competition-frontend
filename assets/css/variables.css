@@ -84,19 +84,6 @@
   --font-size-tiny: 0.625rem;
   --font-size-regular: 0.75rem;
 
-  /* Typography: Line height */
-  --line-height-title-large: 4rem;
-  --line-height-title: 3.5rem;
-  --line-height-headline: 3rem;
-  --line-height-extra: 2.25rem;
-  --line-height-large: 2rem;
-  --line-height-medium: 1.5rem;
-  --line-height-base: 1.25rem;
-  --line-height-small: 1.125rem;
-  --line-height-mini: 1rem;
-  --line-height-tiny: 0.875rem;
-  --line-height-regular: 1.3;
-
   /* Sizes */
   --size-thinnest: 1px;
 
@@ -109,6 +96,18 @@
 
   --size-body-padding-inline-desktop: 1.5rem;
   --size-body-padding-inline-mobile: 1rem;
+
+  --size-line-height-title-large: 4rem;
+  --size-line-height-title: 3.5rem;
+  --size-line-height-headline: 3rem;
+  --size-line-height-extra: 2.25rem;
+  --size-line-height-large: 2rem;
+  --size-line-height-medium: 1.5rem;
+  --size-line-height-base: 1.25rem;
+  --size-line-height-small: 1.125rem;
+  --size-line-height-mini: 1rem;
+  --size-line-height-tiny: 0.875rem;
+  --size-line-height-regular: 1.3;
 
   /* Animation */
   --transition-timing-base: cubic-bezier(0.4, 0, 0.2, 1);
