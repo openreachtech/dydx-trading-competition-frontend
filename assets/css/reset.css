@@ -78,5 +78,7 @@ button {
   padding-block: 0;
   padding-inline: 0;
 
+  line-height: 1;
+
   cursor: pointer;
 }
