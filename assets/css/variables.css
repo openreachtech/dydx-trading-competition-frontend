@@ -13,6 +13,7 @@
   --palette-purple-faded: #6966ff29;
   --palette-green: #3ed9a4;
   --palette-green-faded: #3ed9a429;
+  --palette-green-darker: #2bb083;
   --palette-yellow: #ffcc48;
   --palette-yellow-faded: #ffcc4829;
   --palette-red: #e45555;
@@ -45,6 +46,13 @@
 
   --color-background-menu-entry-hover: var(--palette-layer-5);
 
+  --color-background-button-primary: var(--palette-purple);
+  --color-background-button-neutral: var(--palette-layer-5);
+  --color-background-button-success: var(--palette-green-darker);
+  --color-background-button-error: var(--palette-red);
+  --color-background-button-muted: var(--palette-layer-3);
+  --color-background-button-outlined: var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -55,7 +63,13 @@
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;
+
   --color-border-button: #fff3;
+  --color-border-button-neutral: var(--palette-layer-6);
+  --color-border-button-muted: var(--palette-layer-5);
+  --color-border-button-outlined: var(--palette-layer-6);
+  --color-border-button-outlined-success: var(--palette-green-darker);
+  --color-border-button-outlined-error: var(--palette-red);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
