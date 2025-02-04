@@ -53,12 +53,34 @@
   --color-background-button-muted: var(--palette-layer-3);
   --color-background-button-outlined: var(--palette-layer-2);
 
+  --color-background-badge-info: var(--palette-purple-faded);
+  --color-background-badge-success: var(--palette-green-faded);
+  --color-background-badge-warn: var(--palette-yellow-faded);
+  --color-background-badge-neutral: var(--palette-layer-6);
+  --color-background-badge-completed: var(--palette-layer-6);
+  --color-background-badge-canceled: var(--palette-layer-5);
+
+  --color-background-badge-indicator-info: var(--palette-purple-faded);
+  --color-background-badge-indicator-success: var(--palette-green-faded);
+  --color-background-badge-indicator-warn: var(--palette-yellow-faded);
+  --color-background-badge-indicator-neutral: var(--palette-layer-7);
+  --color-background-badge-indicator-completed: var(--palette-layer-7);
+  --color-background-badge-indicator-canceled: var(--palette-layer-7);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
   --color-text-secondary: #c8c7d8;
   --color-text-tertiary: #807e98;
   --color-text-placeholder: #5f5e72;
+
+  --color-text-badge-info: var(--palette-purple-lighter);
+  --color-text-badge-success: var(--palette-green);
+  --color-text-badge-warn: var(--palette-yellow);
+  /* TODO: Palette custom property for these */
+  --color-text-badge-neutral: var(--color-text-primary);
+  --color-text-badge-completed: var(--color-text-secondary);
+  --color-text-badge-canceled: var(--color-text-tertiary);
 
   /* Border Colors */
   --color-border-default: #303045;
