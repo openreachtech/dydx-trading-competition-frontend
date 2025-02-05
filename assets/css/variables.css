@@ -67,6 +67,9 @@
   --color-background-badge-indicator-completed: var(--palette-layer-7);
   --color-background-badge-indicator-canceled: var(--palette-layer-7);
 
+  --color-background-card: var(--palette-layer-2);
+  --color-background-card-header: var(--palette-layer-3);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -92,6 +95,8 @@
   --color-border-button-outlined: var(--palette-layer-6);
   --color-border-button-outlined-success: var(--palette-green-darker);
   --color-border-button-outlined-error: var(--palette-red);
+
+  --color-border-card: var(--palette-layer-4);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
