@@ -130,9 +130,9 @@ export default defineComponent({
 }
 
 .unit-contents {
+  border-color: var(--color-border-card);
   border-radius: 1rem;
   border-style: solid;
-  border-color: var(--color-border-card);
   border-width: 0;
   border-block-end-width: 0.25rem;
   border-inline-start-width: 0.25rem;
@@ -223,9 +223,9 @@ export default defineComponent({
 
 /* Footer */
 .unit-contents > .footer {
-  border-block-start-width: var(--size-thinnest);
-  border-block-start-style: solid;
   border-block-start-color: var(--color-border-card);
+  border-block-start-style: solid;
+  border-block-start-width: var(--size-thinnest);
 
   padding-block: 0.75rem;
   padding-inline: 1.25rem;
