@@ -54,7 +54,7 @@ export default defineComponent({
 
 <template>
   <div class="unit-container">
-    <AppLeagueCard v-for="it of context.capsuleRef.value.extractCompetitions()"
+    <AppLeagueCard v-for="it of context.competitions"
       :key="it.competitionId"
       :competition="it"
     />

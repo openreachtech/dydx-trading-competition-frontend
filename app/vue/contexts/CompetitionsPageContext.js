@@ -84,6 +84,16 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitions
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
+   */
+  get competitions () {
+    return this.capsuleRef.value
+      .extractCompetitions()
+  }
+
+  /**
    * get: capsuleRef
    *
    * @returns {CompetitionsPageContextParams['graphqlClient']['capsuleRef']}
