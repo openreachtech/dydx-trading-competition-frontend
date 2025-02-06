@@ -49,11 +49,11 @@ export default defineComponent({
       <div class="header">
         <div class="unit-headline">
           <h4 class="heading">
-            {{ context.extractCompetitionByKey('title') }}
+            {{ context.title }}
           </h4>
 
           <img :src="context.genenrateImageUrl()"
-            :alt="context.extractCompetitionByKey('host')?.name"
+            :alt="context.host?.name"
             class="image"
           >
         </div>
@@ -78,7 +78,7 @@ export default defineComponent({
 
       <div class="body">
         <p class="description">
-          {{ context.extractCompetitionByKey('description') }}
+          {{ context.description }}
         </p>
 
         <span class="unit-deposit">
@@ -94,7 +94,7 @@ export default defineComponent({
 
       <div class="footer">
         <span class="prize">
-          {{ context.normalizeCurrency({ value: context.extractCompetitionByKey('totalPrize') }) }}
+          {{ context.normalizeCurrency({ value: context.totalPrize }) }}
         </span>
 
         <span class="unit-participants">
@@ -104,7 +104,7 @@ export default defineComponent({
             />
 
             <span class="count">
-              {{ context.normalizeNumber({ value: context.extractCompetitionByKey('participantUpperLimit') }) }}
+              {{ context.normalizeNumber({ value: context.participantUpperLimit }) }}
             </span>
           </span>
 

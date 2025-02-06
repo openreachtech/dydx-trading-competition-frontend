@@ -30,15 +30,112 @@ const ICON_NAME_HASH = {
  */
 export default class AppLeagueCardContext extends BaseFuroContext {
   /**
-   * Extracts a specific competition value.
+   * Extract competition.
    *
-   * @template {keyof CompetitionEntity} T
-   * @param {T} key - A property of competition.
-   * @returns {CompetitionEntity[T] | null} Coresponding property's value, or `null` if not found.
+   * @returns {CompetitionEntity | null}
    */
-  extractCompetitionByKey (key) {
+  extractCompetition () {
     return this.props
-      .competition[key]
+      .competition
+      ?? null
+  }
+
+  /**
+   * get: competitionStatus
+   *
+   * @returns {CompetitionEntity['status'] | null}
+   */
+  get competitionStatus () {
+    return this.extractCompetition()
+      ?.status
+      ?? null
+  }
+
+  /**
+   * get: title
+   *
+   * @returns {CompetitionEntity['title'] | null}
+   */
+  get title () {
+    return this.extractCompetition()
+      ?.title
+      ?? null
+  }
+
+  /**
+   * get: description
+   *
+   * @returns {CompetitionEntity['description'] | null}
+   */
+  get description () {
+    return this.extractCompetition()
+      ?.description
+      ?? null
+  }
+
+  /**
+   * get: host
+   *
+   * @returns {CompetitionEntity['host'] | null}
+   */
+  get host () {
+    return this.extractCompetition()
+      ?.host
+      ?? null
+  }
+
+  /**
+   * get: imageUrl
+   *
+   * @returns {CompetitionEntity['imageUrl'] | null}
+   */
+  get imageUrl () {
+    return this.extractCompetition()
+      ?.imageUrl
+      ?? null
+  }
+
+  /**
+   * get: competitionId
+   *
+   * @returns {CompetitionEntity['competitionId'] | null}
+   */
+  get competitionId () {
+    return this.extractCompetition()
+      ?.competitionId
+      ?? null
+  }
+
+  /**
+   * get: minimumDeposit
+   *
+   * @returns {CompetitionEntity['minimumDeposit'] | null}
+   */
+  get minimumDeposit () {
+    return this.extractCompetition()
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
+   * get: totalPrize
+   *
+   * @returns {CompetitionEntity['totalPrize'] | null}
+   */
+  get totalPrize () {
+    return this.extractCompetition()
+      ?.totalPrize
+      ?? null
+  }
+
+  /**
+   * get: participantUpperLimit
+   *
+   * @returns {CompetitionEntity['participantUpperLimit'] | null}
+   */
+  get participantUpperLimit () {
+    return this.extractCompetition()
+      ?.participantUpperLimit
       ?? null
   }
 
@@ -49,7 +146,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeSeverity () {
     const fallbackValue = 'neutral'
-    const { statusId } = this.extractCompetitionByKey('status') ?? {}
+    const { statusId } = this.competitionStatus ?? {}
 
     if (!statusId) {
       return fallbackValue
@@ -64,7 +161,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    * @returns {string} Badge description.
    */
   generateBadgeDescription () {
-    const { statusId } = this.extractCompetitionByKey('status') ?? {}
+    const { statusId } = this.competitionStatus ?? {}
 
     return Object.values(COMPETITION_STATUS)
       .find(it => it.ID === statusId)
@@ -79,7 +176,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeIconName () {
     const fallbackValue = ''
-    const { statusId } = this.extractCompetitionByKey('status') ?? {}
+    const { statusId } = this.competitionStatus ?? {}
 
     if (!statusId) {
       return fallbackValue
@@ -94,7 +191,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    * @returns {string} Image URL
    */
   genenrateImageUrl () {
-    return this.extractCompetitionByKey('imageUrl') ?? ''
+    return this.imageUrl ?? ''
   }
 
   /**
@@ -103,9 +200,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    * @returns {string} Route string.
    */
   generateDestination () {
-    const competitionId = this.extractCompetitionByKey('competitionId')
-
-    return `/competitions/${competitionId}`
+    return `/competitions/${this.competitionId}`
   }
 
   /**
@@ -115,7 +210,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   normalizeMinimumDeposit () {
     const normalizedFigure = this.normalizeNumber({
-      value: this.extractCompetitionByKey('minimumDeposit'),
+      value: this.minimumDeposit,
     })
 
     return `${normalizedFigure} USDC`
