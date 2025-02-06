@@ -46,7 +46,7 @@ export default defineComponent({
 <template>
   <div class="unit-card">
     <div class="unit-contents">
-      <section class="header">
+      <div class="header">
         <div class="unit-headline">
           <h4 class="heading">
             {{ context.extractCompetitionByKey('title') }}
@@ -74,9 +74,9 @@ export default defineComponent({
             TODO: Time indicator
           </span>
         </div>
-      </section>
+      </div>
 
-      <section class="body">
+      <div class="body">
         <p class="description">
           {{ context.extractCompetitionByKey('description') }}
         </p>
@@ -90,9 +90,9 @@ export default defineComponent({
             {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
           </span>
         </span>
-      </section>
+      </div>
 
-      <section class="footer">
+      <div class="footer">
         <span class="prize">
           {{ context.normalizeCurrency({ value: context.extractCompetitionByKey('totalPrize') }) }}
         </span>
@@ -112,7 +112,7 @@ export default defineComponent({
             participants
           </span>
         </span>
-      </section>
+      </div>
     </div>
 
     <NuxtLink :to="context.generateDestination()" />
