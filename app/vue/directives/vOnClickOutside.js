@@ -46,16 +46,34 @@ function handleClickOutside ({
     return noop
   }
 
+  const listener = createListener({
+    targetElement,
+    callback,
+  })
+
   document.addEventListener('click', listener)
 
-  /**
-   * Clear event listener.
-   *
-   * @returns {void}
-   */
-  function clearEventListener () {
-    document.removeEventListener('click', listener)
-  }
+  const listenerCleaner = createListenerCleaner({
+    listener,
+  })
+
+  return listenerCleaner
+}
+
+/**
+ * Create listener.
+ *
+ * @param {{
+ *   targetElement: HTMLElement
+ *   callback: (mouseEvent: MouseEvent) => void
+ * }} params - Parameters.
+ * @returns {(mouseEvent: MouseEvent) => void} Listener function.
+ */
+function createListener ({
+  targetElement,
+  callback,
+}) {
+  return listener
 
   /**
    * Event listener.
@@ -88,8 +106,29 @@ function handleClickOutside ({
 
     callback(mouseEvent)
   }
+}
 
-  return clearEventListener
+/**
+ * Create listener cleaner.
+ *
+ * @param {{
+ *   listener: (mouseEvent: MouseEvent) => void
+ * }} params - Parameters.
+ * @returns {() => void} Cleaner function.
+ */
+function createListenerCleaner ({
+  listener,
+}) {
+  return cleaner
+
+  /**
+   * Clear event listener.
+   *
+   * @returns {void}
+   */
+  function cleaner () {
+    document.removeEventListener('click', listener)
+  }
 }
 
 /**
