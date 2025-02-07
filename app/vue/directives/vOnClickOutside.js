@@ -20,6 +20,7 @@ export const vOnClickOutside = {
       callback: binding.value,
     })
 
+    // TODO (FIXME): There is disallowed code to re-assign arguments of function.
     Object.assign(element, {
       __clearClickOutsideListener: clearClickOutsideListener,
     })
