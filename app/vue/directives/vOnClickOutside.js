@@ -1,3 +1,14 @@
+/**
+ * @satisfies {Partial<CSSStyleDeclaration>}
+ */
+const HIDDEN_STYLE = /** @type {const} */ ({
+  display: 'none',
+  visibility: 'hidden',
+  opacity: '0',
+  width: '0px',
+  height: '0px',
+})
+
 /** @type {import('vue').ObjectDirective} */
 export const vOnClickOutside = {
   mounted (
@@ -57,9 +68,11 @@ function handleClickOutside ({
       return
     }
 
-    const isHidden = window.getComputedStyle(targetElement).display === 'none'
-
-    if (isHidden) {
+    if (
+      isHidden({
+        style: window.getComputedStyle(targetElement),
+      })
+    ) {
       return
     }
 
@@ -80,6 +93,25 @@ function handleClickOutside ({
 }
 
 /**
+ * Check if an element is hidden.
+ *
+ * @param {{
+ *   style: CSSStyleDeclaration
+ * }} params - Parameters.
+ * @returns {boolean} `true` if considered hidden.
+ */
+function isHidden ({
+  style,
+}) {
+  const hiddenStyleProperties = /** @type {Array<HiddenStyleProperty>} */ (
+    Object.keys(HIDDEN_STYLE)
+  )
+
+  return hiddenStyleProperties
+    .some(property => style[property] === HIDDEN_STYLE[property])
+}
+
+/**
  * Noop. Intended to do nothing.
  *
  * @returns {void}
@@ -87,3 +119,7 @@ function handleClickOutside ({
 function noop () {
   // Does nothing.
 }
+
+/**
+ * @typedef {keyof typeof HIDDEN_STYLE} HiddenStyleProperty
+ */
