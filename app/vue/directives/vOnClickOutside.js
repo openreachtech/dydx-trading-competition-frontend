@@ -10,7 +10,7 @@ const HIDDEN_STYLE = /** @type {const} */ ({
 })
 
 /** @type {import('vue').ObjectDirective} */
-export const vOnClickOutside = {
+export default {
   mounted (
     element,
     binding
