@@ -85,13 +85,13 @@ export default class AppLeagueCardContext extends BaseFuroContext {
   }
 
   /**
-   * get: imageUrl
+   * get: image
    *
-   * @returns {CompetitionEntity['imageUrl'] | null}
+   * @returns {CompetitionEntity['image'] | null}
    */
-  get imageUrl () {
+  get image () {
     return this.extractCompetition()
-      ?.imageUrl
+      ?.image
       ?? null
   }
 
@@ -191,7 +191,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    * @returns {string} Image URL
    */
   genenrateImageUrl () {
-    return this.imageUrl ?? ''
+    return this.image ?? ''
   }
 
   /**
