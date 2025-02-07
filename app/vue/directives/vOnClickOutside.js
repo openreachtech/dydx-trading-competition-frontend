@@ -95,6 +95,14 @@ export function createListener ({
       return
     }
 
+    if (
+      hasNoDimension({
+        targetElement,
+      })
+    ) {
+      return
+    }
+
     const isTargetIncluded = mouseEvent.composedPath()
       .includes(targetElement)
 
@@ -149,6 +157,26 @@ export function isHidden ({
 
   return hiddenStyleProperties
     .some(property => style[property] === HIDDEN_STYLE[property])
+}
+
+/**
+ * Check if the inner size of an element is zero.
+ *
+ * @param {{
+ *   targetElement: HTMLElement
+ * }} params - Parameters.
+ * @returns {boolean} `true` if has no dimension.
+ */
+export function hasNoDimension ({
+  targetElement,
+}) {
+  const {
+    clientWidth,
+    clientHeight,
+  } = targetElement
+
+  return clientHeight === 0
+    || clientWidth === 0
 }
 
 /**
