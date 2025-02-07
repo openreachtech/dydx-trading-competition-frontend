@@ -38,7 +38,7 @@ export const vOnClickOutside = {
  * }} params - Parameters.
  * @returns {() => void} Clear function.
  */
-function handleClickOutside ({
+export function handleClickOutside ({
   targetElement,
   callback,
 }) {
@@ -69,7 +69,7 @@ function handleClickOutside ({
  * }} params - Parameters.
  * @returns {(mouseEvent: MouseEvent) => void} Listener function.
  */
-function createListener ({
+export function createListener ({
   targetElement,
   callback,
 }) {
@@ -116,7 +116,7 @@ function createListener ({
  * }} params - Parameters.
  * @returns {() => void} Cleaner function.
  */
-function createListenerCleaner ({
+export function createListenerCleaner ({
   listener,
 }) {
   return cleaner
@@ -139,7 +139,7 @@ function createListenerCleaner ({
  * }} params - Parameters.
  * @returns {boolean} `true` if considered hidden.
  */
-function isHidden ({
+export function isHidden ({
   style,
 }) {
   const hiddenStyleProperties = /** @type {Array<HiddenStyleProperty>} */ (
