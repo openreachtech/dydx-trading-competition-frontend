@@ -63,17 +63,15 @@ export default defineComponent({
       />
     </div>
 
-    <AppPagination :pagination="context.generatePaginationResult()" />
+    <AppPagination :pagination="context.generatePaginationResult()"
+      class="pagination"
+    />
   </div>
 </template>
 
 <style scoped>
 .unit-container {
   margin-inline: auto;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
 
   max-width: var(--size-body-max-width);
 }
@@ -87,5 +85,9 @@ export default defineComponent({
   @media (30rem < width) {
     grid-template-columns: repeat(auto-fill, minmax(21.5rem, 1fr));
   }
+}
+
+.unit-container > .pagination {
+  margin-block-start: 4rem;
 }
 </style>
