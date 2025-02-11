@@ -35,3 +35,5 @@ export const COMPETITION_STATUS = {
     DESCRIPTION: 'Competition has been cancelled',
   },
 }
+
+export const DEFAULT_PAGE_LIMIT = 20
