@@ -70,6 +70,9 @@
   --color-background-card: var(--palette-layer-2);
   --color-background-card-header: var(--palette-layer-3);
 
+  --color-background-pagination-active: var(--palette-layer-5);
+  --color-background-pagination-hover: var(--palette-layer-3);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -84,6 +87,8 @@
   --color-text-badge-neutral: var(--color-text-primary);
   --color-text-badge-completed: var(--color-text-secondary);
   --color-text-badge-canceled: var(--color-text-tertiary);
+
+  --color-text-pagination-disabled: var(--palette-layer-6);
 
   /* Border Colors */
   --color-border-default: #303045;
