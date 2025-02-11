@@ -2,6 +2,10 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  DEFAULT_PAGE_LIMIT,
+} from '~/app/constants'
+
 /**
  * Context class for `pages/competitions/index` page.
  *
@@ -76,7 +80,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       input: {
         // NOTE: Maybe create a constant value for pagination.
         pagination: {
-          limit: 16,
+          limit: DEFAULT_PAGE_LIMIT,
           offset: 0,
         },
       },
@@ -119,6 +123,18 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       },
     }
   }
+
+  /**
+   * Generate pagination.
+   *
+   * @returns {Pagination} Pagination object.
+   */
+  generatePaginationResult () {
+    return {
+      limit: DEFAULT_PAGE_LIMIT,
+      totalRecords: this.capsuleRef.value.totalCount ?? 0,
+    }
+  }
 }
 
 /**
@@ -140,4 +156,11 @@ export default class CompetitionsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  * }} StatusReactive
+ */
+
+/**
+ * @typedef {{
+ *   limit: number
+ *   totalRecords: number
+ * }} Pagination
  */
