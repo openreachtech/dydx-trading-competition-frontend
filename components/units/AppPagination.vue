@@ -88,6 +88,7 @@ export default defineComponent({
   </FuroPagination>
 </template>
 
+<!-- NOTE: Never use <style scoped> here -->
 <style>
 @layer app {
   .furo-pagination.design {
