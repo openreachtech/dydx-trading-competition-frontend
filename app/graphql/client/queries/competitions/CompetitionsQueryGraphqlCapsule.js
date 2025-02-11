@@ -3,7 +3,7 @@ import BaseAppGraphqlCapsule from '~/app/graphql/client/BaseAppGraphqlCapsule'
 /**
  * Competitions query graphql capsule.
  *
- * @extends {BaseAppGraphqlCapsule<typeof CompetitionsQueryGraphqlCapsule, CompetitionsQueryResponseContent>}
+ * @extends {BaseAppGraphqlCapsule<CompetitionsQueryResponseContent>}
  */
 export default class CompetitionsQueryGraphqlCapsule extends BaseAppGraphqlCapsule {
   /**
