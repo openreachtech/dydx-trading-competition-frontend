@@ -19,12 +19,42 @@ export default class CompetitionsQueryGraphqlCapsule extends BaseAppGraphqlCapsu
       ?.competitions
       ?? []
   }
+
+  /**
+   * Extract pagination.
+   *
+   * @returns {CompetitionsQueryResponseContent['competitions']['pagination'] | null}
+   */
+  extractPagination () {
+    const context = this.extractContent()
+
+    return context
+      ?.competitions
+      ?.pagination
+      ?? null
+  }
+
+  /**
+   * get: totalCount
+   *
+   * @returns {CompetitionsQueryResponseContent['competitions']['pagination']['totalCount'] | null}
+   */
+  get totalCount () {
+    return this.extractPagination()
+      ?.totalCount
+      ?? null
+  }
 }
 
 /**
  * @typedef {{
  *   competitions: {
  *     competitions: Array<CompetitionEntity>
+ *     pagination: {
+ *       totalCount: number
+ *       limit: number
+ *       offset: number
+ *     }
  *   }
  * }} CompetitionsQueryResponseContent
  */

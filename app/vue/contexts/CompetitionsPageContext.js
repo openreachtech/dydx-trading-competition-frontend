@@ -1,6 +1,18 @@
 import {
+  computed,
+} from 'vue'
+
+import {
+  useRoute,
+} from '#imports'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
+
+import {
+  DEFAULT_PAGE_LIMIT,
+} from '~/app/constants'
 
 /**
  * Context class for `pages/competitions/index` page.
@@ -55,13 +67,32 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /** @override */
-  // @ts-expect-error - Type error is resolved in furo 1.4.0
   setupComponent () {
-    this.graphqlClient
-      .invokeRequestOnMounted({
-        variables: this.defaultCompetitionsVariables,
+    const route = useRoute()
+    const currentPageComputed = computed(() => (
+      isNaN(Number(route.query.page))
+        ? 1
+        : Number(route.query.page)
+    ))
+
+    this.watch(
+      () => route.query.page,
+      () => this.graphqlClient.invokeRequestOnEvent({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPageComputed.value - 1) * DEFAULT_PAGE_LIMIT,
+            },
+          },
+        },
         hooks: this.graphqlRequestHooks,
-      })
+      }),
+      {
+        immediate: true,
+      }
+    )
 
     return this
   }
@@ -74,9 +105,8 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   get defaultCompetitionsVariables () {
     return {
       input: {
-        // NOTE: Maybe create a constant value for pagination.
         pagination: {
-          limit: 16,
+          limit: DEFAULT_PAGE_LIMIT,
           offset: 0,
         },
       },
@@ -119,6 +149,18 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       },
     }
   }
+
+  /**
+   * Generate pagination.
+   *
+   * @returns {Pagination} Pagination object.
+   */
+  generatePaginationResult () {
+    return {
+      limit: DEFAULT_PAGE_LIMIT,
+      totalRecords: this.capsuleRef.value.totalCount ?? 0,
+    }
+  }
 }
 
 /**
@@ -140,4 +182,11 @@ export default class CompetitionsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  * }} StatusReactive
+ */
+
+/**
+ * @typedef {{
+ *   limit: number
+ *   totalRecords: number
+ * }} Pagination
  */
