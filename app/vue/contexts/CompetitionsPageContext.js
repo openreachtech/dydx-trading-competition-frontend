@@ -1,4 +1,12 @@
 import {
+  computed,
+} from 'vue'
+
+import {
+  useRoute,
+} from '#imports'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -61,11 +69,31 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   /** @override */
   // @ts-expect-error - Type error is resolved in furo 1.4.0
   setupComponent () {
-    this.graphqlClient
-      .invokeRequestOnMounted({
-        variables: this.defaultCompetitionsVariables,
+    const route = useRoute()
+    const currentPageComputed = computed(() => (
+      isNaN(Number(route.query.page))
+        ? 1
+        : Number(route.query.page)
+    ))
+
+    this.watch(
+      () => route.query.page,
+      () => this.graphqlClient.invokeRequestOnEvent({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPageComputed.value - 1) * DEFAULT_PAGE_LIMIT,
+            },
+          },
+        },
         hooks: this.graphqlRequestHooks,
-      })
+      }),
+      {
+        immediate: true,
+      }
+    )
 
     return this
   }
