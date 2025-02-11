@@ -67,7 +67,6 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /** @override */
-  // @ts-expect-error - Type error is resolved in furo 1.4.0
   setupComponent () {
     const route = useRoute()
     const currentPageComputed = computed(() => (
@@ -106,7 +105,6 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   get defaultCompetitionsVariables () {
     return {
       input: {
-        // NOTE: Maybe create a constant value for pagination.
         pagination: {
           limit: DEFAULT_PAGE_LIMIT,
           offset: 0,
