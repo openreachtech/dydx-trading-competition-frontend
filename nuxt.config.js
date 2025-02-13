@@ -40,11 +40,13 @@ export default defineNuxtConfig({
     '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0000.furo.css',
     '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0010.variables-palette-color-scale.css',
     '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0020.variables-z-index.css',
-    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0100.reset.css',
-    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0200.base.css',
-    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0300.gimmick.css',
 
+    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0100.reset.css',
+
+    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0200.base.css',
     '~/assets/css/0210.base.css',
+
+    '~/node_modules/@openreachtech/furo-nuxt/lib/assets/css/0300.gimmick.css',
 
     '~/assets/css/variables-component-default.css',
     '~/assets/css/variables.css',
