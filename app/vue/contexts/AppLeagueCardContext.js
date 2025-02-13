@@ -2,26 +2,11 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
-import {
-  COMPETITION_STATUS,
-} from '~/app/constants'
+import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule'
  */
-
-const SEVERITY_HASH = {
-  [COMPETITION_STATUS.CREATED.ID]: 'success',
-  [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: 'warn',
-  [COMPETITION_STATUS.IN_PROGRESS.ID]: 'info',
-  [COMPETITION_STATUS.COMPLETED.ID]: 'completed',
-  [COMPETITION_STATUS.CANCELED.ID]: 'canceled',
-}
-
-const ICON_NAME_HASH = {
-  [COMPETITION_STATUS.COMPLETED.ID]: 'heroicons:check-16-solid',
-  [COMPETITION_STATUS.CANCELED.ID]: 'heroicons:x-mark-16-solid',
-}
 
 /**
  * Context class for AppLeagueCard component.
@@ -142,17 +127,15 @@ export default class AppLeagueCardContext extends BaseFuroContext {
   /**
    * Generate badge severity.
    *
-   * @returns {string} Badge severity.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
    */
   generateBadgeSeverity () {
-    const fallbackValue = 'neutral'
     const { statusId } = this.competitionStatus ?? {}
+    const badgeStatusDetails = CompetitionBadgeContext.create({
+      statusId,
+    })
 
-    if (!statusId) {
-      return fallbackValue
-    }
-
-    return SEVERITY_HASH[statusId] ?? fallbackValue
+    return badgeStatusDetails.generateSeverity()
   }
 
   /**
@@ -162,27 +145,25 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeDescription () {
     const { statusId } = this.competitionStatus ?? {}
+    const badgeStatusDetails = CompetitionBadgeContext.create({
+      statusId,
+    })
 
-    return Object.values(COMPETITION_STATUS)
-      .find(it => it.ID === statusId)
-      ?.DESCRIPTION
-      ?? '--'
+    return badgeStatusDetails.generateDescription()
   }
 
   /**
    * Generate icon name for badge.
    *
-   * @returns {string} Icon name.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateIconNameReturnType} Icon name.
    */
   generateBadgeIconName () {
-    const fallbackValue = ''
     const { statusId } = this.competitionStatus ?? {}
+    const badgeStatusDetails = CompetitionBadgeContext.create({
+      statusId,
+    })
 
-    if (!statusId) {
-      return fallbackValue
-    }
-
-    return ICON_NAME_HASH[statusId] ?? fallbackValue
+    return badgeStatusDetails.generateIconName()
   }
 
   /**
