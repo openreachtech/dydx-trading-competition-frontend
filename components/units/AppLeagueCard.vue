@@ -52,7 +52,7 @@ export default defineComponent({
             {{ context.title }}
           </h4>
 
-          <img :src="context.genenrateImageUrl()"
+          <img :src="context.generateImageUrl()"
             :alt="context.host?.name"
             class="image"
           >
