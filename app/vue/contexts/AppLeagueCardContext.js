@@ -131,11 +131,11 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeSeverity () {
     const { statusId } = this.competitionStatus ?? {}
-    const badgeStatusDetails = CompetitionBadgeContext.create({
+    const badgeContext = CompetitionBadgeContext.create({
       statusId,
     })
 
-    return badgeStatusDetails.generateSeverity()
+    return badgeContext.generateSeverity()
   }
 
   /**
@@ -145,11 +145,11 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeDescription () {
     const { statusId } = this.competitionStatus ?? {}
-    const badgeStatusDetails = CompetitionBadgeContext.create({
+    const badgeContext = CompetitionBadgeContext.create({
       statusId,
     })
 
-    return badgeStatusDetails.generateDescription()
+    return badgeContext.generateDescription()
   }
 
   /**
@@ -159,11 +159,11 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    */
   generateBadgeIconName () {
     const { statusId } = this.competitionStatus ?? {}
-    const badgeStatusDetails = CompetitionBadgeContext.create({
+    const badgeContext = CompetitionBadgeContext.create({
       statusId,
     })
 
-    return badgeStatusDetails.generateIconName()
+    return badgeContext.generateIconName()
   }
 
   /**
