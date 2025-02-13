@@ -190,7 +190,7 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    *
    * @returns {string} Image URL
    */
-  genenrateImageUrl () {
+  generateImageUrl () {
     return this.image ?? ''
   }
 
