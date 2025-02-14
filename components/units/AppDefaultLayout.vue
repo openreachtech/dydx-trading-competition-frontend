@@ -172,6 +172,13 @@ export default defineComponent({
 
 .unit-body > .contents {
   flex: 1;
+
+  padding-block: 1rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
 }
 
 .unit-body > .footer {
