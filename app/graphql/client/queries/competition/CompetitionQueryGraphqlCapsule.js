@@ -1,7 +1,5 @@
 import BaseAppGraphqlCapsule from '~/app/graphql/client/BaseAppGraphqlCapsule'
 
-import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
-
 /**
  * Competition query graphql capsule.
  *
