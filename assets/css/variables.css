@@ -73,6 +73,10 @@
   --color-background-pagination-active: var(--palette-layer-5);
   --color-background-pagination-hover: var(--palette-layer-3);
 
+  --color-background-connector: var(--palette-layer-7);
+
+  --color-background-competition-meta: var(--palette-layer-3);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
