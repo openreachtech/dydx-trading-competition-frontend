@@ -83,9 +83,6 @@ export default {
 
 .unit-body > .contents {
   background-color: var(--color-background);
-
-  padding-block: 1rem;
-  padding-inline: 1.5rem;
 }
 
 .unit-body .link.trade {
