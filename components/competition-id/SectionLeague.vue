@@ -107,9 +107,10 @@ export default defineComponent({
             Enroll now
           </AppButton>
 
-          <!-- NOTE: Participants here. -->
+          <!-- NOTE: Participants here. Missing API -->
         </div>
 
+        <!-- TODO: This one should be a countdown? -->
         <span class="note">
           Registration closes in 20 days.
         </span>
