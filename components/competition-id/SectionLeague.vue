@@ -71,20 +71,24 @@ export default defineComponent({
 
           <!-- TODO: Real timeline data -->
           <div class="timeline">
-            <Icon name="heroicons:rocket-launch-solid"
-              size="1.25rem"
-            />
-            <span class="timestamp">
-              12/28/2024-00:00 UTC
+            <span class="period">
+              <Icon name="heroicons:rocket-launch-solid"
+                size="1.25rem"
+              />
+              <span class="timestamp">
+                12/28/2024-00:00 UTC
+              </span>
             </span>
 
-            <span class="connector" />
+            <span class="period">
+              <span class="connector" />
 
-            <Icon name="heroicons:flag-solid"
-              size="1.25rem"
-            />
-            <span class="timestamp">
-              02/05/2025-23:59 UTC
+              <Icon name="heroicons:flag-solid"
+                size="1.25rem"
+              />
+              <span class="timestamp">
+                02/05/2025-23:59 UTC
+              </span>
             </span>
           </div>
         </div>
@@ -147,35 +151,39 @@ export default defineComponent({
             </dt>
 
             <dd class="details host">
-              <Icon name="heroicons:user-circle"
-                size="1.25rem"
-                class="icon"
-              />
-
-              <span class="name">
-                {{ context.generateHostName() }}
-              </span>
-
-              <span class="connector" />
-
-              <span class="wallet-address">
-                {{ context.generateHostAddress() }}
-              </span>
-
-              <!-- TODO: Add copy logic -->
-              <button class="button">
-                <Icon name="heroicons-outline:duplicate"
-                  size="1rem"
+              <span class="user">
+                <Icon name="heroicons:user-circle"
+                  size="1.25rem"
                   class="icon"
                 />
-              </button>
 
-              <button class="button">
-                <Icon name="heroicons-outline:external-link"
-                  size="1rem"
-                  class="icon"
-                />
-              </button>
+                <span class="name">
+                  {{ context.generateHostName() }}
+                </span>
+              </span>
+
+              <span class="wallet">
+                <span class="connector" />
+
+                <span class="address">
+                  {{ context.generateHostAddress() }}
+                </span>
+
+                <!-- TODO: Add copy logic -->
+                <button class="button">
+                  <Icon name="heroicons-outline:duplicate"
+                    size="1rem"
+                    class="icon"
+                  />
+                </button>
+
+                <button class="button">
+                  <Icon name="heroicons-outline:external-link"
+                    size="1rem"
+                    class="icon"
+                  />
+                </button>
+              </span>
             </dd>
           </div>
 
@@ -246,10 +254,14 @@ export default defineComponent({
   margin-inline: auto;
 
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 4rem;
+  grid-template-columns: 1fr;
+  gap: clamp(0.5rem, 4vw, 5rem);
 
   max-width: var(--size-body-max-width);
+
+  @media (48rem < width) {
+    grid-template-columns: auto 22rem;
+  }
 }
 
 .unit-details > .heading {
@@ -262,34 +274,36 @@ export default defineComponent({
 .unit-status {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1.125rem;
 }
 
 .unit-status > .timeline {
-  margin-inline-start: 1.25rem;
-
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 
   color: var(--color-text-tertiary);
 }
 
-.unit-status > .timeline > .timestamp {
-  margin-inline-start: 0.5rem;
+.unit-status > .timeline > .period {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  display: inline-block;
-
+.unit-status > .timeline > .period > .timestamp {
   font-size: var(--font-size-base);
   font-weight: 500;
 
   color: var(--color-text-secondary);
 }
 
-.unit-status > .timeline > .connector {
+.unit-status > .timeline > .period > .connector {
+  margin-inline-end: 0.25rem;
+
   border-radius: 100vh;
-
-  margin-inline: 0.75rem;
-
-  display: inline-block;
 
   width: 0.75rem;
   height: 0.1rem;
@@ -358,7 +372,7 @@ export default defineComponent({
   flex-direction: column;
   gap: 0.75rem;
 
-  max-width: 22rem;
+  min-width: 0;
 }
 
 .unit-meta > .actions {
@@ -442,7 +456,19 @@ export default defineComponent({
   flex-shrink: 0;
 }
 
-.unit-statistics > .entry > .details.host > .name {
+.unit-statistics > .entry > .details.host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.unit-statistics > .entry > .details.host > :where(.user, .wallet) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unit-statistics > .entry > .details.host > .user > .name {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -453,8 +479,8 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-statistics > .entry > .details.host > .connector {
-  margin-inline: 0.5rem;
+.unit-statistics > .entry > .details.host > .wallet > .connector {
+  margin-inline: 0.5rem 0.25rem;
 
   border-radius: 100vh;
 
@@ -466,7 +492,7 @@ export default defineComponent({
   background-color: var(--color-background-connector);
 }
 
-.unit-statistics > .entry > .details.host > .button {
+.unit-statistics > .entry > .details.host > .wallet > .button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -478,7 +504,7 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-statistics > .entry > .details.host > .button:hover {
+.unit-statistics > .entry > .details.host > .wallet > .button:hover {
   color: var(--color-text-primary);
 }
 
