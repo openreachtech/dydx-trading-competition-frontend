@@ -77,6 +77,8 @@
 
   --color-background-competition-meta: var(--palette-layer-3);
 
+  --color-background-input: var(--palette-layer-3);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -94,6 +96,8 @@
 
   --color-text-pagination-disabled: var(--palette-layer-6);
 
+  --color-text-error: var(--palette-red);
+
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;
@@ -104,6 +108,10 @@
   --color-border-button-outlined: var(--palette-layer-6);
   --color-border-button-outlined-success: var(--palette-green-darker);
   --color-border-button-outlined-error: var(--palette-red);
+
+  --color-border-input: var(--palette-layer-7);
+  --color-border-input-focus: var(--palette-purple);
+  --color-border-input-error: var(--palette-red);
 
   --color-border-card: var(--palette-layer-4);
 
