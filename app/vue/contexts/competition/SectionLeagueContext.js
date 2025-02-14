@@ -6,10 +6,6 @@ import {
   useRoute,
 } from '#imports'
 
-import {
-  useDebounce,
-} from '~/composables/useDebounce'
-
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 /**
