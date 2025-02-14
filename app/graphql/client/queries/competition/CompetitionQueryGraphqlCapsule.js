@@ -1,5 +1,7 @@
 import BaseAppGraphqlCapsule from '~/app/graphql/client/BaseAppGraphqlCapsule'
 
+import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+
 /**
  * Competition query graphql capsule.
  *
@@ -18,63 +20,6 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.competition
       ?.competition
       ?? null
-  }
-
-  /**
-   * get: competitionStatus
-   *
-   * @returns {CompetitionEntity['status'] | null}
-   */
-  get competitionStatus () {
-    return this.extractCompetition()
-      ?.status
-      ?? null
-  }
-
-  /**
-   * Generate badge severity.
-   *
-   * @returns {string} Badge severity.
-   */
-  generateBadgeSeverity () {
-    const fallbackValue = 'neutral'
-    const { statusId } = this.competitionStatus ?? {}
-
-    if (!statusId) {
-      return fallbackValue
-    }
-
-    return SEVERITY_HASH[statusId] ?? fallbackValue
-  }
-
-  /**
-   * Generate badge description.
-   *
-   * @returns {string} Badge description.
-   */
-  generateBadgeDescription () {
-    const { statusId } = this.competitionStatus ?? {}
-
-    return Object.values(COMPETITION_STATUS)
-      .find(it => it.ID === statusId)
-      ?.DESCRIPTION
-      ?? '--'
-  }
-
-  /**
-   * Generate icon name for badge.
-   *
-   * @returns {string} Icon name.
-   */
-  generateBadgeIconName () {
-    const fallbackValue = ''
-    const { statusId } = this.competitionStatus ?? {}
-
-    if (!statusId) {
-      return fallbackValue
-    }
-
-    return ICON_NAME_HASH[statusId] ?? fallbackValue
   }
 }
 
