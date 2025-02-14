@@ -45,7 +45,7 @@ export default defineComponent({
 <template>
   <span class="unit-input"
     :class="{
-      error: context.props.hasError,
+      error: context.hasError,
     }"
   >
     <input v-bind="$attrs"
@@ -53,7 +53,7 @@ export default defineComponent({
     >
 
     <span class="error-message">
-      {{ context.props.errorMessage }}
+      {{ context.errorMessage }}
     </span>
   </span>
 </template>
