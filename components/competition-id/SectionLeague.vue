@@ -236,7 +236,10 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
+
   padding-block: 4.5rem 9.5rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
 
   background-image: url('~/assets/img/backgrounds/horizon-grid.svg'),
     linear-gradient(
@@ -248,6 +251,12 @@ export default defineComponent({
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
+  @media (30rem < width) {
+    margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
+
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
 }
 
 .unit-section .inner {
