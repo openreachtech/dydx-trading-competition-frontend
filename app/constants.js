@@ -37,5 +37,5 @@ export const COMPETITION_STATUS = {
 }
 
 export const PAGINATION = {
-  LIMIT: 20,
+  LIMIT: 30,
 }
