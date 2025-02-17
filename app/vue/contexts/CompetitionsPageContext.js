@@ -29,7 +29,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     props,
     componentContext,
 
-    graphqlClient,
+    graphqlClientHash,
     statusReactive,
   }) {
     super({
@@ -37,7 +37,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       componentContext,
     })
 
-    this.graphqlClient = graphqlClient
+    this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
 
@@ -53,14 +53,14 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
-    graphqlClient,
+    graphqlClientHash,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
-        graphqlClient,
+        graphqlClientHash,
         statusReactive,
       })
     )
@@ -77,18 +77,20 @@ export default class CompetitionsPageContext extends BaseFuroContext {
 
     this.watch(
       () => route.query.page,
-      () => this.graphqlClient.invokeRequestOnEvent({
-        variables: {
-          ...this.defaultCompetitionsVariables,
-          input: {
-            pagination: {
-              ...this.defaultCompetitionsVariables.input.pagination,
-              offset: (currentPageComputed.value - 1) * DEFAULT_PAGE_LIMIT,
+      () => this.graphqlClientHash
+        .competitions
+        .invokeRequestOnEvent({
+          variables: {
+            ...this.defaultCompetitionsVariables,
+            input: {
+              pagination: {
+                ...this.defaultCompetitionsVariables.input.pagination,
+                offset: (currentPageComputed.value - 1) * DEFAULT_PAGE_LIMIT,
+              },
             },
           },
-        },
-        hooks: this.graphqlRequestHooks,
-      }),
+          hooks: this.graphqlRequestHooks,
+        }),
       {
         immediate: true,
       }
@@ -119,17 +121,17 @@ export default class CompetitionsPageContext extends BaseFuroContext {
    * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
    */
   get competitions () {
-    return this.capsuleRef.value
+    return this.competitionsCapsuleRef.value
       .extractCompetitions()
   }
 
   /**
-   * get: capsuleRef
+   * get: competitionsCapsuleRef
    *
-   * @returns {CompetitionsPageContextParams['graphqlClient']['capsuleRef']}
+   * @returns {CompetitionsPageContextParams['graphqlClientHash']['competitions']['capsuleRef']}
    */
-  get capsuleRef () {
-    return this.graphqlClient.capsuleRef
+  get competitionsCapsuleRef () {
+    return this.graphqlClientHash.competitions.capsuleRef
   }
 
   /**
@@ -158,14 +160,16 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   generatePaginationResult () {
     return {
       limit: DEFAULT_PAGE_LIMIT,
-      totalRecords: this.capsuleRef.value.totalCount ?? 0,
+      totalRecords: this.competitionsCapsuleRef.value.totalCount ?? 0,
     }
   }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
- *   graphqlClient: GraphqlClient
+ *   graphqlClientHash: {
+ *     competitions: GraphqlClient
+ *   }
  *   statusReactive: StatusReactive
  * }} CompetitionsPageContextParams
  */
