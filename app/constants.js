@@ -36,4 +36,6 @@ export const COMPETITION_STATUS = {
   },
 }
 
-export const DEFAULT_PAGE_LIMIT = 20
+export const PAGINATION = {
+  LIMIT: 20,
+}

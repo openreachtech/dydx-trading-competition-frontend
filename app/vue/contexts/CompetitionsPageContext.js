@@ -11,7 +11,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import {
-  DEFAULT_PAGE_LIMIT,
+  PAGINATION,
 } from '~/app/constants'
 
 /**
@@ -85,7 +85,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
             input: {
               pagination: {
                 ...this.defaultCompetitionsVariables.input.pagination,
-                offset: (currentPageComputed.value - 1) * DEFAULT_PAGE_LIMIT,
+                offset: (currentPageComputed.value - 1) * PAGINATION.LIMIT,
               },
             },
           },
@@ -108,7 +108,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     return {
       input: {
         pagination: {
-          limit: DEFAULT_PAGE_LIMIT,
+          limit: PAGINATION.LIMIT,
           offset: 0,
         },
       },
@@ -159,7 +159,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
    */
   generatePaginationResult () {
     return {
-      limit: DEFAULT_PAGE_LIMIT,
+      limit: PAGINATION.LIMIT,
       totalRecords: this.competitionsCapsuleRef.value.totalCount ?? 0,
     }
   }
