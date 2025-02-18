@@ -33,7 +33,7 @@ export default defineComponent({
       alias: '/',
     })
 
-    const graphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
+    const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const statusReactive = reactive({
       isLoading: false,
     })
@@ -41,7 +41,9 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
-      graphqlClient,
+      graphqlClientHash: {
+        competitions: competitionsGraphqlClient,
+      },
       statusReactive,
     }
     const context = CompetitionsPageContext.create(args)
