@@ -218,7 +218,7 @@ export default defineComponent({
 
   background-color: var(--color-background-nav);
 
-  z-index: calc(var(--value-z-index-layer-staying) + 0);
+  z-index: calc(var(--value-z-index-layer-staying) + 1000);
 }
 
 .unit-body > .search {
@@ -229,7 +229,7 @@ export default defineComponent({
 
   background-color: var(--color-background-search-panel);
 
-  z-index: calc(var(--value-z-index-layer-staying) + 0);
+  z-index: calc(var(--value-z-index-layer-staying) + 1000);
 }
 
 .unit-body.open-search > .search {
@@ -281,7 +281,7 @@ export default defineComponent({
 
   display: none;
 
-  z-index: calc(var(--value-z-index-layer-staying) + 0);
+  z-index: calc(var(--value-z-index-layer-staying) + 1000);
 }
 
 .unit-body.open-search > .backdrop {
