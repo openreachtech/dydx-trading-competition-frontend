@@ -140,6 +140,8 @@ export default defineComponent({
   top: 0;
 
   background-color: var(--color-background-header);
+
+  z-index: calc(var(--value-z-index-layer-staying) + 0);
 }
 
 .unit-body > .header > .inner {
