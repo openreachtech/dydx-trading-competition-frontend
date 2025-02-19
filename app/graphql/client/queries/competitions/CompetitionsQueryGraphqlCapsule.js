@@ -74,7 +74,7 @@ export default class CompetitionsQueryGraphqlCapsule extends BaseAppGraphqlCapsu
  *   minimumDeposit: number
  *   image?: string
  *   schedules: Array<{
- *     categogry: {
+ *     category: {
  *       categoryId: number
  *       name: string
  *       description: string
