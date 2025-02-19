@@ -67,7 +67,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *     name: string
  *     phasedAt: string
  *   }
- *   prizeRuls: Array<{
+ *   prizeRules: Array<{
  *     rankFrom: number
  *     rankTo: number
  *     amount: string
