@@ -1,3 +1,9 @@
+/**
+ * NOTE: This composable adds `validateForm()` method to the original `useFormClerk()`.
+ * The purpose of it is to validate multiple-step form. If this function is implemented
+ * in furo-nuxt in the future, this composable can be removed.
+ */
+
 import {
   ref,
 } from 'vue'
