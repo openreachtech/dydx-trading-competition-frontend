@@ -9,6 +9,8 @@ import {
   Icon,
 } from '#components'
 
+import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
+
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 
 import {
@@ -25,6 +27,7 @@ export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    AddCompetitionFormSteps,
   },
 
   setup (
@@ -75,7 +78,13 @@ export default defineComponent({
       </NuxtLink>
 
       <form class="unit-form">
-        <!-- ... -->
+        <div class="steps">
+          <!-- Fulfill here -->
+        </div>
+
+        <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+          @go-to-step="context.goToStep($event)"
+        />
       </form>
     </div>
   </div>
@@ -84,8 +93,6 @@ export default defineComponent({
 <style scoped>
 .unit-container {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
-
-  padding-inline: var(--size-body-padding-inline-mobile);
 
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
@@ -124,5 +131,32 @@ export default defineComponent({
 
 .unit-form {
   margin-block-start: 2.25rem;
+
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2.25rem;
+
+  @media (48rem < width) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+  }
+}
+
+.unit-form > .steps {
+  border-radius: 1.25rem;
+
+  padding-block: 1.25rem;
+  padding-inline: 1rem;
+
+  background-color: var(--color-background-competition-form-steps);
+
+  @media (30rem < width) {
+    padding-inline: 1.25rem;
+  }
+
+  @media (48rem < width) {
+    padding-inline: 1.75rem;
+  }
 }
 </style>
