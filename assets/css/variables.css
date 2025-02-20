@@ -52,6 +52,7 @@
   --color-background-button-error: var(--palette-red);
   --color-background-button-muted: var(--palette-layer-3);
   --color-background-button-outlined: var(--palette-layer-2);
+  --color-background-button-competition-step: var(--palette-layer-3);
 
   --color-background-badge-info: var(--palette-purple-faded);
   --color-background-badge-success: var(--palette-green-faded);
@@ -105,6 +106,9 @@
   --color-background-dialog: var(--palette-layer-2);
 
   --color-background-date-picker-hover: var(--palette-layer-5);
+
+  --color-background-competition-form-steps: var(--palette-layer-2);
+  --color-background-competition-step-completed: var(--palette-purple);
 
   /* Text */
   --color-text: var(--palette-black);
@@ -167,6 +171,9 @@
   --color-border-profile-section: var(--palette-layer-3);
 
   --color-border-dropdown: var(--palette-layer-6);
+
+  --color-border-form-step: var(--palette-layer-5);
+  --color-border-form-step-active: var(--palette-purple);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
