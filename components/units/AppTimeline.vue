@@ -72,7 +72,11 @@ export default defineComponent({
           :event="event"
         >
           <span>
-            {{ context.normalizeTimestamp({ timestamp: event.timestamp }) }}
+            {{
+              context.normalizeTimestamp({
+                timestamp: event.timestamp
+              })
+            }}
           </span>
         </slot>
       </div>

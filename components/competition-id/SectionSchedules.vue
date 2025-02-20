@@ -75,7 +75,11 @@ export default defineComponent({
               <AppTimeline :timeline="it.timeline">
                 <template #contents="{ event }">
                   <span>
-                    {{ context.normalizeTimestamp({ timestamp: event.timestamp }) }}
+                    {{
+                      context.normalizeTimestamp({
+                        timestamp: event.timestamp
+                      })
+                    }}
                   </span>
                 </template>
               </AppTimeline>
