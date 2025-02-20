@@ -81,6 +81,9 @@
 
   --color-background-input: var(--palette-layer-3);
 
+  --color-background-timeline-connector: var(--palette-layer-7);
+  --color-background-timeline-connector-elapsed: var(--palette-yellow);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
