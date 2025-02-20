@@ -68,6 +68,7 @@
   --color-background-badge-indicator-canceled: var(--palette-layer-7);
 
   --color-background-card: var(--palette-layer-2);
+  --color-background-card-active: var(--palette-layer-3);
   --color-background-card-header: var(--palette-layer-3);
 
   --color-background-pagination-active: var(--palette-layer-5);
@@ -75,9 +76,13 @@
 
   --color-background-connector: var(--palette-layer-7);
 
+  --color-background-competition-section-darker: var(--palette-layer-0);
   --color-background-competition-meta: var(--palette-layer-3);
 
   --color-background-input: var(--palette-layer-3);
+
+  --color-background-timeline-connector: var(--palette-layer-7);
+  --color-background-timeline-connector-elapsed: var(--palette-yellow);
 
   /* Text */
   --color-text: var(--palette-black);
@@ -114,6 +119,8 @@
   --color-border-input-error: var(--palette-red);
 
   --color-border-card: var(--palette-layer-4);
+
+  --color-border-competition-section: var(--palette-layer-3);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,

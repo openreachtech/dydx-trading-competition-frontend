@@ -19,6 +19,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.competition
       ?? null
   }
+
+  /**
+   * get: schedules
+   *
+   * @returns {CompetitionEntity['schedules']} Schedules as an array.
+   */
+  get schedules () {
+    return this.extractCompetition()
+      ?.schedules
+      ?? []
+  }
 }
 
 /**
@@ -44,7 +55,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   minimumDeposit: number
  *   image?: string
  *   schedules: Array<{
- *     categogry: {
+ *     category: {
  *       categoryId: number
  *       name: string
  *       description: string
@@ -56,7 +67,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *     name: string
  *     phasedAt: string
  *   }
- *   prizeRuls: Array<{
+ *   prizeRules: Array<{
  *     rankFrom: number
  *     rankTo: number
  *     amount: string

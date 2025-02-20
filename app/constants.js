@@ -36,6 +36,48 @@ export const COMPETITION_STATUS = {
   },
 }
 
+export const SCHEDULE_CATEGORY = {
+  REGISTRATION_START: {
+    ID: 1,
+    NAME: 'registration_start',
+    DESCRIPTION: 'Competition registration period starts',
+  },
+  REGISTRATION_END: {
+    ID: 2,
+    NAME: 'registration_end',
+    DESCRIPTION: 'Competition registration period ends',
+  },
+  COMPETITION_START: {
+    ID: 3,
+    NAME: 'competition_start',
+    DESCRIPTION: 'Competition trading period starts',
+  },
+  COMPETITION_END: {
+    ID: 4,
+    NAME: 'competition_end',
+    DESCRIPTION: 'Competition trading period ends',
+  },
+  PRIZE_DISTRIBUTE: {
+    ID: 5,
+    NAME: 'prize_distribute',
+    DESCRIPTION: 'Competition prize distribution time',
+  },
+}
+
+export const SCHEDULE_ID_GROUP = {
+  REGISTRATION: [
+    SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+  ],
+  COMPETITION: [
+    SCHEDULE_CATEGORY.COMPETITION_START.ID,
+    SCHEDULE_CATEGORY.COMPETITION_END.ID,
+  ],
+  PRIZE_DISTRIBUTE: [
+    SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
+  ],
+}
+
 export const PAGINATION = {
   LIMIT: 30,
 }
