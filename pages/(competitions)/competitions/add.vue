@@ -4,6 +4,11 @@ import {
   reactive,
 } from 'vue'
 
+import {
+  NuxtLink,
+  Icon,
+} from '#components'
+
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 
 import {
@@ -17,6 +22,11 @@ import AddCompetitionFormElementClerk from '~/app/domClerk/AddCompetitionFormEle
 import AddCompetitionPageContext from '~/app/vue/contexts/AddCompetitionPageContext'
 
 export default defineComponent({
+  components: {
+    NuxtLink,
+    Icon,
+  },
+
   setup (
     props,
     componentContext
@@ -52,8 +62,67 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- TODO: Fulfill page -->
-  <div>
-    Add Competition
+  <div class="unit-container">
+    <div class="inner">
+      <NuxtLink to="/competitions"
+        class="return"
+      >
+        <Icon name="heroicons:arrow-left"
+          size="1.5rem"
+        />
+
+        <span>Leagues</span>
+      </NuxtLink>
+
+      <form class="unit-form">
+        <!-- ... -->
+      </form>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.unit-container {
+  margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
+
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  @media (30rem < width) {
+    margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
+  }
+}
+
+.unit-container > .inner {
+  margin-inline: auto;
+
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  max-width: var(--size-body-max-width);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
+}
+
+.unit-container > .inner > .return {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  font-size: var(--font-size-large);
+  font-weight: 500;
+  line-height: var(--size-line-height-large);
+
+  color: var(--color-text-primary);
+
+  transition: gap 150ms var(--transition-timing-base);
+}
+
+.unit-container > .inner > .return:hover {
+  gap: 1rem;
+}
+
+.unit-form {
+  margin-block-start: 2.25rem;
+}
+</style>
