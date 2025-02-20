@@ -1,4 +1,5 @@
 import {
+  ref,
   shallowRef,
 } from 'vue'
 
@@ -24,6 +25,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     graphqlClientHash,
     formClerkHash,
     statusReactive,
+    currentStepRef,
     addCompetitionFormShallowRef,
   }) {
     super({
@@ -34,6 +36,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.statusReactive = statusReactive
+    this.currentStepRef = currentStepRef
     this.addCompetitionFormShallowRef = addCompetitionFormShallowRef
   }
 
@@ -53,6 +56,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     graphqlClientHash,
     statusReactive,
   }) {
+    const currentStepRef = this.generateCurrentStepRef()
     const addCompetitionFormShallowRef = this.generateAddCompetitionFormShallowRef()
 
     return /** @type {InstanceType<T>} */ (
@@ -62,9 +66,19 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
         graphqlClientHash,
         formClerkHash,
         statusReactive,
+        currentStepRef,
         addCompetitionFormShallowRef,
       })
     )
+  }
+
+  /**
+   * Generate `currentStepRef`.
+   *
+   * @returns {import('vue').Ref<number>}
+   */
+  static generateCurrentStepRef () {
+    return ref(1)
   }
 
   /**
@@ -75,6 +89,20 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
   static generateAddCompetitionFormShallowRef () {
     return shallowRef(null)
   }
+
+  /**
+   * Go to step.
+   *
+   * @param {{
+   *   step: number
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  goToStep ({
+    step,
+  }) {
+    this.currentStepRef.value = step
+  }
 }
 
 /**
@@ -82,6 +110,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<GraphqlClientHashKeys, AppFormClerk>
  *   statusReactive: StatusReactive
+ *   currentStepRef: import('vue').Ref<number>
  *   addCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} AddCompetitionPageContextParams
  */
@@ -95,7 +124,9 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {'addCompetitionFormShallowRef'} FactoryOmittedKeys
+ * @typedef {'addCompetitionFormShallowRef'
+ *   | 'currentStepRef'
+ * } FactoryOmittedKeys
  */
 
 /**
