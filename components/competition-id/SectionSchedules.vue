@@ -168,9 +168,13 @@ export default defineComponent({
     0.3% 100%
   );
 
-  margin-inline: -0.6rem;
+  margin-inline: 0;
 
   display: grid;
+
+  @media (48rem < width) {
+    margin-inline: -0.6rem;
+  }
 }
 
 .unit-schedules > .schedule > * {
