@@ -99,6 +99,10 @@ export default defineComponent({
   padding-block-end: 1rem;
 }
 
+.unit-timeline > .event:last-of-type > .contents {
+  padding-block-end: 0;
+}
+
 .unit-timeline > .event:last-of-type > .unit-connector > .line {
   display: none;
 }
