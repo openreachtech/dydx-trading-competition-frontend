@@ -68,12 +68,21 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /**
    * Go to next step.
    *
+   * @param {{
+   *   mouseEvent: MouseEvent
+   * }} params - Parameters.
    * @returns {void}
    */
-  nextStep () {
+  nextStep ({
+    mouseEvent,
+  }) {
     if (this.isLastStep()) {
       return
     }
+
+    // Prevent default event before last step because `this.generateActionButtonType()`
+    // runs before the the event is invoked, which causes the form to submit before last step.
+    mouseEvent.preventDefault()
 
     this.goToStep({
       step: this.currentStep + 1,

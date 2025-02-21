@@ -103,7 +103,9 @@ export default defineComponent({
     <div class="unit-actions">
       <AppButton class="button"
         :type="context.generateActionButtonType()"
-        @click="context.nextStep()"
+        @click="context.nextStep({
+          mouseEvent: $event,
+        })"
       >
         {{ context.generateActionButtonLabel() }}
       </AppButton>
