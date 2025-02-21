@@ -11,10 +11,10 @@ import AppButton from '~/components/units/AppButton.vue'
 
 import AddCompetitionFormStepsContext from '~/app/vue/contexts/competition/AddCompetitionFormStepsContext'
 
-export const EVENT_NAME = /** @type {const} */ ({
+export const EVENT_NAME = {
   GO_TO_STEP: 'goToStep',
   VALIDATE_FORM: 'validateForm',
-})
+}
 
 export default defineComponent({
   components: {
