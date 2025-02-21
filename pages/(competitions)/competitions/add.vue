@@ -81,7 +81,7 @@ export default defineComponent({
 
       <form class="unit-form">
         <div class="steps">
-          <AddCompetitionFormStepDetails />
+          <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })" />
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
@@ -160,5 +160,9 @@ export default defineComponent({
   @media (48rem < width) {
     padding-inline: 1.75rem;
   }
+}
+
+.unit-form > .steps > .step.hidden {
+  display: none;
 }
 </style>
