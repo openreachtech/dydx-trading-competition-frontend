@@ -10,6 +10,7 @@ import {
 } from '#components'
 
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
+import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 
@@ -28,6 +29,7 @@ export default defineComponent({
     NuxtLink,
     Icon,
     AddCompetitionFormSteps,
+    AddCompetitionFormStepDetails,
   },
 
   setup (
@@ -79,7 +81,7 @@ export default defineComponent({
 
       <form class="unit-form">
         <div class="steps">
-          <!-- Fulfill here -->
+          <AddCompetitionFormStepDetails />
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
