@@ -103,6 +103,25 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
   }) {
     this.currentStepRef.value = step
   }
+
+  /**
+   * Generate CSS classes for step element.
+   *
+   * @param {{
+   *   step: number
+   * }} params - Parameters.
+   * @returns {Array<string | Record<string, boolean>>}
+   */
+  generateStepClasses ({
+    step,
+  }) {
+    return [
+      'step',
+      {
+        hidden: this.currentStepRef.value !== step,
+      },
+    ]
+  }
 }
 
 /**
