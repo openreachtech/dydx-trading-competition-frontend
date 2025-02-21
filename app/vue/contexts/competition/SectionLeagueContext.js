@@ -157,6 +157,21 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate host's address url.
+   *
+   * @returns {string | null} The host's wallet address URL on Mintscan.
+   */
+  generateHostAddressUrl () {
+    const { address } = this.host ?? {}
+
+    if (!address) {
+      return null
+    }
+
+    return `https://www.mintscan.io/dydx/address/${address}`
+  }
+
+  /**
    * Generate badge severity.
    *
    * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
