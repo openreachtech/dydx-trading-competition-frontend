@@ -9,7 +9,7 @@ import {
 /**
  * AddCompetitionFormStepsContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<(typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
  */
 export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /** @override */
@@ -154,8 +154,4 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
  *   step: number
  *   title: string
  * }} Step
- */
-
-/**
- *
  */
