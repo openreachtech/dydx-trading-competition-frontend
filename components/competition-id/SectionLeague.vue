@@ -4,6 +4,7 @@ import {
 } from 'vue'
 
 import {
+  NuxtLink,
   Icon,
 } from '#components'
 
@@ -20,6 +21,7 @@ import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueCo
 
 export default defineComponent({
   components: {
+    NuxtLink,
     Icon,
     AppIconBadge,
     AppButton,
@@ -177,12 +179,16 @@ export default defineComponent({
                   />
                 </button>
 
-                <button class="button">
+                <NuxtLink class="button"
+                  :to="context.generateHostAddressUrl()"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Icon name="heroicons-outline:external-link"
                     size="1rem"
                     class="icon"
                   />
-                </button>
+                </NuxtLink>
               </span>
             </dd>
           </div>
