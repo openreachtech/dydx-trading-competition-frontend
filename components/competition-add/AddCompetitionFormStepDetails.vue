@@ -113,10 +113,6 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-badge {
-
-}
-
 .unit-badge > .label {
   font-size: var(--font-size-base);
   font-weight: 500;
