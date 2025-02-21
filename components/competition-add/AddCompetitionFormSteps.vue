@@ -50,7 +50,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-wrapper">
+  <div class="unit-container">
     <div class="steps">
       <div v-for="it of context.generateSteps()"
         :key="it.step"
@@ -114,7 +114,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.unit-wrapper {
+.unit-container {
   padding-inline: 0.75rem 0;
 
   display: flex;
@@ -139,7 +139,7 @@ export default defineComponent({
   }
 }
 
-.unit-wrapper > .steps {
+.unit-container > .steps {
   display: flex;
 
   @media (48rem < width) {
