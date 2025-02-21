@@ -65,7 +65,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-container">
+  <div class="unit-page">
     <div class="inner">
       <NuxtLink to="/competitions"
         class="return"
@@ -91,7 +91,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.unit-container {
+.unit-page {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
   @media (30rem < width) {
@@ -99,7 +99,7 @@ export default defineComponent({
   }
 }
 
-.unit-container > .inner {
+.unit-page > .inner {
   margin-inline: auto;
 
   padding-inline: var(--size-body-padding-inline-mobile);
@@ -111,7 +111,7 @@ export default defineComponent({
   }
 }
 
-.unit-container > .inner > .return {
+.unit-page > .inner > .return {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -125,7 +125,7 @@ export default defineComponent({
   transition: gap 150ms var(--transition-timing-base);
 }
 
-.unit-container > .inner > .return:hover {
+.unit-page > .inner > .return:hover {
   gap: 1rem;
 }
 
