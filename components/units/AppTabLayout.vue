@@ -34,21 +34,43 @@ export default defineComponent({
 
 <!-- can not use scoped here -->
 <style>
-/*
- * Can customize the pagination component.
- */
+@layer app {
+  .furo-layout.tab.design > .tabs {
+    border-block-end-width: var(--size-thinnest);
+    border-block-end-style: solid;
+    border-block-end-color: var(--color-border);
 
-.unit-tablayout.design > .tabs > .tab:hover {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
+    gap: 2rem;
+  }
 
-  cursor: pointer;
-}
+  .furo-layout.tab.design > .tabs > .tab {
+    border-block-end-width: 0.125rem;
+    border-block-end-style: solid;
+    border-block-end-color: transparent;
 
-.unit-tablayout.design > .tabs > .tab.active {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
+    padding-block: 0 0.75rem;
+    padding-inline: 1rem;
 
-  pointer-events: none;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+
+    background-color: transparent;
+    color: var(--color-text-tertiary);
+
+    transition: color 250ms var(--transition-timing-base),
+      border-color 150ms var(--transition-timing-base);
+  }
+
+  .furo-layout.tab.design > .tabs > .tab:hover {
+    color: var(--color-text-primary);
+  }
+
+  .furo-layout.tab.design > .tabs > .tab.active {
+    border-block-end-color: var(--color-border-tab-active);
+
+    color: var(--color-text-primary);
+
+    pointer-events: none;
+  }
 }
 </style>
