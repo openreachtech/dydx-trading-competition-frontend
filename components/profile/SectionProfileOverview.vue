@@ -1,0 +1,338 @@
+<script>
+import {
+  defineComponent,
+} from 'vue'
+
+import {
+  NuxtLink,
+  Icon,
+} from '#components'
+
+import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionProfileOverviewContext'
+
+export default defineComponent({
+  components: {
+    NuxtLink,
+    Icon,
+  },
+
+  props: {
+    walletAddress: {
+      type: String,
+      required: true,
+    },
+  },
+
+  setup (
+    props,
+    componentContext
+  ) {
+    const args = {
+      props,
+      componentContext,
+    }
+    const context = SectionProfileOverviewContext.create(args)
+      .setupComponent()
+
+    return {
+      context,
+    }
+  },
+})
+</script>
+
+<template>
+  <section class="unit-section">
+    <div class="inner">
+      <div class="unit-basic">
+        <span class="heading">
+          <Icon name="heroicons:user"
+            class="icon"
+            size="2.25rem"
+          />
+
+          <span>Eguegu</span>
+        </span>
+
+        <div class="address">
+          <span class="content">
+            <span class="first-half">
+              dydx1qn9qyssdgq922s0v9zlpfeefk3zn2xrp0avp3q
+            </span><span>0avp3q</span>
+          </span>
+
+          <div class="actions">
+            <button class="button"
+              aria-label="Copy address"
+            >
+              <Icon name="heroicons-outline:duplicate"
+                size="1.25rem"
+              />
+            </button>
+
+            <NuxtLink class="button"
+              to=""
+              aria-label="Go to address on Mintscan"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="heroicons-outline:external-link"
+                size="1.25rem"
+              />
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <dl class="unit-description">
+          <div class="entry">
+            <dt class="term">
+              League Participating
+            </dt>
+
+            <dd class="description participation">
+              <img class="image">
+
+              <span>The Trading Ninja Academy: Sharpen Your Skills</span>
+            </dd>
+          </div>
+
+          <div class="entry">
+            <dt class="term">
+              PnL & ROI
+            </dt>
+
+            <dd class="description profit">
+              +14,491.5 (21.05%)
+            </dd>
+          </div>
+
+          <div class="entry">
+            <dt class="term">
+              Ranking
+            </dt>
+
+            <dd class="description ranking">
+              <Icon name="heroicons:trophy"
+                size="1.25rem"
+                class="icon"
+              />
+
+              <span>#69</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.unit-section {
+  background-image: linear-gradient(
+    180deg,
+    rgba(24, 24, 37, 0.00) 0%,
+    #181825 46.63%,
+    rgba(24, 24, 37, 0.00) 100%
+  );
+}
+
+.unit-section > .inner {
+  margin-inline: auto;
+
+  padding-block: 2rem 3.5rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  max-width: var(--size-body-max-width);
+
+  background-image: url('~/assets/img/backgrounds/rectangles.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
+
+  @media (48rem < width) {
+    padding-block: 2rem 5rem;
+
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  @media (60rem < width) {
+    padding-block: 6.5rem 5rem;
+  }
+}
+
+.unit-basic {
+  margin-block-start: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1.25rem;
+
+  min-width: 0;
+}
+
+.unit-basic > .heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+
+  font-size: var(--font-size-extra);
+  font-weight: 700;
+  line-height: var(--size-line-height-extra);
+}
+
+.unit-basic > .heading > .icon {
+  color: var(--color-text-tertiary);
+}
+
+.unit-basic > .address {
+  border-radius: 0.5rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-default);
+
+  padding-block: 0.375rem;
+  padding-inline: 1rem;
+
+  display: flex;
+  gap: 1.5rem;
+
+  /** This is necessary for the text to shrink properly */
+  width: 100%;
+
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+  background-color: var(--color-background-competition-meta);
+}
+
+.unit-basic > .address > .content {
+  flex: 1;
+
+  display: flex;
+
+  overflow: hidden;
+}
+
+.unit-basic > .address > .content > .first-half {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.unit-basic > .address > .actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.unit-basic > .address > .actions > .button {
+  padding: 0;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-text-tertiary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-basic > .address > .actions > .button:hover {
+  color: var(--color-text-secondary);
+}
+
+.unit-description {
+  border-radius: 0.875rem;
+
+  padding-block: 1.25rem 1.5rem;
+  padding-inline: 1.75rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  background-color: var(--color-background-competition-meta);
+
+  width: 100%;
+
+  @media (48rem < width) {
+    width: 22rem;
+  }
+}
+
+.unit-description > .entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.unit-description > .entry > .term {
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  line-height: var(--size-line-height-medium);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-description > .entry > .description.participation {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  font-size: var(--font-size-base);
+  font-weight: 700;
+
+  color: var(--color-text-secondary);
+}
+
+.unit-description > .entry > .description.participation > .image {
+  border-radius: 0.625rem;
+
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.unit-description > .entry > .description.profit {
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  line-height: var(--size-line-height-medium);
+
+  color: var(--color-text-primary);
+}
+
+.unit-description > .entry > .description.profit.increased {
+  color: var(--color-text-increased);
+}
+
+.unit-description > .entry > .description.profit.decreased {
+  color: var(--color-text-decreased);
+}
+
+.unit-description > .entry > .description.ranking {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  line-height: var(--size-line-height-medium);
+
+  color: var(--color-text-primary);
+}
+
+.unit-description > .entry > .description.ranking > .icon {
+  color: var(--color-text-tertiary);
+}
+</style>
