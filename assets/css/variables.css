@@ -105,6 +105,9 @@
 
   --color-text-error: var(--palette-red);
 
+  --color-text-increased: var(--palette-green);
+  --color-text-decreased: var(--palette-red);
+
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;
