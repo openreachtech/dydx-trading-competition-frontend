@@ -21,7 +21,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   /**
    * get: competition
    *
-   * @returns {AddressCurrentCompetitionQueryResponseContent['addressCurrentCompetition']['competition'] | null}
+   * @returns {Competition}
    */
   get competition () {
     return this.extractAddressCurrentCompetitionValueHash()
@@ -32,7 +32,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   /**
    * get: ranking
    *
-   * @returns {AddressCurrentCompetitionQueryResponseContent['addressCurrentCompetition']['ranking'] | null}
+   * @returns {Ranking}
    */
   get ranking () {
     return this.extractAddressCurrentCompetitionValueHash()
@@ -44,42 +44,50 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
 /**
  * @typedef {{
  *   addressCurrentCompetition: {
- *     competition?: {
- *       competitionId: string
- *       title: string
- *       description: string
- *       participantUpperLimit: number
- *       participantLowerLimit: number
- *       host: {
- *         address: string
- *         name?: string
- *       }
- *       totalPrize: string
- *       minimumDeposit: string
- *       image?: string
- *       schedules: Array<{
- *         category: {
- *           categoryId: number
- *           name: string
- *           description: string
- *         }
- *         scheduledDatetime: string
- *       }>
- *       status: {
- *         statusId: number
- *         name: string
- *         phasedAt: string // ISO String
- *       }
- *     } | null
- *     ranking?: {
- *       address: Array<{
- *         address: string
- *         name: string
- *       }>
- *       roi: string
- *       pnl: string
- *       calculatedAt: string // ISO String
- *     } | null
+ *     competition?: Competition
+ *     ranking?: Ranking
  *   }
  * }} AddressCurrentCompetitionQueryResponseContent
+ */
+
+/**
+ * @typedef {{
+ *   competitionId: string
+ *   title: string
+ *   description: string
+ *   participantUpperLimit: number
+ *   participantLowerLimit: number
+ *   host: {
+ *     address: string
+ *     name?: string
+ *   }
+ *   totalPrize: string
+ *   minimumDeposit: string
+ *   image?: string
+ *   schedules: Array<{
+ *     category: {
+ *       categoryId: number
+ *       name: string
+ *       description: string
+ *     }
+ *     scheduledDatetime: string
+ *   }>
+ *   status: {
+ *     statusId: number
+ *     name: string
+ *     phasedAt: string // ISO String
+ *   }
+ * } | null} Competition
+ */
+
+/**
+ * @typedef {{
+ *   address: Array<{
+ *     address: string
+ *     name: string
+ *   }>
+ *   roi: string
+ *   pnl: string
+ *   calculatedAt: string // ISO String
+ * } | null} Ranking
  */
