@@ -17,8 +17,14 @@ export default defineComponent({
   },
 
   props: {
-    walletAddress: {
-      type: String,
+    competition: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
+      type: Object,
+      required: true,
+    },
+    ranking: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Ranking>} */
+      type: Object,
       required: true,
     },
   },
@@ -51,14 +57,14 @@ export default defineComponent({
             size="2.25rem"
           />
 
-          <span>Eguegu</span>
+          <span>{{ context.generateHostName() }}</span>
         </span>
 
         <div class="address">
           <span class="content">
             <span class="first-half">
-              dydx1qn9qyssdgq922s0v9zlpfeefk3zn2xrp0avp3q
-            </span><span>0avp3q</span>
+              {{ context.generateAddressFirstHalf() }}
+            </span><span>{{ context.generateAddressLastFive() }}</span>
           </span>
 
           <div class="actions">
@@ -71,7 +77,7 @@ export default defineComponent({
             </button>
 
             <NuxtLink class="button"
-              to=""
+              :to="context.generateHostAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
@@ -92,9 +98,12 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <img class="image">
+              <img class="image"
+                :src="context.image"
+                :alt="context.generateCompetitionTitle()"
+              >
 
-              <span>The Trading Ninja Academy: Sharpen Your Skills</span>
+              <span>{{ context.generateCompetitionTitle() }}</span>
             </dd>
           </div>
 
@@ -103,8 +112,10 @@ export default defineComponent({
               PnL & ROI
             </dt>
 
-            <dd class="description profit">
-              +14,491.5 (21.05%)
+            <dd class="description profit"
+              :class="context.generatePnlClasses()"
+            >
+              {{ context.generatePnlRoi() }}
             </dd>
           </div>
 
@@ -119,7 +130,7 @@ export default defineComponent({
                 class="icon"
               />
 
-              <span>#69</span>
+              <span>{{ context.generateCurrentRank() }}</span>
             </dd>
           </div>
         </dl>
