@@ -23,6 +23,11 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     /**
      * Min width for table, must use `rem`.
      */
