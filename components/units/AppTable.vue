@@ -54,7 +54,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-table-container">
+  <div class="unit-table-container"
+    :class="{
+      empty: context.isEmpty(),
+    }"
+  >
     <slot name="header" />
 
     <div class="scroll-container">
@@ -105,17 +109,19 @@ export default defineComponent({
       </table>
     </div>
 
-    <slot name="empty">
-      <div class="unit-empty">
-        <Icon name="heroicons:table-cells"
-          size="2rem"
-        />
+    <div class="empty-container">
+      <slot name="empty">
+        <div class="unit-empty">
+          <Icon name="heroicons:table-cells"
+            size="2rem"
+          />
 
-        <p class="description">
-          No records found.
-        </p>
-      </div>
-    </slot>
+          <p class="description">
+            No records found.
+          </p>
+        </div>
+      </slot>
+    </div>
 
     <slot name="footer" />
   </div>
@@ -182,6 +188,10 @@ export default defineComponent({
 
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-center {
   text-align: center;
+}
+
+.unit-table-container:not(.empty) > .empty-container {
+  display: none;
 }
 
 .unit-empty {
