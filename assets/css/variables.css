@@ -84,6 +84,8 @@
   --color-background-timeline-connector: var(--palette-layer-7);
   --color-background-timeline-connector-elapsed: var(--palette-yellow);
 
+  --color-background-table: var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -124,6 +126,8 @@
 
   --color-border-tab: var(--palette-layer-4);
   --color-border-tab-active: var(--palette-purple);
+
+  --color-border-table-row: var(--palette-layer-4);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
