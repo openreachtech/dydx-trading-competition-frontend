@@ -19,12 +19,18 @@ export default defineComponent({
   props: {
     competition: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
-      type: Object,
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
     ranking: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Ranking>} */
-      type: Object,
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
   },
