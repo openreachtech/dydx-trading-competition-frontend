@@ -1,9 +1,14 @@
 import {
+  useRoute,
+} from '#imports'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
 import {
   TRANSFER_CATEGORY,
+  PAGINATION,
 } from '~/app/constants'
 
 /**
@@ -12,6 +17,155 @@ import {
  * @extends {BaseFuroContext<null>}
  */
 export default class ProfileTransferHistoryContext extends BaseFuroContext {
+  /**
+   * Constructor
+   *
+   * @param {ProfileTransferHistoryContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    route,
+    statusReactive,
+    graphqlClientHash,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.route = route
+    this.statusReactive = statusReactive
+    this.graphqlClientHash = graphqlClientHash
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof ProfileTransferHistoryContext ? X : never} T, X
+   * @override
+   * @param {ProfileTransferHistoryContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    statusReactive,
+    graphqlClientHash,
+  }) {
+    const route = this.generateRoute()
+
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        route,
+        statusReactive,
+        graphqlClientHash,
+      })
+    )
+  }
+
+  /**
+   * Generate route.
+   *
+   * @returns {ReturnType<typeof useRoute>} Route object.
+   */
+  static generateRoute () {
+    return useRoute()
+  }
+
+  /**
+   * get: addressCurrentCompetitionTransfersCapsuleRef
+   *
+   * @returns {import('vue').Ref<ProfileTransferHistoryContext['graphqlClientHash']['addressCurrentCompetitionTransfers']['capsuleRef']>}
+   */
+  get addressCurrentCompetitionTransfersCapsuleRef () {
+    return this.graphqlClientHash.addressCurrentCompetitionTransfers.capsuleRef
+  }
+
+  /** @override */
+  setupComponent () {
+    this.watch(
+      () => this.route.query.transferPage,
+      async () => {
+        await this.graphqlClientHash
+          .addressCurrentCompetitionTransfers
+          .invokeRequestOnEvent(this.addressCurrentCompetitionTransfersDefaultVariables)
+      },
+      {
+        immediate: true,
+      }
+    )
+
+    return this
+  }
+
+  /**
+   * get: addressCurrentCompetitionTransfersDefaultVariables
+   *
+   * @returns {{
+   *   variables: import(
+   *     '~/app/graphql/client/queries/addressCurrentCompetitionTransfers/AddressCurrentCompetitionTransfersQueryGraphqlPayload'
+   *   ).AddressCurrentCompetitionTransfersQueryRequestVariables
+   * }}
+   */
+  get addressCurrentCompetitionTransfersDefaultVariables () {
+    const address = Array.isArray(this.route.params.address)
+      ? this.route.params.address[0]
+      : this.route.params.address
+    const normalizedTransferPage = Number(this.route.query.transferPage)
+    const currentPage = isNaN(normalizedTransferPage)
+      ? 1
+      : normalizedTransferPage
+
+    return {
+      variables: {
+        input: {
+          address,
+          pagination: {
+            limit: PAGINATION.LIMIT,
+            offset: (currentPage - 1) * PAGINATION.LIMIT,
+          },
+        },
+      },
+    }
+  }
+
+  /**
+   * get: addressCurrentCompetitionTransfersLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get addressCurrentCompetitionTransfersLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoading = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isLoading = false
+      },
+    }
+  }
+
+  /**
+   * get: paginationResult
+   *
+   * @returns {PaginationResult} Pagination object.
+   */
+  get paginationResult () {
+    return {
+      limit: PAGINATION.LIMIT,
+      totalRecords: this.addressCurrentCompetitionTransfersCapsuleRef.value
+        .totalCount
+        ?? 0,
+    }
+  }
+
   /**
    * get: tableHeaderEntries
    *
@@ -206,3 +360,40 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
     return formatter.format(date)
   }
 }
+
+/**
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
+ *   statusReactive: StatusReactive
+ *   route: ReturnType<typeof useRoute>
+ * }} ProfileTransferHistoryContextParams
+ */
+
+/**
+ * @typedef {'addressCurrentCompetitionTransfers'} GraphqlClientHashKeys
+ */
+
+/**
+ * @typedef {Omit<ProfileTransferHistoryContextParams, FactoryOmittedKeys>} ProfileTransferHistoryContextFactoryParams
+ */
+
+/**
+ * @typedef {'route'} FactoryOmittedKeys
+ */
+
+/**
+ * @typedef {ReturnType<import('@openreachtech/furo-nuxt').useGraphqlClient>} GraphqlClient
+ */
+
+/**
+ * @typedef {{
+ *   isLoading: boolean
+ * }} StatusReactive
+ */
+
+/**
+ * @typedef {{
+ *   limit: number
+ *   totalRecords: number
+ * }} PaginationResult
+ */

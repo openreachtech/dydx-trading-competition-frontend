@@ -1,6 +1,7 @@
 <script>
 import {
   defineComponent,
+  reactive,
 } from 'vue'
 
 import {
@@ -9,6 +10,12 @@ import {
 
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
+
+import AddressCurrentCompetitionTransfersQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetitionTransfers/AddressCurrentCompetitionTransfersQueryGraphqlLauncher'
 
 import ProfileTransferHistoryContext from '~/app/vue/contexts/profile/ProfileTransferHistoryContext'
 
@@ -23,9 +30,18 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const statusReactive = reactive({
+      isLoading: false,
+    })
+    const addressCurrentCompetitionTransfersGraphqlClient = useGraphqlClient(AddressCurrentCompetitionTransfersQueryGraphqlLauncher)
+
     const args = {
       props,
       componentContext,
+      statusReactive,
+      graphqlClientHash: {
+        addressCurrentCompetitionTransfers: addressCurrentCompetitionTransfersGraphqlClient,
+      },
     }
     const context = ProfileTransferHistoryContext.create(args)
       .setupComponent()
@@ -122,6 +138,7 @@ export default defineComponent({
 
     <AppPagination class="pagination"
       page-key="transferPage"
+      :pagination="context.paginationResult"
     />
   </div>
 </template>
