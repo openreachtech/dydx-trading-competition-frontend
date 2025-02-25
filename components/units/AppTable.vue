@@ -60,6 +60,9 @@ export default defineComponent({
             <th v-for="headerEntry of context.headerEntries"
               :key="headerEntry.key"
               class="cell head"
+              :class="context.generateCellClasses({
+                columnOptions: headerEntry.columnOptions,
+              })"
             >
               <slot :label="headerEntry.label"
                 :property="headerEntry.key"
@@ -78,6 +81,9 @@ export default defineComponent({
           >
             <td v-for="entry of context.headerEntries"
               class="cell"
+              :class="context.generateCellClasses({
+                columnOptions: entry.columnOptions,
+              })"
             >
               <slot :name="`body-${entry.key}`"
                 :row="row"
@@ -119,8 +125,6 @@ export default defineComponent({
 .unit-table > .thead > .row > .cell.head {
   padding-block-end: 1rem;
 
-  text-align: start;
-
   font-size: var(--font-size-small);
   font-weight: 500;
 
@@ -145,5 +149,18 @@ export default defineComponent({
 
 .unit-table > :where(.thead, .tbody) > .row > .cell:last-of-type {
   padding-inline-end: 0;
+}
+
+/* Column options */
+.unit-table > :where(.thead, .tbody) > .row > :where(.cell, .cell.text-start) {
+  text-align: start;
+}
+
+.unit-table > :where(.thead, .tbody) > .row > .cell.text-end {
+  text-align: end;
+}
+
+.unit-table > :where(.thead, .tbody) > .row > .cell.text-center {
+  text-align: center;
 }
 </style>
