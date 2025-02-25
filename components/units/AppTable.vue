@@ -3,9 +3,17 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
 import AppTableContext from '~/app/vue/contexts/AppTableContext'
 
 export default defineComponent({
+  components: {
+    Icon,
+  },
+
   props: {
     entries: {
       type: Array,
@@ -97,6 +105,18 @@ export default defineComponent({
       </table>
     </div>
 
+    <slot name="empty">
+      <div class="unit-empty">
+        <Icon name="heroicons:table-cells"
+          size="2rem"
+        />
+
+        <p class="description">
+          No records found.
+        </p>
+      </div>
+    </slot>
+
     <slot name="footer" />
   </div>
 </template>
@@ -162,5 +182,29 @@ export default defineComponent({
 
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-center {
   text-align: center;
+}
+
+.unit-empty {
+  border-radius: inherit;
+
+  padding-block: 2rem;
+  padding-inline: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  min-height: 14rem;
+
+  text-align: center;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-empty > .description {
+  font-size: var(--font-size-medium);
+  font-weight: 500;
 }
 </style>
