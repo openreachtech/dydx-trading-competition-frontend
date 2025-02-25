@@ -62,6 +62,7 @@ export default defineComponent({
   <div class="unit-table-container"
     :class="{
       empty: context.isEmpty(),
+      loading: context.isLoading,
     }"
   >
     <slot name="header" />
@@ -124,6 +125,16 @@ export default defineComponent({
           <p class="description">
             No records found.
           </p>
+        </div>
+      </slot>
+    </div>
+
+    <div class="loading-container">
+      <slot name="loading">
+        <div class="unit-loading">
+          <Icon name="svg-spinners:90-ring-with-bg"
+            size="1.5rem"
+          />
         </div>
       </slot>
     </div>
@@ -221,5 +232,29 @@ export default defineComponent({
 .unit-empty > .description {
   font-size: var(--font-size-medium);
   font-weight: 500;
+}
+
+.unit-table-container:not(.loading) > .loading-container {
+  display: none;
+}
+
+.unit-table-container.loading > .scroll-container > .unit-table > .tbody,
+.unit-table-container.loading > .empty-container {
+  display: none;
+}
+
+.unit-loading {
+  border-radius: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-block: 2rem;
+  padding-inline: 1rem;
+
+  min-height: 14rem;
+
+  color: var(--color-text-secondary);
 }
 </style>
