@@ -6,6 +6,7 @@ import {
 
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
+import SectionProfileHistory from '~/components/profile/SectionProfileHistory.vue'
 
 import {
   useGraphqlClient,
@@ -19,6 +20,7 @@ export default defineComponent({
   components: {
     SectionProfileOverview,
     SectionProfileFinancialMetrics,
+    SectionProfileHistory,
   },
 
   setup (
@@ -55,6 +57,8 @@ export default defineComponent({
     />
 
     <SectionProfileFinancialMetrics :metrics="context.financialMetrics" />
+
+    <SectionProfileHistory />
   </div>
 </template>
 
