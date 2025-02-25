@@ -5,6 +5,7 @@ import {
 
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
+import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 
 import SectionProfileHistoryContext from '~/app/vue/contexts/profile/SectionProfileHistoryContext'
 
@@ -12,6 +13,7 @@ export default defineComponent({
   components: {
     AppTabLayout,
     ProfileTransferHistory,
+    ProfileLeagueHistory,
   },
 
   setup (
@@ -40,7 +42,7 @@ export default defineComponent({
       <template #contents>
         <ProfileTransferHistory />
 
-        <div>League History</div>
+        <ProfileLeagueHistory />
       </template>
     </AppTabLayout>
   </div>
