@@ -86,6 +86,8 @@
 
   --color-background-table: var(--palette-layer-2);
 
+  --color-background-profile-section-darker: var(--palette-layer-0);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -131,6 +133,8 @@
   --color-border-tab-active: var(--palette-purple);
 
   --color-border-table-row: var(--palette-layer-4);
+
+  --color-border-profile-section: var(--palette-layer-3);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
