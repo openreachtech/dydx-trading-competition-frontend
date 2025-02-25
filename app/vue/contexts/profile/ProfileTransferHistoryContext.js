@@ -196,33 +196,12 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
   }
 
   /**
-   * get: tableEntries
+   * get: transfers
    *
-   * @returns {Array<Record<string, any>>} Entries.
+   * @returns {Transfers}
    */
-  get tableEntries () {
-    return [
-      {
-        time: '2021-09-01T00:00:00Z',
-        senderAddress: '0x1234567890abcdef',
-        recipientAddress: '0xabcdef1234567890',
-        amount: '100',
-        hash: '0x1234567890abcdef',
-        category: {
-          categoryId: 1,
-        },
-      },
-      {
-        time: '2021-09-01T00:00:00Z',
-        senderAddress: '0x1234567890abcdef',
-        recipientAddress: '0xabcdef1234567890',
-        amount: '100',
-        hash: '0x1234567890abcdef',
-        category: {
-          categoryId: 2,
-        },
-      },
-    ]
+  get transfers () {
+    return this.addressCurrentCompetitionTransfersCapsuleRef.value.transfers
   }
 
   /**
@@ -396,4 +375,10 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
+ */
+
+/**
+ * @typedef {import(
+ *   '~/app/graphql/client/queries/addressCurrentCompetitionTransfers/AddressCurrentCompetitionTransfersQueryGraphqlCapsule'
+ * ).ResponseContent['addressCurrentCompetitionTransfers']['transfers']} Transfers
  */

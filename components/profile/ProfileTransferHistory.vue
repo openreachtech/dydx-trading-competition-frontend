@@ -56,7 +56,7 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <AppTable :header-entries="context.tableHeaderEntries"
-      :entries="context.tableEntries"
+      :entries="context.transfers"
       min-width="45rem"
     >
       <template #body-time="{ value }">
