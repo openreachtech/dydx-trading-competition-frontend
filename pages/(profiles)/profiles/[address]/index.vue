@@ -5,6 +5,7 @@ import {
 } from 'vue'
 
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
+import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
 
 import {
   useGraphqlClient,
@@ -17,6 +18,7 @@ import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPage
 export default defineComponent({
   components: {
     SectionProfileOverview,
+    SectionProfileFinancialMetrics,
   },
 
   setup (
@@ -51,6 +53,8 @@ export default defineComponent({
     <SectionProfileOverview :competition="context.currentCompetition"
       :ranking="context.currentRanking"
     />
+
+    <SectionProfileFinancialMetrics :metrics="context.financialMetrics" />
   </div>
 </template>
 

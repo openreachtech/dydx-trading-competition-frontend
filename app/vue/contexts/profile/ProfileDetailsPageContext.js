@@ -125,6 +125,33 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       ?.ranking
       ?? null
   }
+
+  /**
+   * get: financialMetrics
+   *
+   * @returns {import('~/app/vue/contexts/profile/SectionProfileFinancialMetricsContext').Metrics}
+   */
+  get financialMetrics () {
+    // TODO: Fulfill metrics data.
+    return [
+      {
+        label: 'Total Equity',
+        value: null,
+      },
+      {
+        label: 'Collateral',
+        value: null,
+      },
+      {
+        label: 'Total ROI',
+        value: null,
+      },
+      {
+        label: 'Total PnL',
+        value: null,
+      },
+    ]
+  }
 }
 
 /**
