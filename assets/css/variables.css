@@ -91,6 +91,8 @@
   --color-background-transfer-out: var(--palette-purple-faded);
   --color-background-transfer-in: var(--palette-green-faded);
 
+  --color-background-skeleton: var(--palette-layer-3);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
