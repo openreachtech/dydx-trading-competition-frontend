@@ -80,9 +80,13 @@ export default defineComponent({
   margin-inline: auto;
 
   max-width: var(--size-body-max-width);
+
+  padding-block-end: 7.5rem;
 }
 
 .unit-container > .cards {
+  padding-block-start: 2.25rem;
+
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
