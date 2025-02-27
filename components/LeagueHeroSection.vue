@@ -97,7 +97,7 @@ export default defineComponent({
 .unit-section {
   margin-inline: auto;
 
-  padding-block: 3.5rem 7.75rem;
+  padding-block: 3.5rem 3.75rem;
 
   display: flex;
   flex-direction: column;
@@ -106,10 +106,16 @@ export default defineComponent({
 
   max-width: var(--size-body-max-width);
 
+  @media (48rem < width) {
+    padding-block-end: 4.75rem;
+  }
+
   @media (60rem < width) {
     background-image: url('~/assets/img/backgrounds/league-hero.png');
     background-repeat: no-repeat;
     background-position: right 3.5rem;
+
+    padding-block-end: 7.75rem;
   }
 }
 
