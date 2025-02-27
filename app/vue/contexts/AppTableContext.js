@@ -36,6 +36,15 @@ export default class AppTableContext extends BaseFuroContext {
   }
 
   /**
+   * Check if table is empty.
+   *
+   * @returns {boolean} `true` if is empty.
+   */
+  isEmpty () {
+    return this.entries.length === 0
+  }
+
+  /**
    * Generate table cell classes.
    *
    * @param {{
