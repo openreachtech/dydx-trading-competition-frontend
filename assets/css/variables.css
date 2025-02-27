@@ -93,6 +93,10 @@
 
   --color-background-skeleton: var(--palette-layer-3);
 
+  --color-background-search-indicator: var(--palette-purple);
+
+  --color-background-dropdown: var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -150,6 +154,8 @@
   --color-border-table-row: var(--palette-layer-4);
 
   --color-border-profile-section: var(--palette-layer-3);
+
+  --color-border-dropdown: var(--palette-layer-6);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
