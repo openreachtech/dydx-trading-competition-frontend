@@ -88,6 +88,9 @@
 
   --color-background-profile-section-darker: var(--palette-layer-0);
 
+  --color-background-transfer-out: var(--palette-purple-faded);
+  --color-background-transfer-in: var(--palette-green-faded);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -109,6 +112,9 @@
 
   --color-text-increased: var(--palette-green);
   --color-text-decreased: var(--palette-red);
+
+  --color-text-transfer-out: var(--palette-purple);
+  --color-text-transfer-in: var(--palette-green);
 
   /* Border Colors */
   --color-border-default: #303045;

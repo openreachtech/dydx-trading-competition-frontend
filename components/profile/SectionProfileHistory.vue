@@ -4,14 +4,14 @@ import {
 } from 'vue'
 
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
-import AppPagination from '~/components/units/AppPagination.vue'
+import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 
 import SectionProfileHistoryContext from '~/app/vue/contexts/profile/SectionProfileHistoryContext'
 
 export default defineComponent({
   components: {
     AppTabLayout,
-    AppPagination,
+    ProfileTransferHistory,
   },
 
   setup (
@@ -38,13 +38,11 @@ export default defineComponent({
       :active-tab-key="context.tabs[0].tabKey"
     >
       <template #contents>
-        <div>Transfer History</div>
+        <ProfileTransferHistory />
 
         <div>League History</div>
       </template>
     </AppTabLayout>
-
-    <AppPagination class="pagination" />
   </div>
 </template>
 
@@ -60,9 +58,5 @@ export default defineComponent({
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
   }
-}
-
-.unit-section > .pagination {
-  margin-block-start: 1.25rem;
 }
 </style>

@@ -78,6 +78,29 @@ export const SCHEDULE_ID_GROUP = {
   ],
 }
 
+export const TRANSFER_CATEGORY = {
+  TRANSFER_IN: {
+    ID: 1,
+    NAME: 'transfer_in',
+    DESCRIPTION: 'Funds transferred into account',
+  },
+  TRANSFER_OUT: {
+    ID: 2,
+    NAME: 'transfer_out',
+    DESCRIPTION: 'Funds transferred out of account',
+  },
+  DEPOSIT: {
+    ID: 3,
+    NAME: 'deposit',
+    DESCRIPTION: 'Initial deposit into competition',
+  },
+  WITHDRAWAL: {
+    ID: 4,
+    NAME: 'withdrawal',
+    DESCRIPTION: 'Withdrawal from competition',
+  },
+}
+
 export const PAGINATION = {
   LIMIT: 30,
 }

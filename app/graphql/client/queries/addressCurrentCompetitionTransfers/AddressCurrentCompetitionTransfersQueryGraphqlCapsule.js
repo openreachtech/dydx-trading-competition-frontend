@@ -39,6 +39,17 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
       ?.pagination
       ?? null
   }
+
+  /**
+   * get: totalCount
+   *
+   * @returns {ResponseContent['addressCurrentCompetitionTransfers']['pagination']['totalCount'] | null}
+   */
+  get totalCount () {
+    return this.pagination
+      ?.totalCount
+      ?? null
+  }
 }
 
 /**
