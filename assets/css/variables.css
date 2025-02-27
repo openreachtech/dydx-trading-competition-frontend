@@ -118,6 +118,9 @@
   --color-text-transfer-out: var(--palette-purple);
   --color-text-transfer-in: var(--palette-green);
 
+  --color-text-highlight-yellow: var(--palette-yellow);
+  --color-text-highlight-purple: var(--palette-purple-lighter);
+
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;
