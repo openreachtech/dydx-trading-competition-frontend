@@ -27,6 +27,15 @@ export default class AppTableContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoading
+   *
+   * @returns {boolean} `true` if is loading.
+   */
+  get isLoading () {
+    return this.props.isLoading
+  }
+
+  /**
    * get: minWidth
    *
    * @returns {string} Min width.
