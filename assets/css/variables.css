@@ -86,6 +86,11 @@
 
   --color-background-table: var(--palette-layer-2);
 
+  --color-background-profile-section-darker: var(--palette-layer-0);
+
+  --color-background-transfer-out: var(--palette-purple-faded);
+  --color-background-transfer-in: var(--palette-green-faded);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -104,6 +109,12 @@
   --color-text-pagination-disabled: var(--palette-layer-6);
 
   --color-text-error: var(--palette-red);
+
+  --color-text-increased: var(--palette-green);
+  --color-text-decreased: var(--palette-red);
+
+  --color-text-transfer-out: var(--palette-purple);
+  --color-text-transfer-in: var(--palette-green);
 
   /* Border Colors */
   --color-border-default: #303045;
@@ -128,6 +139,8 @@
   --color-border-tab-active: var(--palette-purple);
 
   --color-border-table-row: var(--palette-layer-4);
+
+  --color-border-profile-section: var(--palette-layer-3);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
