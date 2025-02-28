@@ -10,6 +10,7 @@ import {
 
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
 
 import {
   useGraphqlClient,
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     AppLeagueCard,
     AppPagination,
+    LeagueHeroSection,
   },
 
   setup (
@@ -58,6 +60,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-container">
+    <LeagueHeroSection />
+
     <div class="cards">
       <AppLeagueCard v-for="it of context.competitions"
         :key="it.competitionId"
@@ -76,9 +80,13 @@ export default defineComponent({
   margin-inline: auto;
 
   max-width: var(--size-body-max-width);
+
+  padding-block-end: 7.5rem;
 }
 
 .unit-container > .cards {
+  padding-block-start: 2.25rem;
+
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
