@@ -364,9 +364,16 @@ export default defineComponent({
 
 /************* Results dropdown *************/
 .dropdown {
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: var(--size-thinnest);
+  border-color: var(--color-border-dropdown);
+
   position: absolute;
 
   top: calc(100% + 0.5rem);
+
+  background-color: var(--color-background-dropdown);
 }
 
 .unit-search > .dropdown.results {
@@ -375,13 +382,6 @@ export default defineComponent({
 
   left: 0;
   right: 0;
-
-  border-radius: 0.5rem;
-  border-style: solid;
-  border-width: var(--size-thinnest);
-  border-color: var(--color-border-dropdown);
-
-  background-color: var(--color-background-dropdown);
 
   z-index: calc(var(--value-z-index-layer-staying) + 1);
 }
