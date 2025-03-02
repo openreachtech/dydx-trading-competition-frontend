@@ -138,7 +138,7 @@ export default defineComponent({
   font-weight: 500;
   line-height: 1;
 
-  transition: opacity 0.3s var(--transition-timing-base);
+  transition: filter 0.3s var(--transition-timing-base);
 
   user-select: none;
 }
@@ -206,7 +206,7 @@ export default defineComponent({
 
 /* Disabled */
 .unit-button:disabled {
-  opacity: 0.4;
+  filter: brightness(0.4);
 
   cursor: not-allowed;
 }
