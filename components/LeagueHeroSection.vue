@@ -170,6 +170,14 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
+/* TODO: Allow anchor element to share same stylesheets with AppButton */
+/* NOTE: Custom property to add transition to gradient. */
+@property --color-darken-filter {
+  syntax: '<color>';
+  initial-value: #00000000;
+  inherits: false;
+}
+
 .unit-section > .actions > .button {
   border-radius: 0.5rem;
 
@@ -182,6 +190,24 @@ export default defineComponent({
 
   color: var(--color-text-primary);
   background-color: var(--color-background-button-primary);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-darken-filter),
+    var(--color-darken-filter)
+  );
+
+  transition: --color-darken-filter 0.3s var(--transition-timing-base),
+    filter 0.3s var(--transition-timing-base);
+}
+
+.unit-section > .actions > .button:hover {
+  --color-darken-filter: #00000047;
+}
+
+.unit-section > .actions > .button:disabled {
+  filter: brightness(0.4);
+
+  cursor: not-allowed;
 }
 
 .unit-statistics {
