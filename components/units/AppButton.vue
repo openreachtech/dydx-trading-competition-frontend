@@ -185,6 +185,27 @@ export default defineComponent({
 }
 
 /* Appearance */
+/* NOTE: Custom property to add transition to gradient. */
+@property --color-darken-filter {
+  syntax: '<color>';
+  initial-value: #00000000;
+  inherits: false;
+}
+
+.unit-button.filled {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-darken-filter),
+    var(--color-darken-filter)
+  );
+
+  transition: --color-darken-filter 0.3s var(--transition-timing-base);
+}
+
+.unit-button.filled:hover {
+  --color-darken-filter: #00000047;
+}
+
 .unit-button.outlined {
   border-color: var(--color-border-button-outlined);
 
