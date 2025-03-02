@@ -143,6 +143,12 @@ export default defineComponent({
   background-color: var(--color-background-card);
 
   overflow: hidden;
+
+  transition: border-color 250ms var(--transition-timing-base);
+}
+
+.unit-card:hover > .unit-contents {
+  border-color: var(--color-border-card-hover);
 }
 
 /* Header */
