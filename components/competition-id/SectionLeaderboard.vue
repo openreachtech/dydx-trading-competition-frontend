@@ -253,6 +253,7 @@ export default defineComponent({
   display: none;
 
   flex: 1;
+
   min-height: 6.5rem;
 
   @media (48rem < width) {
@@ -271,6 +272,8 @@ export default defineComponent({
 }
 
 .unit-champions > .champion:nth-of-type(2) > .tail {
+  margin-inline-start: -6rem;
+
   clip-path: polygon(
     100% 0%,
     26.2% 0%,
@@ -279,11 +282,11 @@ export default defineComponent({
     100% 0%
   );
   background-image: linear-gradient(to bottom, #1F1F30E5, #101018);
-
-  margin-inline-start: -6rem;
 }
 
 .unit-champions > .champion:last-of-type > .tail {
+  margin-inline-end: -6.5rem;
+
   clip-path: polygon(
     0% 0%,
     71.5% 0%,
@@ -292,8 +295,6 @@ export default defineComponent({
     0% 0%
   );
   background-image: linear-gradient(to bottom, #1F1F30E5, #101018);
-
-  margin-inline-end: -6.5rem;
 }
 
 /***************** Non-podium rankers ****************/
