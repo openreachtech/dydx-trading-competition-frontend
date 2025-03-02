@@ -137,6 +137,7 @@
   --color-border-button-neutral: var(--palette-layer-6);
   --color-border-button-muted: var(--palette-layer-5);
   --color-border-button-outlined: var(--palette-layer-6);
+  --color-border-button-outlined-hover: var(--palette-layer-7);
   --color-border-button-outlined-success: var(--palette-green-darker);
   --color-border-button-outlined-error: var(--palette-red);
 

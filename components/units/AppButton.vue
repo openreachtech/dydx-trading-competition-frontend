@@ -210,6 +210,12 @@ export default defineComponent({
   border-color: var(--color-border-button-outlined);
 
   background-color: transparent;
+
+  transition: border-color 0.3s var(--transition-timing-base);
+}
+
+.unit-button.outlined:hover {
+  border-color: var(--color-border-button-outlined-hover);
 }
 
 .unit-button.outlined.success {
