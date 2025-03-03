@@ -129,6 +129,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: schedules
+   *
+   * @returns {CompetitionEntity['schedules']}
+   */
+  get schedules () {
+    return this.extractCompetition()
+      ?.schedules
+      ?? []
+  }
+
+  /**
    * Generate host's name
    *
    * @returns {string}
