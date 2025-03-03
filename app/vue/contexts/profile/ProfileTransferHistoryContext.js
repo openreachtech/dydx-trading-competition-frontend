@@ -196,6 +196,42 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
   }
 
   /**
+   * Generate `tableEntries`.
+   *
+   * @returns {Array<TableEntry>} Table entries
+   */
+  generateTableEntries () {
+    return this.transfers.map(it => ({
+      time: {
+        date: this.generateDate({
+          dateString: it.blockTime,
+        }),
+        hour: this.generateHour({
+          dateString: it.blockTime,
+        }),
+      },
+      categoryId: it.category.categoryId,
+      participant: {
+        classes: this.generateParticipantClasses({
+          categoryId: it.category.categoryId,
+        }),
+        iconName: this.generateParticipantIconName({
+          categoryId: it.category.categoryId,
+        }),
+        address: this.generateParticipantAddress({
+          categoryId: it.category.categoryId,
+          address: {
+            senderAddress: it.senderAddress,
+            recipientAddress: it.recipientAddress,
+          },
+        }),
+      },
+      amount: it.amount,
+      hash: it.transactionHash,
+    }))
+  }
+
+  /**
    * get: transfers
    *
    * @returns {Transfers}
@@ -381,4 +417,21 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
  * @typedef {import(
  *   '~/app/graphql/client/queries/addressCurrentCompetitionTransfers/AddressCurrentCompetitionTransfersQueryGraphqlCapsule'
  * ).ResponseContent['addressCurrentCompetitionTransfers']['transfers']} Transfers
+ */
+
+/**
+ * @typedef {{
+ *   time: {
+ *     date: string
+ *     hour: string
+ *   }
+ *   categoryId: number
+ *   participant: {
+ *     classes: Array<string | Record<string, boolean>>
+ *     iconName: string
+ *     address: string
+ *   }
+ *   amount: string
+ *   hash: string
+ * }} TableEntry
  */

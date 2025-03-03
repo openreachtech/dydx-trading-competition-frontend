@@ -56,52 +56,32 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <AppTable :header-entries="context.tableHeaderEntries"
-      :entries="context.transfers"
+      :entries="context.generateTableEntries()"
       min-width="45rem"
     >
       <template #body-time="{ value }">
         <span class="unit-time">
           <span>
-            {{
-              context.generateDate({
-                dateString: value,
-              })
-            }}
+            {{ value.date }}
           </span>
           <span class="hour">
-            {{
-              context.generateHour({
-                dateString: value,
-              })
-            }}
+            {{ value.hour }}
           </span>
         </span>
       </template>
 
-      <template #body-participant="{ row }">
+      <template #body-participant="{ value }">
         <div class="unit-participant"
-          :class="context.generateParticipantClasses({
-            categoryId: row.category.categoryId,
-          })"
+          :class="value.classes"
         >
           <span class="icon">
             <Icon size="1.25rem"
-              :name="context.generateParticipantIconName({
-                categoryId: row.category.categoryId,
-              })"
+              :name="value.iconName"
             />
           </span>
 
           <span class="address">
-            {{
-              context.generateParticipantAddress({
-                categoryId: row.category.categoryId,
-                address: {
-                  senderAddress: row.senderAddress,
-                  recipient: row.recipient,
-                },
-              })
-            }}
+            {{ value.address }}
           </span>
         </div>
       </template>
