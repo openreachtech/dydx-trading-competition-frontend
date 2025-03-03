@@ -154,6 +154,16 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize description.
+   *
+   * @returns {string} Normalized description.
+   */
+  normalizeDescription () {
+    return this.description
+      ?? '----'
+  }
+
+  /**
    * Generate host's name
    *
    * @returns {string}

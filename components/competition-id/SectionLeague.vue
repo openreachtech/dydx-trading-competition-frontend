@@ -96,7 +96,7 @@ export default defineComponent({
         </div>
 
         <p class="description">
-          {{ context.description }}
+          {{ context.normalizeDescription() }}
         </p>
 
         <span class="balance">
