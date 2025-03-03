@@ -61,7 +61,7 @@ export default defineComponent({
     <div class="inner">
       <div class="unit-details">
         <h2 class="heading">
-          {{ context.title }}
+          {{ context.normalizeTitle() }}
         </h2>
 
         <div class="unit-status">
