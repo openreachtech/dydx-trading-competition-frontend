@@ -142,14 +142,23 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   get graphqlRequestHooks () {
     return {
       beforeRequest: async payload => {
-        this.statusReactive.isLoading = true
+        this.statusReactive.isLoadingCompetitions = true
 
         return false
       },
       afterRequest: async capsule => {
-        this.statusReactive.isLoading = false
+        this.statusReactive.isLoadingCompetitions = false
       },
     }
+  }
+
+  /**
+   * get: isLoadingCompetitions
+   *
+   * @returns {boolean} `true` if competitions is loading.
+   */
+  get isLoadingCompetitions () {
+    return this.statusReactive.isLoadingCompetitions
   }
 
   /**
@@ -184,7 +193,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   isLoading: boolean
+ *   isLoadingCompetitions: boolean
  * }} StatusReactive
  */
 
