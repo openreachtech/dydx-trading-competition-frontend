@@ -138,7 +138,7 @@ export default defineComponent({
   font-weight: 500;
   line-height: 1;
 
-  transition: opacity 0.3s var(--transition-timing-base);
+  transition: filter 0.3s var(--transition-timing-base);
 
   user-select: none;
 }
@@ -185,10 +185,37 @@ export default defineComponent({
 }
 
 /* Appearance */
+/* NOTE: Custom property to add transition to gradient. */
+@property --color-darken-filter {
+  syntax: '<color>';
+  initial-value: #00000000;
+  inherits: false;
+}
+
+.unit-button.filled {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-darken-filter),
+    var(--color-darken-filter)
+  );
+
+  transition: --color-darken-filter 0.3s var(--transition-timing-base);
+}
+
+.unit-button.filled:hover {
+  --color-darken-filter: #00000047;
+}
+
 .unit-button.outlined {
   border-color: var(--color-border-button-outlined);
 
   background-color: transparent;
+
+  transition: border-color 0.3s var(--transition-timing-base);
+}
+
+.unit-button.outlined:hover {
+  border-color: var(--color-border-button-outlined-hover);
 }
 
 .unit-button.outlined.success {
@@ -206,7 +233,7 @@ export default defineComponent({
 
 /* Disabled */
 .unit-button:disabled {
-  opacity: 0.4;
+  filter: brightness(0.4);
 
   cursor: not-allowed;
 }
