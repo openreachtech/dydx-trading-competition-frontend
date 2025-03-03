@@ -78,7 +78,7 @@ export default defineComponent({
                 size="1.25rem"
               />
               <span class="timestamp">
-                12/28/2024-00:00 UTC
+                {{ context.normalizeStartDate() }}
               </span>
             </span>
 
@@ -89,7 +89,7 @@ export default defineComponent({
                 size="1.25rem"
               />
               <span class="timestamp">
-                02/05/2025-23:59 UTC
+                {{ context.normalizeEndDate() }}
               </span>
             </span>
           </div>
