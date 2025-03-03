@@ -41,7 +41,7 @@ export default defineComponent({
 
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const statusReactive = reactive({
-      isLoading: false,
+      isLoadingCompetitions: false,
     })
 
     const args = {
@@ -69,7 +69,7 @@ export default defineComponent({
   <div class="unit-container">
     <LeagueHeroSection />
 
-    <AppLoadingLayout :is-loading="context.statusReactive.isLoading">
+    <AppLoadingLayout :is-loading="context.statusReactive.isLoadingCompetitions">
       <template #contents>
         <div>
           <div class="unit-cards">
