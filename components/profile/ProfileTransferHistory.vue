@@ -95,7 +95,13 @@ export default defineComponent({
       <template #body-hash="{ value }">
         <div class="unit-hash">
           <span class="hash">
-            <span>{{ value }}</span>
+            <span>
+              {{
+                context.shortenAddress({
+                  address: value,
+                })
+              }}
+            </span>
 
             <button class="button">
               <Icon name="heroicons-outline:duplicate"
