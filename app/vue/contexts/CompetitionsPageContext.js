@@ -153,6 +153,15 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingCompetitions
+   *
+   * @returns {boolean} `true` if competitions is loading.
+   */
+  get isLoadingCompetitions () {
+    return this.statusReactive.isLoadingCompetitions
+  }
+
+  /**
    * Generate pagination.
    *
    * @returns {Pagination} Pagination object.

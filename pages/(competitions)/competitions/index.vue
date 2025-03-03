@@ -69,7 +69,7 @@ export default defineComponent({
   <div class="unit-container">
     <LeagueHeroSection />
 
-    <AppLoadingLayout :is-loading="context.statusReactive.isLoadingCompetitions">
+    <AppLoadingLayout :is-loading="context.isLoadingCompetitions">
       <template #contents>
         <div>
           <div class="unit-cards">
