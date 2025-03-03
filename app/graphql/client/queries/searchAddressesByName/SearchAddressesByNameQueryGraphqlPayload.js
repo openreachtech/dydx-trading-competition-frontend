@@ -1,15 +1,15 @@
 import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 
 /**
- * SearchAddressByNameQuery graphql payload
+ * SearchAddressesByNameQuery graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof SearchAddressByNameQueryGraphqlPayload, SearchAddressByNameQueryRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<typeof SearchAddressesByNameQueryGraphqlPayload, SearchAddressesByNameQueryRequestVariables>}
  */
-export default class SearchAddressByNameQueryGraphqlPayload extends BaseAppGraphqlPayload {
+export default class SearchAddressesByNameQueryGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */
   static get document () {
     return /* GraphQL */ `
-      query SearchAddressByNameQuery ($input: SearchAddressesByNameInput!) {
+      query SearchAddressesByNameQuery ($input: SearchAddressesByNameInput!) {
         searchAddressesByName (input: $input) {
           addresses {
             address
@@ -39,5 +39,5 @@ export default class SearchAddressByNameQueryGraphqlPayload extends BaseAppGraph
  *       }
  *     }
  *   }
- * }} SearchAddressByNameQueryRequestVariables
+ * }} SearchAddressesByNameQueryRequestVariables
  */

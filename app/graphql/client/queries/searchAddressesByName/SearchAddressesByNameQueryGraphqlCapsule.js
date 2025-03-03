@@ -1,31 +1,31 @@
 import BaseAppGraphqlCapsule from '~/app/graphql/client/BaseAppGraphqlCapsule'
 
 /**
- * SearchAddressByNameQuery graphql capsule
+ * SearchAddressesByNameQuery graphql capsule
  *
  * @extends {BaseAppGraphqlCapsule<ResponseContent>}
  */
-export default class SearchAddressByNameQueryGraphqlCapsule extends BaseAppGraphqlCapsule {
+export default class SearchAddressesByNameQueryGraphqlCapsule extends BaseAppGraphqlCapsule {
   /**
-   * Extract searchAddressByName from the response content.
+   * Extract searchAddressesByName from the response content.
    *
-   * @returns {ResponseContent['searchAddressByName'] | null}
+   * @returns {ResponseContent['searchAddressesByName'] | null}
    */
-  extractSearchAddressByNameValueHash () {
+  extractSearchAddressesByNameValueHash () {
     const content = this.extractContent()
 
     return content
-      ?.searchAddressByName
+      ?.searchAddressesByName
       ?? null
   }
 
   /**
    * get: addresses.
    *
-   * @returns {ResponseContent['searchAddressByName']['addresses']}
+   * @returns {ResponseContent['searchAddressesByName']['addresses']}
    */
   get addresses () {
-    return this.extractSearchAddressByNameValueHash()
+    return this.extractSearchAddressesByNameValueHash()
       ?.addresses
       ?? []
   }
@@ -33,10 +33,10 @@ export default class SearchAddressByNameQueryGraphqlCapsule extends BaseAppGraph
   /**
    * get: pagination.
    *
-   * @returns {ResponseContent['searchAddressByName']['pagination'] | null}
+   * @returns {ResponseContent['searchAddressesByName']['pagination'] | null}
    */
   get pagination () {
-    return this.extractSearchAddressByNameValueHash()
+    return this.extractSearchAddressesByNameValueHash()
       ?.pagination
       ?? null
   }
@@ -44,7 +44,7 @@ export default class SearchAddressByNameQueryGraphqlCapsule extends BaseAppGraph
 
 /**
  * @typedef {{
- *   searchAddressByName: {
+ *   searchAddressesByName: {
  *     addresses: Array<{
  *       address: string
  *       name?: string
