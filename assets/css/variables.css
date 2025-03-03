@@ -149,6 +149,7 @@
   --color-border-input-error: var(--palette-red);
 
   --color-border-card: var(--palette-layer-4);
+  --color-border-card-hover: var(--palette-layer-6);
 
   --color-border-competition-section: var(--palette-layer-3);
 
