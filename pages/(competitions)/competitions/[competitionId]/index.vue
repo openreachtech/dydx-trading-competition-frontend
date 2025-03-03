@@ -6,6 +6,7 @@ import {
 
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
+import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 
@@ -19,6 +20,7 @@ export default defineComponent({
   components: {
     SectionLeague,
     SectionSchedules,
+    SectionLeaderboard,
   },
 
   setup (
@@ -53,5 +55,7 @@ export default defineComponent({
     <SectionLeague :competition="context.competition" />
 
     <SectionSchedules :schedules="context.schedules" />
+
+    <SectionLeaderboard />
   </div>
 </template>
