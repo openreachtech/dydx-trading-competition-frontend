@@ -97,6 +97,9 @@
 
   --color-background-dropdown: var(--palette-layer-2);
 
+  --color-background-search-result: var(--palette-layer-3);
+  --color-background-search-result-hover: var(--palette-layer-4);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
