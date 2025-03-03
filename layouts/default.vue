@@ -7,6 +7,8 @@ import {
 
 import AppDefaultLayout from '~/components/units/AppDefaultLayout.vue'
 import AppLogo from '~/components/header/AppLogo.vue'
+import AddressesSearchBarHeader from '~/components/search/AddressesSearchBarHeader.vue'
+import AddressesSearchBarSide from '~/components/search/AddressesSearchBarSide.vue'
 
 export default {
   name: 'DefaultLayout',
@@ -14,6 +16,8 @@ export default {
   components: {
     AppDefaultLayout,
     AppLogo,
+    AddressesSearchBarHeader,
+    AddressesSearchBarSide,
     Icon,
     NuxtLink,
   },
@@ -23,11 +27,10 @@ export default {
 <template>
   <AppDefaultLayout>
     <template #header>
-      <div>
+      <div class="unit-header">
         <AppLogo />
 
-        <!-- TODO: Search bar in header -->
-        <!-- <SearchBar /> -->
+        <AddressesSearchBarHeader class="search" />
       </div>
     </template>
 
@@ -56,10 +59,7 @@ export default {
     </template>
 
     <template #search-contents>
-      <!-- TODO: Search panel contents -->
-      <div>
-        Search something
-      </div>
+      <AddressesSearchBarSide />
     </template>
 
     <template #contents>
@@ -76,6 +76,20 @@ export default {
 
 <!-- never use <style scoped> here -->
 <style>
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unit-header > .search {
+  display: none;
+
+  @media (30rem < width) {
+    display: block;
+  }
+}
+
 .unit-body > .navigation {
   padding-block: 1rem;
   padding-inline: 1.5rem;
