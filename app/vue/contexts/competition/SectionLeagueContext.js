@@ -248,6 +248,39 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize date.
+   *
+   * @param {{
+   *   dateString: string | null
+   * }} params - Parameters.
+   * @returns {string} Normalized date.
+   */
+  normalizeDate ({
+    dateString,
+  }) {
+    if (!dateString) {
+      return '--/--/--'
+    }
+
+    const date = new Date(dateString)
+
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+      timeZone: 'UTC',
+    })
+    const hourFormatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'UTC',
+    })
+
+    return `${dateFormatter.format(date)}-${hourFormatter.format(date)} UTC`
+  }
+
+  /**
    * Shorten wallet address.
    *
    * @param {{
