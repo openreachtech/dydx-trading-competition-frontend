@@ -6,6 +6,10 @@ import {
   useRoute,
 } from '#imports'
 
+import {
+  SCHEDULE_CATEGORY,
+} from '~/app/constants'
+
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 /**
@@ -129,6 +133,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: schedules
+   *
+   * @returns {CompetitionEntity['schedules']}
+   */
+  get schedules () {
+    return this.extractCompetition()
+      ?.schedules
+      ?? []
+  }
+
+  /**
    * Generate host's name
    *
    * @returns {string}
@@ -234,6 +249,83 @@ export default class SectionLeagueContext extends BaseFuroContext {
     const competitionUrl = `${urlOrigin}${route.path}`
 
     await navigator.clipboard.writeText(competitionUrl)
+  }
+
+  /**
+   * Extract start date.
+   *
+   * @returns {string | null} Start date.
+   */
+  extractStartDate () {
+    return this.schedules.find(it => it.category.categoryId === SCHEDULE_CATEGORY.COMPETITION_START.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Extract end date.
+   *
+   * @returns {string | null} End date.
+   */
+  extractEndDate () {
+    return this.schedules.find(it => it.category.categoryId === SCHEDULE_CATEGORY.COMPETITION_END.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Normalize start date.
+   *
+   * @returns {string} Normalized start date.
+   */
+  normalizeStartDate () {
+    return this.normalizeDate({
+      dateString: this.extractStartDate(),
+    })
+  }
+
+  /**
+   * Normalize end date.
+   *
+   * @returns {string} Normalized end date.
+   */
+  normalizeEndDate () {
+    return this.normalizeDate({
+      dateString: this.extractEndDate(),
+    })
+  }
+
+  /**
+   * Normalize date.
+   *
+   * @param {{
+   *   dateString: string | null
+   * }} params - Parameters.
+   * @returns {string} Normalized date.
+   */
+  normalizeDate ({
+    dateString,
+  }) {
+    if (!dateString) {
+      return '--/--/--'
+    }
+
+    const date = new Date(dateString)
+
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+      timeZone: 'UTC',
+    })
+    const hourFormatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'UTC',
+    })
+
+    return `${dateFormatter.format(date)}-${hourFormatter.format(date)} UTC`
   }
 
   /**
