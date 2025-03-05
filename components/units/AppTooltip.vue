@@ -62,7 +62,7 @@ export default defineComponent({
 
     <span class="message">
       <slot name="tooltip"
-        :message="context.message"
+        :message="context.generateTooltipMessage()"
       >
         {{ context.generateTooltipMessage() }}
       </slot>
