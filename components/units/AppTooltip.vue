@@ -16,6 +16,19 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    activeMessage: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     isHiddenOnHover: {
       type: Boolean,
       required: false,
@@ -51,7 +64,7 @@ export default defineComponent({
       <slot name="tooltip"
         :message="context.message"
       >
-        {{ context.message }}
+        {{ context.generateTooltipMessage() }}
       </slot>
     </span>
   </span>
@@ -99,14 +112,18 @@ export default defineComponent({
 }
 
 /**************** Conditional display ************/
-.unit-tooltip:not(.no-hover):hover > .message {
+.unit-tooltip:not(.no-hover, .active):hover > .message {
   display: inline-flex;
 
   animation: fade-in 250ms var(--transition-timing-base) forwards;
 }
 
-.unit-tooltip:not(.no-hover, :hover) > .message {
+.unit-tooltip:not(.no-hover, .active, :hover) > .message {
   animation: fade-out 250ms var(--transition-timing-base) forwards;
+}
+
+.unit-tooltip.active > .message {
+  display: inline-flex;
 }
 
 /**************** Tooltip's position ************/
