@@ -199,6 +199,7 @@ export default defineComponent({
   0% {
     opacity: 0;
     display: none;
+    transform: scale(0.9);
   }
 
   100% {
@@ -216,6 +217,7 @@ export default defineComponent({
   100% {
     opacity: 0;
     display: none;
+    transform: scale(0.9);
   }
 }
 </style>
