@@ -69,10 +69,10 @@ export default defineComponent({
   >
     <template #contents>
       <slot name="header">
-        <div class="unit-header">
-          <span class="title"
-            :class="context.generateTitleClasses()"
-          >
+        <div class="unit-header"
+          :class="context.generateDefaultHeaderClasses()"
+        >
+          <span class="title">
             {{ context.title }}
           </span>
 
@@ -125,7 +125,7 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-header > .title.hidden {
+.unit-header.no-title > .hidden {
   display: none;
 }
 
