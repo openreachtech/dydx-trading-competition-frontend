@@ -8,11 +8,9 @@ import {
   ref,
 } from 'vue'
 
-import {
-  FuroButtonDialogContext,
-} from '@openreachtech/furo-nuxt'
-
 import FuroDialog from '@openreachtech/furo-nuxt/lib/components/FuroDialog.vue'
+
+import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 export default defineComponent({
   name: 'AppDialog',
@@ -30,7 +28,7 @@ export default defineComponent({
     /** @type {import('vue').Ref<FuroDialog | null>} */
     const dialogComponentRef = ref(null)
 
-    const context = FuroButtonDialogContext.create({
+    const context = AppDialogContext.create({
       props,
       componentContext,
       dialogComponentRef,
