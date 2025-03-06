@@ -117,6 +117,10 @@ export default defineComponent({
   gap: 0.5rem;
 }
 
+.unit-header.no-title {
+  grid-template-columns: 1fr;
+}
+
 .unit-header > .title {
   font-size: var(--font-size-medium);
   font-weight: 500;
