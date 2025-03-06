@@ -58,7 +58,7 @@ export default defineComponent({
   <span class="unit-tooltip"
     :class="context.generateTooltipClasses()"
   >
-    <slot />
+    <slot name="contents" />
 
     <span class="message">
       <slot name="tooltip"
