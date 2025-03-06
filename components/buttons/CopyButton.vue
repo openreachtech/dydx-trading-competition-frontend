@@ -55,6 +55,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    tooltipTimeout: {
+      type: Number,
+      default: 1000,
+      required: false,
+    },
   },
 
   setup (
@@ -68,7 +73,8 @@ export default defineComponent({
       callback: () => {
         statusReactive.isDisplayingTooltip = false
       },
-      timeInMilliseconds: 1000,
+      // NOTE: `vue/no-setup-props-reactivity-loss` is giving weird error. Have to use IIFE as a workaround.
+      timeInMilliseconds: (() => props.tooltipTimeout)(),
     })
 
     const args = {
