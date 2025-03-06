@@ -31,8 +31,9 @@ export default defineComponent({
     const dialogComponentRef = ref(null)
 
     const context = FuroButtonDialogContext.create({
+      props,
+      componentContext,
       dialogComponentRef,
-      emit: componentContext.emit,
     })
 
     componentContext.expose(
@@ -57,26 +58,21 @@ export default defineComponent({
   </FuroDialog>
 </template>
 
-<style scoped>
-.unit-dialog[open].design {
-  border-radius: 1.5rem;
+<style>
+@layer app {
+  .furo-dialog[open].design {
+    border-radius: 0.75rem;
 
-  min-height: 10rem;
-  min-width: 20rem;
+    padding-block: 1rem;
+    padding-inline: 2rem;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 
-  background-color: #eee;
-  box-shadow:
-    8px 8px 16px #bebebe,
-    -8px -8px 16px #ffffff;
-}
-
-.unit-dialog[open].design::backdrop {
-  background-color: rgba(255, 255, 255, 0.5);
+    background-color: #eee;
+  }
 }
 </style>
