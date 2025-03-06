@@ -61,18 +61,17 @@ export default defineComponent({
 <style>
 @layer app {
   .furo-dialog[open].design {
-    border-radius: 0.75rem;
+    border-radius: 1.25rem;
 
-    padding-block: 1rem;
-    padding-inline: 2rem;
+    padding-block: 0.75rem 1rem;
+    padding-inline: 1.25rem;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+    align-items: start;
+    gap: 0.25rem;
 
-    background-color: #eee;
+    background-color: var(--color-background-dialog);
   }
 }
 </style>
