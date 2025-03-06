@@ -105,43 +105,41 @@ export default defineComponent({
 
     background-color: var(--color-background-dialog);
   }
-}
-</style>
 
-<style scoped>
-.unit-header {
-  padding-block-end: 0.75rem;
+  .unit-header {
+    padding-block-end: 0.75rem;
 
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.5rem;
-}
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+  }
 
-.unit-header.no-title {
-  grid-template-columns: 1fr;
-}
+  .unit-header.no-title {
+    grid-template-columns: 1fr;
+  }
 
-.unit-header > .title {
-  font-size: var(--font-size-medium);
-  font-weight: 500;
-  line-height: var(--size-line-height-medium);
+  .unit-header > .title {
+    font-size: var(--font-size-medium);
+    font-weight: 500;
+    line-height: var(--size-line-height-medium);
 
-  color: var(--color-text-secondary);
-}
+    color: var(--color-text-secondary);
+  }
 
-.unit-header.no-title > .hidden {
-  display: none;
-}
+  .unit-header.no-title > .hidden {
+    display: none;
+  }
 
-.unit-header > .button.close {
-  color: var(--color-text-tertiary);
+  .unit-header > .button.close {
+    color: var(--color-text-tertiary);
 
-  justify-self: end;
+    justify-self: end;
 
-  transition: color 250ms var(--transition-timing-base);
-}
+    transition: color 250ms var(--transition-timing-base);
+  }
 
-.unit-header > .button.close:hover {
-  color: var(--color-text-primary);
+  .unit-header > .button.close:hover {
+    color: var(--color-text-primary);
+  }
 }
 </style>
