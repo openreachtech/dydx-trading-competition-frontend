@@ -72,9 +72,13 @@ export default defineComponent({
         <div class="unit-header"
           :class="context.generateDefaultHeaderClasses()"
         >
-          <span class="title">
-            {{ context.title }}
-          </span>
+          <slot name="title"
+            :title="context.title"
+          >
+            <span class="title">
+              {{ context.title }}
+            </span>
+          </slot>
 
           <button class="button close"
             @click="context.dismissDialog()"
