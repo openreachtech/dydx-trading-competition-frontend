@@ -1,0 +1,124 @@
+<script>
+import {
+  defineComponent,
+  reactive,
+} from 'vue'
+
+import {
+  Icon,
+} from '#components'
+
+import AppTooltip from '~/components/units/AppTooltip.vue'
+
+import TimerClerk from '~/app/vue/TimerClerk'
+
+import CopyButtonContext from '~/app/vue/contexts/buttons/CopyButtonContext'
+
+export default defineComponent({
+  components: {
+    Icon,
+    AppTooltip,
+  },
+
+  inheritAttrs: false,
+
+  props: {
+    message: {
+      type: String,
+      default: 'Copy',
+      required: false,
+    },
+    /**
+     * Set to `null` to use `message` as `activeMessage`.
+     */
+    activeMessage: {
+      type: String,
+      default: 'Copied!',
+      required: false,
+    },
+    iconName: {
+      type: String,
+      default: 'heroicons-outline:duplicate',
+      required: false,
+    },
+    /**
+     * Must use `rem`.
+     */
+    iconSize: {
+      type: String,
+      default: '1rem',
+      required: false,
+      /** @type {(value: string) => boolean} */
+      validator: value => /^\d*\.?\d+rem$/u.test(value),
+    },
+    contentToCopy: {
+      type: String,
+      required: true,
+    },
+  },
+
+  setup (
+    props,
+    componentContext
+  ) {
+    const statusReactive = reactive({
+      isDisplayingTooltip: false,
+    })
+    const tooltipTimer = TimerClerk.create({
+      callback: () => {
+        statusReactive.isDisplayingTooltip = false
+      },
+      timeInMilliseconds: 1000,
+    })
+
+    const args = {
+      props,
+      componentContext,
+      statusReactive,
+      tooltipTimer,
+    }
+    const context = CopyButtonContext.create(args)
+      .setupComponent()
+
+    return {
+      context,
+    }
+  },
+})
+</script>
+
+<template>
+  <AppTooltip :message="context.message"
+    :active-message="context.activeMessage"
+    :is-active="context.isDisplayingTooltip"
+  >
+    <template #contents>
+      <button class="button"
+        v-bind="$attrs"
+        @click="context.copyContent()"
+      >
+        <slot>
+          <Icon :name="context.iconName"
+            :size="context.iconSize"
+          />
+        </slot>
+      </button>
+    </template>
+  </AppTooltip>
+</template>
+
+<style scoped>
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-text-tertiary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.button:hover {
+  color: var(--color-text-primary);
+}
+</style>
