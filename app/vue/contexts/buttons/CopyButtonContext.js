@@ -55,21 +55,21 @@ export default class CopyButtonContext extends BaseFuroContext {
   }
 
   /**
-   * get: message
+   * get: tooltipMessage
    *
    * @returns {string}
    */
-  get message () {
-    return this.props.message
+  get tooltipMessage () {
+    return this.props.tooltipMessage
   }
 
   /**
-   * get: activeMessage
+   * get: tooltipActiveMessage
    *
    * @returns {string}
    */
-  get activeMessage () {
-    return this.props.activeMessage
+  get tooltipActiveMessage () {
+    return this.props.tooltipActiveMessage
   }
 
   /**

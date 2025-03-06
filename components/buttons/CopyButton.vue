@@ -23,15 +23,15 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
-    message: {
+    tooltipMessage: {
       type: String,
       default: 'Copy',
       required: false,
     },
     /**
-     * Set to `null` to use `message` as `activeMessage`.
+     * Set to `null` to use `tooltipMessage` as `tooltipActiveMessage`.
      */
-    activeMessage: {
+    tooltipActiveMessage: {
       type: String,
       default: 'Copied!',
       required: false,
@@ -88,8 +88,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppTooltip :message="context.message"
-    :active-message="context.activeMessage"
+  <AppTooltip :message="context.tooltipMessage"
+    :active-message="context.tooltipActiveMessage"
     :is-active="context.isDisplayingTooltip"
   >
     <template #contents>
