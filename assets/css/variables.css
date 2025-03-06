@@ -102,6 +102,8 @@
 
   --color-background-tooltip: var(--palette-layer-6);
 
+  --color-background-dialog: var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
