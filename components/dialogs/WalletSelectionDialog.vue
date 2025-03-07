@@ -115,6 +115,9 @@ export default defineComponent({
 <style scoped>
 .unit-dialog {
   max-width: 30rem;
+
+  padding-block: 1.25rem;
+  padding-inline: 1.5rem;
 }
 
 .unit-title {
