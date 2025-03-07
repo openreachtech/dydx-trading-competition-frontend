@@ -76,6 +76,9 @@ export default {
 
 <style scoped>
 .unit-header {
+  /* Temporary workaround for styles leak from `<AppDialog>` */
+  padding-block: 0;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
