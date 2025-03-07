@@ -84,8 +84,9 @@ export default defineComponent({
             variant="neutral"
           >
             <template #startIcon>
-              <img src="/img/wallets/metamask.svg"
+              <img :src="it.iconUrl"
                 :alt="it.label"
+                class="image wallet"
               >
             </template>
 
@@ -150,6 +151,11 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
+}
+
+.unit-contents > .actions .image.wallet {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .unit-contents > .link {
