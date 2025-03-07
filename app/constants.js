@@ -112,3 +112,66 @@ export const ENVIRONMENT_CONFIG_HASH = dydxAppConfig.environments
 export const TOKEN_CONFIG_HASH = dydxAppConfig.tokens
 export const LINKS_CONFIG_HASH = dydxAppConfig.links
 export const WALLETS_CONFIG_HASH = dydxAppConfig.wallets
+
+export const WALLET_TYPE = {
+  COINBASE_WALLET: 'COINBASE_WALLET',
+  KEPLR: 'KEPLR',
+  OKX_WALLET: 'OKX_WALLET',
+  WALLETCONNECT_2: 'WALLETCONNECT_2',
+  TEST_WALLET: 'TEST_WALLET',
+  OTHER_WALLET: 'OTHER_WALLET',
+  PRIVY: 'PRIVY',
+  PHANTOM: 'PHANTOM',
+  METAMASK: 'METAMASK',
+}
+
+export const CONNECTOR_TYPE = {
+  INJECTED: 'injected',
+  // Not a real connector type, but a link to download the wallet for those who don't have it installed
+  DOWNLOAD_WALLET: 'downloadWallet',
+  COINBASE: 'coinbase',
+  WALLET_CONNECT: 'walletConnect',
+  COSMOS: 'cosmos',
+  TEST: 'test',
+  PRIVY: 'privy',
+  PHANTOM_SOLANA: 'phantomSolana',
+}
+
+export const WALLET_NETWORK_TYPE = {
+  EVM: 'evm',
+  COSMOS: 'cosmos',
+  SOLANA: 'solana',
+}
+
+export const WALLETS = {
+  [WALLET_TYPE.METAMASK]: {
+    type: WALLET_TYPE.METAMASK,
+    label: 'MetaMask',
+    iconUrl: '/img/wallets/metamask.svg',
+  },
+  [WALLET_TYPE.PHANTOM]: {
+    type: WALLET_TYPE.PHANTOM,
+    label: 'Phantom (Solana)',
+    iconUrl: '/img/wallets/phantom.svg',
+  },
+  [WALLET_TYPE.KEPLR]: {
+    type: WALLET_TYPE.KEPLR,
+    label: 'Keplr',
+    iconUrl: '/img/wallets/keplr.svg',
+  },
+  [WALLET_TYPE.COINBASE_WALLET]: {
+    type: WALLET_TYPE.COINBASE_WALLET,
+    label: 'Coinbase Wallet',
+    iconUrl: '/img/wallets/coinbase-wallet.svg',
+  },
+  [WALLET_TYPE.OKX_WALLET]: {
+    type: WALLET_TYPE.OKX_WALLET,
+    label: 'OKX',
+    iconUrl: '/img/wallets/okx-wallet.svg',
+  },
+  [WALLET_TYPE.WALLETCONNECT_2]: {
+    type: WALLET_TYPE.WALLETCONNECT_2,
+    label: 'WalletConnect',
+    iconUrl: '/img/wallets/walletconnect.svg',
+  },
+}
