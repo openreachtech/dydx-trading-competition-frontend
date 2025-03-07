@@ -65,6 +65,7 @@ export default defineComponent({
 
       <Icon name="heroicons:chevron-down-16-solid"
         size="1rem"
+        class="icon"
       />
     </button>
 
@@ -169,6 +170,10 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
+.unit-account > .button > .icon {
+  transition: transform 150ms var(--transition-timing-base);
+}
+
 .unit-account.show-dropdown > .unit-dropdown {
   display: block;
 
@@ -177,6 +182,10 @@ export default defineComponent({
 
 .unit-account:not(.show-dropdown) > .unit-dropdown {
   animation: fade-out 150ms var(--transition-timing-base) forwards;
+}
+
+.unit-account.show-dropdown > .button > .icon {
+  transform: rotate(180deg);
 }
 
 .unit-dropdown {
