@@ -74,8 +74,7 @@ export default {
   </AppDefaultLayout>
 </template>
 
-<!-- never use <style scoped> here -->
-<style>
+<style scoped>
 .unit-header {
   display: flex;
   justify-content: space-between;
