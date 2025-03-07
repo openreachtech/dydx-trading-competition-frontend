@@ -109,6 +109,12 @@ export default defineComponent({
 
 .unit-account.show-dropdown > .unit-dropdown {
   display: block;
+
+  animation: fade-in 150ms var(--transition-timing-base) forwards;
+}
+
+.unit-account:not(.show-dropdown) > .unit-dropdown {
+  animation: fade-out 150ms var(--transition-timing-base) forwards;
 }
 
 .unit-dropdown {
@@ -160,5 +166,31 @@ export default defineComponent({
 
 .unit-dropdown > .actions > .button:hover {
   filter: brightness(1.4);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    display: none;
+    transform: scale(0.9) translateY(-0.5rem);
+  }
+
+  100% {
+    opacity: 1;
+    display: block;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    display: block;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+    transform: scale(0.9) translateY(-0.5rem);
+  }
 }
 </style>
