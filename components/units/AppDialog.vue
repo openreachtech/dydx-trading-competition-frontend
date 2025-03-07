@@ -73,9 +73,9 @@ export default defineComponent({
           <slot name="title"
             :title="context.title"
           >
-            <span class="title">
-              {{ context.title }}
-            </span>
+            <span class="title">{{
+              context.title
+            }}</span>
           </slot>
 
           <button class="button close"
