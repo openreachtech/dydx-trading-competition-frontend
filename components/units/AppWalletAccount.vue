@@ -9,12 +9,18 @@ import {
   NuxtLink,
 } from '#components'
 
+import vOnClickOutside from '~/app/vue/directives/vOnClickOutside'
+
 import WalletAccountContext from '~/app/vue/contexts/AppWalletAccountContext'
 
 export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+  },
+
+  directives: {
+    onClickOutside: vOnClickOutside,
   },
 
   setup (
@@ -39,7 +45,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-account"
+  <div v-on-click-outside="() => context.closeDropdown()"
+    class="unit-account"
     :class="context.generateDropdownClasses()"
   >
     <button class="button"
