@@ -9,6 +9,9 @@ import {
   NuxtLink,
 } from '#components'
 
+import CopyButton from '~/components/buttons/CopyButton.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+
 import vOnClickOutside from '~/app/vue/directives/vOnClickOutside'
 
 import WalletAccountContext from '~/app/vue/contexts/AppWalletAccountContext'
@@ -17,6 +20,8 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    CopyButton,
+    LinkTooltipButton,
   },
 
   directives: {
@@ -64,6 +69,41 @@ export default defineComponent({
     </button>
 
     <div class="unit-dropdown">
+      <div class="address">
+        <div class="unit-chain">
+          <img src="~/assets/img/address-icon.svg"
+            alt="dYdX Chain Address"
+            class="image"
+          >
+
+          <div class="details">
+            <span class="label">dYdX Chain Address</span>
+
+            <span class="content">
+              <span>dydx10p4...2tkf</span>
+              <CopyButton content-to-copy="0xDcf2ED...d10c" />
+              <LinkTooltipButton tooltip-message="View on Mintscan"
+                href="https://www.mintscan.io"
+              />
+            </span>
+          </div>
+        </div>
+
+        <div class="connector" />
+
+        <div class="unit-chain">
+          <img src="/img/wallets/metamask.svg"
+            alt="Metamask"
+            class="image"
+          >
+
+          <div class="details">
+            <span class="label">Source address</span>
+            <span class="content">0xDcf2ED...d10c</span>
+          </div>
+        </div>
+      </div>
+
       <div class="balance">
         <span class="label">
           <span>USDC Balance</span>
@@ -157,6 +197,55 @@ export default defineComponent({
   width: 17.5rem;
 
   background-color: var(--color-background-dropdown);
+}
+
+.unit-dropdown > .address {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.unit-dropdown > .address > .connector {
+  border-inline-start-width: var(--size-thinnest);
+  border-inline-start-style: dashed;
+  border-inline-start-color: var(--color-border-default);
+
+  margin-inline-start: 0.75rem;
+
+  height: 1.75rem;
+}
+
+.unit-chain {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.unit-chain > .image {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.unit-chain > .details {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.unit-chain > .details > .label {
+  font-size: var(--font-size-mini);
+  line-height: var(--size-line-height-mini);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-chain > .details > .content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-primary);
 }
 
 .unit-dropdown > .balance {
