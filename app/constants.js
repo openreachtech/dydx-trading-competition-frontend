@@ -108,18 +108,6 @@ export const PAGINATION = {
 }
 
 // ******* Wallet *******
-
-const CURRENT_MODE_HASH = /** @type {const} */ ({
-  production: 'MAINNET',
-  testnet: 'TESTNET',
-  staging: 'DEV',
-  development: 'DEV',
-})
-
-export const CURRENT_MODE = CURRENT_MODE_HASH[/** @type {keyof typeof CURRENT_MODE_HASH} */ (import.meta.env.MODE)]
-  ?? 'MAINNET'
-
-export const AVAILABLE_ENVIRONMENTS = dydxAppConfig.deployments[CURRENT_MODE]
 export const ENVIRONMENT_CONFIG_HASH = dydxAppConfig.environments
 export const TOKEN_CONFIG_HASH = dydxAppConfig.tokens
 export const LINKS_CONFIG_HASH = dydxAppConfig.links
