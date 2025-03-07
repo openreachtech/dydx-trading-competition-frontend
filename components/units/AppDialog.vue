@@ -114,13 +114,14 @@ export default defineComponent({
   .unit-header {
     padding-block-end: 0.75rem;
 
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    justify-content: space-between;
     gap: 0.5rem;
   }
 
   .unit-header.no-title {
-    grid-template-columns: 1fr;
+    /* Make sure close button is at the end if there's no title. */
+    justify-content: end;
   }
 
   .unit-header > .title {
