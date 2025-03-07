@@ -1,3 +1,5 @@
+import dydxAppConfig from '~/app/dydxV4AppConfig.json'
+
 export const HEADER_KEY = {
   ACCESS_TOKEN: 'x-renchan-access-token',
 }
@@ -104,3 +106,21 @@ export const TRANSFER_CATEGORY = {
 export const PAGINATION = {
   LIMIT: 30,
 }
+
+// ******* Wallet *******
+
+const CURRENT_MODE_HASH = /** @type {const} */ ({
+  production: 'MAINNET',
+  testnet: 'TESTNET',
+  staging: 'DEV',
+  development: 'DEV',
+})
+
+export const CURRENT_MODE = CURRENT_MODE_HASH[/** @type {keyof typeof CURRENT_MODE_HASH} */ (import.meta.env.MODE)]
+  ?? 'MAINNET'
+
+export const AVAILABLE_ENVIRONMENTS = dydxAppConfig.deployments[CURRENT_MODE]
+export const ENVIRONMENT_CONFIG_HASH = dydxAppConfig.environments
+export const TOKEN_CONFIG_HASH = dydxAppConfig.tokens
+export const LINKS_CONFIG_HASH = dydxAppConfig.links
+export const WALLETS_CONFIG_HASH = dydxAppConfig.wallets
