@@ -1,3 +1,5 @@
+import dydxAppConfig from '~/app/dydxV4AppConfig.json'
+
 export const HEADER_KEY = {
   ACCESS_TOKEN: 'x-renchan-access-token',
 }
@@ -104,3 +106,9 @@ export const TRANSFER_CATEGORY = {
 export const PAGINATION = {
   LIMIT: 30,
 }
+
+// ******* Wallet *******
+export const ENVIRONMENT_CONFIG_HASH = dydxAppConfig.environments
+export const TOKEN_CONFIG_HASH = dydxAppConfig.tokens
+export const LINKS_CONFIG_HASH = dydxAppConfig.links
+export const WALLETS_CONFIG_HASH = dydxAppConfig.wallets
