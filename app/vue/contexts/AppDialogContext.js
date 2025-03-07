@@ -16,15 +16,4 @@ export default class AppDialogContext extends FuroButtonDialogContext {
   get title () {
     return this.props.title
   }
-
-  /**
-   * Generate default header classes.
-   *
-   * @returns {Record<string, boolean>} CSS classes.
-   */
-  generateDefaultHeaderClasses () {
-    return {
-      'no-title': this.title === null,
-    }
-  }
 }

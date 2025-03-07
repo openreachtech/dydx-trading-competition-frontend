@@ -69,9 +69,7 @@ export default defineComponent({
   >
     <template #contents>
       <slot name="header">
-        <div class="unit-header"
-          :class="context.generateDefaultHeaderClasses()"
-        >
+        <div class="unit-header">
           <slot name="title"
             :title="context.title"
           >
@@ -119,7 +117,7 @@ export default defineComponent({
     gap: 0.5rem;
   }
 
-  .unit-header.no-title {
+  .unit-header:has(> .title:empty) {
     /* Make sure close button is at the end if there's no title. */
     justify-content: end;
   }
@@ -132,7 +130,7 @@ export default defineComponent({
     color: var(--color-text-secondary);
   }
 
-  .unit-header.no-title > .hidden {
+  .unit-header:has(> .title:empty) > .title {
     display: none;
   }
 
