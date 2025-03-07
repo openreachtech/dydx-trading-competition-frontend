@@ -64,6 +64,21 @@ export default defineComponent({
     </button>
 
     <div class="unit-dropdown">
+      <div class="balance">
+        <span class="label">
+          <span>USDC Balance</span>
+
+          <img src="~/assets/img/tokens/usdc.svg"
+            alt="USDC"
+            class="image"
+          >
+        </span>
+
+        <span class="figure">
+          0.00
+        </span>
+      </div>
+
       <div class="actions">
         <NuxtLink class="button">
           <Icon name="heroicons:user"
@@ -142,6 +157,45 @@ export default defineComponent({
   width: 17.5rem;
 
   background-color: var(--color-background-dropdown);
+}
+
+.unit-dropdown > .balance {
+  margin-block-start: 1.5rem;
+
+  border-radius: 0.5rem;
+
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-background-competition-meta);
+}
+
+.unit-dropdown > .balance > .label {
+  font-size: var(--font-size-mini);
+  line-height: var(--size-line-height-mini);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-dropdown > .balance > .label > .image {
+  margin-inline-start: 0.25rem;
+
+  display: inline-block;
+
+  width: 0.875rem;
+  height: 0.875rem;
+
+  border-radius: 0.375rem;
+}
+
+.unit-dropdown > .balance > .figure {
+  font-size: var(--font-size-medium);
+  line-height: var(--size-line-height-medium);
+
+  color: var(--color-text-primary);
 }
 
 .unit-dropdown > .actions {
