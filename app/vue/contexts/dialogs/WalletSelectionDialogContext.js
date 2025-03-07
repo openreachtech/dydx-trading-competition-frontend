@@ -4,6 +4,11 @@ import {
   WALLETS,
 } from '~/app/constants'
 
+/**
+ * WalletSelectionDialogContext
+ *
+ * @extends {AppDialogContext}
+ */
 export default class WalletSelectionDialogContext extends AppDialogContext {
   /** @override */
   static get EMIT_EVENT_NAME () {
@@ -12,6 +17,52 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
       NEXT_STEP: 'nextStep',
     }
+  }
+
+  /**
+   * Constructor
+   *
+   * @param {WalletSelectionDialogContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    dialogComponentRef,
+    walletStore,
+  }) {
+    super({
+      props,
+      componentContext,
+      dialogComponentRef,
+    })
+
+    this.walletStore = walletStore
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof WalletSelectionDialogContext ? X : never} T, X
+   * @override
+   * @param {WalletSelectionDialogContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    dialogComponentRef,
+    walletStore,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        dialogComponentRef,
+        walletStore,
+      })
+    )
   }
 
   /**
@@ -33,3 +84,14 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     return WALLETS
   }
 }
+
+/**
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
+ *   walletStore: import('~/stores/wallet').WalletStore
+ * }} WalletSelectionDialogContextParams
+ */
+
+/**
+ * @typedef {WalletSelectionDialogContextParams} WalletSelectionDialogContextFactoryParams
+ */

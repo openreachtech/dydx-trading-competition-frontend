@@ -12,6 +12,8 @@ import {
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 
+import useWalletStore from '~/stores/wallet'
+
 import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelectionDialogContext'
 
 export default defineComponent({
@@ -33,11 +35,13 @@ export default defineComponent({
     // NOTE: Actualy type is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    const walletStore = useWalletStore()
 
     const args = {
       props,
       componentContext,
       dialogComponentRef,
+      walletStore,
     }
     const context = WalletSelectionDialogContext.create(args)
       .setupComponent()
