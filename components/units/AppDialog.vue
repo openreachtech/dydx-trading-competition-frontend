@@ -105,6 +105,7 @@ export default defineComponent({
 
     display: flex;
     flex-direction: column;
+    justify-content: start;
     align-items: stretch;
 
     background-color: var(--color-background-dialog);
