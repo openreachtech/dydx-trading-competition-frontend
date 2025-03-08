@@ -30,7 +30,7 @@ export default function useAccountStore () {
   /** @type {import('vue').Ref<AccountState>} */
   const accountStateRef = useState('network', () => ({
     selectedNetwork: /** @type {AccountState['selectedNetwork']} */ (
-      localStorageClerk.get('selectedNetwork')
+      localStorageClerk.get(STORAGE_KEY.SELECTED_NETWORK)
       ?? AVAILABLE_ENVIRONMENTS.default
     ),
     onboardingStatus: ONBOARDING_STATUS.DISCONNECTED,
