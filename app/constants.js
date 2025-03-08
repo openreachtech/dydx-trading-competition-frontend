@@ -8,6 +8,8 @@ export const STORAGE_KEY = {
   FURO_ENV: 'furoEnv',
 
   ACCESS_TOKEN: 'access_token',
+
+  SELECTED_NETWORK: 'dydx.SelectedNetwork',
 }
 
 export const COMPETITION_STATUS = {
