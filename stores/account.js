@@ -11,7 +11,7 @@ import {
 } from '@openreachtech/furo'
 
 import {
-  ONBOARDING_STATE,
+  ONBOARDING_STATUS,
   ENVIRONMENT_CONFIG_HASH,
   STORAGE_KEY,
 } from '~/app/constants'
@@ -33,7 +33,7 @@ export default function useAccountStore () {
       localStorageClerk.get('selectedNetwork')
       ?? AVAILABLE_ENVIRONMENTS.default
     ),
-    onboardingState: ONBOARDING_STATE.DISCONNECTED,
+    onboardingStatus: ONBOARDING_STATUS.DISCONNECTED,
   }))
 
   const selectedDydxChainIdComputed = computed(
@@ -48,7 +48,7 @@ export default function useAccountStore () {
 
     // Actions
     setSelectedNetwork,
-    setOnboardingState,
+    setOnboardingStatus,
   }
 
   /**
@@ -68,17 +68,17 @@ export default function useAccountStore () {
   }
 
   /**
-   * Set `onboardingState` in account store.
+   * Set `onboardingStatus` in account store.
    *
    * @param {{
-   *   onboardingState: AccountState['onboardingState']
+   *   onboardingStatus: AccountState['onboardingStatus']
    * }} params - Parameters.
    * @returns {void}
    */
-  function setOnboardingState ({
-    onboardingState,
+  function setOnboardingStatus ({
+    onboardingStatus,
   }) {
-    accountStateRef.value.onboardingState = onboardingState
+    accountStateRef.value.onboardingStatus = onboardingStatus
   }
 }
 
@@ -89,8 +89,8 @@ export default function useAccountStore () {
  *   setSelectedNetwork: (params: {
  *     selectedNetwork: AccountState['selectedNetwork']
  *   }) => void
- *   setOnboardingState: (params: {
- *     onboardingState: AccountState['onboardingState']
+ *   setOnboardingStatus: (params: {
+ *     onboardingStatus: AccountState['onboardingStatus']
  *   }) => void
  * }} AccountStore
  */
@@ -98,6 +98,6 @@ export default function useAccountStore () {
 /**
  * @typedef {{
  *   selectedNetwork: keyof typeof ENVIRONMENT_CONFIG_HASH
- *   onboardingState: (typeof ONBOARDING_STATE)[keyof typeof ONBOARDING_STATE]
+ *   onboardingStatus: (typeof ONBOARDING_STATUS)[keyof typeof ONBOARDING_STATUS]
  * }} AccountState
  */

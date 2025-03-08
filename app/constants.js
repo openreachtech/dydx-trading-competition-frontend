@@ -178,7 +178,7 @@ export const WALLETS = {
   },
 }
 
-export const ONBOARDING_STATE = /** @type {const} */ ({
+export const ONBOARDING_STATUS = /** @type {const} */ ({
   DISCONNECTED: 'Disconnected',
   WALLET_CONNECTED: 'WalletConnected',
   ACCOUNT_CONNECTED: 'AccountConnected',
