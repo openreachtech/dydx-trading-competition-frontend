@@ -175,3 +175,9 @@ export const WALLETS = {
     iconUrl: '/img/wallets/walletconnect.svg',
   },
 }
+
+export const ONBOARDING_STATE = /** @type {const} */ ({
+  DISCONNECTED: 'Disconnected',
+  WALLET_CONNECTED: 'WalletConnected',
+  ACCOUNT_CONNECTED: 'AccountConnected',
+})
