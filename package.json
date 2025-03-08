@@ -49,6 +49,7 @@
     "eslint-plugin-vue": "^9.23.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "vite-plugin-node-stdlib-browser": "^0.2.1",
     "whatwg-fetch": "^3.6.20"
   }
 }
