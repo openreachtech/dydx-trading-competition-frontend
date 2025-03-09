@@ -1,2 +1,4 @@
 @openreachtech:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${TOKEN_FOR_GITHUB}
+
+legacy-peer-deps=true
