@@ -8,6 +8,8 @@ export const STORAGE_KEY = {
   FURO_ENV: 'furoEnv',
 
   ACCESS_TOKEN: 'access_token',
+
+  SELECTED_NETWORK: 'dydx.SelectedNetwork',
 }
 
 export const COMPETITION_STATUS = {
@@ -175,3 +177,9 @@ export const WALLETS = {
     iconUrl: '/img/wallets/walletconnect.svg',
   },
 }
+
+export const ONBOARDING_STATUS = /** @type {const} */ ({
+  DISCONNECTED: 'Disconnected',
+  WALLET_CONNECTED: 'WalletConnected',
+  ACCOUNT_CONNECTED: 'AccountConnected',
+})
