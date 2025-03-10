@@ -10,15 +10,6 @@ import {
  * @extends {AppDialogContext}
  */
 export default class WalletSelectionDialogContext extends AppDialogContext {
-  /** @override */
-  static get EMIT_EVENT_NAME () {
-    return {
-      ...super.EMIT_EVENT_NAME,
-
-      NEXT_STEP: 'nextStep',
-    }
-  }
-
   /**
    * Constructor
    *
@@ -63,6 +54,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         walletStore,
       })
     )
+  }
+
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      ...super.EMIT_EVENT_NAME,
+
+      NEXT_STEP: 'nextStep',
+    }
   }
 
   /**
