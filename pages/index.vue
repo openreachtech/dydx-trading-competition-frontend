@@ -76,6 +76,48 @@ export default defineComponent({
         </div>
       </div>
     </section>
+
+    <section class="section">
+      <div class="unit-inner audience">
+        <h2 class="heading">
+          Who This Is For
+        </h2>
+
+        <p class="description">
+          The dYdX Trading Competition Board is designed to serve traders across
+          multiple experience levels, providing unique benefits for each segment.
+        </p>
+
+        <div class="unit-audience">
+          <div v-for="it of context.audience"
+            :key="it.title"
+            class="card"
+          >
+            <h3 class="heading">
+              {{ it.title }}
+            </h3>
+
+            <span class="subtitle">
+              {{ it.subtitle }}
+            </span>
+
+            <p class="description">
+              {{ it.description }}
+            </p>
+
+            <ul class="characteristics">
+              <li v-for="characteristic of it.characteristics"
+                class="characteristic"
+              >
+                <span class="bullet" />
+
+                <span>{{ characteristic }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -233,5 +275,80 @@ export default defineComponent({
 
 .unit-purposes > .card:hover > .description {
   color: var(--color-text-secondary);
+}
+
+/************** Audience section **************/
+
+.unit-inner.audience {
+  background-image: url('~/assets/img/backgrounds/league-hero.png');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.unit-audience {
+  margin-block-start: 3rem;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (48rem < width) {
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  }
+}
+
+.unit-audience > .card > .heading {
+  font-size: var(--font-size-large);
+  font-weight: 700;
+  line-height: var(--size-line-height-large);
+}
+
+.unit-audience > .card > .subtitle {
+  margin-block-start: 0.25rem;
+
+  display: inline-block;
+
+  font-size: var(--font-size-medium);
+  line-height: var(--size-line-height-medium);
+
+  color: var(--color-text-secondary);
+}
+
+.unit-audience > .card > .description {
+  margin-block-start: 1.25rem;
+
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-audience > .card > .characteristics {
+  margin-block-start: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-audience > .card > .characteristics > .characteristic {
+  display: inline-flex;
+  gap: 0.75rem;
+}
+
+.unit-audience > .card > .characteristics > .characteristic > .bullet {
+  margin-block-start: 0.375rem;
+
+  border-radius: 100vh;
+
+  flex-shrink: 0;
+
+  height: 0.5rem;
+  width: 0.5rem;
+
+  background-color: var(--color-text-highlight-purple);
 }
 </style>

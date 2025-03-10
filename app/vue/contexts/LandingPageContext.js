@@ -41,6 +41,49 @@ export default class LandingPageContext extends BaseFuroContext {
       },
     ]
   }
+
+  /**
+   * get: audience
+   *
+   * @returns {Array<Audience>}
+   */
+  get audience () {
+    return [
+      {
+        title: 'Beginners',
+        subtitle: 'Breaking down entry barriers',
+        description: 'Perpetual swap trading has a steep learning curve, and DEX platforms often have additional technical barriers to entry. Our competitions create an approachable environment for newcomers.',
+        characteristics: [
+          'Fun, gamified elements that make complex trading more approachable',
+          'Community-hosted competitions create welcoming entry points',
+          'Clear metrics help understand what success looks like',
+          'Structured environment to learn about perpetual trading',
+        ],
+      },
+      {
+        title: 'Intermediate Traders',
+        subtitle: 'Refining your edge',
+        description: "Access to successful traders' entry points and position sizing offers valuable insights for improving personal trading strategies and risk management.",
+        characteristics: [
+          "Learn from winning traders' entry points and position sizing",
+          'Compare results against peers at similar experience levels',
+          'Observe risk management tactics during volatile conditions',
+          'Build connections with other serious traders',
+        ],
+      },
+      {
+        title: 'KOLs',
+        subtitle: 'Fostering an engaged trader community',
+        description: 'Platform for demonstrating expertise while elevating the trading knowledge within communities through verifiable performance.',
+        characteristics: [
+          'Share knowledge and elevate community understanding',
+          'Build credibility through blockchain-verified performance',
+          'Host specialized competitions for your followers',
+          'Discover promising talent for potential collaborations',
+        ],
+      },
+    ]
+  }
 }
 
 /**
@@ -48,4 +91,13 @@ export default class LandingPageContext extends BaseFuroContext {
  *   title: string
  *   description: string
  * }} Purpose
+ */
+
+/**
+ * @typedef {{
+ *   title: string
+ *   subtitle: string
+ *   description: string
+ *   characteristics: Array<string>
+ * }} Audience
  */
