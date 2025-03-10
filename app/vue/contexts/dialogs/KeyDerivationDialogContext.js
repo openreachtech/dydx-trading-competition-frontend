@@ -1,3 +1,8 @@
+import {
+  switchChain,
+} from '@wagmi/core'
+import wagmiConfig from '~/wagmi.config'
+
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 /**
@@ -54,6 +59,34 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         accountStore,
       })
     )
+  }
+
+  /**
+   * Attempt to sign a typed message with wagmi.
+   *
+   * @returns {Promise<void>}
+   */
+  async signWagmiTypedMessage () {
+    await this.matchNetwork()
+
+    // TODO: Implement this method.
+  }
+
+  /**
+   * Match network.
+   *
+   * @returns {Promise<boolean>} `true` if the network is matched, `false` otherwise.
+   */
+  async matchNetwork () {
+    try {
+      await switchChain(wagmiConfig, {
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      })
+
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }
 
