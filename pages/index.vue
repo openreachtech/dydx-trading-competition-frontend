@@ -120,6 +120,23 @@ export default defineComponent({
     </section>
 
     <section class="section">
+      <div class="unit-inner lifecycle">
+        <h2 class="heading">
+          Competition Lifecycle
+        </h2>
+
+        <p class="description">
+          Follow the journey of a dYdX trading competition from start to finish,
+          with clear roles for hosts, traders, and the platform system.
+        </p>
+
+        <AppButton class="button">
+          Get it? Let's join a competition now!
+        </AppButton>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="unit-inner">
         <h2 class="heading">
           Frequently Asked Questions
@@ -381,6 +398,15 @@ export default defineComponent({
   width: 0.5rem;
 
   background-color: var(--color-text-highlight-purple);
+}
+
+/************** Lifecycle section **************/
+
+.unit-inner.lifecycle > .button {
+  margin-block-start: 3rem;
+
+  font-size: var(--font-size-base);
+  line-height: var(--size-line-height-base);
 }
 
 /************** FAQs section **************/
