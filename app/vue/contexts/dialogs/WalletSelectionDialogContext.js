@@ -9,6 +9,7 @@ import wagmiConfig from '~/wagmi.config'
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
+  ONBOARDING_STATUS,
   WALLETS,
 } from '~/app/constants'
 
@@ -29,6 +30,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
     dialogComponentRef,
     walletStore,
+    accountStore,
   }) {
     super({
       props,
@@ -37,6 +39,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     })
 
     this.walletStore = walletStore
+    this.accountStore = accountStore
   }
 
   /**
@@ -53,6 +56,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     componentContext,
     dialogComponentRef,
     walletStore,
+    accountStore,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -60,6 +64,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         componentContext,
         dialogComponentRef,
         walletStore,
+        accountStore,
       })
     )
   }
@@ -86,6 +91,10 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }) {
     await this.connectWallet({
       walletDetail,
+    })
+
+    this.accountStore.setOnboardingStatus({
+      onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
     })
 
     this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
@@ -140,6 +149,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
  *   walletStore: import('~/stores/wallet').WalletStore
+ *   accountStore: import('~/stores/account').AccountStore
  * }} WalletSelectionDialogContextParams
  */
 
