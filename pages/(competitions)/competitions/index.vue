@@ -4,10 +4,6 @@ import {
   reactive,
 } from 'vue'
 
-import {
-  definePageMeta,
-} from '#imports'
-
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
@@ -35,10 +31,6 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    definePageMeta({
-      alias: '/',
-    })
-
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const statusReactive = reactive({
       isLoadingCompetitions: false,
