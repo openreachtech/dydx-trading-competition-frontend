@@ -120,6 +120,8 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     await this.setLocalAccount({
       wallet,
     })
+
+    this.dismissDialog()
   }
 
   /**
