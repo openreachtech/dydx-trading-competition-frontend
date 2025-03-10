@@ -116,6 +116,10 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     if (firstSignature !== secondSignature) {
       throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
     }
+
+    await this.setLocalAccount({
+      wallet,
+    })
   }
 
   /**
@@ -143,6 +147,26 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       privateKey,
       publicKey,
     }
+  }
+
+  /**
+   * Set local account.
+   *
+   * @param {{
+   *   wallet: ExtractedFromSignatureWallet['wallet']
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async setLocalAccount ({
+    wallet,
+  }) {
+    const accounts = await wallet.getAccounts()
+    const [firstAccount] = accounts
+    const firstAccountAddress = firstAccount.address
+
+    this.walletStore.setLocalWallet({
+      address: firstAccountAddress,
+    })
   }
 
   /**

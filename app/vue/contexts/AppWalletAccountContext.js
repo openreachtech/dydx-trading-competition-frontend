@@ -55,6 +55,20 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Generate local account's address.
+   *
+   * @returns {string} Source account's address.
+   */
+  generateLocalAccountAddress () {
+    return this.shortenAddress({
+      address: this.walletStore.walletStoreRef.value
+        .localWallet
+        ?.address
+        ?? null,
+    })
+  }
+
+  /**
    * Generate source account's address.
    *
    * @returns {string} Source account's address.
