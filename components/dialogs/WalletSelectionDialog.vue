@@ -90,6 +90,9 @@ export default defineComponent({
         <div class="actions">
           <AppButton v-for="it of context.supportedWallets"
             variant="neutral"
+            @click="context.selectWallet({
+              walletDetail: it,
+            })"
           >
             <template #startIcon>
               <img :src="it.iconUrl"
