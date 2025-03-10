@@ -39,12 +39,16 @@ export default function useAccountStore () {
   const selectedDydxChainIdComputed = computed(
     () => ENVIRONMENT_CONFIG_HASH[accountStateRef.value.selectedNetwork].dydxChainId
   )
+  const selectedEthereumChainIdComputed = computed(() => /** @type {1 | 11155111} */ (
+    Number(ENVIRONMENT_CONFIG_HASH[accountStateRef.value.selectedNetwork].ethereumChainId)
+  ))
 
   return {
     accountStateRef,
 
     // Getters
     selectedDydxChainIdComputed,
+    selectedEthereumChainIdComputed,
 
     // Actions
     setSelectedNetwork,
@@ -86,6 +90,7 @@ export default function useAccountStore () {
  * @typedef {{
  *   accountStateRef: import('vue').Ref<AccountState>
  *   selectedDydxChainIdComputed: import('vue').ComputedRef<string>
+ *   selectedEthereumChainIdComputed: import('vue').ComputedRef<1 | 11155111>
  *   setSelectedNetwork: (params: {
  *     selectedNetwork: AccountState['selectedNetwork']
  *   }) => void
