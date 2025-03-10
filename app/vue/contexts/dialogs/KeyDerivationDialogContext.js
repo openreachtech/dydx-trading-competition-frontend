@@ -5,6 +5,15 @@ import {
 import wagmiConfig from '~/wagmi.config'
 
 import {
+  BECH32_PREFIX,
+  onboarding,
+} from '@dydxprotocol/v4-client-js'
+
+import {
+  DirectSecp256k1HdWallet,
+} from '@cosmjs/proto-signing'
+
+import {
   WALLETS_CONFIG_HASH,
 } from '~/app/constants'
 
@@ -89,6 +98,51 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         chainId: this.accountStore.selectedEthereumChainIdComputed.value,
       },
     })
+
+    const {
+      wallet,
+    } = await this.extractWalletFromSignature({
+      signature: firstSignature,
+    })
+
+    const secondSignature = await signTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+
+    if (firstSignature !== secondSignature) {
+      throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
+    }
+  }
+
+  /**
+   * Extract wallet from signature.
+   *
+   * @param {{
+   *   signature: string
+   * }} params - Parameters.
+   * @returns {Promise<ExtractedFromSignatureWallet>} Extracted wallet.
+   */
+  async extractWalletFromSignature ({
+    signature,
+  }) {
+    const {
+      mnemonic,
+      privateKey,
+      publicKey,
+    } = onboarding.deriveHDKeyFromEthereumSignature(signature)
+
+    return {
+      wallet: await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+        prefix: BECH32_PREFIX,
+      }),
+      mnemonic,
+      privateKey,
+      publicKey,
+    }
   }
 
   /**
@@ -167,4 +221,13 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *     action: string
  *   }
  * }} TypedMessage
+ */
+
+/**
+ * @typedef {{
+ *   wallet: DirectSecp256k1HdWallet
+ *   mnemonic: string
+ *   privateKey: Uint8Array<ArrayBufferLike> | null
+ *   publicKey: Uint8Array<ArrayBufferLike> | null
+ * }} ExtractedFromSignatureWallet
  */
