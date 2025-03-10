@@ -246,16 +246,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
-   * Extract non-podium rankers (Below top 3).
-   *
-   * @returns {Array<RankingTableEntry>} Non-podium rankers.
-   */
-  extractNonPodiumRankers () {
-    return this.normalizeRankings()
-      .slice(3)
-  }
-
-  /**
    * Shorten wallet address.
    *
    * @param {{

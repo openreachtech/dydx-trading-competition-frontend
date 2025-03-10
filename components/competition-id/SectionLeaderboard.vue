@@ -80,7 +80,7 @@ export default defineComponent({
       </div>
 
       <AppTable :header-entries="context.tableHeaderEntries"
-        :entries="context.extractNonPodiumRankers()"
+        :entries="context.normalizeRankings()"
         :is-loading="context.statusReactive.isLoading"
         class="table"
       >
