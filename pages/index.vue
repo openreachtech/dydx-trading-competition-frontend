@@ -118,6 +118,37 @@ export default defineComponent({
         </div>
       </div>
     </section>
+
+    <section class="section">
+      <div class="unit-inner">
+        <h2 class="heading">
+          Frequently Asked Questions
+        </h2>
+
+        <p class="description">
+          Get answers to common questions about the dYdX Trading Competition Board.
+        </p>
+
+        <div class="unit-faqs">
+          <div v-for="it of context.faqs"
+            :key="it.question"
+            class="card"
+          >
+            <h3 class="heading">
+              <span class="label">Q</span>
+
+              <span>{{ it.question }}</span>
+            </h3>
+
+            <p class="description">
+              <span class="label">A</span>
+
+              <span v-html="it.answer" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -350,5 +381,62 @@ export default defineComponent({
   width: 0.5rem;
 
   background-color: var(--color-text-highlight-purple);
+}
+
+/************** FAQs section **************/
+
+.unit-faqs {
+  margin-block-start: 3rem;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (48rem < width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.unit-faqs > .card {
+  border-radius: 0.75rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
+
+  padding-block: 1.5rem;
+  padding-inline: 1.5rem;
+
+  background-color: var(--color-background-card);
+}
+
+.unit-faqs > .card > .heading {
+  display: inline-flex;
+  gap: 0.5rem;
+
+  font-size: var(--font-size-large);
+  font-weight: 700;
+  line-height: var(--size-line-height-large);
+}
+
+.unit-faqs > .card > .description {
+  margin-block-start: 1.25rem;
+
+  display: inline-flex;
+  gap: 0.75rem;
+
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-faqs > .card > :where(.heading, .description) > .label {
+  font-size: var(--font-size-large);
+  font-weight: 700;
+
+  color: var(--color-text-secondary);
+}
+
+.unit-faqs > .card > .heading > .label {
+  color: var(--color-text-highlight-purple);
 }
 </style>
