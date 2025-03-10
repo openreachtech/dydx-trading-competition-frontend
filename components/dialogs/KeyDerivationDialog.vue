@@ -74,7 +74,9 @@ export default defineComponent({
             Signing is free and will not send a transaction.
           </span>
 
-          <AppButton class="button">
+          <AppButton class="button"
+            @click="context.signWagmiTypedMessage()"
+          >
             Send Request
           </AppButton>
         </div>
