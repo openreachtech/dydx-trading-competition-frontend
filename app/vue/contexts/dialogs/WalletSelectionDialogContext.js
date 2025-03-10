@@ -10,6 +10,7 @@ import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
   ONBOARDING_STATUS,
+  WALLET_NETWORK_TYPE,
   WALLETS,
 } from '~/app/constants'
 
@@ -113,12 +114,20 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }) {
     try {
       // TODO: Condition for other wallets.
-      await connectWagmi(wagmiConfig, {
+      const connectionResult = await connectWagmi(wagmiConfig, {
         connector: injected(),
       })
 
       this.walletStore.setWalletDetail({
         walletDetail,
+      })
+
+      const [firstAccountAddress] = connectionResult.accounts
+
+      this.walletStore.setSourceAddress({
+        address: firstAccountAddress,
+        // TODO: Other chain types.
+        chain: WALLET_NETWORK_TYPE.EVM,
       })
     } catch (error) {
       // TODO: Handle error.
