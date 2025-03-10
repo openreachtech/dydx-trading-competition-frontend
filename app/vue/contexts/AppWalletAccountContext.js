@@ -17,6 +17,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     props,
     componentContext,
 
+    walletStore,
     isShowingDropdownRef,
   }) {
     super({
@@ -24,6 +25,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.walletStore = walletStore
     this.isShowingDropdownRef = isShowingDropdownRef
   }
 
@@ -39,15 +41,56 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    walletStore,
     isShowingDropdownRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
+        walletStore,
         isShowingDropdownRef,
       })
     )
+  }
+
+  /**
+   * Generate source account's address.
+   *
+   * @returns {string} Source account's address.
+   */
+  generateSourceAccountAddress () {
+    return this.shortenAddress({
+      address: this.walletStore.walletStoreRef.value
+        .sourceAccount
+        ?.address
+        ?? null,
+    })
+  }
+
+  /**
+   * Shorten wallet address.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {string} Shortened address.
+   */
+  shortenAddress ({
+    address,
+  }) {
+    if (!address) {
+      return '--'
+    }
+
+    if (address.length <= 12) {
+      return address
+    }
+
+    const firstSevenCharacters = address.slice(0, 7)
+    const lastFiveCharacters = address.slice(-5)
+
+    return `${firstSevenCharacters}...${lastFiveCharacters}`
   }
 
   /**
@@ -82,6 +125,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   walletStore: import('~/stores/wallet').WalletStore
  *   isShowingDropdownRef: import('vue').Ref<boolean>
  * }} AppWalletAccountContextParams
  */
