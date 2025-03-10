@@ -13,6 +13,7 @@ import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import useWalletStore from '~/stores/wallet'
+import useAccountStore from '~/stores/account'
 
 import vOnClickOutside from '~/app/vue/directives/vOnClickOutside'
 
@@ -35,6 +36,7 @@ export default defineComponent({
     componentContext
   ) {
     const walletStore = useWalletStore()
+    const accountStore = useAccountStore()
 
     const isShowingDropdownRef = ref(false)
 
@@ -42,6 +44,7 @@ export default defineComponent({
       props,
       componentContext,
       walletStore,
+      accountStore,
       isShowingDropdownRef,
     }
     const context = WalletAccountContext.create(args)
@@ -149,7 +152,9 @@ export default defineComponent({
           <span>Open dydx.trade</span>
         </NuxtLink>
 
-        <button class="button">
+        <button class="button"
+          @click="context.attemptWalletDisconnection()"
+        >
           <Icon name="heroicons:arrow-right-start-on-rectangle"
             size="1rem"
           />
