@@ -2,6 +2,8 @@ import {
   defineNuxtConfig,
 } from 'nuxt/config'
 
+import nodePolyfills from 'vite-plugin-node-stdlib-browser'
+
 import furoEnv from './app/globals/furo-env'
 
 // Reference: https://nuxt.com/docs/api/nuxt-config.
@@ -31,6 +33,13 @@ export default defineNuxtConfig({
         },
       ],
     },
+  },
+
+  vite: {
+    plugins: [
+      // @ts-expect-error - Upstream type error.
+      nodePolyfills(),
+    ],
   },
 
   // Global CSS: https://nuxt.com/docs/api/nuxt-config#css.
