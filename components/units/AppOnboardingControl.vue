@@ -54,7 +54,9 @@ export default defineComponent({
       Connect Wallet
     </AppButton>
 
-    <WalletSelectionDialog ref="walletSelectionDialogRef" />
+    <WalletSelectionDialog ref="walletSelectionDialogRef"
+      @next-step="context.goToDerivationStep()"
+    />
 
     <KeyDerivationDialog ref="keyDerivationDialogRef" />
   </div>
