@@ -12,6 +12,9 @@ import {
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 
+import useWalletStore from '~/stores/wallet'
+import useAccountStore from '~/stores/account'
+
 import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelectionDialogContext'
 
 export default defineComponent({
@@ -33,11 +36,15 @@ export default defineComponent({
     // NOTE: Actualy type is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    const walletStore = useWalletStore()
+    const accountStore = useAccountStore()
 
     const args = {
       props,
       componentContext,
       dialogComponentRef,
+      walletStore,
+      accountStore,
     }
     const context = WalletSelectionDialogContext.create(args)
       .setupComponent()
@@ -86,6 +93,9 @@ export default defineComponent({
         <div class="actions">
           <AppButton v-for="it of context.supportedWallets"
             variant="neutral"
+            @click="context.selectWallet({
+              walletDetail: it,
+            })"
           >
             <template #startIcon>
               <img :src="it.iconUrl"
