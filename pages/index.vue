@@ -48,6 +48,34 @@ export default defineComponent({
         Let's join a competition now!
       </AppButton>
     </section>
+
+    <section class="section">
+      <div class="unit-inner">
+        <h2 class="heading">
+          Our Purpose
+        </h2>
+
+        <p class="description">
+          The dYdX Trading Competition Board embodies the core principles of DeFi,
+          creating a transparent, verifiable platform for traders to showcase their skills.
+        </p>
+
+        <div class="unit-purposes">
+          <div v-for="it of context.purposes"
+            :key="it.title"
+            class="card"
+          >
+            <h3 class="heading">
+              {{ it.title }}
+            </h3>
+
+            <p class="description">
+              {{ it.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -106,5 +134,104 @@ export default defineComponent({
 
 .unit-page > .section.hero > .button:hover {
   box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
+}
+
+/************** Other sections **************/
+
+.unit-page > .section {
+  padding-block: 5rem;
+}
+
+.unit-page > .section:last-of-type {
+  padding-block-end: 12rem;
+}
+
+.unit-page > .section:not(.hero):nth-of-type(2n) {
+  border-block-width: var(--size-thinnest);
+  border-block-style: solid;
+  border-block-color: var(--color-border-competition-section);
+
+  background-color: var(--color-background-competition-section-darker);
+}
+
+.unit-inner {
+  margin-inline: auto;
+
+  max-width: var(--size-body-max-width);
+
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
+}
+
+.unit-inner > .heading {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-extra);
+  line-height: var(--size-line-height-extra);
+}
+
+.unit-inner > .description {
+  margin-block-start: 1rem;
+
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-secondary);
+
+  max-width: 38rem;
+}
+
+/************** Purpose section **************/
+
+.unit-purposes {
+  margin-block-start: 3rem;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (48rem < width) {
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  }
+}
+
+.unit-purposes > .card {
+  border-radius: 0.75rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
+
+  padding-block: 1.5rem;
+  padding-inline: 1.5rem;
+
+  background-color: var(--color-background-card);
+
+  transition: background-color 500ms var(--transition-timing-base),
+    border-color 500ms var(--transition-timing-base);
+}
+
+.unit-purposes > .card:hover {
+  border-color: var(--color-border-default);
+
+  background-color: var(--color-background-card-active);
+}
+
+.unit-purposes > .card > .heading {
+  font-size: var(--font-size-large);
+  font-weight: 700;
+  line-height: var(--size-line-height-large);
+}
+
+.unit-purposes > .card > .description {
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-tertiary);
+
+  transition: color 500ms var(--transition-timing-base);
+}
+
+.unit-purposes > .card:hover > .description {
+  color: var(--color-text-secondary);
 }
 </style>
