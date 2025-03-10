@@ -1,7 +1,21 @@
 import {
   switchChain,
+  signTypedData as signTypedMessage,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
+
+import {
+  BECH32_PREFIX,
+  onboarding,
+} from '@dydxprotocol/v4-client-js'
+
+import {
+  DirectSecp256k1HdWallet,
+} from '@cosmjs/proto-signing'
+
+import {
+  WALLETS_CONFIG_HASH,
+} from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
@@ -67,9 +81,124 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    * @returns {Promise<void>}
    */
   async signWagmiTypedMessage () {
-    await this.matchNetwork()
+    const networkMatchingResult = await this.matchNetwork()
 
-    // TODO: Implement this method.
+    if (!networkMatchingResult) {
+      return
+    }
+
+    const typedMessage = this.generateTypedMessage({
+      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
+    })
+
+    const firstSignature = await signTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+
+    const {
+      wallet,
+    } = await this.extractWalletFromSignature({
+      signature: firstSignature,
+    })
+
+    const secondSignature = await signTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+
+    if (firstSignature !== secondSignature) {
+      throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
+    }
+
+    await this.setLocalAccount({
+      wallet,
+    })
+
+    this.dismissDialog()
+  }
+
+  /**
+   * Extract wallet from signature.
+   *
+   * @param {{
+   *   signature: string
+   * }} params - Parameters.
+   * @returns {Promise<ExtractedFromSignatureWallet>} Extracted wallet.
+   */
+  async extractWalletFromSignature ({
+    signature,
+  }) {
+    const {
+      mnemonic,
+      privateKey,
+      publicKey,
+    } = onboarding.deriveHDKeyFromEthereumSignature(signature)
+
+    return {
+      wallet: await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+        prefix: BECH32_PREFIX,
+      }),
+      mnemonic,
+      privateKey,
+      publicKey,
+    }
+  }
+
+  /**
+   * Set local account.
+   *
+   * @param {{
+   *   wallet: ExtractedFromSignatureWallet['wallet']
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async setLocalAccount ({
+    wallet,
+  }) {
+    const accounts = await wallet.getAccounts()
+    const [firstAccount] = accounts
+    const firstAccountAddress = firstAccount.address
+
+    this.walletStore.setLocalWallet({
+      address: firstAccountAddress,
+    })
+  }
+
+  /**
+   * Generate a typed message to sign for dYdX Chain.
+   *
+   * @param {{
+   *   selectedDydxChainId: keyof typeof WALLETS_CONFIG_HASH
+   * }} params - Parameters.
+   * @returns {TypedMessage} A typed message for signing.
+   */
+  generateTypedMessage ({
+    selectedDydxChainId,
+  }) {
+    return /** @type {const} */ ({
+      primaryType: 'dYdX',
+      domain: {
+        name: WALLETS_CONFIG_HASH[selectedDydxChainId].signTypedDataDomainName,
+      },
+      types: {
+        dYdX: [
+          {
+            name: 'action',
+            type: 'string',
+          },
+        ],
+      },
+      message: {
+        action: WALLETS_CONFIG_HASH[selectedDydxChainId].signTypedDataAction,
+      },
+    })
   }
 
   /**
@@ -100,4 +229,31 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
 /**
  * @typedef {KeyDerivationDialogContextParams} KeyDerivationDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   primaryType: 'dYdX'
+ *   domain: {
+ *     name: string
+ *   }
+ *   types: {
+ *     dYdX: Array<{
+ *       name: string
+ *       type: string
+ *     }>
+ *   }
+ *   message: {
+ *     action: string
+ *   }
+ * }} TypedMessage
+ */
+
+/**
+ * @typedef {{
+ *   wallet: DirectSecp256k1HdWallet
+ *   mnemonic: string
+ *   privateKey: Uint8Array<ArrayBufferLike> | null
+ *   publicKey: Uint8Array<ArrayBufferLike> | null
+ * }} ExtractedFromSignatureWallet
  */
