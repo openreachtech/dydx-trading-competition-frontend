@@ -29,6 +29,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      walletSelectionDialogRef,
+      keyDerivationDialogRef,
     }
     const context = AppOnboardingControlContext.create(args)
       .setupComponent()
