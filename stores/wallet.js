@@ -27,6 +27,7 @@ export default function useWalletStore () {
     walletStoreRef: walletStateRef,
 
     // Actions
+    clearLocalWallet,
     clearSourceAccount,
     setLocalWalletNonce,
     setSourceAddress,
@@ -107,6 +108,18 @@ export default function useWalletStore () {
   }
 
   /**
+   * Clear `localWallet` in wallet store.
+   *
+   * @returns {void}
+   */
+  function clearLocalWallet () {
+    walletStateRef.value.localWallet = {
+      address: null,
+      subaccountNumber: null,
+    }
+  }
+
+  /**
    * Clear `sourceAccount` in wallet store.
    *
    * @returns {void}
@@ -124,6 +137,7 @@ export default function useWalletStore () {
 /**
  * @typedef {{
  *   walletStoreRef: import('vue').Ref<WalletState>
+ *   clearLocalWallet: () => void
  *   clearSourceAccount: () => void
  *   setLocalWalletNonce: (params: {
  *     nonce: number
