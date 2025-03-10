@@ -1,7 +1,12 @@
 import {
   switchChain,
+  signTypedData as signTypedMessage,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
+
+import {
+  WALLETS_CONFIG_HASH,
+} from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
@@ -67,9 +72,53 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    * @returns {Promise<void>}
    */
   async signWagmiTypedMessage () {
-    await this.matchNetwork()
+    const networkMatchingResult = await this.matchNetwork()
 
-    // TODO: Implement this method.
+    if (!networkMatchingResult) {
+      return
+    }
+
+    const typedMessage = this.generateTypedMessage({
+      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
+    })
+
+    const firstSignature = await signTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+  }
+
+  /**
+   * Generate a typed message to sign for dYdX Chain.
+   *
+   * @param {{
+   *   selectedDydxChainId: keyof typeof WALLETS_CONFIG_HASH
+   * }} params - Parameters.
+   * @returns {TypedMessage} A typed message for signing.
+   */
+  generateTypedMessage ({
+    selectedDydxChainId,
+  }) {
+    return /** @type {const} */ ({
+      primaryType: 'dYdX',
+      domain: {
+        name: WALLETS_CONFIG_HASH[selectedDydxChainId].signTypedDataDomainName,
+      },
+      types: {
+        dYdX: [
+          {
+            name: 'action',
+            type: 'string',
+          },
+        ],
+      },
+      message: {
+        action: WALLETS_CONFIG_HASH[selectedDydxChainId].signTypedDataAction,
+      },
+    })
   }
 
   /**
@@ -100,4 +149,22 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
 /**
  * @typedef {KeyDerivationDialogContextParams} KeyDerivationDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   primaryType: 'dYdX'
+ *   domain: {
+ *     name: string
+ *   }
+ *   types: {
+ *     dYdX: Array<{
+ *       name: string
+ *       type: string
+ *     }>
+ *   }
+ *   message: {
+ *     action: string
+ *   }
+ * }} TypedMessage
  */
