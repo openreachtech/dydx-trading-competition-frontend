@@ -86,7 +86,7 @@ export default defineComponent({
             <span class="label">dYdX Chain Address</span>
 
             <span class="content">
-              <span>dydx10p4...2tkf</span>
+              <span>{{ context.generateLocalAccountAddress() }}</span>
               <CopyButton content-to-copy="0xDcf2ED...d10c" />
               <LinkTooltipButton tooltip-message="View on Mintscan"
                 href="https://www.mintscan.io"
