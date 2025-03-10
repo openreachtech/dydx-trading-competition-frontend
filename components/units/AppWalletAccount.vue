@@ -12,6 +12,8 @@ import {
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
+import useWalletStore from '~/stores/wallet'
+
 import vOnClickOutside from '~/app/vue/directives/vOnClickOutside'
 
 import WalletAccountContext from '~/app/vue/contexts/AppWalletAccountContext'
@@ -32,11 +34,14 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const walletStore = useWalletStore()
+
     const isShowingDropdownRef = ref(false)
 
     const args = {
       props,
       componentContext,
+      walletStore,
       isShowingDropdownRef,
     }
     const context = WalletAccountContext.create(args)
@@ -61,7 +66,7 @@ export default defineComponent({
         alt="Metamask"
       >
 
-      <span>0xDcf2ED...d10c</span>
+      <span>{{ context.generateSourceAccountAddress() }}</span>
 
       <Icon name="heroicons:chevron-down-16-solid"
         size="1rem"
@@ -100,7 +105,9 @@ export default defineComponent({
 
           <div class="details">
             <span class="label">Source address</span>
-            <span class="content">0xDcf2ED...d10c</span>
+            <span class="content">
+              {{ context.generateSourceAccountAddress() }}
+            </span>
           </div>
         </div>
       </div>
