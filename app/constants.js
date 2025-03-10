@@ -183,3 +183,21 @@ export const ONBOARDING_STATUS = /** @type {const} */ ({
   WALLET_CONNECTED: 'WalletConnected',
   ACCOUNT_CONNECTED: 'AccountConnected',
 })
+
+export const EVM_DERIVED_ACCOUNT_STATUS = /** @type {const} */ ({
+  NOT_DERIVED: 0,
+  DERIVING: 1,
+  ENSURING_DETERMINISM: 2,
+  DERIVED: 3,
+})
+
+export const ONBOARDING_STATE = /** @type {const} */ ({
+  DISCONNECTED: 'Disconnected',
+  WALLET_CONNECTED: 'WalletConnected',
+  ACCOUNT_CONNECTED: 'AccountConnected',
+})
+
+export const ONBOARDING_STEPS = /** @type {const} */ ({
+  CHOOSE_WALLET: 'ChooseWallet',
+  KEY_DERIVATION: 'KeyDerivation',
+})
