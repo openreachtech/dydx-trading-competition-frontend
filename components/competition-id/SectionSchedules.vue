@@ -97,6 +97,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  /* Reset block-start margin of base styles. */
+  margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
   border-block-width: var(--size-thinnest);
