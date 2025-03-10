@@ -1,3 +1,11 @@
+import {
+  connect as connectWagmi,
+} from '@wagmi/core'
+import {
+  injected,
+} from '@wagmi/connectors'
+import wagmiConfig from '~/wagmi.config'
+
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
@@ -62,6 +70,49 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       ...super.EMIT_EVENT_NAME,
 
       NEXT_STEP: 'nextStep',
+    }
+  }
+
+  /**
+   * Select wallet.
+   *
+   * @param {{
+   *   walletDetail: import('~/stores/wallet').WalletDetail
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async selectWallet ({
+    walletDetail,
+  }) {
+    await this.connectWallet({
+      walletDetail,
+    })
+
+    this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
+  }
+
+  /**
+   * Connect wallet.
+   *
+   * @param {{
+   *   walletDetail: import('~/stores/wallet').WalletDetail
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async connectWallet ({
+    walletDetail,
+  }) {
+    try {
+      // TODO: Condition for other wallets.
+      await connectWagmi(wagmiConfig, {
+        connector: injected(),
+      })
+
+      this.walletStore.setWalletDetail({
+        walletDetail,
+      })
+    } catch (error) {
+      // TODO: Handle error.
     }
   }
 
