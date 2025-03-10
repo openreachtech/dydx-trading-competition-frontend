@@ -2,6 +2,10 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  ONBOARDING_STATUS,
+} from '~/app/constants'
+
 /**
  * AppOnboardingControlContext
  *
@@ -16,6 +20,7 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
   constructor ({
     props,
     componentContext,
+    accountStore,
     walletSelectionDialogRef,
     keyDerivationDialogRef,
   }) {
@@ -24,6 +29,7 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.accountStore = accountStore
     this.walletSelectionDialogRef = walletSelectionDialogRef
     this.keyDerivationDialogRef = keyDerivationDialogRef
   }
@@ -40,6 +46,7 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    accountStore,
     walletSelectionDialogRef,
     keyDerivationDialogRef,
   }) {
@@ -47,6 +54,7 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        accountStore,
         walletSelectionDialogRef,
         keyDerivationDialogRef,
       })
@@ -103,10 +111,35 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
 
     dialogElement.dismissDialog()
   }
+
+  /**
+   * Generate onboarding control classes.
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generateOnboardingControlClasses () {
+    return {
+      connected: this.shouldShowConnectedWallet(),
+    }
+  }
+
+  /**
+   * Should show connected wallet or not.
+   *
+   * @returns {boolean} `true` if wallet is at least connected.
+   */
+  shouldShowConnectedWallet () {
+    return [
+      ONBOARDING_STATUS.WALLET_CONNECTED,
+      ONBOARDING_STATUS.ACCOUNT_CONNECTED,
+    ]
+      .includes(this.accountStore.accountStateRef.value.onboardingStatus)
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   accountStore: import('~/stores/account').AccountStore
  *   walletSelectionDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   keyDerivationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  * }} AppOnboardingControlContextParams
