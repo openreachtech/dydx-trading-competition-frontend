@@ -22,6 +22,10 @@ export default defineComponent({
     AppDialog,
   },
 
+  emits: [
+    'nextStep',
+  ],
+
   setup (
     props,
     componentContext
