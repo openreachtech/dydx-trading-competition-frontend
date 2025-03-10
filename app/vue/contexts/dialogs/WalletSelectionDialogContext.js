@@ -5,6 +5,15 @@ import {
 } from '~/app/constants'
 
 export default class WalletSelectionDialogContext extends AppDialogContext {
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      ...super.EMIT_EVENT_NAME,
+
+      NEXT_STEP: 'nextStep',
+    }
+  }
+
   /**
    * Has phantom wallet or not.
    *

@@ -29,6 +29,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      walletSelectionDialogRef,
+      keyDerivationDialogRef,
     }
     const context = AppOnboardingControlContext.create(args)
       .setupComponent()
@@ -52,7 +54,9 @@ export default defineComponent({
       Connect Wallet
     </AppButton>
 
-    <WalletSelectionDialog ref="walletSelectionDialogRef" />
+    <WalletSelectionDialog ref="walletSelectionDialogRef"
+      @next-step="context.goToDerivationStep()"
+    />
 
     <KeyDerivationDialog ref="keyDerivationDialogRef" />
   </div>
