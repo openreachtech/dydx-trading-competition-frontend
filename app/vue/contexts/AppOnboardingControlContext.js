@@ -16,7 +16,7 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
    * }} params - Parameters.
    * @returns {void}
    */
-  showWalletSelectionDialog ({
+  showDialog ({
     dialogElement,
   }) {
     dialogElement.showDialog()

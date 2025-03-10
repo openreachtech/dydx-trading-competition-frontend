@@ -45,7 +45,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <AppButton @click="context.showWalletSelectionDialog({
+    <AppButton @click="context.showDialog({
       dialogElement: walletSelectionDialogRef,
     })"
     >
