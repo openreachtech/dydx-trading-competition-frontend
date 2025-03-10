@@ -1,6 +1,15 @@
 import {
+  disconnect as disconnectWagmi,
+} from '@wagmi/core'
+import wagmiConfig from '~/wagmi.config'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
+
+import {
+  ONBOARDING_STATUS,
+} from '~/app/constants'
 
 /**
  * AppWalletAccountContext
@@ -17,6 +26,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     props,
     componentContext,
 
+    accountStore,
     walletStore,
     isShowingDropdownRef,
   }) {
@@ -25,6 +35,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.accountStore = accountStore
     this.walletStore = walletStore
     this.isShowingDropdownRef = isShowingDropdownRef
   }
@@ -42,6 +53,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     props,
     componentContext,
     walletStore,
+    accountStore,
     isShowingDropdownRef,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -49,9 +61,26 @@ export default class AppWalletAccountContext extends BaseFuroContext {
         props,
         componentContext,
         walletStore,
+        accountStore,
         isShowingDropdownRef,
       })
     )
+  }
+
+  /**
+   * Attempt to disconnect wallet.
+   *
+   * @returns {Promise<void>}
+   */
+  async attemptWalletDisconnection () {
+    await disconnectWagmi(wagmiConfig)
+
+    this.walletStore.clearSourceAccount()
+    this.walletStore.clearLocalWallet()
+
+    this.accountStore.setOnboardingStatus({
+      onboardingStatus: ONBOARDING_STATUS.DISCONNECTED,
+    })
   }
 
   /**
@@ -140,6 +169,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   walletStore: import('~/stores/wallet').WalletStore
+ *   accountStore: import('~/stores/account').AccountStore
  *   isShowingDropdownRef: import('vue').Ref<boolean>
  * }} AppWalletAccountContextParams
  */
