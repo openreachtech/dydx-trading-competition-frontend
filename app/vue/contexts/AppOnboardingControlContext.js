@@ -21,4 +21,22 @@ export default class AppOnboardingControlContext extends BaseFuroContext {
   }) {
     dialogElement.showDialog()
   }
+
+  /**
+   * Dismiss wallet selection dialog.
+   *
+   * @param {{
+   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  dismissDialog ({
+    dialogElement,
+  }) {
+    if (!dialogElement) {
+      return
+    }
+
+    dialogElement.dismissDialog()
+  }
 }
