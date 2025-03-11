@@ -84,7 +84,7 @@ export default defineComponent({
       </div>
 
       <div class="dates">
-        <div v-for="it of context.weekdays"
+        <div v-for="it of context.daysOfWeek"
           :key="it"
           class="label"
         >

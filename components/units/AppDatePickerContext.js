@@ -62,11 +62,11 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
-   * get: weekdays
+   * get: daysOfWeek
    *
    * @returns {Array<string>}
    */
-  get weekdays () {
+  get daysOfWeek () {
     return [
       'Su',
       'Mo',
