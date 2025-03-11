@@ -1,5 +1,10 @@
 import {
+  onMounted,
+} from 'vue'
+
+import {
   disconnect as disconnectWagmi,
+  reconnect as reconnectWagmi,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
 
@@ -8,6 +13,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import {
+  WALLET_NETWORK_TYPE,
   ONBOARDING_STATUS,
 } from '~/app/constants'
 
@@ -67,6 +73,15 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     )
   }
 
+  /** @override */
+  setupComponent () {
+    onMounted(async () => {
+      await this.attemptWalletReconnection()
+    })
+
+    return this
+  }
+
   /**
    * Attempt to disconnect wallet.
    *
@@ -80,6 +95,32 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
     this.accountStore.setOnboardingStatus({
       onboardingStatus: ONBOARDING_STATUS.DISCONNECTED,
+    })
+  }
+
+  /**
+   * Attempt to reconnect wallet.
+   *
+   * @returns {Promise<void>}
+   */
+  async attemptWalletReconnection () {
+    const reconnectionResult = await reconnectWagmi(wagmiConfig)
+
+    if (reconnectionResult.length === 0) {
+      return
+    }
+
+    const [firstReconnection] = reconnectionResult
+    const [firstAccountAddress] = firstReconnection.accounts
+
+    this.walletStore.setSourceAddress({
+      address: firstAccountAddress,
+      // TODO: Other chain types.
+      chain: WALLET_NETWORK_TYPE.EVM,
+    })
+
+    this.accountStore.setOnboardingStatus({
+      onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
     })
   }
 
