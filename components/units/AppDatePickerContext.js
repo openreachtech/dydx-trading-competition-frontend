@@ -17,6 +17,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     props,
     componentContext,
 
+    inputValueRef,
     isDropdownOpenRef,
   }) {
     super({
@@ -24,6 +25,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.inputValueRef = inputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
   }
 
@@ -39,15 +41,26 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    inputValueRef,
     isDropdownOpenRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
+        inputValueRef,
         isDropdownOpenRef,
       })
     )
+  }
+
+  /**
+   * get: inputValue
+   *
+   * @returns {string} Input value.
+   */
+  get inputValue () {
+    return this.inputValueRef.value
   }
 
   /**
@@ -108,6 +121,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   inputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
  * }} AppDatePickerContextParams
  */

@@ -25,11 +25,13 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const inputValueRef = ref('')
     const isDropdownOpenRef = ref(false)
 
     const args = {
       props,
       componentContext,
+      inputValueRef,
       isDropdownOpenRef,
     }
     const context = AppDatePickerContext.create(args)
@@ -50,6 +52,7 @@ export default defineComponent({
     <span class="unit-input">
       <input type="text"
         class="input"
+        :value="context.inputValue"
         @click="context.openDropdown()"
       >
 
