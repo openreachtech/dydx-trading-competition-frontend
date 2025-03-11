@@ -9,10 +9,12 @@ import {
 } from '#components'
 
 import AppOffCanvasMenuLayoutContext from '~/app/vue/contexts/AppOffCanvasMenuLayoutContext'
+import AppOnboardingControl from '~/components/units/AppOnboardingControl.vue'
 
 export default defineComponent({
   components: {
     Icon,
+    AppOnboardingControl,
   },
 
   setup (
@@ -46,12 +48,7 @@ export default defineComponent({
       <div class="inner">
         <slot name="header" />
 
-        <!-- TODO: Replace this button with wallet connector and account -->
-        <button class="button"
-          @click="context.clickToggleNavigation()"
-        >
-          Toggle navigation panel
-        </button>
+        <AppOnboardingControl />
 
         <button class="button toggle-navigation"
           @click="context.clickToggleSearchPanel()"
