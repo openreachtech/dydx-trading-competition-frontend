@@ -209,7 +209,7 @@ export default defineComponent({
 }
 
 .unit-dropdown > .header > .button {
-  border-radius: 0.375rem;
+  border-radius: 100vh;
 
   display: inline-flex;
   justify-content: center;
@@ -218,20 +218,27 @@ export default defineComponent({
   padding-block: 0.5rem;
   padding-inline: 0.5rem;
 
-  color: var(--color-text-tertiary);
+  color: var(--color-text-secondary);
 
-  transition: color 250ms var(--transition-timing-base);
+  transition: background-color 250ms var(--transition-timing-base);
 }
 
 .unit-dropdown > .header > .button:hover {
-  color: var(--color-text-primary);
+  background-color: var(--color-background-date-picker-hover);
 }
 
 .unit-dropdown > .header > .button.month {
+  border-radius: 0.375rem;
+
+  padding-block: 0.375rem;
+  padding-inline: 0.75rem;
+
   font-size: var(--font-size-base);
   font-weight: 500;
 
   text-align: center;
+
+  color: var(--color-text-primary);
 }
 
 .unit-dropdown > .dates {
