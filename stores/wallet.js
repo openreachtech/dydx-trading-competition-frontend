@@ -20,6 +20,12 @@ export default function useWalletStore () {
       address: null,
       subaccountNumber: 0,
     },
+    credential: {
+      signDoc: null,
+      signature: null,
+      publicKey: null,
+      address: null,
+    },
     localWalletNonce: null,
   }))
 
@@ -29,6 +35,7 @@ export default function useWalletStore () {
     // Actions
     clearLocalWallet,
     clearSourceAccount,
+    setCredential,
     setLocalWalletNonce,
     setSourceAddress,
     setWalletDetail,
@@ -108,6 +115,23 @@ export default function useWalletStore () {
   }
 
   /**
+   * Set `credential` in wallet store.
+   *
+   * @param {{
+   *   credential: Partial<WalletState['credential']>
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  function setCredential ({
+    credential,
+  }) {
+    walletStateRef.value.credential = {
+      ...walletStateRef.value.credential,
+      ...credential,
+    }
+  }
+
+  /**
    * Clear `localWallet` in wallet store.
    *
    * @returns {void}
@@ -139,6 +163,9 @@ export default function useWalletStore () {
  *   walletStoreRef: import('vue').Ref<WalletState>
  *   clearLocalWallet: () => void
  *   clearSourceAccount: () => void
+ *   setCredential: (params: {
+ *     credential: Partial<WalletState['credential']>
+ *   }) => void
  *   setLocalWalletNonce: (params: {
  *     nonce: number
  *   }) => void
@@ -162,6 +189,12 @@ export default function useWalletStore () {
  *   localWallet: {
  *     address: string | null
  *     subaccountNumber: number | null
+ *   }
+ *   credential: {
+ *     signDoc: string | null
+ *     signature: string | null
+ *     publicKey: string | null
+ *     address: string | null
  *   }
  *   localWalletNonce: number | null
  * }} WalletState
