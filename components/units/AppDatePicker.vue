@@ -231,6 +231,8 @@ export default defineComponent({
   min-width: max-content;
 
   background-color: var(--color-background-dropdown);
+
+  z-index: calc(var(--value-z-index-layer-content) + 1);
 }
 
 .unit-picker.open > .unit-dropdown {
