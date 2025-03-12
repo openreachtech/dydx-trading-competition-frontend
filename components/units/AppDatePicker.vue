@@ -128,7 +128,7 @@ export default defineComponent({
             date: it,
           })"
         >
-          <span>
+          <span class="figure">
             {{
               context.normalizeDisplayedDay({
                 day: it.day,
@@ -332,7 +332,7 @@ export default defineComponent({
   outline-color: var(--color-border-input-focus);
 }
 
-.unit-dropdown > .dates > .date.today {
+.unit-dropdown > .dates > .date.today > .figure {
   position: relative;
 
   display: inline-flex;
@@ -340,11 +340,11 @@ export default defineComponent({
   align-items: center;
 }
 
-.unit-dropdown > .dates > .date.today::after {
+.unit-dropdown > .dates > .date.today > .figure::after {
   border-radius: 100vh;
 
   position: absolute;
-  top: 2rem;
+  top: calc(100% + 0.25rem);
 
   width: 0.25rem;
   height: 0.25rem;
