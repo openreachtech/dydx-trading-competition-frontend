@@ -98,6 +98,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       today: this.isToday({
         date,
       }),
+      first: this.isFirstDayOfMonth({
+        day: date.day,
+      }),
     }
   }
 
@@ -432,6 +435,20 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     return date.day === today.getDate()
       && date.month === today.getMonth()
       && date.year === today.getFullYear()
+  }
+
+  /**
+   * Check if a day is the first day of a month.
+   *
+   * @param {{
+   *   day: number
+   * }} params - Parameters.
+   * @returns {boolean} `true` if is the first day of a month.
+   */
+  isFirstDayOfMonth ({
+    day,
+  }) {
+    return day === 1
   }
 }
 
