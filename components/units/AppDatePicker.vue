@@ -22,6 +22,8 @@ export default defineComponent({
     onClickOutside: vOnClickOutside,
   },
 
+  inheritAttrs: false,
+
   props: {
     shouldDisablePastDates: {
       type: Boolean,
@@ -69,6 +71,7 @@ export default defineComponent({
     <span class="unit-input">
       <input type="text"
         class="input"
+        v-bind="$attrs"
         :value="context.inputValue"
         @click="context.openDropdown()"
       >
