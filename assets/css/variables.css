@@ -104,6 +104,8 @@
 
   --color-background-dialog: var(--palette-layer-2);
 
+  --color-background-date-picker-hover: var(--palette-layer-5);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
