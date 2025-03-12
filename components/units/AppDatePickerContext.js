@@ -121,7 +121,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       },
       (_, index) => ({
         day: index + 1,
-        month: currentMonthYear.month + 1,
+        month: currentMonthYear.month,
         year: currentMonthYear.year,
       })
     )
@@ -138,7 +138,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
         .slice(-1 * firstDayOfMonthIndex)
         .map(it => ({
           day: it,
-          month: previousMonthYear.month + 1,
+          month: previousMonthYear.month,
           year: previousMonthYear.year,
         }))
 
@@ -148,7 +148,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       },
       (_, index) => ({
         day: index + 1,
-        month: nextMonthYear.month + 1,
+        month: nextMonthYear.month,
         year: nextMonthYear.year,
       })
     )
