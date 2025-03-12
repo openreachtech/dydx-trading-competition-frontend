@@ -290,11 +290,13 @@ export default defineComponent({
   color: var(--color-text-secondary);
 
   transition: background-color 250ms var(--transition-timing-base),
+    color 250ms var(--transition-timing-base),
     outline-color 150ms var(--transition-timing-base);
 }
 
 .unit-dropdown > .dates > .date:hover {
   background-color: var(--color-background-date-picker-hover);
+  color: var(--color-text-primary);
 }
 
 .unit-dropdown > .dates > .date.selected {
