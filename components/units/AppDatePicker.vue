@@ -78,7 +78,9 @@ export default defineComponent({
 
     <div class="unit-dropdown">
       <div class="header">
-        <button class="button">
+        <button class="button"
+          @click="context.goToPreviousMonth()"
+        >
           <Icon name="heroicons:chevron-left"
             size="1.25rem"
           />
@@ -88,7 +90,9 @@ export default defineComponent({
           March 2025
         </button>
 
-        <button class="button">
+        <button class="button"
+          @click="context.goToNextMonth()"
+        >
           <Icon name="heroicons:chevron-right"
             size="1.25rem"
           />

@@ -250,6 +250,42 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Go to previous month.
+   *
+   * @returns {void}
+   */
+  goToPreviousMonth () {
+    const {
+      month,
+      year,
+    } = this.calculatePreviousMonthYear({
+      month: this.dateReactive.currentMonth,
+      year: this.dateReactive.currentYear,
+    })
+
+    this.dateReactive.currentMonth = month
+    this.dateReactive.currentYear = year
+  }
+
+  /**
+   * Go to next month.
+   *
+   * @returns {void}
+   */
+  goToNextMonth () {
+    const {
+      month,
+      year,
+    } = this.calculateNextMonthYear({
+      month: this.dateReactive.currentMonth,
+      year: this.dateReactive.currentYear,
+    })
+
+    this.dateReactive.currentMonth = month
+    this.dateReactive.currentYear = year
+  }
+
+  /**
    * Toggle dropdown.
    *
    * @returns {void}
