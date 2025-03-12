@@ -286,6 +286,24 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Generate current month and year to display.
+   *
+   * @returns {string}
+   */
+  generateDisplayedCurrentMonthYear () {
+    const date = new Date(
+      this.dateReactive.currentYear,
+      this.dateReactive.currentMonth
+    )
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      year: 'numeric',
+    })
+
+    return formatter.format(date)
+  }
+
+  /**
    * Toggle dropdown.
    *
    * @returns {void}

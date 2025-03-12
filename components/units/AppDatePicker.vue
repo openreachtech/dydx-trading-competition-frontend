@@ -87,7 +87,7 @@ export default defineComponent({
         </button>
 
         <button class="button month">
-          March 2025
+          {{ context.generateDisplayedCurrentMonthYear() }}
         </button>
 
         <button class="button"
