@@ -126,18 +126,21 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       })
     )
 
-    const displayedDaysInPreviousMonth = Array.from(
-      {
-        length: daysCountInPreviousMonth,
-      },
-      (_, index) => index + 1
-    )
-      .slice(-1 * firstDayOfMonthIndex)
-      .map(it => ({
-        day: it,
-        month: previousMonthYear.month + 1,
-        year: previousMonthYear.year,
-      }))
+    // If current month starts on Sunday, don't show previous month.
+    const displayedDaysInPreviousMonth = firstDayOfMonthIndex === 0
+      ? []
+      : Array.from(
+        {
+          length: daysCountInPreviousMonth,
+        },
+        (_, index) => index + 1
+      )
+        .slice(-1 * firstDayOfMonthIndex)
+        .map(it => ({
+          day: it,
+          month: previousMonthYear.month + 1,
+          year: previousMonthYear.year,
+        }))
 
     const displayedDaysInNextMonth = Array.from(
       {
