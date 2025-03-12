@@ -21,6 +21,11 @@
   ],
   "author": "Open Reach Tech inc.",
   "license": "UNLICENSED",
+  "overrides": {
+    "vite-plugin-node-stdlib-browser": {
+      "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
+    }
+  },
   "dependencies": {
     "@dydxprotocol/v4-client-js": "^1.20.0",
     "@openreachtech/furo-nuxt": "^1.5.0",
