@@ -274,6 +274,10 @@ export default defineComponent({
 }
 
 .unit-dropdown > .dates > .date {
+  outline-width: var(--size-thinnest);
+  outline-style: solid;
+  outline-color: transparent;
+
   border-radius: 0.375rem;
 
   padding-block: 0.625rem;
@@ -285,13 +289,17 @@ export default defineComponent({
 
   color: var(--color-text-secondary);
 
-  transition: background-color 250ms var(--transition-timing-base);
+  transition: background-color 250ms var(--transition-timing-base),
+    outline-color 150ms var(--transition-timing-base);
 }
 
 .unit-dropdown > .dates > .date:hover {
   background-color: var(--color-background-date-picker-hover);
 }
 
+.unit-dropdown > .dates > .date.selected {
+  outline-color: var(--color-border-input-focus);
+}
 /********** Animation **********/
 
 /* TODO: Unify fade-in animation */
