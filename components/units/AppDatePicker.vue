@@ -2,6 +2,7 @@
 import {
   defineComponent,
   ref,
+  reactive,
 } from 'vue'
 
 import {
@@ -27,12 +28,20 @@ export default defineComponent({
   ) {
     const inputValueRef = ref('')
     const isDropdownOpenRef = ref(false)
+    /** @type {import('./AppDatePickerContext').DateReactive} */
+    const dateReactive = reactive({
+      currentMonth: new Date()
+        .getMonth(),
+      currentYear: new Date()
+        .getFullYear(),
+    })
 
     const args = {
       props,
       componentContext,
       inputValueRef,
       isDropdownOpenRef,
+      dateReactive,
     }
     const context = AppDatePickerContext.create(args)
       .setupComponent()
@@ -94,11 +103,11 @@ export default defineComponent({
           {{ it }}
         </div>
 
-        <button class="date">
-          12
-        </button>
-        <button class="date">
-          13
+        <button v-for="(it, index) of context.generateDisplayedDays()"
+          :key="index"
+          class="date"
+        >
+          {{ it.day }}
         </button>
       </div>
     </div>
