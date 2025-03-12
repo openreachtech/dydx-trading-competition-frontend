@@ -61,6 +61,15 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * get: shouldDisablePastDates
+   *
+   * @returns {boolean} `true` if past dates should be disabled.
+   */
+  get shouldDisablePastDates () {
+    return this.props.shouldDisablePastDates
+  }
+
+  /**
    * get: inputValue
    *
    * @returns {string} Input value.
@@ -449,6 +458,54 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     day,
   }) {
     return day === 1
+  }
+
+  /**
+   * Check if a date should be disabled.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {boolean} `true` if being selected.
+   */
+  isDisabledDate ({
+    date,
+  }) {
+    if (
+      this.shouldDisablePastDates
+      && this.isPastDate({
+        date,
+      })
+    ) {
+      return true
+    }
+
+    return false
+  }
+
+  /**
+   * Check if a date is in the past.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {boolean} `true` if being selected.
+   */
+  isPastDate ({
+    date,
+  }) {
+    const today = new Date()
+    // Before the end of the day (23:59:59).
+    const targetDate = new Date(
+      date.year,
+      date.month,
+      date.day,
+      23,
+      59,
+      59
+    )
+
+    return targetDate < today
   }
 }
 

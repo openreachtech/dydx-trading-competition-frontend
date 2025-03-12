@@ -22,6 +22,14 @@ export default defineComponent({
     onClickOutside: vOnClickOutside,
   },
 
+  props: {
+    shouldDisablePastDates: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
   setup (
     props,
     componentContext
@@ -111,6 +119,9 @@ export default defineComponent({
           :key="index"
           class="date"
           :class="context.generateDateButtonClasses({
+            date: it,
+          })"
+          :disabled="context.isDisabledDate({
             date: it,
           })"
           @click="context.selectDate({
@@ -310,7 +321,7 @@ export default defineComponent({
     outline-color 150ms var(--transition-timing-base);
 }
 
-.unit-dropdown > .dates > .date:hover {
+.unit-dropdown > .dates > .date:not(:disabled):hover {
   background-color: var(--color-background-date-picker-hover);
   color: var(--color-text-primary);
 }
@@ -343,6 +354,12 @@ export default defineComponent({
 
 .unit-dropdown > .dates > .date:not(.first) > .indicator.first {
   display: none;
+}
+
+.unit-dropdown > .dates > .date:disabled {
+  color: var(--color-text-placeholder);
+
+  cursor: not-allowed;
 }
 /********** Animation **********/
 
