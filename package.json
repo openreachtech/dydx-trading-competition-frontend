@@ -23,7 +23,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@dydxprotocol/v4-client-js": "^1.20.0",
-    "@openreachtech/furo-nuxt": "^1.4.2",
+    "@openreachtech/furo-nuxt": "^1.5.0",
     "@openreachtech/jest-constructor-spy": "^1.1.0",
     "@wagmi/connectors": "^5.7.8",
     "@wagmi/core": "^2.16.5",
