@@ -173,9 +173,26 @@ export default defineComponent({
 }
 
 .unit-headline > .heading {
+  --max-line-count: 2;
+
   font-size: var(--font-size-large);
   font-weight: 700;
   line-height: var(--size-line-height-large);
+
+  min-height: calc(var(--max-line-count) * var(--size-line-height-large));
+}
+
+/* If line-clamp is supported, use it. Otherwise, min-height is still two lines, which is not ideal but not ugly. */
+@supports (line-clamp: 2) or ((-webkit-line-clamp: 2) and (display: -webkit-box) and (-webkit-box-orient: vertical)) {
+  .unit-headline > .heading {
+    display: -webkit-box;
+    line-clamp: var(--max-line-count);
+    -webkit-line-clamp: var(--max-line-count);
+    -webkit-box-orient: vertical;
+
+    height: calc(var(--size-line-height-large) * var(--max-line-count));
+    overflow: hidden;
+  }
 }
 
 .unit-headline > .image {
