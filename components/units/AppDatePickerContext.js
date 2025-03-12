@@ -95,6 +95,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       selected: this.isSelectedDate({
         date,
       }),
+      today: this.isToday({
+        date,
+      }),
     }
   }
 
@@ -396,6 +399,24 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     return date.day === selectedDate
       && date.month === selectedMonth - 1
       && date.year === selectedYear
+  }
+
+  /**
+   * Check if a date is today.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {boolean} `true` if is today.
+   */
+  isToday ({
+    date,
+  }) {
+    const today = new Date()
+
+    return date.day === today.getDate()
+      && date.month === today.getMonth()
+      && date.year === today.getFullYear()
   }
 }
 

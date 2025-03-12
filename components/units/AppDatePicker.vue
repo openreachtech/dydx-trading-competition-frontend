@@ -308,6 +308,28 @@ export default defineComponent({
 .unit-dropdown > .dates > .date.selected {
   outline-color: var(--color-border-input-focus);
 }
+
+.unit-dropdown > .dates > .date.today {
+  position: relative;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unit-dropdown > .dates > .date.today::after {
+  border-radius: 100vh;
+
+  position: absolute;
+  top: 2rem;
+
+  width: 0.25rem;
+  height: 0.25rem;
+
+  background-color: var(--color-text-placeholder);
+
+  content: '';
+}
 /********** Animation **********/
 
 /* TODO: Unify fade-in animation */
