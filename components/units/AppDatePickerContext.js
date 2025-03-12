@@ -378,6 +378,21 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize displayed day.
+   *
+   * @param {{
+   *   day: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeDisplayedDay ({
+    day,
+  }) {
+    return day.toString()
+      .padStart(2, '0')
+  }
+
+  /**
    * Check if a date is currently selected.
    *
    * @param {{

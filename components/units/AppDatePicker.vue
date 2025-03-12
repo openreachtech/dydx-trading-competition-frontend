@@ -117,7 +117,11 @@ export default defineComponent({
             date: it,
           })"
         >
-          {{ it.day }}
+          {{
+            context.normalizeDisplayedDay({
+              day: it.day,
+            })
+          }}
         </button>
       </div>
     </div>
