@@ -74,6 +74,7 @@ export default defineComponent({
       >
 
       <button class="button"
+        type="button"
         @click="context.toggleDropdown()"
       >
         <slot name="inputIcon">
@@ -87,6 +88,7 @@ export default defineComponent({
     <div class="unit-dropdown">
       <div class="header">
         <button class="button"
+          type="button"
           @click="context.goToPreviousMonth()"
         >
           <Icon name="heroicons:chevron-left"
@@ -94,11 +96,14 @@ export default defineComponent({
           />
         </button>
 
-        <button class="button month">
+        <button class="button month"
+          type="button"
+        >
           {{ context.generateDisplayedCurrentMonthYear() }}
         </button>
 
         <button class="button"
+          type="button"
           @click="context.goToNextMonth()"
         >
           <Icon name="heroicons:chevron-right"
@@ -117,6 +122,7 @@ export default defineComponent({
 
         <button v-for="(it, index) of context.generateDisplayedDays()"
           :key="index"
+          type="button"
           class="date"
           :class="context.generateDateButtonClasses({
             date: it,
