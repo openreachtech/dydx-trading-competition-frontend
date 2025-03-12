@@ -110,6 +110,12 @@ export default defineComponent({
         <button v-for="(it, index) of context.generateDisplayedDays()"
           :key="index"
           class="date"
+          :class="context.generateDateButtonClasses({
+            date: it,
+          })"
+          @click="context.selectDate({
+            date: it,
+          })"
         >
           {{ it.day }}
         </button>

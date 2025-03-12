@@ -81,6 +81,24 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for date button.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>} CSS classes
+   */
+  generateDateButtonClasses ({
+    date,
+  }) {
+    return {
+      selected: this.isSelectedDate({
+        date,
+      }),
+    }
+  }
+
+  /**
    * get: daysOfWeek
    *
    * @returns {Array<string>}
@@ -289,6 +307,29 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Select date.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  selectDate ({
+    date,
+  }) {
+    const selectedDate = new Date()
+
+    selectedDate.setUTCFullYear(date.year)
+    selectedDate.setUTCMonth(date.month)
+    selectedDate.setUTCDate(date.day)
+
+    this.inputValueRef.value = selectedDate.toISOString()
+      .split('T')
+      .at(0)
+      ?? ''
+  }
+
+  /**
    * Generate current month and year to display.
    *
    * @returns {string}
@@ -331,6 +372,30 @@ export default class AppDatePikcerContext extends BaseFuroContext {
    */
   openDropdown () {
     this.isDropdownOpenRef.value = true
+  }
+
+  /**
+   * Check if a date is currently selected.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {boolean} `true` if being selected.
+   */
+  isSelectedDate ({
+    date,
+  }) {
+    const [
+      selectedYear,
+      selectedMonth,
+      selectedDate,
+    ] = this.inputValue
+      .split('-')
+      .map(it => Number(it))
+
+    return date.day === selectedDate
+      && date.month === selectedMonth - 1
+      && date.year === selectedYear
   }
 }
 
