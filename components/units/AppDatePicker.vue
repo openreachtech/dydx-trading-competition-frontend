@@ -30,6 +30,14 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    /**
+     * Class of root element for layout purpose (controlled by parent component).
+     */
+    rootClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   setup (

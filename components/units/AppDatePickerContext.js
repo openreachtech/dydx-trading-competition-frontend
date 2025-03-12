@@ -70,6 +70,15 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * get: rootClass
+   *
+   * @returns {string} Class of root element for layout styling.
+   */
+  get rootClass () {
+    return this.props.rootClass
+  }
+
+  /**
    * get: inputValue
    *
    * @returns {string} Input value.
@@ -81,12 +90,15 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   /**
    * Generate CSS classes for AppDatePicker.
    *
-   * @returns {Record<string, boolean>} CSS classes
+   * @returns {Array<string | Record<string, boolean>>} CSS classes
    */
   generateDatePickerClasses () {
-    return {
-      open: this.isDropdownOpenRef.value,
-    }
+    return [
+      this.rootClass,
+      {
+        open: this.isDropdownOpenRef.value,
+      },
+    ]
   }
 
   /**
