@@ -74,11 +74,7 @@ export default defineComponent({
       </template>
 
       <template #body-baseline="{ value }">
-        <span class="unit-baseline"
-          :class="context.generatePerformanceBaselineClasses({
-            baseline: value,
-          })"
-        >
+        <span class="unit-baseline">
           {{
             context.normalizePerformanceBaseline({
               baseline: value,
@@ -170,14 +166,6 @@ export default defineComponent({
   line-height: var(--size-line-height-base);
 
   color: var(--color-text-secondary);
-}
-
-.unit-baseline.increased {
-  color: var(--color-text-increased);
-}
-
-.unit-baseline.decreased {
-  color: var(--color-text-decreased);
 }
 
 .unit-prize {

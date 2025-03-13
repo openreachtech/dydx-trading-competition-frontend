@@ -319,23 +319,6 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
 
     return badgeContext.generateIconName()
   }
-
-  /**
-   * Generate performance baseline CSS classes.
-   *
-   * @param {{
-   *   baseline: number
-   * }} params - Parameters.
-   * @returns {Record<string, boolean>}
-   */
-  generatePerformanceBaselineClasses ({
-    baseline,
-  }) {
-    return {
-      increased: baseline > 0,
-      decreased: baseline < 0,
-    }
-  }
 }
 
 /**

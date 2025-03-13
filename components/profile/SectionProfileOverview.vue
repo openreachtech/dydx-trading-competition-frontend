@@ -118,9 +118,7 @@ export default defineComponent({
               Performance Baseline
             </dt>
 
-            <dd class="description baseline"
-              :class="context.generatePerformanceBaselineClasses()"
-            >
+            <dd class="description baseline">
               {{ context.generatePerformanceBaseline() }}
             </dd>
           </div>
@@ -341,11 +339,11 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description:where(.baseline, .profit).increased {
+.unit-description > .entry > .description.profit.increased {
   color: var(--color-text-increased);
 }
 
-.unit-description > .entry > .description:where(.baseline, .profit).decreased {
+.unit-description > .entry > .description.profit.decreased {
   color: var(--color-text-decreased);
 }
 
