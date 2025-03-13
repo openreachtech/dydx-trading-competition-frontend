@@ -365,7 +365,12 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       .at(0)
       ?? ''
 
-    this.emit(this.EMIT_EVENT_NAME.CHANGE_DATE, this.inputValue)
+    this.emit(
+      this.EMIT_EVENT_NAME.CHANGE_DATE,
+      {
+        date: this.inputValue,
+      }
+    )
   }
 
   /**
