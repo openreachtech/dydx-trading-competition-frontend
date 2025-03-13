@@ -194,6 +194,35 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * Generate last calculated date.
+   *
+   * @returns {string} Last calculated date.
+   */
+  generateLastCalculatedAt () {
+    const lastCalculatedAt = this.rankings
+      .at(0)
+      ?.calculatedAt
+      ?? null
+
+    if (!lastCalculatedAt) {
+      return 'Last updated: Unknown'
+    }
+
+    const date = new Date(lastCalculatedAt)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+
+    return `Last Updated: ${formatter.format(date)}`
+  }
+
+  /**
    * Generate pagination result
    *
    * @returns {PaginationResult} Pagination result.

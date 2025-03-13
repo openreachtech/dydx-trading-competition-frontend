@@ -80,7 +80,7 @@ export default defineComponent({
       </div>
 
       <span class="note">
-        Last updated: March 12, 2025, 14:02:30
+        {{ context.generateLastCalculatedAt() }}
       </span>
 
       <AppTable :header-entries="context.tableHeaderEntries"
