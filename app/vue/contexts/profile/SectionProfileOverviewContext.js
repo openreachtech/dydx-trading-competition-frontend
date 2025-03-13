@@ -137,8 +137,12 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Current rank.
    */
   generateCurrentRank () {
-    // TODO: Fulfill this logic. Currently, there's no field from the API for it.
-    return '--'
+    const currentRank = this.ranking?.ranking
+    if (!currentRank) {
+      return '--'
+    }
+
+    return `#${currentRank}`
   }
 
   /**

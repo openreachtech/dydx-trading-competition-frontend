@@ -213,8 +213,8 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    * @returns {Array<RankingTableEntry>} Normalized rankings.
    */
   normalizeRankings () {
-    return this.rankings.map((it, index) => ({
-      rank: index + 1,
+    return this.rankings.map(it => ({
+      rank: it.ranking,
       name: it.address.name || '----',
       address: it.address.address,
       roi: it.roi,
