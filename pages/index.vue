@@ -233,6 +233,7 @@ export default defineComponent({
 
 .unit-page > .section.hero {
   padding-block: 7.5rem 12rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
 
   display: flex;
   flex-direction: column;
@@ -246,6 +247,10 @@ export default defineComponent({
     #181825 46.63%,
     rgba(24, 24, 37, 0.00) 100%
   );
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
 }
 
 .unit-page > .section.hero > .heading {
