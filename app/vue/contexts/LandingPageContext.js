@@ -86,6 +86,157 @@ export default class LandingPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: lifecycle
+   *
+   * @returns {Lifecycle}
+   */
+  get lifecycle () {
+    return [
+      {
+        phaseName: 'Before Competition',
+        timeline: [
+          {
+            actor: 'host',
+            title: 'Competition Creation',
+            description: 'The host initiates a new competition by filling in required details and signing through wallet integration.',
+            characteristics: [
+              'Define competition title and description',
+              'Set minimum deposit requirement',
+              'Establish total prize pool and distribution rules',
+              'Configure participant limits and timeline',
+              'Connect wallet and sign creation transaction',
+            ],
+          },
+          {
+            actor: 'trader',
+            title: 'Registration & Deposit',
+            description: 'Traders register to participate by connecting their wallets and meeting the deposit requirements.',
+            characteristics: [
+              'Find active competition to join',
+              'Link dYdX wallet address to register',
+              'Choose display name for leaderboard',
+              'Ensure account meets minimum deposit requirements',
+              'Sign registration transaction',
+            ],
+          },
+          {
+            actor: 'system',
+            title: 'Registration Period Ends',
+            description: 'The system finalizes the list of participants based on registration and deposit criteria.',
+            characteristics: [
+              'Close registration at scheduled time',
+              'Verify all participants meet minimum deposit',
+              "Disqualify traders who don't meet criteria",
+              'Finalize list of eligible participants',
+              'Prepare for competition start',
+            ],
+          },
+          {
+            actor: 'system',
+            title: 'Initial PnL Capture',
+            description: 'The system records starting points for all qualified traders to establish baseline metrics.',
+            characteristics: [
+              'Take snapshot of initial account equity',
+              'Record baseline balances',
+              'Establish starting point for ROI calculations',
+            ],
+          },
+        ],
+      },
+      {
+        phaseName: 'During Competition',
+        timeline: [
+          {
+            actor: 'trader',
+            title: 'Active Trading',
+            description: 'Traders begin taking positions and executing their strategies on the dYdX platform.',
+            characteristics: [
+              'Enter positions based on market analysis',
+              'Manage risk through position sizing',
+              'Make additional deposits as part of strategy',
+              'Adjust strategies as market conditions change',
+              'Monitor performance relative to competitors',
+            ],
+          },
+          {
+            actor: 'system',
+            title: 'Hourly PnL Updates',
+            description: 'The system continuously tracks performance and updates the leaderboard on an hourly basis.',
+            characteristics: [
+              'Calculate current PnL and ROI metrics',
+              'Update leaderboard rankings',
+              'Process data for all active participants',
+              'Provide transparent performance tracking',
+            ],
+          },
+          {
+            actor: 'system',
+            title: 'Capital Flow Monitoring',
+            description: 'The system tracks additional deposits and withdrawals to ensure fair competition calculations.',
+            characteristics: [
+              'Monitor account balance changes',
+              'Record all deposits throughout competition',
+              'Track withdrawals throughout competition',
+              'Adjust baseline calculations accordingly',
+              'Ensure accurate ROI measurements',
+            ],
+          },
+        ],
+      },
+      {
+        phaseName: 'After Competition',
+        timeline: [
+          {
+            actor: 'system',
+            title: 'Final PnL Snapshot',
+            description: 'At the competition end time, the system captures the final performance metrics for all participants.',
+            characteristics: [
+              'Take final equity snapshot at exact end time',
+              'Record final positions and account value',
+              'Calculate final PnL for each participant',
+              'Determine final ROI for each trader',
+              'Lock in competition results',
+            ],
+          },
+          {
+            actor: 'system',
+            title: 'Results & Prize Calculation',
+            description: 'The system processes final rankings and calculates prize allocations based on predefined rules.',
+            characteristics: [
+              'Sort participants by final ROI',
+              'Apply prize distribution rules',
+              'Calculate exact prize amount for each winner',
+              'Generate final competition standings',
+              'Display comprehensive results',
+            ],
+          },
+          {
+            actor: 'host',
+            title: 'Prize Verification & Export',
+            description: 'The host exports detailed competition results to verify prize allocations before distribution.',
+            characteristics: [
+              'Export comprehensive CSV of final results',
+              'Verify accuracy of calculated prize amounts',
+              'Confirm all winners meet competition criteria',
+              'Prepare for prize distribution process',
+            ],
+          },
+          {
+            actor: 'host',
+            title: 'Prize Distribution',
+            description: 'The host distributes prizes to winners according to the final competition results.',
+            characteristics: [
+              'Process payments to winning traders',
+              'Transfer exact prize amounts per CSV data',
+              'Complete competition lifecycle',
+            ],
+          },
+        ],
+      },
+    ]
+  }
+
+  /**
    * get: faqs
    *
    * @returns {Array<Faq>}
@@ -145,4 +296,16 @@ export default class LandingPageContext extends BaseFuroContext {
  *   question: string
  *   answer: string
  * }} Faq
+ */
+
+/**
+ * @typedef {Array<{
+ *   phaseName: string
+ *   timeline: Array<{
+ *     actor: 'host' | 'trader' | 'system'
+ *     title: string
+ *     description: string
+ *     characteristics: Array<string>
+ *   }>
+ * }>} Lifecycle
  */
