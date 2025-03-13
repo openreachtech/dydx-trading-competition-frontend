@@ -345,6 +345,10 @@ export default defineComponent({
   outline-color: var(--color-border-input-focus);
 }
 
+.unit-dropdown > .dates > .date.off-month {
+  color: var(--color-text-placeholder);
+}
+
 .unit-dropdown > .dates > .date.today > .figure {
   position: relative;
 

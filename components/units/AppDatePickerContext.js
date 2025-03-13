@@ -119,6 +119,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       today: this.isToday({
         date,
       }),
+      'off-month': !this.isInThisMonth({
+        date,
+      }),
     }
   }
 
@@ -453,6 +456,21 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     return date.day === today.getDate()
       && date.month === today.getMonth()
       && date.year === today.getFullYear()
+  }
+
+  /**
+   * Check if a date is in this month.
+   *
+   * @param {{
+   *   date: DisplayedDay
+   * }} params - Parameters.
+   * @returns {boolean} `true` if is today.
+   */
+  isInThisMonth ({
+    date,
+  }) {
+    return date.month === this.dateReactive.currentMonth
+      && date.year === this.dateReactive.currentYear
   }
 
   /**
