@@ -3,13 +3,15 @@ import {
   defineComponent,
 } from 'vue'
 
-import AppButton from '~/components/units/AppButton.vue'
+import {
+  NuxtLink,
+} from '#components'
 
 import LandingPageContext from '~/app/vue/contexts/LandingPageContext'
 
 export default defineComponent({
   components: {
-    AppButton,
+    NuxtLink,
   },
 
   setup (
@@ -42,11 +44,11 @@ export default defineComponent({
         transparent competitions on dYdX's decentralized exchange.
       </p>
 
-      <AppButton is-rounded
-        class="button"
+      <NuxtLink class="button call-to-action"
+        to="/competitions"
       >
         Let's join a competition now!
-      </AppButton>
+      </NuxtLink>
     </section>
 
     <section class="section">
@@ -176,9 +178,11 @@ export default defineComponent({
           </template>
         </div>
 
-        <AppButton class="button">
+        <NuxtLink class="button call-to-action"
+          to="/competitions"
+        >
           Get it? Let's join a competition now!
-        </AppButton>
+        </NuxtLink>
       </div>
     </section>
 
@@ -260,16 +264,6 @@ export default defineComponent({
 
 .unit-page > .section.hero > .button {
   margin-block-start: 4rem;
-
-  font-size: var(--font-size-base);
-  line-height: var(--size-line-height-base);
-
-  transition: box-shadow 500ms var(--transition-timing-base),
-    --color-darken-filter 500ms var(--transition-timing-base);
-}
-
-.unit-page > .section.hero > .button:hover {
-  box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
 }
 
 /************** Other sections **************/
@@ -705,5 +699,45 @@ export default defineComponent({
 
 .unit-faqs > .card > .heading > .label {
   color: var(--color-text-highlight-purple);
+}
+
+/******** Call-to-action button ********/
+/* TODO: Should have shared styles between link-button and button */
+
+@property --color-darken-filter {
+  syntax: '<color>';
+  initial-value: #00000000;
+  inherits: false;
+}
+
+.button.call-to-action {
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: var(--size-thinnest);
+  border-color: var(--color-border-button);
+
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+
+  font-size: var(--font-size-base);
+  line-height: var(--size-line-height-base);
+
+  color: var(--color-text-primary);
+
+  background-color: var(--color-background-button-primary);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-darken-filter),
+    var(--color-darken-filter)
+  );
+
+  transition: box-shadow 500ms var(--transition-timing-base),
+    --color-darken-filter 500ms var(--transition-timing-base);
+}
+
+.button.call-to-action:hover {
+  --color-darken-filter: #00000047;
+
+  box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
 }
 </style>
