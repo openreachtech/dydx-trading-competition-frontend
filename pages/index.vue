@@ -254,17 +254,26 @@ export default defineComponent({
 }
 
 .unit-page > .section.hero > .heading {
-  font-size: var(--font-size-title);
-  line-height: var(--size-line-height-title);
+  font-size: var(--font-size-headline);
+  line-height: var(--size-line-height-headline);
   font-weight: 700;
+
+  @media (48rem < width) {
+    font-size: var(--font-size-title);
+    line-height: var(--size-line-height-title);
+  }
 }
 
 .unit-page > .section.hero > .description {
-  font-size: var(--font-size-medium);
+  font-size: var(--font-size-base);
 
   max-width: 42rem;
 
   color: var(--color-text-secondary);
+
+  @media (48rem < width) {
+    font-size: var(--font-size-medium);
+  }
 }
 
 .unit-page > .section.hero > .button {
