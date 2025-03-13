@@ -43,6 +43,7 @@ export default class AddressCurrentCompetitionQueryGraphqlPayload extends BaseAp
               address
               name
             }
+            performanceBaseline
             ranking
             roi
             pnl

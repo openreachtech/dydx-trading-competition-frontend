@@ -50,6 +50,7 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
  *         address: string
  *         name?: string
  *       }
+ *       performanceBaseline: number
  *       ranking: number
  *       roi: string
  *       pnl: string

@@ -94,7 +94,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-address="{ value}">
+        <template #body-address="{ value }">
           <span class="unit-address">
             <span>
               {{
@@ -118,13 +118,23 @@ export default defineComponent({
           </span>
         </template>
 
+        <template #body-baseline="{ value }">
+          <span class="unit-baseline">
+            {{
+              context.normalizePerformanceBaseline({
+                baseline: value,
+              })
+            }}
+          </span>
+        </template>
+
         <template #body-roi="{ value }">
           <span class="unit-roi">
             {{ value }}%
           </span>
         </template>
 
-        <template #body-pnl="{ value}">
+        <template #body-pnl="{ value }">
           <span class="unit-pnl">
             ${{ value }}
           </span>
@@ -343,5 +353,13 @@ export default defineComponent({
 
 .unit-address > .link:hover {
   color: var(--color-text-primary);
+}
+
+.unit-baseline {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: var(--size-line-height-base);
+
+  color: var(--color-text-secondary);
 }
 </style>

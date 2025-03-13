@@ -82,12 +82,22 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
         label: 'Address',
       },
       {
-        key: 'roi',
-        label: 'ROI',
-      },
-      {
         key: 'pnl',
         label: 'PnL',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'baseline',
+        label: 'Performance Baseline',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'roi',
+        label: 'ROI',
         columnOptions: {
           textAlign: 'end',
         },
@@ -246,6 +256,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       rank: it.ranking,
       name: it.address.name || '----',
       address: it.address.address,
+      baseline: it.performanceBaseline,
       roi: it.roi,
       pnl: it.pnl,
     }))
@@ -308,6 +319,27 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }) {
     return `https://www.mintscan.io/dydx/address/${address}`
   }
+
+  /**
+   * Normalize performance baseline.
+   *
+   * @param {{
+   *   baseline: number
+   * }} params - Parameters.
+   * @returns {string} Normalized performance baseline.
+   */
+  normalizePerformanceBaseline ({
+    baseline,
+  }) {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      trailingZeroDisplay: 'stripIfInteger',
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(baseline)
+  }
 }
 
 /**
@@ -340,6 +372,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  * @typedef {{
  *   rank: number
  *   address: string
+ *   baseline: number
  *   name: string
  *   roi: string
  *   pnl: string

@@ -72,6 +72,17 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: performanceBaseline
+   *
+   * @returns {number | null} performanceBaseline.
+   */
+  get performanceBaseline () {
+    return this.ranking
+      ?.performanceBaseline
+      ?? null
+  }
+
+  /**
    * Generate PnL and ROI.
    *
    * @returns {string} PnL and ROI.
@@ -81,6 +92,26 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     const pnl = this.pnl ?? '----'
 
     return `${pnl} (${roi}%)`
+  }
+
+  /**
+   * Normalize performance baseline.
+   *
+   * @returns {string} Normalized performance baseline.
+   */
+  generatePerformanceBaseline () {
+    if (!this.performanceBaseline) {
+      return '--'
+    }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      trailingZeroDisplay: 'stripIfInteger',
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(this.performanceBaseline)
   }
 
   /**

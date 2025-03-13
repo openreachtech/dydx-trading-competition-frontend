@@ -41,6 +41,7 @@ export default class AddressPastCompetitionsQueryGraphqlPayload extends BaseAppG
             }
             rank
             prize
+            performanceBaseline
             roi
             pnl
           }
