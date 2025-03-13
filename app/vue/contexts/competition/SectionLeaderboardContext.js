@@ -250,9 +250,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       rank: it.ranking,
       name: it.address.name || '----',
       address: it.address.address,
-      baseline: this.normalizePerformanceBaseline({
-        baseline: it.performanceBaseline,
-      }),
+      baseline: it.performanceBaseline,
       roi: it.roi,
       pnl: it.pnl,
     }))
@@ -385,7 +383,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  * @typedef {{
  *   rank: number
  *   address: string
- *   baseline: string
+ *   baseline: number
  *   name: string
  *   roi: string
  *   pnl: string

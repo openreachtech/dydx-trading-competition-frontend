@@ -124,7 +124,11 @@ export default defineComponent({
               baseline: value,
             })"
           >
-            {{ value }}
+            {{
+              context.normalizePerformanceBaseline({
+                baseline: value,
+              })
+            }}
           </span>
         </template>
 

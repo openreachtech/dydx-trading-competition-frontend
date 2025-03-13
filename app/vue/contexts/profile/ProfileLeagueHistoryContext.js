@@ -235,9 +235,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
       title: it.competition.title,
       image: it.competition.image ?? '',
       rank: it.rank,
-      baseline: this.normalizePerformanceBaseline({
-        baseline: it.performanceBaseline,
-      }),
+      baseline: it.performanceBaseline,
       prize: it.prize,
       profit: {
         roi: it.roi,
@@ -388,7 +386,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
  *   title: string
  *   image: string
  *   rank: number
- *   baseline: string
+ *   baseline: number
  *   prize: string
  *   profit: {
  *     roi: string
