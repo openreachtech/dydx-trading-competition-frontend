@@ -91,10 +91,16 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       {
         key: 'baseline',
         label: 'Performance Baseline',
+        columnOptions: {
+          textAlign: 'end',
+        },
       },
       {
         key: 'roi',
         label: 'ROI',
+        columnOptions: {
+          textAlign: 'end',
+        },
       },
     ]
   }
