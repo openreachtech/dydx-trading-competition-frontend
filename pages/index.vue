@@ -105,7 +105,7 @@ export default defineComponent({
               {{ it.description }}
             </p>
 
-            <ul class="characteristics">
+            <ul class="unit-characteristics">
               <li v-for="characteristic of it.characteristics"
                 class="characteristic"
               >
@@ -370,7 +370,7 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-audience > .card > .characteristics {
+.unit-characteristics {
   margin-block-start: 0.5rem;
 
   display: flex;
@@ -382,12 +382,12 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-audience > .card > .characteristics > .characteristic {
+.unit-characteristics > .characteristic {
   display: inline-flex;
   gap: 0.75rem;
 }
 
-.unit-audience > .card > .characteristics > .characteristic > .bullet {
+.unit-characteristics > .characteristic > .bullet {
   margin-block-start: 0.375rem;
 
   border-radius: 100vh;
