@@ -74,6 +74,7 @@ export default class AddressPastCompetitionsQueryGraphqlCapsule extends BaseAppG
  *       }
  *       rank: number
  *       prize: string
+ *       performanceBaseline: number
  *       roi: string
  *       pnl: string
  *     }>
