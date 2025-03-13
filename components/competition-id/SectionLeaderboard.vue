@@ -84,9 +84,9 @@ export default defineComponent({
         :is-loading="context.statusReactive.isLoading"
         class="table"
       >
-        <template #body-rank>
+        <template #body-rank="{ value }">
           <span class="unit-rank">
-            <span class="indicator">#</span> 1
+            <span class="indicator">#</span> {{ value }}
           </span>
         </template>
 
