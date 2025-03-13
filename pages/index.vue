@@ -442,8 +442,16 @@ export default defineComponent({
 
 /************** Lifecycle section **************/
 
+.unit-inner.lifecycle {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 .unit-inner.lifecycle > .button {
   margin-block-start: 3rem;
+
+  align-self: center;
 
   font-size: var(--font-size-base);
   line-height: var(--size-line-height-base);
