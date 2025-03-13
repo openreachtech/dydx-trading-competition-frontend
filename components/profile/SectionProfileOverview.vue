@@ -115,6 +115,16 @@ export default defineComponent({
 
           <div class="entry">
             <dt class="term">
+              Performance Baseline
+            </dt>
+
+            <dd class="description profit">
+              {{ context.generatePerformanceBaseline() }}
+            </dd>
+          </div>
+
+          <div class="entry">
+            <dt class="term">
               PnL & ROI
             </dt>
 

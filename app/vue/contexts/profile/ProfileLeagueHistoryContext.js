@@ -186,6 +186,13 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
         },
       },
       {
+        key: 'baseline',
+        label: 'Performance Baseline',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
         label: 'Prize',
         key: 'prize',
         columnOptions: {
@@ -228,6 +235,9 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
       title: it.competition.title,
       image: it.competition.image ?? '',
       rank: it.rank,
+      baseline: this.normalizePerformanceBaseline({
+        baseline: it.performanceBaseline,
+      }),
       prize: it.prize,
       profit: {
         roi: it.roi,
@@ -235,6 +245,27 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
       },
       status: it.competition.status,
     }))
+  }
+
+  /**
+   * Normalize performance baseline.
+   *
+   * @param {{
+   *   baseline: number
+   * }} params - Parameters.
+   * @returns {string} Normalized performance baseline.
+   */
+  normalizePerformanceBaseline ({
+    baseline,
+  }) {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      trailingZeroDisplay: 'stripIfInteger',
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(baseline)
   }
 
   /**
@@ -340,6 +371,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
  *   title: string
  *   image: string
  *   rank: number
+ *   baseline: string
  *   prize: string
  *   profit: {
  *     roi: string

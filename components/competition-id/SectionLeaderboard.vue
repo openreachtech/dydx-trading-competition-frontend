@@ -118,6 +118,12 @@ export default defineComponent({
           </span>
         </template>
 
+        <template #body-baseline="{ value}">
+          <span>
+            {{ value }}
+          </span>
+        </template>
+
         <template #body-roi="{ value }">
           <span class="unit-roi">
             {{ value }}%

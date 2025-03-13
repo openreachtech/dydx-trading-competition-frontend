@@ -73,6 +73,12 @@ export default defineComponent({
         </span>
       </template>
 
+      <template #body-baseline="{ value }">
+        <span>
+          {{ value }}
+        </span>
+      </template>
+
       <template #body-prize="{ value }">
         <span class="unit-prize">
           {{ value }}
