@@ -16,6 +16,24 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: '⋯', // Loading title, can not be empty.
+      script: [
+        {
+          innerHTML: `
+          // define global variables
+          window.exports = {};
+          window.module = { exports: window.exports };
+
+          // require polyfill
+          window.require = function(moduleName) {
+            // crypto-browserify related modules
+            if (moduleName === 'browserify-sign/algos') return {};
+            if (moduleName === 'pbkdf2') return { pbkdf2: () => {}, pbkdf2Sync: () => {} };
+            if (moduleName === 'browserify-cipher') return {};
+          };
+          `,
+          type: 'text/javascript',
+        },
+      ],
       htmlAttrs: {
         lang: 'en',
       },
