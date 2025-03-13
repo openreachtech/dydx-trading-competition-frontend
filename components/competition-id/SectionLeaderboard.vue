@@ -119,7 +119,11 @@ export default defineComponent({
         </template>
 
         <template #body-baseline="{ value}">
-          <span>
+          <span class="unit-baseline"
+            :class="context.generatePerformanceBaselineClasses({
+              baseline: value,
+            })"
+          >
             {{ value }}
           </span>
         </template>
@@ -349,5 +353,21 @@ export default defineComponent({
 
 .unit-address > .link:hover {
   color: var(--color-text-primary);
+}
+
+.unit-baseline {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  line-height: var(--size-line-height-base);
+
+  color: var(--color-text-secondary);
+}
+
+.unit-baseline.increased {
+  color: var(--color-text-increased);
+}
+
+.unit-baseline.decreased {
+  color: var(--color-text-decreased);
 }
 </style>

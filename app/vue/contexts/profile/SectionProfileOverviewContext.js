@@ -129,6 +129,21 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Generate performance baseline CSS classes.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generatePerformanceBaselineClasses () {
+    const baseline = this.performanceBaseline
+      ?? 0
+
+    return {
+      increased: baseline > 0,
+      decreased: baseline < 0,
+    }
+  }
+
+  /**
    * Normalize host name.
    *
    * @returns {string} Host name.

@@ -118,7 +118,9 @@ export default defineComponent({
               Performance Baseline
             </dt>
 
-            <dd class="description profit">
+            <dd class="description baseline"
+              :class="context.generatePerformanceBaselineClasses()"
+            >
               {{ context.generatePerformanceBaseline() }}
             </dd>
           </div>
@@ -331,7 +333,7 @@ export default defineComponent({
   height: 2.25rem;
 }
 
-.unit-description > .entry > .description.profit {
+.unit-description > .entry > .description:where(.baseline, .profit) {
   font-size: var(--font-size-medium);
   font-weight: 700;
   line-height: var(--size-line-height-medium);
@@ -339,11 +341,11 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.profit.increased {
+.unit-description > .entry > .description:where(.baseline, .profit).increased {
   color: var(--color-text-increased);
 }
 
-.unit-description > .entry > .description.profit.decreased {
+.unit-description > .entry > .description:where(.baseline, .profit).decreased {
   color: var(--color-text-decreased);
 }
 
