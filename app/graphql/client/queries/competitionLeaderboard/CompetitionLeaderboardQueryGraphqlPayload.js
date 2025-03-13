@@ -16,6 +16,7 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
               address
               name
             }
+            ranking
             roi
             pnl
             calculatedAt
