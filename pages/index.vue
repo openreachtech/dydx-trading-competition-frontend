@@ -471,7 +471,7 @@ export default defineComponent({
 
   background-color: var(--color-background-card-header);
 
-  align-self: center;
+  align-self: start;
 
   font-size: var(--font-size-large);
   font-weight: 500;
@@ -480,6 +480,10 @@ export default defineComponent({
   text-align: center;
 
   box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
+
+  @media (48rem < width) {
+    align-self: center;
+  }
 }
 
 .unit-stage {
@@ -487,20 +491,30 @@ export default defineComponent({
   margin-block-start: 0;
 
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 1rem;
+  grid-template-columns: auto 1fr;
+  column-gap: 1rem;
+
+  @media (48rem < width) {
+    grid-template-columns: 1fr auto 1fr;
+  }
 }
 
 .unit-stage:nth-of-type(2n) > .connector {
-  order: 2;
+  @media (48rem < width) {
+    order: 2;
+  }
 }
 
 .unit-stage:nth-of-type(2n) > .content {
-  order: 3;
+  @media (48rem < width) {
+    order: 3;
+  }
 }
 
 .unit-stage:nth-of-type(2n) > .empty {
-  order: 1;
+  @media (48rem < width) {
+    order: 1;
+  }
 }
 
 .unit-stage > .content {
@@ -519,7 +533,13 @@ export default defineComponent({
   align-items: start;
   gap: 0.25rem;
 
+  order: 2;
+
   background-color: var(--color-background-card);
+
+  @media (48rem < width) {
+    order: 1;
+  }
 }
 
 .unit-stage > .content > .actor {
@@ -555,6 +575,12 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  order: 1;
+
+  @media (48rem < width) {
+    order: 2;
+  }
 }
 
 .unit-stage > .connector > .indicator {
@@ -585,6 +611,16 @@ export default defineComponent({
   border-inline-end-color: var(--color-background-timeline-connector);
 
   flex: 1;
+}
+
+.unit-stage > .empty {
+  display: none;
+
+  @media (48rem < width) {
+    display: block;
+
+    order: 3;
+  }
 }
 
 /************** FAQs section **************/
