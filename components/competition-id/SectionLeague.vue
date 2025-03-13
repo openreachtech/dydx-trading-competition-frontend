@@ -138,13 +138,10 @@ export default defineComponent({
               />
             </button>
 
-            <button class="button"
-              @click="context.copyCompetitionUrl"
-            >
-              <Icon name="heroicons:link"
-                size="1.25rem"
-              />
-            </button>
+            <CopyButton :content-to-copy="context.generateCompetitionUrl()"
+              icon-name="heroicons:link"
+              icon-size="1.25rem"
+            />
           </div>
         </div>
 
