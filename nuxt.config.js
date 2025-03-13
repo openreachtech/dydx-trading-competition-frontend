@@ -25,14 +25,11 @@ export default defineNuxtConfig({
 
           // require polyfill
           window.require = function(moduleName) {
-            console.log('Require called for:', moduleName);
             // crypto-browserify related modules
             if (moduleName === 'browserify-sign/algos') return {};
             if (moduleName === 'pbkdf2') return { pbkdf2: () => {}, pbkdf2Sync: () => {} };
             if (moduleName === 'browserify-cipher') return {};
           };
-
-          console.log('Global polyfills including require initialized');
           `,
           type: 'text/javascript',
         },
