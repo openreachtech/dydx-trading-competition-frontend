@@ -344,6 +344,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   selectDate ({
     date,
   }) {
+    this.dateReactive.currentMonth = date.month
+    this.dateReactive.currentYear = date.year
+
     const selectedDate = new Date()
 
     selectedDate.setUTCFullYear(date.year)
