@@ -138,6 +138,7 @@ export default defineComponent({
 
             <div v-for="it of phase.timeline"
               class="unit-stage"
+              :class="it.actor"
             >
               <div class="content">
                 <span class="actor">
@@ -593,7 +594,7 @@ export default defineComponent({
   padding-block: 0.375rem;
   padding-inline: 0.375rem;
 
-  background-color: var(--color-background-badge-indicator-neutral);
+  background-color: var(--palette-purple-faded);
 }
 
 .unit-stage > .connector > .indicator > .dot {
@@ -602,7 +603,7 @@ export default defineComponent({
   height: 0.5rem;
   width: 0.5rem;
 
-  background-color: var(--color-text-primary);
+  background-color: var(--palette-purple);
 }
 
 .unit-stage > .connector > .line {
@@ -621,6 +622,32 @@ export default defineComponent({
 
     order: 3;
   }
+}
+
+.unit-stage.trader > .content > .actor {
+  background-color: var(--palette-yellow-faded);
+  color: var(--palette-yellow);
+}
+
+.unit-stage.trader > .connector > .indicator {
+  background-color: var(--palette-yellow-faded);
+}
+
+.unit-stage.trader > .connector > .indicator > .dot {
+  background-color: var(--palette-yellow);
+}
+
+.unit-stage.system > .content > .actor {
+  background-color: var(--palette-green-faded);
+  color: var(--palette-green);
+}
+
+.unit-stage.system > .connector > .indicator {
+  background-color: var(--palette-green-faded);
+}
+
+.unit-stage.system > .connector > .indicator > .dot {
+  background-color: var(--palette-green);
 }
 
 /************** FAQs section **************/
