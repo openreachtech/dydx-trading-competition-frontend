@@ -79,6 +79,10 @@ export default defineComponent({
         </div>
       </div>
 
+      <span class="note">
+        {{ context.generateLastCalculatedAt() }}
+      </span>
+
       <AppTable :header-entries="context.tableHeaderEntries"
         :entries="context.normalizeRankings()"
         :is-loading="context.statusReactive.isLoading"
@@ -162,6 +166,9 @@ export default defineComponent({
 
   padding-inline: var(--size-body-padding-inline-mobile);
 
+  display: flex;
+  flex-direction: column;
+
   max-width: var(--size-body-max-width);
 
   @media (30rem < width) {
@@ -169,18 +176,30 @@ export default defineComponent({
   }
 }
 
-.unit-section > .inner > .table {
+.unit-section > .inner > .note {
   margin-block-start: 3rem;
+
+  align-self: end;
+  text-align: end;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+
+  @media (48rem < width) {
+    margin-block-start: 5rem;
+  }
+}
+
+.unit-section > .inner > .table {
+  margin-block-start: 1rem;
 
   font-size: var(--font-size-base);
   line-height: var(--size-line-height-base);
   font-weight: 500;
 
   color: var(--color-text-secondary);
-
-  @media (48rem < width) {
-    margin-block-start: 6rem;
-  }
 }
 
 .unit-section > .inner > .pagination {
