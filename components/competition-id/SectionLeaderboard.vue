@@ -94,7 +94,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-address="{ value}">
+        <template #body-address="{ value }">
           <span class="unit-address">
             <span>
               {{
@@ -118,7 +118,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-baseline="{ value}">
+        <template #body-baseline="{ value }">
           <span class="unit-baseline"
             :class="context.generatePerformanceBaselineClasses({
               baseline: value,
@@ -138,7 +138,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-pnl="{ value}">
+        <template #body-pnl="{ value }">
           <span class="unit-pnl">
             ${{ value }}
           </span>
