@@ -130,6 +130,51 @@ export default defineComponent({
           with clear roles for hosts, traders, and the platform system.
         </p>
 
+        <div class="unit-timeline">
+          <template v-for="phase of context.lifecycle">
+            <h3 class="heading">
+              {{ phase.phaseName }}
+            </h3>
+
+            <div v-for="it of phase.timeline"
+              class="unit-stage"
+            >
+              <div class="content">
+                <span class="actor">
+                  {{ it.actor }}
+                </span>
+
+                <span class="title">
+                  {{ it.title }}
+                </span>
+
+                <p class="description">
+                  {{ it.description }}
+                </p>
+
+                <ul class="unit-characteristics">
+                  <li v-for="(characteristic, index) of it.characteristics"
+                    :key="index"
+                    class="characteristic"
+                  >
+                    <span class="bullet" />
+                    <span>{{ characteristic }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="connector">
+                <div class="indicator">
+                  <div class="dot" />
+                </div>
+                <div class="line" />
+              </div>
+
+              <div class="empty" />
+            </div>
+          </template>
+        </div>
+
         <AppButton class="button">
           Get it? Let's join a competition now!
         </AppButton>
@@ -407,6 +452,139 @@ export default defineComponent({
 
   font-size: var(--font-size-base);
   line-height: var(--size-line-height-base);
+}
+
+.unit-timeline {
+  margin-block-start: 3rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.unit-timeline > .heading {
+  margin-block: 1.25rem;
+
+  border-radius: 100vh;
+
+  padding-block: 0.5rem;
+  padding-inline: 1.5rem;
+
+  background-color: var(--color-background-card-header);
+
+  align-self: center;
+
+  font-size: var(--font-size-large);
+  font-weight: 500;
+  line-height: var(--size-line-height-large);
+
+  text-align: center;
+
+  box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
+}
+
+.unit-stage {
+  /* Reset default top margin. */
+  margin-block-start: 0;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+}
+
+.unit-stage:nth-of-type(2n) > .connector {
+  order: 2;
+}
+
+.unit-stage:nth-of-type(2n) > .content {
+  order: 3;
+}
+
+.unit-stage:nth-of-type(2n) > .empty {
+  order: 1;
+}
+
+.unit-stage > .content {
+  margin-block-end: 4rem;
+
+  border-radius: 0.75rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
+
+  padding-block: 1.5rem;
+  padding-inline: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.25rem;
+
+  background-color: var(--color-background-card);
+}
+
+.unit-stage > .content > .actor {
+  border-radius: 100vh;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.75rem;
+
+  font-size: var(--font-size-small);
+  font-weight: 700;
+
+  background-color: var(--palette-purple-faded);
+  color: var(--palette-purple);
+
+  text-transform: uppercase;
+}
+
+.unit-stage > .content > .title {
+  margin-block-start: 0.5rem;
+
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  line-height: var(--size-line-height-medium);
+}
+
+.unit-stage > .content > .description {
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-secondary);
+}
+
+.unit-stage > .connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unit-stage > .connector > .indicator {
+  border-radius: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
+  background-color: var(--color-background-badge-indicator-neutral);
+}
+
+.unit-stage > .connector > .indicator > .dot {
+  border-radius: inherit;
+
+  height: 0.5rem;
+  width: 0.5rem;
+
+  background-color: var(--color-text-primary);
+}
+
+.unit-stage > .connector > .line {
+  border-inline-end-width: 0.125rem;
+  border-inline-end-style: dashed;
+  border-inline-end-color: var(--color-background-timeline-connector);
+
+  flex: 1;
 }
 
 /************** FAQs section **************/
