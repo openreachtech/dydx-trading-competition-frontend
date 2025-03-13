@@ -60,6 +60,13 @@ export default class AppDatePikcerContext extends BaseFuroContext {
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      CHANGE_DATE: 'changeDate',
+    }
+  }
+
   /**
    * get: shouldDisablePastDates
    *
@@ -357,6 +364,8 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       .split('T')
       .at(0)
       ?? ''
+
+    this.emit(this.EMIT_EVENT_NAME.CHANGE_DATE, this.inputValue)
   }
 
   /**

@@ -40,6 +40,10 @@ export default defineComponent({
     },
   },
 
+  emits: [
+    'changeDate',
+  ],
+
   setup (
     props,
     componentContext
@@ -61,6 +65,7 @@ export default defineComponent({
       isDropdownOpenRef,
       dateReactive,
     }
+    // @ts-expect-error - Type of emit should take a generic. Needs to resolve in furo-nuxt.
     const context = AppDatePickerContext.create(args)
       .setupComponent()
 
