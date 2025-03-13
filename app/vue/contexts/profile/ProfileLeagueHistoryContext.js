@@ -186,13 +186,6 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
         },
       },
       {
-        key: 'baseline',
-        label: 'Performance Baseline',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-      {
         label: 'Prize',
         key: 'prize',
         columnOptions: {
@@ -202,6 +195,13 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
       {
         label: 'PnL($)/ROI',
         key: 'profit',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'baseline',
+        label: 'Performance Baseline',
         columnOptions: {
           textAlign: 'end',
         },

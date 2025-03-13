@@ -82,19 +82,19 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
         label: 'Address',
       },
       {
+        key: 'pnl',
+        label: 'PnL',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
         key: 'baseline',
         label: 'Performance Baseline',
       },
       {
         key: 'roi',
         label: 'ROI',
-      },
-      {
-        key: 'pnl',
-        label: 'PnL',
-        columnOptions: {
-          textAlign: 'end',
-        },
       },
     ]
   }
