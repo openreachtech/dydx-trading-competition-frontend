@@ -152,10 +152,6 @@ export default defineComponent({
               })
             }}
           </span>
-
-          <span class="indicator first">
-            F
-          </span>
         </button>
       </div>
     </div>
@@ -369,10 +365,6 @@ export default defineComponent({
   background-color: var(--color-text-placeholder);
 
   content: '';
-}
-
-.unit-dropdown > .dates > .date:not(.first) > .indicator.first {
-  display: none;
 }
 
 .unit-dropdown > .dates > .date:disabled {
