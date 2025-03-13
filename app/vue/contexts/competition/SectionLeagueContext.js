@@ -111,6 +111,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: hostAddress
+   *
+   * @returns {string | null} The host's wallet address.
+   */
+  get hostAddress () {
+    return this.host
+      ?.address
+      ?? null
+  }
+
+  /**
    * get: participantUpperLimit
    *
    * @returns {CompetitionEntity['participantUpperLimit'] | null}

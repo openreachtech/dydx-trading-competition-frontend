@@ -10,6 +10,7 @@ import {
 
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
+import CopyButton from '~/components/buttons/CopyButton.vue'
 
 import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueContext'
 
@@ -25,6 +26,7 @@ export default defineComponent({
     Icon,
     AppIconBadge,
     AppButton,
+    CopyButton,
   },
 
   props: {
@@ -171,13 +173,7 @@ export default defineComponent({
                   {{ context.generateHostAddress() }}
                 </span>
 
-                <!-- TODO: Add copy logic -->
-                <button class="button">
-                  <Icon name="heroicons-outline:duplicate"
-                    size="1rem"
-                    class="icon"
-                  />
-                </button>
+                <CopyButton :content-to-copy="context.hostAddress" />
 
                 <NuxtLink class="button"
                   :to="context.generateHostAddressUrl()"
