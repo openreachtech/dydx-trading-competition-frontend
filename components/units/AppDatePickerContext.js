@@ -7,7 +7,7 @@ const MAX_DISPLAYED_DAYS_PER_MONTH = 42
 /**
  * AppDatePikcerContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, AppDatePickerProps, 'changeDate'>}
  */
 export default class AppDatePikcerContext extends BaseFuroContext {
   /**
@@ -526,7 +526,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
  *   inputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
  *   dateReactive: DateReactive
@@ -550,4 +550,11 @@ export default class AppDatePikcerContext extends BaseFuroContext {
  *   month: number
  *   year: number
  * }} DisplayedDay
+ */
+
+/**
+ * @typedef {{
+ *   shouldDisablePastDates: boolean
+ *   rootClass: string
+ * }} AppDatePickerProps
  */
