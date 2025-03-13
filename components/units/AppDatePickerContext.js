@@ -119,8 +119,8 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       today: this.isToday({
         date,
       }),
-      first: this.isFirstDayOfMonth({
-        day: date.day,
+      'off-month': !this.isInThisMonth({
+        date,
       }),
     }
   }
@@ -459,17 +459,18 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
-   * Check if a day is the first day of a month.
+   * Check if a date is in this month.
    *
    * @param {{
-   *   day: number
+   *   date: DisplayedDay
    * }} params - Parameters.
-   * @returns {boolean} `true` if is the first day of a month.
+   * @returns {boolean} `true` if is today.
    */
-  isFirstDayOfMonth ({
-    day,
+  isInThisMonth ({
+    date,
   }) {
-    return day === 1
+    return date.month === this.dateReactive.currentMonth
+      && date.year === this.dateReactive.currentYear
   }
 
   /**
