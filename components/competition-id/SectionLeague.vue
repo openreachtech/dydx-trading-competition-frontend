@@ -75,7 +75,6 @@ export default defineComponent({
             {{ context.generateBadgeDescription() }}
           </AppIconBadge>
 
-          <!-- TODO: Real timeline data -->
           <div class="timeline">
             <span class="period">
               <Icon name="heroicons:rocket-launch-solid"
@@ -120,7 +119,6 @@ export default defineComponent({
           <!-- NOTE: Participants here. Missing API -->
         </div>
 
-        <!-- TODO: This one should be a countdown? -->
         <AppLeagueCountdown class="note"
           :schedules="context.schedules"
         />
