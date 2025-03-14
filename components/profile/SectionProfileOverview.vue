@@ -4,19 +4,19 @@ import {
 } from 'vue'
 
 import {
-  NuxtLink,
   Icon,
 } from '#components'
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionProfileOverviewContext'
 
 export default defineComponent({
   components: {
-    NuxtLink,
     Icon,
     CopyButton,
+    LinkTooltipButton,
   },
 
   props: {
@@ -81,16 +81,14 @@ export default defineComponent({
               icon-size="1.25rem"
             />
 
-            <NuxtLink class="button"
-              :to="context.generateHostAddressUrl()"
+            <LinkTooltipButton :content="context.generateHostAddressUrl()"
+              :href="context.generateHostAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              <Icon name="heroicons-outline:external-link"
-                size="1.25rem"
-              />
-            </NuxtLink>
+              icon-size="1.25rem"
+              tooltip-message="View on Mintscan"
+            />
           </div>
         </div>
       </div>
@@ -261,22 +259,6 @@ export default defineComponent({
 .unit-basic > .address > .actions {
   display: flex;
   gap: 0.75rem;
-}
-
-.unit-basic > .address > .actions > .button {
-  padding: 0;
-
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--color-text-tertiary);
-
-  transition: color 250ms var(--transition-timing-base);
-}
-
-.unit-basic > .address > .actions > .button:hover {
-  color: var(--color-text-secondary);
 }
 
 .unit-description {
