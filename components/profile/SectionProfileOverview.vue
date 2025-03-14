@@ -8,12 +8,15 @@ import {
   Icon,
 } from '#components'
 
+import CopyButton from '~/components/buttons/CopyButton.vue'
+
 import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionProfileOverviewContext'
 
 export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    CopyButton,
   },
 
   props: {
@@ -74,13 +77,9 @@ export default defineComponent({
           </span>
 
           <div class="actions">
-            <button class="button"
-              aria-label="Copy address"
-            >
-              <Icon name="heroicons-outline:duplicate"
-                size="1.25rem"
-              />
-            </button>
+            <CopyButton :content-to-copy="context.hostAddress"
+              icon-size="1.25rem"
+            />
 
             <NuxtLink class="button"
               :to="context.generateHostAddressUrl()"

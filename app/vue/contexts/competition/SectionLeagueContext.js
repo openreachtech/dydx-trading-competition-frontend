@@ -111,6 +111,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: hostAddress
+   *
+   * @returns {string | null} The host's wallet address.
+   */
+  get hostAddress () {
+    return this.host
+      ?.address
+      ?? null
+  }
+
+  /**
    * get: participantUpperLimit
    *
    * @returns {CompetitionEntity['participantUpperLimit'] | null}
@@ -258,17 +269,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
-   * Copy competition Url
+   * Generate competition URL.
    *
-   * @returns {Promise<void>}
+   * @returns {string} Competition URL.
    */
-  async copyCompetitionUrl () {
+  generateCompetitionUrl () {
     const route = useRoute()
     const { origin: urlOrigin } = window.location
 
     const competitionUrl = `${urlOrigin}${route.path}`
 
-    await navigator.clipboard.writeText(competitionUrl)
+    return competitionUrl
   }
 
   /**
