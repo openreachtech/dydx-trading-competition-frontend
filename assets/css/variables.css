@@ -85,6 +85,15 @@
   --color-background-timeline-connector: var(--palette-layer-7);
   --color-background-timeline-connector-elapsed: var(--palette-yellow);
 
+  /* TODO: The color is pretty much random so I don't know how to name them */
+  /* Please think of something more intuitive if possible. */
+  --color-background-timeline-indicator-yellow: var(--palette-yellow-faded);
+  --color-background-timeline-indicator-green: var(--palette-green-faded);
+  --color-background-timeline-indicator-neutral: var(--palette-layer-7);
+  --color-background-timeline-dot-yellow: var(--palette-yellow);
+  --color-background-timeline-dot-green: var(--palette-green);
+  --color-background-timeline-dot-neutral: var(--color-text-primary);
+
   --color-background-table: var(--palette-layer-2);
 
   --color-background-profile-section-darker: var(--palette-layer-0);

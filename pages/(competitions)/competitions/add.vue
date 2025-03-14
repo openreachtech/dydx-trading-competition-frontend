@@ -11,6 +11,7 @@ import {
 
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
+import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
 
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 
@@ -30,6 +31,7 @@ export default defineComponent({
     Icon,
     AddCompetitionFormSteps,
     AddCompetitionFormStepDetails,
+    AddCompetitionFormStepTimeline,
   },
 
   setup (
@@ -82,6 +84,8 @@ export default defineComponent({
       <form class="unit-form">
         <div class="steps">
           <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })" />
+
+          <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })" />
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
