@@ -125,7 +125,7 @@ export default defineComponent({
               >
 
               <span class="note">
-                <span>{{
+                <span class="figure">{{
                   context.normalizeDisplayedDate({
                     key: phase.endDateExtractionKey,
                   })
@@ -279,6 +279,12 @@ export default defineComponent({
   font-size: var(--font-size-small);
 
   color: var(--color-text-tertiary);
+}
+
+.unit-pickers > .date > .note > .figure {
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
 }
 
 /* Conditionally hide stuff */
