@@ -169,7 +169,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
 
-  background-color: var(--color-background-badge-neutral);
+  background-color: var(--color-background-timeline-indicator-yellow);
 }
 
 .unit-stage > .connector > .indicator > .dot {
@@ -178,7 +178,23 @@ export default defineComponent({
   width: 0.625rem;
   height: 0.625rem;
 
-  background-color: var(--color-background-badge-indicator-neutral);
+  background-color: var(--color-background-timeline-dot-yellow);
+}
+
+.unit-stage:nth-of-type(3n + 2) > .connector > .indicator {
+  background-color: var(--color-background-timeline-indicator-green);
+}
+
+.unit-stage:nth-of-type(3n + 2) > .connector > .indicator > .dot {
+  background-color: var(--color-background-timeline-dot-green);
+}
+
+.unit-stage:nth-of-type(3n) > .connector > .indicator {
+  background-color: var(--color-background-timeline-indicator-neutral);
+}
+
+.unit-stage:nth-of-type(3n) > .connector > .indicator > .dot {
+  background-color: var(--color-background-timeline-dot-neutral);
 }
 
 .unit-stage > .connector > .line {
