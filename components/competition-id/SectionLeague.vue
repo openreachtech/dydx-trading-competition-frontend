@@ -9,6 +9,7 @@ import {
 
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
+import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -25,6 +26,7 @@ export default defineComponent({
     Icon,
     AppIconBadge,
     AppButton,
+    AppLeagueCountdown,
     CopyButton,
     LinkTooltipButton,
   },
@@ -119,9 +121,9 @@ export default defineComponent({
         </div>
 
         <!-- TODO: This one should be a countdown? -->
-        <span class="note">
-          Registration closes in 20 days.
-        </span>
+        <AppLeagueCountdown class="note"
+          :schedules="context.schedules"
+        />
       </div>
 
       <div class="unit-meta">
@@ -361,13 +363,6 @@ export default defineComponent({
 
 .unit-details > .note {
   margin-block-start: 0.75rem;
-
-  display: inline-block;
-
-  font-size: var(--font-size-small);
-  font-weight: 500;
-
-  color: var(--color-text-tertiary);
 }
 
 .unit-meta {
