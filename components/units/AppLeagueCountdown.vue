@@ -69,7 +69,7 @@ export default defineComponent({
       class="icon"
     />
 
-    <span>Ends in 20 days</span>
+    <span>{{ context.generateCountdownText() }}</span>
   </span>
 </template>
 
