@@ -133,6 +133,7 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
+/* TODO: Should update AppTimeline so it can be reused here. */
 .unit-section > .timeline {
   margin-block-start: 1.5rem;
 
