@@ -66,6 +66,7 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
         title: 'Registration Stage',
         startDateInputId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+        endDateExtractionKey: 'registration',
         note: '(automatically set to one day before Competition Stage start date)',
       },
       {
@@ -74,14 +75,63 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
         title: 'Competition Stage',
         startDateInputId: SCHEDULE_CATEGORY.COMPETITION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
+        endDateSelectionKey: 'registration',
+        endDateExtractionKey: 'competition',
         note: '(automatically set to one day before Reward Distribution start date)',
       },
       {
         iconName: 'heroicons:flag-solid',
         title: 'Reward Distribution',
+        endDateSelectionKey: 'competition',
         startDateInputId: SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
       },
     ]
+  }
+
+  /**
+   * Set end date value.
+   *
+   * @param {{
+   *   key: Phase['endDateSelectionKey']
+   *   date: string
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  selectEndDateValue ({
+    key,
+    date,
+  }) {
+    if (!key) {
+      return
+    }
+
+    const selectedDate = new Date(date)
+    selectedDate.setDate(selectedDate.getDate() - 1)
+
+    const oneDayBefore = selectedDate.toISOString()
+      .split('T')
+      .at(0)
+      ?? ''
+
+    this.endDateReactive[key] = oneDayBefore
+  }
+
+  /**
+   * Extract end date value.
+   *
+   * @param {{
+   *   key: Phase['endDateExtractionKey']
+   * }} params - Parameters
+   * @returns {string}
+   */
+  extractEndDateValue ({
+    key,
+  }) {
+    if (!key) {
+      return ''
+    }
+
+    return this.endDateReactive[key]
   }
 
   /**
@@ -126,6 +176,8 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
  *   title: string
  *   startDateInputId: number
  *   endDateInputId?: number
+ *   endDateSelectionKey?: keyof AddCompetitionFormStepTimelineContextParams['endDateReactive']
+ *   endDateExtractionKey?: keyof AddCompetitionFormStepTimelineContextParams['endDateReactive']
  *   note?: string
  * }} Phase
  */

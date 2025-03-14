@@ -97,6 +97,10 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
+                  @change-date="context.selectEndDateValue({
+                    key: phase.endDateSelectionKey,
+                    date: $event.date,
+                  })"
                 />
               </label>
             </fieldset>
@@ -115,6 +119,9 @@ export default defineComponent({
 
               <input type="hidden"
                 name="scheduledDatetime"
+                :value="context.extractEndDateValue({
+                  key: phase.endDateExtractionKey,
+                })"
               >
 
               <span class="note">
