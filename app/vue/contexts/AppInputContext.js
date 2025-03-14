@@ -25,4 +25,13 @@ export default class AppInputContext extends BaseFuroContext {
   get errorMessage () {
     return this.props.errorMessage
   }
+
+  /**
+   * get: rootClass
+   *
+   * @returns {string} Root CSS class
+   */
+  get rootClass () {
+    return this.props.rootClass
+  }
 }

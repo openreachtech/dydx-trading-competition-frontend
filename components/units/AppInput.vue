@@ -22,6 +22,14 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    /**
+     * Root class for layout controlled by parent element.
+     */
+    rootClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   setup (
