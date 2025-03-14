@@ -56,9 +56,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-countdown">
+  <span class="unit-countdown"
+    :class="context.generateCountdownClasses()"
+  >
     <Icon :name="context.iconName"
       :size="context.iconSize"
+      class="icon"
     />
 
     <span>Ends in 20 days</span>
@@ -75,5 +78,9 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-tertiary);
+}
+
+.unit-countdown.hide-icon > .icon {
+  display: none;
 }
 </style>

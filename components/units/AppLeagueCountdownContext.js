@@ -34,6 +34,17 @@ export default class AppLeagueCountdownContext extends BaseFuroContext {
   get iconSize () {
     return this.props.iconSize
   }
+
+  /**
+   * Generate CSS classes for countdown.
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generateCountdownClasses () {
+    return {
+      'hide-icon': this.shouldHideIcon,
+    }
+  }
 }
 
 /**
