@@ -56,10 +56,17 @@ export default defineComponent({
     </div>
 
     <div class="timeline">
-      <div class="unit-stage">
-        <Icon name="heroicons:rocket-launch-solid"
+      <div v-for="phase of context.generateTimeline()"
+        :key="phase.startDateInputId"
+        class="unit-stage"
+        :class="context.generatePhaseClasses({
+          phase,
+        })"
+      >
+        <Icon :name="phase.iconName"
           size="1rem"
           class="icon"
+          :aria-hidden="phase.shouldHideIcon"
         />
 
         <div class="connector">
@@ -71,7 +78,7 @@ export default defineComponent({
 
         <div class="content">
           <span class="heading">
-            Registration Stage
+            {{ phase.title }}
           </span>
 
           <div class="unit-pickers">
@@ -85,14 +92,14 @@ export default defineComponent({
               </label>
             </fieldset>
 
-            <fieldset class="date">
+            <fieldset class="date end">
               <span class="label">
                 End Date
               </span>
 
               <span class="note">
                 <span>--/--/----</span>
-                <span>(automatically set to one day before Competition Stage start date)</span>
+                <span>{{ phase.note }}</span>
               </span>
             </fieldset>
           </div>
@@ -224,5 +231,15 @@ export default defineComponent({
   font-size: var(--font-size-small);
 
   color: var(--color-text-tertiary);
+}
+
+/* Conditionally hide stuff */
+.unit-stage.hide-icon > .icon {
+  /* If `display: none` is used, it will break the layout. */
+  opacity: 0;
+}
+
+.unit-stage.hide-end-date > .content > .unit-pickers > .date.end {
+  display: none;
 }
 </style>
