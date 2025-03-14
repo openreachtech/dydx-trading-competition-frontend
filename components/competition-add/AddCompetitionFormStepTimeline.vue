@@ -82,20 +82,40 @@ export default defineComponent({
           </span>
 
           <div class="unit-pickers">
-            <fieldset class="fieldset">
+            <fieldset class="fieldset"
+              name="schedules[]"
+            >
               <label class="date">
                 <span class="label">
                   Start Date (MM/DD/YYYY)
                 </span>
 
-                <AppDatePicker should-disable-past-dates />
+                <input type="hidden"
+                  name="categoryId"
+                  :value="phase.startDateInputId"
+                >
+
+                <AppDatePicker should-disable-past-dates
+                  name="scheduledDatetime"
+                />
               </label>
             </fieldset>
 
-            <fieldset class="date end">
+            <fieldset class="date end"
+              name="schedules[]"
+            >
               <span class="label">
                 End Date
               </span>
+
+              <input type="hidden"
+                name="categoryId"
+                :value="phase.endDateInputId"
+              >
+
+              <input type="hidden"
+                name="scheduledDatetime"
+              >
 
               <span class="note">
                 <span>--/--/----</span>
