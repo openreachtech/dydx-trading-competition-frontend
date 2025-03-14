@@ -129,8 +129,7 @@ export default defineComponent({
                   context.normalizeDisplayedDate({
                     key: phase.endDateExtractionKey,
                   })
-                }}</span>
-                <span>{{ phase.note }}</span>
+                }}</span> {{ phase.note }}
               </span>
             </fieldset>
           </div>
