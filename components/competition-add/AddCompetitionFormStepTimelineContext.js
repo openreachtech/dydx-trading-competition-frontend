@@ -135,6 +135,37 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
   }
 
   /**
+   * Normalize displayed date.
+   *
+   * @param {{
+   *   key: Phase['endDateExtractionKey']
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeDisplayedDate ({
+    key,
+  }) {
+    const dateValue = this.extractEndDateValue({
+      key,
+    })
+
+    if (!dateValue) {
+      return '----/--/--'
+    }
+
+    const dateInstance = new Date(dateValue)
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'UTC',
+    })
+
+    return formatter.format(dateInstance)
+      .replace(/-/gu, '/')
+  }
+
+  /**
    * Generate CSS classes for a phase.
    *
    * @param {{
