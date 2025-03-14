@@ -4,13 +4,13 @@ import {
 } from 'vue'
 
 import {
-  NuxtLink,
   Icon,
 } from '#components'
 
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueContext'
 
@@ -22,11 +22,11 @@ import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueCo
 
 export default defineComponent({
   components: {
-    NuxtLink,
     Icon,
     AppIconBadge,
     AppButton,
     CopyButton,
+    LinkTooltipButton,
   },
 
   props: {
@@ -172,16 +172,11 @@ export default defineComponent({
 
                 <CopyButton :content-to-copy="context.hostAddress" />
 
-                <NuxtLink class="button"
-                  :to="context.generateHostAddressUrl()"
+                <LinkTooltipButton :href="context.generateHostAddressUrl()"
                   target="_blank"
                   rel="noopener noreferrer"
-                >
-                  <Icon name="heroicons-outline:external-link"
-                    size="1rem"
-                    class="icon"
-                  />
-                </NuxtLink>
+                  tooltip-message="View on Mintscan"
+                />
               </span>
             </dd>
           </div>
@@ -498,22 +493,6 @@ export default defineComponent({
   flex-shrink: 0;
 
   background-color: var(--color-background-connector);
-}
-
-.unit-statistics > .entry > .details.host > .wallet > .button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  flex-shrink: 0;
-
-  color: var(--color-text-tertiary);
-
-  transition: color 250ms var(--transition-timing-base);
-}
-
-.unit-statistics > .entry > .details.host > .wallet > .button:hover {
-  color: var(--color-text-primary);
 }
 
 .unit-statistics > .entry > .details.participant > .limit.lower {

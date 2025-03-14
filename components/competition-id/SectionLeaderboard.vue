@@ -4,14 +4,10 @@ import {
   reactive,
 } from 'vue'
 
-import {
-  Icon,
-  NuxtLink,
-} from '#components'
-
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import {
   useRoute,
@@ -27,11 +23,10 @@ import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLea
 
 export default defineComponent({
   components: {
-    Icon,
-    NuxtLink,
     AppTable,
     AppPagination,
     TopRankingCard,
+    LinkTooltipButton,
   },
 
   setup (
@@ -104,17 +99,13 @@ export default defineComponent({
               }}
             </span>
 
-            <NuxtLink class="link"
-              :to="context.generateAddressUrl({
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateAddressUrl({
                 address: value,
               })"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              <Icon name="heroicons-outline:external-link"
-                size="1rem"
-              />
-            </NuxtLink>
+            />
           </span>
         </template>
 
@@ -339,20 +330,6 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-}
-
-.unit-address > .link {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--color-text-tertiary);
-
-  transition: color 250ms var(--transition-timing-base);
-}
-
-.unit-address > .link:hover {
-  color: var(--color-text-primary);
 }
 
 .unit-baseline {
