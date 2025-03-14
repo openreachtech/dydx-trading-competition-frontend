@@ -34,4 +34,18 @@ export default class AppInputContext extends BaseFuroContext {
   get rootClass () {
     return this.props.rootClass
   }
+
+  /**
+   * Generate input classes.
+   *
+   * @returns {Array<string | Record<string, boolean>>} CSS classes
+   */
+  generateInputClasses () {
+    return [
+      this.rootClass,
+      {
+        error: this.hasError,
+      },
+    ]
+  }
 }

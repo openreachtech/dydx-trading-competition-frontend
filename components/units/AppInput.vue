@@ -52,9 +52,7 @@ export default defineComponent({
 
 <template>
   <span class="unit-input"
-    :class="{
-      error: context.hasError,
-    }"
+    :class="context.generateInputClasses()"
   >
     <input v-bind="$attrs"
       class="input"
