@@ -22,6 +22,14 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    /**
+     * Root class for layout controlled by parent element.
+     */
+    rootClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   setup (
@@ -44,9 +52,7 @@ export default defineComponent({
 
 <template>
   <span class="unit-input"
-    :class="{
-      error: context.hasError,
-    }"
+    :class="context.generateInputClasses()"
   >
     <input v-bind="$attrs"
       class="input"
