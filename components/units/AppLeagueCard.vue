@@ -10,11 +10,13 @@ import {
 
 import AppLeagueCardContext from '~/app/vue/contexts/AppLeagueCardContext'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
+import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 
 export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppLeagueCountdown,
     AppIconBadge,
   },
 
@@ -69,10 +71,7 @@ export default defineComponent({
             <!-- TODO: Another badge here? -->
           </div>
 
-          <span>
-            <!-- TODO: Time indicator -->
-            TODO: Time indicator
-          </span>
+          <AppLeagueCountdown />
         </div>
       </div>
 
