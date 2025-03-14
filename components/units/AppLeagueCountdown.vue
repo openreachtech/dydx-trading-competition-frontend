@@ -35,6 +35,11 @@ export default defineComponent({
       /** @type {(value: string) => boolean} */
       validator: value => /^\d*\.?\d+rem$/u.test(value),
     },
+    schedules: {
+      /** @type {import('vue').PropType<import('./AppLeagueCountdownContext').AppLeagueCountdownProps['schedules']>} */
+      type: Array,
+      required: true,
+    },
   },
 
   setup (

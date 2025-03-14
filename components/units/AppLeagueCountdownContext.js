@@ -36,6 +36,15 @@ export default class AppLeagueCountdownContext extends BaseFuroContext {
   }
 
   /**
+   * get: schedules
+   *
+   * @returns {AppLeagueCountdownProps['schedules']}
+   */
+  get schedules () {
+    return this.props.schedules
+  }
+
+  /**
    * Generate CSS classes for countdown.
    *
    * @returns {Record<string, boolean>} CSS classes.
@@ -52,5 +61,6 @@ export default class AppLeagueCountdownContext extends BaseFuroContext {
  *   shouldHideIcon: boolean
  *   iconName: string
  *   iconSize: string
+ *   schedules: import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity['schedules']
  * }} AppLeagueCountdownProps
  */
