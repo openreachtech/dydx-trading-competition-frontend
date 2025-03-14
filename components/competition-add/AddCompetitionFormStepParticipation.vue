@@ -87,7 +87,9 @@ export default defineComponent({
         <span>Entry Balance</span>
       </h3>
 
-      <AppInput name="minimumDeposit" />
+      <AppInput name="minimumDeposit"
+        placeholder="e.g. 10"
+      />
 
       <p class="note">
         Required balance in the DYDX wallet at the time of enrollment.
