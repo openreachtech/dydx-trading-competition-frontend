@@ -125,6 +125,17 @@ export default class AppLeagueCardContext extends BaseFuroContext {
   }
 
   /**
+   * get: schedules
+   *
+   * @returns {CompetitionEntity['schedules']}
+   */
+  get schedules () {
+    return this.extractCompetition()
+      ?.schedules
+      ?? []
+  }
+
+  /**
    * Generate badge severity.
    *
    * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.

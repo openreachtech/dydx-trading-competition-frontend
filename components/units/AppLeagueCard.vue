@@ -71,7 +71,7 @@ export default defineComponent({
             <!-- TODO: Another badge here? -->
           </div>
 
-          <AppLeagueCountdown />
+          <AppLeagueCountdown :schedules="context.schedules" />
         </div>
       </div>
 
