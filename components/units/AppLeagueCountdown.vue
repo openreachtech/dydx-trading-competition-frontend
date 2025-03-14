@@ -75,7 +75,7 @@ export default defineComponent({
 
 <style scoped>
 .unit-countdown {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
 
