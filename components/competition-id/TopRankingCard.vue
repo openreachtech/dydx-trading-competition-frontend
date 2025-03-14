@@ -3,17 +3,13 @@ import {
   defineComponent,
 } from 'vue'
 
-import {
-  Icon,
-  NuxtLink,
-} from '#components'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import TopRankingCardContext from '~/app/vue/contexts/competition/TopRankingCardContext'
 
 export default defineComponent({
   components: {
-    Icon,
-    NuxtLink,
+    LinkTooltipButton,
   },
 
   props: {
@@ -63,15 +59,14 @@ export default defineComponent({
             {{ context.generateShortenedAddress() }}
           </span>
 
-          <NuxtLink class="link"
-            :to="context.generateAddressUrl()"
+          <LinkTooltipButton class="link"
+            :href="context.generateAddressUrl()"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            <Icon name="heroicons:arrow-up-right"
-              size="0.75rem"
-            />
-          </NuxtLink>
+            icon-name="heroicons:arrow-up-right"
+            icon-size="0.75rem"
+            tooltip-message="View on Mintscan"
+          />
         </span>
       </div>
 
@@ -182,20 +177,6 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.unit-meta > .address > .link {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--color-text-tertiary);
-
-  transition: color 250ms var(--transition-timing-base);
-}
-
-.unit-meta > .address > .link:hover {
-  color: var(--color-text-primary);
 }
 
 .unit-card > .divider {
