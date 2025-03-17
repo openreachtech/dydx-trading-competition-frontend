@@ -79,13 +79,30 @@ export default defineComponent({
           Prize
         </span>
 
-        <template v-for="it of context.prizeRulesRef.value">
-          <AppInput type="number"
-            :value="it.rankFrom"
-          />
+        <template v-for="(it, index) of context.prizeRulesRef.value">
+          <span class="ranks"
+            :class="context.generateRankRangeClasses({
+              prizeRule: it,
+            })"
+          >
+            <AppInput type="number"
+              :value="it.rankFrom"
+              root-class="rank"
+            />
+
+            <span class="connector">to</span>
+
+            <AppInput type="number"
+              :value="it.rankFrom"
+              root-class="rank to"
+            />
+          </span>
 
           <button class="button plus"
             type="button"
+            @click="context.toggleRankRange({
+              index,
+            })"
           >
             <Icon name="heroicons-outline:plus"
               size="0.875rem"
@@ -228,6 +245,31 @@ export default defineComponent({
   @media (48rem < width) {
     display: inline;
   }
+}
+
+.unit-rules > .ranks {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.unit-rules > .ranks > .rank {
+  flex: 1;
+}
+
+.unit-rules > .ranks:not(.range) > .rank.to {
+  display: none;
+}
+
+.unit-rules > .ranks > .connector {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-rules > .ranks:not(.range) > .connector {
+  display: none;
 }
 
 .unit-rules > .button {
