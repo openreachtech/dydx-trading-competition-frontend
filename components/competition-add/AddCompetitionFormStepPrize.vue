@@ -79,7 +79,10 @@ export default defineComponent({
           Prize
         </span>
 
-        <template v-for="(it, index) of context.prizeRulesRef.value">
+        <fieldset v-for="(it, index) of context.prizeRulesRef.value"
+          class="unit-fieldset"
+          name="prizeRules[]"
+        >
           <span class="ranks"
             :class="context.generateRankRangeClasses({
               prizeRule: it,
@@ -88,6 +91,7 @@ export default defineComponent({
             <AppInput type="number"
               :value="it.rankFrom"
               root-class="rank"
+              name="rankFrom"
               @value-update="context.updateInputValue({
                 index,
                 key: 'rankFrom',
@@ -100,6 +104,7 @@ export default defineComponent({
             <AppInput type="number"
               :value="it.rankTo"
               root-class="rank to"
+              name="rankTo"
               @value-update="context.updateInputValue({
                 index,
                 key: 'rankTo',
@@ -132,6 +137,7 @@ export default defineComponent({
 
           <AppInput root-class="input prize"
             placeholder="Enter prize amount"
+            name="amount"
             :value="it.amount"
             @value-update="context.updateInputValue({
               index,
@@ -150,7 +156,7 @@ export default defineComponent({
               size="1.5rem"
             />
           </button>
-        </template>
+        </fieldset>
       </div>
 
       <AppButton appearance="outlined"
@@ -274,32 +280,36 @@ export default defineComponent({
   }
 }
 
-.unit-rules > .ranks {
+.unit-fieldset {
+  display: contents;
+}
+
+.unit-fieldset > .ranks {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.unit-rules > .ranks > .rank {
+.unit-fieldset > .ranks > .rank {
   flex: 1;
 }
 
-.unit-rules > .ranks:not(.range) > .rank.to {
+.unit-fieldset > .ranks:not(.range) > .rank.to {
   display: none;
 }
 
-.unit-rules > .ranks > .connector {
+.unit-fieldset > .ranks > .connector {
   font-size: var(--font-size-base);
   font-weight: 500;
 
   color: var(--color-text-tertiary);
 }
 
-.unit-rules > .ranks:not(.range) > .connector {
+.unit-fieldset > .ranks:not(.range) > .connector {
   display: none;
 }
 
-.unit-rules > .button {
+.unit-fieldset > .button {
   border-radius: 100vh;
 
   padding-block: 0.3125rem;
@@ -308,32 +318,32 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-rules > .button.toggle {
+.unit-fieldset > .button.toggle {
   background-color: var(--color-background-button-muted);
   color: var(--color-text-tertiary);
 }
 
-.unit-rules > .button.toggle:not(.range) > .minus {
+.unit-fieldset > .button.toggle:not(.range) > .minus {
   display: none;
 }
 
-.unit-rules > .button.toggle.range > .plus {
+.unit-fieldset > .button.toggle.range > .plus {
   display: none;
 }
 
-.unit-rules > .button.minus {
+.unit-fieldset > .button.minus {
   color: var(--color-text-placeholder);
 }
 
-.unit-rules > .button.minus:nth-of-type(2) {
+.unit-fieldset:first-of-type > .button.minus {
   visibility: hidden;
 }
 
-.unit-rules > .button:hover {
+.unit-fieldset > .button:hover {
   color: var(--color-text-primary);
 }
 
-.unit-rules > .connector {
+.unit-fieldset > .connector {
   border-inline-start-width: var(--size-thinnest);
   border-inline-start-style: solid;
   border-inline-start-color: var(--color-border-default);
@@ -341,7 +351,7 @@ export default defineComponent({
   height: 100%;
 }
 
-.unit-rules > .input.prize {
+.unit-fieldset > .input.prize {
   grid-column: span 2;
 
   @media (48rem < width) {
