@@ -109,6 +109,7 @@ export default defineComponent({
       <div class="uploader">
         <input type="hidden"
           name="imageId"
+          :value="context.imageIdRef.value"
         >
 
         <input ref="uploadInputShallowRef"
