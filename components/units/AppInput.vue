@@ -32,6 +32,10 @@ export default defineComponent({
     },
   },
 
+  emits: [
+    'value-update',
+  ],
+
   setup (
     props,
     componentContext
@@ -56,6 +60,9 @@ export default defineComponent({
   >
     <input v-bind="$attrs"
       class="input"
+      @input="context.onInput({
+        inputEvent: $event,
+      })"
     >
 
     <span class="error-message">
