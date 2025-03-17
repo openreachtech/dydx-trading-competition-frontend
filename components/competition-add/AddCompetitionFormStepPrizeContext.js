@@ -1,4 +1,8 @@
 import {
+  computed,
+} from 'vue'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -20,6 +24,7 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     componentContext,
 
     prizeRulesRef,
+    totalPrizeComputed,
   }) {
     super({
       props,
@@ -27,6 +32,7 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     })
 
     this.prizeRulesRef = prizeRulesRef
+    this.totalPrizeComputed = totalPrizeComputed
   }
 
   /**
@@ -43,13 +49,46 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     componentContext,
     prizeRulesRef,
   }) {
+    const totalPrizeComputed = this.generateTotalPrizeComputed({
+      prizeRulesRef,
+    })
+
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
         prizeRulesRef,
+        totalPrizeComputed,
       })
     )
+  }
+
+  /**
+   * Generate total prize computed.
+   *
+   * @param {{
+   *   prizeRulesRef: import('vue').Ref<Array<PrizeRule>>
+   * }} params - Parameters.
+   * @returns {import('vue').ComputedRef<string>} Normalized total prize.
+   */
+  static generateTotalPrizeComputed ({
+    prizeRulesRef,
+  }) {
+    return computed(() => {
+      const amounts = prizeRulesRef.value.map(prizeRule => Number(prizeRule.amount))
+      const totalAmount = amounts.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      )
+
+      const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        currency: 'USD',
+      })
+      const normalizedTotalPrize = formatter.format(totalAmount)
+
+      return `${normalizedTotalPrize} USDC`
+    })
   }
 
   /**
@@ -165,6 +204,7 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   prizeRulesRef: import('vue').Ref<Array<PrizeRule>>
+ *   totalPrizeComputed: import('vue').ComputedRef<string>
  * }} AddCompetitionFormStepPrizeContextParams
  */
 
