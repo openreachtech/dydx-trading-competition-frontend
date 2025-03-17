@@ -161,6 +161,7 @@ export default defineComponent({
 
       <AppButton appearance="outlined"
         type="button"
+        :disabled="context.shouldProhibitMoreRules()"
         @click="context.addPrizeRule()"
       >
         <template #startIcon>

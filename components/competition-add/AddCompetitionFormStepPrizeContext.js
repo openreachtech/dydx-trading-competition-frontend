@@ -125,6 +125,15 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   }
 
   /**
+   * Wheter to allow adding more rules or not.
+   *
+   * @returns {boolean}
+   */
+  shouldProhibitMoreRules () {
+    return this.prizeRulesRef.value.length >= MAX_PRIZE_RULE_COUNT
+  }
+
+  /**
    * Generate rank range classes.
    *
    * @param {{
