@@ -188,7 +188,7 @@ export default defineComponent({
           class="icon"
         >
 
-        <span>0.00 USDC</span>
+        <span>{{ context.totalPrizeComputed.value }}</span>
       </span>
     </div>
   </section>
