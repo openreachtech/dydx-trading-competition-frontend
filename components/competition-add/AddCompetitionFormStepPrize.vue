@@ -70,7 +70,9 @@ export default defineComponent({
         <template v-for="it of 2">
           <AppInput type="number" />
 
-          <button class="button plus">
+          <button class="button plus"
+            type="button"
+          >
             <Icon name="heroicons-outline:plus"
               size="0.875rem"
             />
@@ -83,7 +85,9 @@ export default defineComponent({
             placeholder="Enter prize amount"
           />
 
-          <button class="button minus">
+          <button class="button minus"
+            type="button"
+          >
             <Icon name="heroicons-outline:minus"
               size="1.5rem"
             />
@@ -91,7 +95,9 @@ export default defineComponent({
         </template>
       </div>
 
-      <AppButton appearance="outlined">
+      <AppButton appearance="outlined"
+        type="button"
+      >
         <template #startIcon>
           <Icon name="heroicons-outline:plus" />
         </template>
