@@ -79,6 +79,22 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
       range: prizeRule.isRankRange,
     }
   }
+
+  /**
+   * Generate range-toggle button classes.
+   *
+   * @param {{
+   *   prizeRule: PrizeRule
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>}
+   */
+  generateToggleButtonClasses ({
+    prizeRule,
+  }) {
+    return {
+      range: prizeRule.isRankRange,
+    }
+  }
 }
 
 /**
