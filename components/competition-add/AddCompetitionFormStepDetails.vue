@@ -32,7 +32,7 @@ export default defineComponent({
     /** @type {import('vue').ShallowRef<HTMLInputElement | null>} */
     const uploadInputShallowRef = shallowRef(null)
     /** @type {import('vue').Ref<string>} */
-    const imageSourceRef = ref('')
+    const imageSourceRef = ref('/img/badges/league-badge-placeholder.png')
     /** @type {import('vue').Ref<number | null>} */
     const imageIdRef = ref(null)
     /** @type {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').StatusReactive} */
@@ -225,6 +225,11 @@ export default defineComponent({
   object-fit: cover;
 
   background-color: var(--color-background-skeleton);
+}
+
+/* Don't fit placeholder image. */
+.unit-badge > .uploader > .image[src='/img/badges/league-badge-placeholder.png'] {
+  object-fit: none;
 }
 
 .unit-badge > .uploader > .actions {
