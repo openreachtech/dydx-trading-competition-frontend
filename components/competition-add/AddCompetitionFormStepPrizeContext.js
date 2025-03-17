@@ -103,10 +103,6 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     key,
     newValue,
   }) {
-    if (!this.prizeRulesRef.value[index][key]) {
-      return
-    }
-
     this.prizeRulesRef.value[index][key] = newValue
   }
 
