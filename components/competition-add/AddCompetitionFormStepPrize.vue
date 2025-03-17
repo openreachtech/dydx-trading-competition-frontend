@@ -98,7 +98,10 @@ export default defineComponent({
             />
           </span>
 
-          <button class="button plus"
+          <button class="button toggle"
+            :class="context.generateToggleButtonClasses({
+              prizeRule: it,
+            })"
             type="button"
             @click="context.toggleRankRange({
               index,
@@ -106,6 +109,12 @@ export default defineComponent({
           >
             <Icon name="heroicons-outline:plus"
               size="0.875rem"
+              class="plus"
+            />
+
+            <Icon name="heroicons-outline:minus"
+              size="0.875rem"
+              class="minus"
             />
           </button>
 
@@ -281,9 +290,17 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-rules > .button.plus {
+.unit-rules > .button.toggle {
   background-color: var(--color-background-button-muted);
   color: var(--color-text-tertiary);
+}
+
+.unit-rules > .button.toggle:not(.range) > .minus {
+  display: none;
+}
+
+.unit-rules > .button.toggle.range > .plus {
+  display: none;
 }
 
 .unit-rules > .button.minus {
