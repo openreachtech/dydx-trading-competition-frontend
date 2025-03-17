@@ -35,6 +35,36 @@ export default class AppInputContext extends BaseFuroContext {
     return this.props.rootClass
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      VALUE_UPDATE: 'value-update',
+    }
+  }
+
+  /**
+   * Handle event on input.
+   *
+   * @param {{
+   *   inputEvent: Event
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  onInput ({
+    inputEvent,
+  }) {
+    if (!(inputEvent.target instanceof HTMLInputElement)) {
+      return
+    }
+
+    this.emit(
+      this.EMIT_EVENT_NAME.VALUE_UPDATE,
+      {
+        newValue: inputEvent.target.value,
+      }
+    )
+  }
+
   /**
    * Generate input classes.
    *
