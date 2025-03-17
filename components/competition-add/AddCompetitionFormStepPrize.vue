@@ -1,6 +1,7 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
 
 import {
@@ -23,9 +24,20 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    /** @type {import('./AddCompetitionFormStepPrizeContext').AddCompetitionFormStepPrizeContextFactoryParams['prizeRulesRef']} */
+    const prizeRulesRef = ref([
+      {
+        rankFrom: 1,
+        rankTo: 1,
+        amount: '0',
+        isRankRange: false,
+      },
+    ])
+
     const args = {
       props,
       componentContext,
+      prizeRulesRef,
     }
     const context = AddCompetitionFormStepPrizeContext.create(args)
       .setupComponent()
@@ -67,8 +79,10 @@ export default defineComponent({
           Prize
         </span>
 
-        <template v-for="it of 2">
-          <AppInput type="number" />
+        <template v-for="it of context.prizeRulesRef.value">
+          <AppInput type="number"
+            :value="it.rankFrom"
+          />
 
           <button class="button plus"
             type="button"
@@ -83,6 +97,7 @@ export default defineComponent({
           <AppInput type="number"
             root-class="input prize"
             placeholder="Enter prize amount"
+            :value="it.amount"
           />
 
           <button class="button minus"
