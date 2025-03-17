@@ -285,13 +285,17 @@ export default defineComponent({
 }
 
 .unit-fieldset > .ranks {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+
+  min-width: 0;
 }
 
 .unit-fieldset > .ranks > .rank {
   flex: 1;
+
+  min-width: 0;
 }
 
 .unit-fieldset > .ranks:not(.range) > .rank.to {
@@ -353,6 +357,8 @@ export default defineComponent({
 
 .unit-fieldset > .input.prize {
   grid-column: span 2;
+
+  min-width: 0;
 
   @media (48rem < width) {
     grid-column: span 1;
