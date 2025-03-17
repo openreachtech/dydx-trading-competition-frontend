@@ -1,15 +1,26 @@
 <script>
 import {
   defineComponent,
+  ref,
+  shallowRef,
+  reactive,
 } from 'vue'
 
+import AppButton from '~/components/units/AppButton.vue'
 import AppInput from '~/components/units/AppInput.vue'
 import AppTextarea from '~/components/units/AppTextarea.vue'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
+
+import UploadImageMutationGraphqlLauncher from '~/app/graphql/client/mutations/uploadImage/UploadImageMutationGraphqlLauncher'
 
 import AddCompetitionFormStepDetailsContext from '~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext'
 
 export default defineComponent({
   components: {
+    AppButton,
     AppInput,
     AppTextarea,
   },
@@ -18,14 +29,35 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    /** @type {import('vue').ShallowRef<HTMLInputElement | null>} */
+    const uploadInputShallowRef = shallowRef(null)
+    /** @type {import('vue').Ref<string>} */
+    const imageSourceRef = ref('')
+    /** @type {import('vue').Ref<number | null>} */
+    const imageIdRef = ref(null)
+    /** @type {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').StatusReactive} */
+    const statusReactive = reactive({
+      isUploadingImage: false,
+    })
+
+    const uploadImageGraphqlClient = useGraphqlClient(UploadImageMutationGraphqlLauncher)
     const args = {
       props,
       componentContext,
+      uploadInputShallowRef,
+      imageSourceRef,
+      imageIdRef,
+      statusReactive,
+      graphqlClientHash: {
+        uploadImage: uploadImageGraphqlClient,
+      },
     }
+
     const context = AddCompetitionFormStepDetailsContext.create(args)
       .setupComponent()
 
     return {
+      uploadInputShallowRef,
       context,
     }
   },
@@ -74,7 +106,44 @@ export default defineComponent({
         An image to represent your league - which will be displayed to all participants
       </p>
 
-      <!-- TODO: Badge upload logic. -->
+      <div class="uploader">
+        <input type="hidden"
+          name="imageId"
+        >
+
+        <input ref="uploadInputShallowRef"
+          type="file"
+          accept="image/png, image/jpeg"
+          class="input file"
+          @change="context.uploadFile({
+            changeEvent: $event,
+          })"
+          @load="context.releaseImageObjectUrl({
+            objectUrl: context.imageSourceRef.value,
+          })"
+        >
+
+        <img :src="context.imageSourceRef.value"
+          alt="League badge"
+          class="image"
+        >
+
+        <div class="actions">
+          <span class="notes">
+            <span>JPG or PNG</span>
+            <span>Max size of 2MB</span>
+          </span>
+
+          <AppButton appearance="outlined"
+            type="button"
+            class="button"
+            :is-loading="context.isUploadingImage"
+            @click="context.chooseFile()"
+          >
+            Upload
+          </AppButton>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -134,5 +203,52 @@ export default defineComponent({
   font-size: var(--font-size-small);
 
   color: var(--color-text-secondary);
+}
+
+.unit-badge > .uploader {
+  margin-block-start: 1.25rem;
+
+  display: flex;
+  gap: 1rem;
+}
+
+.unit-badge > .uploader > .input.file {
+  display: none;
+}
+
+.unit-badge > .uploader > .image {
+  border-radius: 0.875rem;
+
+  width: 7rem;
+  height: 7rem;
+
+  object-fit: cover;
+
+  background-color: var(--color-background-skeleton);
+}
+
+.unit-badge > .uploader > .actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 1.25rem;
+}
+
+.unit-badge > .uploader > .actions > .notes {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-badge > .uploader > .actions > .button {
+  padding-inline: 2rem;
+
+  justify-content: center;
+
+  text-align: center;
 }
 </style>
