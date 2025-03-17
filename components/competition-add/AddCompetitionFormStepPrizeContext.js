@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+const MAX_PRIZE_RULE_COUNT = 6
+
 /**
  * AddCompetitionFormStepPrizeContext
  *
@@ -48,6 +50,64 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
         prizeRulesRef,
       })
     )
+  }
+
+  /**
+   * Add another prize rule.
+   *
+   * @returns {void}
+   */
+  addPrizeRule () {
+    if (this.prizeRulesRef.value.length >= MAX_PRIZE_RULE_COUNT) {
+      return
+    }
+
+    const previousRuleIndex = this.prizeRulesRef.value.length - 1
+    const previousRankTo = this.prizeRulesRef.value[previousRuleIndex].rankTo
+
+    this.prizeRulesRef.value.push({
+      rankFrom: Number(previousRankTo) + 1,
+      rankTo: Number(previousRankTo) + 1,
+      amount: '0',
+      isRankRange: false,
+    })
+  }
+
+  /**
+   * Remove a prize rule.
+   *
+   * @param {{
+   *   index: number
+   * }} params - Parameters.
+   * @return {void}
+   */
+  removePrizeRule ({
+    index,
+  }) {
+    this.prizeRulesRef.value.splice(index, 1)
+  }
+
+  /**
+   * Change input value.
+   *
+   * @template {keyof PrizeRule} T
+   * @param {{
+   *   index: number
+   *   key: T
+   *   newValue: PrizeRule[T]
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  updateInputValue ({
+    index,
+    key,
+    newValue,
+  }) {
+    if (!this.prizeRulesRef.value[index][key]) {
+      return
+    }
+
+    this.prizeRulesRef.value[index][key] = newValue
   }
 
   /**

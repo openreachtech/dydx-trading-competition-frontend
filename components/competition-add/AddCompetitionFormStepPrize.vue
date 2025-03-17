@@ -88,13 +88,23 @@ export default defineComponent({
             <AppInput type="number"
               :value="it.rankFrom"
               root-class="rank"
+              @value-update="context.updateInputValue({
+                index,
+                key: 'rankFrom',
+                newValue: $event.newValue,
+              })"
             />
 
             <span class="connector">to</span>
 
             <AppInput type="number"
-              :value="it.rankFrom"
+              :value="it.rankTo"
               root-class="rank to"
+              @value-update="context.updateInputValue({
+                index,
+                key: 'rankTo',
+                newValue: $event.newValue,
+              })"
             />
           </span>
 
@@ -120,14 +130,21 @@ export default defineComponent({
 
           <div class="connector" />
 
-          <AppInput type="number"
-            root-class="input prize"
+          <AppInput root-class="input prize"
             placeholder="Enter prize amount"
             :value="it.amount"
+            @value-update="context.updateInputValue({
+              index,
+              key: 'amount',
+              newValue: $event.newValue,
+            })"
           />
 
           <button class="button minus"
             type="button"
+            @click="context.removePrizeRule({
+              index,
+            })"
           >
             <Icon name="heroicons-outline:minus"
               size="1.5rem"
@@ -138,6 +155,7 @@ export default defineComponent({
 
       <AppButton appearance="outlined"
         type="button"
+        @click="context.addPrizeRule()"
       >
         <template #startIcon>
           <Icon name="heroicons-outline:plus" />
