@@ -49,6 +49,36 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
       })
     )
   }
+
+  /**
+   * Toggle rank range.
+   *
+   * @param {{
+   *   index: number
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  toggleRankRange ({
+    index,
+  }) {
+    this.prizeRulesRef.value[index].isRankRange = !this.prizeRulesRef.value[index].isRankRange
+  }
+
+  /**
+   * Generate rank range classes.
+   *
+   * @param {{
+   *   prizeRule: PrizeRule
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>}
+   */
+  generateRankRangeClasses ({
+    prizeRule,
+  }) {
+    return {
+      range: prizeRule.isRankRange,
+    }
+  }
 }
 
 /**
