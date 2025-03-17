@@ -5,7 +5,7 @@ import {
 /**
  * Props context class for AppInput component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseFuroContext<null, AppInputProps, 'value-update'>} - Base class.
  */
 export default class AppInputContext extends BaseFuroContext {
   /**
@@ -79,3 +79,11 @@ export default class AppInputContext extends BaseFuroContext {
     ]
   }
 }
+
+/**
+ * @typedef {{
+ *   hasError: boolean
+ *   errorMessage: string
+ *   rootClass: string
+ * }} AppInputProps
+ */
