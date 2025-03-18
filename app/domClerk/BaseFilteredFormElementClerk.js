@@ -6,7 +6,10 @@ import FormControlElementClerk from '@openreachtech/furo/lib/domClerks/FormContr
 import HashBuilder from '@openreachtech/furo/lib/domClerks/HashBuilder'
 
 /**
- * Filtered base form element clerk.
+ * Base refectord form element clerk.
+ *
+ * NOTE: This class has same behavior with BaseFormElementClerk, except that it is possible
+ * to override the behavior of value hash extraction through `#extractAllElements()`.
  *
  * @template T
  * @template {FormValueHashType} FV - Form value hash.
