@@ -247,6 +247,7 @@ export default defineComponent({
   margin-block-start: 0.5rem;
 
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
