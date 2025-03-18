@@ -188,6 +188,12 @@ export default defineComponent({
           class="icon"
         >
 
+        <input type="text"
+          name="totalPrize"
+          class="input hidden"
+          :value="context.calculateTotalPrize()"
+        >
+
         <span>{{ context.totalPrizeComputed.value }}</span>
       </span>
     </div>
@@ -387,5 +393,9 @@ export default defineComponent({
 .unit-section > .pool > .total > .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.input.hidden {
+  display: none;
 }
 </style>
