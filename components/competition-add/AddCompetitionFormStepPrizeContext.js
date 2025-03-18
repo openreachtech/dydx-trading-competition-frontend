@@ -75,11 +75,9 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     prizeRulesRef,
   }) {
     return computed(() => {
-      const amounts = prizeRulesRef.value.map(prizeRule => Number(prizeRule.amount))
-      const totalAmount = amounts.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      )
+      const totalAmount = this.calculateTotalPrize({
+        prizeRulesRef,
+      })
 
       const formatter = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
@@ -88,6 +86,38 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
       const normalizedTotalPrize = formatter.format(totalAmount)
 
       return `${normalizedTotalPrize} USDC`
+    })
+  }
+
+  /**
+   * Calculate total prize.
+   *
+   * @param {{
+   *   prizeRulesRef: import('vue').Ref<Array<PrizeRule>>
+   * }} params - Parameters.
+   * @returns {number}
+   */
+  static calculateTotalPrize ({
+    prizeRulesRef,
+  }) {
+    const amounts = prizeRulesRef.value.map(prizeRule => Number(prizeRule.amount))
+    const totalAmount = amounts.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    )
+
+    return totalAmount
+  }
+
+  /**
+   * Calculate total prize.
+   *
+   * @returns {number}
+   */
+  calculateTotalPrize () {
+    // @ts-expect-error - Generic type T is not aware of derived property.
+    return this.Ctor.calculateTotalPrize({
+      prizeRulesRef: this.prizeRulesRef,
     })
   }
 
