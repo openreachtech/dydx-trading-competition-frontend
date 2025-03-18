@@ -4,6 +4,10 @@ import {
 } from 'vue'
 
 import {
+  navigateTo,
+} from '#imports'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -88,6 +92,56 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
    */
   static generateAddCompetitionFormShallowRef () {
     return shallowRef(null)
+  }
+
+  /**
+   * get: addCompetitionFormClerk
+   *
+   * @returns {AddCompetitionPageContextParams['formClerkHash']['addCompetition']}
+   */
+  get addCompetitionFormClerk () {
+    return this.formClerkHash.addCompetition
+  }
+
+  /**
+   * Submit form.
+   *
+   * @returns {Promise<void>}
+   */
+  async submitForm () {
+    if (!this.addCompetitionFormShallowRef.value) {
+      return
+    }
+
+    await this.addCompetitionFormClerk.submitForm({
+      formElement: this.addCompetitionFormShallowRef.value,
+    })
+  }
+
+  /**
+   * get: addCompetitionLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get addCompetitionLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoading = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isLoading = false
+
+        if (!capsule.competitionId) {
+          await navigateTo('/competitions')
+
+          return
+        }
+
+        await navigateTo(`/competitions/${capsule.competitionId}`)
+      },
+    }
   }
 
   /**
