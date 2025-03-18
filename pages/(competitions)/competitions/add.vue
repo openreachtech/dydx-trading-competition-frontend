@@ -85,7 +85,10 @@ export default defineComponent({
         <span>Leagues</span>
       </NuxtLink>
 
-      <form class="unit-form">
+      <form :ref="context.addCompetitionFormShallowRef"
+        class="unit-form"
+        @submit.prevent="context.submitForm()"
+      >
         <div class="steps">
           <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })" />
 
