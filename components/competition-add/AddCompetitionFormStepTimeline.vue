@@ -102,23 +102,25 @@ export default defineComponent({
               </label>
             </fieldset>
 
-            <fieldset class="date end"
+            <fieldset class="fieldset end"
               name="schedules[]"
             >
-              <span class="label">
-                End Date
-              </span>
+              <label class="date">
+                <span class="label">
+                  End Date
+                </span>
 
-              <input type="number"
-                name="categoryId"
-                class="input hidden"
-                :disabled="!phase.endDateInputId"
-                :value="phase.endDateInputId"
-              >
+                <input type="number"
+                  name="categoryId"
+                  class="input hidden"
+                  :disabled="!phase.endDateInputId"
+                  :value="phase.endDateInputId"
+                >
 
-              <AppDatePicker should-disable-past-dates
-                name="scheduledDatetime"
-              />
+                <AppDatePicker should-disable-past-dates
+                  name="scheduledDatetime"
+                />
+              </label>
             </fieldset>
           </div>
         </div>
@@ -280,7 +282,7 @@ export default defineComponent({
   opacity: 0;
 }
 
-.unit-stage.hide-end-date > .content > .unit-pickers > .date.end {
+.unit-stage.hide-end-date > .content > .unit-pickers > .fieldset.end {
   display: none;
 }
 
