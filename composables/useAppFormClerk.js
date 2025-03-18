@@ -1,12 +1,6 @@
-/**
- * NOTE: This composable adds `validateForm()` method to the original `useFormClerk()`.
- * The purpose of it is to validate multiple-step form. If this function is implemented
- * in furo-nuxt in the future, this composable can be removed.
- */
-
 import {
-  ref,
-} from 'vue'
+  useFormClerk,
+} from '@openreachtech/furo-nuxt'
 
 /**
  * Use form clerk.
@@ -14,7 +8,7 @@ import {
  *
  * @param {{
  *   FormElementClerk: typeof import('@openreachtech/furo').BaseFormElementClerk<*, *, *>
- *   invokeRequestWithFormValueHash: (args: {
+ *   invokeRequestWithFormValueHash?: (args: {
  *     valueHash: furo.FormValueHashType
  *     options?: RequestInit
  *     hooks?: furo.GraphqlLauncherHooks
@@ -27,89 +21,65 @@ import {
  *     hooks?: furo.GraphqlLauncherHooks
  *     options?: RequestInit
  *   }) => Promise<boolean>
- *   validateForm: (params: {
+ *   extractFormValueHash: (params: {
  *     formElement: HTMLFormElement
- *   }) => boolean
+ *   }) => furo.FormValueHashType
+ *   validateFormValueHash: (params: {
+ *     formElement: HTMLFormElement
+ *   }) => import('vue').Ref<furo.ValidatorHashType>
  * }}
  */
 export default function useAppFormClerk ({
   FormElementClerk,
-  invokeRequestWithFormValueHash,
+  invokeRequestWithFormValueHash = async () => {},
 }) {
-  /**
-   * @type {import('vue').Ref<furo.ValidatorHashType>}
-   */
-  const validationRef = ref({
-    valid: {},
-    invalid: {},
-    messages: {},
-    message: {},
+  const clerk = useFormClerk({
+    FormElementClerk,
+    invokeRequestWithFormValueHash,
   })
 
   return {
-    validationRef,
-    submitForm,
-    validateForm,
+    validationRef: clerk.validationRef,
+    submitForm: clerk.submitForm,
+    extractFormValueHash,
+    validateFormValueHash,
   }
 
   /**
-   * Submit form.
+   * Extract form value hash.
    *
    * @param {{
    *   formElement: HTMLFormElement
-   *   hooks?: furo.GraphqlLauncherHooks
-   *   options?: RequestInit
    * }} params - Parameters.
-   * @returns {Promise<boolean>} true: Invoke request.
+   * @returns {furo.FormValueHashType} Form value hash.
    */
-  async function submitForm ({
+  function extractFormValueHash ({
     formElement,
-    hooks,
-    options,
   }) {
     const formElementClerk = FormElementClerk.create({
       formElement,
     })
 
-    validationRef.value = formElementClerk.generateValidationHash()
-
-    // Skip #launchRequest(), if invalid value hash of <form>.
-    if (formElementClerk.isInvalid()) {
-      return false
-    }
-
-    const valueHash = formElementClerk.extractValueHash()
-
-    await invokeRequestWithFormValueHash({
-      valueHash,
-      hooks,
-      options,
-    })
-
-    return true
+    return formElementClerk.extractValueHash()
   }
 
   /**
-   * Validate form.
+   * Validate form value hash.
    *
    * @param {{
    *   formElement: HTMLFormElement
-   * }} args - Arguments.
-   * @returns {boolean}
+   * }} params - Parameters.
+   * @returns {import('vue').Ref<furo.ValidatorHashType>}
    */
-  function validateForm ({
+  function validateFormValueHash ({
     formElement,
   }) {
     const formElementClerk = FormElementClerk.create({
       formElement,
     })
 
-    validationRef.value = formElementClerk.generateValidationHash()
+    clerk.validationRef.value = formElementClerk.generateValidationHash()
 
-    if (formElementClerk.isInvalid()) {
-      return false
-    }
-
-    return true
+    return clerk.validationRef
   }
 }
