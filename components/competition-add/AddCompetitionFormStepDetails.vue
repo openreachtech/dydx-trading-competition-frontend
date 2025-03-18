@@ -107,7 +107,8 @@ export default defineComponent({
       </p>
 
       <div class="uploader">
-        <input type="hidden"
+        <input type="number"
+          class="input hidden"
           name="imageId"
           :value="context.imageIdRef.value"
         >
@@ -256,5 +257,9 @@ export default defineComponent({
   justify-content: center;
 
   text-align: center;
+}
+
+.input.hidden {
+  display: none;
 }
 </style>
