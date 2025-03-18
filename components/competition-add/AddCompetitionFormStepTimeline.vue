@@ -250,31 +250,17 @@ export default defineComponent({
   gap: 2rem;
 }
 
-.unit-pickers > .date,
 .unit-pickers > .fieldset > .date {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.unit-pickers > .date > .label,
 .unit-pickers > .fieldset > .date > .label {
   font-size: var(--font-size-small);
   font-weight: 500;
 
   color: var(--color-text-tertiary);
-}
-
-.unit-pickers > .date > .note {
-  font-size: var(--font-size-small);
-
-  color: var(--color-text-tertiary);
-}
-
-.unit-pickers > .date > .note > .figure {
-  font-weight: 500;
-
-  color: var(--color-text-secondary);
 }
 
 /* Conditionally hide stuff */
