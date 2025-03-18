@@ -90,8 +90,9 @@ export default defineComponent({
                   Start Date (MM/DD/YYYY)
                 </span>
 
-                <input type="hidden"
+                <input type="number"
                   name="categoryId"
+                  class="input hidden"
                   :value="phase.startDateInputId"
                 >
 
@@ -112,8 +113,9 @@ export default defineComponent({
                 End Date
               </span>
 
-              <input type="hidden"
+              <input type="number"
                 name="categoryId"
+                class="input hidden"
                 :disabled="!phase.endDateExtractionKey"
                 :value="phase.endDateInputId"
               >
@@ -295,6 +297,10 @@ export default defineComponent({
 }
 
 .unit-stage.hide-end-date > .content > .unit-pickers > .date.end {
+  display: none;
+}
+
+.input.hidden {
   display: none;
 }
 </style>
