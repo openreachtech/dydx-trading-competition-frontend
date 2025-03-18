@@ -17,9 +17,7 @@ export default class BaseAppSignatureGraphqlPayload extends BaseAppGraphqlPayloa
    */
   extractFilteredVariables () {
     const walletStore = useWalletStore()
-    const {
-      signature,
-    } = walletStore.walletStoreRef.value.credential
+    const signature = walletStore.walletStoreRef.value.credential
 
     if (!signature) {
       return this.variables
