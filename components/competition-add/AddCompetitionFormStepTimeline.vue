@@ -87,7 +87,7 @@ export default defineComponent({
             >
               <label class="date">
                 <span class="label">
-                  Start Date (MM/DD/YYYY)
+                  Start (MM/DD/YYYY)
                 </span>
 
                 <input type="number"
@@ -98,43 +98,30 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
-                  @change-date="context.selectEndDateValue({
-                    key: phase.endDateSelectionKey,
-                    date: $event.date,
-                  })"
                 />
               </label>
             </fieldset>
 
-            <fieldset class="date end"
+            <fieldset class="fieldset end"
               name="schedules[]"
             >
-              <span class="label">
-                End Date
-              </span>
+              <label class="date">
+                <span class="label">
+                  End (MM/DD/YYYY)
+                </span>
 
-              <input type="number"
-                name="categoryId"
-                class="input hidden"
-                :disabled="!phase.endDateExtractionKey"
-                :value="phase.endDateInputId"
-              >
+                <input type="number"
+                  name="categoryId"
+                  class="input hidden"
+                  :disabled="!phase.endDateInputId"
+                  :value="phase.endDateInputId"
+                >
 
-              <input type="hidden"
-                name="scheduledDatetime"
-                :disabled="!phase.endDateExtractionKey"
-                :value="context.extractEndDateValue({
-                  key: phase.endDateExtractionKey,
-                })"
-              >
-
-              <span class="note">
-                <span class="figure">{{
-                  context.normalizeDisplayedDate({
-                    key: phase.endDateExtractionKey,
-                  })
-                }}</span> {{ phase.note }}
-              </span>
+                <AppDatePicker should-disable-past-dates
+                  name="scheduledDatetime"
+                  :disabled="!phase.endDateInputId"
+                />
+              </label>
             </fieldset>
           </div>
         </div>
@@ -260,34 +247,21 @@ export default defineComponent({
   margin-block-start: 0.5rem;
 
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
-.unit-pickers > .date,
 .unit-pickers > .fieldset > .date {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.unit-pickers > .date > .label,
 .unit-pickers > .fieldset > .date > .label {
   font-size: var(--font-size-small);
   font-weight: 500;
 
   color: var(--color-text-tertiary);
-}
-
-.unit-pickers > .date > .note {
-  font-size: var(--font-size-small);
-
-  color: var(--color-text-tertiary);
-}
-
-.unit-pickers > .date > .note > .figure {
-  font-weight: 500;
-
-  color: var(--color-text-secondary);
 }
 
 /* Conditionally hide stuff */
@@ -296,7 +270,7 @@ export default defineComponent({
   opacity: 0;
 }
 
-.unit-stage.hide-end-date > .content > .unit-pickers > .date.end {
+.unit-stage.hide-end-date > .content > .unit-pickers > .fieldset.end {
   display: none;
 }
 
