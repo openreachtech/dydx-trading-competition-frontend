@@ -115,6 +115,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
 
     await this.addCompetitionFormClerk.submitForm({
       formElement: this.addCompetitionFormShallowRef.value,
+      hooks: this.addCompetitionLauncherHooks,
     })
   }
 
