@@ -1,13 +1,11 @@
-import {
-  BaseFormElementClerk,
-} from '@openreachtech/furo'
+import BaseFilteredFormElementClerk from '~/app/domClerk/BaseFilteredFormElementClerk'
 
 /**
  * AddCompetitionFormElementClerk.
  *
- * @extends {BaseFormElementClerk<typeof AddCompetitionFormElementClerk, AddCompetitionFormValueHash, SchemaVariableHash>}
+ * @extends {BaseFilteredFormElementClerk<typeof AddCompetitionFormElementClerk, AddCompetitionFormValueHash, SchemaVariableHash>}
  */
-export default class AddCompetitionFormElementClerk extends BaseFormElementClerk {
+export default class AddCompetitionFormElementClerk extends BaseFilteredFormElementClerk {
   /** @override */
   static get rules () {
     /**
