@@ -52,6 +52,7 @@
   --color-background-button-error: var(--palette-red);
   --color-background-button-muted: var(--palette-layer-3);
   --color-background-button-outlined: var(--palette-layer-2);
+  --color-background-button-competition-step: var(--palette-layer-3);
 
   --color-background-badge-info: var(--palette-purple-faded);
   --color-background-badge-success: var(--palette-green-faded);
@@ -84,6 +85,15 @@
   --color-background-timeline-connector: var(--palette-layer-7);
   --color-background-timeline-connector-elapsed: var(--palette-yellow);
 
+  /* TODO: The color is pretty much random so I don't know how to name them */
+  /* Please think of something more intuitive if possible. */
+  --color-background-timeline-indicator-yellow: var(--palette-yellow-faded);
+  --color-background-timeline-indicator-green: var(--palette-green-faded);
+  --color-background-timeline-indicator-neutral: var(--palette-layer-7);
+  --color-background-timeline-dot-yellow: var(--palette-yellow);
+  --color-background-timeline-dot-green: var(--palette-green);
+  --color-background-timeline-dot-neutral: var(--color-text-primary);
+
   --color-background-table: var(--palette-layer-2);
 
   --color-background-profile-section-darker: var(--palette-layer-0);
@@ -105,6 +115,9 @@
   --color-background-dialog: var(--palette-layer-2);
 
   --color-background-date-picker-hover: var(--palette-layer-5);
+
+  --color-background-competition-form-steps: var(--palette-layer-2);
+  --color-background-competition-step-completed: var(--palette-purple);
 
   /* Text */
   --color-text: var(--palette-black);
@@ -167,6 +180,9 @@
   --color-border-profile-section: var(--palette-layer-3);
 
   --color-border-dropdown: var(--palette-layer-6);
+
+  --color-border-form-step: var(--palette-layer-5);
+  --color-border-form-step-active: var(--palette-purple);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
