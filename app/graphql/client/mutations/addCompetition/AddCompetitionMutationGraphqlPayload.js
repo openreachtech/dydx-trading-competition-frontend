@@ -1,11 +1,11 @@
-import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
+import BaseAppSignatureGraphqlPayload from '~/app/graphql/client/BaseAppSignatureGraphqlPayload'
 
 /**
  * AddCompetitionMutation graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof AddCompetitionMutationGraphqlPayload, AddCompetitionMutationRequestVariables>}
+ * @extends {BaseAppSignatureGraphqlPayload<AddCompetitionMutationRequestVariables>}
  */
-export default class AddCompetitionMutationGraphqlPayload extends BaseAppGraphqlPayload {
+export default class AddCompetitionMutationGraphqlPayload extends BaseAppSignatureGraphqlPayload {
   /** @override */
   static get document () {
     return /* GraphQL */ `
