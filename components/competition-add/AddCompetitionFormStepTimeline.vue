@@ -114,11 +114,13 @@ export default defineComponent({
 
               <input type="hidden"
                 name="categoryId"
+                :disabled="!phase.endDateExtractionKey"
                 :value="phase.endDateInputId"
               >
 
               <input type="hidden"
                 name="scheduledDatetime"
+                :disabled="!phase.endDateExtractionKey"
                 :value="context.extractEndDateValue({
                   key: phase.endDateExtractionKey,
                 })"
