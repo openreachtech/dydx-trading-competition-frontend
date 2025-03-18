@@ -87,7 +87,7 @@ export default defineComponent({
             >
               <label class="date">
                 <span class="label">
-                  Start Date (MM/DD/YYYY)
+                  Start (MM/DD/YYYY)
                 </span>
 
                 <input type="number"
@@ -107,7 +107,7 @@ export default defineComponent({
             >
               <label class="date">
                 <span class="label">
-                  End Date
+                  End (MM/DD/YYYY)
                 </span>
 
                 <input type="number"
