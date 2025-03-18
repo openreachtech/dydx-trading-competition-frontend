@@ -112,9 +112,13 @@ export default defineComponent({
               <input type="number"
                 name="categoryId"
                 class="input hidden"
-                :disabled="!phase.endDateExtractionKey"
+                :disabled="!phase.endDateInputId"
                 :value="phase.endDateInputId"
               >
+
+              <AppDatePicker should-disable-past-dates
+                name="scheduledDatetime"
+              />
             </fieldset>
           </div>
         </div>
