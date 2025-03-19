@@ -22,6 +22,13 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
  * @extends {BaseFuroContext<null>} - Base class.
  */
 export default class SectionLeagueContext extends BaseFuroContext {
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      SHOW_TERMS_DIALOG: 'show-terms-dialog',
+    }
+  }
+
   /**
    * Extract competition.
    *
@@ -439,5 +446,14 @@ export default class SectionLeagueContext extends BaseFuroContext {
         ...options,
       },
     })
+  }
+
+  /**
+   * Show terms dialog.
+   *
+   * @returns {void}
+   */
+  showTermsDialog () {
+    this.emit(this.EMIT_EVENT_NAME.SHOW_TERMS_DIALOG)
   }
 }
