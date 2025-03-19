@@ -1,6 +1,7 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
 
 import {
@@ -13,6 +14,7 @@ import {
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -23,6 +25,7 @@ export default defineComponent({
     Icon,
     CopyButton,
     LinkTooltipButton,
+    ProfileRenameDialog,
   },
 
   props: {
@@ -50,6 +53,8 @@ export default defineComponent({
   ) {
     const route = useRoute()
     const walletStore = useWalletStore()
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const profileRenameDialogRef = ref(null)
 
     const args = {
       props,
@@ -61,6 +66,8 @@ export default defineComponent({
       .setupComponent()
 
     return {
+      profileRenameDialogRef,
+
       context,
     }
   },
@@ -69,6 +76,8 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
+    <ProfileRenameDialog ref="profileRenameDialogRef" />
+
     <div class="inner">
       <div class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
@@ -85,7 +94,11 @@ export default defineComponent({
 
           <span>{{ context.generateHostName() }}</span>
 
-          <button class="button">
+          <button class="button"
+            @click="context.showDialog({
+              dialogElement: profileRenameDialogRef,
+            })"
+          >
             <Icon name="heroicons:pencil"
               size="1.5rem"
             />

@@ -281,6 +281,42 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     return this.hostAddress
       .slice(-5)
   }
+
+  /**
+   * Show wallet selection dialog.
+   *
+   * @param {{
+   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  showDialog ({
+    dialogElement,
+  }) {
+    if (!dialogElement) {
+      return
+    }
+
+    dialogElement.showDialog()
+  }
+
+  /**
+   * Dismiss wallet selection dialog.
+   *
+   * @param {{
+   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  dismissDialog ({
+    dialogElement,
+  }) {
+    if (!dialogElement) {
+      return
+    }
+
+    dialogElement.dismissDialog()
+  }
 }
 
 /**
