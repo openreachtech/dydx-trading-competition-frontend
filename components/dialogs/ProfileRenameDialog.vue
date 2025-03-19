@@ -17,6 +17,14 @@ export default defineComponent({
     AppInput,
   },
 
+  props: {
+    isRenaming: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+
   emits: [
     'updateUsername',
   ],
@@ -72,6 +80,7 @@ export default defineComponent({
 
         <AppButton class="button"
           type="submit"
+          :is-loading="context.isRenaming"
         >
           Save
         </AppButton>

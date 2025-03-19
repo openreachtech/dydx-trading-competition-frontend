@@ -15,6 +15,15 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: isRenaming
+   *
+   * @returns {boolean}
+   */
+  get isRenaming () {
+    return this.props.isRenaming
+  }
+
+  /**
    * Submit form.
    *
    * @param {{

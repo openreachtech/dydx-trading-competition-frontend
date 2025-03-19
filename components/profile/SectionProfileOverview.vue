@@ -45,6 +45,11 @@ export default defineComponent({
       ],
       required: true,
     },
+    isRenaming: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   emits: [
@@ -81,6 +86,7 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <ProfileRenameDialog ref="profileRenameDialogRef"
+      :is-renaming="context.isRenaming"
       @update-username="context.updateUsername({
         formElement: $event.formElement
       })"
