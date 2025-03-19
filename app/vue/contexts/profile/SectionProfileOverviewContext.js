@@ -137,15 +137,16 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     const userAddress = this.walletStore.walletStoreRef.value
       .localWallet
       .address
+    const urlWalletAddress = this.route.params.address
 
     if (
       !userAddress
-      || !this.hostAddress
+      || !urlWalletAddress
     ) {
       return false
     }
 
-    return this.hostAddress === userAddress
+    return urlWalletAddress === userAddress
   }
 
   /**
