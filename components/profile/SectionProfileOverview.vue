@@ -84,6 +84,12 @@ export default defineComponent({
           />
 
           <span>{{ context.generateHostName() }}</span>
+
+          <button class="button">
+            <Icon name="heroicons:pencil"
+              size="1.5rem"
+            />
+          </button>
         </span>
 
         <div class="address">
@@ -249,6 +255,30 @@ export default defineComponent({
 
 .unit-basic > .heading > .icon {
   color: var(--color-text-tertiary);
+}
+
+.unit-basic > .heading > .button {
+  border-radius: 100vh;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+  color: var(--palette-purple);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-basic > .heading > .button:hover {
+  color: var(--palette-purple-lighter);
+}
+
+.unit-basic:not(.own-profile) > .heading > .button {
+  display: none;
 }
 
 .unit-basic > .address {
