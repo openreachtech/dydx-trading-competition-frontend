@@ -40,5 +40,7 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
         formElement,
       }
     )
+
+    this.dismissDialog()
   }
 }
