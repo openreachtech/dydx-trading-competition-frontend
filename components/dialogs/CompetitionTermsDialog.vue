@@ -423,10 +423,10 @@ export default defineComponent({
 }
 
 .unit-actions {
-  padding-block-start: 0.75rem;
-
   position: sticky;
   bottom: 0;
+
+  padding-block-start: 0.75rem;
 
   display: flex;
   flex-direction: column;
