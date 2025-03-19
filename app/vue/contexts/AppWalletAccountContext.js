@@ -73,6 +73,13 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      SHOW_KEY_DERIVATION_DIALOG: 'showKeyDerivationDialog',
+    }
+  }
+
   /**
    * get: localWalletAddress
    *
@@ -133,6 +140,15 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     this.accountStore.setOnboardingStatus({
       onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
     })
+  }
+
+  /**
+   * Show KeyDerivationDialog.
+   *
+   * @returns {void}
+   */
+  showKeyDerivationDialog () {
+    this.emit(this.EMIT_EVENT_NAME.SHOW_KEY_DERIVATION_DIALOG)
   }
 
   /**

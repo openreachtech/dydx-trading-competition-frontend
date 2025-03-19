@@ -33,6 +33,10 @@ export default defineComponent({
     onClickOutside: vOnClickOutside,
   },
 
+  emits: [
+    'showKeyDerivationDialog',
+  ],
+
   setup (
     props,
     componentContext
@@ -124,6 +128,7 @@ export default defineComponent({
 
         <AppButton type="button"
           class="button"
+          @click="context.showKeyDerivationDialog()"
         >
           Recover keys
         </AppButton>

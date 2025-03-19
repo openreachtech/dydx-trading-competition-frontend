@@ -64,7 +64,11 @@ export default defineComponent({
       Connect Wallet
     </AppButton>
 
-    <AppWalletAccount class="account" />
+    <AppWalletAccount class="account"
+      @show-key-derivation-dialog="context.showDialog({
+        dialogElement: keyDerivationDialogRef,
+      })"
+    />
 
     <WalletSelectionDialog ref="walletSelectionDialogRef"
       @next-step="context.goToDerivationStep()"
