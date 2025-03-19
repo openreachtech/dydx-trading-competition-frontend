@@ -90,7 +90,7 @@ export default defineComponent({
 
             <span class="content">
               <span>{{ context.generateLocalAccountAddress() }}</span>
-              <CopyButton content-to-copy="0xDcf2ED...d10c" />
+              <CopyButton :content-to-copy="context.localWalletAddress" />
               <LinkTooltipButton tooltip-message="View on Mintscan"
                 href="https://www.mintscan.io"
               />
