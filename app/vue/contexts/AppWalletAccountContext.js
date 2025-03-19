@@ -73,6 +73,13 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      SHOW_KEY_DERIVATION_DIALOG: 'showKeyDerivationDialog',
+    }
+  }
+
   /**
    * get: localWalletAddress
    *
@@ -136,6 +143,15 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Show KeyDerivationDialog.
+   *
+   * @returns {void}
+   */
+  showKeyDerivationDialog () {
+    this.emit(this.EMIT_EVENT_NAME.SHOW_KEY_DERIVATION_DIALOG)
+  }
+
+  /**
    * Generate local account's address.
    *
    * @returns {string} Source account's address.
@@ -189,6 +205,17 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Check if local wallet has been recovered.
+   *
+   * @returns {boolean} `true` if local wallet has been recovered.
+   */
+  hasRecoveredLocalWallet () {
+    return this.walletStore.walletStoreRef.value
+      .localWallet
+      .address !== null
+  }
+
+  /**
    * Toggle dropdown.
    *
    * @returns {void}
@@ -214,6 +241,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   generateDropdownClasses () {
     return {
       'show-dropdown': this.isShowingDropdownRef.value,
+      recovered: this.hasRecoveredLocalWallet(),
     }
   }
 }

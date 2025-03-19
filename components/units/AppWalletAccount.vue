@@ -9,6 +9,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppButton,
     CopyButton,
     LinkTooltipButton,
   },
@@ -30,6 +32,10 @@ export default defineComponent({
   directives: {
     onClickOutside: vOnClickOutside,
   },
+
+  emits: [
+    'showKeyDerivationDialog',
+  ],
 
   setup (
     props,
@@ -113,6 +119,19 @@ export default defineComponent({
             </span>
           </div>
         </div>
+      </div>
+
+      <div class="reconnect">
+        <p class="note">
+          Welcome back! One or more of your keys needs to be recovered
+        </p>
+
+        <AppButton type="button"
+          class="button"
+          @click="context.showKeyDerivationDialog()"
+        >
+          Recover keys
+        </AppButton>
       </div>
 
       <div class="balance">
@@ -234,6 +253,32 @@ export default defineComponent({
   margin-inline-start: 0.75rem;
 
   height: 1.75rem;
+}
+
+.unit-dropdown > .reconnect {
+  margin-block-start: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.unit-dropdown > .reconnect > .note {
+  font-size: var(--font-size-small);
+
+  text-align: center;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-dropdown > .reconnect > .button {
+  justify-content: center;
+
+  text-align: center;
+}
+
+.unit-account.recovered > .unit-dropdown > .reconnect {
+  display: none;
 }
 
 .unit-chain {
