@@ -42,6 +42,10 @@ export default defineComponent({
     },
   },
 
+  emits: [
+    'showTermsDialog',
+  ],
+
   setup (
     props,
     componentContext
@@ -112,7 +116,9 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton class="button">
+          <AppButton class="button"
+            @click="context.showTermsDialog()"
+          >
             Enroll now
           </AppButton>
 
