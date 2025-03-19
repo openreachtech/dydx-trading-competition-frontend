@@ -73,6 +73,17 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     )
   }
 
+  /**
+   * get: localWalletAddress
+   *
+   * @returns {string | null}
+   */
+  get localWalletAddress () {
+    return this.walletStore.walletStoreRef.value
+      .localWallet
+      .address
+  }
+
   /** @override */
   setupComponent () {
     onMounted(async () => {
