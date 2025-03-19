@@ -189,6 +189,17 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Check if local wallet has been recovered.
+   *
+   * @returns {boolean} `true` if local wallet has been recovered.
+   */
+  hasRecoveredLocalWallet () {
+    return this.walletStore.walletStoreRef.value
+      .localWallet
+      .address !== null
+  }
+
+  /**
    * Toggle dropdown.
    *
    * @returns {void}
@@ -214,6 +225,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   generateDropdownClasses () {
     return {
       'show-dropdown': this.isShowingDropdownRef.value,
+      recovered: this.hasRecoveredLocalWallet(),
     }
   }
 }
