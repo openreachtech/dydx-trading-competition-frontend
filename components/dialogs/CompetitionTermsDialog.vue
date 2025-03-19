@@ -440,6 +440,23 @@ export default defineComponent({
   }
 }
 
+.unit-actions::before {
+  content: '';
+
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+
+  height: 1rem;
+
+  background-image: linear-gradient(
+    to top,
+    var(--color-background-dialog),
+    transparent
+  );
+}
+
 .unit-actions > .button {
   justify-content: center;
 
