@@ -4,11 +4,17 @@ import {
 } from 'vue'
 
 import {
+  useRoute,
+} from '#imports'
+
+import {
   Icon,
 } from '#components'
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+
+import useWalletStore from '~/stores/wallet'
 
 import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionProfileOverviewContext'
 
@@ -42,9 +48,14 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const walletStore = useWalletStore()
+
     const args = {
       props,
       componentContext,
+      route,
+      walletStore,
     }
     const context = SectionProfileOverviewContext.create(args)
       .setupComponent()
@@ -59,7 +70,13 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <div class="unit-basic">
+      <div class="unit-basic"
+        :class="context.generateBasicDetailsClasses()"
+      >
+        <span class="label">
+          My Profile
+        </span>
+
         <span class="heading">
           <Icon name="heroicons:user"
             class="icon"
@@ -204,6 +221,20 @@ export default defineComponent({
   gap: 1.25rem;
 
   min-width: 0;
+}
+
+.unit-basic > .label {
+  display: none;
+
+  font-size: var(--font-size-large);
+  font-weight: 500;
+  line-height: var(--size-line-height-large);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-basic.own-profile > .label {
+  display: inline;
 }
 
 .unit-basic > .heading {

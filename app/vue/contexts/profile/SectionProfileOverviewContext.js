@@ -9,6 +9,52 @@ import {
  */
 export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
+   * Constructor
+   *
+   * @param {SectionProfileOverviewContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    route,
+    walletStore,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.route = route
+    this.walletStore = walletStore
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof SectionProfileOverviewContext ? X : never} T, X
+   * @override
+   * @param {SectionProfileOverviewContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    route,
+    walletStore,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        route,
+        walletStore,
+      })
+    )
+  }
+
+  /**
    * get: competition
    *
    * @returns {Competition} Wallet address.
@@ -83,6 +129,26 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Whether is one's own profile or not.
+   *
+   * @returns {boolean} `true` if it is the user's own profile.
+   */
+  isOwnProfile () {
+    const userAddress = this.walletStore.walletStoreRef.value
+      .localWallet
+      .address
+
+    if (
+      !userAddress
+      || !this.hostAddress
+    ) {
+      return false
+    }
+
+    return this.hostAddress === userAddress
+  }
+
+  /**
    * Generate PnL and ROI.
    *
    * @returns {string} PnL and ROI.
@@ -112,6 +178,17 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     })
 
     return formatter.format(this.performanceBaseline)
+  }
+
+  /**
+   * Generate basic details CSS classes.
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generateBasicDetailsClasses () {
+    return {
+      'own-profile': this.isOwnProfile(),
+    }
   }
 
   /**
@@ -215,4 +292,15 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
  * @typedef {import(
  *   '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule'
  * ).AddressCurrentCompetitionQueryResponseContent['addressCurrentCompetition']['ranking']} Ranking
+ */
+
+/**
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ *   walletStore: import('~/stores/wallet').WalletStore
+ *   route: ReturnType<import('#imports').useRoute>
+ * }} SectionProfileOverviewContextParams
+ */
+
+/**
+ * @typedef {SectionProfileOverviewContextParams} SectionProfileOverviewContextFactoryParams
  */
