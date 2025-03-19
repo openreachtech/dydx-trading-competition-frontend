@@ -318,7 +318,9 @@ export default defineComponent({
         </section>
 
         <div class="unit-actions">
-          <AppButton class="button">
+          <AppButton class="button"
+            @click="context.showEnrollmentDialog()"
+          >
             Agree and Join competition
           </AppButton>
 

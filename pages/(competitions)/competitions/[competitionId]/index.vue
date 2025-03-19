@@ -6,6 +6,7 @@ import {
 } from 'vue'
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
+import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
 import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.vue'
@@ -21,6 +22,7 @@ import CompetitionDetailsPageContext from '~/app/vue/contexts/CompetitionDetails
 export default defineComponent({
   components: {
     CompetitionTermsDialog,
+    CompetitionEnrollmentDialog,
     SectionLeague,
     SectionSchedules,
     SectionLeaderboard,
@@ -32,6 +34,8 @@ export default defineComponent({
   ) {
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionTermsDialogRef = ref(null)
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const competitionEnrollmentDialogRef = ref(null)
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const statusReactive = reactive({
@@ -51,6 +55,7 @@ export default defineComponent({
 
     return {
       competitionTermsDialogRef,
+      competitionEnrollmentDialogRef,
       context,
     }
   },
@@ -67,10 +72,15 @@ export default defineComponent({
 
     <CompetitionTermsDialog ref="competitionTermsDialogRef"
       :competition="context.competition"
+      @show-enrollment-dialog="context.showDialog({
+        dialogElement: competitionEnrollmentDialogRef,
+      })"
     />
 
     <SectionSchedules :schedules="context.schedules" />
 
     <SectionLeaderboard />
+
+    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef" />
   </div>
 </template>

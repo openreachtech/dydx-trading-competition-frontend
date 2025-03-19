@@ -10,6 +10,14 @@ import {
  * @extends {AppDialogContext}
  */
 export default class CompetitionTermsDialogContext extends AppDialogContext {
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      ...super.EMIT_EVENT_NAME,
+      SHOW_ENROLLMENT_DIALOG: 'showEnrollmentDialog',
+    }
+  }
+
   /**
    * get: competition
    *
@@ -73,6 +81,17 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
     return this.competition
       ?.totalPrize
       ?? null
+  }
+
+  /**
+   * Show `CompetitionEnrollmentDialog` by emitting an event.
+   *
+   * @returns {void}
+   */
+  showEnrollmentDialog () {
+    this.dismissDialog()
+
+    this.emit(this.EMIT_EVENT_NAME.SHOW_ENROLLMENT_DIALOG)
   }
 
   /**
