@@ -4,12 +4,14 @@ import {
   ref,
 } from 'vue'
 
+import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 
 import CompetitionTermsDialogContext from './CompetitionTermsDialogContext'
 
 export default defineComponent({
   components: {
+    AppButton,
     AppDialog,
   },
 
@@ -314,6 +316,19 @@ export default defineComponent({
             </li>
           </ul>
         </section>
+
+        <div class="unit-actions">
+          <AppButton class="button">
+            Agree and Join competition
+          </AppButton>
+
+          <AppButton variant="muted"
+            class="button"
+            @click="context.dismissDialog()"
+          >
+            Cancel
+          </AppButton>
+        </div>
       </div>
     </template>
   </AppDialog>
@@ -405,5 +420,29 @@ export default defineComponent({
   width: 0.5rem;
 
   background-color: var(--color-text-highlight-purple);
+}
+
+.unit-actions {
+  padding-block-start: 0.75rem;
+
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+
+  background-color: var(--color-background-dialog);
+
+  @media (30rem < width) {
+    flex-direction: row;
+  }
+}
+
+.unit-actions > .button {
+  justify-content: center;
+
+  text-align: center;
 }
 </style>
