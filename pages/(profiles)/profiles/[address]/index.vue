@@ -12,9 +12,15 @@ import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
+import useAppFormClerk from '~/composables/useAppFormClerk'
+
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
+import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
+
+import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
 
 import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPageContext'
+import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
 
 export default defineComponent({
   components: {
@@ -28,8 +34,17 @@ export default defineComponent({
     componentContext
   ) {
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
+    const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
+    const putAddressNameFormClerk = useAppFormClerk({
+      FormElementClerk: PutAddressNameFormElementClerk,
+      invokeRequestWithFormValueHash: putAddressNameGraphqlClient.invokeRequestWithFormValueHash,
+    })
+
     const statusReactive = reactive({
       isLoading: false,
+    })
+    const mutationStatusReactive = reactive({
+      isRenaming: false,
     })
 
     const args = {
@@ -43,8 +58,23 @@ export default defineComponent({
     const context = ProfileDetailsContext.create(args)
       .setupComponent()
 
+    const mutationArgs = {
+      props,
+      componentContext,
+      graphqlClientHash: {
+        putAddressName: putAddressNameGraphqlClient,
+      },
+      formClerkHash: {
+        putAddressName: putAddressNameFormClerk,
+      },
+      statusReactive: mutationStatusReactive,
+    }
+    const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
+      .setupComponent()
+
     return {
       context,
+      mutationContext,
     }
   },
 })
@@ -54,6 +84,10 @@ export default defineComponent({
   <div class="unit-page">
     <SectionProfileOverview :competition="context.currentCompetition"
       :ranking="context.currentRanking"
+      :is-renaming="mutationContext.isRenaming"
+      @update-username="mutationContext.updateUsername({
+        formElement: $event.formElement,
+      })"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.financialMetrics" />

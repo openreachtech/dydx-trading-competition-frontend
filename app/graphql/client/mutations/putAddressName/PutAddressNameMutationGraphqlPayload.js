@@ -9,7 +9,7 @@ export default class PutAddressNameMutationGraphqlPayload extends BaseAppSignatu
   /** @override */
   static get document () {
     return /* GraphQL */ `
-      mutation PutAddressName ($input: PutAddressNameInput!) {
+      mutation PutAddressName ($input: putAddressNameInput!) {
         putAddressName (input: $input) {
           addressId
         }

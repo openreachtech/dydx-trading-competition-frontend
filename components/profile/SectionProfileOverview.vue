@@ -1,7 +1,12 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
+
+import {
+  useRoute,
+} from '#imports'
 
 import {
   Icon,
@@ -9,6 +14,9 @@ import {
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
+
+import useWalletStore from '~/stores/wallet'
 
 import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionProfileOverviewContext'
 
@@ -17,6 +25,7 @@ export default defineComponent({
     Icon,
     CopyButton,
     LinkTooltipButton,
+    ProfileRenameDialog,
   },
 
   props: {
@@ -36,20 +45,38 @@ export default defineComponent({
       ],
       required: true,
     },
+    isRenaming: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
+
+  emits: [
+    'updateUsername',
+  ],
 
   setup (
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const walletStore = useWalletStore()
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const profileRenameDialogRef = ref(null)
+
     const args = {
       props,
       componentContext,
+      route,
+      walletStore,
     }
     const context = SectionProfileOverviewContext.create(args)
       .setupComponent()
 
     return {
+      profileRenameDialogRef,
+
       context,
     }
   },
@@ -58,8 +85,21 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
+    <ProfileRenameDialog ref="profileRenameDialogRef"
+      :is-renaming="context.isRenaming"
+      @update-username="context.updateUsername({
+        formElement: $event.formElement
+      })"
+    />
+
     <div class="inner">
-      <div class="unit-basic">
+      <div class="unit-basic"
+        :class="context.generateBasicDetailsClasses()"
+      >
+        <span class="label">
+          My Profile
+        </span>
+
         <span class="heading">
           <Icon name="heroicons:user"
             class="icon"
@@ -67,6 +107,16 @@ export default defineComponent({
           />
 
           <span>{{ context.generateHostName() }}</span>
+
+          <button class="button"
+            @click="context.showDialog({
+              dialogElement: profileRenameDialogRef,
+            })"
+          >
+            <Icon name="heroicons:pencil"
+              size="1.5rem"
+            />
+          </button>
         </span>
 
         <div class="address">
@@ -206,6 +256,20 @@ export default defineComponent({
   min-width: 0;
 }
 
+.unit-basic > .label {
+  display: none;
+
+  font-size: var(--font-size-large);
+  font-weight: 500;
+  line-height: var(--size-line-height-large);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-basic.own-profile > .label {
+  display: inline;
+}
+
 .unit-basic > .heading {
   display: inline-flex;
   align-items: center;
@@ -218,6 +282,30 @@ export default defineComponent({
 
 .unit-basic > .heading > .icon {
   color: var(--color-text-tertiary);
+}
+
+.unit-basic > .heading > .button {
+  border-radius: 100vh;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: transparent;
+  color: var(--palette-purple);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-basic > .heading > .button:hover {
+  color: var(--palette-purple-lighter);
+}
+
+.unit-basic:not(.own-profile) > .heading > .button {
+  display: none;
 }
 
 .unit-basic > .address {
