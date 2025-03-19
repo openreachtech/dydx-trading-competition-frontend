@@ -54,6 +54,22 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      UPDATE_USERNAME: 'updateUsername',
+    }
+  }
+
+  /**
+   * get: isRenaming
+   *
+   * @returns {boolean}
+   */
+  get isRenaming () {
+    return this.props.isRenaming
+  }
+
   /**
    * get: competition
    *
@@ -126,6 +142,25 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     return this.ranking
       ?.performanceBaseline
       ?? null
+  }
+
+  /**
+   * Update username.
+   *
+   * @param {{
+   *   formElement: HTMLFormElement
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  updateUsername ({
+    formElement,
+  }) {
+    this.emit(
+      this.EMIT_EVENT_NAME.UPDATE_USERNAME,
+      {
+        formElement,
+      }
+    )
   }
 
   /**

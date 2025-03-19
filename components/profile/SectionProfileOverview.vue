@@ -47,6 +47,10 @@ export default defineComponent({
     },
   },
 
+  emits: [
+    'updateUsername',
+  ],
+
   setup (
     props,
     componentContext
@@ -76,7 +80,11 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <ProfileRenameDialog ref="profileRenameDialogRef" />
+    <ProfileRenameDialog ref="profileRenameDialogRef"
+      @update-username="context.updateUsername({
+        formElement: $event.formElement
+      })"
+    />
 
     <div class="inner">
       <div class="unit-basic"

@@ -18,7 +18,7 @@ export default defineComponent({
   },
 
   emits: [
-    'rename',
+    'updateUsername',
   ],
 
   setup (
@@ -56,6 +56,9 @@ export default defineComponent({
     <template #contents>
       <form ref="formElementRef"
         class="unit-contents"
+        @submit.prevent="context.submitForm({
+          formElement: formElementRef,
+        })"
       >
         <p class="description">
           Everyone will see you by your display name
@@ -64,7 +67,7 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display Name</span>
 
-          <AppInput />
+          <AppInput name="name" />
         </label>
 
         <AppButton class="button"

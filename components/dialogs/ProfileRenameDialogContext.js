@@ -10,16 +10,26 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
   static get EMIT_EVENT_NAME () {
     return {
       ...super.EMIT_EVENT_NAME,
-      RENAME: 'rename',
+      UPDATE_USERNAME: 'updateUsername',
     }
   }
 
   /**
    * Submit form.
    *
+   * @param {{
+   *   formElement: HTMLFormElement | null
+   * }} params - Parameters.
    * @returns {Promise<void>}
    */
-  async submitForm () {
-    this.emit(this.EMIT_EVENT_NAME.RENAME)
+  async submitForm ({
+    formElement,
+  }) {
+    this.emit(
+      this.EMIT_EVENT_NAME.UPDATE_USERNAME,
+      {
+        formElement,
+      }
+    )
   }
 }
