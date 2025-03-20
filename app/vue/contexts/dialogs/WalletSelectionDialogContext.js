@@ -10,16 +10,9 @@ import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 import {
   ONBOARDING_STATUS,
   WALLET_NETWORK_TYPE,
+  WALLET_IMAGE_URL_HASH,
   WALLETS,
 } from '~/app/constants'
-
-/** @type {Record<string, string>} */
-const WALLET_IMAGE_URL_HASH = {
-  metaMaskSDK: '/img/wallets/metamask.svg',
-  'com.coinbase.wallet': '/img/wallets/coinbase-wallet.svg',
-  'app.phantom': '/img/wallets/phantom.svg',
-  'app.keplr': '/img/wallets/keplr.svg',
-}
 
 /**
  * WalletSelectionDialogContext

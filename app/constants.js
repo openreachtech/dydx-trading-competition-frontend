@@ -184,6 +184,14 @@ export const WALLETS = {
   },
 }
 
+/** @type {Record<string, string>} */
+export const WALLET_IMAGE_URL_HASH = {
+  metaMaskSDK: '/img/wallets/metamask.svg',
+  'com.coinbase.wallet': '/img/wallets/coinbase-wallet.svg',
+  'app.phantom': '/img/wallets/phantom.svg',
+  'app.keplr': '/img/wallets/keplr.svg',
+}
+
 export const ONBOARDING_STATUS = /** @type {const} */ ({
   DISCONNECTED: 'Disconnected',
   WALLET_CONNECTED: 'WalletConnected',
