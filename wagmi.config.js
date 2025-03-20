@@ -9,6 +9,7 @@ import {
 } from '@wagmi/core/chains'
 
 import {
+  injected,
   metaMask,
 } from '@wagmi/connectors'
 
@@ -24,6 +25,7 @@ export default createConfig({
     sepolia,
   ],
   connectors: [
+    injected(),
     metaMaskConnector,
   ],
   transports: {
