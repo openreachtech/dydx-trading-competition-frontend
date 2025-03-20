@@ -60,6 +60,15 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * get: validationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get validationMessage () {
+    return this.props.validationMessage
+  }
+
+  /**
    * Generate competition id.
    *
    * @returns {string}

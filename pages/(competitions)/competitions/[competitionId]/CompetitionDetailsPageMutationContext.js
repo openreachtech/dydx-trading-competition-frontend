@@ -68,6 +68,24 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
   }
 
   /**
+   * get: joinCompetitionValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get joinCompetitionValidation () {
+    return this.formClerkHash.joinCompetition.validationRef.value
+  }
+
+  /**
+   * get: joinCompetitionValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get joinCompetitionValidationMessage () {
+    return this.joinCompetitionValidation.message
+  }
+
+  /**
    * Join competition.
    *
    * @param {{

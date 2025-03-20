@@ -21,6 +21,15 @@ export default defineComponent({
     AppInput,
   },
 
+  props: {
+    validationMessage: {
+      /** @type {import('vue').PropType<furo.ValidatorHashType['message']>} */
+      type: Object,
+      default: null,
+      required: false,
+    },
+  },
+
   emits: [
     'joinCompetition',
   ],
@@ -80,7 +89,10 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display name</span>
 
-          <AppInput name="name" />
+          <AppInput name="name"
+            :has-error="Boolean(context.validationMessage.name)"
+            :error-message="context.validationMessage.name"
+          />
         </label>
 
         <div class="balance">
@@ -130,6 +142,15 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.unit-contents > .message.error {
+  font-size: var(--font-size-small);
+  color: var(--color-text-error);
+}
+
+.unit-contents > .message.error.hidden {
+  display: none;
 }
 
 .unit-contents > .note,
