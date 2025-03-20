@@ -74,6 +74,16 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         },
       })
 
+    this.graphqlClientHash.addressName
+      .invokeRequestOnMounted({
+        variables: {
+          input: {
+            address: this.route.params.address,
+          },
+          hooks: this.addressNameLauncherHooks,
+        },
+      })
+
     return this
   }
 
@@ -96,12 +106,60 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: addressNameLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get addressNameLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isFetchingName = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isFetchingName = false
+      },
+    }
+  }
+
+  /**
+   * get: addressNameCapsuleRef
+   *
+   * @returns {AddressNameCapsuleRef} Capsule ref.
+   */
+  get addressNameCapsuleRef () {
+    return this.graphqlClientHash.addressName.capsuleRef
+  }
+
+  /**
    * get: addressCurrentCompetitionCapsuleRef
    *
    * @returns {AddressCurrentCompetitionCapsuleRef} Capsule ref.
    */
   get addressCurrentCompetitionCapsuleRef () {
     return this.graphqlClientHash.addressCurrentCompetition.capsuleRef
+  }
+
+  /**
+   * Normalize address name.
+   *
+   * @returns {string}
+   */
+  normalizeAddressName () {
+    return this.addressName
+      ?? '----'
+  }
+
+  /**
+   * get: addressName
+   *
+   * @returns {string | null}
+   */
+  get addressName () {
+    return this.addressNameCapsuleRef.value
+      ?.name
+      ?? null
   }
 
   /**
@@ -167,7 +225,9 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {'addressCurrentCompetition'} GraphqlClientHashKeys
+ * @typedef {'addressCurrentCompetition'
+ *   | 'addressName'
+ * } GraphqlClientHashKeys
  */
 
 /**
@@ -181,6 +241,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   isLoading: boolean
+ *   isFetchingName: boolean
  * }} StatusReactive
  */
 
@@ -188,4 +249,10 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  * @typedef {import('vue').Ref<
  *   import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').default
  * >} AddressCurrentCompetitionCapsuleRef
+ */
+
+/**
+ * @typedef {import('vue').Ref<
+ *   import('~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlCapsule').default
+ * >} AddressNameCapsuleRef
  */

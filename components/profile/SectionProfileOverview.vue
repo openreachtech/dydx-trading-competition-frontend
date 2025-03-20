@@ -29,6 +29,10 @@ export default defineComponent({
   },
 
   props: {
+    addressName: {
+      type: String,
+      required: true,
+    },
     competition: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
       type: [
@@ -106,7 +110,7 @@ export default defineComponent({
             size="2.25rem"
           />
 
-          <span>{{ context.generateHostName() }}</span>
+          <span>{{ context.addressName }}</span>
 
           <button class="button"
             @click="context.showDialog({
