@@ -90,6 +90,7 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <ProfileRenameDialog ref="profileRenameDialogRef"
+      :initial-username="context.addressName"
       :is-renaming="context.isRenaming"
       @update-username="context.updateUsername({
         formElement: $event.formElement

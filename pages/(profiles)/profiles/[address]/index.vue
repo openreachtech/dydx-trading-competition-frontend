@@ -83,6 +83,7 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <SectionProfileOverview :competition="context.currentCompetition"
+      :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
       @update-username="mutationContext.updateUsername({
