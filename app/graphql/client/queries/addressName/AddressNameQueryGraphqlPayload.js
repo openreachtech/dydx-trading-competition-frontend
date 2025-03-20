@@ -9,7 +9,7 @@ export default class AddressNameQueryGraphqlPayload extends BaseAppGraphqlPayloa
   /** @override */
   static get document () {
     return /* GraphQL */ `
-      mutation AddressName ($input: AddressNameInput!) {
+      query AddressName ($input: AddressNameInput!) {
         addressName (input: $input) {
           name
         }

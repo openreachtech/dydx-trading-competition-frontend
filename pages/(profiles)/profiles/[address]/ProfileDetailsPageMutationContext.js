@@ -19,6 +19,7 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
 
     graphqlClientHash,
     formClerkHash,
+    refetchFunctionHash,
     statusReactive,
   }) {
     super({
@@ -28,6 +29,7 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
 
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
+    this.refetchFunctionHash = refetchFunctionHash
     this.statusReactive = statusReactive
   }
 
@@ -45,6 +47,7 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
     componentContext,
     graphqlClientHash,
     formClerkHash,
+    refetchFunctionHash,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -53,6 +56,7 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
         componentContext,
         graphqlClientHash,
         formClerkHash,
+        refetchFunctionHash,
         statusReactive,
       })
     )
@@ -88,6 +92,9 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
         formElement,
         hooks: this.putAddressNameLauncherHooks,
       })
+
+    await this.refetchFunctionHash
+      .addressName()
   }
 
   /**
@@ -113,6 +120,7 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
+ *   refetchFunctionHash: Record<RefetchFunctionHashKeys, () => Promise<void>>
  *   statusReactive: StatusReactive
  * }} ProfileDetailsPageMutationContextParams
  */
@@ -127,6 +135,10 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
 
 /**
  * @typedef {'putAddressName'} FormClerkHashKeys
+ */
+
+/**
+ * @typedef {'addressName'} RefetchFunctionHashKeys
  */
 
 /**

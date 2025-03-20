@@ -71,6 +71,15 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: addressName
+   *
+   * @returns {string} Address name.
+   */
+  get addressName () {
+    return this.props.addressName
+  }
+
+  /**
    * get: competition
    *
    * @returns {Competition} Wallet address.

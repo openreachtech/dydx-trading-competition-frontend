@@ -29,6 +29,10 @@ export default defineComponent({
   },
 
   props: {
+    addressName: {
+      type: String,
+      required: true,
+    },
     competition: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
       type: [
@@ -86,6 +90,7 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <ProfileRenameDialog ref="profileRenameDialogRef"
+      :initial-username="context.addressName"
       :is-renaming="context.isRenaming"
       @update-username="context.updateUsername({
         formElement: $event.formElement
@@ -106,7 +111,7 @@ export default defineComponent({
             size="2.25rem"
           />
 
-          <span>{{ context.generateHostName() }}</span>
+          <span>{{ context.addressName }}</span>
 
           <button class="button"
             @click="context.showDialog({

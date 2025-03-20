@@ -24,6 +24,15 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: initialUsername
+   *
+   * @returns {string}
+   */
+  get initialUsername () {
+    return this.props.initialUsername
+  }
+
+  /**
    * Submit form.
    *
    * @param {{
