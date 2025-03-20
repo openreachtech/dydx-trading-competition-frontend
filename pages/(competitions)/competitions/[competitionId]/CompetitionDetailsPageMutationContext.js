@@ -66,6 +66,47 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
   get isJoining () {
     return this.statusReactive.isJoining
   }
+
+  /**
+   * Join competition.
+   *
+   * @param {{
+   *   formElement: HTMLFormElement | null
+   * }} params - Paramters.
+   * @returns {Promise<void>}
+   */
+  async joinCompetition ({
+    formElement,
+  }) {
+    if (!formElement) {
+      return
+    }
+
+    await this.formClerkHash
+      .joinCompetition
+      .submitForm({
+        formElement,
+        hooks: this.joinCompetitionLauncherHooks,
+      })
+  }
+
+  /**
+   * get: joinCompetitionLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get joinCompetitionLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isJoining = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isJoining = false
+      },
+    }
+  }
 }
 
 /**

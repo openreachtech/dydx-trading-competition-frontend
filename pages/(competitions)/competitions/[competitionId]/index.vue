@@ -113,6 +113,10 @@ export default defineComponent({
 
     <SectionLeaderboard />
 
-    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef" />
+    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
+      @join-competition="mutationContext.joinCompetition({
+        formElement: $event.formElement,
+      })"
+    />
   </div>
 </template>

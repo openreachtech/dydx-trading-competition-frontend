@@ -21,6 +21,10 @@ export default defineComponent({
     AppInput,
   },
 
+  emits: [
+    'joinCompetition',
+  ],
+
   setup (
     props,
     componentContext
@@ -59,6 +63,9 @@ export default defineComponent({
     <template #contents>
       <form ref="formElementRef"
         class="unit-contents"
+        @submit.prevent="context.submitForm({
+          formElement: formElementRef,
+        })"
       >
         <input type="number"
           class="input hidden"

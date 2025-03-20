@@ -52,6 +52,13 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      JOIN_COMPETITION: 'joinCompetition',
+    }
+  }
+
   /**
    * Generate competition id.
    *
@@ -61,6 +68,25 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
     return Array.isArray(this.route.params.competitionId)
       ? this.route.params.competitionId[0]
       : this.route.params.competitionId
+  }
+
+  /**
+   * Submit form.
+   *
+   * @param {{
+   *   formElement: HTMLFormElement | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  submitForm ({
+    formElement,
+  }) {
+    this.emit(
+      this.EMIT_EVENT_NAME.JOIN_COMPETITION,
+      {
+        formElement,
+      }
+    )
   }
 }
 
