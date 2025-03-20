@@ -71,8 +71,9 @@ export default defineComponent({
     <button class="button"
       @click="context.toggleDropdown"
     >
-      <img src="/img/wallets/metamask.svg"
-        alt="Metamask"
+      <img :src="context.generateWalletImageUrl()"
+        alt="Wallet Icon"
+        class="image"
       >
 
       <span>{{ context.generateSourceAccountAddress() }}</span>
@@ -107,8 +108,8 @@ export default defineComponent({
         <div class="connector" />
 
         <div class="unit-chain">
-          <img src="/img/wallets/metamask.svg"
-            alt="Metamask"
+          <img :src="context.generateWalletImageUrl()"
+            alt="Wallet Icon"
             class="image"
           >
 
@@ -201,6 +202,11 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-secondary);
+}
+
+.unit-account > .button > .image {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .unit-account > .button > .icon {

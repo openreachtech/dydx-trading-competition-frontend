@@ -5,6 +5,7 @@ import {
 import {
   disconnect as disconnectWagmi,
   reconnect as reconnectWagmi,
+  getAccount,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
 
@@ -13,6 +14,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import {
+  WALLET_IMAGE_URL_HASH,
   WALLET_NETWORK_TYPE,
   ONBOARDING_STATUS,
 } from '~/app/constants'
@@ -140,6 +142,27 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     this.accountStore.setOnboardingStatus({
       onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
     })
+  }
+
+  /**
+   * Generate wallet image URL.
+   *
+   * @returns {string}
+   */
+  generateWalletImageUrl () {
+    const fallbackUrl = '/img/wallets/generic-wallet.svg'
+    const account = getAccount(wagmiConfig)
+    const connectorId = account
+      ?.connector
+      ?.id
+      ?? null
+
+    if (!connectorId) {
+      return fallbackUrl
+    }
+
+    return WALLET_IMAGE_URL_HASH[connectorId]
+      ?? fallbackUrl
   }
 
   /**
