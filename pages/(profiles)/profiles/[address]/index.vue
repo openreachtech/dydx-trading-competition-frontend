@@ -15,6 +15,7 @@ import {
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
+import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
@@ -34,6 +35,7 @@ export default defineComponent({
     componentContext
   ) {
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
+    const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
     const putAddressNameFormClerk = useAppFormClerk({
       FormElementClerk: PutAddressNameFormElementClerk,
@@ -42,6 +44,7 @@ export default defineComponent({
 
     const statusReactive = reactive({
       isLoading: false,
+      isFetchingName: false,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -52,6 +55,7 @@ export default defineComponent({
       componentContext,
       graphqlClientHash: {
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
+        addressName: addressNameGraphqlClient,
       },
       statusReactive,
     }
