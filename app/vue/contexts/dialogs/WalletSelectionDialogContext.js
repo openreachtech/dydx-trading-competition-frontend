@@ -1,9 +1,8 @@
 import {
   connect as connectWagmi,
+  getConnectors,
+  getChainId,
 } from '@wagmi/core'
-import {
-  injected,
-} from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -11,6 +10,7 @@ import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 import {
   ONBOARDING_STATUS,
   WALLET_NETWORK_TYPE,
+  WALLET_IMAGE_URL_HASH,
   WALLETS,
 } from '~/app/constants'
 
@@ -80,18 +80,35 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Generate displayed wallets.
+   *
+   * @returns {Array<import('@wagmi/core').Connector & {
+   *   imageUrl: string
+   * }>} Displayed wallets.
+   */
+  generateDisplayedWallets () {
+    const connectors = getConnectors(wagmiConfig)
+
+    return connectors.filter(it => it.id !== 'injected')
+      .map(it => ({
+        ...it,
+        imageUrl: WALLET_IMAGE_URL_HASH[it.id] ?? '',
+      }))
+  }
+
+  /**
    * Select wallet.
    *
    * @param {{
-   *   walletDetail: import('~/stores/wallet').WalletDetail
+   *   connector: ReturnType<typeof getConnectors>[0]
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async selectWallet ({
-    walletDetail,
+    connector,
   }) {
     await this.connectWallet({
-      walletDetail,
+      connector,
     })
 
     this.accountStore.setOnboardingStatus({
@@ -105,21 +122,18 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * Connect wallet.
    *
    * @param {{
-   *   walletDetail: import('~/stores/wallet').WalletDetail
+   *   connector: ReturnType<typeof getConnectors>[0]
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async connectWallet ({
-    walletDetail,
+    connector,
   }) {
     try {
-      // TODO: Condition for other wallets.
+      const chainId = getChainId(wagmiConfig)
       const connectionResult = await connectWagmi(wagmiConfig, {
-        connector: injected(),
-      })
-
-      this.walletStore.setWalletDetail({
-        walletDetail,
+        connector,
+        chainId,
       })
 
       const [firstAccountAddress] = connectionResult.accounts

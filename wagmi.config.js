@@ -9,8 +9,8 @@ import {
 } from '@wagmi/core/chains'
 
 import {
+  injected,
   metaMask,
-  coinbaseWallet,
 } from '@wagmi/connectors'
 
 const metaMaskConnector = metaMask({
@@ -19,18 +19,14 @@ const metaMaskConnector = metaMask({
   },
 })
 
-const coinbaseWalletConnector = coinbaseWallet({
-  appName: 'dYdX Trading League',
-})
-
 export default createConfig({
   chains: [
     mainnet,
     sepolia,
   ],
   connectors: [
+    injected(),
     metaMaskConnector,
-    coinbaseWalletConnector,
   ],
   transports: {
     [mainnet.id]: http(),
