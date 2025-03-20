@@ -94,7 +94,7 @@ export default defineComponent({
           <AppButton v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
             @click="context.selectWallet({
-              walletDetail: it,
+              connector: it,
             })"
           >
             <template #startIcon>
