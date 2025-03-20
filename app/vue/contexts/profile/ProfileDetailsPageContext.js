@@ -88,6 +88,24 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * Refetch address name.
+   *
+   * @returns {Promise<void>}
+   */
+  async refetchAddressName () {
+    await this.graphqlClientHash
+      .addressName
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            address: this.route.params.address,
+          },
+          hooks: this.addressNameLauncherHooks,
+        },
+      })
+  }
+
+  /**
    * get: addressCurrentCompetitionLauncherHooks
    *
    * @returns {furo.GraphqlLauncherHooks} Launcher hooks.

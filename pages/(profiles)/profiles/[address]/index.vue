@@ -71,6 +71,11 @@ export default defineComponent({
       formClerkHash: {
         putAddressName: putAddressNameFormClerk,
       },
+      refetchFunctionHash: {
+        addressName: async () => {
+          await context.refetchAddressName()
+        },
+      },
       statusReactive: mutationStatusReactive,
     }
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
