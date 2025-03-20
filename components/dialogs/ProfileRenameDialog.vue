@@ -18,6 +18,11 @@ export default defineComponent({
   },
 
   props: {
+    initialUsername: {
+      type: String,
+      required: false,
+      default: '',
+    },
     isRenaming: {
       type: Boolean,
       required: false,
@@ -75,7 +80,9 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display Name</span>
 
-          <AppInput name="name" />
+          <AppInput name="name"
+            :value="context.initialUsername"
+          />
         </label>
 
         <AppButton class="button"
