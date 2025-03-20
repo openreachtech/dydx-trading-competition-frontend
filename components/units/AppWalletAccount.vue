@@ -150,7 +150,7 @@ export default defineComponent({
       </div>
 
       <div class="actions">
-        <NuxtLink class="button">
+        <NuxtLink :to="context.generateProfileUrl()">
           <Icon name="heroicons:user"
             size="1rem"
           />

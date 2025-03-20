@@ -152,6 +152,24 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Generate profile URL.
+   *
+   * @returns {string}
+   */
+  generateProfileUrl () {
+    const localWalletAddress = this.walletStore.walletStoreRef.value
+      .localWallet
+      .address
+
+    if (!localWalletAddress) {
+      // Return empty string instead of `null` to avoid type error.
+      return ''
+    }
+
+    return `/profiles/${localWalletAddress}`
+  }
+
+  /**
    * Generate local account's address.
    *
    * @returns {string} Source account's address.
