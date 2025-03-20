@@ -154,6 +154,17 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: profileAddress
+   *
+   * @returns {string} Profile address.
+   */
+  get profileAddress () {
+    return Array.isArray(this.route.params.address)
+      ? this.route.params.address[0]
+      : this.route.params.address
+  }
+
+  /**
    * Update username.
    *
    * @param {{
@@ -304,11 +315,11 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Address first half.
    */
   generateAddressFirstHalf () {
-    if (!this.hostAddress) {
+    if (!this.profileAddress) {
       return '--'
     }
 
-    return this.hostAddress
+    return this.profileAddress
       .slice(0, -5)
   }
 
@@ -318,11 +329,11 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Address last five.
    */
   generateAddressLastFive () {
-    if (!this.hostAddress) {
+    if (!this.profileAddress) {
       return '--'
     }
 
-    return this.hostAddress
+    return this.profileAddress
       .slice(-5)
   }
 
