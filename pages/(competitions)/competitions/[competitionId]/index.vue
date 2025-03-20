@@ -6,21 +6,29 @@ import {
 } from 'vue'
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
+import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
 import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
+
+import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
 import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
+import useAppFormClerk from '~/composables/useAppFormClerk'
+
 import CompetitionDetailsPageContext from '~/app/vue/contexts/CompetitionDetailsPageContext'
+import CompetitionDetailsPageMutationContext from './CompetitionDetailsPageMutationContext'
 
 export default defineComponent({
   components: {
     CompetitionTermsDialog,
+    CompetitionEnrollmentDialog,
     SectionLeague,
     SectionSchedules,
     SectionLeaderboard,
@@ -32,10 +40,22 @@ export default defineComponent({
   ) {
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionTermsDialogRef = ref(null)
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const competitionEnrollmentDialogRef = ref(null)
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
+    const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
+
+    const joinCompetitionFormClerk = useAppFormClerk({
+      FormElementClerk: JoinCompetitionFormElementClerk,
+      invokeRequestWithFormValueHash: joinCompetitionGraphqlClient.invokeRequestWithFormValueHash,
+    })
+
     const statusReactive = reactive({
       isLoading: false,
+    })
+    const mutationStatusReactive = reactive({
+      isJoining: false,
     })
 
     const args = {
@@ -49,9 +69,26 @@ export default defineComponent({
     const context = CompetitionDetailsPageContext.create(args)
       .setupComponent()
 
+    const mutationArgs = {
+      props,
+      componentContext,
+      graphqlClientHash: {
+        joinCompetition: joinCompetitionGraphqlClient,
+      },
+      formClerkHash: {
+        joinCompetition: joinCompetitionFormClerk,
+      },
+      statusReactive: mutationStatusReactive,
+    }
+    const mutationContext = CompetitionDetailsPageMutationContext.create(mutationArgs)
+      .setupComponent()
+
     return {
       competitionTermsDialogRef,
+      competitionEnrollmentDialogRef,
+
       context,
+      mutationContext,
     }
   },
 })
@@ -67,10 +104,20 @@ export default defineComponent({
 
     <CompetitionTermsDialog ref="competitionTermsDialogRef"
       :competition="context.competition"
+      @show-enrollment-dialog="context.showDialog({
+        dialogElement: competitionEnrollmentDialogRef,
+      })"
     />
 
     <SectionSchedules :schedules="context.schedules" />
 
     <SectionLeaderboard />
+
+    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
+      :validation-message="mutationContext.joinCompetitionValidationMessage"
+      @join-competition="mutationContext.joinCompetition({
+        formElement: $event.formElement,
+      })"
+    />
   </div>
 </template>
