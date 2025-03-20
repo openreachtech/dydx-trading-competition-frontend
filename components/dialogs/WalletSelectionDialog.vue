@@ -91,21 +91,21 @@ export default defineComponent({
         </p>
 
         <div class="actions">
-          <AppButton v-for="it of context.supportedWallets"
+          <AppButton v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
             @click="context.selectWallet({
               walletDetail: it,
             })"
           >
             <template #startIcon>
-              <img :src="it.iconUrl"
-                :alt="it.label"
+              <img :src="it.imageUrl"
+                :alt="it.name"
                 class="image wallet"
               >
             </template>
 
             <template #default>
-              {{ it.label }}
+              {{ it.name }}
             </template>
           </AppButton>
         </div>

@@ -1,9 +1,8 @@
 import {
   connect as connectWagmi,
+  getConnectors,
+  getChainId,
 } from '@wagmi/core'
-import {
-  injected,
-} from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -13,6 +12,14 @@ import {
   WALLET_NETWORK_TYPE,
   WALLETS,
 } from '~/app/constants'
+
+/** @type {Record<string, string>} */
+const WALLET_IMAGE_URL_HASH = {
+  metaMaskSDK: '/img/wallets/metamask.svg',
+  'com.coinbase.wallet': '/img/wallets/coinbase-wallet.svg',
+  'app.phantom': '/img/wallets/phantom.svg',
+  'app.keplr': '/img/wallets/keplr.svg',
+}
 
 /**
  * WalletSelectionDialogContext
@@ -77,6 +84,23 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
       NEXT_STEP: 'nextStep',
     }
+  }
+
+  /**
+   * Generate displayed wallets.
+   *
+   * @returns {Array<import('@wagmi/core').Connector & {
+   *   imageUrl: string
+   * }>} Displayed wallets.
+   */
+  generateDisplayedWallets () {
+    const connectors = getConnectors(wagmiConfig)
+
+    return connectors.filter(it => it.id !== 'injected')
+      .map(it => ({
+        ...it,
+        imageUrl: WALLET_IMAGE_URL_HASH[it.id] ?? '',
+      }))
   }
 
   /**
