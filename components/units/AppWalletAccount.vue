@@ -150,7 +150,9 @@ export default defineComponent({
       </div>
 
       <div class="actions">
-        <NuxtLink :to="context.generateProfileUrl()">
+        <NuxtLink class="link"
+          :to="context.generateProfileUrl()"
+        >
           <Icon name="heroicons:user"
             size="1rem"
           />
@@ -162,7 +164,7 @@ export default defineComponent({
           external
           target="_blank"
           rel="noopener noreferrer"
-          class="button"
+          class="link"
         >
           <Icon name="heroicons:home-solid"
             size="1rem"
@@ -361,7 +363,7 @@ export default defineComponent({
   gap: 0.5rem;
 }
 
-.unit-dropdown > .actions > .button {
+.unit-dropdown > .actions > :where(.button, .link) {
   border-radius: 0.375rem;
 
   padding-block: 0.4375rem;
@@ -380,8 +382,16 @@ export default defineComponent({
   transition: filter 250ms var(--transition-timing-base);
 }
 
-.unit-dropdown > .actions > .button:hover {
+.unit-dropdown > .actions > .button:not(:disabled):hover,
+.unit-dropdown > .actions > .link[href]:hover {
   filter: brightness(1.4);
+}
+
+.unit-dropdown > .actions > .button:disabled,
+.unit-dropdown > .actions > .link:not([href]) {
+  color: var(--color-text-placeholder);
+
+  cursor: not-allowed;
 }
 
 @keyframes fade-in {
