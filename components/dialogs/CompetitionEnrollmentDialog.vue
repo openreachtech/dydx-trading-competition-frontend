@@ -4,6 +4,10 @@ import {
   ref,
 } from 'vue'
 
+import {
+  useRoute,
+} from '#imports'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 import AppInput from '~/components/units/AppInput.vue'
@@ -21,6 +25,8 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+
     // Actual value is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
@@ -31,6 +37,7 @@ export default defineComponent({
       props,
       componentContext,
       dialogComponentRef,
+      route,
     }
     const context = CompetitionEnrollmentDialogContext.create(args)
       .setupComponent()
@@ -53,6 +60,12 @@ export default defineComponent({
       <form ref="formElementRef"
         class="unit-contents"
       >
+        <input type="number"
+          class="input hidden"
+          name="competitionId"
+          :value="context.generateCompetitionId()"
+        >
+
         <p class="note">
           By clicking Enroll, you agree to the Trading League's rules.
         </p>
@@ -167,5 +180,9 @@ export default defineComponent({
   margin-block-start: 1rem;
 
   align-self: end;
+}
+
+.input.hidden {
+  display: none;
 }
 </style>
