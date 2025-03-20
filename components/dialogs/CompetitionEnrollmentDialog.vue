@@ -80,7 +80,7 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display name</span>
 
-          <AppInput class="name" />
+          <AppInput name="name" />
         </label>
 
         <div class="balance">
