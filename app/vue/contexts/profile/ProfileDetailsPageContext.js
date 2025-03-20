@@ -189,7 +189,3 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').default
  * >} AddressCurrentCompetitionCapsuleRef
  */
-
-/**
- * @type
- */
