@@ -40,11 +40,15 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
          * ) => boolean}
          */
         ok: (it, valueHash) => {
+          // TODO: This logic is not entirely correct. The spec should be:
+          // - The array has at least 4 members (registration start, registration end, competition start, competition end)
+          // - Prize distribution schedule is optional. However, should update the form to omit the field if input value is empty.
           const requiredScheduleIds = [
             SCHEDULE_CATEGORY.REGISTRATION_START.ID,
             SCHEDULE_CATEGORY.REGISTRATION_END.ID,
             SCHEDULE_CATEGORY.COMPETITION_START.ID,
             SCHEDULE_CATEGORY.COMPETITION_END.ID,
+            SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
           ]
 
           return it.length >= 4
