@@ -5,7 +5,7 @@ import {
 /**
  * AddCompetitionFormStepDetailsContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class AddCompetitionFormStepDetailsContext extends BaseFuroContext {
   /**
@@ -64,6 +64,15 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
         graphqlClientHash,
       })
     )
+  }
+
+  /**
+   * get: validationMessage
+   *
+   * @returns {PropsType['validationMessage']}
+   */
+  get validationMessage () {
+    return this.props.validationMessage
   }
 
   /**
@@ -186,7 +195,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   uploadInputShallowRef: import('vue').ShallowRef<HTMLInputElement | null>
  *   imageSourceRef: import('vue').Ref<string>
  *   imageIdRef: import('vue').Ref<number | null>
@@ -211,4 +220,10 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
  * @typedef {import('vue').Reactive<{
  *   isUploadingImage: boolean
  * }>} StatusReactive
+ */
+
+/**
+ * @typedef {{
+ *   validationMessage: furo.ValidatorHashType['message']
+ * }} PropsType
  */

@@ -9,7 +9,7 @@ import {
 /**
  * AddCompetitionFormStepTimelineContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class AddCompetitionFormStepTimelineContext extends BaseFuroContext {
   /**
@@ -52,6 +52,15 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
         endDateReactive,
       })
     )
+  }
+
+  /**
+   * get: validationMessage
+   *
+   * @returns {PropsType['validationMessage']}
+   */
+  get validationMessage () {
+    return this.props.validationMessage
   }
 
   /**
@@ -100,10 +109,26 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
       'hide-end-date': !phase.endDateInputId,
     }
   }
+
+  /**
+   * Generate CSS classes for error message.
+   *
+   * @param {{
+   *   fieldName: keyof PropsType['validationMessage']
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>}
+   */
+  generateErrorMessageClasses ({
+    fieldName,
+  }) {
+    return {
+      hidden: !this.validationMessage[fieldName],
+    }
+  }
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   endDateReactive: {
  *     registration: string
  *     competition: string
@@ -128,4 +153,10 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
  *   endDateInputId?: number
  *   note?: string
  * }} Phase
+ */
+
+/**
+ * @typedef {{
+ *   validationMessage: furo.ValidatorHashType['message']
+ * }} PropsType
  */

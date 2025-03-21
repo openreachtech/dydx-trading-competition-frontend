@@ -25,6 +25,18 @@ export default defineComponent({
     AppTextarea,
   },
 
+  props: {
+    validationMessage: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').PropsType['validationMessage']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
@@ -83,6 +95,8 @@ export default defineComponent({
 
       <AppInput name="title"
         placeholder="Give your league a name (max 30 characters)"
+        :has-error="Boolean(context.validationMessage.title)"
+        :error-message="context.validationMessage.title"
       />
     </label>
 
@@ -94,6 +108,8 @@ export default defineComponent({
       <AppTextarea name="description"
         rows="10"
         placeholder="Describe your league (max 250 characters)"
+        :has-error="Boolean(context.validationMessage.description)"
+        :error-message="context.validationMessage.description"
       />
     </label>
 

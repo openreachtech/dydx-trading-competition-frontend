@@ -20,6 +20,18 @@ export default defineComponent({
     AppInput,
   },
 
+  props: {
+    validationMessage: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('./AddCompetitionFormStepPrizeContext').PropsType['validationMessage']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
@@ -60,6 +72,14 @@ export default defineComponent({
         Define the total prize pool and how it will be distributed
       </p>
     </div>
+
+    <span class="message error"
+      :class="context.generateErrorMessageClasses({
+        fieldName: 'prizeRules',
+      })"
+    >
+      {{ context.validationMessage.prizeRules }}
+    </span>
 
     <div class="tier">
       <h3 class="heading">
@@ -208,6 +228,16 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.unit-section > .message.error {
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-error);
+}
+
+.unit-section > .message.error.hidden {
+  display: none;
 }
 
 .unit-section > .headline > .heading {
