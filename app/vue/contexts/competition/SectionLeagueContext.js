@@ -272,7 +272,8 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string} Image URL
    */
   generateImageUrl () {
-    return this.image ?? ''
+    return this.image
+      ?? '/img/badges/league-badge-placeholder.png'
   }
 
   /**

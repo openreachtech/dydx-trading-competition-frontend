@@ -207,6 +207,10 @@ export default defineComponent({
   overflow: hidden;
 }
 
+.unit-headline > .image[src='/img/badges/league-badge-placeholder.png'] {
+  object-fit: scale-down;
+}
+
 .unit-status {
   display: flex;
   flex-direction: column;
