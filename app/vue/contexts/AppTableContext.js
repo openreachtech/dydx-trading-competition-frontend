@@ -45,6 +45,15 @@ export default class AppTableContext extends BaseFuroContext {
   }
 
   /**
+   * get: shouldHideHeaderCells
+   *
+   * @returns {boolean} `true` if should hide header cells.
+   */
+  get shouldHideHeaderCells () {
+    return this.props.shouldHideHeaderCells
+  }
+
+  /**
    * Check if table is empty.
    *
    * @returns {boolean} `true` if is empty.
@@ -62,6 +71,27 @@ export default class AppTableContext extends BaseFuroContext {
    * @returns {Record<string, boolean>} Cell classes.
    */
   generateCellClasses ({
+    columnOptions,
+  }) {
+    const columnOptionClasses = this.generateColumnOptionClasses({
+      columnOptions,
+    })
+
+    return {
+      ...columnOptionClasses,
+      'hide-head': this.shouldHideHeaderCells,
+    }
+  }
+
+  /**
+   * Generate column option classes.
+   *
+   * @param {{
+   *   columnOptions: HeaderEntry['columnOptions']
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>} CSS classes from column options.
+   */
+  generateColumnOptionClasses ({
     columnOptions,
   }) {
     if (!columnOptions) {
