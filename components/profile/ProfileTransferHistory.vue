@@ -57,6 +57,7 @@ export default defineComponent({
   <div class="unit-container">
     <AppTable :header-entries="context.tableHeaderEntries"
       :entries="context.generateTableEntries()"
+      should-hide-header-cells
       min-width="45rem"
     >
       <template #body-time="{ value }">
