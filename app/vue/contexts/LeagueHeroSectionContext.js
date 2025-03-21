@@ -65,8 +65,6 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
    */
   async hostLeague () {
     if (!this.onboardingDialogsComponentRef.value) {
-      navigateTo('/competitions/add')
-
       return
     }
 
