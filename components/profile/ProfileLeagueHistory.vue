@@ -77,7 +77,7 @@ export default defineComponent({
         <span class="unit-baseline">
           {{
             context.normalizePerformanceBaseline({
-              baseline: value,
+              figure: value,
             })
           }}
         </span>
@@ -92,11 +92,19 @@ export default defineComponent({
       <template #body-profit="{ value }">
         <span class="unit-profit">
           <span class="pnl">
-            {{ value.pnl }}
+            {{
+              context.normalizePnl({
+                figure: value.pnl,
+              })
+            }}
           </span>
 
           <span class="roi">
-            ({{ value.roi }})
+            ({{
+              context.normalizeRoi({
+                figure: value.roi,
+              })
+            }})
           </span>
         </span>
       </template>
