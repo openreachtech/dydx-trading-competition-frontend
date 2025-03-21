@@ -78,6 +78,15 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * get: initialUsername
+   *
+   * @returns {PropsType['initialUsername']}
+   */
+  get initialUsername () {
+    return this.props.initialUsername
+  }
+
+  /**
    * get: minimumDeposit
    *
    * @returns {string | null}
@@ -149,5 +158,7 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
 /**
  * @typedef {{
  *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   initialUsername: string | null
+ *   validationMessage: furo.ValidatorHashType['message']
  * }} PropsType
  */

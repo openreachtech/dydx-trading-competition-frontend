@@ -13,6 +13,7 @@ import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.v
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
+import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
@@ -21,6 +22,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import useAppFormClerk from '~/composables/useAppFormClerk'
+import useWalletStore from '~/stores/wallet'
 
 import CompetitionDetailsPageContext from '~/app/vue/contexts/CompetitionDetailsPageContext'
 import CompetitionDetailsPageMutationContext from './CompetitionDetailsPageMutationContext'
@@ -38,6 +40,8 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const walletStore = useWalletStore()
+
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionTermsDialogRef = ref(null)
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
@@ -45,6 +49,7 @@ export default defineComponent({
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
+    const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -61,8 +66,10 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      walletStore,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
+        addressName: addressNameGraphqlClient,
       },
       statusReactive,
     }
@@ -115,6 +122,7 @@ export default defineComponent({
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
       :competition="context.competition"
+      :initial-username="context.addressName"
       :validation-message="mutationContext.joinCompetitionValidationMessage"
       @join-competition="mutationContext.joinCompetition({
         formElement: $event.formElement,
