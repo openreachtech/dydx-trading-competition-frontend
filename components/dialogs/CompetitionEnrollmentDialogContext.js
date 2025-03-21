@@ -69,6 +69,43 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * get: competition
+   *
+   * @returns {PropsType['competition']}
+   */
+  get competition () {
+    return this.props.competition
+  }
+
+  /**
+   * get: minimumDeposit
+   *
+   * @returns {string | null}
+   */
+  get minimumDeposit () {
+    return this.competition
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
+   * Normalize minimum deposit.
+   *
+   * @returns {string}
+   */
+  normalizeMinimumDeposit () {
+    if (!this.minimumDeposit) {
+      return '--'
+    }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      trailingZeroDisplay: 'stripIfInteger',
+    })
+
+    return formatter.format(Number(this.minimumDeposit))
+  }
+
+  /**
    * Generate competition id.
    *
    * @returns {string}
@@ -107,4 +144,10 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
 
 /**
  * @typedef {CompetitionEnrollmentDialogContextParams} CompetitionEnrollmentDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ * }} PropsType
  */

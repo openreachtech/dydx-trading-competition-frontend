@@ -22,6 +22,11 @@ export default defineComponent({
   },
 
   props: {
+    competition: {
+      /** @type {import('vue').PropType<import('./CompetitionEnrollmentDialogContext').PropsType['competition']>} */
+      type: Object,
+      required: true,
+    },
     validationMessage: {
       /** @type {import('vue').PropType<furo.ValidatorHashType['message']>} */
       type: Object,
@@ -105,7 +110,7 @@ export default defineComponent({
             >
 
             <span class="number">
-              <span>1,000</span>
+              <span>{{ context.normalizeMinimumDeposit() }}</span>
 
               <span class="currency">USDC</span>
             </span>

@@ -52,7 +52,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *     name: string
  *   }
  *   totalPrize: number
- *   minimumDeposit: number
+ *   minimumDeposit: string
  *   image?: string
  *   schedules: Array<{
  *     category: {
