@@ -21,6 +21,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     props,
     componentContext,
 
+    walletStore,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -29,6 +30,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
@@ -45,6 +47,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    walletStore,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -52,6 +55,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        walletStore,
         graphqlClientHash,
         statusReactive,
       })
@@ -72,6 +76,16 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
         },
         hooks: this.competitionLauncherHooks,
+      })
+
+    this.graphqlClientHash
+      .addressName
+      .invokeRequestOnMounted({
+        variables: {
+          input: {
+            address: this.walletStore.walletStoreRef.value.localWallet.address,
+          },
+        },
       })
 
     return this
@@ -106,6 +120,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: addressName
+   *
+   * @returns {string | null}
+   */
+  get addressName () {
+    return this.addressNameCapsuleRef.value.name
+  }
+
+  /**
    * get: schedules
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['schedules']}
@@ -122,6 +145,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    */
   get competitionCapsuleRef () {
     return this.graphqlClientHash.competition.capsuleRef
+  }
+
+  /**
+   * get: addressNameCapsuleRef
+   *
+   * @returns {CompetitionDetailsPageContextParams['graphqlClientHash']['addressName']['capsuleRef']}
+   */
+  get addressNameCapsuleRef () {
+    return this.graphqlClientHash.addressName.capsuleRef
   }
 
   /**
@@ -163,8 +195,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   walletStore: import('~/stores/wallet').WalletStore
  *   graphqlClientHash: {
  *     competition: GraphqlClient
+ *     addressName: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
