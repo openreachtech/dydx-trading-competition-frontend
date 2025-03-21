@@ -1,8 +1,4 @@
 import {
-  navigateTo,
-} from '#imports'
-
-import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -21,6 +17,7 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
     props,
     componentContext,
 
+    router,
     walletStore,
     onboardingDialogsComponentRef,
   }) {
@@ -29,6 +26,7 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.router = router
     this.walletStore = walletStore
     this.onboardingDialogsComponentRef = onboardingDialogsComponentRef
   }
@@ -45,6 +43,7 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    router,
     walletStore,
     onboardingDialogsComponentRef,
   }) {
@@ -52,6 +51,7 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        router,
         walletStore,
         onboardingDialogsComponentRef,
       })
@@ -80,12 +80,13 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
       return
     }
 
-    await navigateTo('/competitions/add')
+    await this.router.push('/competitions/add')
   }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ *   router: ReturnType<import('vue-router').useRouter>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
  * }} LeagueHeroSectionContextParams

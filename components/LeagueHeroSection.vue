@@ -8,6 +8,10 @@ import AppButton from '~/components/units/AppButton.vue'
 import SvgDydxFoundation from '~/components/svg/SvgDydxFoundation.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
 
+import {
+  useRouter,
+} from 'vue-router'
+
 import useWalletStore from '~/stores/wallet'
 
 import LeagueHeroSectionContext from '~/app/vue/contexts/LeagueHeroSectionContext'
@@ -23,6 +27,7 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const router = useRouter()
     const walletStore = useWalletStore()
 
     /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
@@ -31,6 +36,7 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      router,
       walletStore,
       onboardingDialogsComponentRef,
     }
