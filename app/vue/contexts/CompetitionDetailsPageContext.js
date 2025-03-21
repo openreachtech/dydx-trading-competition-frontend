@@ -88,6 +88,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         },
       })
 
+    this.watch(
+      () => this.walletStore.walletStoreRef.value.localWallet.address,
+      async newAddress => {
+        await this.graphqlClientHash
+          .addressName
+          .invokeRequestOnEvent({
+            variables: {
+              input: {
+                address: newAddress,
+              },
+            },
+          })
+      }
+    )
+
     return this
   }
 
