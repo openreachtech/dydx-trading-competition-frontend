@@ -170,6 +170,17 @@ export default class TopRankingCardContext extends BaseFuroContext {
   }
 
   /**
+   * Generate profile's url.
+   *
+   * @returns {string} Profile's URL.
+   */
+  generateProfileUrl () {
+    return this.address
+      ? `/profiles/${this.address}`
+      : ''
+  }
+
+  /**
    * Shorten wallet address.
    *
    * @returns {string} Shortened address.
