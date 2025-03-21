@@ -135,7 +135,8 @@ export default defineComponent({
         </AppButton>
       </div>
 
-      <div class="balance">
+      <!-- NOTE: Balance might be implemented in the future. -->
+      <!-- <div class="balance">
         <span class="label">
           <span>USDC Balance</span>
 
@@ -148,7 +149,7 @@ export default defineComponent({
         <span class="figure">
           0.00
         </span>
-      </div>
+      </div> -->
 
       <div class="actions">
         <NuxtLink class="link"
