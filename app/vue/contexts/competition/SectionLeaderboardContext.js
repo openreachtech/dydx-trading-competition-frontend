@@ -310,6 +310,20 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * Generate profile's url.
+   *
+   * @param {{
+   *   address: string
+   * }} params - Parameters.
+   * @returns {string} Profile's URL.
+   */
+  generateProfileUrl ({
+    address,
+  }) {
+    return `/profiles/${address}`
+  }
+
+  /**
    * Generate host's address url.
    *
    * @param {{

@@ -4,6 +4,10 @@ import {
   reactive,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
@@ -23,6 +27,7 @@ import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLea
 
 export default defineComponent({
   components: {
+    NuxtLink,
     AppTable,
     AppPagination,
     TopRankingCard,
@@ -87,6 +92,16 @@ export default defineComponent({
           <span class="unit-rank">
             <span class="indicator">#</span> {{ value }}
           </span>
+        </template>
+
+        <template #body-name="{ value, row }">
+          <NuxtLink class="unit-name"
+            :to="context.generateProfileUrl({
+              address: row.address,
+            })"
+          >
+            {{ value }}
+          </NuxtLink>
         </template>
 
         <template #body-address="{ value }">
@@ -332,6 +347,18 @@ export default defineComponent({
 
 .unit-rank > .indicator {
   color: var(--color-text-secondary);
+}
+
+.unit-name {
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-name[href]:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-address {
