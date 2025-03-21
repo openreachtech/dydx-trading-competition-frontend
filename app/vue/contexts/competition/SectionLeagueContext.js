@@ -271,6 +271,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate profile's url.
+   *
+   * @returns {string} Profile's URL.
+   */
+  generateProfileUrl () {
+    return this.hostAddress
+      ? `/profiles/${this.hostAddress}`
+      : ''
+  }
+
+  /**
    * Generate badge severity.
    *
    * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
