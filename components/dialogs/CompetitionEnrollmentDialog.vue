@@ -22,6 +22,11 @@ export default defineComponent({
   },
 
   props: {
+    competition: {
+      /** @type {import('vue').PropType<import('./CompetitionEnrollmentDialogContext').PropsType['competition']>} */
+      type: Object,
+      required: true,
+    },
     validationMessage: {
       /** @type {import('vue').PropType<furo.ValidatorHashType['message']>} */
       type: Object,

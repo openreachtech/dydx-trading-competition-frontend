@@ -114,6 +114,7 @@ export default defineComponent({
     <SectionLeaderboard />
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
+      :competition="context.competition"
       :validation-message="mutationContext.joinCompetitionValidationMessage"
       @join-competition="mutationContext.joinCompetition({
         formElement: $event.formElement,
