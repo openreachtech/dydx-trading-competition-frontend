@@ -395,6 +395,12 @@ export default defineComponent({
 
   width: 2.25rem;
   height: 2.25rem;
+
+  background-color: var(--color-background-card);
+}
+
+.unit-meta > .actions > .image[src='/img/badges/league-badge-placeholder.png'] {
+  object-fit: scale-down;
 }
 
 .unit-meta > .actions > .buttons {
