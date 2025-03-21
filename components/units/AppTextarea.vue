@@ -104,6 +104,8 @@ export default defineComponent({
 }
 
 .unit-textarea > .error-message {
+  font-size: var(--font-size-small);
+
   color: var(--color-text-error);
 }
 

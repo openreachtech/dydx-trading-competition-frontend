@@ -115,6 +115,8 @@ export default defineComponent({
 }
 
 .unit-input > .error-message {
+  font-size: var(--font-size-small);
+
   color: var(--color-text-error);
 }
 
