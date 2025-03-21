@@ -271,11 +271,12 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   generateTopThree () {
     const fallbackValue = {
-      rank: '--',
-      name: '------',
-      address: '----',
-      roi: '--',
-      pnl: '--',
+      rank: null,
+      name: null,
+      address: null,
+      baseline: null,
+      roi: null,
+      pnl: null,
     }
     const firstThreeRankers = this.normalizeRankings()
       .slice(0, 3)
@@ -402,10 +403,10 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   rank: number
- *   address: string
+ *   rank: number | null
+ *   address: string | null
  *   baseline: number | null
- *   name: string
+ *   name: string | null
  *   roi: number | null
  *   pnl: number | null
  * }} RankingTableEntry
