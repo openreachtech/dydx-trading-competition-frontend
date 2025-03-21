@@ -27,6 +27,13 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialUsername: {
+      type: [
+        String,
+        null,
+      ],
+      required: true,
+    },
     validationMessage: {
       /** @type {import('vue').PropType<furo.ValidatorHashType['message']>} */
       type: Object,
@@ -97,6 +104,7 @@ export default defineComponent({
           <AppInput name="name"
             :has-error="Boolean(context.validationMessage.name)"
             :error-message="context.validationMessage.name"
+            :value="context.initialUsername"
           />
         </label>
 
