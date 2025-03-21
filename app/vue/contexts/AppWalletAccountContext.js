@@ -193,6 +193,19 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Generate address URL on Mintscan.
+   *
+   * @returns {string}
+   */
+  generateAddressUrl () {
+    const localWalletAddress = this.walletStore.walletStoreRef.value.localWallet.address
+
+    return localWalletAddress
+      ? `https://www.mintscan.io/dydx/address/${localWalletAddress}`
+      : ''
+  }
+
+  /**
    * Generate local account's address.
    *
    * @returns {string} Source account's address.
