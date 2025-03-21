@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
+
 /**
  * SectionProfileOverviewContext
  *
@@ -123,7 +125,7 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
    * get: roi
    *
-   * @returns {string | null} ROI.
+   * @returns {number | null} ROI.
    */
   get roi () {
     return this.ranking
@@ -134,7 +136,7 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
    * get: PnL
    *
-   * @returns {string | null} PnL.
+   * @returns {number | null} PnL.
    */
   get pnl () {
     return this.ranking
@@ -210,10 +212,16 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} PnL and ROI.
    */
   generatePnlRoi () {
-    const roi = this.roi ?? '--'
-    const pnl = this.pnl ?? '----'
+    const normalizedPnl = FinancialMetricNormalizer.create({
+      figure: this.pnl,
+    })
+      .normalizeAsPnl()
+    const normalizedRoi = FinancialMetricNormalizer.create({
+      figure: this.roi,
+    })
+      .normalizeAsRoi()
 
-    return `${pnl} (${roi}%)`
+    return `${normalizedPnl} (${normalizedRoi})`
   }
 
   /**
@@ -222,18 +230,10 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Normalized performance baseline.
    */
   generatePerformanceBaseline () {
-    if (!this.performanceBaseline) {
-      return '--'
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      trailingZeroDisplay: 'stripIfInteger',
-      maximumFractionDigits: 2,
+    return FinancialMetricNormalizer.create({
+      figure: this.performanceBaseline,
     })
-
-    return formatter.format(this.performanceBaseline)
+      .normalizeAsPerformanceBaseline()
   }
 
   /**

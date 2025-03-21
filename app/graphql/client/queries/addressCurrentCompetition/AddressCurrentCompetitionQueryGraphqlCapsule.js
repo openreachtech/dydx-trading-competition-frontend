@@ -88,8 +88,8 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
  *   }>
  *   performanceBaseline: number
  *   ranking: number
- *   roi: string
- *   pnl: string
+ *   roi: number
+ *   pnl: number
  *   calculatedAt: string // ISO String
  * } | null} Ranking
  */

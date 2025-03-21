@@ -6,6 +6,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
+
 import {
   PAGINATION,
 } from '~/app/constants'
@@ -249,21 +251,51 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
    * Normalize performance baseline.
    *
    * @param {{
-   *   baseline: number
+   *   figure: number
    * }} params - Parameters.
    * @returns {string} Normalized performance baseline.
    */
   normalizePerformanceBaseline ({
-    baseline,
+    figure,
   }) {
-    const formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      trailingZeroDisplay: 'stripIfInteger',
-      maximumFractionDigits: 2,
+    return FinancialMetricNormalizer.create({
+      figure,
     })
+      .normalizeAsPerformanceBaseline()
+  }
 
-    return formatter.format(baseline)
+  /**
+   * Normalize PnL.
+   *
+   * @param {{
+   *   figure: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizePnl ({
+    figure,
+  }) {
+    return FinancialMetricNormalizer.create({
+      figure,
+    })
+      .normalizeAsPnl()
+  }
+
+  /**
+   * Normalize ROI.
+   *
+   * @param {{
+   *   figure: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeRoi ({
+    figure,
+  }) {
+    return FinancialMetricNormalizer.create({
+      figure,
+    })
+      .normalizeAsRoi()
   }
 
   /**
@@ -372,8 +404,8 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
  *   baseline: number
  *   prize: string
  *   profit: {
- *     roi: string
- *     pnl: string
+ *     roi: number
+ *     pnl: number
  *   }
  *   status: {
  *     statusId: number

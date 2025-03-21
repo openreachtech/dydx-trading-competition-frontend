@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
+
 const TOP_PLACEMENT_HASH = /** @type {const} */ ({
   1: '1st',
   2: '2nd',
@@ -53,6 +55,28 @@ export default class TopRankingCardContext extends BaseFuroContext {
   }
 
   /**
+   * get: pnl.
+   *
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['pnl'] | null}
+   */
+  get pnl () {
+    return this.rankDetails
+      ?.pnl
+      ?? null
+  }
+
+  /**
+   * get: roi.
+   *
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['roi'] | null}
+   */
+  get roi () {
+    return this.rankDetails
+      ?.roi
+      ?? null
+  }
+
+  /**
    * Generate name.
    *
    * @returns {string}
@@ -80,9 +104,10 @@ export default class TopRankingCardContext extends BaseFuroContext {
    * @returns {string}
    */
   generateRoi () {
-    return this.rankDetails
-      ?.roi
-      ?? '--'
+    return FinancialMetricNormalizer.create({
+      figure: this.roi,
+    })
+      .normalizeAsRoi()
   }
 
   /**
@@ -91,9 +116,10 @@ export default class TopRankingCardContext extends BaseFuroContext {
    * @returns {string}
    */
   generatePnl () {
-    return this.rankDetails
-      ?.pnl
-      ?? '--'
+    return FinancialMetricNormalizer.create({
+      figure: this.pnl,
+    })
+      .normalizeAsPnl()
   }
 
   /**
