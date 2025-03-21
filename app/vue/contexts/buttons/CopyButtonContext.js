@@ -114,6 +114,10 @@ export default class CopyButtonContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async copyContent () {
+    if (!this.contentToCopy) {
+      return
+    }
+
     await navigator.clipboard.writeText(this.contentToCopy)
 
     this.statusReactive.isDisplayingTooltip = true
