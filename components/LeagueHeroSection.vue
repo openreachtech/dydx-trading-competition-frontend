@@ -1,34 +1,50 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
 
-import {
-  NuxtLink,
-} from '#components'
-
+import AppButton from '~/components/units/AppButton.vue'
 import SvgDydxFoundation from '~/components/svg/SvgDydxFoundation.vue'
+import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
+
+import {
+  useRouter,
+} from 'vue-router'
+
+import useWalletStore from '~/stores/wallet'
 
 import LeagueHeroSectionContext from '~/app/vue/contexts/LeagueHeroSectionContext'
 
 export default defineComponent({
   components: {
-    NuxtLink,
+    AppButton,
     SvgDydxFoundation,
+    OnboardingDialogs,
   },
 
   setup (
     props,
     componentContext
   ) {
+    const router = useRouter()
+    const walletStore = useWalletStore()
+
+    /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
+    const onboardingDialogsComponentRef = ref(null)
+
     const args = {
       props,
       componentContext,
+      router,
+      walletStore,
+      onboardingDialogsComponentRef,
     }
     const context = LeagueHeroSectionContext.create(args)
       .setupComponent()
 
     return {
+      onboardingDialogsComponentRef,
       context,
     }
   },
@@ -37,6 +53,8 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
+    <OnboardingDialogs ref="onboardingDialogsComponentRef" />
+
     <div class="headline">
       <span class="note">
         <span>Powered by</span>
@@ -55,11 +73,11 @@ export default defineComponent({
     </p>
 
     <div class="actions">
-      <NuxtLink class="button"
-        to="/competitions/add"
+      <AppButton class="button"
+        @click="context.hostLeague()"
       >
         Host a league
-      </NuxtLink>
+      </AppButton>
     </div>
 
     <dl class="unit-statistics">
@@ -170,44 +188,13 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-/* TODO: Allow anchor element to share same stylesheets with AppButton */
-/* NOTE: Custom property to add transition to gradient. */
-@property --color-darken-filter {
-  syntax: '<color>';
-  initial-value: #00000000;
-  inherits: false;
-}
-
 .unit-section > .actions > .button {
-  border-radius: 0.5rem;
-
   padding-block: 0.75rem;
   padding-inline: 2rem;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
   line-height: var(--size-line-height-medium);
-
-  color: var(--color-text-primary);
-  background-color: var(--color-background-button-primary);
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-darken-filter),
-    var(--color-darken-filter)
-  );
-
-  transition: --color-darken-filter 0.3s var(--transition-timing-base),
-    filter 0.3s var(--transition-timing-base);
-}
-
-.unit-section > .actions > .button:hover {
-  --color-darken-filter: #00000047;
-}
-
-.unit-section > .actions > .button:disabled {
-  filter: brightness(0.4);
-
-  cursor: not-allowed;
 }
 
 .unit-statistics {
