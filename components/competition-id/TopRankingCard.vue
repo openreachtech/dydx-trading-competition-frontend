@@ -3,12 +3,17 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import TopRankingCardContext from '~/app/vue/contexts/competition/TopRankingCardContext'
 
 export default defineComponent({
   components: {
+    NuxtLink,
     LinkTooltipButton,
   },
 
@@ -50,9 +55,11 @@ export default defineComponent({
           }}
         </span>
 
-        <span class="name">
+        <NuxtLink class="name"
+          :to="context.generateProfileUrl()"
+        >
           {{ context.generateName() }}
-        </span>
+        </NuxtLink>
 
         <span class="address">
           <span>
@@ -171,6 +178,12 @@ export default defineComponent({
   text-overflow: ellipsis;
 
   width: 100%;
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-meta > .name[href]:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-meta > .address {

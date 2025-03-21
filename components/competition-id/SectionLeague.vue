@@ -6,6 +6,7 @@ import {
 
 import {
   Icon,
+  NuxtLink,
 } from '#components'
 
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
@@ -28,6 +29,7 @@ import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueCo
 export default defineComponent({
   components: {
     Icon,
+    NuxtLink,
     AppIconBadge,
     AppButton,
     AppLeagueCountdown,
@@ -179,9 +181,11 @@ export default defineComponent({
                   class="icon"
                 />
 
-                <span class="name">
+                <NuxtLink class="name"
+                  :to="context.generateProfileUrl()"
+                >
                   {{ context.generateHostName() }}
-                </span>
+                </NuxtLink>
               </span>
 
               <span class="wallet">
@@ -500,6 +504,12 @@ export default defineComponent({
   white-space: nowrap;
 
   color: var(--color-text-primary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-statistics > .entry > .details.host > .user > .name[href]:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-statistics > .entry > .details.host > .wallet > .connector {
