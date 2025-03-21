@@ -89,6 +89,23 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * Normalize minimum deposit.
+   *
+   * @returns {string}
+   */
+  normalizeMinimumDeposit () {
+    if (!this.minimumDeposit) {
+      return '--'
+    }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      trailingZeroDisplay: 'stripIfInteger',
+    })
+
+    return formatter.format(Number(this.minimumDeposit))
+  }
+
+  /**
    * Generate competition id.
    *
    * @returns {string}

@@ -110,7 +110,7 @@ export default defineComponent({
             >
 
             <span class="number">
-              <span>1,000</span>
+              <span>{{ context.normalizeMinimumDeposit() }}</span>
 
               <span class="currency">USDC</span>
             </span>
