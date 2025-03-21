@@ -238,6 +238,22 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
       range: prizeRule.isRankRange,
     }
   }
+
+  /**
+   * Generate CSS classes for error message.
+   *
+   * @param {{
+   *   fieldName: keyof PropsType['validationMessage']
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>}
+   */
+  generateErrorMessageClasses ({
+    fieldName,
+  }) {
+    return {
+      hidden: !this.validationMessage[fieldName],
+    }
+  }
 }
 
 /**

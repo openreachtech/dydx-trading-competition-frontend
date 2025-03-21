@@ -73,6 +73,8 @@ export default defineComponent({
         <AppInput placeholder="Minimum"
           type="number"
           name="participantLowerLimit"
+          :has-error="Boolean(context.validationMessage.participantLowerLimit)"
+          :error-message="context.validationMessage.participantLowerLimit"
         />
 
         <div class="connector" />
@@ -80,6 +82,8 @@ export default defineComponent({
         <AppInput placeholder="Maximum"
           type="number"
           name="participantUpperLimit"
+          :has-error="Boolean(context.validationMessage.participantUpperLimit)"
+          :error-message="context.validationMessage.participantUpperLimit"
         />
       </div>
 
@@ -101,6 +105,8 @@ export default defineComponent({
 
       <AppInput name="minimumDeposit"
         placeholder="e.g. 10"
+        :has-error="Boolean(context.validationMessage.minimumDeposit)"
+        :error-message="context.validationMessage.minimumDeposit"
       />
 
       <p class="note">

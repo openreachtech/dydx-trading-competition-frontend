@@ -73,6 +73,14 @@ export default defineComponent({
       </p>
     </div>
 
+    <span class="message error"
+      :class="context.generateErrorMessageClasses({
+        fieldName: 'prizeRules',
+      })"
+    >
+      {{ context.validationMessage.prizeRules }}
+    </span>
+
     <div class="tier">
       <h3 class="heading">
         <Icon class="icon"
@@ -220,6 +228,16 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.unit-section > .message.error {
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-error);
+}
+
+.unit-section > .message.error.hidden {
+  display: none;
 }
 
 .unit-section > .headline > .heading {

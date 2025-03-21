@@ -67,6 +67,14 @@ export default defineComponent({
       </p>
     </div>
 
+    <span class="message error"
+      :class="context.generateErrorMessageClasses({
+        fieldName: 'schedules',
+      })"
+    >
+      {{ context.validationMessage.schedules }}
+    </span>
+
     <div class="timeline">
       <div v-for="phase of context.generateTimeline()"
         :key="phase.startDateInputId"
@@ -150,6 +158,16 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.unit-section > .message.error {
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-error);
+}
+
+.unit-section > .message.error.hidden {
+  display: none;
 }
 
 .unit-section > .headline > .heading {
