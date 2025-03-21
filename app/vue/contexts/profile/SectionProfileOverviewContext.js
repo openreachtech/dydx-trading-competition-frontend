@@ -123,7 +123,7 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
    * get: roi
    *
-   * @returns {string | null} ROI.
+   * @returns {number | null} ROI.
    */
   get roi () {
     return this.ranking
@@ -134,7 +134,7 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
    * get: PnL
    *
-   * @returns {string | null} PnL.
+   * @returns {number | null} PnL.
    */
   get pnl () {
     return this.ranking

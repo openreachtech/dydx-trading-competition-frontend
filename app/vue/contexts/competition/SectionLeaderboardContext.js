@@ -372,10 +372,10 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  * @typedef {{
  *   rank: number
  *   address: string
- *   baseline: number
+ *   baseline: number | null
  *   name: string
- *   roi: string
- *   pnl: string
+ *   roi: number | null
+ *   pnl: number | null
  * }} RankingTableEntry
  */
 

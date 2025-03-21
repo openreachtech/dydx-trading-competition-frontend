@@ -372,8 +372,8 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
  *   baseline: number
  *   prize: string
  *   profit: {
- *     roi: string
- *     pnl: string
+ *     roi: number
+ *     pnl: number
  *   }
  *   status: {
  *     statusId: number
