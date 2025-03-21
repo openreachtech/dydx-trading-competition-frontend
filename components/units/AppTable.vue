@@ -38,6 +38,11 @@ export default defineComponent({
       /** @type {(value: string) => boolean} */
       validator: value => /^\d*\.?\d+rem$/u.test(value),
     },
+    shouldHideHeaderCells: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   setup (
@@ -171,6 +176,10 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-tertiary);
+}
+
+.unit-table > .thead > .row > .cell.head.hide-head {
+  display: none;
 }
 
 .unit-table > .tbody > .row > .cell {
