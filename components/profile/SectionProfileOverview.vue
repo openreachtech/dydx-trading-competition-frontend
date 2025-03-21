@@ -403,6 +403,12 @@ export default defineComponent({
 
   width: 2.25rem;
   height: 2.25rem;
+
+  background-color: var(--color-background-card);
+}
+
+.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+  object-fit: scale-down;
 }
 
 .unit-description > .entry > .description:where(.baseline, .profit) {
