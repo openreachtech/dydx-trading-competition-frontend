@@ -1,6 +1,7 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
 
 import {
@@ -12,6 +13,9 @@ import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
+
+import useWalletStore from '~/stores/wallet'
 
 import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueContext'
 
@@ -29,6 +33,7 @@ export default defineComponent({
     AppLeagueCountdown,
     CopyButton,
     LinkTooltipButton,
+    OnboardingDialogs,
   },
 
   props: {
@@ -50,14 +55,22 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const walletStore = useWalletStore()
+
+    /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
+    const onboardingDialogsComponentRef = ref(null)
+
     const args = {
       props,
       componentContext,
+      walletStore,
+      onboardingDialogsComponentRef,
     }
     const context = SectionLeagueContext.create(args)
       .setupComponent()
 
     return {
+      onboardingDialogsComponentRef,
       context,
     }
   },
@@ -66,6 +79,8 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
+    <OnboardingDialogs ref="onboardingDialogsComponentRef" />
+
     <div class="inner">
       <div class="unit-details">
         <h2 class="heading">

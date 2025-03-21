@@ -22,6 +22,52 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
  * @extends {BaseFuroContext<null>} - Base class.
  */
 export default class SectionLeagueContext extends BaseFuroContext {
+/**
+ * Constructor
+ *
+ * @param {SectionLeagueContextParams} params - Parameters of this constructor.
+ */
+  constructor ({
+    props,
+    componentContext,
+
+    walletStore,
+    onboardingDialogsComponentRef,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.walletStore = walletStore
+    this.onboardingDialogsComponentRef = onboardingDialogsComponentRef
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof SectionLeagueContext ? X : never} T, X
+   * @override
+   * @param {SectionLeagueContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    walletStore,
+    onboardingDialogsComponentRef,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        walletStore,
+        onboardingDialogsComponentRef,
+      })
+    )
+  }
+
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
@@ -455,6 +501,33 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {void}
    */
   showTermsDialog () {
+    if (!this.onboardingDialogsComponentRef.value) {
+      return
+    }
+
+    if (!this.walletStore.walletStoreRef.value.sourceAccount.address) {
+      this.onboardingDialogsComponentRef.value.showWalletSelectionDialog()
+
+      return
+    }
+
+    if (!this.walletStore.walletStoreRef.value.localWallet.address) {
+      this.onboardingDialogsComponentRef.value.showKeyDerivationDialog()
+
+      return
+    }
+
     this.emit(this.EMIT_EVENT_NAME.SHOW_TERMS_DIALOG)
   }
 }
+
+/**
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ *   walletStore: import('~/stores/wallet').WalletStore
+ *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
+ * }} SectionLeagueContextParams
+ */
+
+/**
+ * @typedef {SectionLeagueContextParams} SectionLeagueContextFactoryParams
+ */
