@@ -81,6 +81,17 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
         message: 'Must provide prize rules',
       },
       {
+        field: 'prizeRules',
+        /**
+         * @type {(
+         *   it: PrizeRules,
+         *   valueHash: Record<string, *>
+         * ) => boolean}
+         */
+        ok: (it, valueHash) => it.every(rule => Number(rule.amount) > 0),
+        message: 'Prize amount must be greater than 0',
+      },
+      {
         field: 'totalPrize',
         /** @type {furo.ValidationRule} */
         ok: (it, valueHash) => it,
@@ -102,4 +113,10 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
  * @typedef {import(
  *   '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlPayload'
  * ).AddCompetitionMutationRequestVariables['input']['schedules']} Schedules
+ */
+
+/**
+ * @typedef {import(
+ *   '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlPayload'
+ * ).AddCompetitionMutationRequestVariables['input']['prizeRules']} PrizeRules
  */
