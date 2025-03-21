@@ -88,8 +88,14 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    */
   generateDisplayedWallets () {
     const connectors = getConnectors(wagmiConfig)
+    const filteredConnectors = connectors.filter(it => ![
+      'injected',
+      'app.keplr',
+    ]
+      .includes(it.id)
+    )
 
-    return connectors.filter(it => it.id !== 'injected')
+    return filteredConnectors
       .map(it => ({
         ...it,
         imageUrl: WALLET_IMAGE_URL_HASH[it.id] ?? '',
