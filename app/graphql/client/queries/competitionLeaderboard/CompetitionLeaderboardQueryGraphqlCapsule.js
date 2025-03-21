@@ -52,8 +52,8 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
  *       }
  *       performanceBaseline: number
  *       ranking: number
- *       roi: string
- *       pnl: string
+ *       roi: number
+ *       pnl: number
  *       calculatedAt: string // ISO string
  *     }>
  *     pagination: {
