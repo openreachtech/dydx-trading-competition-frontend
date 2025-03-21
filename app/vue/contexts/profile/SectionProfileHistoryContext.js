@@ -19,6 +19,10 @@ export default class SectionProfileHistory extends BaseFuroContext {
   get tabs () {
     return [
       {
+        tabKey: 'overview',
+        label: 'Overview',
+      },
+      {
         tabKey: 'transfers',
         label: 'Transfer History',
       },
