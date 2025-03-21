@@ -93,7 +93,7 @@ export default class CopyButtonContext extends BaseFuroContext {
   /**
    * get: contentToCopy
    *
-   * @returns {string}
+   * @returns {string | null}
    */
   get contentToCopy () {
     return this.props.contentToCopy
