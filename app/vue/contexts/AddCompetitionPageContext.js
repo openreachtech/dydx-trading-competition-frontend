@@ -104,6 +104,24 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: addCompetitionValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get addCompetitionValidation () {
+    return this.addCompetitionFormClerk.validationRef.value
+  }
+
+  /**
+   * get: addCompetitionValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get addCompetitionValidationMessage () {
+    return this.addCompetitionValidation.message
+  }
+
+  /**
    * Submit form.
    *
    * @returns {Promise<void>}

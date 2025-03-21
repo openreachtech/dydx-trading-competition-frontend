@@ -90,13 +90,21 @@ export default defineComponent({
         @submit.prevent="context.submitForm()"
       >
         <div class="steps">
-          <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })" />
+          <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })"
+            :validation-message="context.addCompetitionValidationMessage"
+          />
 
-          <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })" />
+          <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })"
+            :validation-message="context.addCompetitionValidationMessage"
+          />
 
-          <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })" />
+          <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })"
+            :validation-message="context.addCompetitionValidationMessage"
+          />
 
-          <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })" />
+          <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
+            :validation-message="context.addCompetitionValidationMessage"
+          />
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"

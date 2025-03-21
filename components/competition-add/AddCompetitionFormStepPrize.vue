@@ -20,6 +20,18 @@ export default defineComponent({
     AppInput,
   },
 
+  props: {
+    validationMessage: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('./AddCompetitionFormStepPrizeContext').PropsType['validationMessage']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext

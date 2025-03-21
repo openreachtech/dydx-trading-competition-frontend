@@ -11,7 +11,7 @@ const MAX_PRIZE_RULE_COUNT = 6
 /**
  * AddCompetitionFormStepPrizeContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext {
   /**
@@ -107,6 +107,15 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
     )
 
     return totalAmount
+  }
+
+  /**
+   * get: validationMessage
+   *
+   * @returns {PropsType['validationMessage']}
+   */
+  get validationMessage () {
+    return this.props.validationMessage
   }
 
   /**
@@ -232,7 +241,7 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   prizeRulesRef: import('vue').Ref<Array<PrizeRule>>
  *   totalPrizeComputed: import('vue').ComputedRef<string>
  * }} AddCompetitionFormStepPrizeContextParams
@@ -249,4 +258,10 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
  *   amount: string
  *   isRankRange: boolean
  * }} PrizeRule
+ */
+
+/**
+ * @typedef {{
+ *   validationMessage: furo.ValidatorHashType['message']
+ * }} PropsType
  */

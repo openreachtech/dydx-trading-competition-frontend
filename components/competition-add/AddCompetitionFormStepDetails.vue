@@ -25,6 +25,18 @@ export default defineComponent({
     AppTextarea,
   },
 
+  props: {
+    validationMessage: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').PropsType['validationMessage']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext

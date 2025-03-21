@@ -18,6 +18,18 @@ export default defineComponent({
     AppDatePicker,
   },
 
+  props: {
+    validationMessage: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('./AddCompetitionFormStepTimelineContext').PropsType['validationMessage']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
