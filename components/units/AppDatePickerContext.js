@@ -380,6 +380,12 @@ export default class AppDatePikcerContext extends BaseFuroContext {
         date: this.inputValue,
       }
     )
+
+    if (this.shouldStayOnSelect) {
+      return
+    }
+
+    this.closeDropdown()
   }
 
   /**
