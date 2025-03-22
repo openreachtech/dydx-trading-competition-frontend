@@ -77,6 +77,15 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * get: shouldStayOnSelect
+   *
+   * @returns {boolean} `true` if the dropdown should stay on select.
+   */
+  get shouldStayOnSelect () {
+    return this.props.shouldStayOnSelect
+  }
+
+  /**
    * get: rootClass
    *
    * @returns {string} Class of root element for layout styling.
@@ -569,6 +578,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   shouldDisablePastDates: boolean
+ *   shouldStayOnSelect: boolean
  *   rootClass: string
  * }} AppDatePickerProps
  */
