@@ -285,11 +285,11 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
-   * Generate host address url.
+   * Generate profile address url.
    *
-   * @returns {string} Host address url.
+   * @returns {string} Profile address url.
    */
-  generateHostAddressUrl () {
+  generateProfileAddressUrl () {
     return this.profileAddress
       ? `https://www.mintscan.io/dydx/address/${this.profileAddress}`
       : '#'
