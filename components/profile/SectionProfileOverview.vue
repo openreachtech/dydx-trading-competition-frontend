@@ -136,8 +136,7 @@ export default defineComponent({
               icon-size="1.25rem"
             />
 
-            <LinkTooltipButton :content="context.generateProfileAddressUrl()"
-              :href="context.generateProfileAddressUrl()"
+            <LinkTooltipButton :href="context.generateProfileAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
