@@ -231,8 +231,25 @@ export default defineComponent({
 }
 
 .unit-contents > .body > .description {
+  --max-line-count: 2;
+
   font-size: var(--font-size-small);
   font-weight: 400;
+
+  min-height: calc(var(--font-size-small) * var(--value-golden-ratio) * var(--max-line-count));
+}
+
+/* If line-clamp is supported, use it. Otherwise, min-height is still two lines, which is not ideal but not ugly. */
+@supports (line-clamp: 2) or ((-webkit-line-clamp: 2) and (display: -webkit-box) and (-webkit-box-orient: vertical)) {
+  .unit-contents > .body > .description {
+    display: -webkit-box;
+    line-clamp: var(--max-line-count);
+    -webkit-line-clamp: var(--max-line-count);
+    -webkit-box-orient: vertical;
+
+    height: calc(var(--font-size-small) * var(--value-golden-ratio) * var(--max-line-count));
+    overflow: hidden;
+  }
 }
 
 .unit-deposit {
