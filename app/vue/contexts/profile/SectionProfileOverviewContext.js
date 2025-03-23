@@ -290,8 +290,8 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Host address url.
    */
   generateHostAddressUrl () {
-    return this.hostAddress
-      ? `https://www.mintscan.io/dydx/address/${this.hostAddress}`
+    return this.profileAddress
+      ? `https://www.mintscan.io/dydx/address/${this.profileAddress}`
       : '#'
   }
 
