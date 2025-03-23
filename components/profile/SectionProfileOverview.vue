@@ -132,7 +132,7 @@ export default defineComponent({
           </span>
 
           <div class="actions">
-            <CopyButton :content-to-copy="context.hostAddress"
+            <CopyButton :content-to-copy="context.profileAddress"
               icon-size="1.25rem"
             />
 
