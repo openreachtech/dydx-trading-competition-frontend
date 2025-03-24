@@ -16,6 +16,8 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
 
+const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
+
 /**
  * Context class for SectionLeague component.
  *
@@ -33,6 +35,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
     walletStore,
     onboardingDialogsComponentRef,
+    statusReactive,
   }) {
     super({
       props,
@@ -41,6 +44,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
     this.walletStore = walletStore
     this.onboardingDialogsComponentRef = onboardingDialogsComponentRef
+    this.statusReactive = statusReactive
   }
 
   /**
@@ -57,6 +61,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
     componentContext,
     walletStore,
     onboardingDialogsComponentRef,
+    statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -64,6 +69,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
         componentContext,
         walletStore,
         onboardingDialogsComponentRef,
+        statusReactive,
       })
     )
   }
@@ -73,6 +79,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
     return {
       SHOW_TERMS_DIALOG: 'show-terms-dialog',
     }
+  }
+
+  /**
+   * get: isDescriptionExpanded
+   *
+   * @returns {boolean}
+   */
+  get isDescriptionExpanded () {
+    return this.statusReactive.isDescriptionExpanded
   }
 
   /**
@@ -223,8 +238,18 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string} Normalized description.
    */
   normalizeDescription () {
-    return this.description
-      ?? '----'
+    if (!this.description) {
+      return '----'
+    }
+
+    if (
+      !this.hasDescriptionExceededPreviewLength()
+      || this.isDescriptionExpanded
+    ) {
+      return this.description
+    }
+
+    return `${this.description.slice(0, MAX_DESCRIPTION_PREVIEW_LENGTH)}...`
   }
 
   /**
@@ -507,6 +532,41 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate league detail CSS classes.
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generateLeagueDetailClasses () {
+    return {
+      'expandable-description': this.hasDescriptionExceededPreviewLength(),
+    }
+  }
+
+  /**
+   * Generate description expansion button label.
+   *
+   * @returns {string}
+   */
+  generateDescriptionExpansionButtonLabel () {
+    return this.isDescriptionExpanded
+      ? 'Show less'
+      : 'See more'
+  }
+
+  /**
+   * Whether description is expandable or not.
+   *
+   * @returns {boolean} `true` if description is long enough to be expandable.
+   */
+  hasDescriptionExceededPreviewLength () {
+    if (!this.description) {
+      return false
+    }
+
+    return this.description.length > MAX_DESCRIPTION_PREVIEW_LENGTH
+  }
+
+  /**
    * Show terms dialog.
    *
    * @returns {void}
@@ -530,12 +590,24 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
     this.emit(this.EMIT_EVENT_NAME.SHOW_TERMS_DIALOG)
   }
+
+  /**
+   * Toggle description expansion.
+   *
+   * @returns {void}
+   */
+  toggleDescriptionExpansion () {
+    this.statusReactive.isDescriptionExpanded = !this.isDescriptionExpanded
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
+ *   statusReactive: import('vue').Reactive<{
+ *     isDescriptionExpanded: boolean
+ *   }>
  * }} SectionLeagueContextParams
  */
 

@@ -2,6 +2,7 @@
 import {
   defineComponent,
   ref,
+  reactive,
 } from 'vue'
 
 import {
@@ -61,12 +62,16 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
     const onboardingDialogsComponentRef = ref(null)
+    const statusReactive = reactive({
+      isDescriptionExpanded: false,
+    })
 
     const args = {
       props,
       componentContext,
       walletStore,
       onboardingDialogsComponentRef,
+      statusReactive,
     }
     const context = SectionLeagueContext.create(args)
       .setupComponent()
@@ -84,7 +89,9 @@ export default defineComponent({
     <OnboardingDialogs ref="onboardingDialogsComponentRef" />
 
     <div class="inner">
-      <div class="unit-details">
+      <div class="unit-details"
+        :class="context.generateLeagueDetailClasses()"
+      >
         <h2 class="heading">
           {{ context.normalizeTitle() }}
         </h2>
@@ -120,7 +127,13 @@ export default defineComponent({
         </div>
 
         <p class="description">
-          {{ context.normalizeDescription() }}
+          <span>
+            {{ context.normalizeDescription() }}
+          </span> <button class="button"
+            @click="context.toggleDescriptionExpansion()"
+          >
+            {{ context.generateDescriptionExpansionButtonLabel() }}
+          </button>
         </p>
 
         <span class="balance">
@@ -345,6 +358,23 @@ export default defineComponent({
   font-size: var(--font-size-medium);
 
   color: var(--color-text-tertiary);
+}
+
+.unit-details > .description > .button {
+  font-size: inherit;
+  font-weight: 500;
+
+  color: inherit;
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-details > .description > .button:not(:disabled):hover {
+  color: var(--color-text-primary);
+}
+
+.unit-details:not(.expandable-description) > .description > .button {
+  display: none;
 }
 
 .unit-details > .balance {
