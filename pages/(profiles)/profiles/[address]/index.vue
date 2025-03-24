@@ -108,7 +108,7 @@ export default defineComponent({
       })"
     />
 
-    <SectionProfileFinancialMetrics :metrics="context.financialMetrics" />
+    <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
     <SectionProfileHistory :profile-overview="context.profileOverview" />
   </div>

@@ -352,11 +352,11 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
-   * get: financialMetrics
+   * Generate financial metrics.
    *
    * @returns {import('~/app/vue/contexts/profile/SectionProfileFinancialMetricsContext').Metrics}
    */
-  get financialMetrics () {
+  generateFinancialMetrics () {
     const normalizedPnl = FinancialMetricNormalizer.create({
       figure: this.pnl,
     })
