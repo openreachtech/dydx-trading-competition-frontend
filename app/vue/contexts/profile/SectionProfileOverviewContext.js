@@ -290,9 +290,11 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    * @returns {string} Profile address url.
    */
   generateProfileAddressUrl () {
-    return this.profileAddress
-      ? `https://www.mintscan.io/dydx/address/${this.profileAddress}`
-      : '#'
+    if (!this.profileAddress) {
+      return '#'
+    }
+
+    return `https://www.mintscan.io/dydx/address/${this.profileAddress}`
   }
 
   /**
