@@ -63,9 +63,11 @@ export default defineComponent({
 
           <span class="position">
             <span class="label">Asset Positions</span>
-            <span class="figure">
-              {{ 1 }}
-            </span>
+            <span class="figure">{{
+              context.extractAssetPositionSize({
+                childSubaccount,
+              })
+            }}</span>
             <span class="currency">USDC</span>
           </span>
         </div>

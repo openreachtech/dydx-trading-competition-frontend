@@ -112,6 +112,24 @@ export default class ProfileFinancialOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Extract asset position size.
+   *
+   * @param {{
+   *   childSubaccount: import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview['subaccount']['childSubaccounts'][0]
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  extractAssetPositionSize ({
+    childSubaccount,
+  }) {
+    if (!childSubaccount.assetPositions.USDC) {
+      return '--'
+    }
+
+    return childSubaccount.assetPositions.USDC.size
+  }
+
+  /**
    * Generate side position symbol. 'S' for Sell/Short, 'B' for Buy/Long.
    *
    * @param {{
