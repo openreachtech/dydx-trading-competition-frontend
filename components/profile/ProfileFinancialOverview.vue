@@ -15,7 +15,10 @@ export default defineComponent({
   props: {
     profileOverview: {
       /** @type {import('vue').PropType<import('./ProfileFinancialOverviewContext').PropsType['profileOverview']>} */
-      type: Object,
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
   },

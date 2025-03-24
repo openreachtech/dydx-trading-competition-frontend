@@ -21,7 +21,10 @@ export default defineComponent({
   props: {
     profileOverview: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileHistoryContext').PropsType['profileOverview']>} */
-      type: Object,
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
   },
