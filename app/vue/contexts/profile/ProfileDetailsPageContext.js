@@ -243,6 +243,15 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: profileOverview
+   *
+   * @returns {ProfileOverview | null}
+   */
+  get profileOverview () {
+    return this.profileOverviewRef.value
+  }
+
+  /**
    * Normalize address name.
    *
    * @returns {string}

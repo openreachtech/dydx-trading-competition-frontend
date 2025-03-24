@@ -18,6 +18,14 @@ export default defineComponent({
     ProfileFinancialOverview,
   },
 
+  props: {
+    profileOverview: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileHistoryContext').PropsType['profileOverview']>} */
+      type: Object,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
@@ -42,7 +50,7 @@ export default defineComponent({
       :active-tab-key="context.tabs[0].tabKey"
     >
       <template #contents>
-        <ProfileFinancialOverview />
+        <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
         <ProfileTransferHistory />
 

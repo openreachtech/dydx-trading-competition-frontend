@@ -110,7 +110,7 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.financialMetrics" />
 
-    <SectionProfileHistory />
+    <SectionProfileHistory :profile-overview="context.profileOverview" />
   </div>
 </template>
 

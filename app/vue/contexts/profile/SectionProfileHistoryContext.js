@@ -5,9 +5,18 @@ import {
 /**
  * SectionProfileHistory
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class SectionProfileHistory extends BaseFuroContext {
+  /**
+   * get: profileOverview
+   *
+   * @returns {PropsType['profileOverview']}
+   */
+  get profileOverview () {
+    return this.props.profileOverview
+  }
+
   /**
    * get: tabs.
    *
@@ -33,3 +42,9 @@ export default class SectionProfileHistory extends BaseFuroContext {
     ]
   }
 }
+
+/**
+ * @typedef {{
+ *   profileOverview: import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null
+ * }} PropsType
+ */
