@@ -6,6 +6,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
+
 import {
   BASE_INDEXER_URL,
 } from '~/app/constants'
@@ -328,12 +330,42 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: roi
+   *
+   * @returns {number | null}
+   */
+  get roi () {
+    return this.currentRanking
+      ?.roi
+      ?? null
+  }
+
+  /**
+   * get: pnl
+   *
+   * @returns {number | null}
+   */
+  get pnl () {
+    return this.currentRanking
+      ?.pnl
+      ?? null
+  }
+
+  /**
    * get: financialMetrics
    *
    * @returns {import('~/app/vue/contexts/profile/SectionProfileFinancialMetricsContext').Metrics}
    */
   get financialMetrics () {
-    // TODO: Fulfill metrics data.
+    const normalizedPnl = FinancialMetricNormalizer.create({
+      figure: this.pnl,
+    })
+      .normalizeAsPnl()
+    const normalizedRoi = FinancialMetricNormalizer.create({
+      figure: this.roi,
+    })
+      .normalizeAsRoi()
+
     return [
       {
         label: 'Total Equity',
@@ -345,11 +377,11 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       },
       {
         label: 'Total ROI',
-        value: null,
+        value: normalizedRoi,
       },
       {
         label: 'Total PnL',
-        value: null,
+        value: normalizedPnl,
       },
     ]
   }
