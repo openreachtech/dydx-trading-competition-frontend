@@ -252,6 +252,39 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: subaccount
+   *
+   * @returns {ProfileOverview['subaccount'] | null}
+   */
+  get subaccount () {
+    return this.profileOverview
+      ?.subaccount
+      ?? null
+  }
+
+  /**
+   * get: equity
+   *
+   * @returns {ProfileOverview['subaccount']['equity'] | null}
+   */
+  get equity () {
+    return this.subaccount
+      ?.equity
+      ?? null
+  }
+
+  /**
+   * get: freeCollateral
+   *
+   * @returns {ProfileOverview['subaccount']['freeCollateral'] | null}
+   */
+  get freeCollateral () {
+    return this.subaccount
+      ?.freeCollateral
+      ?? null
+  }
+
+  /**
    * Normalize address name.
    *
    * @returns {string}
@@ -304,11 +337,11 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     return [
       {
         label: 'Total Equity',
-        value: null,
+        value: this.equity,
       },
       {
         label: 'Collateral',
-        value: null,
+        value: this.freeCollateral,
       },
       {
         label: 'Total ROI',
