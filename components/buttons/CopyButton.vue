@@ -52,7 +52,10 @@ export default defineComponent({
       validator: value => /^\d*\.?\d+rem$/u.test(value),
     },
     contentToCopy: {
-      type: String,
+      type: [
+        String,
+        null,
+      ],
       required: true,
     },
     tooltipTimeout: {

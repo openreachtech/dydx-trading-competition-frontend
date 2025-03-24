@@ -93,7 +93,7 @@ export default class CopyButtonContext extends BaseFuroContext {
   /**
    * get: contentToCopy
    *
-   * @returns {string}
+   * @returns {string | null}
    */
   get contentToCopy () {
     return this.props.contentToCopy
@@ -114,6 +114,10 @@ export default class CopyButtonContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async copyContent () {
+    if (!this.contentToCopy) {
+      return
+    }
+
     await navigator.clipboard.writeText(this.contentToCopy)
 
     this.statusReactive.isDisplayingTooltip = true
