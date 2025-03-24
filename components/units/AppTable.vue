@@ -163,6 +163,10 @@ export default defineComponent({
   overflow: auto;
 }
 
+.unit-table-container:has(.cell.head.hide-head) {
+  padding-block-start: 0.5rem;
+}
+
 .unit-table {
   border-collapse: collapse;
 
