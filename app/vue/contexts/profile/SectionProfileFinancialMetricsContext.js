@@ -21,7 +21,7 @@ export default class SectionProfileFinancialMetricsContext extends BaseFuroConte
    * Normalize metric.
    *
    * @param {{
-   *   value: string
+   *   value: string | null
    * }} params - Parameters.
    * @returns {string} Normalized metric.
    */
