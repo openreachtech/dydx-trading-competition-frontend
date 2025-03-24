@@ -243,7 +243,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
     }
 
     if (
-      !this.isDescriptionExpandable()
+      !this.hasDescriptionExceededPreviewLength()
       || this.isDescriptionExpanded
     ) {
       return this.description
@@ -538,7 +538,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
    */
   generateLeagueDetailClasses () {
     return {
-      'expandable-description': this.isDescriptionExpandable(),
+      'expandable-description': this.hasDescriptionExceededPreviewLength(),
     }
   }
 
@@ -558,7 +558,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
    *
    * @returns {boolean} `true` if description is long enough to be expandable.
    */
-  isDescriptionExpandable () {
+  hasDescriptionExceededPreviewLength () {
     if (!this.description) {
       return false
     }
