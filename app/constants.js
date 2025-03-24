@@ -215,3 +215,7 @@ export const ONBOARDING_STEPS = /** @type {const} */ ({
   CHOOSE_WALLET: 'ChooseWallet',
   KEY_DERIVATION: 'KeyDerivation',
 })
+
+// ******* Base URLS *******
+
+export const BASE_INDEXER_URL = 'https://indexer.dydx.trade/v4'

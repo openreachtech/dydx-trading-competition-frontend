@@ -6,6 +6,12 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
+
+import {
+  BASE_INDEXER_URL,
+} from '~/app/constants'
+
 /**
  * ProfileDetailsContext
  *
@@ -23,6 +29,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 
     route,
     graphqlClientHash,
+    profileOverviewRef,
+    errorMessageRef,
     statusReactive,
   }) {
     super({
@@ -32,6 +40,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 
     this.route = route
     this.graphqlClientHash = graphqlClientHash
+    this.profileOverviewRef = profileOverviewRef
+    this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
   }
 
@@ -48,6 +58,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     props,
     componentContext,
     graphqlClientHash,
+    profileOverviewRef,
+    errorMessageRef,
     statusReactive,
   }) {
     const route = useRoute()
@@ -58,6 +70,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         componentContext,
         route,
         graphqlClientHash,
+        profileOverviewRef,
+        errorMessageRef,
         statusReactive,
       })
     )
@@ -84,6 +98,26 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         },
       })
 
+    this.watch(
+      () => this.route.params.address,
+      async newLocalAddress => {
+        const address = Array.isArray(newLocalAddress)
+          ? newLocalAddress.at(0)
+          : newLocalAddress
+
+        if (!address) {
+          return
+        }
+
+        await this.fetchProfileOverview({
+          address,
+        })
+      },
+      {
+        immediate: true,
+      }
+    )
+
     return this
   }
 
@@ -103,6 +137,71 @@ export default class ProfileDetailsContext extends BaseFuroContext {
           hooks: this.addressNameLauncherHooks,
         },
       })
+  }
+
+  /**
+   * Fetch profile overview.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {Promise<void>}
+   */
+  async fetchProfileOverview ({
+    address,
+  }) {
+    if (!address) {
+      return
+    }
+
+    try {
+      this.statusReactive.isLoadingProfileOverview = true
+
+      const headers = {
+        accept: 'application/json',
+      }
+      // Currently only parent subaccount 0 is exposed via the front end.
+      const response = await fetch(`${BASE_INDEXER_URL}/addresses/${address}/parentSubaccountNumber/0`, {
+        method: 'GET',
+        headers,
+      })
+
+      if (!response.ok) {
+        throw new Error('Oops! Something went wrong. Reloading the page might help.')
+      }
+
+      const profileOverview = await response.json()
+
+      this.profileOverviewRef.value = profileOverview
+    } catch (error) {
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isLoadingProfileOverview = false
+    }
+  }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown error'
+    }
+
+    return error
   }
 
   /**
@@ -160,6 +259,48 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: profileOverview
+   *
+   * @returns {ProfileOverview | null}
+   */
+  get profileOverview () {
+    return this.profileOverviewRef.value
+  }
+
+  /**
+   * get: subaccount
+   *
+   * @returns {ProfileOverview['subaccount'] | null}
+   */
+  get subaccount () {
+    return this.profileOverview
+      ?.subaccount
+      ?? null
+  }
+
+  /**
+   * get: equity
+   *
+   * @returns {ProfileOverview['subaccount']['equity'] | null}
+   */
+  get equity () {
+    return this.subaccount
+      ?.equity
+      ?? null
+  }
+
+  /**
+   * get: freeCollateral
+   *
+   * @returns {ProfileOverview['subaccount']['freeCollateral'] | null}
+   */
+  get freeCollateral () {
+    return this.subaccount
+      ?.freeCollateral
+      ?? null
+  }
+
+  /**
    * Normalize address name.
    *
    * @returns {string}
@@ -203,28 +344,58 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
-   * get: financialMetrics
+   * get: roi
+   *
+   * @returns {number | null}
+   */
+  get roi () {
+    return this.currentRanking
+      ?.roi
+      ?? null
+  }
+
+  /**
+   * get: pnl
+   *
+   * @returns {number | null}
+   */
+  get pnl () {
+    return this.currentRanking
+      ?.pnl
+      ?? null
+  }
+
+  /**
+   * Generate financial metrics.
    *
    * @returns {import('~/app/vue/contexts/profile/SectionProfileFinancialMetricsContext').Metrics}
    */
-  get financialMetrics () {
-    // TODO: Fulfill metrics data.
+  generateFinancialMetrics () {
+    const normalizedPnl = FinancialMetricNormalizer.create({
+      figure: this.pnl,
+    })
+      .normalizeAsPnl()
+    const normalizedRoi = FinancialMetricNormalizer.create({
+      figure: this.roi,
+    })
+      .normalizeAsRoi()
+
     return [
       {
         label: 'Total Equity',
-        value: null,
+        value: this.equity,
       },
       {
         label: 'Collateral',
-        value: null,
+        value: this.freeCollateral,
       },
       {
         label: 'Total ROI',
-        value: null,
+        value: normalizedRoi,
       },
       {
         label: 'Total PnL',
-        value: null,
+        value: normalizedPnl,
       },
     ]
   }
@@ -233,6 +404,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
+ *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
+ *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  *   route: ReturnType<typeof useRoute>
  * }} ProfileDetailsContextParams
@@ -260,6 +433,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  *   isFetchingName: boolean
+ *   isLoadingProfileOverview: boolean
  * }} StatusReactive
  */
 
@@ -273,4 +447,54 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  * @typedef {import('vue').Ref<
  *   import('~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlCapsule').default
  * >} AddressNameCapsuleRef
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#schemaparentsubaccountresponse}
+ *
+ * @typedef {{
+ *   subaccount: {
+ *     address: string
+ *     parentSubaccountNumber: number
+ *     equity: string
+ *     freeCollateral: string
+ *     childSubaccounts: Array<{
+ *       address: string
+ *       subaccountNumber: number
+ *       equity: string
+ *       freeCollateral: string
+ *       openPerpetualPositions: {
+ *         [key: string]: {
+ *           market: string
+ *           status: string
+ *           side: string
+ *           size: string
+ *           maxSize: string
+ *           entryPrice: string
+ *           realizedPnl: string
+ *           createdAt: string | null
+ *           createdAtHeight: string
+ *           sumOpen: string
+ *           sumClose: string
+ *           netFunding: string
+ *           unrealizedPnl: string
+ *           closedAt: string | null
+ *           exitPrice: string
+ *           subaccountNumber: number
+ *         }
+ *       }
+ *       assetPositions: {
+ *         [key: string]: {
+ *           symbol: string
+ *           side: string
+ *           size: string
+ *           assetId: string
+ *           subaccountNumber: number
+ *         }
+ *       }
+ *       marginEnabled: boolean
+ *       updatedAtHeight: string
+ *     }>
+ *   }
+ * }} ProfileOverview - Result gotten from the indexer.
  */
