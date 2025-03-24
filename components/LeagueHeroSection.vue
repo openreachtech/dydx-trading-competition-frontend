@@ -55,17 +55,9 @@ export default defineComponent({
   <section class="unit-section">
     <OnboardingDialogs ref="onboardingDialogsComponentRef" />
 
-    <div class="headline">
-      <span class="note">
-        <span>Powered by</span>
-
-        <SvgDydxFoundation />
-      </span>
-
-      <h1 class="heading">
-        DYDX Trading League
-      </h1>
-    </div>
+    <h1 class="heading">
+      DYDX Trading League
+    </h1>
 
     <p class="description">
       Join the league, test your skills and <b class="highlight yellow">earn rewards</b>. <br>
@@ -137,32 +129,15 @@ export default defineComponent({
   }
 }
 
-.unit-section > .headline {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.unit-section > .headline > .heading {
+.unit-section > .heading {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-title);
   font-weight: 700;
   line-height: var(--size-line-height-title);
 }
 
-.unit-section > .headline > .heading + * {
+.unit-section > .heading + * {
   margin-block-start: 0;
-}
-
-.unit-section > .headline > .note {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  font-size: var(--font-size-small);
-  letter-spacing: 0.16em;
-
-  color: var(--color-text-tertiary);
 }
 
 .unit-section > .description {
