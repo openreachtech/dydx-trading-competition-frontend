@@ -174,20 +174,34 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 
       this.profileOverviewRef.value = profileOverview
     } catch (error) {
-      if (error instanceof Error) {
-        this.errorMessageRef.value = error.message
-
-        return
-      }
-
-      if (typeof error !== 'string') {
-        return
-      }
-
-      this.errorMessageRef.value = error
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
     } finally {
       this.statusReactive.isLoadingProfileOverview = false
     }
+  }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown error'
+    }
+
+    return error
   }
 
   /**
