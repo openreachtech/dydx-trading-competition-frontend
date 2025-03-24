@@ -119,6 +119,9 @@
   --color-background-competition-form-steps: var(--palette-layer-2);
   --color-background-competition-step-completed: var(--palette-purple);
 
+  --color-background-trade-side-long: var(--palette-green);
+  --color-background-trade-side-short: var(--palette-red);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
