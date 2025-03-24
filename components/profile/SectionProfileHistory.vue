@@ -6,6 +6,7 @@ import {
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
+import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
 
 import SectionProfileHistoryContext from '~/app/vue/contexts/profile/SectionProfileHistoryContext'
 
@@ -14,6 +15,7 @@ export default defineComponent({
     AppTabLayout,
     ProfileTransferHistory,
     ProfileLeagueHistory,
+    ProfileFinancialOverview,
   },
 
   setup (
@@ -40,6 +42,8 @@ export default defineComponent({
       :active-tab-key="context.tabs[0].tabKey"
     >
       <template #contents>
+        <ProfileFinancialOverview />
+
         <ProfileTransferHistory />
 
         <ProfileLeagueHistory />
