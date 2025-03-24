@@ -132,12 +132,11 @@ export default defineComponent({
           </span>
 
           <div class="actions">
-            <CopyButton :content-to-copy="context.hostAddress"
+            <CopyButton :content-to-copy="context.profileAddress"
               icon-size="1.25rem"
             />
 
-            <LinkTooltipButton :content="context.generateHostAddressUrl()"
-              :href="context.generateHostAddressUrl()"
+            <LinkTooltipButton :href="context.generateProfileAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
