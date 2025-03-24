@@ -2,6 +2,7 @@
 import {
   defineComponent,
   reactive,
+  ref,
 } from 'vue'
 
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
@@ -42,9 +43,14 @@ export default defineComponent({
       invokeRequestWithFormValueHash: putAddressNameGraphqlClient.invokeRequestWithFormValueHash,
     })
 
+    /** @type {import('vue').Ref<string | null>} */
+    const errorMessageRef = ref(null)
+    /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
+    const profileOverviewRef = ref(null)
     const statusReactive = reactive({
       isLoading: false,
       isFetchingName: false,
+      isLoadingProfileOverview: true,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -57,6 +63,8 @@ export default defineComponent({
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
       },
+      profileOverviewRef,
+      errorMessageRef,
       statusReactive,
     }
     const context = ProfileDetailsContext.create(args)
