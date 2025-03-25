@@ -92,18 +92,6 @@ export default defineComponent({
             </template>
           </AppButton>
         </div>
-
-        <NuxtLink class="link"
-          to="#"
-        >
-          <span>
-            Learn about wallet
-          </span>
-
-          <Icon name="heroicons-outline:external-link"
-            size="1rem"
-          />
-        </NuxtLink>
       </div>
     </template>
   </AppDialog>
