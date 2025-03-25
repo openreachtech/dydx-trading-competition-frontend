@@ -19,6 +19,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 
     graphqlClientHash,
     formClerkHash,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     super({
@@ -28,6 +29,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
+    this.errorMessageHashReactive = errorMessageHashReactive
     this.statusReactive = statusReactive
   }
 
@@ -45,6 +47,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
     componentContext,
     graphqlClientHash,
     formClerkHash,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -53,6 +56,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
         componentContext,
         graphqlClientHash,
         formClerkHash,
+        errorMessageHashReactive,
         statusReactive,
       })
     )
@@ -122,6 +126,10 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isJoining = false
+
+        if (capsule.hasError()) {
+          this.errorMessageHashReactive.joinCompetition = capsule.getResolvedErrorMessage()
+        }
       },
     }
   }
@@ -131,6 +139,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
+ *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageMutationContextParams
  */
@@ -159,4 +168,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
  * @typedef {{
  *   isJoining: boolean
  * }} StatusReactive
+ */
+
+/**
+ * @typedef {Record<GraphqlClientHashKeys, string | null>} ErrorMessageHash
  */
