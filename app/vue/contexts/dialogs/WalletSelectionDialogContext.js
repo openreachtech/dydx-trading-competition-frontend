@@ -1,7 +1,5 @@
 import {
   connect as connectWagmi,
-  getConnectors,
-  getChainId,
 } from '@wagmi/core'
 import {
   injected,
@@ -11,10 +9,11 @@ import wagmiConfig from '~/wagmi.config'
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
+  MIPD_RDNS_HASH,
   ONBOARDING_STATUS,
   WALLET_NETWORK_TYPE,
-  WALLET_IMAGE_URL_HASH,
   WALLETS,
+  CONNECTOR_TYPE,
 } from '~/app/constants'
 
 /**
