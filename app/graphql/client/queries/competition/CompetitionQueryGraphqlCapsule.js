@@ -30,6 +30,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.schedules
       ?? []
   }
+
+  /**
+   * get: prizeRules
+   *
+   * @returns {CompetitionEntity['prizeRules']} Prize rules as an array.
+   */
+  get prizeRules () {
+    return this.extractCompetition()
+      ?.prizeRules
+      ?? []
+  }
 }
 
 /**
