@@ -68,7 +68,7 @@ export default {
 
     <template #footer>
       <p class="copyright">
-        © 2025 by DYDX Trading Leagues. All rights served!
+        © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
       </p>
     </template>
   </AppDefaultLayout>
