@@ -87,6 +87,15 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * get: errorMessageHash
+   *
+   * @returns {PropsType['errorMessageHash']}
+   */
+  get errorMessageHash () {
+    return this.props.errorMessageHash
+  }
+
+  /**
    * get: minimumDeposit
    *
    * @returns {string | null}
@@ -94,6 +103,17 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   get minimumDeposit () {
     return this.competition
       ?.minimumDeposit
+      ?? null
+  }
+
+  /**
+   * get: joinCompetitionErrorMessage
+   *
+   * @returns {string | null}
+   */
+  get joinCompetitionErrorMessage () {
+    return this.errorMessageHash
+      ?.joinCompetition
       ?? null
   }
 
@@ -160,5 +180,8 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
  *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
  *   initialUsername: string | null
  *   validationMessage: furo.ValidatorHashType['message']
+ *   errorMessageHash: import('vue').Reactive<
+ *     import('~/pages/(competitions)/competitions/[competitionId]/CompetitionDetailsPageMutationContext').ErrorMessageHash
+ *   > | null
  * }} PropsType
  */
