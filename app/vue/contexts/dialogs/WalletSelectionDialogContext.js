@@ -89,24 +89,20 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   /**
    * Generate displayed wallets.
    *
-   * @returns {Array<import('@wagmi/core').Connector & {
-   *   imageUrl: string
-   * }>} Displayed wallets.
+   * @returns {Array<WalletDetails>} Displayed wallets.
    */
   generateDisplayedWallets () {
-    const connectors = getConnectors(wagmiConfig)
-    const filteredConnectors = connectors.filter(it => ![
-      'injected',
-      'app.keplr',
-    ]
-      .includes(it.id)
-    )
-
-    return filteredConnectors
-      .map(it => ({
-        ...it,
-        imageUrl: WALLET_IMAGE_URL_HASH[it.id] ?? '',
+    const injectedWallets = this.generateInjectedWallets()
+      .map(wallet => ({
+        connectorType: CONNECTOR_TYPE.INJECTED,
+        icon: wallet.details.info.icon,
+        name: wallet.details.info.name,
+        rdns: wallet.details.info.rdns,
       }))
+
+    return [
+      ...injectedWallets,
+    ]
   }
 
   /**
@@ -235,4 +231,13 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  *   connector: ReturnType<import('@wagmi/connectors').injected>
  *   details: import('mipd').EIP6963ProviderDetail
  * }} MipdInjectedWallet
+ */
+
+/**
+ * @typedef {{
+ *   connectorType: (typeof CONNECTOR_TYPE)[keyof typeof CONNECTOR_TYPE]
+ *   name: string
+ *   icon: `data:image/${string}` // RFC-2397
+ *   rdns: string
+ * }} WalletDetails
  */
