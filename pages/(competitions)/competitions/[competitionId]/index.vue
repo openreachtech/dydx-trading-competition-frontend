@@ -56,6 +56,9 @@ export default defineComponent({
       invokeRequestWithFormValueHash: joinCompetitionGraphqlClient.invokeRequestWithFormValueHash,
     })
 
+    const mutationErrorMessageHashReactive = reactive({
+      joinCompetition: null,
+    })
     const statusReactive = reactive({
       isLoading: false,
     })
@@ -85,6 +88,7 @@ export default defineComponent({
       formClerkHash: {
         joinCompetition: joinCompetitionFormClerk,
       },
+      errorMessageHashReactive: mutationErrorMessageHashReactive,
       statusReactive: mutationStatusReactive,
     }
     const mutationContext = CompetitionDetailsPageMutationContext.create(mutationArgs)
@@ -124,6 +128,7 @@ export default defineComponent({
       :competition="context.competition"
       :initial-username="context.addressName"
       :validation-message="mutationContext.joinCompetitionValidationMessage"
+      :error-message-hash="mutationContext.errorMessageHashReactive"
       @join-competition="mutationContext.joinCompetition({
         formElement: $event.formElement,
       })"

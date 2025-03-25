@@ -11,6 +11,7 @@ import {
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 import AppInput from '~/components/units/AppInput.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import CompetitionEnrollmentDialogContext from './CompetitionEnrollmentDialogContext'
 
@@ -19,6 +20,7 @@ export default defineComponent({
     AppButton,
     AppDialog,
     AppInput,
+    AppMessage,
   },
 
   props: {
@@ -37,6 +39,15 @@ export default defineComponent({
     validationMessage: {
       /** @type {import('vue').PropType<furo.ValidatorHashType['message']>} */
       type: Object,
+      default: null,
+      required: false,
+    },
+    errorMessageHash: {
+      /** @type {import('vue').PropType<import('./CompetitionEnrollmentDialogContext').PropsType['errorMessageHash']>} */
+      type: [
+        Object,
+        null,
+      ],
       default: null,
       required: false,
     },
@@ -129,6 +140,13 @@ export default defineComponent({
             Please make sure you have enough balance when enroll league.
           </p>
         </div>
+
+        <AppMessage :is-hidden="!context.joinCompetitionErrorMessage"
+          severity="error"
+          variant="box"
+        >
+          {{ context.joinCompetitionErrorMessage }}
+        </AppMessage>
 
         <AppButton class="button">
           Enroll League
