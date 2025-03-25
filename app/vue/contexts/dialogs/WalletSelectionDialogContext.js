@@ -116,13 +116,13 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       .filter(wallet =>
         // Remove Metamask. We will always show it at the first spot if it exists
         wallet.details.info.rdns !== MIPD_RDNS_HASH.METAMASK
-        // Remove Phantom EVM support
-        && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
+        // // Remove Phantom EVM support
+        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
         // Remove Keplr EVM support since Keplr Cosmos is supported
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
-        // Remove Coinbase injected support because the regular Coinbase connector already supports
-        // handling switching between injected/mobile/smart account
-        && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
+        // // Remove Coinbase injected support because the regular Coinbase connector already supports
+        // // handling switching between injected/mobile/smart account
+        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
       )
       .map(wallet => this.normalizeInjectedWallet({
         wallet,
