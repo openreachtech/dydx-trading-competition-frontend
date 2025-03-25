@@ -32,6 +32,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    mipdStore,
   }) {
     super({
       props,
@@ -41,6 +42,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
     this.walletStore = walletStore
     this.accountStore = accountStore
+    this.mipdStore = mipdStore
   }
 
   /**
@@ -58,6 +60,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    mipdStore,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -66,6 +69,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         dialogComponentRef,
         walletStore,
         accountStore,
+        mipdStore,
       })
     )
   }
@@ -179,6 +183,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
+ *   mipdStore: ReturnType<import('mipd').createStore>
  * }} WalletSelectionDialogContextParams
  */
 
