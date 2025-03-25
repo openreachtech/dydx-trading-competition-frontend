@@ -4,11 +4,6 @@ import {
   ref,
 } from 'vue'
 
-import {
-  Icon,
-  NuxtLink,
-} from '#components'
-
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 
@@ -19,8 +14,6 @@ import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelec
 
 export default defineComponent({
   components: {
-    Icon,
-    NuxtLink,
     AppButton,
     AppDialog,
   },
@@ -70,24 +63,7 @@ export default defineComponent({
     <template #contents>
       <div class="unit-contents">
         <p class="description">
-          By connecting a wallet, you agree to DYDX Foundation
-          <NuxtLink to="#"
-            class="link"
-            external
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Terms of Service
-          </NuxtLink>
-          and consent to its
-          <NuxtLink to="#"
-            class="link"
-            external
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Privacy Policy
-          </NuxtLink>
+          Select your preferred wallet from the list below and connect.
         </p>
 
         <div class="actions">
@@ -109,18 +85,6 @@ export default defineComponent({
             </template>
           </AppButton>
         </div>
-
-        <NuxtLink class="link"
-          to="#"
-        >
-          <span>
-            Learn about wallet
-          </span>
-
-          <Icon name="heroicons-outline:external-link"
-            size="1rem"
-          />
-        </NuxtLink>
       </div>
     </template>
   </AppDialog>
