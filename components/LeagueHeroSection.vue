@@ -5,7 +5,6 @@ import {
 } from 'vue'
 
 import AppButton from '~/components/units/AppButton.vue'
-import SvgDydxFoundation from '~/components/svg/SvgDydxFoundation.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
 
 import {
@@ -19,7 +18,6 @@ import LeagueHeroSectionContext from '~/app/vue/contexts/LeagueHeroSectionContex
 export default defineComponent({
   components: {
     AppButton,
-    SvgDydxFoundation,
     OnboardingDialogs,
   },
 
