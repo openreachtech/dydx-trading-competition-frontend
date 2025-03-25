@@ -70,24 +70,7 @@ export default defineComponent({
     <template #contents>
       <div class="unit-contents">
         <p class="description">
-          By connecting a wallet, you agree to DYDX Foundation
-          <NuxtLink to="#"
-            class="link"
-            external
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Terms of Service
-          </NuxtLink>
-          and consent to its
-          <NuxtLink to="#"
-            class="link"
-            external
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Privacy Policy
-          </NuxtLink>
+          Select your preferred wallet from the list below and connect.
         </p>
 
         <div class="actions">
