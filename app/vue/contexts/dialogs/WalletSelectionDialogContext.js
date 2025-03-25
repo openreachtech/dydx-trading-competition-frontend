@@ -210,15 +210,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * Select wallet.
    *
    * @param {{
-   *   connector: ReturnType<typeof getConnectors>[0]
+   *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async selectWallet ({
-    connector,
+    wallet,
   }) {
     await this.connectWallet({
-      connector,
+      wallet,
     })
 
     this.accountStore.setOnboardingStatus({
@@ -232,18 +232,19 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * Connect wallet.
    *
    * @param {{
-   *   connector: ReturnType<typeof getConnectors>[0]
+   *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async connectWallet ({
-    connector,
+    wallet,
   }) {
     try {
-      const chainId = getChainId(wagmiConfig)
+      const connector = this.resolveWagmiConnector({
+        wallet,
+      })
       const connectionResult = await connectWagmi(wagmiConfig, {
         connector,
-        chainId,
       })
 
       const [firstAccountAddress] = connectionResult.accounts
