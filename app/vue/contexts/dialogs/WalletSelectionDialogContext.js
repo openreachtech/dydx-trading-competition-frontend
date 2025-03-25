@@ -93,12 +93,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    */
   generateDisplayedWallets () {
     const injectedWallets = this.generateInjectedWallets()
-      .map(wallet => ({
-        connectorType: CONNECTOR_TYPE.INJECTED,
-        icon: wallet.details.info.icon,
-        name: wallet.details.info.name,
-        rdns: wallet.details.info.rdns,
-      }))
 
     return [
       ...injectedWallets,
@@ -108,17 +102,64 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   /**
    * Generate MIPD (Multi Injected Provider Discovery) wallets.
    *
-   * @returns {Array<MipdInjectedWallet>}
+   * @returns {Array<WalletDetails>}
    */
   generateInjectedWallets () {
     const providers = this.mipdStore.getProviders()
-
-    return providers.map(providerDetails => ({
+    const injectedWallets = providers.map(providerDetails => ({
       connector: this.generateConnectorFromProvider({
         providerDetails,
       }),
       details: providerDetails,
     }))
+
+    const normalizedInjectedWallets = injectedWallets
+      .filter(wallet =>
+        // Remove Metamask. We will always show it at the first spot if it exists
+        wallet.details.info.rdns !== MIPD_RDNS_HASH.METAMASK
+        // Remove Phantom EVM support
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
+        // Remove Keplr EVM support since Keplr Cosmos is supported
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
+        // Remove Coinbase injected support because the regular Coinbase connector already supports
+        // handling switching between injected/mobile/smart account
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
+      )
+      .map(wallet => this.normalizeInjectedWallet({
+        wallet,
+      }))
+    const metamaskInjectedWallet = this.normalizeInjectedWallet({
+      wallet: injectedWallets.find(wallet => wallet.details.info.rdns === MIPD_RDNS_HASH.METAMASK) ?? null,
+    })
+
+    return [
+      metamaskInjectedWallet,
+      ...normalizedInjectedWallets,
+    ]
+      .filter(it => it !== null)
+  }
+
+  /**
+   * Normalize injected wallet.
+   *
+   * @param {{
+   *   wallet: MipdInjectedWallet | null
+   * }} params - Parameters.
+   * @returns {WalletDetails | null}
+   */
+  normalizeInjectedWallet ({
+    wallet,
+  }) {
+    if (!wallet) {
+      return null
+    }
+
+    return {
+      connectorType: CONNECTOR_TYPE.INJECTED,
+      icon: wallet.details.info.icon,
+      name: wallet.details.info.name,
+      rdns: wallet.details.info.rdns,
+    }
   }
 
   /**
