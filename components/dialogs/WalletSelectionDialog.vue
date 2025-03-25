@@ -4,11 +4,6 @@ import {
   ref,
 } from 'vue'
 
-import {
-  Icon,
-  NuxtLink,
-} from '#components'
-
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 
@@ -19,8 +14,6 @@ import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelec
 
 export default defineComponent({
   components: {
-    Icon,
-    NuxtLink,
     AppButton,
     AppDialog,
   },
