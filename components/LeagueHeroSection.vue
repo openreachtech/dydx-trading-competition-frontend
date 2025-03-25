@@ -5,7 +5,6 @@ import {
 } from 'vue'
 
 import AppButton from '~/components/units/AppButton.vue'
-import SvgDydxFoundation from '~/components/svg/SvgDydxFoundation.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
 
 import {
@@ -19,7 +18,6 @@ import LeagueHeroSectionContext from '~/app/vue/contexts/LeagueHeroSectionContex
 export default defineComponent({
   components: {
     AppButton,
-    SvgDydxFoundation,
     OnboardingDialogs,
   },
 
@@ -58,8 +56,9 @@ export default defineComponent({
     <div class="headline">
       <span class="note">
         <span>Powered by</span>
-
-        <SvgDydxFoundation />
+        <span class="highlight">
+          Crypto Learning Club | dYdX Validator
+        </span>
       </span>
 
       <h1 class="heading">
@@ -163,6 +162,11 @@ export default defineComponent({
   letter-spacing: 0.16em;
 
   color: var(--color-text-tertiary);
+}
+
+.unit-section > .headline > .note > .highlight {
+  font-size: var(--font-size-base);
+  font-weight: 700;
 }
 
 .unit-section > .description {
