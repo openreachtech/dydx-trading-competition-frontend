@@ -122,6 +122,11 @@
   --color-background-trade-side-long: var(--palette-green);
   --color-background-trade-side-short: var(--palette-red);
 
+  --color-background-message-error: var(--palette-red-faded);
+  --color-background-message-success: var(--palette-green-faded);
+  --color-background-message-warn: var(--palette-yellow-faded);
+  --color-background-message-info: var(--palette-purple-faded);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -153,6 +158,11 @@
   --color-text-rank-gold: var(--palette-yellow);
   --color-text-rank-emerald: var(--palette-green);
   --color-text-rank-diamond: var(--color-text-secondary);
+
+  --color-text-message-error: var(--palette-red);
+  --color-text-message-success: var(--palette-green);
+  --color-text-message-warn: var(--palette-yellow);
+  --color-text-message-info: var(--palette-purple-lighter);
 
   /* Border Colors */
   --color-border-default: #303045;
