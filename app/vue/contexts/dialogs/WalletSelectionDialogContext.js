@@ -259,6 +259,26 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Resolve wagmi connector.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected | null>}
+   */
+  resolveWagmiConnector ({
+    wallet,
+  }) {
+    if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+      return this.extractMipdConnectorFromRdns({
+        rdns: wallet.rdns,
+      })
+    }
+
+    return null
+  }
+
+  /**
    * Has phantom wallet or not.
    *
    * @returns {boolean} `true` if has phantom wallet.
