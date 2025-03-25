@@ -322,7 +322,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  * @typedef {{
  *   connectorType: (typeof CONNECTOR_TYPE)[keyof typeof CONNECTOR_TYPE]
  *   name: string
- *   icon: `data:image/${string}` // RFC-2397
+ *   icon: string
  *   rdns: string
  * }} WalletDetails
  */
