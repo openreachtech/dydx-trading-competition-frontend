@@ -62,11 +62,13 @@ export default class FinancialMetricNormalizer {
       return this.fallbackValue
     }
 
+    // ROI is a decimal representation of percentage, must multiply it by 100 first.
+    const roi = this.figure * 100
     const formatter = new Intl.NumberFormat('en-US', {
       trailingZeroDisplay: 'stripIfInteger',
       maximumFractionDigits: 2,
     })
-    const normalizedRoi = formatter.format(this.figure)
+    const normalizedRoi = formatter.format(roi)
 
     return `${normalizedRoi}%`
   }
