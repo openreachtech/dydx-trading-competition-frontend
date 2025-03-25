@@ -76,11 +76,11 @@ export default defineComponent({
           <AppButton v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
             @click="context.selectWallet({
-              connector: it,
+              wallet: it,
             })"
           >
             <template #startIcon>
-              <img :src="it.imageUrl"
+              <img :src="it.icon"
                 :alt="it.name"
                 class="image wallet"
               >
