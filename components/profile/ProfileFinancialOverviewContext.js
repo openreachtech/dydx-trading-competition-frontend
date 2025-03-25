@@ -109,6 +109,48 @@ export default class ProfileFinancialOverviewContext extends BaseFuroContext {
     openPerpetualPositions,
   }) {
     return Object.values(openPerpetualPositions)
+      .map(it => ({
+        ...it,
+        entryPrice: this.normalizeNumber({
+          numberString: it.entryPrice,
+        }),
+        size: this.normalizeNumber({
+          numberString: it.size,
+        }),
+        realizedPnl: this.normalizeNumber({
+          numberString: it.realizedPnl,
+        }),
+        unrealizedPnl: this.normalizeNumber({
+          numberString: it.unrealizedPnl,
+        }),
+        netFunding: this.normalizeNumber({
+          numberString: it.netFunding,
+        }),
+      }))
+  }
+
+  /**
+   * Normalize number.
+   *
+   * @param {{
+   *   numberString: string | null
+   * }} params - Parameters.
+   * @returns {string} Normalized number string.
+   */
+  normalizeNumber ({
+    numberString,
+  }) {
+    if (!numberString) {
+      return '--'
+    }
+
+    const figure = parseFloat(numberString)
+    const formatter = new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(figure)
   }
 
   /**
