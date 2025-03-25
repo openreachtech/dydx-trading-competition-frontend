@@ -3,6 +3,9 @@ import {
   getConnectors,
   getChainId,
 } from '@wagmi/core'
+import {
+  injected,
+} from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -107,6 +110,42 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Generate MIPD (Multi Injected Provider Discovery) wallets.
+   *
+   * @returns {Array<MipdInjectedWallet>}
+   */
+  generateInjectedWallets () {
+    const providers = this.mipdStore.getProviders()
+
+    return providers.map(providerDetails => ({
+      connector: this.generateConnectorFromProvider({
+        providerDetails,
+      }),
+      details: providerDetails,
+    }))
+  }
+
+  /**
+   * Generate connector from provider.
+   *
+   * @param {{
+   *   providerDetails: import('mipd').EIP6963ProviderDetail
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected>}
+   */
+  generateConnectorFromProvider ({
+    providerDetails,
+  }) {
+    return injected({
+      target: {
+        ...providerDetails.info,
+        id: providerDetails.info.rdns,
+        provider: providerDetails.provider,
+      },
+    })
+  }
+
+  /**
    * Select wallet.
    *
    * @param {{
@@ -189,4 +228,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
 /**
  * @typedef {WalletSelectionDialogContextParams} WalletSelectionDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   connector: ReturnType<import('@wagmi/connectors').injected>
+ *   details: import('mipd').EIP6963ProviderDetail
+ * }} MipdInjectedWallet
  */
