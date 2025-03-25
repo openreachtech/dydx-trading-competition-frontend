@@ -122,6 +122,30 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Extract MIPD connector from rdns.
+   *
+   * @param {{
+   *   rdns: string
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected | null}
+   */
+  extractMipdConnectorFromRdns ({
+    rdns,
+  }) {
+    const providerDetails = this.mipdStore.findProvider({
+      rdns,
+    })
+
+    if (!providerDetails) {
+      return null
+    }
+
+    return this.generateConnectorFromProvider({
+      providerDetails,
+    })
+  }
+
+  /**
    * Generate connector from provider.
    *
    * @param {{
