@@ -11,12 +11,20 @@ import {
 import {
   injected,
   metaMask,
+  coinbaseWallet,
 } from '@wagmi/connectors'
 
 const metaMaskConnector = metaMask({
   dappMetadata: {
     name: 'dYdX Trading League',
   },
+})
+
+export const coinbaseWalletConnector = coinbaseWallet({
+  appName: 'dYdX Trading League',
+  reloadOnDisconnect: false,
+  // disable Coinbase Smart Wallet because dydx-client currently doesn't handle EIP-6492 signatures
+  preference: 'eoaOnly',
 })
 
 export default createConfig({
@@ -27,6 +35,7 @@ export default createConfig({
   connectors: [
     injected(),
     metaMaskConnector,
+    coinbaseWalletConnector,
   ],
   transports: {
     [mainnet.id]: http(),
