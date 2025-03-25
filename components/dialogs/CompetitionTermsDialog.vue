@@ -295,6 +295,22 @@ export default defineComponent({
                 then the English version of the terms and conditions shall prevail wherever any inconsistency arises.
               </p>
             </li>
+            <li class="entry">
+              <span class="bullet" />
+
+              <p class="content">
+                Participants acknowledge that responsibility for prize distribution lies solely with the competition host,
+                and by participating, they are trusting the host to fulfill distribution obligations.
+              </p>
+            </li>
+            <li class="entry">
+              <span class="bullet" />
+
+              <p class="content">
+                Participants understand that trading with leverage carries significant risk, and their deposited margin may
+                be partially or completely lost as a result of trading activities during the competition.
+              </p>
+            </li>
           </ul>
         </section>
 
