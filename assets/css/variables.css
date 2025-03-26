@@ -158,6 +158,8 @@
   --color-text-rank-gold: var(--palette-yellow);
   --color-text-rank-emerald: var(--palette-green);
   --color-text-rank-diamond: var(--color-text-secondary);
+  --color-text-rank-platinum: var(--color-text-primary);
+  --color-text-rank-bronze: var(--color-text-tertiary);
 
   --color-text-message-error: var(--palette-red);
   --color-text-message-success: var(--palette-green);
