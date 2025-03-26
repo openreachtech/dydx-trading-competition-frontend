@@ -33,7 +33,9 @@ export default class SectionPrizeRulesContext extends BaseFuroContext {
           rankFrom: prizeRule.rankFrom,
           rankTo: prizeRule.rankTo,
         }),
-        amount: '$100',
+        amount: this.normalizePrize({
+          prizeAmount: prizeRule.amount,
+        }),
       }))
   }
 
@@ -90,6 +92,28 @@ export default class SectionPrizeRulesContext extends BaseFuroContext {
       ?? RANK_POSITION_SUFFIX_HASH.OTHER
 
     return `${rank}${suffix}`
+  }
+
+  /**
+   * Normalize prize.
+   *
+   * @param {{
+   *   prizeAmount: string
+   * }} params - Parameters.
+   * @returns {string} Normalized prize.
+   */
+  normalizePrize ({
+    prizeAmount,
+  }) {
+    const amountInNumber = Number(prizeAmount)
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+      trailingZeroDisplay: 'stripIfInteger',
+    })
+
+    return formatter.format(amountInNumber)
   }
 }
 
