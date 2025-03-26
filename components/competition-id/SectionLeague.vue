@@ -149,7 +149,9 @@ export default defineComponent({
           <AppButton class="button"
             @click="context.showTermsDialog()"
           >
-            Enroll now
+            {{
+              context.generateEnrollButtonLabel()
+            }}
           </AppButton>
 
           <!-- NOTE: Participants here. Missing API -->

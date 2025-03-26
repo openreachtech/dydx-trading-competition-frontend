@@ -554,6 +554,29 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate content for enroll button.
+   *
+   * @returns {string}
+   */
+  generateEnrollButtonLabel () {
+    if (this.isTargetPeriodById({
+      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })) {
+      return 'Enroll now'
+    }
+
+    if (!this.isTargetPeriodById({
+      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })) {
+      return 'Registration ended'
+    }
+
+    return 'Enroll now'
+  }
+
+  /**
    * Whether description is expandable or not.
    *
    * @returns {boolean} `true` if description is long enough to be expandable.
