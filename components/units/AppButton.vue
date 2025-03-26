@@ -202,7 +202,7 @@ export default defineComponent({
   transition: --color-darken-filter 0.3s var(--transition-timing-base);
 }
 
-.unit-button.filled:hover {
+.unit-button.filled:not(:disabled):hover {
   --color-darken-filter: #00000047;
 }
 
@@ -214,7 +214,7 @@ export default defineComponent({
   transition: border-color 0.3s var(--transition-timing-base);
 }
 
-.unit-button.outlined:hover {
+.unit-button.outlined:not(:disabled):hover {
   border-color: var(--color-border-button-outlined-hover);
 }
 
