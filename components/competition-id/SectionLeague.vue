@@ -410,7 +410,9 @@ export default defineComponent({
 }
 
 .unit-details > .actions > .button {
-  padding-inline: 5rem;
+  min-width: 15rem;
+
+  justify-content: center;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
