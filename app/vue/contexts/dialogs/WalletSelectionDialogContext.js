@@ -1,17 +1,19 @@
 import {
   connect as connectWagmi,
-  getConnectors,
-  getChainId,
 } from '@wagmi/core'
+import {
+  injected,
+} from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
+  MIPD_RDNS_HASH,
   ONBOARDING_STATUS,
   WALLET_NETWORK_TYPE,
-  WALLET_IMAGE_URL_HASH,
   WALLETS,
+  CONNECTOR_TYPE,
 } from '~/app/constants'
 
 /**
@@ -32,6 +34,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    mipdStore,
   }) {
     super({
       props,
@@ -41,6 +44,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
     this.walletStore = walletStore
     this.accountStore = accountStore
+    this.mipdStore = mipdStore
   }
 
   /**
@@ -58,6 +62,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    mipdStore,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -66,6 +71,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         dialogComponentRef,
         walletStore,
         accountStore,
+        mipdStore,
       })
     )
   }
@@ -82,39 +88,136 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   /**
    * Generate displayed wallets.
    *
-   * @returns {Array<import('@wagmi/core').Connector & {
-   *   imageUrl: string
-   * }>} Displayed wallets.
+   * @returns {Array<WalletDetails>} Displayed wallets.
    */
   generateDisplayedWallets () {
-    const connectors = getConnectors(wagmiConfig)
-    const filteredConnectors = connectors.filter(it => ![
-      'injected',
-      'app.keplr',
-    ]
-      .includes(it.id)
-    )
+    const injectedWallets = this.generateInjectedWallets()
 
-    return filteredConnectors
-      .map(it => ({
-        ...it,
-        imageUrl: WALLET_IMAGE_URL_HASH[it.id] ?? '',
+    return [
+      ...injectedWallets,
+    ]
+  }
+
+  /**
+   * Generate MIPD (Multi Injected Provider Discovery) wallets.
+   *
+   * @returns {Array<WalletDetails>}
+   */
+  generateInjectedWallets () {
+    const providers = this.mipdStore.getProviders()
+    const injectedWallets = providers.map(providerDetails => ({
+      connector: this.generateConnectorFromProvider({
+        providerDetails,
+      }),
+      details: providerDetails,
+    }))
+
+    const normalizedInjectedWallets = injectedWallets
+      .filter(wallet =>
+        // Remove Metamask. We will always show it at the first spot if it exists
+        wallet.details.info.rdns !== MIPD_RDNS_HASH.METAMASK
+        // // Remove Phantom EVM support
+        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
+        // Remove Keplr EVM support since Keplr Cosmos is supported
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
+        // // Remove Coinbase injected support because the regular Coinbase connector already supports
+        // // handling switching between injected/mobile/smart account
+        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
+      )
+      .map(wallet => this.normalizeInjectedWallet({
+        wallet,
       }))
+    const metamaskInjectedWallet = this.normalizeInjectedWallet({
+      wallet: injectedWallets.find(wallet => wallet.details.info.rdns === MIPD_RDNS_HASH.METAMASK) ?? null,
+    })
+
+    return [
+      metamaskInjectedWallet,
+      ...normalizedInjectedWallets,
+    ]
+      .filter(it => it !== null)
+  }
+
+  /**
+   * Normalize injected wallet.
+   *
+   * @param {{
+   *   wallet: MipdInjectedWallet | null
+   * }} params - Parameters.
+   * @returns {WalletDetails | null}
+   */
+  normalizeInjectedWallet ({
+    wallet,
+  }) {
+    if (!wallet) {
+      return null
+    }
+
+    return {
+      connectorType: CONNECTOR_TYPE.INJECTED,
+      icon: wallet.details.info.icon,
+      name: wallet.details.info.name,
+      rdns: wallet.details.info.rdns,
+    }
+  }
+
+  /**
+   * Extract MIPD connector from rdns.
+   *
+   * @param {{
+   *   rdns: string
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected | null}
+   */
+  extractMipdConnectorFromRdns ({
+    rdns,
+  }) {
+    const providerDetails = this.mipdStore.findProvider({
+      rdns,
+    })
+
+    if (!providerDetails) {
+      return null
+    }
+
+    return this.generateConnectorFromProvider({
+      providerDetails,
+    })
+  }
+
+  /**
+   * Generate connector from provider.
+   *
+   * @param {{
+   *   providerDetails: import('mipd').EIP6963ProviderDetail
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected>}
+   */
+  generateConnectorFromProvider ({
+    providerDetails,
+  }) {
+    return injected({
+      target: {
+        ...providerDetails.info,
+        id: providerDetails.info.rdns,
+        provider: providerDetails.provider,
+      },
+    })
   }
 
   /**
    * Select wallet.
    *
    * @param {{
-   *   connector: ReturnType<typeof getConnectors>[0]
+   *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async selectWallet ({
-    connector,
+    wallet,
   }) {
     await this.connectWallet({
-      connector,
+      wallet,
     })
 
     this.accountStore.setOnboardingStatus({
@@ -128,18 +231,19 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * Connect wallet.
    *
    * @param {{
-   *   connector: ReturnType<typeof getConnectors>[0]
+   *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async connectWallet ({
-    connector,
+    wallet,
   }) {
     try {
-      const chainId = getChainId(wagmiConfig)
+      const connector = this.resolveWagmiConnector({
+        wallet,
+      })
       const connectionResult = await connectWagmi(wagmiConfig, {
         connector,
-        chainId,
       })
 
       const [firstAccountAddress] = connectionResult.accounts
@@ -152,6 +256,26 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     } catch (error) {
       // TODO: Handle error.
     }
+  }
+
+  /**
+   * Resolve wagmi connector.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {ReturnType<import('@wagmi/connectors').injected | null>}
+   */
+  resolveWagmiConnector ({
+    wallet,
+  }) {
+    if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+      return this.extractMipdConnectorFromRdns({
+        rdns: wallet.rdns,
+      })
+    }
+
+    return null
   }
 
   /**
@@ -179,9 +303,26 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
+ *   mipdStore: ReturnType<import('mipd').createStore>
  * }} WalletSelectionDialogContextParams
  */
 
 /**
  * @typedef {WalletSelectionDialogContextParams} WalletSelectionDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   connector: ReturnType<import('@wagmi/connectors').injected>
+ *   details: import('mipd').EIP6963ProviderDetail
+ * }} MipdInjectedWallet
+ */
+
+/**
+ * @typedef {{
+ *   connectorType: (typeof CONNECTOR_TYPE)[keyof typeof CONNECTOR_TYPE]
+ *   name: string
+ *   icon: string
+ *   rdns: string
+ * }} WalletDetails
  */

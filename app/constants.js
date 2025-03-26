@@ -184,6 +184,15 @@ export const WALLETS = {
   },
 }
 
+// Extension wallet EIP-6963 identifiers
+export const MIPD_RDNS_HASH = {
+  PHANTOM: 'app.phantom',
+  OKX: 'com.okex.wallet',
+  KEPLR: 'app.keplr',
+  COINBASE: 'com.coinbase.wallet',
+  METAMASK: 'io.metamask',
+}
+
 /** @type {Record<string, string>} */
 export const WALLET_IMAGE_URL_HASH = {
   metaMaskSDK: '/img/wallets/metamask.svg',

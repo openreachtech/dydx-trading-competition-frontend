@@ -10,6 +10,10 @@ import AppDialog from '~/components/units/AppDialog.vue'
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
 
+import {
+  createStore as createMipdStore,
+} from 'mipd'
+
 import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelectionDialogContext'
 
 export default defineComponent({
@@ -31,6 +35,7 @@ export default defineComponent({
     const dialogComponentRef = ref(null)
     const walletStore = useWalletStore()
     const accountStore = useAccountStore()
+    const mipdStore = createMipdStore()
 
     const args = {
       props,
@@ -38,6 +43,7 @@ export default defineComponent({
       dialogComponentRef,
       walletStore,
       accountStore,
+      mipdStore,
     }
     const context = WalletSelectionDialogContext.create(args)
       .setupComponent()
@@ -70,11 +76,11 @@ export default defineComponent({
           <AppButton v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
             @click="context.selectWallet({
-              connector: it,
+              wallet: it,
             })"
           >
             <template #startIcon>
-              <img :src="it.imageUrl"
+              <img :src="it.icon"
                 :alt="it.name"
                 class="image wallet"
               >
