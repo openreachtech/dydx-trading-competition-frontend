@@ -12,6 +12,13 @@ export const STORAGE_KEY = {
   SELECTED_NETWORK: 'dydx.SelectedNetwork',
 }
 
+export const RANK_POSITION_SUFFIX_HASH = {
+  1: 'st',
+  2: 'nd',
+  3: 'rd',
+  OTHER: 'th',
+}
+
 export const COMPETITION_STATUS = {
   CREATED: {
     ID: 1,
