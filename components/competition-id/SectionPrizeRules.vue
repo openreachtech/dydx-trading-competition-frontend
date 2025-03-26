@@ -43,7 +43,8 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <div v-for="it of 6"
+      <div v-for="(prizeRule, index) of context.normalizePrizeRules()"
+        :key="index"
         class="unit-rank"
       >
         <Icon name="heroicons:trophy"
@@ -52,8 +53,8 @@ export default defineComponent({
         />
 
         <div class="content">
-          <span class="label">Rank 1st</span>
-          <span class="prize">$30,000</span>
+          <span class="label">{{ prizeRule.label }}</span>
+          <span class="prize">{{ prizeRule.amount }}</span>
         </div>
       </div>
     </div>
