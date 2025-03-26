@@ -48,6 +48,7 @@ export default defineComponent({
       >
         <Icon name="heroicons:trophy"
           size="1.5rem"
+          class="icon"
         />
 
         <div class="content">
@@ -121,5 +122,25 @@ export default defineComponent({
   font-weight: 700;
 
   color: var(--color-text-primary);
+}
+
+.unit-rank > .icon {
+  color: var(--color-text-placeholder);
+}
+
+.unit-rank:first-of-type > .icon {
+  color: var(--color-text-rank-gold);
+}
+
+.unit-rank:nth-of-type(2) > .icon {
+  color: var(--color-text-rank-emerald);
+}
+
+.unit-rank:nth-of-type(3) > .icon {
+  color: var(--color-text-rank-platinum);
+}
+
+.unit-rank:nth-of-type(4) > .icon {
+  color: var(--color-text-rank-bronze);
 }
 </style>
