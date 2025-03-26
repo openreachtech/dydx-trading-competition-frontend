@@ -85,9 +85,8 @@ export default defineComponent({
 
   max-width: var(--size-body-max-width);
 
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   row-gap: 1rem;
   column-gap: 2rem;
 
