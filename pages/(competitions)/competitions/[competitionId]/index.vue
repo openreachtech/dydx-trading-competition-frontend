@@ -8,6 +8,7 @@ import {
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
 import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
+import SectionPrizeRules from '~/components/competition-id/SectionPrizeRules.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
 import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.vue'
 
@@ -32,6 +33,7 @@ export default defineComponent({
     CompetitionTermsDialog,
     CompetitionEnrollmentDialog,
     SectionLeague,
+    SectionPrizeRules,
     SectionSchedules,
     SectionLeaderboard,
   },
@@ -119,6 +121,8 @@ export default defineComponent({
         dialogElement: competitionEnrollmentDialogRef,
       })"
     />
+
+    <SectionPrizeRules :prize-rules="context.prizeRules" />
 
     <SectionSchedules :schedules="context.schedules" />
 
