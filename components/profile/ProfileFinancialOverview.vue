@@ -55,7 +55,11 @@ export default defineComponent({
           <span class="position">
             <span class="label">Open Perpetual Positions</span>
             <span class="figure">
-              {{ 1 }}
+              {{
+                context.calculateOpenPerpetualPositionCount({
+                  openPerpetualPositions: childSubaccount.openPerpetualPositions,
+                })
+              }}
             </span>
           </span>
 

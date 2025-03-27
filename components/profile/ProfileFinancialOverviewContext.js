@@ -154,6 +154,21 @@ export default class ProfileFinancialOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Calculate open perpetual position count.
+   *
+   * @param {{
+   *   openPerpetualPositions: import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview['subaccount']['childSubaccounts'][0]['openPerpetualPositions']
+   * }} params - Parameters.
+   * @returns {number}
+   */
+  calculateOpenPerpetualPositionCount ({
+    openPerpetualPositions,
+  }) {
+    return Object.keys(openPerpetualPositions)
+      .length
+  }
+
+  /**
    * Extract asset position size.
    *
    * @param {{
