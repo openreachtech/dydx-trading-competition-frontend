@@ -3,7 +3,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import {
-  RANK_POSITION_SUFFIX_HASH,
+  ORDINAL_SUFFIX_HASH,
 } from '~/app/constants'
 
 /**
@@ -84,12 +84,12 @@ export default class SectionPrizeRulesContext extends BaseFuroContext {
       lastTwoDigits >= 11
       && lastTwoDigits <= 13
     ) {
-      return `${rank}${RANK_POSITION_SUFFIX_HASH.OTHER}`
+      return `${rank}${ORDINAL_SUFFIX_HASH.OTHER}`
     }
 
-    const lastDigit = /** @type {keyof typeof RANK_POSITION_SUFFIX_HASH} */ (rank % 10)
-    const suffix = RANK_POSITION_SUFFIX_HASH[lastDigit]
-      ?? RANK_POSITION_SUFFIX_HASH.OTHER
+    const lastDigit = /** @type {keyof typeof ORDINAL_SUFFIX_HASH} */ (rank % 10)
+    const suffix = ORDINAL_SUFFIX_HASH[lastDigit]
+      ?? ORDINAL_SUFFIX_HASH.OTHER
 
     return `${rank}${suffix}`
   }
