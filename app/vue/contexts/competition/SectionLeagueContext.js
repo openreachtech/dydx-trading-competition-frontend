@@ -577,6 +577,18 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Whether to disable enroll button or not.
+   *
+   * @returns {boolean}
+   */
+  shouldDisableEnrollButton () {
+    return !this.isTargetPeriodById({
+      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })
+  }
+
+  /**
    * Whether description is expandable or not.
    *
    * @returns {boolean} `true` if description is long enough to be expandable.

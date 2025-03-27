@@ -147,6 +147,7 @@ export default defineComponent({
 
         <div class="actions">
           <AppButton class="button"
+            :disabled="context.shouldDisableEnrollButton()"
             @click="context.showTermsDialog()"
           >
             {{
