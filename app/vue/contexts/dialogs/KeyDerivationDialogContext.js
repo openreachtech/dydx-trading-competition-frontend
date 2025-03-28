@@ -88,7 +88,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    *
    * @returns {Promise<void>}
    */
-  async signWagmiTypedMessage () {
+  async deriveKeys () {
     const networkMatchingResult = await this.matchNetwork()
 
     if (!networkMatchingResult) {
