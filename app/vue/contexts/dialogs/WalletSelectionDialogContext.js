@@ -149,9 +149,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     const downloadLink = this.hasPhantomWallet()
       ? null
       : 'https://phantom.app/download'
+    const connectorType = this.hasPhantomWallet()
+      ? CONNECTOR_TYPE.PHANTOM_SOLANA
+      : CONNECTOR_TYPE.DOWNLOAD_WALLET
 
     return {
-      connectorType: CONNECTOR_TYPE.INJECTED,
+      connectorType,
       icon: '/img/wallets/phantom.svg',
       name: 'Phantom',
       rdns: MIPD_RDNS_HASH.PHANTOM,
