@@ -127,6 +127,11 @@ export default {
 }
 
 .unit-body > .footer > .copyright {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+
+  text-align: center;
+
   color: var(--color-text-placeholder);
 }
 </style>

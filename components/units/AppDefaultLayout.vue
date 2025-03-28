@@ -185,13 +185,20 @@ export default defineComponent({
   border-top-style: solid;
   border-top-color: var(--color-border-default);
 
-  height: var(--size-footer-height);
+  padding-block: 1rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  min-height: var(--size-footer-height);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   background-color: var(--color-background-footer);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
 }
 
 /*********************** Sidebars ***************************/
