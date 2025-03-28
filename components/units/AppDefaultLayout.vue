@@ -185,9 +185,10 @@ export default defineComponent({
   border-top-style: solid;
   border-top-color: var(--color-border-default);
 
+  padding-block: 1rem;
   padding-inline: var(--size-body-padding-inline-mobile);
 
-  height: var(--size-footer-height);
+  min-height: var(--size-footer-height);
 
   display: flex;
   justify-content: center;
