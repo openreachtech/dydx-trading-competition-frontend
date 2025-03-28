@@ -150,19 +150,11 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {string}
    */
   generateWalletImageUrl () {
-    const fallbackUrl = '/img/wallets/generic-wallet.svg'
-    const account = getAccount(wagmiConfig)
-    const connectorId = account
-      ?.connector
-      ?.id
-      ?? null
-
-    if (!connectorId) {
-      return fallbackUrl
-    }
-
-    return WALLET_IMAGE_URL_HASH[connectorId]
-      ?? fallbackUrl
+    return this.walletStore.walletStoreRef.value
+      .sourceAccount
+      .walletDetail
+      ?.icon
+      ?? '/img/wallets/generic-wallet.svg'
   }
 
   /**
