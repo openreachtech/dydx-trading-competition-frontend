@@ -25,6 +25,8 @@ import {
   Buffer,
 } from 'node:buffer'
 
+import stableStringify from 'fast-json-stable-stringify'
+
 import {
   WALLETS_CONFIG_HASH,
   CONNECTOR_TYPE,
@@ -171,7 +173,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   async signSolanaMessage ({
     typedMessage,
   }) {
-    const message = JSON.stringify(typedMessage)
+    const message = stableStringify(typedMessage)
     const encodedMessage = new TextEncoder()
       .encode(message)
     const signedMessage = await window.phantom.solana.signMessage(encodedMessage, 'utf8')
