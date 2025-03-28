@@ -22,6 +22,10 @@ import {
 } from '@cosmjs/encoding'
 
 import {
+  Buffer,
+} from 'node:buffer'
+
+import {
   WALLETS_CONFIG_HASH,
   CONNECTOR_TYPE,
 } from '~/app/constants'
@@ -138,7 +142,11 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     })
 
     if (selectedConnectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-      // ...Connect solana
+      const solanaSignature = await this.signSolanaMessage({
+        typedMessage,
+      })
+
+      return solanaSignature
     }
 
     const signature = await signWagmiTypedMessage(wagmiConfig, {
@@ -148,6 +156,30 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         chainId: this.accountStore.selectedEthereumChainIdComputed.value,
       },
     })
+
+    return signature
+  }
+
+  /**
+   * Sign Solana message.
+   *
+   * @param {{
+   *   typedMessage: TypedMessage
+   * }} params - Parameters.
+   * @returns {Promise<`0x${string}`>} Signature
+   */
+  async signSolanaMessage ({
+    typedMessage,
+  }) {
+    const message = JSON.stringify(typedMessage)
+    const encodedMessage = new TextEncoder()
+      .encode(message)
+    const signedMessage = await window.phantom.solana.signMessage(encodedMessage, 'utf8')
+    // Left pad the signature with a 0 byte so that the signature is 65 bytes long, a solana signature is 64 bytes by default.
+    const signature = /** @type {`0x${string}`} */ (
+      Buffer.from([0, ...signedMessage.signature])
+        .toString('hex')
+    )
 
     return signature
   }
