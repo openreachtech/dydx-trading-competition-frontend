@@ -237,6 +237,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   async selectWallet ({
     wallet,
   }) {
+    if (wallet.downloadLink) {
+      window.open(wallet.downloadLink, '_blank')
+
+      return
+    }
+
     await this.connectWallet({
       wallet,
     })
