@@ -272,23 +272,59 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     wallet,
   }) {
     try {
-      const connector = this.resolveWagmiConnector({
-        wallet,
-      })
-      const connectionResult = await connectWagmi(wagmiConfig, {
-        connector,
-      })
+      if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+        await this.connectToEvmNetwork({
+          wallet,
+        })
+      }
 
-      const [firstAccountAddress] = connectionResult.accounts
-
-      this.walletStore.setSourceAddress({
-        address: firstAccountAddress,
-        // TODO: Other chain types.
-        chain: WALLET_NETWORK_TYPE.EVM,
-      })
+      if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+        await this.connectPhantom()
+      }
     } catch (error) {
       // TODO: Handle error.
     }
+  }
+
+  /**
+   * Connect to EVM network.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async connectToEvmNetwork ({
+    wallet,
+  }) {
+    const connector = this.resolveWagmiConnector({
+      wallet,
+    })
+    const connectionResult = await connectWagmi(wagmiConfig, {
+      connector,
+    })
+
+    const [firstAccountAddress] = connectionResult.accounts
+
+    this.walletStore.setSourceAddress({
+      address: firstAccountAddress,
+      chain: WALLET_NETWORK_TYPE.EVM,
+    })
+  }
+
+  /**
+   * Connect Phantom Solana wallet.
+   *
+   * @returns {Promise<void>}
+   */
+  async connectPhantom () {
+    const response = await window.phantom.solana.connect()
+    const publicKey = response.publicKey.toBase58()
+
+    this.walletStore.setSourceAddress({
+      address: publicKey,
+      chain: WALLET_NETWORK_TYPE.SOLANA,
+    })
   }
 
   /**
