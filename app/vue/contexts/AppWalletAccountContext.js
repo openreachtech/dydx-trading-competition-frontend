@@ -5,7 +5,6 @@ import {
 import {
   disconnect as disconnectWagmi,
   reconnect as reconnectWagmi,
-  getAccount,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
 
@@ -14,7 +13,6 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import {
-  WALLET_IMAGE_URL_HASH,
   WALLET_NETWORK_TYPE,
   ONBOARDING_STATUS,
 } from '~/app/constants'
