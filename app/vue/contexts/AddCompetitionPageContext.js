@@ -29,6 +29,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     graphqlClientHash,
     formClerkHash,
     statusReactive,
+    errorMessageHashReactive,
     currentStepRef,
     addCompetitionFormShallowRef,
   }) {
@@ -40,6 +41,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.statusReactive = statusReactive
+    this.errorMessageHashReactive = errorMessageHashReactive
     this.currentStepRef = currentStepRef
     this.addCompetitionFormShallowRef = addCompetitionFormShallowRef
   }
@@ -59,6 +61,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     formClerkHash,
     graphqlClientHash,
     statusReactive,
+    errorMessageHashReactive,
   }) {
     const currentStepRef = this.generateCurrentStepRef()
     const addCompetitionFormShallowRef = this.generateAddCompetitionFormShallowRef()
@@ -70,6 +73,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
         graphqlClientHash,
         formClerkHash,
         statusReactive,
+        errorMessageHashReactive,
         currentStepRef,
         addCompetitionFormShallowRef,
       })
@@ -152,8 +156,8 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
       afterRequest: async capsule => {
         this.statusReactive.isLoading = false
 
-        if (!capsule.competitionId) {
-          await navigateTo('/competitions')
+        if (capsule.hasError()) {
+          this.errorMessageHashReactive.addCompetition = capsule.getResolvedErrorMessage()
 
           return
         }
@@ -202,6 +206,7 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<GraphqlClientHashKeys, AppFormClerk>
  *   statusReactive: StatusReactive
+ *   errorMessageHashReactive: import('vue').Reactive<Record<string, string | null>>
  *   currentStepRef: import('vue').Ref<number>
  *   addCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} AddCompetitionPageContextParams

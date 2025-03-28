@@ -27,6 +27,24 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   }
 
   /**
+   * get: errorMessageHash
+   *
+   * @returns {Record<string, string | null>}
+   */
+  get errorMessageHash () {
+    return this.props.errorMessageHash
+  }
+
+  /**
+   * get: addCompetitionErrorMessage
+   *
+   * @returns {string | null}
+   */
+  get addCompetitionErrorMessage () {
+    return this.errorMessageHash.addCompetition
+  }
+
+  /**
    * Go to step.
    *
    * @param {{
