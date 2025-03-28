@@ -311,7 +311,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {boolean} `true` if has phantom wallet.
    */
   hasPhantomWallet () {
-    return Boolean(window.phantom?.solana)
+    return Boolean(window.phantom?.solana?.isPhantom)
   }
 
   /**
