@@ -191,6 +191,8 @@ export const WALLETS = {
   },
 }
 
+export const PHANTOM_DOWNLOAD_LINK = 'https://phantom.com/download'
+
 // Extension wallet EIP-6963 identifiers
 export const MIPD_RDNS_HASH = {
   PHANTOM: 'app.phantom',

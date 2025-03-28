@@ -92,9 +92,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    */
   generateDisplayedWallets () {
     const injectedWallets = this.generateInjectedWallets()
+    const phantomWallet = this.generatePhantomWallet()
 
     return [
       ...injectedWallets,
+      phantomWallet,
     ]
   }
 
@@ -116,8 +118,8 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       .filter(wallet =>
         // Remove Metamask. We will always show it at the first spot if it exists
         wallet.details.info.rdns !== MIPD_RDNS_HASH.METAMASK
-        // // Remove Phantom EVM support
-        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
+        // Remove Phantom EVM support
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
         // Remove Keplr EVM support since Keplr Cosmos is supported
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
         // // Remove Coinbase injected support because the regular Coinbase connector already supports
@@ -136,6 +138,28 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       ...normalizedInjectedWallets,
     ]
       .filter(it => it !== null)
+  }
+
+  /**
+   * Generate Phantom Solana wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generatePhantomWallet () {
+    const downloadLink = this.hasPhantomWallet()
+      ? null
+      : 'https://phantom.app/download'
+    const connectorType = this.hasPhantomWallet()
+      ? CONNECTOR_TYPE.PHANTOM_SOLANA
+      : CONNECTOR_TYPE.DOWNLOAD_WALLET
+
+    return {
+      connectorType,
+      icon: '/img/wallets/phantom.svg',
+      name: 'Phantom',
+      rdns: MIPD_RDNS_HASH.PHANTOM,
+      downloadLink,
+    }
   }
 
   /**
@@ -216,6 +240,19 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   async selectWallet ({
     wallet,
   }) {
+    if (
+      wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
+      && wallet.downloadLink
+    ) {
+      window.open(wallet.downloadLink, '_blank')
+
+      return
+    }
+
+    this.walletStore.setWalletDetail({
+      walletDetail: wallet,
+    })
+
     await this.connectWallet({
       wallet,
     })
@@ -239,23 +276,59 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     wallet,
   }) {
     try {
-      const connector = this.resolveWagmiConnector({
-        wallet,
-      })
-      const connectionResult = await connectWagmi(wagmiConfig, {
-        connector,
-      })
+      if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+        await this.connectToEvmNetwork({
+          wallet,
+        })
+      }
 
-      const [firstAccountAddress] = connectionResult.accounts
-
-      this.walletStore.setSourceAddress({
-        address: firstAccountAddress,
-        // TODO: Other chain types.
-        chain: WALLET_NETWORK_TYPE.EVM,
-      })
+      if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+        await this.connectPhantom()
+      }
     } catch (error) {
       // TODO: Handle error.
     }
+  }
+
+  /**
+   * Connect to EVM network.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async connectToEvmNetwork ({
+    wallet,
+  }) {
+    const connector = this.resolveWagmiConnector({
+      wallet,
+    })
+    const connectionResult = await connectWagmi(wagmiConfig, {
+      connector,
+    })
+
+    const [firstAccountAddress] = connectionResult.accounts
+
+    this.walletStore.setSourceAddress({
+      address: firstAccountAddress,
+      chain: WALLET_NETWORK_TYPE.EVM,
+    })
+  }
+
+  /**
+   * Connect Phantom Solana wallet.
+   *
+   * @returns {Promise<void>}
+   */
+  async connectPhantom () {
+    const response = await window.phantom.solana.connect()
+    const publicKey = response.publicKey.toBase58()
+
+    this.walletStore.setSourceAddress({
+      address: publicKey,
+      chain: WALLET_NETWORK_TYPE.SOLANA,
+    })
   }
 
   /**
@@ -284,7 +357,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {boolean} `true` if has phantom wallet.
    */
   hasPhantomWallet () {
-    return Boolean(window.phantom?.solana)
+    return Boolean(window.phantom?.solana?.isPhantom)
   }
 
   /**
@@ -324,5 +397,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  *   name: string
  *   icon: string
  *   rdns: string
+ *   downloadLink?: string | null
  * }} WalletDetails
  */
