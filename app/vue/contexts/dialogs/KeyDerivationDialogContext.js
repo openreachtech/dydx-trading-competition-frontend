@@ -23,6 +23,7 @@ import {
 
 import {
   WALLETS_CONFIG_HASH,
+  CONNECTOR_TYPE,
 } from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -95,17 +96,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       return
     }
 
-    const typedMessage = this.generateTypedMessage({
-      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
-    })
-
-    const firstSignature = await signWagmiTypedMessage(wagmiConfig, {
-      ...typedMessage,
-      domain: {
-        ...typedMessage.domain,
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      },
-    })
+    const firstSignature = await this.signMessage()
 
     const {
       wallet,
@@ -113,13 +104,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       signature: firstSignature,
     })
 
-    const secondSignature = await signWagmiTypedMessage(wagmiConfig, {
-      ...typedMessage,
-      domain: {
-        ...typedMessage.domain,
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      },
-    })
+    const secondSignature = await this.signMessage()
 
     if (firstSignature !== secondSignature) {
       throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
@@ -134,6 +119,37 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     })
 
     this.dismissDialog()
+  }
+
+  /**
+   * Sign a message.
+   *
+   * @returns {Promise<`0x${string}`>} Signature
+   * @throws {Error} If connector type was not found.
+   */
+  async signMessage () {
+    const selectedConnectorType = this.walletStore.walletStoreRef.value.sourceAccount.walletDetail?.connectorType
+    if (!selectedConnectorType) {
+      throw new Error('Can not derive keys without a connected wallet')
+    }
+
+    const typedMessage = this.generateTypedMessage({
+      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
+    })
+
+    if (selectedConnectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+      // ...Connect solana
+    }
+
+    const signature = await signWagmiTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+
+    return signature
   }
 
   /**
