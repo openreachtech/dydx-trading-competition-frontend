@@ -53,7 +53,7 @@ export default defineComponent({
   >
     <template #title>
       <span class="unit-title">
-        <img src="/img/wallets/metamask.svg"
+        <img :src="context.generateWalletIconSource()"
           alt="MetaMask"
           class="image"
         >

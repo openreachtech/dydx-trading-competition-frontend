@@ -342,6 +342,19 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       return false
     }
   }
+
+  /**
+   * Generate wallet icon source.
+   *
+   * @returns {string}
+   */
+  generateWalletIconSource () {
+    return this.walletStore.walletStoreRef.value
+      .sourceAccount
+      .walletDetail
+      ?.icon
+      ?? '/img/wallets/generic-wallet.svg'
+  }
 }
 
 /**
