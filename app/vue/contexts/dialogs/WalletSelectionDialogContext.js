@@ -249,6 +249,10 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       return
     }
 
+    this.walletStore.setWalletDetail({
+      walletDetail: wallet,
+    })
+
     await this.connectWallet({
       wallet,
     })
