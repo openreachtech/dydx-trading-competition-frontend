@@ -272,23 +272,40 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     wallet,
   }) {
     try {
-      const connector = this.resolveWagmiConnector({
-        wallet,
-      })
-      const connectionResult = await connectWagmi(wagmiConfig, {
-        connector,
-      })
-
-      const [firstAccountAddress] = connectionResult.accounts
-
-      this.walletStore.setSourceAddress({
-        address: firstAccountAddress,
-        // TODO: Other chain types.
-        chain: WALLET_NETWORK_TYPE.EVM,
-      })
+      if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+        await this.connectToEvmNetwork({
+          wallet,
+        })
+      }
     } catch (error) {
       // TODO: Handle error.
     }
+  }
+
+  /**
+   * Connect to EVM network.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async connectToEvmNetwork ({
+    wallet,
+  }) {
+    const connector = this.resolveWagmiConnector({
+      wallet,
+    })
+    const connectionResult = await connectWagmi(wagmiConfig, {
+      connector,
+    })
+
+    const [firstAccountAddress] = connectionResult.accounts
+
+    this.walletStore.setSourceAddress({
+      address: firstAccountAddress,
+      chain: WALLET_NETWORK_TYPE.EVM,
+    })
   }
 
   /**
