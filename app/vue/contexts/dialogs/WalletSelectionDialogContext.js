@@ -277,6 +277,10 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
           wallet,
         })
       }
+
+      if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+        await this.connectPhantom()
+      }
     } catch (error) {
       // TODO: Handle error.
     }
@@ -305,6 +309,21 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     this.walletStore.setSourceAddress({
       address: firstAccountAddress,
       chain: WALLET_NETWORK_TYPE.EVM,
+    })
+  }
+
+  /**
+   * Connect Phantom Solana wallet.
+   *
+   * @returns {Promise<void>}
+   */
+  async connectPhantom () {
+    const response = await window.phantom.solana.connect()
+    const publicKey = response.publicKey.toBase58()
+
+    this.walletStore.setSourceAddress({
+      address: publicKey,
+      chain: WALLET_NETWORK_TYPE.SOLANA,
     })
   }
 
