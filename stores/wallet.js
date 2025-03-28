@@ -211,14 +211,10 @@ export default function useWalletStore () {
 
 /**
  * @typedef {{
- *   connectorType: string
- *   icon: `data:image/${string}` // RFC-2397
+ *   connectorType: (typeof import('~/app/constants').CONNECTOR_TYPE)[keyof typeof import('~/app/constants').CONNECTOR_TYPE]
  *   name: string
+ *   icon: string
  *   rdns: string
- * }
- *   | {
- *     connectorType: string
- *     name: string
- *   }
- * } WalletDetail
+ *   downloadLink?: string | null
+ * }} WalletDetail
  */
