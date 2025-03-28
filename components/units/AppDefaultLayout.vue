@@ -185,6 +185,8 @@ export default defineComponent({
   border-top-style: solid;
   border-top-color: var(--color-border-default);
 
+  padding-inline: var(--size-body-padding-inline-mobile);
+
   height: var(--size-footer-height);
 
   display: flex;
@@ -192,6 +194,10 @@ export default defineComponent({
   align-items: center;
 
   background-color: var(--color-background-footer);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
+  }
 }
 
 /*********************** Sidebars ***************************/
