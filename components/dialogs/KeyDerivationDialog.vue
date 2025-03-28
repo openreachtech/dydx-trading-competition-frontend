@@ -75,7 +75,7 @@ export default defineComponent({
           </span>
 
           <AppButton class="button"
-            @click="context.signWagmiTypedMessage()"
+            @click="context.deriveKeys()"
           >
             Send Request
           </AppButton>

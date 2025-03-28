@@ -1,6 +1,6 @@
 import {
   switchChain,
-  signTypedData as signTypedMessage,
+  signTypedData as signWagmiTypedMessage,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
 
@@ -22,7 +22,12 @@ import {
 } from '@cosmjs/encoding'
 
 import {
+  Buffer,
+} from 'node:buffer'
+
+import {
   WALLETS_CONFIG_HASH,
+  CONNECTOR_TYPE,
 } from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -88,24 +93,14 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    *
    * @returns {Promise<void>}
    */
-  async signWagmiTypedMessage () {
+  async deriveKeys () {
     const networkMatchingResult = await this.matchNetwork()
 
     if (!networkMatchingResult) {
       return
     }
 
-    const typedMessage = this.generateTypedMessage({
-      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
-    })
-
-    const firstSignature = await signTypedMessage(wagmiConfig, {
-      ...typedMessage,
-      domain: {
-        ...typedMessage.domain,
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      },
-    })
+    const firstSignature = await this.signMessage()
 
     const {
       wallet,
@@ -113,13 +108,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       signature: firstSignature,
     })
 
-    const secondSignature = await signTypedMessage(wagmiConfig, {
-      ...typedMessage,
-      domain: {
-        ...typedMessage.domain,
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      },
-    })
+    const secondSignature = await this.signMessage()
 
     if (firstSignature !== secondSignature) {
       throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
@@ -134,6 +123,65 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     })
 
     this.dismissDialog()
+  }
+
+  /**
+   * Sign a message.
+   *
+   * @returns {Promise<`0x${string}`>} Signature
+   * @throws {Error} If connector type was not found.
+   */
+  async signMessage () {
+    const selectedConnectorType = this.walletStore.walletStoreRef.value.sourceAccount.walletDetail?.connectorType
+    if (!selectedConnectorType) {
+      throw new Error('Can not derive keys without a connected wallet')
+    }
+
+    const typedMessage = this.generateTypedMessage({
+      selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
+    })
+
+    if (selectedConnectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+      const solanaSignature = await this.signSolanaMessage({
+        typedMessage,
+      })
+
+      return solanaSignature
+    }
+
+    const signature = await signWagmiTypedMessage(wagmiConfig, {
+      ...typedMessage,
+      domain: {
+        ...typedMessage.domain,
+        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+      },
+    })
+
+    return signature
+  }
+
+  /**
+   * Sign Solana message.
+   *
+   * @param {{
+   *   typedMessage: TypedMessage
+   * }} params - Parameters.
+   * @returns {Promise<`0x${string}`>} Signature
+   */
+  async signSolanaMessage ({
+    typedMessage,
+  }) {
+    const message = JSON.stringify(typedMessage)
+    const encodedMessage = new TextEncoder()
+      .encode(message)
+    const signedMessage = await window.phantom.solana.signMessage(encodedMessage, 'utf8')
+    // Left pad the signature with a 0 byte so that the signature is 65 bytes long, a solana signature is 64 bytes by default.
+    const signature = /** @type {`0x${string}`} */ (
+      Buffer.from([0, ...signedMessage.signature])
+        .toString('hex')
+    )
+
+    return signature
   }
 
   /**
