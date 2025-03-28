@@ -1,6 +1,6 @@
 import {
   switchChain,
-  signTypedData as signTypedMessage,
+  signTypedData as signWagmiTypedMessage,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
 
@@ -99,7 +99,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       selectedDydxChainId: this.accountStore.selectedDydxChainIdComputed.value,
     })
 
-    const firstSignature = await signTypedMessage(wagmiConfig, {
+    const firstSignature = await signWagmiTypedMessage(wagmiConfig, {
       ...typedMessage,
       domain: {
         ...typedMessage.domain,
@@ -113,7 +113,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       signature: firstSignature,
     })
 
-    const secondSignature = await signTypedMessage(wagmiConfig, {
+    const secondSignature = await signWagmiTypedMessage(wagmiConfig, {
       ...typedMessage,
       domain: {
         ...typedMessage.domain,
