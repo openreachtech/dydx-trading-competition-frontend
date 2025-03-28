@@ -92,9 +92,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    */
   generateDisplayedWallets () {
     const injectedWallets = this.generateInjectedWallets()
+    const phantomWallet = this.generatePhantomWallet()
 
     return [
       ...injectedWallets,
+      phantomWallet,
     ]
   }
 
@@ -116,8 +118,8 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       .filter(wallet =>
         // Remove Metamask. We will always show it at the first spot if it exists
         wallet.details.info.rdns !== MIPD_RDNS_HASH.METAMASK
-        // // Remove Phantom EVM support
-        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
+        // Remove Phantom EVM support
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
         // Remove Keplr EVM support since Keplr Cosmos is supported
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
         // // Remove Coinbase injected support because the regular Coinbase connector already supports
@@ -136,6 +138,25 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       ...normalizedInjectedWallets,
     ]
       .filter(it => it !== null)
+  }
+
+  /**
+   * Generate Phantom Solana wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generatePhantomWallet () {
+    const downloadLink = this.hasPhantomWallet()
+      ? null
+      : 'https://phantom.app/download'
+
+    return {
+      connectorType: CONNECTOR_TYPE.INJECTED,
+      icon: '/img/wallets/phantom.svg',
+      name: 'Phantom',
+      rdns: MIPD_RDNS_HASH.PHANTOM,
+      downloadLink,
+    }
   }
 
   /**
@@ -324,5 +345,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
  *   name: string
  *   icon: string
  *   rdns: string
+ *   downloadLink?: string | null
  * }} WalletDetails
  */
