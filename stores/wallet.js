@@ -1,4 +1,8 @@
 import {
+  watch,
+} from 'vue'
+
+import {
   useState,
 } from '#imports'
 
@@ -40,6 +44,16 @@ export default function useWalletStore () {
 
   /** @type {import('vue').Ref<WalletState>} */
   const walletStateRef = useState('wallet', () => generateInitialWalletState())
+
+  watch(
+    walletStateRef,
+    state => {
+      localStorageClerk.set(STORAGE_KEY.WALLET, JSON.stringify(state))
+    },
+    {
+      deep: true,
+    }
+  )
 
   return {
     walletStoreRef: walletStateRef,
