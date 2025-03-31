@@ -10,6 +10,7 @@ export const STORAGE_KEY = {
   ACCESS_TOKEN: 'access_token',
 
   SELECTED_NETWORK: 'dydx.SelectedNetwork',
+  WALLET: 'wallet',
 }
 
 export const ORDINAL_SUFFIX_HASH = {
