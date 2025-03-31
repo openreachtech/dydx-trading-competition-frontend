@@ -26,17 +26,25 @@ export default class PhantomConnector {
    */
   static create ({
     walletStore,
+    provider = this.getPhantomSolanaProvider(),
   }) {
-    const provider = window.phantom
-      ?.solana
-      ?? null
-
     return /** @type {InstanceType<T>} */ (
       new this({
         provider,
         walletStore,
       })
     )
+  }
+
+  /**
+   * Get Phantom Solana wallet provider.
+   *
+   * @returns {any}
+   */
+  static getPhantomSolanaProvider () {
+    return window.phantom
+      ?.solana
+      ?? null
   }
 
   /**
@@ -76,9 +84,7 @@ export default class PhantomConnector {
  */
 
 /**
- * @typedef {Omit<PhantomConnectorParams, FactoryOmittedKeys>} PhantomConnectorFactoryParams
- */
-
-/**
- * @typedef {'provider'} FactoryOmittedKeys
+ * @typedef {Pick<PhantomConnectorParams, 'walletStore'> & {
+ *   provider?: any // Type of `window.phantom.solana`. Don't know the exact type right now.
+ * }} PhantomConnectorFactoryParams
  */
