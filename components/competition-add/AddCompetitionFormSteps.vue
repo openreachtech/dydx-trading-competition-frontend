@@ -8,6 +8,7 @@ import {
 } from '#components'
 
 import AppButton from '~/components/units/AppButton.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import AddCompetitionFormStepsContext from '~/app/vue/contexts/competition/AddCompetitionFormStepsContext'
 
@@ -20,12 +21,22 @@ export default defineComponent({
   components: {
     Icon,
     AppButton,
+    AppMessage,
   },
 
   props: {
     currentStep: {
       type: Number,
       required: true,
+    },
+    errorMessageHash: {
+      /** @type {import('vue').PropType<Record<string, string | null> | null>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
     },
   },
 
@@ -99,6 +110,13 @@ export default defineComponent({
         Please complete all steps above to host your new trading league.
       </p>
     </div>
+
+    <AppMessage severity="error"
+      variant="box"
+      :is-hidden="!context.addCompetitionErrorMessage"
+    >
+      {{ context.addCompetitionErrorMessage }}
+    </AppMessage>
 
     <div class="unit-actions">
       <AppButton class="button"

@@ -50,6 +50,10 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
     })
+    /** @type {import('vue').Reactive<Record<string, string | null>>} */
+    const errorMessageHashReactive = reactive({
+      addCompetition: null,
+    })
 
     const args = {
       props,
@@ -61,6 +65,7 @@ export default defineComponent({
         addCompetition: addCompetitionFormClerk,
       },
       statusReactive,
+      errorMessageHashReactive,
     }
     const context = AddCompetitionPageContext.create(args)
       .setupComponent()
@@ -108,6 +113,7 @@ export default defineComponent({
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+          :error-message-hash="context.errorMessageHashReactive"
           @go-to-step="context.goToStep($event)"
         />
       </form>
