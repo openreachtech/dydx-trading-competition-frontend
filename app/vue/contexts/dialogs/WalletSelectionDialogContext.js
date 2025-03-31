@@ -1,11 +1,4 @@
-import {
-  connect as connectWagmi,
-} from '@wagmi/core'
-import {
-  injected,
-} from '@wagmi/connectors'
-import wagmiConfig from '~/wagmi.config'
-
+import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -13,7 +6,6 @@ import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 import {
   MIPD_RDNS_HASH,
   ONBOARDING_STATUS,
-  WALLET_NETWORK_TYPE,
   WALLETS,
   CONNECTOR_TYPE,
 } from '~/app/constants'
@@ -108,9 +100,13 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {Array<WalletDetails>}
    */
   generateInjectedWallets () {
+    const wagmiConnector = WagmiConnector.create({
+      mipdStore: this.mipdStore,
+      walletStore: this.walletStore,
+    })
     const providers = this.mipdStore.getProviders()
     const injectedWallets = providers.map(providerDetails => ({
-      connector: this.generateConnectorFromProvider({
+      connector: wagmiConnector.generateConnectorFromProvider({
         providerDetails,
       }),
       details: providerDetails,
@@ -192,50 +188,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
-   * Extract MIPD connector from rdns.
-   *
-   * @param {{
-   *   rdns: string
-   * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected | null}
-   */
-  extractMipdConnectorFromRdns ({
-    rdns,
-  }) {
-    const providerDetails = this.mipdStore.findProvider({
-      rdns,
-    })
-
-    if (!providerDetails) {
-      return null
-    }
-
-    return this.generateConnectorFromProvider({
-      providerDetails,
-    })
-  }
-
-  /**
-   * Generate connector from provider.
-   *
-   * @param {{
-   *   providerDetails: import('mipd').EIP6963ProviderDetail
-   * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected>}
-   */
-  generateConnectorFromProvider ({
-    providerDetails,
-  }) {
-    return injected({
-      target: {
-        ...providerDetails.info,
-        id: providerDetails.info.rdns,
-        provider: providerDetails.provider,
-      },
-    })
-  }
-
-  /**
    * Select wallet.
    *
    * @param {{
@@ -283,7 +235,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }) {
     try {
       if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
-        await this.connectToEvmNetwork({
+        const wagmiConnector = WagmiConnector.create({
+          mipdStore: this.mipdStore,
+          walletStore: this.walletStore,
+        })
+
+        await wagmiConnector.connectToEvmNetwork({
           wallet,
         })
       }
@@ -298,52 +255,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     } catch (error) {
       // TODO: Handle error.
     }
-  }
-
-  /**
-   * Connect to EVM network.
-   *
-   * @param {{
-   *   wallet: WalletDetails
-   * }} params - Parameters.
-   * @returns {Promise<void>}
-   */
-  async connectToEvmNetwork ({
-    wallet,
-  }) {
-    const connector = this.resolveWagmiConnector({
-      wallet,
-    })
-    const connectionResult = await connectWagmi(wagmiConfig, {
-      connector,
-    })
-
-    const [firstAccountAddress] = connectionResult.accounts
-
-    this.walletStore.setSourceAddress({
-      address: firstAccountAddress,
-      chain: WALLET_NETWORK_TYPE.EVM,
-    })
-  }
-
-  /**
-   * Resolve wagmi connector.
-   *
-   * @param {{
-   *   wallet: WalletDetails
-   * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected | null>}
-   */
-  resolveWagmiConnector ({
-    wallet,
-  }) {
-    if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
-      return this.extractMipdConnectorFromRdns({
-        rdns: wallet.rdns,
-      })
-    }
-
-    return null
   }
 
   /**
