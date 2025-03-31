@@ -91,6 +91,15 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: defaultWalletImageUrl
+   *
+   * @returns {string}
+   */
+  static get defaultWalletImageUrl () {
+    return '/img/wallets/generic-wallet.svg'
+  }
+
+  /**
    * Attempt to sign a typed message with wagmi.
    *
    * @returns {Promise<void>}
@@ -341,6 +350,19 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     } catch (error) {
       return false
     }
+  }
+
+  /**
+   * Generate wallet icon source.
+   *
+   * @returns {string}
+   */
+  generateWalletIconSource () {
+    return this.walletStore.walletStoreRef.value
+      .sourceAccount
+      .walletDetail
+      ?.icon
+      ?? this.Ctor.defaultWalletImageUrl
   }
 }
 
