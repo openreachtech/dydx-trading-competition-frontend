@@ -2,14 +2,23 @@ import {
   useState,
 } from '#imports'
 
+import {
+  StorageClerk,
+} from '@openreachtech/furo'
+
+import {
+  STORAGE_KEY,
+} from '~/app/constants'
+
 /**
  * Use walletStore.
  *
  * @returns {WalletStore}
  */
 export default function useWalletStore () {
-  /** @type {import('vue').Ref<WalletState>} */
-  const walletStateRef = useState('wallet', () => ({
+  const localStorageClerk = StorageClerk.createAsLocal()
+  const storageWalletState = localStorageClerk.get(STORAGE_KEY.WALLET)
+  const defaultWalletState = {
     sourceAccount: {
       address: null,
       chain: null,
@@ -27,7 +36,10 @@ export default function useWalletStore () {
       address: null,
     },
     localWalletNonce: null,
-  }))
+  }
+
+  /** @type {import('vue').Ref<WalletState>} */
+  const walletStateRef = useState('wallet', () => generateInitialWalletState())
 
   return {
     walletStoreRef: walletStateRef,
@@ -40,6 +52,35 @@ export default function useWalletStore () {
     setSourceAddress,
     setWalletDetail,
     setLocalWallet,
+  }
+
+  /**
+   * Generate initial wallet state value.
+   *
+   * @returns {WalletState}
+   */
+  function generateInitialWalletState () {
+    if (!storageWalletState) {
+      return defaultWalletState
+    }
+
+    const parsedStorageWalletState = JSON.parse(storageWalletState)
+
+    return {
+      sourceAccount: {
+        ...defaultWalletState.sourceAccount,
+        ...(parsedStorageWalletState.sourceAccount ?? {}),
+      },
+      localWallet: {
+        ...defaultWalletState.localWallet,
+        ...(parsedStorageWalletState.localWallet ?? {}),
+      },
+      credential: {
+        ...defaultWalletState.credential,
+        ...(parsedStorageWalletState.credential ?? {}),
+      },
+      localWalletNonce: parsedStorageWalletState.localWalletNonce ?? null,
+    }
   }
 
   /**
