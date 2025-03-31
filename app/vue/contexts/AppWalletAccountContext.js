@@ -73,6 +73,15 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     )
   }
 
+  /**
+   * get: defaultWalletImageUrl
+   *
+   * @returns {string}
+   */
+  static get defaultWalletImageUrl () {
+    return '/img/wallets/generic-wallet.svg'
+  }
+
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
@@ -152,7 +161,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       .sourceAccount
       .walletDetail
       ?.icon
-      ?? '/img/wallets/generic-wallet.svg'
+      ?? this.Ctor.defaultWalletImageUrl
   }
 
   /**
