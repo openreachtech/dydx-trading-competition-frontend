@@ -1,6 +1,7 @@
 import {
   connect as connectWagmi,
   reconnect as reconnectWagmi,
+  disconnect as disconnectWagmi,
   getAccount as getAccountWagmi,
 } from '@wagmi/core'
 import {
@@ -117,6 +118,27 @@ export default class WagmiConnector {
         address: firstAccountAddress,
         chain: WALLET_NETWORK_TYPE.EVM,
       })
+
+      return true
+    } catch (error) {
+      // TODO: Handle error.
+      return false
+    }
+  }
+
+  /**
+   * Disconnect from EVM network.
+   *
+   * @returns {Promise<boolean>}
+   */
+  async disconnectFromEvmNetwork () {
+    const account = getAccountWagmi(wagmiConfig)
+    if (!account.isConnected) {
+      return false
+    }
+
+    try {
+      await disconnectWagmi(wagmiConfig)
 
       return true
     } catch (error) {

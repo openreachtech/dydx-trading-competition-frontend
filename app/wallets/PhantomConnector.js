@@ -74,6 +74,21 @@ export default class PhantomConnector {
   }
 
   /**
+   * Disconnect Phantom Solana.
+   *
+   * @returns {boolean}
+   */
+  disconnectPhantom () {
+    if (!this.hasPhantomWallet()) {
+      return false
+    }
+
+    this.provider.disconnect()
+
+    return true
+  }
+
+  /**
    * Has phantom wallet or not.
    *
    * @returns {boolean} `true` if has phantom wallet.
