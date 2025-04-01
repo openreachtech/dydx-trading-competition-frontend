@@ -86,13 +86,26 @@ export default class WagmiConnector {
   resolveWagmiConnector ({
     wallet,
   }) {
-    if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
-      return this.extractMipdConnectorFromRdns({
+    const handlerMap = this.generateConnectorHandlerMap()
+
+    return handlerMap[wallet.connectorType]?.(wallet)
+      ?? null
+  }
+
+  /**
+   * Generate handler map for connectors.
+   *
+   * @returns {Record<string, ConnectorResolver>}
+   */
+  generateConnectorHandlerMap () {
+    /** @type {Record<string, ConnectorResolver>} */
+    const handlerMap = {
+      [CONNECTOR_TYPE.INJECTED]: wallet => this.extractMipdConnectorFromRdns({
         rdns: wallet.rdns,
-      })
+      }),
     }
 
-    return null
+    return handlerMap
   }
 
   /**
@@ -149,4 +162,10 @@ export default class WagmiConnector {
 
 /**
  * @typedef {WagmiConnectorParams} WagmiConnectorFactoryParams
+ */
+
+/**
+ * @typedef {(
+ *   wallet: import('~/stores/wallet').WalletDetail
+ * ) => ReturnType<import('@wagmi/connectors').injected> | null} ConnectorResolver
  */
