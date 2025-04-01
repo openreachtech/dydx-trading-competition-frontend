@@ -100,10 +100,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {Array<WalletDetails>}
    */
   generateInjectedWallets () {
-    const wagmiConnector = WagmiConnector.create({
-      mipdStore: this.mipdStore,
-      walletStore: this.walletStore,
-    })
+    const wagmiConnector = this.createWagmiConnector()
     const providers = this.mipdStore.getProviders()
     const injectedWallets = providers.map(providerDetails => ({
       connector: wagmiConnector.generateConnectorFromProvider({
@@ -144,9 +141,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {WalletDetails}
    */
   generatePhantomWallet () {
-    const phantomConnector = PhantomConnector.create({
-      walletStore: this.walletStore,
-    })
+    const phantomConnector = this.createPhantomConnector()
 
     const downloadLink = phantomConnector.hasPhantomWallet()
       ? null
@@ -235,10 +230,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }) {
     try {
       if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
-        const wagmiConnector = WagmiConnector.create({
-          mipdStore: this.mipdStore,
-          walletStore: this.walletStore,
-        })
+        const wagmiConnector = this.createWagmiConnector()
 
         await wagmiConnector.connectToEvmNetwork({
           wallet,
@@ -246,9 +238,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       }
 
       if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-        const phantomConnector = PhantomConnector.create({
-          walletStore: this.walletStore,
-        })
+        const phantomConnector = this.createPhantomConnector()
 
         await phantomConnector.connectPhantom()
       }
@@ -265,6 +255,29 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   get supportedWallets () {
     // TODO: If wallet extensions are not installed, return their download link.
     return WALLETS
+  }
+
+  /**
+   * Create WagmiConnector instance.
+   *
+   * @returns {WagmiConnector}
+   */
+  createWagmiConnector () {
+    return WagmiConnector.create({
+      mipdStore: this.mipdStore,
+      walletStore: this.walletStore,
+    })
+  }
+
+  /**
+   * Create PhantomConnector instance.
+   *
+   * @returns {PhantomConnector}
+   */
+  createPhantomConnector () {
+    return PhantomConnector.create({
+      walletStore: this.walletStore,
+    })
   }
 }
 
