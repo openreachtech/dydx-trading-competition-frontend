@@ -34,6 +34,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
     accountStore,
     walletStore,
+    mipdStore,
     isShowingDropdownRef,
   }) {
     super({
@@ -43,6 +44,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
     this.accountStore = accountStore
     this.walletStore = walletStore
+    this.mipdStore = mipdStore
     this.isShowingDropdownRef = isShowingDropdownRef
   }
 
@@ -60,6 +62,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     componentContext,
     walletStore,
     accountStore,
+    mipdStore,
     isShowingDropdownRef,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -68,6 +71,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
         componentContext,
         walletStore,
         accountStore,
+        mipdStore,
         isShowingDropdownRef,
       })
     )
@@ -303,6 +307,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
+ *   mipdStore: ReturnType<import('mipd').createStore>
  *   isShowingDropdownRef: import('vue').Ref<boolean>
  * }} AppWalletAccountContextParams
  */
