@@ -4,16 +4,17 @@ import {
 
 import {
   disconnect as disconnectWagmi,
-  reconnect as reconnectWagmi,
 } from '@wagmi/core'
 import wagmiConfig from '~/wagmi.config'
+
+import WagmiConnector from '~/app/wallets/WagmiConnector'
 
 import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
 import {
-  WALLET_NETWORK_TYPE,
+  CONNECTOR_TYPE,
   ONBOARDING_STATUS,
 } from '~/app/constants'
 
@@ -135,24 +136,40 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async attemptWalletReconnection () {
-    const reconnectionResult = await reconnectWagmi(wagmiConfig)
+    const lastConnectorType = this.walletStore.walletStoreRef.value
+      .sourceAccount
+      .walletDetail
+      ?.connectorType
+      ?? null
 
-    if (reconnectionResult.length === 0) {
+    if (!lastConnectorType) {
       return
     }
 
-    const [firstReconnection] = reconnectionResult
-    const [firstAccountAddress] = firstReconnection.accounts
+    const handlerMap = this.reconnectionHandlerMap
 
-    this.walletStore.setSourceAddress({
-      address: firstAccountAddress,
-      // TODO: Other chain types.
-      chain: WALLET_NETWORK_TYPE.EVM,
-    })
-
+    await handlerMap[lastConnectorType]?.()
     this.accountStore.setOnboardingStatus({
       onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
     })
+  }
+
+  /**
+   * get: reconnectionHandlerMap
+   *
+   * @returns {Record<string, () => Promise<void>>}
+   */
+  get reconnectionHandlerMap () {
+    const wagmiConnector = WagmiConnector.create({
+      mipdStore: this.mipdStore,
+      walletStore: this.walletStore,
+    })
+
+    return {
+      [CONNECTOR_TYPE.INJECTED]: () => wagmiConnector.reconnectToEvmNetwork(),
+      [CONNECTOR_TYPE.COINBASE]: () => wagmiConnector.reconnectToEvmNetwork(),
+      [CONNECTOR_TYPE.WALLET_CONNECT]: () => wagmiConnector.reconnectToEvmNetwork(),
+    }
   }
 
   /**
