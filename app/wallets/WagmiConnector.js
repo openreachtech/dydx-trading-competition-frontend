@@ -59,6 +59,10 @@ export default class WagmiConnector {
     const connector = this.resolveWagmiConnector({
       wallet,
     })
+
+    if (!connector) {
+      return
+    }
     const connectionResult = await connectWagmi(wagmiConfig, {
       connector,
     })
@@ -77,7 +81,7 @@ export default class WagmiConnector {
    * @param {{
    *   wallet: import('~/stores/wallet').WalletDetail
    * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected | null>}
+   * @returns {ReturnType<import('@wagmi/connectors').injected> | null}
    */
   resolveWagmiConnector ({
     wallet,
@@ -97,7 +101,7 @@ export default class WagmiConnector {
    * @param {{
    *   rdns: string
    * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected | null>}
+   * @returns {ReturnType<import('@wagmi/connectors').injected> | null}
    */
   extractMipdConnectorFromRdns ({
     rdns,
