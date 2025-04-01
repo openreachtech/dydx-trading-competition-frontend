@@ -121,7 +121,11 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async attemptWalletDisconnection () {
-    await disconnectWagmi(wagmiConfig)
+    const wagmiConnector = this.createWagmiConnector()
+    const phantomConnector = this.createPhantomConnector()
+
+    wagmiConnector.disconnectFromEvmNetwork()
+    phantomConnector.disconnectPhantom()
 
     this.walletStore.clearSourceAccount()
     this.walletStore.clearLocalWallet()
