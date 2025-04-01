@@ -50,20 +50,27 @@ export default class PhantomConnector {
   /**
    * Connect Phantom Solana wallet.
    *
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>}
    */
   async connectPhantom () {
     if (!this.hasPhantomWallet()) {
-      return
+      return false
     }
 
-    const response = await this.provider.connect()
-    const publicKey = response.publicKey.toBase58()
+    try {
+      const response = await this.provider.connect()
+      const publicKey = response.publicKey.toBase58()
 
-    this.walletStore.setSourceAddress({
-      address: publicKey,
-      chain: WALLET_NETWORK_TYPE.SOLANA,
-    })
+      this.walletStore.setSourceAddress({
+        address: publicKey,
+        chain: WALLET_NETWORK_TYPE.SOLANA,
+      })
+
+      return true
+    } catch (error) {
+      // TODO: Handle error
+      return false
+    }
   }
 
   /**
