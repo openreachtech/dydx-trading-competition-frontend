@@ -99,13 +99,11 @@ export default class WagmiConnector {
    */
   generateConnectorHandlerMap () {
     /** @type {Record<string, ConnectorResolver>} */
-    const handlerMap = {
+    return {
       [CONNECTOR_TYPE.INJECTED]: wallet => this.extractMipdConnectorFromRdns({
         rdns: wallet.rdns,
       }),
     }
-
-    return handlerMap
   }
 
   /**
