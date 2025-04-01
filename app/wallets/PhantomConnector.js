@@ -1,3 +1,5 @@
+import useWalletStore from '~/stores/wallet'
+
 import {
   WALLET_NETWORK_TYPE,
 } from '~/app/constants'
@@ -20,14 +22,14 @@ export default class PhantomConnector {
    * Factory method of this class.
    *
    * @template {X extends typeof PhantomConnector ? X : never} T, X
-   * @param {PhantomConnectorFactoryParams} params - Parameters.
+   * @param {PhantomConnectorFactoryParams} [params] - Parameters.
    * @returns {InstanceType<T>} An instance of this class.
    * @this {T}
    */
   static create ({
-    walletStore,
+    walletStore = this.generateWalletStore(),
     provider = this.getPhantomSolanaProvider(),
-  }) {
+  } = {}) {
     return /** @type {InstanceType<T>} */ (
       new this({
         provider,
@@ -45,6 +47,15 @@ export default class PhantomConnector {
     return window.phantom
       ?.solana
       ?? null
+  }
+
+  /**
+   * Generate wallet store.
+   *
+   * @returns {import('~/stores/wallet').WalletStore}
+   */
+  static generateWalletStore () {
+    return useWalletStore()
   }
 
   /**
@@ -91,7 +102,5 @@ export default class PhantomConnector {
  */
 
 /**
- * @typedef {Pick<PhantomConnectorParams, 'walletStore'> & {
- *   provider?: any // Type of `window.phantom.solana`. Don't know the exact type right now.
- * }} PhantomConnectorFactoryParams
+ * @typedef {Partial<PhantomConnectorParams>} PhantomConnectorFactoryParams
  */
