@@ -8,6 +8,11 @@ import {
 } from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
+import useWalletStore from '~/stores/wallet'
+import {
+  createStore as createMipdStore,
+} from 'mipd'
+
 import {
   CONNECTOR_TYPE,
   WALLET_NETWORK_TYPE,
@@ -31,20 +36,38 @@ export default class WagmiConnector {
    * Factory method of this class.
    *
    * @template {X extends typeof WagmiConnector ? X : never} T, X
-   * @param {WagmiConnectorFactoryParams} params - Parameters.
+   * @param {WagmiConnectorFactoryParams} [params] - Parameters.
    * @returns {InstanceType<T>} An instance of this class.
    * @this {T}
    */
   static create ({
-    mipdStore,
-    walletStore,
-  }) {
+    mipdStore = this.generateMipdStore(),
+    walletStore = this.generateWalletStore(),
+  } = {}) {
     return /** @type {InstanceType<T>} */ (
       new this({
         mipdStore,
         walletStore,
       })
     )
+  }
+
+  /**
+   * Generate wallet store.
+   *
+   * @returns {import('~/stores/wallet').WalletStore}
+   */
+  static generateWalletStore () {
+    return useWalletStore()
+  }
+
+  /**
+   * Generate MIPD store.
+   *
+   * @returns {ReturnType<import('mipd').createStore>}
+   */
+  static generateMipdStore () {
+    return createMipdStore()
   }
 
   /**
@@ -209,7 +232,7 @@ export default class WagmiConnector {
  */
 
 /**
- * @typedef {WagmiConnectorParams} WagmiConnectorFactoryParams
+ * @typedef {Partial<WagmiConnectorParams>} WagmiConnectorFactoryParams
  */
 
 /**
