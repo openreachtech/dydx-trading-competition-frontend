@@ -161,13 +161,8 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {Record<string, () => Promise<boolean>>}
    */
   get reconnectionHandlerMap () {
-    const wagmiConnector = WagmiConnector.create({
-      mipdStore: this.mipdStore,
-      walletStore: this.walletStore,
-    })
-    const phantomConnector = PhantomConnector.create({
-      walletStore: this.walletStore,
-    })
+    const wagmiConnector = WagmiConnector.create()
+    const phantomConnector = PhantomConnector.create()
 
     return {
       [CONNECTOR_TYPE.INJECTED]: () => wagmiConnector.reconnectToEvmNetwork(),
