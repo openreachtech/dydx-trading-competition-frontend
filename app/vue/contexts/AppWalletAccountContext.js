@@ -8,6 +8,7 @@ import {
 import wagmiConfig from '~/wagmi.config'
 
 import WagmiConnector from '~/app/wallets/WagmiConnector'
+import PhantomConnector from '~/app/wallets/PhantomConnector'
 
 import {
   BaseFuroContext,
@@ -164,11 +165,15 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       mipdStore: this.mipdStore,
       walletStore: this.walletStore,
     })
+    const phantomConnector = PhantomConnector.create({
+      walletStore: this.walletStore,
+    })
 
     return {
       [CONNECTOR_TYPE.INJECTED]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.COINBASE]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.WALLET_CONNECT]: () => wagmiConnector.reconnectToEvmNetwork(),
+      [CONNECTOR_TYPE.PHANTOM_SOLANA]: () => phantomConnector.connectPhantom(),
     }
   }
 
