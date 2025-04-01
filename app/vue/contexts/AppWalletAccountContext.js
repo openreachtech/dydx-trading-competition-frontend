@@ -161,10 +161,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {Record<string, () => Promise<boolean>>}
    */
   get reconnectionHandlerMap () {
-    const wagmiConnector = WagmiConnector.create({
-      mipdStore: this.mipdStore,
-      walletStore: this.walletStore,
-    })
+    const wagmiConnector = this.createWagmiConnector()
     const phantomConnector = PhantomConnector.create({
       walletStore: this.walletStore,
     })
@@ -322,6 +319,18 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       'show-dropdown': this.isShowingDropdownRef.value,
       recovered: this.hasRecoveredLocalWallet(),
     }
+  }
+
+  /**
+   * Create WagmiConnector instance.
+   *
+   * @returns {WagmiConnector}
+   */
+  createWagmiConnector () {
+    return WagmiConnector.create({
+      mipdStore: this.mipdStore,
+      walletStore: this.walletStore,
+    })
   }
 }
 
