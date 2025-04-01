@@ -141,9 +141,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {WalletDetails}
    */
   generatePhantomWallet () {
-    const phantomConnector = PhantomConnector.create({
-      walletStore: this.walletStore,
-    })
+    const phantomConnector = this.createPhantomConnector()
 
     const downloadLink = phantomConnector.hasPhantomWallet()
       ? null
@@ -240,9 +238,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       }
 
       if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-        const phantomConnector = PhantomConnector.create({
-          walletStore: this.walletStore,
-        })
+        const phantomConnector = this.createPhantomConnector()
 
         await phantomConnector.connectPhantom()
       }
@@ -269,6 +265,17 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   createWagmiConnector () {
     return WagmiConnector.create({
       mipdStore: this.mipdStore,
+      walletStore: this.walletStore,
+    })
+  }
+
+  /**
+   * Create PhantomConnector instance.
+   *
+   * @returns {PhantomConnector}
+   */
+  createPhantomConnector () {
+    return PhantomConnector.create({
       walletStore: this.walletStore,
     })
   }
