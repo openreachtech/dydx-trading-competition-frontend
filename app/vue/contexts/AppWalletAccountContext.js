@@ -2,11 +2,6 @@ import {
   onMounted,
 } from 'vue'
 
-import {
-  disconnect as disconnectWagmi,
-} from '@wagmi/core'
-import wagmiConfig from '~/wagmi.config'
-
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
