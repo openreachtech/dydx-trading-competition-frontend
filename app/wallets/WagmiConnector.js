@@ -1,5 +1,7 @@
 import {
   connect as connectWagmi,
+  reconnect as reconnectWagmi,
+  getAccount as getAccountWagmi,
 } from '@wagmi/core'
 import {
   injected,
@@ -73,6 +75,54 @@ export default class WagmiConnector {
       address: firstAccountAddress,
       chain: WALLET_NETWORK_TYPE.EVM,
     })
+  }
+
+  /**
+   * Reconnect to EVM network.
+   *
+   * @returns {Promise<boolean>}
+   */
+  async reconnectToEvmNetwork () {
+    const account = getAccountWagmi(wagmiConfig)
+    if (account.isConnected) {
+      return false
+    }
+
+    const wallet = this.walletStore.walletStoreRef.value.sourceAccount.walletDetail
+    if (!wallet) {
+      return false
+    }
+
+    const connector = this.resolveWagmiConnector({
+      wallet,
+    })
+    if (!connector) {
+      return false
+    }
+
+    try {
+      const reconnectionResult = await reconnectWagmi(wagmiConfig, {
+        connectors: [connector],
+      })
+      const firstReconnectionResult = reconnectionResult
+        .at(0)
+        ?? null
+      if (!firstReconnectionResult) {
+        return false
+      }
+
+      const [firstAccountAddress] = firstReconnectionResult.accounts
+
+      this.walletStore.setSourceAddress({
+        address: firstAccountAddress,
+        chain: WALLET_NETWORK_TYPE.EVM,
+      })
+
+      return true
+    } catch (error) {
+      // TODO: Handle error.
+      return false
+    }
   }
 
   /**

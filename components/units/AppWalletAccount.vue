@@ -16,6 +16,10 @@ import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
 
+import {
+  createStore as createMipdStore,
+} from 'mipd'
+
 import vOnClickOutside from '~/app/vue/directives/vOnClickOutside'
 
 import WalletAccountContext from '~/app/vue/contexts/AppWalletAccountContext'
@@ -43,6 +47,7 @@ export default defineComponent({
   ) {
     const walletStore = useWalletStore()
     const accountStore = useAccountStore()
+    const mipdStore = createMipdStore()
 
     const isShowingDropdownRef = ref(false)
 
@@ -51,6 +56,7 @@ export default defineComponent({
       componentContext,
       walletStore,
       accountStore,
+      mipdStore,
       isShowingDropdownRef,
     }
     const context = WalletAccountContext.create(args)
