@@ -158,7 +158,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   /**
    * get: reconnectionHandlerMap
    *
-   * @returns {Record<string, () => Promise<void>>}
+   * @returns {Record<string, () => Promise<boolean>>}
    */
   get reconnectionHandlerMap () {
     const wagmiConnector = WagmiConnector.create({
