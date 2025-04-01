@@ -6,6 +6,8 @@ import {
 } from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
+import PhantomConnector from '~/app/wallets/PhantomConnector'
+
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 import {
@@ -146,10 +148,14 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    * @returns {WalletDetails}
    */
   generatePhantomWallet () {
-    const downloadLink = this.hasPhantomWallet()
+    const phantomConnector = PhantomConnector.create({
+      walletStore: this.walletStore,
+    })
+
+    const downloadLink = phantomConnector.hasPhantomWallet()
       ? null
       : 'https://phantom.app/download'
-    const connectorType = this.hasPhantomWallet()
+    const connectorType = phantomConnector.hasPhantomWallet()
       ? CONNECTOR_TYPE.PHANTOM_SOLANA
       : CONNECTOR_TYPE.DOWNLOAD_WALLET
 
@@ -283,7 +289,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       }
 
       if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-        await this.connectPhantom()
+        const phantomConnector = PhantomConnector.create({
+          walletStore: this.walletStore,
+        })
+
+        await phantomConnector.connectPhantom()
       }
     } catch (error) {
       // TODO: Handle error.
@@ -317,21 +327,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
-   * Connect Phantom Solana wallet.
-   *
-   * @returns {Promise<void>}
-   */
-  async connectPhantom () {
-    const response = await window.phantom.solana.connect()
-    const publicKey = response.publicKey.toBase58()
-
-    this.walletStore.setSourceAddress({
-      address: publicKey,
-      chain: WALLET_NETWORK_TYPE.SOLANA,
-    })
-  }
-
-  /**
    * Resolve wagmi connector.
    *
    * @param {{
@@ -349,15 +344,6 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     }
 
     return null
-  }
-
-  /**
-   * Has phantom wallet or not.
-   *
-   * @returns {boolean} `true` if has phantom wallet.
-   */
-  hasPhantomWallet () {
-    return Boolean(window.phantom?.solana?.isPhantom)
   }
 
   /**
