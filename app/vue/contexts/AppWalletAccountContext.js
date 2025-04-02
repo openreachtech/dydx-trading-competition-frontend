@@ -2,11 +2,6 @@ import {
   onMounted,
 } from 'vue'
 
-import {
-  disconnect as disconnectWagmi,
-} from '@wagmi/core'
-import wagmiConfig from '~/wagmi.config'
-
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
@@ -121,7 +116,11 @@ export default class AppWalletAccountContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async attemptWalletDisconnection () {
-    await disconnectWagmi(wagmiConfig)
+    const wagmiConnector = this.createWagmiConnector()
+    const phantomConnector = this.createPhantomConnector()
+
+    wagmiConnector.disconnectFromEvmNetwork()
+    phantomConnector.disconnectPhantom()
 
     this.walletStore.clearSourceAccount()
     this.walletStore.clearLocalWallet()
