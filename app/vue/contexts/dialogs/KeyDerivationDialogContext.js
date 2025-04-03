@@ -118,35 +118,41 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    * @returns {Promise<void>}
    */
   async deriveKeys () {
-    const networkMatchingResult = await this.matchNetwork()
+    try {
+      const networkMatchingResult = await this.matchNetwork()
 
-    if (!networkMatchingResult) {
-      return
+      if (!networkMatchingResult) {
+        return
+      }
+
+      const firstSignature = await this.signMessage()
+
+      const {
+        wallet,
+      } = await this.extractWalletFromSignature({
+        signature: firstSignature,
+      })
+
+      const secondSignature = await this.signMessage()
+
+      if (firstSignature !== secondSignature) {
+        throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
+      }
+
+      await this.setLocalAccount({
+        wallet,
+      })
+
+      await this.generateWalletCredential({
+        wallet,
+      })
+
+      this.dismissDialog()
+    } catch (error) {
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
     }
-
-    const firstSignature = await this.signMessage()
-
-    const {
-      wallet,
-    } = await this.extractWalletFromSignature({
-      signature: firstSignature,
-    })
-
-    const secondSignature = await this.signMessage()
-
-    if (firstSignature !== secondSignature) {
-      throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
-    }
-
-    await this.setLocalAccount({
-      wallet,
-    })
-
-    await this.generateWalletCredential({
-      wallet,
-    })
-
-    this.dismissDialog()
   }
 
   /**
@@ -376,6 +382,28 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       .walletDetail
       ?.icon
       ?? this.Ctor.defaultWalletImageUrl
+  }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown Error'
+    }
+
+    return 'error'
   }
 }
 
