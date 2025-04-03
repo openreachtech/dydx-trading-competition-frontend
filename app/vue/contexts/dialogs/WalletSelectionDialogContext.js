@@ -223,6 +223,10 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     wallet,
   }) {
     try {
+      if (this.errorMessage) {
+        this.errorMessageRef.value = null
+      }
+
       if (
         wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
         && wallet.downloadLink

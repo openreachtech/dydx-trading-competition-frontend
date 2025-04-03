@@ -119,6 +119,10 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    */
   async deriveKeys () {
     try {
+      if (this.errorMessage) {
+        this.errorMessageRef.value = null
+      }
+
       await this.matchNetwork()
 
       const firstSignature = await this.signMessage()
