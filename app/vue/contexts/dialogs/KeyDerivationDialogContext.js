@@ -127,6 +127,26 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: derivationLoaders
+   *
+   * @returns {Array<DerivationLoader>} Derivation loaders.
+   */
+  get derivationLoaders () {
+    return [
+      {
+        corespondingStatus: DERIVATION_STATUS_HASH.DERIVING,
+        caption: 'Generate your dYdX Chain wallet',
+        description: 'Verify that you own this wallet.',
+      },
+      {
+        corespondingStatus: DERIVATION_STATUS_HASH.ENSURING_DETERMINISM,
+        caption: 'Verify wallet compatibility',
+        description: 'Ensures your wallet is supported.',
+      },
+    ]
+  }
+
+  /**
    * Attempt to sign a typed message with wagmi.
    *
    * @returns {Promise<void>}
@@ -418,6 +438,23 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
     return 'error'
   }
+
+  /**
+   * Generate loader CSS classes.
+   *
+   * @param {{
+   *   status: (typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>} CSS classes
+   */
+  generateLoaderClasses ({
+    status,
+  }) {
+    return {
+      hidden: this.derivationStatus < status,
+      done: this.derivationStatus > status,
+    }
+  }
 }
 
 /**
@@ -459,4 +496,12 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *   privateKey: Uint8Array<ArrayBufferLike> | null
  *   publicKey: Uint8Array<ArrayBufferLike> | null
  * }} ExtractedFromSignatureWallet
+ */
+
+/**
+ * @typedef {{
+ *   corespondingStatus: (typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]
+ *   caption: string
+ *   description: string
+ * }} DerivationLoader
  */
