@@ -222,28 +222,34 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   async selectWallet ({
     wallet,
   }) {
-    if (
-      wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
-      && wallet.downloadLink
-    ) {
-      window.open(wallet.downloadLink, '_blank')
+    try {
+      if (
+        wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
+        && wallet.downloadLink
+      ) {
+        window.open(wallet.downloadLink, '_blank')
 
-      return
+        return
+      }
+
+      this.walletStore.setWalletDetail({
+        walletDetail: wallet,
+      })
+
+      await this.connectWallet({
+        wallet,
+      })
+
+      this.accountStore.setOnboardingStatus({
+        onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
+      })
+
+      this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
+    } catch (error) {
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
     }
-
-    this.walletStore.setWalletDetail({
-      walletDetail: wallet,
-    })
-
-    await this.connectWallet({
-      wallet,
-    })
-
-    this.accountStore.setOnboardingStatus({
-      onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
-    })
-
-    this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
   }
 
   /**
@@ -257,24 +263,20 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   async connectWallet ({
     wallet,
   }) {
-    try {
-      if (this.isWagmiConnectorType({
+    if (this.isWagmiConnectorType({
+      wallet,
+    })) {
+      const wagmiConnector = this.createWagmiConnector()
+
+      await wagmiConnector.connectToEvmNetwork({
         wallet,
-      })) {
-        const wagmiConnector = this.createWagmiConnector()
+      })
+    }
 
-        await wagmiConnector.connectToEvmNetwork({
-          wallet,
-        })
-      }
+    if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+      const phantomConnector = this.createPhantomConnector()
 
-      if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-        const phantomConnector = this.createPhantomConnector()
-
-        await phantomConnector.connectPhantom()
-      }
-    } catch (error) {
-      // TODO: Handle error.
+      await phantomConnector.connectPhantom()
     }
   }
 
@@ -328,6 +330,28 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       CONNECTOR_TYPE.WALLET_CONNECT,
     ]
       .includes(wallet.connectorType)
+  }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown Error'
+    }
+
+    return 'error'
   }
 }
 
