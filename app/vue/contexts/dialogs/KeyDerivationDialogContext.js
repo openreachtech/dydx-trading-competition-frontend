@@ -119,11 +119,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    */
   async deriveKeys () {
     try {
-      const networkMatchingResult = await this.matchNetwork()
-
-      if (!networkMatchingResult) {
-        return
-      }
+      await this.matchNetwork()
 
       const firstSignature = await this.signMessage()
 
@@ -357,18 +353,12 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   /**
    * Match network.
    *
-   * @returns {Promise<boolean>} `true` if the network is matched, `false` otherwise.
+   * @returns {Promise<void>}
    */
   async matchNetwork () {
-    try {
-      await switchChain(wagmiConfig, {
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      })
-
-      return true
-    } catch (error) {
-      return false
-    }
+    await switchChain(wagmiConfig, {
+      chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+    })
   }
 
   /**
