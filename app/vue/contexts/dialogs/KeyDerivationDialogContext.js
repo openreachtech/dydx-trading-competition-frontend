@@ -164,10 +164,10 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         wallet,
       })
 
-      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.DERIVED
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.PENDING
       this.dismissDialog()
     } catch (error) {
-      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.NOT_DERIVED
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.PENDING
       this.errorMessageRef.value = this.resolveErrorMessage({
         error,
       })

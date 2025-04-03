@@ -218,10 +218,9 @@ export const ONBOARDING_STATUS = /** @type {const} */ ({
 })
 
 export const DERIVATION_STATUS_HASH = /** @type {const} */ ({
-  NOT_DERIVED: 0,
+  PENDING: 0,
   DERIVING: 1,
   ENSURING_DETERMINISM: 2,
-  DERIVED: 3,
 })
 
 export const ONBOARDING_STATE = /** @type {const} */ ({

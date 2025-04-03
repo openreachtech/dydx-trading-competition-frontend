@@ -37,7 +37,7 @@ export default defineComponent({
     /** @type {import('vue').Ref<string | null>} */
     const errorMessageRef = ref(null)
     /** @type {import('vue').Ref<(typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]>} */
-    const derivationStatusRef = ref(DERIVATION_STATUS_HASH.NOT_DERIVED)
+    const derivationStatusRef = ref(DERIVATION_STATUS_HASH.PENDING)
 
     const args = {
       props,
