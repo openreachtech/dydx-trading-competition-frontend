@@ -259,6 +259,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
+   * @throws {Error} Will throw if connector type is invalid.
    */
   async connectWallet ({
     wallet,
@@ -271,13 +272,19 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       await wagmiConnector.connectToEvmNetwork({
         wallet,
       })
+
+      return
     }
 
     if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
       const phantomConnector = this.createPhantomConnector()
 
       await phantomConnector.connectPhantom()
+
+      return
     }
+
+    throw new Error('Unknown Connector.')
   }
 
   /**
