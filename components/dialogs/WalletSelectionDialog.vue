@@ -6,6 +6,7 @@ import {
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
@@ -20,6 +21,7 @@ export default defineComponent({
   components: {
     AppButton,
     AppDialog,
+    AppMessage,
   },
 
   emits: [
@@ -74,6 +76,13 @@ export default defineComponent({
         <p class="description">
           Select your preferred wallet from the list below and connect.
         </p>
+
+        <AppMessage variant="box"
+          severity="error"
+          :is-hidden="!context.errorMessage"
+        >
+          {{ context.errorMessage }}
+        </AppMessage>
 
         <div class="actions">
           <AppButton v-for="it of context.generateDisplayedWallets()"
