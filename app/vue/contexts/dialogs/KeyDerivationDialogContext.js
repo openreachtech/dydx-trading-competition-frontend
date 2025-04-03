@@ -52,6 +52,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    errorMessageRef,
   }) {
     super({
       props,
@@ -61,6 +62,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
     this.walletStore = walletStore
     this.accountStore = accountStore
+    this.errorMessageRef = errorMessageRef
   }
 
   /**
@@ -78,6 +80,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    errorMessageRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -86,6 +89,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         dialogComponentRef,
         walletStore,
         accountStore,
+        errorMessageRef,
       })
     )
   }
@@ -97,6 +101,15 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
    */
   static get defaultWalletImageUrl () {
     return '/img/wallets/generic-wallet.svg'
+  }
+
+  /**
+   * get: errorMessage
+   *
+   * @returns {string | null} Value of `errorMessageRef`.
+   */
+  get errorMessage () {
+    return this.errorMessageRef.value
   }
 
   /**
@@ -371,6 +384,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
+ *   errorMessageRef: import('vue').Ref<string | null>
  * }} KeyDerivationDialogContextParams
  */
 

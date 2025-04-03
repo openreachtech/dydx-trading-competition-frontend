@@ -28,6 +28,8 @@ export default defineComponent({
     // Actual value is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const errorMessageRef = ref(null)
 
     const args = {
       props,
@@ -35,6 +37,7 @@ export default defineComponent({
       dialogComponentRef,
       walletStore,
       accountStore,
+      errorMessageRef,
     }
     const context = KeyDerivationDialogContext.create(args)
       .setupComponent()
