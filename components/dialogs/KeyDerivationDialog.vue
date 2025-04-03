@@ -6,6 +6,7 @@ import {
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
@@ -16,6 +17,7 @@ export default defineComponent({
   components: {
     AppButton,
     AppDialog,
+    AppMessage,
   },
 
   setup (
@@ -72,6 +74,13 @@ export default defineComponent({
           compatibility. New users will receive two signature requests.
         </p>
 
+        <AppMessage variant="box"
+          severity="error"
+          :is-hidden="!context.errorMessage"
+        >
+          {{ context.errorMessage }}
+        </AppMessage>
+
         <div class="actions">
           <span class="note">
             Signing is free and will not send a transaction.
@@ -110,6 +119,12 @@ export default defineComponent({
   height: 1.25rem;
 }
 
+.unit-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .unit-contents > .description {
   font-size: var(--font-size-base);
   line-height: var(--size-line-height-base);
@@ -118,8 +133,6 @@ export default defineComponent({
 }
 
 .unit-contents > .actions {
-  margin-block-start: 1rem;
-
   border-radius: 0.5rem;
 
   text-align: center;
