@@ -217,7 +217,7 @@ export const ONBOARDING_STATUS = /** @type {const} */ ({
   ACCOUNT_CONNECTED: 'AccountConnected',
 })
 
-export const EVM_DERIVED_ACCOUNT_STATUS = /** @type {const} */ ({
+export const DERIVATION_STATUS_HASH = /** @type {const} */ ({
   NOT_DERIVED: 0,
   DERIVING: 1,
   ENSURING_DETERMINISM: 2,
