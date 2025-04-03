@@ -6,6 +6,7 @@ import {
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
@@ -20,6 +21,7 @@ export default defineComponent({
   components: {
     AppButton,
     AppDialog,
+    AppMessage,
   },
 
   emits: [
@@ -33,6 +35,8 @@ export default defineComponent({
     // NOTE: Actualy type is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const errorMessageRef = ref(null)
     const walletStore = useWalletStore()
     const accountStore = useAccountStore()
     const mipdStore = createMipdStore()
@@ -41,6 +45,7 @@ export default defineComponent({
       props,
       componentContext,
       dialogComponentRef,
+      errorMessageRef,
       walletStore,
       accountStore,
       mipdStore,
@@ -72,6 +77,13 @@ export default defineComponent({
           Select your preferred wallet from the list below and connect.
         </p>
 
+        <AppMessage variant="box"
+          severity="error"
+          :is-hidden="!context.errorMessage"
+        >
+          {{ context.errorMessage }}
+        </AppMessage>
+
         <div class="actions">
           <AppButton v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
@@ -98,7 +110,11 @@ export default defineComponent({
 
 <style scoped>
 .unit-dialog {
-  max-width: 30rem;
+  width: 100%;
+  max-width: min(
+    calc(100% - (2 * var(--size-body-padding-inline-mobile))),
+    30rem
+  );
 
   padding-block: 1.25rem;
   padding-inline: 1.5rem;

@@ -26,6 +26,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     componentContext,
 
     dialogComponentRef,
+    errorMessageRef,
     walletStore,
     accountStore,
     mipdStore,
@@ -36,6 +37,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       dialogComponentRef,
     })
 
+    this.errorMessageRef = errorMessageRef
     this.walletStore = walletStore
     this.accountStore = accountStore
     this.mipdStore = mipdStore
@@ -54,6 +56,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     props,
     componentContext,
     dialogComponentRef,
+    errorMessageRef,
     walletStore,
     accountStore,
     mipdStore,
@@ -63,6 +66,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         props,
         componentContext,
         dialogComponentRef,
+        errorMessageRef,
         walletStore,
         accountStore,
         mipdStore,
@@ -77,6 +81,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
       NEXT_STEP: 'nextStep',
     }
+  }
+
+  /**
+   * get: errorMessage
+   *
+   * @returns {string | null} Value of `errorMessageRef`
+   */
+  get errorMessage () {
+    return this.errorMessageRef.value
   }
 
   /**
@@ -209,28 +222,34 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   async selectWallet ({
     wallet,
   }) {
-    if (
-      wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
-      && wallet.downloadLink
-    ) {
-      window.open(wallet.downloadLink, '_blank')
+    try {
+      if (
+        wallet.connectorType === CONNECTOR_TYPE.DOWNLOAD_WALLET
+        && wallet.downloadLink
+      ) {
+        window.open(wallet.downloadLink, '_blank')
 
-      return
+        return
+      }
+
+      await this.connectWallet({
+        wallet,
+      })
+
+      this.walletStore.setWalletDetail({
+        walletDetail: wallet,
+      })
+
+      this.accountStore.setOnboardingStatus({
+        onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
+      })
+
+      this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
+    } catch (error) {
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
     }
-
-    this.walletStore.setWalletDetail({
-      walletDetail: wallet,
-    })
-
-    await this.connectWallet({
-      wallet,
-    })
-
-    this.accountStore.setOnboardingStatus({
-      onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
-    })
-
-    this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
   }
 
   /**
@@ -240,29 +259,32 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    *   wallet: WalletDetails
    * }} params - Parameters.
    * @returns {Promise<void>}
+   * @throws {Error} Will throw if connector type is invalid.
    */
   async connectWallet ({
     wallet,
   }) {
-    try {
-      if (this.isWagmiConnectorType({
+    if (this.isWagmiConnectorType({
+      wallet,
+    })) {
+      const wagmiConnector = this.createWagmiConnector()
+
+      await wagmiConnector.connectToEvmNetwork({
         wallet,
-      })) {
-        const wagmiConnector = this.createWagmiConnector()
+      })
 
-        await wagmiConnector.connectToEvmNetwork({
-          wallet,
-        })
-      }
-
-      if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
-        const phantomConnector = this.createPhantomConnector()
-
-        await phantomConnector.connectPhantom()
-      }
-    } catch (error) {
-      // TODO: Handle error.
+      return
     }
+
+    if (wallet.connectorType === CONNECTOR_TYPE.PHANTOM_SOLANA) {
+      const phantomConnector = this.createPhantomConnector()
+
+      await phantomConnector.connectPhantom()
+
+      return
+    }
+
+    throw new Error('Unknown Connector.')
   }
 
   /**
@@ -316,11 +338,34 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     ]
       .includes(wallet.connectorType)
   }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown Error'
+    }
+
+    return 'error'
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
+ *   errorMessageRef: import('vue').Ref<string | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
  *   mipdStore: ReturnType<import('mipd').createStore>
