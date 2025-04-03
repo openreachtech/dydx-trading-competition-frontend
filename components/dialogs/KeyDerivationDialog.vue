@@ -11,6 +11,10 @@ import AppMessage from '~/components/units/AppMessage.vue'
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
 
+import {
+  DERIVATION_STATUS_HASH,
+} from '~/app/constants'
+
 import KeyDerivationDialogContext from '~/app/vue/contexts/dialogs/KeyDerivationDialogContext'
 
 export default defineComponent({
@@ -32,6 +36,8 @@ export default defineComponent({
     const dialogComponentRef = ref(null)
     /** @type {import('vue').Ref<string | null>} */
     const errorMessageRef = ref(null)
+    /** @type {import('vue').Ref<(typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]>} */
+    const derivationStatusRef = ref(DERIVATION_STATUS_HASH.NOT_DERIVED)
 
     const args = {
       props,
@@ -40,6 +46,7 @@ export default defineComponent({
       walletStore,
       accountStore,
       errorMessageRef,
+      derivationStatusRef,
     }
     const context = KeyDerivationDialogContext.create(args)
       .setupComponent()
