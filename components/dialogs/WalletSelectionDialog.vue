@@ -33,6 +33,8 @@ export default defineComponent({
     // NOTE: Actualy type is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const errorMessageRef = ref(null)
     const walletStore = useWalletStore()
     const accountStore = useAccountStore()
     const mipdStore = createMipdStore()
@@ -41,6 +43,7 @@ export default defineComponent({
       props,
       componentContext,
       dialogComponentRef,
+      errorMessageRef,
       walletStore,
       accountStore,
       mipdStore,

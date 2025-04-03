@@ -26,6 +26,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     componentContext,
 
     dialogComponentRef,
+    errorMessageRef,
     walletStore,
     accountStore,
     mipdStore,
@@ -36,6 +37,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       dialogComponentRef,
     })
 
+    this.errorMessageRef = errorMessageRef
     this.walletStore = walletStore
     this.accountStore = accountStore
     this.mipdStore = mipdStore
@@ -54,6 +56,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     props,
     componentContext,
     dialogComponentRef,
+    errorMessageRef,
     walletStore,
     accountStore,
     mipdStore,
@@ -63,6 +66,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         props,
         componentContext,
         dialogComponentRef,
+        errorMessageRef,
         walletStore,
         accountStore,
         mipdStore,
@@ -77,6 +81,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 
       NEXT_STEP: 'nextStep',
     }
+  }
+
+  /**
+   * get: errorMessage
+   *
+   * @returns {string | null} Value of `errorMessageRef`
+   */
+  get errorMessage () {
+    return this.errorMessageRef.value
   }
 
   /**
@@ -321,6 +334,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
+ *   errorMessageRef: import('vue').Ref<string | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
  *   mipdStore: ReturnType<import('mipd').createStore>
