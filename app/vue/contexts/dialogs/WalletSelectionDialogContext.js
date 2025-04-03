@@ -279,6 +279,25 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       walletStore: this.walletStore,
     })
   }
+
+  /**
+   * Check if is Wagmi connector type.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isWagmiConnectorType ({
+    wallet,
+  }) {
+    return [
+      CONNECTOR_TYPE.INJECTED,
+      CONNECTOR_TYPE.COINBASE,
+      CONNECTOR_TYPE.WALLET_CONNECT,
+    ]
+      .includes(wallet.connectorType)
+  }
 }
 
 /**
