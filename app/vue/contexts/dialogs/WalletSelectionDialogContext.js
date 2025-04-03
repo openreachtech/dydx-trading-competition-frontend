@@ -87,10 +87,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   generateDisplayedWallets () {
     const injectedWallets = this.generateInjectedWallets()
     const phantomWallet = this.generatePhantomWallet()
+    const coinbaseWallet = this.generateCoinbaseWallet()
 
     return [
       ...injectedWallets,
       phantomWallet,
+      coinbaseWallet,
     ]
   }
 
@@ -117,9 +119,9 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.PHANTOM
         // Remove Keplr EVM support since Keplr Cosmos is supported
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.KEPLR
-        // // Remove Coinbase injected support because the regular Coinbase connector already supports
-        // // handling switching between injected/mobile/smart account
-        // && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
+        // Remove Coinbase injected support because the regular Coinbase connector already supports
+        // handling switching between injected/mobile/smart account
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
       )
       .map(wallet => this.normalizeInjectedWallet({
         wallet,
@@ -156,6 +158,20 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       name: 'Phantom',
       rdns: MIPD_RDNS_HASH.PHANTOM,
       downloadLink,
+    }
+  }
+
+  /**
+   * Generate Coinbase wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generateCoinbaseWallet () {
+    return {
+      connectorType: CONNECTOR_TYPE.COINBASE,
+      icon: '/img/wallets/coinbase-wallet.svg',
+      name: 'Coinbase',
+      rdns: MIPD_RDNS_HASH.COINBASE,
     }
   }
 
@@ -229,7 +245,9 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     wallet,
   }) {
     try {
-      if (wallet.connectorType === CONNECTOR_TYPE.INJECTED) {
+      if (this.isWagmiConnectorType({
+        wallet,
+      })) {
         const wagmiConnector = this.createWagmiConnector()
 
         await wagmiConnector.connectToEvmNetwork({
@@ -278,6 +296,25 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     return PhantomConnector.create({
       walletStore: this.walletStore,
     })
+  }
+
+  /**
+   * Check if is Wagmi connector type.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isWagmiConnectorType ({
+    wallet,
+  }) {
+    return [
+      CONNECTOR_TYPE.INJECTED,
+      CONNECTOR_TYPE.COINBASE,
+      CONNECTOR_TYPE.WALLET_CONNECT,
+    ]
+      .includes(wallet.connectorType)
   }
 }
 
