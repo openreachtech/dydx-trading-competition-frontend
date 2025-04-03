@@ -6,6 +6,7 @@ import {
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import useWalletStore from '~/stores/wallet'
 import useAccountStore from '~/stores/account'
@@ -16,6 +17,7 @@ export default defineComponent({
   components: {
     AppButton,
     AppDialog,
+    AppMessage,
   },
 
   setup (
@@ -28,6 +30,8 @@ export default defineComponent({
     // Actual value is `AppDialog` but type declaration is `FuroDialog`.
     /** @type {import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>} */
     const dialogComponentRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const errorMessageRef = ref(null)
 
     const args = {
       props,
@@ -35,6 +39,7 @@ export default defineComponent({
       dialogComponentRef,
       walletStore,
       accountStore,
+      errorMessageRef,
     }
     const context = KeyDerivationDialogContext.create(args)
       .setupComponent()
@@ -68,6 +73,13 @@ export default defineComponent({
           Signatures are used to verify your ownership and to confirm wallet
           compatibility. New users will receive two signature requests.
         </p>
+
+        <AppMessage variant="box"
+          severity="error"
+          :is-hidden="!context.errorMessage"
+        >
+          {{ context.errorMessage }}
+        </AppMessage>
 
         <div class="actions">
           <span class="note">
@@ -107,6 +119,12 @@ export default defineComponent({
   height: 1.25rem;
 }
 
+.unit-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .unit-contents > .description {
   font-size: var(--font-size-base);
   line-height: var(--size-line-height-base);
@@ -115,8 +133,6 @@ export default defineComponent({
 }
 
 .unit-contents > .actions {
-  margin-block-start: 1rem;
-
   border-radius: 0.5rem;
 
   text-align: center;

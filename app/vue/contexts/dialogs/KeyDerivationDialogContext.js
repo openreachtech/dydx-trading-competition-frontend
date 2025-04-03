@@ -52,6 +52,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    errorMessageRef,
   }) {
     super({
       props,
@@ -61,6 +62,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
     this.walletStore = walletStore
     this.accountStore = accountStore
+    this.errorMessageRef = errorMessageRef
   }
 
   /**
@@ -78,6 +80,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     dialogComponentRef,
     walletStore,
     accountStore,
+    errorMessageRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -86,6 +89,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         dialogComponentRef,
         walletStore,
         accountStore,
+        errorMessageRef,
       })
     )
   }
@@ -100,40 +104,51 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: errorMessage
+   *
+   * @returns {string | null} Value of `errorMessageRef`.
+   */
+  get errorMessage () {
+    return this.errorMessageRef.value
+  }
+
+  /**
    * Attempt to sign a typed message with wagmi.
    *
    * @returns {Promise<void>}
    */
   async deriveKeys () {
-    const networkMatchingResult = await this.matchNetwork()
+    try {
+      await this.matchNetwork()
 
-    if (!networkMatchingResult) {
-      return
+      const firstSignature = await this.signMessage()
+
+      const {
+        wallet,
+      } = await this.extractWalletFromSignature({
+        signature: firstSignature,
+      })
+
+      const secondSignature = await this.signMessage()
+
+      if (firstSignature !== secondSignature) {
+        throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
+      }
+
+      await this.setLocalAccount({
+        wallet,
+      })
+
+      await this.generateWalletCredential({
+        wallet,
+      })
+
+      this.dismissDialog()
+    } catch (error) {
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
     }
-
-    const firstSignature = await this.signMessage()
-
-    const {
-      wallet,
-    } = await this.extractWalletFromSignature({
-      signature: firstSignature,
-    })
-
-    const secondSignature = await this.signMessage()
-
-    if (firstSignature !== secondSignature) {
-      throw new Error('Your wallet does not support deterministic signing. Please switch to a different wallet provider.')
-    }
-
-    await this.setLocalAccount({
-      wallet,
-    })
-
-    await this.generateWalletCredential({
-      wallet,
-    })
-
-    this.dismissDialog()
   }
 
   /**
@@ -338,18 +353,12 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   /**
    * Match network.
    *
-   * @returns {Promise<boolean>} `true` if the network is matched, `false` otherwise.
+   * @returns {Promise<void>}
    */
   async matchNetwork () {
-    try {
-      await switchChain(wagmiConfig, {
-        chainId: this.accountStore.selectedEthereumChainIdComputed.value,
-      })
-
-      return true
-    } catch (error) {
-      return false
-    }
+    await switchChain(wagmiConfig, {
+      chainId: this.accountStore.selectedEthereumChainIdComputed.value,
+    })
   }
 
   /**
@@ -364,6 +373,28 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       ?.icon
       ?? this.Ctor.defaultWalletImageUrl
   }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown Error'
+    }
+
+    return 'error'
+  }
 }
 
 /**
@@ -371,6 +402,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *   dialogComponentRef: import('vue').Ref<import('@openreachtech/furo-nuxt/lib/components/FuroDialog.vue').default | null>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
+ *   errorMessageRef: import('vue').Ref<string | null>
  * }} KeyDerivationDialogContextParams
  */
 
