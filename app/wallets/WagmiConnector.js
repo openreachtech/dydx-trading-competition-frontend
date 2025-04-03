@@ -6,6 +6,7 @@ import {
 } from '@wagmi/core'
 import {
   injected,
+  coinbaseWallet as coinbaseWalletConnector,
 } from '@wagmi/connectors'
 import wagmiConfig from '~/wagmi.config'
 
@@ -153,7 +154,7 @@ export default class WagmiConnector {
    * @param {{
    *   wallet: import('~/stores/wallet').WalletDetail
    * }} params - Parameters.
-   * @returns {ReturnType<import('@wagmi/connectors').injected> | null}
+   * @returns {ReturnType<import('@wagmi/connectors').injected> | ReturnType<coinbaseWalletConnector> | null}
    */
   resolveWagmiConnector ({
     wallet,
@@ -175,6 +176,7 @@ export default class WagmiConnector {
       [CONNECTOR_TYPE.INJECTED]: wallet => this.extractMipdConnectorFromRdns({
         rdns: wallet.rdns,
       }),
+      [CONNECTOR_TYPE.COINBASE]: wallet => this.generateCoinbaseConnector(),
     }
   }
 
@@ -221,6 +223,20 @@ export default class WagmiConnector {
       },
     })
   }
+
+  /**
+   * Generate Coinbase connector.
+   *
+   * @returns {ReturnType<coinbaseWalletConnector>}
+   */
+  generateCoinbaseConnector () {
+    return coinbaseWalletConnector({
+      appName: 'dYdX',
+      reloadOnDisconnect: false,
+      // disable Coinbase Smart Wallet because dydx-client currently doesn't handle EIP-6492 signatures
+      preference: 'eoaOnly',
+    })
+  }
 }
 
 /**
@@ -237,5 +253,5 @@ export default class WagmiConnector {
 /**
  * @typedef {(
  *   wallet: import('~/stores/wallet').WalletDetail
- * ) => ReturnType<import('@wagmi/connectors').injected> | null} ConnectorResolver
+ * ) => ReturnType<import('@wagmi/connectors').injected> | ReturnType<coinbaseWalletConnector> | null} ConnectorResolver
  */
