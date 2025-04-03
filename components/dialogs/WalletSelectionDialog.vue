@@ -110,7 +110,11 @@ export default defineComponent({
 
 <style scoped>
 .unit-dialog {
-  max-width: 30rem;
+  width: 100%;
+  max-width: min(
+    calc(100% - (2 * var(--size-body-padding-inline-mobile))),
+    30rem
+  );
 
   padding-block: 1.25rem;
   padding-inline: 1.5rem;
