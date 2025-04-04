@@ -43,6 +43,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.24.0",
     "@iconify-json/heroicons": "^1.2.2",
+    "@keplr-wallet/types": "^0.12.211",
     "@nuxt/icon": "^1.10.3",
     "@openreachtech/eslint-config": "^3.0.2",
     "@openreachtech/renchan-test-tools": "^1.0.0",
