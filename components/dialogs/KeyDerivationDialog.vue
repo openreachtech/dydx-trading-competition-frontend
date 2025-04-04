@@ -126,6 +126,7 @@ export default defineComponent({
           </span>
 
           <AppButton class="button"
+            :is-loading="context.isDeriving()"
             @click="context.deriveKeys()"
           >
             Send Request

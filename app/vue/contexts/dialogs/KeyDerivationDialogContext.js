@@ -455,6 +455,15 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       done: this.derivationStatus > status,
     }
   }
+
+  /**
+   * Check if the key derivation process is active.
+   *
+   * @returns {boolean}
+   */
+  isDeriving () {
+    return this.derivationStatus !== DERIVATION_STATUS_HASH.PENDING
+  }
 }
 
 /**
