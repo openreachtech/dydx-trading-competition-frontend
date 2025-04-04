@@ -30,6 +30,7 @@ import stableStringify from 'fast-json-stable-stringify'
 import {
   WALLETS_CONFIG_HASH,
   CONNECTOR_TYPE,
+  DERIVATION_STATUS_HASH,
 } from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -53,6 +54,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     walletStore,
     accountStore,
     errorMessageRef,
+    derivationStatusRef,
   }) {
     super({
       props,
@@ -63,6 +65,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     this.walletStore = walletStore
     this.accountStore = accountStore
     this.errorMessageRef = errorMessageRef
+    this.derivationStatusRef = derivationStatusRef
   }
 
   /**
@@ -81,6 +84,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
     walletStore,
     accountStore,
     errorMessageRef,
+    derivationStatusRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -90,6 +94,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         walletStore,
         accountStore,
         errorMessageRef,
+        derivationStatusRef,
       })
     )
   }
@@ -113,12 +118,42 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: derivationStatus
+   *
+   * @returns {(typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]} Value of `derivationStatusRef`.
+   */
+  get derivationStatus () {
+    return this.derivationStatusRef.value
+  }
+
+  /**
+   * get: derivationLoaders
+   *
+   * @returns {Array<DerivationLoader>} Derivation loaders.
+   */
+  get derivationLoaders () {
+    return [
+      {
+        corespondingStatus: DERIVATION_STATUS_HASH.DERIVING,
+        caption: 'Generate your dYdX Chain wallet',
+        description: 'Verify that you own this wallet.',
+      },
+      {
+        corespondingStatus: DERIVATION_STATUS_HASH.ENSURING_DETERMINISM,
+        caption: 'Verify wallet compatibility',
+        description: 'Ensures your wallet is supported.',
+      },
+    ]
+  }
+
+  /**
    * Attempt to sign a typed message with wagmi.
    *
    * @returns {Promise<void>}
    */
   async deriveKeys () {
     try {
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.DERIVING
       if (this.errorMessage) {
         this.errorMessageRef.value = null
       }
@@ -132,6 +167,8 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
       } = await this.extractWalletFromSignature({
         signature: firstSignature,
       })
+
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.ENSURING_DETERMINISM
 
       const secondSignature = await this.signMessage()
 
@@ -147,8 +184,10 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         wallet,
       })
 
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.PENDING
       this.dismissDialog()
     } catch (error) {
+      this.derivationStatusRef.value = DERIVATION_STATUS_HASH.PENDING
       this.errorMessageRef.value = this.resolveErrorMessage({
         error,
       })
@@ -399,6 +438,32 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
 
     return 'error'
   }
+
+  /**
+   * Generate loader CSS classes.
+   *
+   * @param {{
+   *   status: (typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>} CSS classes
+   */
+  generateLoaderClasses ({
+    status,
+  }) {
+    return {
+      hidden: this.derivationStatus < status,
+      done: this.derivationStatus > status,
+    }
+  }
+
+  /**
+   * Check if the key derivation process is active.
+   *
+   * @returns {boolean}
+   */
+  isDeriving () {
+    return this.derivationStatus !== DERIVATION_STATUS_HASH.PENDING
+  }
 }
 
 /**
@@ -407,6 +472,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   accountStore: import('~/stores/account').AccountStore
  *   errorMessageRef: import('vue').Ref<string | null>
+ *   derivationStatusRef: import('vue').Ref<(typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]>
  * }} KeyDerivationDialogContextParams
  */
 
@@ -439,4 +505,12 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
  *   privateKey: Uint8Array<ArrayBufferLike> | null
  *   publicKey: Uint8Array<ArrayBufferLike> | null
  * }} ExtractedFromSignatureWallet
+ */
+
+/**
+ * @typedef {{
+ *   corespondingStatus: (typeof DERIVATION_STATUS_HASH)[keyof typeof DERIVATION_STATUS_HASH]
+ *   caption: string
+ *   description: string
+ * }} DerivationLoader
  */
