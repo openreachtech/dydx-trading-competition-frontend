@@ -177,7 +177,10 @@ export default class LeagueHeroSectionContext extends BaseFuroContext {
     options = {},
     fallbackValue = '--',
   }) {
-    if (!value) {
+    if (
+      value === null
+      || value === undefined
+    ) {
       return fallbackValue
     }
 
