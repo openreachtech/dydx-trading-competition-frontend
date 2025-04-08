@@ -75,6 +75,12 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         : Number(route.query.page)
     ))
 
+    this.graphqlClientHash
+      .competitionStatistics
+      .invokeRequestOnMounted({
+        hooks: this.competitionStatisticsLauncherHooks,
+      })
+
     this.watch(
       () => route.query.page,
       () => this.graphqlClientHash
@@ -135,6 +141,15 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionStatisticsCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionStatistics/CompetitionStatisticsQueryGraphqlCapsule').default}
+   */
+  get competitionStatisticsCapsule () {
+    return this.graphqlClientHash.competitionStatistics.capsuleRef.value
+  }
+
+  /**
    * get: graphqlRequestHooks.
    *
    * @returns {furo.GraphqlLauncherHooks} - Launcher hooks.
@@ -148,6 +163,24 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       },
       afterRequest: async capsule => {
         this.statusReactive.isLoadingCompetitions = false
+      },
+    }
+  }
+
+  /**
+   * get: competitionStatisticsLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get competitionStatisticsLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingCompetitionStatistics = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingCompetitionStatistics = false
       },
     }
   }
@@ -178,6 +211,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   graphqlClientHash: {
  *     competitions: GraphqlClient
+ *     competitionStatistics: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionsPageContextParams
@@ -194,6 +228,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   isLoadingCompetitions: boolean
+ *   isLoadingCompetitionStatistics: boolean
  * }} StatusReactive
  */
 

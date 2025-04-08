@@ -15,6 +15,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
+import CompetitionStatisticsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionStatistics/CompetitionStatisticsQueryGraphqlLauncher'
 
 import CompetitionsPageContext from '~/app/vue/contexts/CompetitionsPageContext'
 
@@ -32,8 +33,10 @@ export default defineComponent({
     componentContext
   ) {
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
+    const competitionStatisticsGraphqlClient = useGraphqlClient(CompetitionStatisticsQueryGraphqlLauncher)
     const statusReactive = reactive({
       isLoadingCompetitions: false,
+      isLoadingCompetitionStatistics: true,
     })
 
     const args = {
@@ -41,6 +44,7 @@ export default defineComponent({
       componentContext,
       graphqlClientHash: {
         competitions: competitionsGraphqlClient,
+        competitionStatistics: competitionStatisticsGraphqlClient,
       },
       statusReactive,
     }
