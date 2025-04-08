@@ -93,7 +93,7 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /**
    * get: competitionId
    *
-   * @returns {string | null} Wallet address.
+   * @returns {string | null} Competition ID.
    */
   get competitionId () {
     return this.competition
