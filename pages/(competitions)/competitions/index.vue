@@ -63,7 +63,7 @@ export default defineComponent({
 
 <template>
   <div class="unit-container">
-    <LeagueHeroSection />
+    <LeagueHeroSection :competition-statistics-capsule="context.competitionStatisticsCapsule" />
 
     <AppLoadingLayout :is-loading="context.isLoadingCompetitions">
       <template #contents>

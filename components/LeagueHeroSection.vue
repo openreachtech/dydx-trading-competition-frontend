@@ -21,6 +21,17 @@ export default defineComponent({
     OnboardingDialogs,
   },
 
+  props: {
+    competitionStatisticsCapsule: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/LeagueHeroSectionContext').PropsType['competitionStatisticsCapsule'] | null>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
@@ -82,7 +93,7 @@ export default defineComponent({
     <dl class="unit-statistics">
       <div class="figure">
         <dt class="term">
-          --
+          {{ context.generateTotalHostedCompetitionsNumber() }}
         </dt>
         <dd class="label">
           Leagues hosted
@@ -91,7 +102,7 @@ export default defineComponent({
 
       <div class="figure">
         <dt class="term">
-          --
+          {{ context.generateTotalEnrolledCompetitionParticipantsNumber() }}
         </dt>
         <dd class="label">
           Enrolled participants
@@ -100,7 +111,7 @@ export default defineComponent({
 
       <div class="figure">
         <dt class="term">
-          --
+          {{ context.generateTotalPaidOutPrizesUsdAmount() }}
         </dt>
         <dd class="label">
           Prizes paid out
