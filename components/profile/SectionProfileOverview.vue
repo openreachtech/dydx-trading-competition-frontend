@@ -10,6 +10,7 @@ import {
 
 import {
   Icon,
+  NuxtLink,
 } from '#components'
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
@@ -23,6 +24,7 @@ import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionPro
 export default defineComponent({
   components: {
     Icon,
+    NuxtLink,
     CopyButton,
     LinkTooltipButton,
     ProfileRenameDialog,
@@ -155,12 +157,13 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <img class="image"
-                :src="context.image"
-                :alt="context.generateCompetitionTitle()"
-              >
-
-              <span>{{ context.generateCompetitionTitle() }}</span>
+              <NuxtLink :to="context.generateCompetitionUrl()">
+                <img class="image"
+                  :src="context.image"
+                  :alt="context.generateCompetitionTitle()"
+                >
+                <span>{{ context.generateCompetitionTitle() }}</span>
+              </NuxtLink>
             </dd>
           </div>
 
