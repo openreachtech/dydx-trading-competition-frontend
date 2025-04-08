@@ -389,7 +389,7 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation {
+.unit-description > .entry > .description.participation > .link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -400,7 +400,7 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-description > .entry > .description.participation > .image {
+.unit-description > .entry > .description.participation > .link > .image {
   border-radius: 0.625rem;
 
   width: 2.25rem;
@@ -409,7 +409,7 @@ export default defineComponent({
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-description > .entry > .description.participation > .link > .image[src='/img/badges/league-badge-placeholder.png'] {
   object-fit: scale-down;
 }
 
