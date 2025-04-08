@@ -157,7 +157,9 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <NuxtLink :to="context.generateCompetitionUrl()">
+              <NuxtLink :to="context.generateCompetitionUrl()"
+                class="link"
+              >
                 <img class="image"
                   :src="context.image"
                   :alt="context.generateCompetitionTitle()"
@@ -398,6 +400,11 @@ export default defineComponent({
   font-weight: 700;
 
   color: var(--color-text-secondary);
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-description > .entry > .description.participation > .link[href]:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-description > .entry > .description.participation > .link > .image {
