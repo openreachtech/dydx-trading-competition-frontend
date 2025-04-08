@@ -10,6 +10,7 @@ import {
 
 import {
   Icon,
+  NuxtLink,
 } from '#components'
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
@@ -23,6 +24,7 @@ import SectionProfileOverviewContext from '~/app/vue/contexts/profile/SectionPro
 export default defineComponent({
   components: {
     Icon,
+    NuxtLink,
     CopyButton,
     LinkTooltipButton,
     ProfileRenameDialog,
@@ -155,12 +157,15 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <img class="image"
-                :src="context.image"
-                :alt="context.generateCompetitionTitle()"
+              <NuxtLink :to="context.generateCompetitionUrl()"
+                class="link"
               >
-
-              <span>{{ context.generateCompetitionTitle() }}</span>
+                <img class="image"
+                  :src="context.image"
+                  :alt="context.generateCompetitionTitle()"
+                >
+                <span>{{ context.generateCompetitionTitle() }}</span>
+              </NuxtLink>
             </dd>
           </div>
 
@@ -386,7 +391,7 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation {
+.unit-description > .entry > .description.participation > .link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -395,9 +400,14 @@ export default defineComponent({
   font-weight: 700;
 
   color: var(--color-text-secondary);
+  transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .image {
+.unit-description > .entry > .description.participation > .link[href]:hover {
+  color: var(--color-text-highlight-purple);
+}
+
+.unit-description > .entry > .description.participation > .link > .image {
   border-radius: 0.625rem;
 
   width: 2.25rem;
@@ -406,7 +416,7 @@ export default defineComponent({
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-description > .entry > .description.participation > .link > .image[src='/img/badges/league-badge-placeholder.png'] {
   object-fit: scale-down;
 }
 

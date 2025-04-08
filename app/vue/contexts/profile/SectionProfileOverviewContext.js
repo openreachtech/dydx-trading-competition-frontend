@@ -91,6 +91,17 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionId
+   *
+   * @returns {string | null} Competition ID.
+   */
+  get competitionId () {
+    return this.competition
+      ?.competitionId
+      ?? null
+  }
+
+  /**
    * get: ranking
    *
    * @returns {Ranking} Wallet address.
@@ -259,6 +270,19 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
       increased: Boolean(this.roi) && normalizedRoi > 0,
       decreased: Boolean(this.roi) && normalizedRoi < 0,
     }
+  }
+
+  /**
+   * Generate competition URL.
+   *
+   * @returns {string} Competition URL.
+   */
+  generateCompetitionUrl () {
+    if (!this.competitionId) {
+      return ''
+    }
+
+    return `/competitions/${this.competitionId}`
   }
 
   /**
