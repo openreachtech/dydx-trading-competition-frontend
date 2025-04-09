@@ -248,6 +248,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
       })
 
+      if (wallet.connectorType === CONNECTOR_TYPE.COSMOS) {
+        this.dismissDialog()
+
+        return
+      }
+
       this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
     } catch (error) {
       this.errorMessageRef.value = this.resolveErrorMessage({
@@ -344,6 +350,17 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Dismiss dialog.
+   *
+   * @override
+   * @returns {void}
+   */
+  dismissDialog () {
+    this.clearErrorMessage()
+    super.dismissDialog()
+  }
+
+  /**
    * Resolve error message.
    *
    * @param {{
@@ -363,6 +380,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     }
 
     return 'error'
+  }
+
+  /**
+   * Clear error message.
+   *
+   * @returns {void}
+   */
+  clearErrorMessage () {
+    this.errorMessageRef.value = null
   }
 }
 
