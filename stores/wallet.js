@@ -214,7 +214,7 @@ export default function useWalletStore () {
   }
 
   /**
-   * Clear crendential.
+   * Clear credential.
    *
    * @returns {void}
    */
