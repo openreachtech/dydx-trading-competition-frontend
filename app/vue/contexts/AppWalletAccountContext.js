@@ -124,6 +124,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
     this.walletStore.clearSourceAccount()
     this.walletStore.clearLocalWallet()
+    this.walletStore.clearCredential()
 
     this.accountStore.setOnboardingStatus({
       onboardingStatus: ONBOARDING_STATUS.DISCONNECTED,
