@@ -179,7 +179,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
-   * Generate Keplr Solana wallet.
+   * Generate Keplr Cosmos wallet.
    *
    * @returns {WalletDetails}
    */
