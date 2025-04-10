@@ -61,6 +61,7 @@ export default function useWalletStore () {
     // Actions
     clearLocalWallet,
     clearSourceAccount,
+    clearCredential,
     setCredential,
     setLocalWalletNonce,
     setSourceAddress,
@@ -211,11 +212,26 @@ export default function useWalletStore () {
       walletDetail: null,
     }
   }
+
+  /**
+   * Clear crendential.
+   *
+   * @returns {void}
+   */
+  function clearCredential () {
+    walletStateRef.value.credential = {
+      signDoc: null,
+      signature: null,
+      publicKey: null,
+      address: null,
+    }
+  }
 }
 
 /**
  * @typedef {{
  *   walletStoreRef: import('vue').Ref<WalletState>
+ *   clearCredential: () => void
  *   clearLocalWallet: () => void
  *   clearSourceAccount: () => void
  *   setCredential: (params: {
