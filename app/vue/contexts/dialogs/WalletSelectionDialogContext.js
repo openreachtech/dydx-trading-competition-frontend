@@ -1,5 +1,6 @@
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
+import KeplrConnector from '~/app/wallets/KeplrConnector'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
@@ -8,6 +9,7 @@ import {
   ONBOARDING_STATUS,
   WALLETS,
   CONNECTOR_TYPE,
+  KEPLR_DOWNLOAD_LINK,
 } from '~/app/constants'
 
 /**
@@ -101,10 +103,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     const injectedWallets = this.generateInjectedWallets()
     const phantomWallet = this.generatePhantomWallet()
     const coinbaseWallet = this.generateCoinbaseWallet()
+    const keplrWallet = this.generateKeplrWallet()
 
     return [
       ...injectedWallets,
       phantomWallet,
+      keplrWallet,
       coinbaseWallet,
     ]
   }
@@ -170,6 +174,30 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       icon: '/img/wallets/phantom.svg',
       name: 'Phantom',
       rdns: MIPD_RDNS_HASH.PHANTOM,
+      downloadLink,
+    }
+  }
+
+  /**
+   * Generate Keplr Cosmos wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generateKeplrWallet () {
+    const keplrConnector = this.createKeplrConnector()
+
+    const downloadLink = keplrConnector.hasKeplrWallet()
+      ? null
+      : KEPLR_DOWNLOAD_LINK
+    const connectorType = keplrConnector.hasKeplrWallet()
+      ? CONNECTOR_TYPE.COSMOS
+      : CONNECTOR_TYPE.DOWNLOAD_WALLET
+
+    return {
+      connectorType,
+      icon: '/img/wallets/keplr.svg',
+      name: 'Keplr',
+      rdns: MIPD_RDNS_HASH.KEPLR,
       downloadLink,
     }
   }
@@ -248,6 +276,12 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
       })
 
+      if (wallet.connectorType === CONNECTOR_TYPE.COSMOS) {
+        this.dismissDialog()
+
+        return
+      }
+
       this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
     } catch (error) {
       this.errorMessageRef.value = this.resolveErrorMessage({
@@ -284,6 +318,14 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       const phantomConnector = this.createPhantomConnector()
 
       await phantomConnector.connectPhantom()
+
+      return
+    }
+
+    if (wallet.connectorType === CONNECTOR_TYPE.COSMOS) {
+      const keplrConnector = this.createKeplrConnector()
+
+      await keplrConnector.connectKeplr()
 
       return
     }
@@ -325,6 +367,18 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Create KeplrConnector instance.
+   *
+   * @returns {KeplrConnector}
+   */
+  createKeplrConnector () {
+    return KeplrConnector.create({
+      walletStore: this.walletStore,
+      accountStore: this.accountStore,
+    })
+  }
+
+  /**
    * Check if is Wagmi connector type.
    *
    * @param {{
@@ -341,6 +395,17 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       CONNECTOR_TYPE.WALLET_CONNECT,
     ]
       .includes(wallet.connectorType)
+  }
+
+  /**
+   * Dismiss dialog.
+   *
+   * @override
+   * @returns {void}
+   */
+  dismissDialog () {
+    this.clearErrorMessage()
+    super.dismissDialog()
   }
 
   /**
@@ -363,6 +428,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     }
 
     return 'error'
+  }
+
+  /**
+   * Clear error message.
+   *
+   * @returns {void}
+   */
+  clearErrorMessage () {
+    this.errorMessageRef.value = null
   }
 }
 

@@ -91,8 +91,10 @@ export default defineComponent({
     </button>
 
     <div class="unit-dropdown">
-      <div class="address">
-        <div class="unit-chain">
+      <div class="address"
+        :class="context.generateAddressClasses()"
+      >
+        <div class="unit-chain local">
           <img src="~/assets/img/address-icon.svg"
             alt="dYdX Chain Address"
             class="image"
@@ -115,7 +117,7 @@ export default defineComponent({
 
         <div class="connector" />
 
-        <div class="unit-chain">
+        <div class="unit-chain source">
           <img :src="context.generateWalletImageUrl()"
             alt="Wallet Icon"
             class="image"
@@ -270,6 +272,10 @@ export default defineComponent({
   margin-inline-start: 0.75rem;
 
   height: 1.75rem;
+}
+
+.unit-dropdown > .address.cosmos > :where(.connector, .unit-chain.source) {
+  display: none;
 }
 
 .unit-dropdown > .reconnect {
