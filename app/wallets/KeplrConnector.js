@@ -70,7 +70,7 @@ export default class KeplrConnector {
     await this.provider.enable(chainIds)
 
     // NOTE: We connected to multiple chains but only get the account on dYdX, which aligns with the
-    // logic in v4-web. Though that would leave other chains redundant? Woule need further investigation.
+    // logic in v4-web. Though that would leave other chains redundant? Would need further investigation.
     const key = await this.provider.getKey(chainIds[0])
 
     this.walletStore.setSourceAddress({
