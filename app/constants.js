@@ -195,6 +195,15 @@ export const WALLETS = {
 export const PHANTOM_DOWNLOAD_LINK = 'https://phantom.com/download'
 export const KEPLR_DOWNLOAD_LINK = 'https://www.keplr.app/get'
 
+export const COSMOS_CHAIN_ID_HASH = {
+  OSMOSIS: 'osmosis-1',
+  NOBLE: 'noble-1',
+  NEUTRON: 'neutron-1',
+  OSMOSIS_TESTNET: 'osmo-test-5',
+  NOBLE_TESTNET: 'grand-1',
+  NEUTRON_TESTNET: 'pion-1',
+}
+
 // Extension wallet EIP-6963 identifiers
 export const MIPD_RDNS_HASH = {
   PHANTOM: 'app.phantom',
