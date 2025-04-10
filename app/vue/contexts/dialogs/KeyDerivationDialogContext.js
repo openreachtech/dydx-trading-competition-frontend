@@ -11,14 +11,8 @@ import {
 
 import {
   DirectSecp256k1HdWallet,
-  makeSignDoc,
-  makeAuthInfoBytes,
-  makeSignBytes,
 } from '@cosmjs/proto-signing'
 import {
-  fromHex,
-  toBase64,
-  fromBase64,
 } from '@cosmjs/encoding'
 
 import {
@@ -26,6 +20,8 @@ import {
 } from 'node:buffer'
 
 import stableStringify from 'fast-json-stable-stringify'
+
+import CredentialGenerator from '~/app/wallets/CredentialGenerator'
 
 import {
   WALLETS_CONFIG_HASH,
@@ -291,55 +287,18 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
   async generateWalletCredential ({
     wallet,
   }) {
-    const pubkey = {
-      typeUrl: '/dydx.crypto.secp256k1.PubKey',
-      value: fromBase64('4444'),
-    }
-    /** @type {Array<import('cosmjs-types/cosmos/base/v1beta1/coin').Coin>} */
-    const fee = []
-    const gasLimit = 0
-    const feeGranter = undefined
-    const feePayer = undefined
-    const chainId = ''
-    const accountNumber = 1
-    const bodyBytes = fromHex('4444')
-    const authInfoBytes = makeAuthInfoBytes(
-      [{
-        pubkey,
-        sequence: 1,
-      }],
-      fee,
-      gasLimit,
-      feeGranter,
-      feePayer
-    )
-
-    const signDoc = makeSignDoc(
-      bodyBytes,
-      authInfoBytes,
-      chainId,
-      accountNumber
-    )
-
     const accounts = await wallet.getAccounts()
     const [firstAccount] = accounts
     const firstAccountAddress = firstAccount.address
 
-    const signedResult = await wallet.signDirect(
-      firstAccountAddress,
-      signDoc
-    )
-
-    const signDocBytes = makeSignBytes(signDoc)
-    const base64SignDocBytes = toBase64(signDocBytes)
+    const credentialGenerator = CredentialGenerator.create({
+      signer: wallet,
+      signerAddress: firstAccountAddress,
+    })
+    const credential = await credentialGenerator.generateCredential()
 
     this.walletStore.setCredential({
-      credential: {
-        signDoc: base64SignDocBytes,
-        signature: signedResult.signature.signature,
-        publicKey: signedResult.signature.pub_key.value,
-        address: firstAccountAddress,
-      },
+      credential,
     })
   }
 
