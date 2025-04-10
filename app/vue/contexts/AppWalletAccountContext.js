@@ -319,6 +319,23 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for 'address'
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generateAddressClasses () {
+    const connectorType = this.walletStore.walletStoreRef.value
+      .sourceAccount
+      .walletDetail
+      ?.connectorType
+      ?? null
+
+    return {
+      cosmos: connectorType === CONNECTOR_TYPE.COSMOS,
+    }
+  }
+
+  /**
    * Create WagmiConnector instance.
    *
    * @returns {WagmiConnector}
