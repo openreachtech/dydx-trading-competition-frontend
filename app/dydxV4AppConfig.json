@@ -36,7 +36,7 @@
            "image": "/currencies/usdc.png"
         }
      },
-     "[mainnet chain id]": {
+     "dydx-mainnet-1": {
         "comment": "Change according to mainnet release",
         "chain": {
            "name": "TokenName",
@@ -195,7 +195,7 @@
         "launchMarketTos": null,
         "launchMarketLearnMore": null
      },
-     "[mainnet chain id]": {
+     "dydx-mainnet-1": {
         "tos": "[HTTP link to TOS]",
         "privacy": "[HTTP link to Privacy Policy]",
         "statusPage": "[HTTP link to status page]",
@@ -321,7 +321,7 @@
         "signTypedDataAction": "dYdX Chain Onboarding",
         "signTypedDataDomainName": "dYdX Chain"
      },
-     "[mainnet chain id]": {
+     "dydx-mainnet-1": {
         "walletconnect": {
            "client": {
               "name": "[Name of the app]",
@@ -355,7 +355,7 @@
            "newMarketsMethodology": "https://docs.google.com/spreadsheets/d/1zjkV9R7R_7KMItuzqzvKGwefSBRfE-ZNAx1LH55OcqY/edit?usp=sharing"
         }
      },
-     "[mainnet chain id]": {
+     "dydx-mainnet-1": {
         "newMarketProposal": {
            "initialDepositAmount": 0,
            "delayBlocks": 0,
@@ -1044,7 +1044,7 @@
      "dydxprotocol-mainnet": {
         "name": "v4",
         "ethereumChainId": "1",
-        "dydxChainId": "[mainnet chain id]",
+        "dydxChainId": "dydx-mainnet-1",
         "chainName": "dYdX Chain",
         "chainLogo": "/dydx-chain.png",
         "deployerName": "[deployer name]",
