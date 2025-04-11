@@ -41,6 +41,18 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.prizeRules
       ?? []
   }
+
+  /**
+   * get: statusId
+   *
+   * @returns {number | null}
+   */
+  get statusId () {
+    return this.extractCompetition()
+      ?.status
+      ?.statusId
+      ?? null
+  }
 }
 
 /**
