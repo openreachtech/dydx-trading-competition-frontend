@@ -65,6 +65,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionStatusId () {
+    return this.props.competitionStatusId
+  }
+
+  /**
    * get: tableHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>} Header entries.
@@ -390,7 +399,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   route: ReturnType<import('#imports').useRoute>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   statusReactive: StatusReactive
@@ -431,4 +440,10 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
+ */
+
+/**
+ * @typedef {{
+ *   competitionStatusId: number | null
+ * }} PropsType
  */

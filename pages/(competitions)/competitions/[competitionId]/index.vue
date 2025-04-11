@@ -126,7 +126,7 @@ export default defineComponent({
 
     <SectionSchedules :schedules="context.schedules" />
 
-    <SectionLeaderboard />
+    <SectionLeaderboard :competition-status-id="context.competitionStatusId" />
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
       :competition="context.competition"

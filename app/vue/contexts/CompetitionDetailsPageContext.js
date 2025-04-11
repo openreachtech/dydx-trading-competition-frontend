@@ -135,6 +135,16 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionStatusId () {
+    return this.competitionCapsuleRef.value
+      .statusId
+  }
+
+  /**
    * get: addressName
    *
    * @returns {string | null}
