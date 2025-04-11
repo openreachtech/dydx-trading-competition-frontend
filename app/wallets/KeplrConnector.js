@@ -2,6 +2,17 @@ import {
   WALLET_NETWORK_TYPE,
 } from '~/app/constants'
 
+import {
+  makeSignDoc,
+  makeAuthInfoBytes,
+  makeSignBytes,
+} from '@cosmjs/proto-signing'
+import {
+  fromHex,
+  toBase64,
+  fromBase64,
+} from '@cosmjs/encoding'
+
 export default class KeplrConnector {
   /**
    * Constructor of this class.
@@ -73,6 +84,57 @@ export default class KeplrConnector {
     })
     this.walletStore.setLocalWallet({
       address: key.bech32Address,
+    })
+
+    /**
+     * Generate signDoc.
+     *
+     * @returns {ReturnType<typeof makeSignDoc>}
+     */
+    const pubkey = {
+      typeUrl: '/dydx.crypto.secp256k1.PubKey',
+      value: key.pubKey,
+    }
+    /** @type {Array<import('cosmjs-types/cosmos/base/v1beta1/coin').Coin>} */
+    const fee = []
+    const gasLimit = 0
+    const feeGranter = undefined
+    const feePayer = undefined
+    const chainId = dydxChainId
+    const accountNumber = 1
+    const bodyBytes = fromHex('4444')
+    const authInfoBytes = makeAuthInfoBytes(
+      [{
+        pubkey,
+        sequence: 1,
+      }],
+      fee,
+      gasLimit,
+      feeGranter,
+      feePayer
+    )
+
+    const signDoc = makeSignDoc(
+      bodyBytes,
+      authInfoBytes,
+      chainId,
+      accountNumber
+    )
+    const signDocBytes = makeSignBytes(signDoc)
+    const base64SignDocBytes = toBase64(signDocBytes)
+
+    const result = await this.provider.signArbitrary(dydxChainId, key.bech32Address, 'Verify account ownership')
+    console.log('result', result)
+
+    const credential = {
+      signDoc: base64SignDocBytes,
+      signature: result.signature,
+      publicKey: result.pub_key.value,
+      address: key.bech32Address,
+    }
+    console.log('credential', credential)
+    this.walletStore.setCredential({
+      credential,
     })
   }
 
