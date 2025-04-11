@@ -61,6 +61,17 @@ export default class ScheduledPeriodTracker {
   }
 
   /**
+   * Check if is before registration period.
+   *
+   * @returns {boolean} `true` if today is before the registration period.
+   */
+  isBeforeRegistrationPeriod () {
+    return this.isActivePeriod({
+      endDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    })
+  }
+
+  /**
    * Check if is registration period.
    *
    * @returns {boolean} `true` if today is within the registration period.
