@@ -76,7 +76,9 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <h2>
+      <h2 class="heading"
+        :class="context.generateSectionHeadingClasses()"
+      >
         {{ context.generateSectionHeading() }}
       </h2>
 
@@ -212,6 +214,27 @@ export default defineComponent({
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
   }
+}
+
+.unit-section > .inner > .heading {
+  display: inline-block;
+
+  margin-block-end: 2rem;
+
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-headline);
+  font-weight: 700;
+  line-height: var(--size-line-height-headline);
+
+  text-align: center;
+}
+
+.unit-section > .inner > .heading.outcome {
+  margin-block-end: 4rem;
+}
+
+.unit-section > .inner > .heading.hidden {
+  display: none;
 }
 
 .unit-section > .inner > .note {
