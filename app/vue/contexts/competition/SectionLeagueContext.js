@@ -102,6 +102,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantCapsule
+   *
+   * @returns {PropsType['competitionParticipantCapsule']}
+   */
+  get competitionParticipantCapsule () {
+    return this.props
+      .competitionParticipantCapsule
+      ?? null
+  }
+
+  /**
    * get: competitionStatus
    *
    * @returns {CompetitionEntity['status'] | null}
@@ -694,7 +705,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
  *   statusReactive: import('vue').Reactive<{
@@ -705,4 +716,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
 /**
  * @typedef {SectionLeagueContextParams} SectionLeagueContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   competitionParticipantCapsule: import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default | null
+ * }} PropsType
  */

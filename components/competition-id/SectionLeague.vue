@@ -48,6 +48,14 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionParticipantCapsule: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/competition/SectionLeagueContext').PropsType['competitionParticipantCapsule']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
   },
 
   emits: [

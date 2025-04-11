@@ -88,6 +88,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         },
       })
 
+    this.graphqlClientHash
+      .competitionParticipant
+      .invokeRequestOnMounted()
+
     this.watch(
       () => this.walletStore.walletStoreRef.value.localWallet.address,
       async newAddress => {
@@ -182,6 +186,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantCapsule () {
+    return this.graphqlClientHash.competitionParticipant.capsuleRef.value
+  }
+
+  /**
    * Show wallet selection dialog.
    *
    * @param {{
@@ -224,6 +237,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
+ *     competitionParticipant: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
