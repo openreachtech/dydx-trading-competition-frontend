@@ -61,7 +61,7 @@ export default class ScheduledPeriodTracker {
   }
 
   /**
-   * Check if is before registration period.
+   * Check if today is before the registration period.
    *
    * @returns {boolean} `true` if today is before the registration period.
    */
