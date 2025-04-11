@@ -34,6 +34,16 @@ export default defineComponent({
     LinkTooltipButton,
   },
 
+  props: {
+    competitionStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
