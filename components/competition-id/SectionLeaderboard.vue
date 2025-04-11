@@ -76,6 +76,10 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
+      <h2>
+        {{ context.generateSectionHeading() }}
+      </h2>
+
       <div class="unit-champions">
         <div v-for="it of context.generateTopThree()"
           :key="it.rank"
