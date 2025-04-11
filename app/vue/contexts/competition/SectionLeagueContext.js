@@ -6,6 +6,8 @@ import {
   useRoute,
 } from '#imports'
 
+import ScheduledPeriodTracker from '~/app/ScheduledPeriodTracker'
+
 import {
   SCHEDULE_CATEGORY,
 } from '~/app/constants'
@@ -570,17 +572,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string}
    */
   generateEnrollButtonLabel () {
-    if (this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
+    const scheduledPeriodTracker = ScheduledPeriodTracker.create({
+      schedules: this.schedules,
+    })
+
+    if (scheduledPeriodTracker.isRegistrationPeriod()) {
       return 'Enroll now'
     }
 
-    if (!this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
+    if (!scheduledPeriodTracker.isRegistrationPeriod()) {
       return 'Registration ended'
     }
 
@@ -593,10 +593,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {boolean}
    */
   shouldDisableEnrollButton () {
-    return !this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    const scheduledPeriodTracker = ScheduledPeriodTracker.create({
+      schedules: this.schedules,
     })
+
+    return !scheduledPeriodTracker.isRegistrationPeriod()
   }
 
   /**
@@ -644,63 +645,6 @@ export default class SectionLeagueContext extends BaseFuroContext {
    */
   toggleDescriptionExpansion () {
     this.statusReactive.isDescriptionExpanded = !this.isDescriptionExpanded
-  }
-
-  /**
-   * Check if the current period is the registration period.
-   *
-   * @param {{
-   *   startDateId: number
-   *   endDateId: number
-   * }} params - Parameters.
-   * @returns {boolean}
-   */
-  isTargetPeriodById ({
-    startDateId,
-    endDateId,
-  }) {
-    const now = new Date()
-    const start = this.extractScheduleById({
-      id: startDateId,
-    })
-    const end = this.extractScheduleById({
-      id: endDateId,
-    })
-
-    if (
-      start !== null
-      && end !== null
-    ) {
-      return now >= new Date(start)
-        && now <= new Date(end)
-    }
-
-    if (start !== null) {
-      return now >= new Date(start)
-    }
-
-    if (end !== null) {
-      return now <= new Date(end)
-    }
-
-    return false
-  }
-
-  /**
-   * Extract schedule by id.
-   *
-   * @param {{
-   *   id: number
-   * }} params - Parameters.
-   * @returns {string | null}
-   */
-  extractScheduleById ({
-    id,
-  }) {
-    return this.schedules
-      .find(it => it.category.categoryId === id)
-      ?.scheduledDatetime
-      ?? null
   }
 }
 
