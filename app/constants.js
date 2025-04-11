@@ -113,6 +113,34 @@ export const TRANSFER_CATEGORY = {
   },
 }
 
+export const COMPETITION_PARTICIPANT_STATUS = {
+  REGISTERED: {
+    ID: 1,
+    NAME: 'registered',
+    DESCRIPTION: 'Participant has registered for competition',
+  },
+  ACTIVE: {
+    ID: 2,
+    NAME: 'active',
+    DESCRIPTION: 'Participant is actively trading in competition',
+  },
+  DISQUALIFIED: {
+    ID: 3,
+    NAME: 'disqualified',
+    DESCRIPTION: 'Participant has been disqualified',
+  },
+  COMPLETED: {
+    ID: 4,
+    NAME: 'completed',
+    DESCRIPTION: 'Participant has completed the competition',
+  },
+  CANCELED: {
+    ID: 5,
+    NAME: 'canceled',
+    DESCRIPTION: 'Participant has canceled their registration',
+  },
+}
+
 export const PAGINATION = {
   LIMIT: 30,
 }
