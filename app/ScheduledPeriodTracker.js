@@ -101,14 +101,15 @@ export default class ScheduledPeriodTracker {
    * @param {{
    *   startDateId?: number | null
    *   endDateId?: number | null
+   *   now?: Date
    * }} params - Parameters.
    * @returns {boolean} `true` if today is within the active period.
    */
   isActivePeriod ({
     startDateId = null,
     endDateId = null,
+    now = new Date(),
   }) {
-    const now = new Date()
     const startDate = this.extractScheduleById({
       scheduleId: startDateId,
     })
