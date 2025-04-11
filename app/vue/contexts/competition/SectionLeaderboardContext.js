@@ -424,6 +424,20 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     })
       .normalizeAsRoi()
   }
+
+  /**
+   * Generate section heading CSS classes.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateSectionHeadingClasses () {
+    const sectionHeading = this.generateSectionHeading()
+
+    return {
+      hidden: sectionHeading === null,
+      outcome: sectionHeading === HEADING_LABEL.OUTCOME,
+    }
+  }
 }
 
 /**
