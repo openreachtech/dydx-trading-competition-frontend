@@ -12,6 +12,13 @@ import {
   toBase64,
   fromBase64,
 } from '@cosmjs/encoding'
+import {
+  Secp256k1,
+  Secp256k1Signature,
+  sha256,
+} from '@cosmjs/crypto'
+import Long from 'long'
+import { TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 
 export default class KeplrConnector {
   /**
@@ -86,11 +93,6 @@ export default class KeplrConnector {
       address: key.bech32Address,
     })
 
-    /**
-     * Generate signDoc.
-     *
-     * @returns {ReturnType<typeof makeSignDoc>}
-     */
     const pubkey = {
       typeUrl: '/dydx.crypto.secp256k1.PubKey',
       value: key.pubKey,
@@ -101,7 +103,7 @@ export default class KeplrConnector {
     const feeGranter = undefined
     const feePayer = undefined
     const chainId = dydxChainId
-    const accountNumber = 1
+    const accountNumber = 0
     const bodyBytes = fromHex('4444')
     const authInfoBytes = makeAuthInfoBytes(
       [{
@@ -120,22 +122,29 @@ export default class KeplrConnector {
       chainId,
       accountNumber
     )
+    console.log('signDoc', signDoc)
     const signDocBytes = makeSignBytes(signDoc)
+    console.log('signDocBytes', signDocBytes)
     const base64SignDocBytes = toBase64(signDocBytes)
 
-    const result = await this.provider.signArbitrary(dydxChainId, key.bech32Address, 'Verify account ownership')
+    const result = await this.provider.signArbitrary(
+      dydxChainId,
+      key.bech32Address,
+      signDocBytes
+    )
     console.log('result', result)
 
-    const credential = {
-      signDoc: base64SignDocBytes,
-      signature: result.signature,
-      publicKey: result.pub_key.value,
-      address: key.bech32Address,
-    }
-    console.log('credential', credential)
-    this.walletStore.setCredential({
-      credential,
-    })
+    const resultSignature = result.signature
+    const resultPubKey = result.pub_key.value
+
+    const messageHash = sha256(fromBase64(base64SignDocBytes))
+    console.log('messageHash', messageHash)
+    const isValid = await Secp256k1.verifySignature(
+      Secp256k1Signature.fromFixedLength(fromBase64(resultSignature)),
+      messageHash,
+      fromBase64(resultPubKey)
+    )
+    console.log('isValid', isValid)
   }
 
   /**
