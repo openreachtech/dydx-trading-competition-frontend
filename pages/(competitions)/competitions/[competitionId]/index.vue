@@ -53,6 +53,9 @@ export default defineComponent({
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionEnrollmentDialogRef = ref(null)
 
+    /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
+    const leaderboardEntriesRef = ref([])
+
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
@@ -77,6 +80,7 @@ export default defineComponent({
       componentContext,
       route,
       walletStore,
+      leaderboardEntriesRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,

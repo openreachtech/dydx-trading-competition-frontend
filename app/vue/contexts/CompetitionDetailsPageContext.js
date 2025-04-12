@@ -24,6 +24,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     route,
     walletStore,
     graphqlClientHash,
+    leaderboardEntriesRef,
     statusReactive,
   }) {
     super({
@@ -34,6 +35,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.route = route
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
+    this.leaderboardEntriesRef = leaderboardEntriesRef
     this.statusReactive = statusReactive
   }
 
@@ -52,6 +54,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     route,
     walletStore,
     graphqlClientHash,
+    leaderboardEntriesRef,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -61,6 +64,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         route,
         walletStore,
         graphqlClientHash,
+        leaderboardEntriesRef,
         statusReactive,
       })
     )
@@ -236,6 +240,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
+ *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
@@ -256,4 +261,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  * }} StatusReactive
+ */
+
+/**
+ * @typedef {import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule').ResponseContent['competitionLeaderboard']['rankings']
+ *   | Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+ * } LeaderboardEntries
  */
