@@ -19,6 +19,9 @@ import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addres
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
 import {
+  useRoute,
+} from 'vue-router'
+import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
@@ -42,6 +45,7 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
     const walletStore = useWalletStore()
 
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
@@ -71,6 +75,7 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
       walletStore,
       graphqlClientHash: {
         competition: competitionGraphqlClient,

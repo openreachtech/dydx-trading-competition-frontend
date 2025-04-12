@@ -21,6 +21,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     props,
     componentContext,
 
+    route,
     walletStore,
     graphqlClientHash,
     statusReactive,
@@ -30,6 +31,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.route = route
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
@@ -47,6 +49,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
     walletStore,
     graphqlClientHash,
     statusReactive,
@@ -55,6 +58,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        route,
         walletStore,
         graphqlClientHash,
         statusReactive,
@@ -230,6 +234,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   graphqlClientHash: {
  *     competition: GraphqlClient
