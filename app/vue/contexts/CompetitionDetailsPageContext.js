@@ -1,4 +1,8 @@
 import {
+  onMounted,
+} from 'vue'
+
+import {
   useRoute,
 } from '#imports'
 
@@ -75,16 +79,18 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     const route = useRoute()
     const { competitionId } = route.params
 
-    this.graphqlClientHash
-      .competition
-      .invokeRequestOnMounted({
-        variables: {
-          input: {
-            competitionId: Number(competitionId),
+    onMounted(async () => {
+      await this.graphqlClientHash
+        .competition
+        .invokeRequestOnEvent({
+          variables: {
+            input: {
+              competitionId: Number(competitionId),
+            },
           },
-        },
-        hooks: this.competitionLauncherHooks,
-      })
+          hooks: this.competitionLauncherHooks,
+        })
+    })
 
     this.graphqlClientHash
       .addressName
