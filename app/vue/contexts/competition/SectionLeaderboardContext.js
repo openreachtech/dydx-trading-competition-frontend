@@ -6,7 +6,21 @@ import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
   PAGINATION,
+  COMPETITION_STATUS,
 } from '~/app/constants'
+
+const HEADING_LABEL = {
+  REGISTRATION: 'Participants List',
+  OUTCOME: 'Final Outcome',
+}
+
+const SECTION_HEADING_HASH = {
+  [COMPETITION_STATUS.CANCELED.ID]: null,
+  [COMPETITION_STATUS.CREATED.ID]: HEADING_LABEL.REGISTRATION,
+  [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: HEADING_LABEL.REGISTRATION,
+  [COMPETITION_STATUS.IN_PROGRESS.ID]: null,
+  [COMPETITION_STATUS.COMPLETED.ID]: HEADING_LABEL.OUTCOME,
+}
 
 /**
  * SectionLeaderboardContext
@@ -62,6 +76,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
         statusReactive,
       })
     )
+  }
+
+  /**
+   * get: competitionStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionStatusId () {
+    return this.props.competitionStatusId
   }
 
   /**
@@ -203,6 +226,20 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   get rankings () {
     return this.competitionLeaderboardCapsuleRef.value.rankings
+  }
+
+  /**
+   * Generate section heading.
+   *
+   * @returns {string | null}
+   */
+  generateSectionHeading () {
+    if (this.competitionStatusId === null) {
+      return null
+    }
+
+    return SECTION_HEADING_HASH[this.competitionStatusId]
+      ?? null
   }
 
   /**
@@ -387,10 +424,24 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     })
       .normalizeAsRoi()
   }
+
+  /**
+   * Generate section heading CSS classes.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateSectionHeadingClasses () {
+    const sectionHeading = this.generateSectionHeading()
+
+    return {
+      hidden: sectionHeading === null,
+      outcome: sectionHeading === HEADING_LABEL.OUTCOME,
+    }
+  }
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   route: ReturnType<import('#imports').useRoute>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   statusReactive: StatusReactive
@@ -431,4 +482,10 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
+ */
+
+/**
+ * @typedef {{
+ *   competitionStatusId: number | null
+ * }} PropsType
  */
