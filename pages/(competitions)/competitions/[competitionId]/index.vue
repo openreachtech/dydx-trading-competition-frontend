@@ -15,6 +15,7 @@ import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.v
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
@@ -59,6 +60,7 @@ export default defineComponent({
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -70,6 +72,7 @@ export default defineComponent({
     })
     const statusReactive = reactive({
       isLoading: false,
+      isLoadingLeaderboard: true,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
@@ -84,6 +87,7 @@ export default defineComponent({
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
+        competitionLeaderboard: competitionLeaderboardGraphqlClient,
       },
       statusReactive,
     }
