@@ -125,6 +125,10 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    * @returns {Array<RankingTableEntry>} Top three rankers.
    */
   generateTopThree () {
+    if (this.shouldHideTopRankers()) {
+      return []
+    }
+
     const fallbackValue = {
       rank: null,
       name: null,
@@ -141,6 +145,24 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       { length: 3 },
       (it, index) => firstThreeRankers.at(index) || fallbackValue
     )
+  }
+
+  /**
+   * Whether to hide top rankers or not.
+   *
+   * @returns {boolean}
+   */
+  shouldHideTopRankers () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.CANCELED.ID,
+      COMPETITION_STATUS.CREATED.ID,
+      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+    ]
+      .includes(this.competitionStatusId)
   }
 
   /**
@@ -265,6 +287,17 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   generateLastUpdateNoteClasses () {
     return {
       hidden: this.lastLeaderboardUpdateTimestamp === null,
+    }
+  }
+
+  /**
+   * Generate CSS classes for top rankers.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateTopRankerClasses () {
+    return {
+      hidden: this.shouldHideTopRankers(),
     }
   }
 }
