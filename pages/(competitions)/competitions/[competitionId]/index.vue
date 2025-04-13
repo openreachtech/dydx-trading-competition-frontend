@@ -144,6 +144,7 @@ export default defineComponent({
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"
       :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
+      :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
     />
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"

@@ -486,6 +486,41 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Extract last leaderboard update timestamp.
+   *
+   * @returns {string | null} ISO string or `null` if unknown.
+   */
+  extractLastLeaderboardUpdateTimestamp () {
+    if (this.competitionStatusId === null) {
+      return null
+    }
+
+    const timestampHash = {
+      [COMPETITION_STATUS.CANCELED.ID]: null,
+      // [COMPETITION_STATUS.CREATED.ID]: this.extractLastParticipantPhasedAt(),
+      // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.extractLastParticipantPhasedAt(),
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractLastOngoingLeaderboardCalculatedAt(),
+      // [COMPETITION_STATUS.COMPLETED.ID]: this.extractLastOutcomeCalculatedAt(),
+    }
+
+    return timestampHash[this.competitionStatusId]
+      ?? null
+  }
+
+  /**
+   * Extract last leaderboard calculated at.
+   *
+   * @returns {string | null} ISO string or `null` if unknown.
+   */
+  extractLastOngoingLeaderboardCalculatedAt () {
+    return this.competitionLeaderboardCapsule
+      .rankings
+      .at(0)
+      ?.calculatedAt
+      ?? null
+  }
+
+  /**
    * Show wallet selection dialog.
    *
    * @param {{

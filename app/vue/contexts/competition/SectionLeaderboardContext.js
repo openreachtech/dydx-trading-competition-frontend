@@ -73,6 +73,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: lastLeaderboardUpdateTimestamp
+   *
+   * @returns {PropsType['lastLeaderboardUpdateTimestamp']} ISO String or `null` if unknown.
+   */
+  get lastLeaderboardUpdateTimestamp () {
+    return this.props.lastLeaderboardUpdateTimestamp
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}
@@ -87,21 +96,16 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
-   * Generate last calculated date.
+   * Format `lastLeaderboardUpdateTimestamp`.
    *
-   * @returns {string} Last calculated date.
+   * @returns {string} Human-readable formatted timestamp.
    */
-  generateLastCalculatedAt () {
-    const lastCalculatedAt = this.rankings
-      .at(0)
-      ?.calculatedAt
-      ?? null
-
-    if (!lastCalculatedAt) {
+  formatLastLeaderboardUpdateTimestamp () {
+    if (!this.lastLeaderboardUpdateTimestamp) {
       return 'Last updated: Unknown'
     }
 
-    const date = new Date(lastCalculatedAt)
+    const date = new Date(this.lastLeaderboardUpdateTimestamp)
     const formatter = new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',
@@ -305,5 +309,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
+ *   lastLeaderboardUpdateTimestamp: string | null
  * }} PropsType
  */

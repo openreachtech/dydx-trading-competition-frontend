@@ -62,6 +62,13 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    lastLeaderboardUpdateTimestamp: {
+      type: [
+        String,
+        null,
+      ],
+      required: true,
+    },
   },
 
   setup (
@@ -105,7 +112,7 @@ export default defineComponent({
       </div>
 
       <span class="note">
-        {{ context.generateLastCalculatedAt() }}
+        {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
       <AppTable :header-entries="context.leaderboardTableHeaderEntries"
