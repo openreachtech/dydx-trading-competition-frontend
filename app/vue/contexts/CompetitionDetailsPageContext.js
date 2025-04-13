@@ -439,6 +439,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionFinalOutcomeCapsule
+   *
+   * @returns {import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
+   */
+  get competitionFinalOutcomeCapsule () {
+    return this.graphqlClientHash.competitionLeaderboard.capsuleRef.value
+  }
+
+  /**
    * Generate leaderboard pagination result.
    *
    * @returns {PaginationResult}
@@ -566,6 +575,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
  *     competitionLeaderboard: GraphqlClient
+ *     competitionFinalOutcome: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams

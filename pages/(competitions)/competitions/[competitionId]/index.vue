@@ -16,6 +16,7 @@ import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/compet
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
+import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
@@ -61,6 +62,7 @@ export default defineComponent({
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
+    const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -88,6 +90,7 @@ export default defineComponent({
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
         competitionLeaderboard: competitionLeaderboardGraphqlClient,
+        competitionFinalOutcome: competitionFinalOutcomeGraphqlClient,
       },
       statusReactive,
     }
