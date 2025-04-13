@@ -344,8 +344,6 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     }))
   }
 
-
-
   /**
    * get: isLoadingLeaderboard
    *
