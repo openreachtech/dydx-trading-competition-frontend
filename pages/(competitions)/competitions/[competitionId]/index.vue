@@ -15,9 +15,13 @@ import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.v
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
+import {
+  useRoute,
+} from 'vue-router'
 import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
@@ -42,6 +46,7 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
     const walletStore = useWalletStore()
 
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
@@ -49,9 +54,13 @@ export default defineComponent({
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionEnrollmentDialogRef = ref(null)
 
+    /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
+    const leaderboardEntriesRef = ref([])
+
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -63,6 +72,7 @@ export default defineComponent({
     })
     const statusReactive = reactive({
       isLoading: false,
+      isLoadingLeaderboard: true,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
@@ -71,10 +81,13 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
       walletStore,
+      leaderboardEntriesRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
+        competitionLeaderboard: competitionLeaderboardGraphqlClient,
       },
       statusReactive,
     }
@@ -126,7 +139,13 @@ export default defineComponent({
 
     <SectionSchedules :schedules="context.schedules" />
 
-    <SectionLeaderboard :competition-status-id="context.competitionStatusId" />
+    <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+      :leaderboard-table-entries="context.leaderboardEntries"
+      :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
+      :is-loading-leaderboard="context.isLoadingLeaderboard"
+      :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
+      :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
+    />
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
       :competition="context.competition"

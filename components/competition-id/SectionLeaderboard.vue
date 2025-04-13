@@ -1,7 +1,6 @@
 <script>
 import {
   defineComponent,
-  reactive,
 } from 'vue'
 
 import {
@@ -12,16 +11,6 @@ import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
-
-import {
-  useRoute,
-} from '#imports'
-
-import {
-  useGraphqlClient,
-} from '@openreachtech/furo-nuxt'
-
-import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 
 import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLeaderboardContext'
 
@@ -42,26 +31,53 @@ export default defineComponent({
       ],
       required: true,
     },
+    isLoadingLeaderboard: {
+      type: Boolean,
+      required: true,
+    },
+    leaderboardTableHeaderEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableHeaderEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    leaderboardTableEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    leaderboardPaginationResult: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardPaginationResult']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+    lastLeaderboardUpdateTimestamp: {
+      type: [
+        String,
+        null,
+      ],
+      required: true,
+    },
   },
 
   setup (
     props,
     componentContext
   ) {
-    const route = useRoute()
-    const statusReactive = reactive({
-      isLoading: false,
-    })
-    const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
-
     const args = {
       props,
       componentContext,
-      route,
-      statusReactive,
-      graphqlClientHash: {
-        competitionLeaderboard: competitionLeaderboardGraphqlClient,
-      },
     }
     const context = SectionLeaderboardContext.create(args)
       .setupComponent()
@@ -96,12 +112,12 @@ export default defineComponent({
       </div>
 
       <span class="note">
-        {{ context.generateLastCalculatedAt() }}
+        {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
-      <AppTable :header-entries="context.tableHeaderEntries"
-        :entries="context.normalizeRankings()"
-        :is-loading="context.statusReactive.isLoading"
+      <AppTable :header-entries="context.leaderboardTableHeaderEntries"
+        :entries="context.leaderboardTableEntries"
+        :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
         <template #body-rank="{ value }">
@@ -173,7 +189,7 @@ export default defineComponent({
 
       <AppPagination class="pagination"
         page-key="leaderboardPage"
-        :pagination="context.generatePaginationResult()"
+        :pagination="context.leaderboardPaginationResult"
       />
     </div>
   </section>

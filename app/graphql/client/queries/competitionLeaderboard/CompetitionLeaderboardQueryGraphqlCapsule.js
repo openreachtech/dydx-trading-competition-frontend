@@ -40,6 +40,28 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
       ?.pagination
       ?? null
   }
+
+  /**
+   * get: totalCount
+   *
+   * @returns {number | null}
+   */
+  get totalCount () {
+    return this.pagination
+      ?.totalCount
+      ?? null
+  }
+
+  /**
+   * get: limit
+   *
+   * @returns {number | null}
+   */
+  get limit () {
+    return this.pagination
+      ?.limit
+      ?? null
+  }
 }
 
 /**
