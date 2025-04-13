@@ -186,6 +186,69 @@ export default defineComponent({
             }}
           </span>
         </template>
+
+        <!-- ** Leaderboard final outcome ** -->
+        <template #body-outcomeRank="{ value }">
+          <span class="unit-rank outcome">
+            <span class="indicator">#</span> {{ value }}
+          </span>
+        </template>
+
+        <template #body-outcomeName="{ value, row }">
+          <NuxtLink class="unit-name outcome"
+            :to="context.generateProfileUrl({
+              address: row.address,
+            })"
+          >
+            {{ value }}
+          </NuxtLink>
+        </template>
+
+        <template #body-outcomeAddress="{ value }">
+          <span class="unit-address outcome">
+            <span>
+              {{
+                context.shortenAddress({
+                  address: value,
+                })
+              }}
+            </span>
+
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateAddressUrl({
+                address: value,
+              })"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          </span>
+        </template>
+
+        <template #body-outcomeBaseline="{ value }">
+          <span class="unit-baseline outcome">
+            {{
+              context.normalizePerformanceBaseline({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
+        <template #body-outcomePnl="{ value }">
+          <span class="unit-pnl outcome">
+            {{
+              context.normalizePnl({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
+        <template #body-outcomePrize="{ value }">
+          <span class="unit-prize outcome">
+            ${{ value }}
+          </span>
+        </template>
       </AppTable>
 
       <AppPagination class="pagination"
@@ -395,15 +458,15 @@ export default defineComponent({
 }
 
 /***************** Non-podium rankers ****************/
-.unit-rank.ongoing {
+.unit-rank:where(.ongoing, .outcome) {
   color: var(--color-text-primary);
 }
 
-.unit-rank.ongoing > .indicator {
+.unit-rank:where(.ongoing, .outcome) > .indicator {
   color: var(--color-text-secondary);
 }
 
-.unit-name.ongoing {
+.unit-name:where(.ongoing, .outcome) {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -411,17 +474,17 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name.ongoing[href]:hover {
+.unit-name:where(.ongoing, .outcome)[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-address.ongoing {
+.unit-address:where(.ongoing, .outcome) {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.unit-baseline.ongoing {
+.unit-baseline:where(.ongoing, .outcome) {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: var(--size-line-height-base);
