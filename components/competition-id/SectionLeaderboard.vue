@@ -111,7 +111,9 @@ export default defineComponent({
         </div>
       </div>
 
-      <span class="note">
+      <span class="note"
+        :class="context.generateLastUpdateNoteClasses()"
+      >
         {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
@@ -331,6 +333,10 @@ export default defineComponent({
   @media (48rem < width) {
     margin-block-start: 5rem;
   }
+}
+
+.unit-section > .inner > .note.hidden {
+  display: none;
 }
 
 .unit-section > .inner > .table {
