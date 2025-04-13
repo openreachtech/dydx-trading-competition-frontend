@@ -94,7 +94,7 @@ export default defineComponent({
         </dd>
       </div>
 
-      <div class="entry end">
+      <div class="entry">
         <dt class="term">
           PnL
         </dt>
@@ -215,8 +215,8 @@ export default defineComponent({
 .unit-card > .profit {
   margin-block-start: 0.75rem;
 
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 }
 
@@ -226,7 +226,7 @@ export default defineComponent({
   gap: 0.25rem;
 }
 
-.unit-card > .profit > .entry.end {
+.unit-card > .profit > .entry:nth-of-type(2n) {
   text-align: end;
 }
 
