@@ -64,6 +64,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: leaderboardPaginationResult
+   *
+   * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
+   */
+  get leaderboardPaginationResult () {
+    return this.props.leaderboardPaginationResult
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}
@@ -295,5 +304,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   isLoadingLeaderboard: boolean
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   leaderboardPaginationResult: PaginationResult
  * }} PropsType
  */

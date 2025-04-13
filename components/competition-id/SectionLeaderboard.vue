@@ -53,6 +53,15 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    leaderboardPaginationResult: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardPaginationResult']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
   },
 
   setup (
@@ -173,7 +182,7 @@ export default defineComponent({
 
       <AppPagination class="pagination"
         page-key="leaderboardPage"
-        :pagination="context.generatePaginationResult()"
+        :pagination="context.leaderboardPaginationResult"
       />
     </div>
   </section>
