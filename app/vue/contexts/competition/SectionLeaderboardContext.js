@@ -37,6 +37,33 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingLeaderboard
+   *
+   * @returns {PropsType['isLoadingLeaderboard']}
+   */
+  get isLoadingLeaderboard () {
+    return this.props.isLoadingLeaderboard
+  }
+
+  /**
+   * get: leaderboardTableHeaderEntries
+   *
+   * @returns {PropsType['leaderboardTableHeaderEntries']} Header entries.
+   */
+  get leaderboardTableHeaderEntries () {
+    return this.props.leaderboardTableHeaderEntries
+  }
+
+  /**
+   * get: leaderboardTableEntries
+   *
+   * @returns {PropsType['leaderboardTableEntries']} Body entries.
+   */
+  get leaderboardTableEntries () {
+    return this.props.leaderboardTableEntries
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}
@@ -265,5 +292,8 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   competitionStatusId: number | null
+ *   isLoadingLeaderboard: boolean
+ *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
+ *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
  * }} PropsType
  */

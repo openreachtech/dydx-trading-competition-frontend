@@ -31,6 +31,28 @@ export default defineComponent({
       ],
       required: true,
     },
+    isLoadingLeaderboard: {
+      type: Boolean,
+      required: true,
+    },
+    leaderboardTableHeaderEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableHeaderEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    leaderboardTableEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
   },
 
   setup (
@@ -77,8 +99,8 @@ export default defineComponent({
         {{ context.generateLastCalculatedAt() }}
       </span>
 
-      <AppTable :header-entries="context.tableHeaderEntries"
-        :entries="context.normalizeRankings()"
+      <AppTable :header-entries="context.leaderboardTableHeaderEntries"
+        :entries="context.leaderboardTableEntries"
         :is-loading="context.statusReactive.isLoading"
         class="table"
       >
