@@ -1,7 +1,6 @@
 <script>
 import {
   defineComponent,
-  reactive,
 } from 'vue'
 
 import {
@@ -12,16 +11,6 @@ import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
-
-import {
-  useRoute,
-} from '#imports'
-
-import {
-  useGraphqlClient,
-} from '@openreachtech/furo-nuxt'
-
-import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 
 import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLeaderboardContext'
 
@@ -48,20 +37,9 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    const route = useRoute()
-    const statusReactive = reactive({
-      isLoading: false,
-    })
-    const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
-
     const args = {
       props,
       componentContext,
-      route,
-      statusReactive,
-      graphqlClientHash: {
-        competitionLeaderboard: competitionLeaderboardGraphqlClient,
-      },
     }
     const context = SectionLeaderboardContext.create(args)
       .setupComponent()

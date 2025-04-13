@@ -5,7 +5,6 @@ import {
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
-  PAGINATION,
   COMPETITION_STATUS,
 } from '~/app/constants'
 
@@ -25,59 +24,9 @@ const SECTION_HEADING_HASH = {
 /**
  * SectionLeaderboardContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class SectionLeaderboardContext extends BaseFuroContext {
-  /**
-   * Constructor
-   *
-   * @param {SectionLeaderboardContextParams} params - Parameters of this constructor.
-   */
-  constructor ({
-    props,
-    componentContext,
-
-    route,
-    graphqlClientHash,
-    statusReactive,
-  }) {
-    super({
-      props,
-      componentContext,
-    })
-
-    this.route = route
-    this.graphqlClientHash = graphqlClientHash
-    this.statusReactive = statusReactive
-  }
-
-  /**
-   * Factory method to create a new instance of this class.
-   *
-   * @template {X extends typeof SectionLeaderboardContext ? X : never} T, X
-   * @override
-   * @param {SectionLeaderboardContextFactoryParams} params - Parameters of this factory method.
-   * @returns {InstanceType<T>} An instance of this class.
-   * @this {T}
-   */
-  static create ({
-    props,
-    componentContext,
-    route,
-    graphqlClientHash,
-    statusReactive,
-  }) {
-    return /** @type {InstanceType<T>} */ (
-      new this({
-        props,
-        componentContext,
-        route,
-        graphqlClientHash,
-        statusReactive,
-      })
-    )
-  }
-
   /**
    * get: competitionStatusId
    *
@@ -85,147 +34,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   get competitionStatusId () {
     return this.props.competitionStatusId
-  }
-
-  /**
-   * get: tableHeaderEntries
-   *
-   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>} Header entries.
-   */
-  get tableHeaderEntries () {
-    return [
-      {
-        key: 'rank',
-        label: 'Rank',
-      },
-      {
-        key: 'name',
-        label: 'Name',
-      },
-      {
-        key: 'address',
-        label: 'Address',
-      },
-      {
-        key: 'pnl',
-        label: 'PnL',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-      {
-        key: 'baseline',
-        label: 'Performance Baseline',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-      {
-        key: 'roi',
-        label: 'ROI',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-    ]
-  }
-
-  /** @override */
-  setupComponent () {
-    this.watch(
-      () => this.extractCurrentPage(),
-      async () => {
-        await this.graphqlClientHash
-          .competitionLeaderboard
-          .invokeRequestOnEvent({
-            variables: {
-              input: {
-                competitionId: this.extractCompetitionId(),
-                pagination: {
-                  limit: PAGINATION.LIMIT,
-                  offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-                },
-              },
-            },
-            hooks: this.competitionLeaderboardLauncherHooks,
-          })
-      },
-      {
-        immediate: true,
-      }
-    )
-
-    return this
-  }
-
-  /**
-   * Extract current page.
-   *
-   * @returns {number} Current page.
-   */
-  extractCurrentPage () {
-    const currentPageQuery = Array.isArray(this.route.query.leaderboardPage)
-      ? this.route.query.leaderboardPage[0]
-      : this.route.query.leaderboardPage
-    const currentPage = Number(currentPageQuery)
-
-    return isNaN(currentPage)
-      ? 1
-      : currentPage
-  }
-
-  /**
-   * Extract competition ID.
-   *
-   * @returns {number | null} Competition ID.
-   */
-  extractCompetitionId () {
-    const competitionIdParam = Array.isArray(this.route.params.competitionId)
-      ? this.route.params.competitionId[0]
-      : this.route.params.competitionId
-    const competitionId = Number(competitionIdParam)
-
-    return isNaN(competitionId)
-      ? null
-      : competitionId
-  }
-
-  /**
-   * get: competitionLeaderboardLauncherHooks
-   *
-   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
-   */
-  get competitionLeaderboardLauncherHooks () {
-    return {
-      beforeRequest: async payload => {
-        this.statusReactive.isLoading = true
-
-        return false
-      },
-      afterRequest: async capsule => {
-        this.statusReactive.isLoading = false
-      },
-    }
-  }
-
-  /**
-   * get: competitionCapsuleRef
-   *
-   * @returns {SectionLeaderboardContext['graphqlClientHash']['competitionLeaderboard']['capsuleRef']}
-   */
-  get competitionLeaderboardCapsuleRef () {
-    return this.graphqlClientHash.competitionLeaderboard.capsuleRef
-  }
-
-  /**
-   * get: rankings
-   *
-   * @returns {import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule')
-   *   .ResponseContent['competitionLeaderboard']['rankings']
-   * }
-   */
-  get rankings () {
-    return this.competitionLeaderboardCapsuleRef.value.rankings
   }
 
   /**
@@ -269,36 +77,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     })
 
     return `Last Updated: ${formatter.format(date)}`
-  }
-
-  /**
-   * Generate pagination result
-   *
-   * @returns {PaginationResult} Pagination result.
-   */
-  generatePaginationResult () {
-    return {
-      limit: PAGINATION.LIMIT,
-      totalRecords: this.competitionLeaderboardCapsuleRef.value.pagination
-        ?.totalCount
-        ?? 0,
-    }
-  }
-
-  /**
-   * Normalize rankings.
-   *
-   * @returns {Array<RankingTableEntry>} Normalized rankings.
-   */
-  normalizeRankings () {
-    return this.rankings.map(it => ({
-      rank: it.ranking,
-      name: it.address.name || '----',
-      address: it.address.address,
-      baseline: it.performanceBaseline,
-      roi: it.roi,
-      pnl: it.pnl,
-    }))
   }
 
   /**
