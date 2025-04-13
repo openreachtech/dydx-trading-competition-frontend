@@ -139,7 +139,12 @@ export default defineComponent({
 
     <SectionSchedules :schedules="context.schedules" />
 
-    <SectionLeaderboard :competition-status-id="context.competitionStatusId" />
+    <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+      :leaderboard-table-entries="context.leaderboardEntries"
+      :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
+      :is-loading-leaderboard="context.isLoadingLeaderboard"
+      :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
+    />
 
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
       :competition="context.competition"

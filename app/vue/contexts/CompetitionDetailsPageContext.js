@@ -345,6 +345,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingLeaderboard
+   *
+   * @returns {boolean}
+   */
+  get isLoadingLeaderboard () {
+    return this.statusReactive.isLoadingLeaderboard
+  }
+
+  /**
+   * get: leaderboardEntries
+   *
+   * @returns {LeaderboardEntries}
+   */
+  get leaderboardEntries () {
+    return this.leaderboardEntriesRef.value
+  }
+
+  /**
    * get: competition
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity}

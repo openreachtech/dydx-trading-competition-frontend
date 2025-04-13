@@ -110,7 +110,7 @@ export default defineComponent({
 
       <AppTable :header-entries="context.leaderboardTableHeaderEntries"
         :entries="context.leaderboardTableEntries"
-        :is-loading="context.statusReactive.isLoading"
+        :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
         <template #body-rank="{ value }">

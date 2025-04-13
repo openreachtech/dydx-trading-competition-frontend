@@ -129,7 +129,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       roi: null,
       pnl: null,
     }
-    const firstThreeRankers = this.normalizeRankings()
+    const firstThreeRankers = this.leaderboardTableEntries
       .slice(0, 3)
 
     // TODO: Value of ROI would be changed to number later.
