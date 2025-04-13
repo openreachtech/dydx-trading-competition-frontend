@@ -99,8 +99,8 @@ export default defineComponent({
       </h2>
 
       <div class="unit-champions">
-        <div v-for="it of context.generateTopThree()"
-          :key="it.rank"
+        <div v-for="(it, index) of context.generateTopThree()"
+          :key="index"
           class="champion"
         >
           <TopRankingCard :rank-details="it"
