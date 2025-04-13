@@ -94,7 +94,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       // [COMPETITION_STATUS.CREATED.ID]: this.competitionParticipantHeaderEntries,
       // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.competitionParticipantHeaderEntries,
       [COMPETITION_STATUS.IN_PROGRESS.ID]: this.ongoingLeaderboardHeaderEntries,
-      // [COMPETITION_STATUS.COMPLETED.ID]: this.finalOutcomeHeaderEntries,
+      [COMPETITION_STATUS.COMPLETED.ID]: this.leaderboardFinalOutcomeHeaderEntries,
     }
 
     return headerEntryHash[this.competitionStatusId]
@@ -109,34 +109,77 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get ongoingLeaderboardHeaderEntries () {
     return [
       {
-        key: 'ongoing-rank',
+        key: 'ongoingRank',
         label: 'Rank',
       },
       {
-        key: 'ongoing-name',
+        key: 'ongoingName',
         label: 'Name',
       },
       {
-        key: 'ongoing-address',
+        key: 'ongoingAddress',
         label: 'Address',
       },
       {
-        key: 'ongoing-pnl',
+        key: 'ongoingPnl',
         label: 'PnL',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'ongoing-baseline',
+        key: 'ongoingBaseline',
         label: 'Performance Baseline',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'ongoing-roi',
+        key: 'ongoingRoi',
         label: 'ROI',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
+   * get: leaderboardFinalOutcomeHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get leaderboardFinalOutcomeHeaderEntries () {
+    return [
+      {
+        key: 'outcomeRank',
+        label: 'Rank',
+      },
+      {
+        key: 'outcomeName',
+        label: 'Name',
+      },
+      {
+        key: 'outcomeAddress',
+        label: 'Address',
+      },
+      {
+        key: 'outcomePnl',
+        label: 'PnL',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'outcomeBaseline',
+        label: 'Performance Baseline',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'outcomePrize',
+        label: 'Prize',
         columnOptions: {
           textAlign: 'end',
         },
@@ -215,7 +258,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       // [COMPETITION_STATUS.CREATED.ID]: () => this.fetchCompetitionParticipants(),
       // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: () => this.fetchCompetitionParticipants(),
       [COMPETITION_STATUS.IN_PROGRESS.ID]: () => this.fetchOngoingLeaderboard(),
-      // [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchFinalOutcome(),
+      [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchLeaderboardFinalOutcome(),
     }
 
     await fetchFunctionHash[this.competitionStatusId]?.()
@@ -240,6 +283,28 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
         },
         hooks: this.competitionLeaderboardLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch leaderboard final outcome.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchLeaderboardFinalOutcome () {
+    await this.graphqlClientHash
+      .competitionFinalOutcome
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            pagination: {
+              limit: PAGINATION.LIMIT,
+              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+            },
+          },
+        },
+        hooks: this.competitionFinalOutcomeLauncherHooks,
       })
   }
 
@@ -322,6 +387,35 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionFinalOutcomeLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get competitionFinalOutcomeLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingLeaderboard = true
+
+        return false
+      },
+      /**
+       * @type {(
+       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       * ) => Promise<void>}
+       * @todo: Fix import path of this capsule. It should be in `queries` directory.
+       */
+      // @ts-expect-error: The exact type of capsule is unknown to afterRequest. Should be resolved in newer version of furo-nuxt.
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingLeaderboard = false
+
+        this.leaderboardEntriesRef.value = this.normalizeLeaderboardFinalOutcomeEntries({
+          outcomes: capsule.outcomes,
+        })
+      },
+    }
+  }
+
+  /**
    * Normalize ongoing leaderboard entries.
    *
    * @param {{
@@ -335,12 +429,33 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     rankings,
   }) {
     return rankings.map(it => ({
-      rank: it.ranking,
-      name: it.address.name ?? '----',
-      address: it.address.address,
-      baseline: it.performanceBaseline,
-      roi: it.roi,
-      pnl: it.pnl,
+      ongoingRank: it.ranking,
+      ongoingName: it.address.name ?? '----',
+      ongoingAddress: it.address.address,
+      ongoingBaseline: it.performanceBaseline,
+      ongoingRoi: it.roi,
+      ongoingPnl: it.pnl,
+    }))
+  }
+
+  /**
+   * Normalize leaderboard final outcome entries.
+   *
+   * @param {{
+   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   * }} params - Parameters.
+   * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
+   */
+  normalizeLeaderboardFinalOutcomeEntries ({
+    outcomes,
+  }) {
+    return outcomes.map(it => ({
+      outcomeRank: it.ranking,
+      outcomeName: it.address.name,
+      outcomeAddress: it.address.address,
+      outcomeBaseline: it.performanceBaseline,
+      outcomePnl: it.pnl,
+      outcomePrize: it.prizeUsdAmount,
     }))
   }
 
@@ -439,6 +554,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionFinalOutcomeCapsule
+   *
+   * @returns {import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
+   */
+  get competitionFinalOutcomeCapsule () {
+    return this.graphqlClientHash.competitionFinalOutcome.capsuleRef.value
+  }
+
+  /**
    * Generate leaderboard pagination result.
    *
    * @returns {PaginationResult}
@@ -459,7 +583,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       // [COMPETITION_STATUS.CREATED.ID]: this.generateParticipantsPaginationResut(),
       // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.generateParticipantsPaginationResut(),
       [COMPETITION_STATUS.IN_PROGRESS.ID]: this.generateOngoingLeaderboardPaginationResult(),
-      // [COMPETITION_STATUS.COMPLETED.ID]: this.generateFinalOutcomePaginationResult(),
+      [COMPETITION_STATUS.COMPLETED.ID]: this.generateLeaderboardFinalOutcomePaginationResult(),
     }
 
     return paginationResultHash[this.competitionStatusId]
@@ -476,6 +600,25 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       .limit
       ?? 0
     const totalRecords = this.competitionLeaderboardCapsule
+      .totalCount
+      ?? 0
+
+    return {
+      limit,
+      totalRecords,
+    }
+  }
+
+  /**
+   * Generate leaderboard final outcome pagination result.
+   *
+   * @returns {PaginationResult}
+   */
+  generateLeaderboardFinalOutcomePaginationResult () {
+    const limit = this.competitionFinalOutcomeCapsule
+      .limit
+      ?? 0
+    const totalRecords = this.competitionFinalOutcomeCapsule
       .totalCount
       ?? 0
 
@@ -566,6 +709,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
  *     competitionLeaderboard: GraphqlClient
+ *     competitionFinalOutcome: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
@@ -587,7 +731,9 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {Array<NormalizedOngoingLeaderboardEntry>} LeaderboardEntries
+ * @typedef {Array<NormalizedOngoingLeaderboardEntry>
+ *   | Array<NormalizedLeaderboardFinalOutcomeEntry>
+ * } LeaderboardEntries
  */
 
 /**
@@ -599,11 +745,22 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   rank: number
- *   name: string
- *   address: string
- *   baseline: number
- *   roi: number
- *   pnl: number
+ *   ongoingRank: number
+ *   ongoingName: string
+ *   ongoingAddress: string
+ *   ongoingBaseline: number
+ *   ongoingRoi: number
+ *   ongoingPnl: number
  * }} NormalizedOngoingLeaderboardEntry
+ */
+
+/**
+ * @typedef {{
+ *   outcomeRank: number
+ *   outcomeName: string
+ *   outcomeAddress: string
+ *   outcomePnl: number
+ *   outcomeBaseline: number
+ *   outcomePrize: string
+ * }} NormalizedLeaderboardFinalOutcomeEntry
  */
