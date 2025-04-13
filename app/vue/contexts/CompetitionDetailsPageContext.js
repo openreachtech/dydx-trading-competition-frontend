@@ -109,33 +109,33 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get ongoingLeaderboardHeaderEntries () {
     return [
       {
-        key: 'ongoing-rank',
+        key: 'ongoingRank',
         label: 'Rank',
       },
       {
-        key: 'ongoing-name',
+        key: 'ongoingName',
         label: 'Name',
       },
       {
-        key: 'ongoing-address',
+        key: 'ongoingAddress',
         label: 'Address',
       },
       {
-        key: 'ongoing-pnl',
+        key: 'ongoingPnl',
         label: 'PnL',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'ongoing-baseline',
+        key: 'ongoingBaseline',
         label: 'Performance Baseline',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'ongoing-roi',
+        key: 'ongoingRoi',
         label: 'ROI',
         columnOptions: {
           textAlign: 'end',
@@ -429,12 +429,12 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     rankings,
   }) {
     return rankings.map(it => ({
-      rank: it.ranking,
-      name: it.address.name ?? '----',
-      address: it.address.address,
-      baseline: it.performanceBaseline,
-      roi: it.roi,
-      pnl: it.pnl,
+      ongoingRank: it.ranking,
+      ongoingName: it.address.name ?? '----',
+      ongoingAddress: it.address.address,
+      ongoingBaseline: it.performanceBaseline,
+      ongoingRoi: it.roi,
+      ongoingPnl: it.pnl,
     }))
   }
 
@@ -745,12 +745,12 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   rank: number
- *   name: string
- *   address: string
- *   baseline: number
- *   roi: number
- *   pnl: number
+ *   ongoingRank: number
+ *   ongoingName: string
+ *   ongoingAddress: string
+ *   ongoingBaseline: number
+ *   ongoingRoi: number
+ *   ongoingPnl: number
  * }} NormalizedOngoingLeaderboardEntry
  */
 

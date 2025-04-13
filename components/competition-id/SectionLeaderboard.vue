@@ -121,13 +121,13 @@ export default defineComponent({
         class="table"
       >
         <!-- ** Ongoing competition leaderboard ** -->
-        <template #body-ongoing-rank="{ value }">
+        <template #body-ongoingRank="{ value }">
           <span class="unit-rank ongoing">
             <span class="indicator">#</span> {{ value }}
           </span>
         </template>
 
-        <template #body-ongoing-name="{ value, row }">
+        <template #body-ongoingName="{ value, row }">
           <NuxtLink class="unit-name ongoing"
             :to="context.generateProfileUrl({
               address: row.address,
@@ -137,7 +137,7 @@ export default defineComponent({
           </NuxtLink>
         </template>
 
-        <template #body-ongoing-address="{ value }">
+        <template #body-ongoingAddress="{ value }">
           <span class="unit-address ongoing">
             <span>
               {{
@@ -157,7 +157,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-ongoing-baseline="{ value }">
+        <template #body-ongoingBaseline="{ value }">
           <span class="unit-baseline ongoing">
             {{
               context.normalizePerformanceBaseline({
@@ -167,7 +167,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-ongoing-roi="{ value }">
+        <template #body-ongoingRoi="{ value }">
           <span class="unit-roi ongoing">
             {{
               context.normalizeRoi({
@@ -177,7 +177,7 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-ongoing-pnl="{ value }">
+        <template #body-ongoingPnl="{ value }">
           <span class="unit-pnl ongoing">
             {{
               context.normalizePnl({
