@@ -79,6 +79,71 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     )
   }
 
+  /**
+   * Generate leaderboard header entries.
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  generateLeaderboardHeaderEntries () {
+    if (this.competitionStatusId === null) {
+      return []
+    }
+
+    const headerEntryHash = {
+      [COMPETITION_STATUS.CANCELED.ID]: [],
+      // [COMPETITION_STATUS.CREATED.ID]: this.competitionParticipantHeaderEntries,
+      // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.competitionParticipantHeaderEntries,
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.ongoingLeaderboardHeaderEntries,
+      // [COMPETITION_STATUS.COMPLETED.ID]: this.finalOutcomeHeaderEntries,
+    }
+
+    return headerEntryHash[this.competitionStatusId]
+      ?? []
+  }
+
+  /**
+   * get: ongoingLeaderboardHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get ongoingLeaderboardHeaderEntries () {
+    return [
+      {
+        key: 'rank',
+        label: 'Rank',
+      },
+      {
+        key: 'name',
+        label: 'Name',
+      },
+      {
+        key: 'address',
+        label: 'Address',
+      },
+      {
+        key: 'pnl',
+        label: 'PnL',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'baseline',
+        label: 'Performance Baseline',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
+        key: 'roi',
+        label: 'ROI',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
   /** @override */
   setupComponent () {
     const route = useRoute()
