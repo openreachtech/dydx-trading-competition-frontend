@@ -109,33 +109,33 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get ongoingLeaderboardHeaderEntries () {
     return [
       {
-        key: 'rank',
+        key: 'ongoing-rank',
         label: 'Rank',
       },
       {
-        key: 'name',
+        key: 'ongoing-name',
         label: 'Name',
       },
       {
-        key: 'address',
+        key: 'ongoing-address',
         label: 'Address',
       },
       {
-        key: 'pnl',
+        key: 'ongoing-pnl',
         label: 'PnL',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'baseline',
+        key: 'ongoing-baseline',
         label: 'Performance Baseline',
         columnOptions: {
           textAlign: 'end',
         },
       },
       {
-        key: 'roi',
+        key: 'ongoing-roi',
         label: 'ROI',
         columnOptions: {
           textAlign: 'end',
@@ -343,6 +343,8 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       pnl: it.pnl,
     }))
   }
+
+
 
   /**
    * get: isLoadingLeaderboard

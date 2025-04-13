@@ -120,14 +120,15 @@ export default defineComponent({
         :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
-        <template #body-rank="{ value }">
-          <span class="unit-rank">
+        <!-- ** Ongoing competition leaderboard ** -->
+        <template #body-ongoing-rank="{ value }">
+          <span class="unit-rank ongoing">
             <span class="indicator">#</span> {{ value }}
           </span>
         </template>
 
-        <template #body-name="{ value, row }">
-          <NuxtLink class="unit-name"
+        <template #body-ongoing-name="{ value, row }">
+          <NuxtLink class="unit-name ongoing"
             :to="context.generateProfileUrl({
               address: row.address,
             })"
@@ -136,8 +137,8 @@ export default defineComponent({
           </NuxtLink>
         </template>
 
-        <template #body-address="{ value }">
-          <span class="unit-address">
+        <template #body-ongoing-address="{ value }">
+          <span class="unit-address ongoing">
             <span>
               {{
                 context.shortenAddress({
@@ -156,8 +157,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-baseline="{ value }">
-          <span class="unit-baseline">
+        <template #body-ongoing-baseline="{ value }">
+          <span class="unit-baseline ongoing">
             {{
               context.normalizePerformanceBaseline({
                 figure: value,
@@ -166,8 +167,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-roi="{ value }">
-          <span class="unit-roi">
+        <template #body-ongoing-roi="{ value }">
+          <span class="unit-roi ongoing">
             {{
               context.normalizeRoi({
                 figure: value,
@@ -176,8 +177,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-pnl="{ value }">
-          <span class="unit-pnl">
+        <template #body-ongoing-pnl="{ value }">
+          <span class="unit-pnl ongoing">
             {{
               context.normalizePnl({
                 figure: value,
@@ -394,15 +395,15 @@ export default defineComponent({
 }
 
 /***************** Non-podium rankers ****************/
-.unit-rank {
+.unit-rank.ongoing {
   color: var(--color-text-primary);
 }
 
-.unit-rank > .indicator {
+.unit-rank.ongoing > .indicator {
   color: var(--color-text-secondary);
 }
 
-.unit-name {
+.unit-name.ongoing {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -410,17 +411,17 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name[href]:hover {
+.unit-name.ongoing[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-address {
+.unit-address.ongoing {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.unit-baseline {
+.unit-baseline.ongoing {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: var(--size-line-height-base);
