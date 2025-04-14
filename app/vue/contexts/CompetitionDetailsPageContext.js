@@ -258,6 +258,23 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         hooks: this.competitionParticipantLauncherHooks,
       })
 
+    this.watch(
+      () => this.localWalletAddress,
+      async () => {
+        await this.graphqlClientHash
+          .competitionParticipant
+          .invokeRequestOnEvent({
+            variables: {
+              input: {
+                competitionId: this.extractCompetitionId(),
+                address: this.localWalletAddress,
+              },
+            },
+            hooks: this.competitionParticipantLauncherHooks,
+          })
+      }
+    )
+
     this.graphqlClientHash
       .addressName
       .invokeRequestOnMounted({
