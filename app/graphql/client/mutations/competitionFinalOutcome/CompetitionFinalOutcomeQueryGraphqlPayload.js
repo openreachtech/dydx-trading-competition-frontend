@@ -20,6 +20,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlPayload extends BaseAppG
             performanceBaseline
             prizeUsdAmount
             pnl
+            roi
           }
           pagination {
             totalCount
