@@ -1,0 +1,11 @@
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}

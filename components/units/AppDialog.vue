@@ -9,19 +9,33 @@ import {
 } from 'vue'
 
 import {
-  FuroButtonDialogContext,
-} from '@openreachtech/furo-nuxt'
+  Icon,
+} from '#components'
 
 import FuroDialog from '@openreachtech/furo-nuxt/lib/components/FuroDialog.vue'
+
+import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
 export default defineComponent({
   name: 'AppDialog',
 
   components: {
+    Icon,
     FuroDialog,
   },
 
   inheritAttrs: false,
+
+  props: {
+    title: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
+  },
 
   setup (
     props,
@@ -30,9 +44,10 @@ export default defineComponent({
     /** @type {import('vue').Ref<FuroDialog | null>} */
     const dialogComponentRef = ref(null)
 
-    const context = FuroButtonDialogContext.create({
+    const context = AppDialogContext.create({
+      props,
+      componentContext,
       dialogComponentRef,
-      emit: componentContext.emit,
     })
 
     componentContext.expose(
@@ -41,6 +56,7 @@ export default defineComponent({
 
     return {
       dialogComponentRef,
+      context,
     }
   },
 })
@@ -52,31 +68,82 @@ export default defineComponent({
     v-bind="$attrs"
   >
     <template #contents>
+      <slot name="header">
+        <div class="unit-header">
+          <slot name="title"
+            :title="context.title"
+          >
+            <span class="title">{{
+              context.title
+            }}</span>
+          </slot>
+
+          <button class="button close"
+            @click="context.dismissDialog()"
+          >
+            <Icon name="heroicons:x-mark"
+              size="1.5rem"
+            />
+          </button>
+        </div>
+      </slot>
+
       <slot name="contents" />
     </template>
   </FuroDialog>
 </template>
 
-<style scoped>
-.unit-dialog[open].design {
-  border-radius: 1.5rem;
+<style>
+@layer app {
+  .furo-dialog[open].design {
+    border-radius: 1.25rem;
 
-  min-height: 10rem;
-  min-width: 20rem;
+    padding-block: 0.75rem 1rem;
+    padding-inline: 1.25rem;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
 
-  background-color: #eee;
-  box-shadow:
-    8px 8px 16px #bebebe,
-    -8px -8px 16px #ffffff;
-}
+    background-color: var(--color-background-dialog);
+  }
 
-.unit-dialog[open].design::backdrop {
-  background-color: rgba(255, 255, 255, 0.5);
+  .unit-header {
+    padding-block-end: 0.75rem;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .unit-header:has(> .title:empty) {
+    /* Make sure close button is at the end if there's no title. */
+    justify-content: end;
+  }
+
+  .unit-header > .title {
+    font-size: var(--font-size-medium);
+    font-weight: 500;
+    line-height: var(--size-line-height-medium);
+
+    color: var(--color-text-secondary);
+  }
+
+  .unit-header:has(> .title:empty) > .title {
+    display: none;
+  }
+
+  .unit-header > .button.close {
+    color: var(--color-text-tertiary);
+
+    justify-self: end;
+
+    transition: color 250ms var(--transition-timing-base);
+  }
+
+  .unit-header > .button.close:hover {
+    color: var(--color-text-primary);
+  }
 }
 </style>

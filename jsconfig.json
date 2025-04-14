@@ -3,7 +3,8 @@
   "compilerOptions": {
     "checkJs": true,
     "types": [
-      "jest"
+      "jest",
+      "@keplr-wallet/types"
     ]
   }
 }

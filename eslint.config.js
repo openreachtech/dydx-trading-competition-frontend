@@ -32,7 +32,7 @@ export default [
         HTMLOptionElement: 'readonly',
         HTMLSelectElement: 'readonly',
         HTMLTextAreaElement: 'readonly',
-        RadioNodeList: 'readonly', // eslint-disable-line no-restricted-syntax
+        RadioNodeList: 'readonly',
       },
       sourceType: 'module',
     },
@@ -111,7 +111,7 @@ export default [
           message: 'Never use for',
         },
         {
-          selector: 'Identifier[name=/.+(Data|Info|(<?![gs]et)Item|List|Manager)$/]', // 'Identifier[name=/.+(Data|Info|Item|List|Manager)$/]'
+          selector: 'Identifier[name=/.+((?<!signTyped)Data|Info|(?<![gs]et|remove)Item|(?<!RadioNode)List|Manager)$/]', // 'Identifier[name=/.+(Data|Info|Item|List|Manager)$/]'
           message: 'Not allowed to use "Data", "Info", "Item", "List", and "Manager" as suffix of identifier.',
         },
         {
@@ -131,6 +131,10 @@ export default [
           selector: 'WhileStatement',
           message: 'Never use while',
         },
+      ],
+      complexity: [
+        'error',
+        10, // 20
       ],
     },
   },

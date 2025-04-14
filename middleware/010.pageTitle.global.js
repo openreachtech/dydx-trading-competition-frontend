@@ -19,7 +19,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   })
 
   const resolvedPageTitle = furoMeta.pageTitle
-    ?? 'Furo Nuxt'
+    ?? 'dYdX Trading Arena'
 
   useSeoMeta({
     title: resolvedPageTitle,

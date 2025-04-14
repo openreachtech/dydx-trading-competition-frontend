@@ -1,54 +1,95 @@
 <!-- layouts/default.vue -->
 <script>
 import {
+  Icon,
   NuxtLink,
 } from '#components'
 
-import FuroOffCanvasMenuLayout from '@openreachtech/furo-nuxt/lib/components/FuroOffCanvasMenuLayout.vue'
+import AppDefaultLayout from '~/components/units/AppDefaultLayout.vue'
+import AppLogo from '~/components/header/AppLogo.vue'
+import AddressesSearchBarHeader from '~/components/search/AddressesSearchBarHeader.vue'
+import AddressesSearchBarSide from '~/components/search/AddressesSearchBarSide.vue'
 
 export default {
   name: 'DefaultLayout',
 
   components: {
-    FuroOffCanvasMenuLayout,
+    AppDefaultLayout,
+    AppLogo,
+    AddressesSearchBarHeader,
+    AddressesSearchBarSide,
+    Icon,
     NuxtLink,
   },
 }
 </script>
 
 <template>
-  <FuroOffCanvasMenuLayout>
+  <AppDefaultLayout>
     <template #header>
-      <div class="header">
-        <NuxtLink to="/">
-          [Go to Home]
-        </NuxtLink>
+      <div class="unit-header">
+        <AppLogo />
+
+        <AddressesSearchBarHeader class="search" />
       </div>
     </template>
 
-    <template #toggle-menu>
-      <img class="toggle-navigation-image"
-        src="/assets/img/samples/hanburger-menu.png"
-        alt="Logo"
+    <template #nav-contents>
+      <!-- TODO: Navigation / User profile contents -->
+      <div>
+        Navigation / User profile
+      </div>
+    </template>
+
+    <template #search-header>
+      <NuxtLink to="https://dydx.trade"
+        external
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link trade menu-entry"
       >
+        <Icon name="heroicons-solid:home"
+          size="1rem"
+        />
+
+        <span>
+          Open dydx.trade
+        </span>
+      </NuxtLink>
     </template>
 
-    <template #navigation>
-      <div class="navigation">
-        I am Navigation
-      </div>
+    <template #search-contents>
+      <AddressesSearchBarSide />
     </template>
 
     <template #contents>
       <slot />
     </template>
-  </FuroOffCanvasMenuLayout>
+
+    <template #footer>
+      <p class="copyright">
+        © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
+      </p>
+    </template>
+  </AppDefaultLayout>
 </template>
 
-<!-- never use <style scoped> here -->
-<style>
-.unit-body > .header .toggle-navigation-image {
-  width: 2rem;
+<style scoped>
+.unit-header {
+  /* Temporary workaround for styles leak from `<AppDialog>` */
+  padding-block: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unit-header > .search {
+  display: none;
+
+  @media (30rem < width) {
+    display: block;
+  }
 }
 
 .unit-body > .navigation {
@@ -58,8 +99,39 @@ export default {
 
 .unit-body > .contents {
   background-color: var(--color-background);
+}
 
-  padding-block: 1rem;
-  padding-inline: 1.5rem;
+.unit-body .link.trade {
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  line-height: var(--line-height-small);
+
+  color: inherit;
+}
+
+.unit-body .menu-entry {
+  border-radius: 0.375rem;
+
+  padding-block: 0.4375rem;
+  padding-inline: 0.5rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  transition: background-color 300ms var(--transition-timing-base);
+}
+
+.unit-body .menu-entry:hover {
+  background-color: var(--color-background-menu-entry-hover);
+}
+
+.unit-body > .footer > .copyright {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+
+  text-align: center;
+
+  color: var(--color-text-placeholder);
 }
 </style>

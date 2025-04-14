@@ -1,35 +1,267 @@
 :root {
   /* Palette */
-  --palette-black: #000;
   --palette-blue: #37f;
   --palette-blue-light: #69f;
   --palette-gray: #bcbcbc;
   --palette-gray-light: #f7f7f7;
-  --palette-white: #fff;
 
   --palette-ivory: #fefefe;
+
+  /* Tweaked Palette */
+  --palette-purple: #6966ff;
+  --palette-purple-lighter: #817eff;
+  --palette-purple-faded: #6966ff29;
+  --palette-green: #3ed9a4;
+  --palette-green-faded: #3ed9a429;
+  --palette-green-darker: #2bb083;
+  --palette-yellow: #ffcc48;
+  --palette-yellow-faded: #ffcc4829;
+  --palette-red: #e45555;
+  --palette-red-faded: #e4555529;
+  --palette-black: #000;
+  --palette-white: #fff;
+
+  /* Layer Palette */
+  --palette-layer-0: #08080c;
+  --palette-layer-1: #101018;
+  --palette-layer-2: #181825;
+  --palette-layer-3: #212131;
+  --palette-layer-4: #29293d;
+  --palette-layer-5: #303045;
+  --palette-layer-6: #38384d;
+  --palette-layer-7: #464659;
 
   /* Colors */
   --color-primary: var(--palette-blue);
   --color-secondary: var(--palette-yellow-300);
 
   /* Backgrounds */
-  --color-background: var(--palette-gray-light);
+  --color-background: var(--palette-layer-1);
 
-  --color-background-header: var(--palette-ivory);
-  --color-background-nav: var(--palette-ivory);
+  --color-background-header: var(--palette-layer-1);
+  --color-background-footer: var(--palette-layer-1);
+
+  --color-background-nav: var(--palette-layer-2);
+  --color-background-search-panel: var(--palette-layer-2);
+
+  --color-background-menu-entry-hover: var(--palette-layer-5);
+
+  --color-background-button-primary: var(--palette-purple);
+  --color-background-button-neutral: var(--palette-layer-5);
+  --color-background-button-success: var(--palette-green-darker);
+  --color-background-button-error: var(--palette-red);
+  --color-background-button-muted: var(--palette-layer-3);
+  --color-background-button-outlined: var(--palette-layer-2);
+  --color-background-button-competition-step: var(--palette-layer-3);
+  --color-background-button-highlight-hover: var(--palette-purple-faded);
+
+  --color-background-badge-info: var(--palette-purple-faded);
+  --color-background-badge-success: var(--palette-green-faded);
+  --color-background-badge-warn: var(--palette-yellow-faded);
+  --color-background-badge-neutral: var(--palette-layer-6);
+  --color-background-badge-completed: var(--palette-layer-6);
+  --color-background-badge-canceled: var(--palette-layer-5);
+
+  --color-background-badge-indicator-info: var(--palette-purple-faded);
+  --color-background-badge-indicator-success: var(--palette-green-faded);
+  --color-background-badge-indicator-warn: var(--palette-yellow-faded);
+  --color-background-badge-indicator-neutral: var(--palette-layer-7);
+  --color-background-badge-indicator-completed: var(--palette-layer-7);
+  --color-background-badge-indicator-canceled: var(--palette-layer-7);
+
+  --color-background-card: var(--palette-layer-2);
+  --color-background-card-active: var(--palette-layer-3);
+  --color-background-card-header: var(--palette-layer-3);
+
+  --color-background-pagination-active: var(--palette-layer-5);
+  --color-background-pagination-hover: var(--palette-layer-3);
+
+  --color-background-connector: var(--palette-layer-7);
+
+  --color-background-competition-section-darker: var(--palette-layer-0);
+  --color-background-competition-meta: var(--palette-layer-3);
+
+  --color-background-input: var(--palette-layer-3);
+
+  --color-background-timeline-connector: var(--palette-layer-7);
+  --color-background-timeline-connector-elapsed: var(--palette-yellow);
+
+  /* TODO: The color is pretty much random so I don't know how to name them */
+  /* Please think of something more intuitive if possible. */
+  --color-background-timeline-indicator-yellow: var(--palette-yellow-faded);
+  --color-background-timeline-indicator-green: var(--palette-green-faded);
+  --color-background-timeline-indicator-neutral: var(--palette-layer-7);
+  --color-background-timeline-dot-yellow: var(--palette-yellow);
+  --color-background-timeline-dot-green: var(--palette-green);
+  --color-background-timeline-dot-neutral: var(--color-text-primary);
+
+  --color-background-table: var(--palette-layer-2);
+
+  --color-background-profile-section-darker: var(--palette-layer-0);
+
+  --color-background-transfer-out: var(--palette-purple-faded);
+  --color-background-transfer-in: var(--palette-green-faded);
+
+  --color-background-skeleton: var(--palette-layer-3);
+
+  --color-background-search-indicator: var(--palette-purple);
+
+  --color-background-dropdown: var(--palette-layer-2);
+
+  --color-background-search-result: var(--palette-layer-3);
+  --color-background-search-result-hover: var(--palette-layer-4);
+
+  --color-background-tooltip: var(--palette-layer-6);
+
+  --color-background-dialog: var(--palette-layer-2);
+
+  --color-background-date-picker-hover: var(--palette-layer-5);
+
+  --color-background-competition-form-steps: var(--palette-layer-2);
+  --color-background-competition-step-completed: var(--palette-purple);
+
+  --color-background-trade-side-long: var(--palette-green);
+  --color-background-trade-side-short: var(--palette-red);
+
+  --color-background-message-error: var(--palette-red-faded);
+  --color-background-message-success: var(--palette-green-faded);
+  --color-background-message-warn: var(--palette-yellow-faded);
+  --color-background-message-info: var(--palette-purple-faded);
 
   /* Text */
   --color-text: var(--palette-black);
-  --color-text-primary: var(--palette-white);
+  --color-text-primary: #fafafd;
+  --color-text-secondary: #c8c7d8;
+  --color-text-tertiary: #807e98;
+  --color-text-placeholder: #5f5e72;
+
+  --color-text-badge-info: var(--palette-purple-lighter);
+  --color-text-badge-success: var(--palette-green);
+  --color-text-badge-warn: var(--palette-yellow);
+  /* TODO: Palette custom property for these */
+  --color-text-badge-neutral: var(--color-text-primary);
+  --color-text-badge-completed: var(--color-text-secondary);
+  --color-text-badge-canceled: var(--color-text-tertiary);
+
+  --color-text-pagination-disabled: var(--palette-layer-6);
+
+  --color-text-error: var(--palette-red);
+
+  --color-text-increased: var(--palette-green);
+  --color-text-decreased: var(--palette-red);
+
+  --color-text-transfer-out: var(--palette-purple);
+  --color-text-transfer-in: var(--palette-green);
+
+  --color-text-highlight-yellow: var(--palette-yellow);
+  --color-text-highlight-purple: var(--palette-purple-lighter);
+
+  --color-text-rank-gold: var(--palette-yellow);
+  --color-text-rank-emerald: var(--palette-green);
+  --color-text-rank-diamond: var(--color-text-secondary);
+  --color-text-rank-platinum: var(--color-text-primary);
+  --color-text-rank-bronze: var(--color-text-tertiary);
+
+  --color-text-message-error: var(--palette-red);
+  --color-text-message-success: var(--palette-green);
+  --color-text-message-warn: var(--palette-yellow);
+  --color-text-message-info: var(--palette-purple-lighter);
+
+  --color-text-participant-status-active: var(--palette-green);
+  --color-text-participant-status-completed: var(--palette-green);
+  --color-text-participant-status-disqualified: var(--palette-red);
+  --color-text-participant-status-canceled: var(--color-text-tertiary);
+
+  --color-text-button-highlight-hover: var(--palette-purple-lighter);
+
+  /* Border Colors */
+  --color-border-default: #303045;
+  --color-border-destructive: #e4555533;
+
+  --color-border-button: #fff3;
+  --color-border-button-neutral: var(--palette-layer-6);
+  --color-border-button-muted: var(--palette-layer-5);
+  --color-border-button-outlined: var(--palette-layer-6);
+  --color-border-button-outlined-hover: var(--palette-layer-7);
+  --color-border-button-outlined-success: var(--palette-green-darker);
+  --color-border-button-outlined-error: var(--palette-red);
+  --color-border-button-highlight-hover: var(--palette-purple);
+
+  --color-border-input: var(--palette-layer-7);
+  --color-border-input-focus: var(--palette-purple);
+  --color-border-input-error: var(--palette-red);
+
+  --color-border-card: var(--palette-layer-4);
+  --color-border-card-hover: var(--palette-layer-6);
+
+  --color-border-competition-section: var(--palette-layer-3);
+
+  --color-border-tab: var(--palette-layer-4);
+  --color-border-tab-active: var(--palette-purple);
+
+  --color-border-table-row: var(--palette-layer-4);
+
+  --color-border-profile-section: var(--palette-layer-3);
+
+  --color-border-dropdown: var(--palette-layer-6);
+
+  --color-border-form-step: var(--palette-layer-5);
+  --color-border-form-step-active: var(--palette-purple);
+
+  /* Typography */
+  --font-family-sans-fallback: -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Noto Sans',
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
+
+  --font-family-body: Satoshi, var(--font-family-sans-fallback);
+  --font-family-heading: 'Space Grotesk', var(--font-family-sans-fallback);
+
+  /* Typography: Font size */
+  --font-size-title-large: 3.5rem;
+  --font-size-title: 3rem;
+  --font-size-headline: 2.25rem;
+  --font-size-extra: 1.75rem;
+  --font-size-large: 1.375rem;
+  --font-size-medium: 1.125rem;
+  --font-size-base: 0.9375rem;
+  --font-size-small: 0.84375rem;
+  --font-size-mini: 0.75rem;
+  --font-size-tiny: 0.625rem;
+  --font-size-regular: 0.75rem;
 
   /* Sizes */
   --size-thinnest: 1px;
 
   --size-screen-height: 100dvh;
-  --size-header-height: 4.5rem;
-  --size-footer-height: 6rem;
-  --size-nav-width: 15rem;
+  --size-body-max-width: 75rem;
+  --size-header-height: 4.25rem;
+  --size-footer-height: 3.25rem;
+  --size-nav-width: 20rem;
+  --size-search-width: 25rem;
+
+  --size-body-padding-inline-desktop: 1.5rem;
+  --size-body-padding-inline-mobile: 1rem;
+
+  --size-line-height-title-large: 4rem;
+  --size-line-height-title: 3.5rem;
+  --size-line-height-headline: 3rem;
+  --size-line-height-extra: 2.25rem;
+  --size-line-height-large: 2rem;
+  --size-line-height-medium: 1.5rem;
+  --size-line-height-base: 1.25rem;
+  --size-line-height-small: 1.125rem;
+  --size-line-height-mini: 1rem;
+  --size-line-height-tiny: 0.875rem;
+  --size-line-height-regular: 1.3;
+
+  /* Animation */
+  --transition-timing-base: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Values */
   --value-golden-ratio: 1.618;
