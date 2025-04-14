@@ -8,9 +8,17 @@ import {
 
 import {
   SCHEDULE_CATEGORY,
+  COMPETITION_PARTICIPANT_STATUS,
+  COMPETITION_STATUS,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+
+const ENROLLMENT_STATUS = {
+  ENROLLED: 'enrolled',
+  NOT_ENROLLED: 'notEnrolled',
+  ENROLLMENT_CLOSED: 'enrollmentClosed',
+}
 
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
@@ -604,6 +612,60 @@ export default class SectionLeagueContext extends BaseFuroContext {
       startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
       endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
     })
+  }
+
+  /**
+   * Generate enrollment status.
+   *
+   * @returns {(typeof ENROLLMENT_STATUS)[keyof typeof ENROLLMENT_STATUS]}
+   */
+  generateEnrollmentStatus () {
+    if (this.hasEnrolled()) {
+      return ENROLLMENT_STATUS.ENROLLED
+    }
+
+    if (this.isEnrollmentClosed()) {
+      return ENROLLMENT_STATUS.ENROLLMENT_CLOSED
+    }
+
+    return ENROLLMENT_STATUS.NOT_ENROLLED
+  }
+
+  /**
+   * Check if the participant has enrolled.
+   *
+   * @returns {boolean}
+   */
+  hasEnrolled () {
+    if (this.participantStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
+      COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,
+    ]
+      .includes(this.participantStatusId)
+  }
+
+  /**
+   * Check if enrollment is closed.
+   *
+   * @returns {boolean}
+   */
+  isEnrollmentClosed () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+      COMPETITION_STATUS.COMPLETED.ID,
+      COMPETITION_STATUS.CANCELED.ID,
+    ]
+      .includes(this.competitionStatusId)
   }
 
   /**
