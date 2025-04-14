@@ -483,12 +483,12 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get unregisterFromCompetitionLauncherHooks () {
     return {
       beforeRequest: async payload => {
-        this.statusReactive.isLoading = true
+        this.statusReactive.isUnregisteringFromCompetition = true
 
         return false
       },
       afterRequest: async capsule => {
-        this.statusReactive.isLoading = false
+        this.statusReactive.isUnregisteringFromCompetition = false
 
         this.dismissDialog({
           dialogElement: this.competitionCancelationDialog,
