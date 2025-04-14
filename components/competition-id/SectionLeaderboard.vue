@@ -125,6 +125,37 @@ export default defineComponent({
         :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
+        <!-- ** Competition participants list ** -->
+        <template #body-participantName="{ value, row }">
+          <NuxtLink class="unit-name participant"
+            :to="context.generateProfileUrl({
+              address: row.participantAddress,
+            })"
+          >
+            {{ value }}
+          </NuxtLink>
+        </template>
+
+        <template #body-participantAddress="{ value }">
+          <span class="unit-address participant">
+            <span>{{ value }}</span>
+
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateAddressUrl({
+                address: value,
+              })"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          </span>
+        </template>
+
+        <template #body-participantStatus="{ value }">
+          <span class="unit-status participant">
+            {{ value.name }}
+          </span>
+        </template>
+
         <!-- ** Ongoing competition leaderboard ** -->
         <template #body-ongoingRank="{ value }">
           <span class="unit-rank ongoing">
@@ -487,7 +518,7 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-name:where(.ongoing, .outcome) {
+.unit-name:where(.participant, .ongoing, .outcome) {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -495,11 +526,11 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name:where(.ongoing, .outcome)[href]:hover {
+.unit-name:where(.participant, .ongoing, .outcome)[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-address:where(.ongoing, .outcome) {
+.unit-address:where(.participant, .ongoing, .outcome) {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
