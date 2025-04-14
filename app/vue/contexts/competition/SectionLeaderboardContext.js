@@ -5,222 +5,107 @@ import {
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
-  PAGINATION,
+  COMPETITION_STATUS,
 } from '~/app/constants'
+
+const HEADING_LABEL = {
+  REGISTRATION: 'Participants List',
+  OUTCOME: 'Final Outcome',
+}
+
+const SECTION_HEADING_HASH = {
+  [COMPETITION_STATUS.CANCELED.ID]: null,
+  [COMPETITION_STATUS.CREATED.ID]: HEADING_LABEL.REGISTRATION,
+  [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: HEADING_LABEL.REGISTRATION,
+  [COMPETITION_STATUS.IN_PROGRESS.ID]: null,
+  [COMPETITION_STATUS.COMPLETED.ID]: HEADING_LABEL.OUTCOME,
+}
 
 /**
  * SectionLeaderboardContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
-   * Constructor
+   * get: competitionStatusId
    *
-   * @param {SectionLeaderboardContextParams} params - Parameters of this constructor.
+   * @returns {number | null}
    */
-  constructor ({
-    props,
-    componentContext,
-
-    route,
-    graphqlClientHash,
-    statusReactive,
-  }) {
-    super({
-      props,
-      componentContext,
-    })
-
-    this.route = route
-    this.graphqlClientHash = graphqlClientHash
-    this.statusReactive = statusReactive
+  get competitionStatusId () {
+    return this.props.competitionStatusId
   }
 
   /**
-   * Factory method to create a new instance of this class.
+   * get: isLoadingLeaderboard
    *
-   * @template {X extends typeof SectionLeaderboardContext ? X : never} T, X
-   * @override
-   * @param {SectionLeaderboardContextFactoryParams} params - Parameters of this factory method.
-   * @returns {InstanceType<T>} An instance of this class.
-   * @this {T}
+   * @returns {PropsType['isLoadingLeaderboard']}
    */
-  static create ({
-    props,
-    componentContext,
-    route,
-    graphqlClientHash,
-    statusReactive,
-  }) {
-    return /** @type {InstanceType<T>} */ (
-      new this({
-        props,
-        componentContext,
-        route,
-        graphqlClientHash,
-        statusReactive,
-      })
-    )
+  get isLoadingLeaderboard () {
+    return this.props.isLoadingLeaderboard
   }
 
   /**
-   * get: tableHeaderEntries
+   * get: leaderboardTableHeaderEntries
    *
-   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>} Header entries.
+   * @returns {PropsType['leaderboardTableHeaderEntries']} Header entries.
    */
-  get tableHeaderEntries () {
-    return [
-      {
-        key: 'rank',
-        label: 'Rank',
-      },
-      {
-        key: 'name',
-        label: 'Name',
-      },
-      {
-        key: 'address',
-        label: 'Address',
-      },
-      {
-        key: 'pnl',
-        label: 'PnL',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-      {
-        key: 'baseline',
-        label: 'Performance Baseline',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-      {
-        key: 'roi',
-        label: 'ROI',
-        columnOptions: {
-          textAlign: 'end',
-        },
-      },
-    ]
-  }
-
-  /** @override */
-  setupComponent () {
-    this.watch(
-      () => this.extractCurrentPage(),
-      async () => {
-        await this.graphqlClientHash
-          .competitionLeaderboard
-          .invokeRequestOnEvent({
-            variables: {
-              input: {
-                competitionId: this.extractCompetitionId(),
-                pagination: {
-                  limit: PAGINATION.LIMIT,
-                  offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-                },
-              },
-            },
-            hooks: this.competitionLeaderboardLauncherHooks,
-          })
-      },
-      {
-        immediate: true,
-      }
-    )
-
-    return this
+  get leaderboardTableHeaderEntries () {
+    return this.props.leaderboardTableHeaderEntries
   }
 
   /**
-   * Extract current page.
+   * get: leaderboardTableEntries
    *
-   * @returns {number} Current page.
+   * @returns {PropsType['leaderboardTableEntries']} Body entries.
    */
-  extractCurrentPage () {
-    const currentPageQuery = Array.isArray(this.route.query.leaderboardPage)
-      ? this.route.query.leaderboardPage[0]
-      : this.route.query.leaderboardPage
-    const currentPage = Number(currentPageQuery)
-
-    return isNaN(currentPage)
-      ? 1
-      : currentPage
+  get leaderboardTableEntries () {
+    return this.props.leaderboardTableEntries
   }
 
   /**
-   * Extract competition ID.
+   * get: leaderboardPaginationResult
    *
-   * @returns {number | null} Competition ID.
+   * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
    */
-  extractCompetitionId () {
-    const competitionIdParam = Array.isArray(this.route.params.competitionId)
-      ? this.route.params.competitionId[0]
-      : this.route.params.competitionId
-    const competitionId = Number(competitionIdParam)
-
-    return isNaN(competitionId)
-      ? null
-      : competitionId
+  get leaderboardPaginationResult () {
+    return this.props.leaderboardPaginationResult
   }
 
   /**
-   * get: competitionLeaderboardLauncherHooks
+   * get: lastLeaderboardUpdateTimestamp
    *
-   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   * @returns {PropsType['lastLeaderboardUpdateTimestamp']} ISO String or `null` if unknown.
    */
-  get competitionLeaderboardLauncherHooks () {
-    return {
-      beforeRequest: async payload => {
-        this.statusReactive.isLoading = true
+  get lastLeaderboardUpdateTimestamp () {
+    return this.props.lastLeaderboardUpdateTimestamp
+  }
 
-        return false
-      },
-      afterRequest: async capsule => {
-        this.statusReactive.isLoading = false
-      },
+  /**
+   * Generate section heading.
+   *
+   * @returns {string | null}
+   */
+  generateSectionHeading () {
+    if (this.competitionStatusId === null) {
+      return null
     }
-  }
 
-  /**
-   * get: competitionCapsuleRef
-   *
-   * @returns {SectionLeaderboardContext['graphqlClientHash']['competitionLeaderboard']['capsuleRef']}
-   */
-  get competitionLeaderboardCapsuleRef () {
-    return this.graphqlClientHash.competitionLeaderboard.capsuleRef
-  }
-
-  /**
-   * get: rankings
-   *
-   * @returns {import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule')
-   *   .ResponseContent['competitionLeaderboard']['rankings']
-   * }
-   */
-  get rankings () {
-    return this.competitionLeaderboardCapsuleRef.value.rankings
-  }
-
-  /**
-   * Generate last calculated date.
-   *
-   * @returns {string} Last calculated date.
-   */
-  generateLastCalculatedAt () {
-    const lastCalculatedAt = this.rankings
-      .at(0)
-      ?.calculatedAt
+    return SECTION_HEADING_HASH[this.competitionStatusId]
       ?? null
+  }
 
-    if (!lastCalculatedAt) {
+  /**
+   * Format `lastLeaderboardUpdateTimestamp`.
+   *
+   * @returns {string} Human-readable formatted timestamp.
+   */
+  formatLastLeaderboardUpdateTimestamp () {
+    if (!this.lastLeaderboardUpdateTimestamp) {
       return 'Last updated: Unknown'
     }
 
-    const date = new Date(lastCalculatedAt)
+    const date = new Date(this.lastLeaderboardUpdateTimestamp)
     const formatter = new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',
@@ -235,57 +120,113 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
-   * Generate pagination result
-   *
-   * @returns {PaginationResult} Pagination result.
-   */
-  generatePaginationResult () {
-    return {
-      limit: PAGINATION.LIMIT,
-      totalRecords: this.competitionLeaderboardCapsuleRef.value.pagination
-        ?.totalCount
-        ?? 0,
-    }
-  }
-
-  /**
-   * Normalize rankings.
-   *
-   * @returns {Array<RankingTableEntry>} Normalized rankings.
-   */
-  normalizeRankings () {
-    return this.rankings.map(it => ({
-      rank: it.ranking,
-      name: it.address.name || '----',
-      address: it.address.address,
-      baseline: it.performanceBaseline,
-      roi: it.roi,
-      pnl: it.pnl,
-    }))
-  }
-
-  /**
    * Extract top three rankers.
    *
-   * @returns {Array<RankingTableEntry>} Top three rankers.
+   * @returns {Array<TopRanker | null>} Top three rankers.
    */
   generateTopThree () {
-    const fallbackValue = {
-      rank: null,
-      name: null,
-      address: null,
-      baseline: null,
-      roi: null,
-      pnl: null,
+    if (this.shouldHideTopRankers()) {
+      return []
     }
-    const firstThreeRankers = this.normalizeRankings()
-      .slice(0, 3)
 
-    // TODO: Value of ROI would be changed to number later.
+    // Narrow type of this.competitionStatusId for extractor hash.
+    if (this.competitionStatusId === null) {
+      return []
+    }
+
+    const topRankerExtractorHash = {
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractTopThreeOngoingLeaderboardEntries(),
+      [COMPETITION_STATUS.COMPLETED.ID]: this.extractTopThreeLeaderboardFinalOutcomeEntries(),
+    }
+
+    const firstThreeRankers = topRankerExtractorHash[this.competitionStatusId]
+      ?? []
+
     return Array.from(
       { length: 3 },
-      (it, index) => firstThreeRankers.at(index) || fallbackValue
+      (it, index) => firstThreeRankers.at(index) ?? null
     )
+  }
+
+  /**
+   * Extract first three ongoing leaderboard entries.
+   *
+   * @returns {Array<TopRanker>}
+   */
+  extractTopThreeOngoingLeaderboardEntries () {
+    if (this.competitionStatusId !== COMPETITION_STATUS.IN_PROGRESS.ID) {
+      return []
+    }
+
+    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
+    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedOngoingLeaderboardEntry>} */ (
+      this.leaderboardTableEntries
+    )
+
+    return leaderboardEntries
+      .slice(0, 3)
+      .map(entry => ({
+        rank: entry.ongoingRank,
+        name: entry.ongoingName,
+        address: entry.ongoingAddress,
+        pnl: entry.ongoingPnl,
+        roi: entry.ongoingRoi,
+        prize: null,
+      }))
+  }
+
+  /**
+   * Extract first three leaderboard final outcome entries.
+   *
+   * @returns {Array<TopRanker>}
+   */
+  extractTopThreeLeaderboardFinalOutcomeEntries () {
+    if (this.competitionStatusId !== COMPETITION_STATUS.COMPLETED.ID) {
+      return []
+    }
+
+    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
+    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedLeaderboardFinalOutcomeEntry>} */ (
+      this.leaderboardTableEntries
+    )
+
+    return leaderboardEntries
+      .slice(0, 3)
+      .map(entry => ({
+        rank: entry.outcomeRank,
+        name: entry.outcomeName,
+        address: entry.outcomeAddress,
+        pnl: entry.outcomePnl,
+        roi: entry.outcomeRoi,
+        prize: entry.outcomePrize,
+      }))
+  }
+
+  /**
+   * Whether to hide top rankers or not.
+   *
+   * @returns {boolean}
+   */
+  shouldHideTopRankers () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.CANCELED.ID,
+      COMPETITION_STATUS.CREATED.ID,
+      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+    ]
+      .includes(this.competitionStatusId)
+  }
+
+  /**
+   * Check if the competition has finished.
+   *
+   * @returns {boolean}
+   */
+  hasFinishedCompetition () {
+    return this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID
   }
 
   /**
@@ -387,10 +328,46 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     })
       .normalizeAsRoi()
   }
+
+  /**
+   * Generate section heading CSS classes.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateSectionHeadingClasses () {
+    const sectionHeading = this.generateSectionHeading()
+
+    return {
+      hidden: sectionHeading === null,
+      outcome: sectionHeading === HEADING_LABEL.OUTCOME,
+    }
+  }
+
+  /**
+   * Generate CSS classes for last-update note.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateLastUpdateNoteClasses () {
+    return {
+      hidden: this.lastLeaderboardUpdateTimestamp === null,
+    }
+  }
+
+  /**
+   * Generate CSS classes for top rankers.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateTopRankerClasses () {
+    return {
+      hidden: this.shouldHideTopRankers(),
+    }
+  }
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   route: ReturnType<import('#imports').useRoute>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   statusReactive: StatusReactive
@@ -417,18 +394,29 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   rank: number | null
- *   address: string | null
- *   baseline: number | null
- *   name: string | null
- *   roi: number | null
- *   pnl: number | null
- * }} RankingTableEntry
+ *   limit: number
+ *   totalRecords: number
+ * }} PaginationResult
  */
 
 /**
  * @typedef {{
- *   limit: number
- *   totalRecords: number
- * }} PaginationResult
+ *   competitionStatusId: number | null
+ *   isLoadingLeaderboard: boolean
+ *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
+ *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   leaderboardPaginationResult: PaginationResult
+ *   lastLeaderboardUpdateTimestamp: string | null
+ * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   rank: number
+ *   name: string
+ *   address: string
+ *   pnl: number
+ *   roi: number
+ *   prize: string | null
+ * }} TopRanker
  */

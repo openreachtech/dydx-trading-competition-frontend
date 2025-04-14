@@ -1,7 +1,6 @@
 <script>
 import {
   defineComponent,
-  reactive,
 } from 'vue'
 
 import {
@@ -12,16 +11,6 @@ import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
-
-import {
-  useRoute,
-} from '#imports'
-
-import {
-  useGraphqlClient,
-} from '@openreachtech/furo-nuxt'
-
-import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 
 import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLeaderboardContext'
 
@@ -34,24 +23,61 @@ export default defineComponent({
     LinkTooltipButton,
   },
 
+  props: {
+    competitionStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
+    isLoadingLeaderboard: {
+      type: Boolean,
+      required: true,
+    },
+    leaderboardTableHeaderEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableHeaderEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    leaderboardTableEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardTableEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    leaderboardPaginationResult: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardPaginationResult']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+    lastLeaderboardUpdateTimestamp: {
+      type: [
+        String,
+        null,
+      ],
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext
   ) {
-    const route = useRoute()
-    const statusReactive = reactive({
-      isLoading: false,
-    })
-    const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
-
     const args = {
       props,
       componentContext,
-      route,
-      statusReactive,
-      graphqlClientHash: {
-        competitionLeaderboard: competitionLeaderboardGraphqlClient,
-      },
     }
     const context = SectionLeaderboardContext.create(args)
       .setupComponent()
@@ -66,12 +92,21 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <div class="unit-champions">
-        <div v-for="it of context.generateTopThree()"
-          :key="it.rank"
+      <h2 class="heading"
+        :class="context.generateSectionHeadingClasses()"
+      >
+        {{ context.generateSectionHeading() }}
+      </h2>
+
+      <div class="unit-champions"
+        :class="context.generateTopRankerClasses()"
+      >
+        <div v-for="(it, index) of context.generateTopThree()"
+          :key="index"
           class="champion"
         >
           <TopRankingCard :rank-details="it"
+            :should-hide-prize="!context.hasFinishedCompetition()"
             class="card"
           />
 
@@ -79,23 +114,26 @@ export default defineComponent({
         </div>
       </div>
 
-      <span class="note">
-        {{ context.generateLastCalculatedAt() }}
+      <span class="note"
+        :class="context.generateLastUpdateNoteClasses()"
+      >
+        {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
-      <AppTable :header-entries="context.tableHeaderEntries"
-        :entries="context.normalizeRankings()"
-        :is-loading="context.statusReactive.isLoading"
+      <AppTable :header-entries="context.leaderboardTableHeaderEntries"
+        :entries="context.leaderboardTableEntries"
+        :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
-        <template #body-rank="{ value }">
-          <span class="unit-rank">
+        <!-- ** Ongoing competition leaderboard ** -->
+        <template #body-ongoingRank="{ value }">
+          <span class="unit-rank ongoing">
             <span class="indicator">#</span> {{ value }}
           </span>
         </template>
 
-        <template #body-name="{ value, row }">
-          <NuxtLink class="unit-name"
+        <template #body-ongoingName="{ value, row }">
+          <NuxtLink class="unit-name ongoing"
             :to="context.generateProfileUrl({
               address: row.address,
             })"
@@ -104,8 +142,8 @@ export default defineComponent({
           </NuxtLink>
         </template>
 
-        <template #body-address="{ value }">
-          <span class="unit-address">
+        <template #body-ongoingAddress="{ value }">
+          <span class="unit-address ongoing">
             <span>
               {{
                 context.shortenAddress({
@@ -124,8 +162,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-baseline="{ value }">
-          <span class="unit-baseline">
+        <template #body-ongoingBaseline="{ value }">
+          <span class="unit-baseline ongoing">
             {{
               context.normalizePerformanceBaseline({
                 figure: value,
@@ -134,8 +172,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-roi="{ value }">
-          <span class="unit-roi">
+        <template #body-ongoingRoi="{ value }">
+          <span class="unit-roi ongoing">
             {{
               context.normalizeRoi({
                 figure: value,
@@ -144,8 +182,8 @@ export default defineComponent({
           </span>
         </template>
 
-        <template #body-pnl="{ value }">
-          <span class="unit-pnl">
+        <template #body-ongoingPnl="{ value }">
+          <span class="unit-pnl ongoing">
             {{
               context.normalizePnl({
                 figure: value,
@@ -153,11 +191,84 @@ export default defineComponent({
             }}
           </span>
         </template>
+
+        <!-- ** Leaderboard final outcome ** -->
+        <template #body-outcomeRank="{ value }">
+          <span class="unit-rank outcome">
+            <span class="indicator">#</span> {{ value }}
+          </span>
+        </template>
+
+        <template #body-outcomeName="{ value, row }">
+          <NuxtLink class="unit-name outcome"
+            :to="context.generateProfileUrl({
+              address: row.address,
+            })"
+          >
+            {{ value }}
+          </NuxtLink>
+        </template>
+
+        <template #body-outcomeAddress="{ value }">
+          <span class="unit-address outcome">
+            <span>
+              {{
+                context.shortenAddress({
+                  address: value,
+                })
+              }}
+            </span>
+
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateAddressUrl({
+                address: value,
+              })"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          </span>
+        </template>
+
+        <template #body-outcomeBaseline="{ value }">
+          <span class="unit-baseline outcome">
+            {{
+              context.normalizePerformanceBaseline({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
+        <template #body-outcomeRoi="{ value }">
+          <span class="unit-roi outcome">
+            {{
+              context.normalizeRoi({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
+        <template #body-outcomePnl="{ value }">
+          <span class="unit-pnl outcome">
+            {{
+              context.normalizePnl({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
+        <template #body-outcomePrize="{ value }">
+          <span class="unit-prize outcome">
+            ${{ value }}
+          </span>
+        </template>
       </AppTable>
 
       <AppPagination class="pagination"
         page-key="leaderboardPage"
-        :pagination="context.generatePaginationResult()"
+        :pagination="context.leaderboardPaginationResult"
       />
     </div>
   </section>
@@ -200,9 +311,28 @@ export default defineComponent({
   }
 }
 
-.unit-section > .inner > .note {
-  margin-block-start: 3rem;
+.unit-section > .inner > .heading {
+  display: inline-block;
 
+  margin-block-end: 2rem;
+
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-headline);
+  font-weight: 700;
+  line-height: var(--size-line-height-headline);
+
+  text-align: center;
+}
+
+.unit-section > .inner > .heading.outcome {
+  margin-block-end: 4rem;
+}
+
+.unit-section > .inner > .heading.hidden {
+  display: none;
+}
+
+.unit-section > .inner > .note {
   align-self: end;
   text-align: end;
 
@@ -210,10 +340,10 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-tertiary);
+}
 
-  @media (48rem < width) {
-    margin-block-start: 5rem;
-  }
+.unit-section > .inner > .note.hidden {
+  display: none;
 }
 
 .unit-section > .inner > .table {
@@ -232,15 +362,23 @@ export default defineComponent({
 
 /***************** Top 3 rankers ****************/
 .unit-champions {
+  margin-block-end: 3rem;
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   @media (48rem < width) {
+    margin-block-end: 5rem;
+
     flex-direction: row;
     justify-content: space-between;
     gap: 0;
   }
+}
+
+.unit-champions.hidden {
+  display: none;
 }
 
 .unit-champions > .champion {
@@ -341,15 +479,15 @@ export default defineComponent({
 }
 
 /***************** Non-podium rankers ****************/
-.unit-rank {
+.unit-rank:where(.ongoing, .outcome) {
   color: var(--color-text-primary);
 }
 
-.unit-rank > .indicator {
+.unit-rank:where(.ongoing, .outcome) > .indicator {
   color: var(--color-text-secondary);
 }
 
-.unit-name {
+.unit-name:where(.ongoing, .outcome) {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -357,17 +495,17 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name[href]:hover {
+.unit-name:where(.ongoing, .outcome)[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-address {
+.unit-address:where(.ongoing, .outcome) {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.unit-baseline {
+.unit-baseline:where(.ongoing, .outcome) {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: var(--size-line-height-base);
