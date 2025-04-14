@@ -20,6 +20,13 @@ const ENROLLMENT_STATUS = {
   ENROLLMENT_CLOSED: 'enrollmentClosed',
 }
 
+const ENROLLMENT_ACTION_TEXT = {
+  [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
+  [ENROLLMENT_STATUS.NOT_ENROLLED]: 'Enroll now',
+  [ENROLLMENT_STATUS.ENROLLMENT_CLOSED]: 'Registration ended',
+  DEFAULT: 'Enroll now',
+}
+
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
@@ -585,21 +592,10 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string}
    */
   generateEnrollButtonLabel () {
-    if (this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
-      return 'Enroll now'
-    }
+    const enrollmentStatus = this.generateEnrollmentStatus()
 
-    if (!this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
-      return 'Registration ended'
-    }
-
-    return 'Enroll now'
+    return ENROLLMENT_ACTION_TEXT[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_TEXT.DEFAULT
   }
 
   /**
