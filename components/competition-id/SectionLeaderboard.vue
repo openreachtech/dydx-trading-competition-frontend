@@ -170,7 +170,7 @@ export default defineComponent({
         <template #body-ongoingName="{ value, row }">
           <NuxtLink class="unit-name ongoing"
             :to="context.generateProfileUrl({
-              address: row.address,
+              address: row.ongoingAddress,
             })"
           >
             {{ value }}
@@ -237,7 +237,7 @@ export default defineComponent({
         <template #body-outcomeName="{ value, row }">
           <NuxtLink class="unit-name outcome"
             :to="context.generateProfileUrl({
-              address: row.address,
+              address: row.outcomeAddress,
             })"
           >
             {{ value }}
