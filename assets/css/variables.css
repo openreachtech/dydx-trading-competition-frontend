@@ -53,6 +53,7 @@
   --color-background-button-muted: var(--palette-layer-3);
   --color-background-button-outlined: var(--palette-layer-2);
   --color-background-button-competition-step: var(--palette-layer-3);
+  --color-background-button-highlight-hover: var(--palette-purple-faded);
 
   --color-background-badge-info: var(--palette-purple-faded);
   --color-background-badge-success: var(--palette-green-faded);
@@ -171,6 +172,8 @@
   --color-text-participant-status-disqualified: var(--palette-red);
   --color-text-participant-status-canceled: var(--color-text-tertiary);
 
+  --color-text-button-highlight-hover: var(--palette-purple-lighter);
+
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;
@@ -182,6 +185,7 @@
   --color-border-button-outlined-hover: var(--palette-layer-7);
   --color-border-button-outlined-success: var(--palette-green-darker);
   --color-border-button-outlined-error: var(--palette-red);
+  --color-border-button-highlight-hover: var(--palette-purple);
 
   --color-border-input: var(--palette-layer-7);
   --color-border-input-focus: var(--palette-purple);

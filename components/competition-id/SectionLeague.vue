@@ -445,6 +445,10 @@ export default defineComponent({
 
   font-size: var(--font-size-medium);
   font-weight: 500;
+
+  transition: border-color 250ms var(--transition-timing-base),
+    background-color 250ms var(--transition-timing-base),
+    color 250ms var(--transition-timing-base);
 }
 
 .unit-details > .actions > .button.enroll.neutral:disabled {
@@ -457,6 +461,12 @@ export default defineComponent({
 
 .unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
   display: inline;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover {
+  border-color: var(--color-border-button-highlight-hover);
+  background-color: var(--color-background-button-highlight-hover);
+  color: var(--color-text-button-highlight-hover);
 }
 
 .unit-details > .actions > .button.enroll.enrolled:hover .icon.enrolled {
