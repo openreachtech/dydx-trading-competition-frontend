@@ -256,6 +256,17 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       outcome: sectionHeading === HEADING_LABEL.OUTCOME,
     }
   }
+
+  /**
+   * Generate CSS classes for last-update note.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateLastUpdateNoteClasses () {
+    return {
+      hidden: this.lastLeaderboardUpdateTimestamp === null,
+    }
+  }
 }
 
 /**

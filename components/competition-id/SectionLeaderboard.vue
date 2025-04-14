@@ -111,7 +111,9 @@ export default defineComponent({
         </div>
       </div>
 
-      <span class="note">
+      <span class="note"
+        :class="context.generateLastUpdateNoteClasses()"
+      >
         {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
@@ -318,8 +320,6 @@ export default defineComponent({
 }
 
 .unit-section > .inner > .note {
-  margin-block-start: 3rem;
-
   align-self: end;
   text-align: end;
 
@@ -327,10 +327,10 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-tertiary);
+}
 
-  @media (48rem < width) {
-    margin-block-start: 5rem;
-  }
+.unit-section > .inner > .note.hidden {
+  display: none;
 }
 
 .unit-section > .inner > .table {
@@ -349,11 +349,15 @@ export default defineComponent({
 
 /***************** Top 3 rankers ****************/
 .unit-champions {
+  margin-block-end: 3rem;
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
   @media (48rem < width) {
+    margin-block-end: 5rem;
+
     flex-direction: row;
     justify-content: space-between;
     gap: 0;
