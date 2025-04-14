@@ -133,6 +133,7 @@ export default defineComponent({
 <template>
   <div>
     <SectionLeague :competition="context.competition"
+      :participant-status-id="context.participantStatusId"
       @show-terms-dialog="context.showDialog({
         dialogElement: competitionTermsDialogRef,
       })"

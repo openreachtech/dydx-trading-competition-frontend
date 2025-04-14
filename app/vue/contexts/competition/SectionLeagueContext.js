@@ -21,7 +21,7 @@ const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
 /**
  * Context class for SectionLeague component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseFuroContext<null, PropsType, null>} - Base class.
  */
 export default class SectionLeagueContext extends BaseFuroContext {
 /**
@@ -93,12 +93,21 @@ export default class SectionLeagueContext extends BaseFuroContext {
   /**
    * Extract competition.
    *
-   * @returns {CompetitionEntity | null}
+   * @returns {PropsType['competition']}
    */
   extractCompetition () {
     return this.props
       .competition
       ?? null
+  }
+
+  /**
+   * get: participantStatusId
+   *
+   * @returns {PropsType['participantStatusId']}
+   */
+  get participantStatusId () {
+    return this.props.participantStatusId
   }
 
   /**
@@ -694,7 +703,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
  *   statusReactive: import('vue').Reactive<{
@@ -705,4 +714,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
 /**
  * @typedef {SectionLeagueContextParams} SectionLeagueContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   competition: CompetitionEntity | null
+ *   participantStatusId: number | null
+ * }} PropsType
  */

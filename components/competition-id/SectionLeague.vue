@@ -48,6 +48,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    participantStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
   },
 
   emits: [
