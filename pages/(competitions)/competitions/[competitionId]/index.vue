@@ -79,6 +79,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
       isLoadingLeaderboard: true,
+      isLoadingParticipant: true,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
