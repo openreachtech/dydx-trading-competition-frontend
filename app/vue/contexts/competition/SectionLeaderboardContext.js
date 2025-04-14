@@ -197,8 +197,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
         name: entry.outcomeName,
         address: entry.outcomeAddress,
         pnl: entry.outcomePnl,
-        // TODO: roi is missing on the Backend, add it back later.
-        roi: null,
+        roi: entry.outcomeRoi,
         prize: entry.outcomePrize,
       }))
   }
@@ -417,7 +416,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   name: string
  *   address: string
  *   pnl: number
- *   roi: number | null // TODO: roi should not be nullable once Backend updates.
+ *   roi: number
  *   prize: string | null
  * }} TopRanker
  */
