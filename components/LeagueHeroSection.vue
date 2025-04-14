@@ -73,7 +73,7 @@ export default defineComponent({
       </span>
 
       <h1 class="heading">
-        DYDX Trading League
+        DYDX Trading Arena
       </h1>
     </div>
 

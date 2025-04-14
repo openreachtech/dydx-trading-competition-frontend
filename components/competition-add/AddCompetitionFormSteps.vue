@@ -107,7 +107,7 @@ export default defineComponent({
 
     <div class="unit-guide">
       <p class="note">
-        Please complete all steps above to host your new trading league.
+        Please complete all steps above to host your new trading arena.
       </p>
     </div>
 
