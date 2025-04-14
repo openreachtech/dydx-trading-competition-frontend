@@ -635,7 +635,6 @@ export default class SectionLeagueContext extends BaseFuroContext {
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
-      ENROLLMENT_STATUS.ENROLLED,
       ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
     ]
       .includes(enrollmentStatus)
