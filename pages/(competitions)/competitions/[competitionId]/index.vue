@@ -86,6 +86,7 @@ export default defineComponent({
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingParticipant: true,
+      isUnregisteringCompetition: false,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
@@ -97,6 +98,7 @@ export default defineComponent({
       route,
       walletStore,
       leaderboardEntriesRef,
+      competitionCancelationDialogRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
@@ -180,6 +182,10 @@ export default defineComponent({
       })"
     />
 
-    <CompetitionCancelationDialog ref="competitionCancelationDialogRef" />
+    <CompetitionCancelationDialog ref="competitionCancelationDialogRef"
+      :competition-name="context.competitionTitle"
+      :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
+      @unregister-from-competition="context.unregisterFromCompetition()"
+    />
   </div>
 </template>
