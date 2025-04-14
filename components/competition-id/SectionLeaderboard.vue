@@ -239,6 +239,16 @@ export default defineComponent({
           </span>
         </template>
 
+        <template #body-outcomeRoi="{ value }">
+          <span class="unit-roi outcome">
+            {{
+              context.normalizeRoi({
+                figure: value,
+              })
+            }}
+          </span>
+        </template>
+
         <template #body-outcomePnl="{ value }">
           <span class="unit-pnl outcome">
             {{

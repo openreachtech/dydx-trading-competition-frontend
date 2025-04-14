@@ -92,6 +92,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
  *   performanceBaseline: number
  *   prizeUsdAmount: string
  *   pnl: number
+ *   roi: number
  * }} Outcome
  */
 
