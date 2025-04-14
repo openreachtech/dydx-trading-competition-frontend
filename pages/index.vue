@@ -36,7 +36,7 @@ export default defineComponent({
   <div class="unit-page">
     <section class="section hero">
       <h1 class="heading">
-        dYdX Trading Competition Board
+        dYdX Trading Arena
       </h1>
 
       <p class="description">
