@@ -17,7 +17,7 @@ export default class LandingPageContext extends BaseFuroContext {
     return [
       {
         title: 'Open Creation',
-        description: 'Anyone can create their own trading competitions, fostering a democratized environment for skill demonstration. This openness allows communities to develop their own challenges and reward structures.',
+        description: 'Anyone can create their own trading arenas, fostering a democratized environment for skill demonstration. This openness allows communities to develop their own challenges and reward structures.',
       },
       {
         title: 'Full Transparency',

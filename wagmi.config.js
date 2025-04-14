@@ -16,12 +16,12 @@ import {
 
 const metaMaskConnector = metaMask({
   dappMetadata: {
-    name: 'dYdX Trading League',
+    name: 'dYdX Trading Arena',
   },
 })
 
 export const coinbaseWalletConnector = coinbaseWallet({
-  appName: 'dYdX Trading League',
+  appName: 'dYdX Trading Arena',
   reloadOnDisconnect: false,
   // disable Coinbase Smart Wallet because dydx-client currently doesn't handle EIP-6492 signatures
   preference: 'eoaOnly',

@@ -106,7 +106,7 @@ export default defineComponent({
         >
 
         <p class="note">
-          By clicking Enroll, you agree to the Trading League's rules.
+          By clicking Enroll, you agree to the Trading Arena's rules.
         </p>
 
         <label class="label-container">

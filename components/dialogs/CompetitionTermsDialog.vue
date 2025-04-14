@@ -67,7 +67,7 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                To be eligible to participate in the trading competition, participants (“Participants”) need
+                To be eligible to participate in the trading arena, participants (“Participants”) need
                 to comply with each and all of the following requirements: Participants must be natural persons
                 with full legal capacity and over eighteen (18) years of age.
               </p>
@@ -114,7 +114,7 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                The total reward pool for the trading competition will be <span class="highlight">{{ context.totalPrize }}</span>.
+                The total reward pool for the trading arena will be <span class="highlight">{{ context.totalPrize }}</span>.
                 Prizes will be distributed in USDC only.
               </p>
             </li>
@@ -136,7 +136,7 @@ export default defineComponent({
 
               <p class="content">
                 The hourly performance of eligible Participants will be verified by tracking the activity
-                on their respective dYdX Chain wallet addresses that they used to participate in the trading competition.
+                on their respective dYdX Chain wallet addresses that they used to participate in the trading arena.
               </p>
             </li>
           </ul>
@@ -176,7 +176,7 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                By entering or participating in the trading competition, each Participant represents and warrants
+                By entering or participating in the trading arena, each Participant represents and warrants
                 that they have read, and agree to comply with, the dydx.trade user interface terms of use
                 (available here: <a class="link"
                   href="https://dydx.trade/terms"
@@ -191,14 +191,14 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                This trading competition is in no way associated with 𝕏 or any social media channels.
+                This trading arena is in no way associated with 𝕏 or any social media channels.
               </p>
             </li>
             <li class="entry">
               <span class="bullet" />
 
               <p class="content">
-                This trading competition is being organised and coordinated by <span class="highlight">{{ context.hostName }}</span> independently.
+                This trading arena is being organised and coordinated by <span class="highlight">{{ context.hostName }}</span> independently.
                 <span class="highlight">{{ context.hostName }}</span> is not affiliated with, or acting on behalf or as an agent of, any other person
                 or entity, including any entities involved in the dYdX ecosystem.
               </p>
@@ -207,8 +207,8 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                This trading competition is being organised for entertainment purposes only. Nothing relating
-                to the organisation of this trading competition shall be regarded as financial or investment advice.
+                This trading arena is being organised for entertainment purposes only. Nothing relating
+                to the organisation of this trading arena shall be regarded as financial or investment advice.
               </p>
             </li>
           </ul>
@@ -232,7 +232,7 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                <span class="highlight">{{ context.hostName }}</span> reserves the right to cancel or amend the trading competition or the applicable terms and
+                <span class="highlight">{{ context.hostName }}</span> reserves the right to cancel or amend the trading arena or the applicable terms and
                 conditions at its sole discretion at any time and for whatever reason.
               </p>
             </li>
@@ -241,22 +241,22 @@ export default defineComponent({
 
               <p class="content">
                 <span class="highlight">{{ context.hostName }}</span> reserves the right to retweet, repost, or use the image or video entries (at the moment,
-                and in the future) related to the trading competition as shared by Participants for its own marketing purposes.
+                and in the future) related to the trading arena as shared by Participants for its own marketing purposes.
               </p>
             </li>
             <li class="entry">
               <span class="bullet" />
 
               <p class="content">
-                Participants who violate the terms and conditions of this trading competition may be barred from entering
-                subsequent social media contests and trading competitions in the future.
+                Participants who violate the terms and conditions of this trading arena may be barred from entering
+                subsequent social media contests and trading arenas in the future.
               </p>
             </li>
             <li class="entry">
               <span class="bullet" />
 
               <p class="content">
-                The decisions of <span class="highlight">{{ context.hostName }}</span> on all matters relating to the trading competition and the prizes
+                The decisions of <span class="highlight">{{ context.hostName }}</span> on all matters relating to the trading arena and the prizes
                 shall be final and binding on all Participants.
               </p>
             </li>
@@ -273,10 +273,10 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                By participating in the trading competition, Participants agree to release and hold harmless <span class="highlight">{{ context.hostName }}</span>,
+                By participating in the trading arena, Participants agree to release and hold harmless <span class="highlight">{{ context.hostName }}</span>,
                 the trading platform (i.e., dYdX), their affiliated entities and their directors, officers and employees
                 from any and all liabilities, losses, or damages incurred as a result of or arising from the trading, the
-                trading competition and/or the awarding of the prizes.
+                trading arena and/or the awarding of the prizes.
               </p>
             </li>
             <li class="entry">
@@ -291,7 +291,7 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                If the terms and conditions of the trading competition are translated into a language other than English,
+                If the terms and conditions of the trading arena are translated into a language other than English,
                 then the English version of the terms and conditions shall prevail wherever any inconsistency arises.
               </p>
             </li>
