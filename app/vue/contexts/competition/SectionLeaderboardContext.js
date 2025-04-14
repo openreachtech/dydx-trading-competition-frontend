@@ -122,29 +122,85 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
    * Extract top three rankers.
    *
-   * @returns {Array<RankingTableEntry>} Top three rankers.
+   * @returns {Array<TopRanker | null>} Top three rankers.
    */
   generateTopThree () {
     if (this.shouldHideTopRankers()) {
       return []
     }
 
-    const fallbackValue = {
-      rank: null,
-      name: null,
-      address: null,
-      baseline: null,
-      roi: null,
-      pnl: null,
+    // Narrow type of this.competitionStatusId for extractor hash.
+    if (this.competitionStatusId === null) {
+      return []
     }
-    const firstThreeRankers = this.leaderboardTableEntries
-      .slice(0, 3)
 
-    // TODO: Value of ROI would be changed to number later.
+    const topRankerExtractorHash = {
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractTopThreeOngoingLeaderboardEntries(),
+      [COMPETITION_STATUS.COMPLETED.ID]: this.extractTopThreeLeaderboardFinalOutcomeEntries(),
+    }
+
+    const firstThreeRankers = topRankerExtractorHash[this.competitionStatusId]
+      ?? []
+
     return Array.from(
       { length: 3 },
-      (it, index) => firstThreeRankers.at(index) || fallbackValue
+      (it, index) => firstThreeRankers.at(index) ?? null
     )
+  }
+
+  /**
+   * Extract first three ongoing leaderboard entries.
+   *
+   * @returns {Array<TopRanker>}
+   */
+  extractTopThreeOngoingLeaderboardEntries () {
+    if (this.competitionStatusId !== COMPETITION_STATUS.IN_PROGRESS.ID) {
+      return []
+    }
+
+    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
+    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedOngoingLeaderboardEntry>} */ (
+      this.leaderboardTableEntries
+    )
+
+    return leaderboardEntries
+      .slice(0, 3)
+      .map(entry => ({
+        rank: entry.ongoingRank,
+        name: entry.ongoingName,
+        address: entry.ongoingAddress,
+        pnl: entry.ongoingPnl,
+        roi: entry.ongoingRoi,
+        prize: null,
+      }))
+  }
+
+  /**
+   * Extract first three leaderboard final outcome entries.
+   *
+   * @returns {Array<TopRanker>}
+   */
+  extractTopThreeLeaderboardFinalOutcomeEntries () {
+    if (this.competitionStatusId !== COMPETITION_STATUS.COMPLETED.ID) {
+      return []
+    }
+
+    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
+    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedLeaderboardFinalOutcomeEntry>} */ (
+      this.leaderboardTableEntries
+    )
+
+    return leaderboardEntries
+      .slice(0, 3)
+      .map(entry => ({
+        rank: entry.outcomeRank,
+        name: entry.outcomeName,
+        address: entry.outcomeAddress,
+        pnl: entry.outcomePnl,
+        // TODO: roi is missing on the Backend, add it back later.
+        roi: null,
+        prize: entry.outcomePrize,
+      }))
   }
 
   /**
@@ -330,17 +386,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   rank: number | null
- *   address: string | null
- *   baseline: number | null
- *   name: string | null
- *   roi: number | null
- *   pnl: number | null
- * }} RankingTableEntry
- */
-
-/**
- * @typedef {{
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
@@ -355,4 +400,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   rank: number
+ *   name: string
+ *   address: string
+ *   pnl: number
+ *   roi: number | null // TODO: roi should not be nullable once Backend updates.
+ *   prize: string | null
+ * }} TopRanker
  */
