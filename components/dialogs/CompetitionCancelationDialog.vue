@@ -80,7 +80,7 @@ export default defineComponent({
         <AppMessage variant="text"
           severity="warn"
         >
-          You will be mark as disqualified. This action can not be undone.
+          You will be marked as disqualified. This action cannot be undone.
         </AppMessage>
 
         <div class="actions">
