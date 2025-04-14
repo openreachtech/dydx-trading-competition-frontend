@@ -604,10 +604,13 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {boolean}
    */
   shouldDisableEnrollButton () {
-    return !this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return [
+      ENROLLMENT_STATUS.ENROLLED,
+      ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
+    ]
+      .includes(enrollmentStatus)
   }
 
   /**
