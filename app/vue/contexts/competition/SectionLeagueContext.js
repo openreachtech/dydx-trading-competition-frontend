@@ -614,6 +614,19 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for enrollment button.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateEnrollButtonClasses () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return {
+      enrolled: enrollmentStatus === ENROLLMENT_STATUS.ENROLLED,
+    }
+  }
+
+  /**
    * Whether to disable enroll button or not.
    *
    * @returns {boolean}

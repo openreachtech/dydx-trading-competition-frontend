@@ -163,11 +163,24 @@ export default defineComponent({
           <AppButton class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
+            :class="context.generateEnrollButtonClasses()"
             @click="context.showTermsDialog()"
           >
-            {{
-              context.generateEnrollButtonLabel()
-            }}
+            <template #startIcon>
+              <Icon name="heroicons:check-circle"
+                size="1.25rem"
+                class="icon enrolled"
+              />
+
+              <Icon name="heroicons:user-minus"
+                size="1.25rem"
+                class="icon unregister"
+              />
+            </template>
+
+            <template #default>
+              {{ context.generateEnrollButtonLabel() }}
+            </template>
           </AppButton>
 
           <!-- NOTE: Participants here. Missing API -->
@@ -436,6 +449,22 @@ export default defineComponent({
 
 .unit-details > .actions > .button.enroll.neutral:disabled {
   filter: none;
+}
+
+.unit-details > .actions > .button.enroll .icon {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
+  display: inline;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .icon.enrolled {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .icon.unregister {
+  display: inline;
 }
 
 .unit-details > .note {
