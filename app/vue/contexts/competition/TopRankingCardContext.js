@@ -19,23 +19,22 @@ const TROPHY_IMAGE_URL_HASH = /** @type {const} */ ({
 /**
  * TopRankingCardContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class TopRankingCardContext extends BaseFuroContext {
   /**
    * get: rankDetails
    *
-   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry | null}
+   * @returns {PropsType['rankDetails']}
    */
   get rankDetails () {
     return this.props.rankDetails
-      ?? null
   }
 
   /**
    * get: rank.
    *
-   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['rank'] | null}
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['rank'] | null}
    */
   get rank () {
     return this.rankDetails
@@ -46,7 +45,7 @@ export default class TopRankingCardContext extends BaseFuroContext {
   /**
    * get: address.
    *
-   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['address'] | null}
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['address'] | null}
    */
   get address () {
     return this.rankDetails
@@ -57,7 +56,7 @@ export default class TopRankingCardContext extends BaseFuroContext {
   /**
    * get: pnl.
    *
-   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['pnl'] | null}
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['pnl'] | null}
    */
   get pnl () {
     return this.rankDetails
@@ -68,7 +67,7 @@ export default class TopRankingCardContext extends BaseFuroContext {
   /**
    * get: roi.
    *
-   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry['roi'] | null}
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['roi'] | null}
    */
   get roi () {
     return this.rankDetails
@@ -233,3 +232,9 @@ export default class TopRankingCardContext extends BaseFuroContext {
     ]
   }
 }
+
+/**
+ * @typedef {{
+ *   rankDetails: import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker | null
+ * }} PropsType
+ */

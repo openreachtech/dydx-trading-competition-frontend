@@ -19,8 +19,11 @@ export default defineComponent({
 
   props: {
     rankDetails: {
-      /** @type {import('vue').PropType<import('~/app/vue/contexts/competition/SectionLeaderboardContext').RankingTableEntry>} */
-      type: Object,
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/competition/TopRankingCardContext').PropsType['rankDetails']>} */
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
   },
