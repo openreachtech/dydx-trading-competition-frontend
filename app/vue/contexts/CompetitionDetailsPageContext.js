@@ -553,6 +553,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantsCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantsCapsule () {
+    return this.graphqlClientHash.competitionParticipants.capsuleRef.value
+  }
+
+  /**
    * get: competitionLeaderboardCapsule
    *
    * @returns {import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule').default}
@@ -718,6 +727,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     addressName: GraphqlClient
  *     competitionLeaderboard: GraphqlClient
  *     competitionFinalOutcome: GraphqlClient
+ *     competitionParticipants: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
