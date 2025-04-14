@@ -21,6 +21,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   }
 
   /**
+   * get: title
+   *
+   * @returns {string | null}
+   */
+  get title () {
+    return this.extractCompetition()
+      ?.title
+      ?? null
+  }
+
+  /**
    * get: schedules
    *
    * @returns {CompetitionEntity['schedules']} Schedules as an array.
