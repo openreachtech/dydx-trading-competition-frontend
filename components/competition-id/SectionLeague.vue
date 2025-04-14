@@ -160,7 +160,7 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton class="button"
+          <AppButton class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
             @click="context.showTermsDialog()"
@@ -425,13 +425,17 @@ export default defineComponent({
   gap: 1.75rem;
 }
 
-.unit-details > .actions > .button {
+.unit-details > .actions > .button.enroll {
   min-width: 15rem;
 
   justify-content: center;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
+}
+
+.unit-details > .actions > .button.enroll.neutral:disabled {
+  filter: none;
 }
 
 .unit-details > .note {
