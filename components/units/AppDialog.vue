@@ -107,6 +107,12 @@ export default defineComponent({
     align-items: stretch;
 
     background-color: var(--color-background-dialog);
+
+    animation: fade-in 150ms var(--transition-timing-base) forwards;
+  }
+
+  .furo-dialog:not([open]).design {
+    animation: fade-out 150ms var(--transition-timing-base) forwards;
   }
 
   .unit-header {
@@ -144,6 +150,32 @@ export default defineComponent({
 
   .unit-header > .button.close:hover {
     color: var(--color-text-primary);
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      display: none;
+      transform: scale(0.95);
+    }
+
+    100% {
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      display: block;
+    }
+
+    100% {
+      opacity: 0;
+      display: none;
+      transform: scale(0.95);
+    }
   }
 }
 </style>
