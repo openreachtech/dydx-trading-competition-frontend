@@ -222,6 +222,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * Check if the competition has finished.
+   *
+   * @returns {boolean}
+   */
+  hasFinishedCompetition () {
+    return this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID
+  }
+
+  /**
    * Shorten wallet address.
    *
    * @param {{

@@ -106,6 +106,7 @@ export default defineComponent({
           class="champion"
         >
           <TopRankingCard :rank-details="it"
+            :should-hide-prize="!context.hasFinishedCompetition()"
             class="card"
           />
 

@@ -26,6 +26,11 @@ export default defineComponent({
       ],
       required: true,
     },
+    shouldHidePrize: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   setup (
@@ -106,7 +111,9 @@ export default defineComponent({
         </dd>
       </div>
 
-      <div class="entry">
+      <div class="entry"
+        :class="context.generatePrizeClasses()"
+      >
         <dt class="term">
           Prize
         </dt>
@@ -236,6 +243,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.unit-card > .profit > .entry.hidden {
+  display: none;
 }
 
 .unit-card > .profit > .entry:nth-of-type(2n) {
