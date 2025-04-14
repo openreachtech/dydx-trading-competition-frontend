@@ -58,7 +58,7 @@ export default defineComponent({
         </h2>
 
         <p class="description">
-          The dYdX Trading Competition Board embodies the core principles of DeFi,
+          The dYdX Trading Arena Board embodies the core principles of DeFi,
           creating a transparent, verifiable platform for traders to showcase their skills.
         </p>
 
@@ -86,7 +86,7 @@ export default defineComponent({
         </h2>
 
         <p class="description">
-          The dYdX Trading Competition Board is designed to serve traders across
+          The dYdX Trading Arena Board is designed to serve traders across
           multiple experience levels, providing unique benefits for each segment.
         </p>
 
@@ -128,7 +128,7 @@ export default defineComponent({
         </h2>
 
         <p class="description">
-          Follow the journey of a dYdX trading competition from start to finish,
+          Follow the journey of a dYdX trading arena from start to finish,
           with clear roles for hosts, traders, and the platform system.
         </p>
 
@@ -193,7 +193,7 @@ export default defineComponent({
         </h2>
 
         <p class="description">
-          Get answers to common questions about the dYdX Trading Competition Board.
+          Get answers to common questions about the dYdX Trading Arena Board.
         </p>
 
         <div class="unit-faqs">

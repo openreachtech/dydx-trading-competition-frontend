@@ -213,7 +213,7 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
    * @returns {string} Dialog's title.
    */
   generateDialogTitle () {
-    return `Trading Competition ${this.competitionTitle} Terms and Conditions`
+    return `Trading Arena ${this.competitionTitle} Terms and Conditions`
   }
 }
 
