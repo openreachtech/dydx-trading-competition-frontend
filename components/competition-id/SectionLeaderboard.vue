@@ -98,12 +98,15 @@ export default defineComponent({
         {{ context.generateSectionHeading() }}
       </h2>
 
-      <div class="unit-champions">
-        <div v-for="it of context.generateTopThree()"
-          :key="it.rank"
+      <div class="unit-champions"
+        :class="context.generateTopRankerClasses()"
+      >
+        <div v-for="(it, index) of context.generateTopThree()"
+          :key="index"
           class="champion"
         >
           <TopRankingCard :rank-details="it"
+            :should-hide-prize="!context.hasFinishedCompetition()"
             class="card"
           />
 
@@ -362,6 +365,10 @@ export default defineComponent({
     justify-content: space-between;
     gap: 0;
   }
+}
+
+.unit-champions.hidden {
+  display: none;
 }
 
 .unit-champions > .champion {
