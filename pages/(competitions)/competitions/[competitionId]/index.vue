@@ -15,6 +15,7 @@ import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.v
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
@@ -62,6 +63,7 @@ export default defineComponent({
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
     const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
     const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
@@ -77,6 +79,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
       isLoadingLeaderboard: true,
+      isLoadingParticipant: true,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
@@ -91,6 +94,7 @@ export default defineComponent({
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
+        competitionParticipant: competitionParticipantGraphqlClient,
         competitionLeaderboard: competitionLeaderboardGraphqlClient,
         competitionFinalOutcome: competitionFinalOutcomeGraphqlClient,
         competitionParticipants: competitionParticipantsGraphqlClient,
@@ -129,6 +133,8 @@ export default defineComponent({
 <template>
   <div>
     <SectionLeague :competition="context.competition"
+      :participant-status-id="context.participantStatusId"
+      :competition-status-id="context.competitionStatusId"
       @show-terms-dialog="context.showDialog({
         dialogElement: competitionTermsDialogRef,
       })"

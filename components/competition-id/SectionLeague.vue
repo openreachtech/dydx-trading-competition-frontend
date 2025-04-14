@@ -48,6 +48,20 @@ export default defineComponent({
       ],
       required: true,
     },
+    participantStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
+    competitionStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
   },
 
   emits: [
@@ -146,13 +160,32 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton class="button"
+          <AppButton class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
+            :variant="context.generateEnrollButtonVariant()"
+            :class="context.generateEnrollButtonClasses()"
             @click="context.showTermsDialog()"
           >
-            {{
-              context.generateEnrollButtonLabel()
-            }}
+            <template #startIcon>
+              <Icon name="heroicons:check-circle"
+                size="1.25rem"
+                class="icon enrolled"
+              />
+
+              <Icon name="heroicons:user-minus"
+                size="1.25rem"
+                class="icon unregister"
+              />
+            </template>
+
+            <template #default>
+              <span class="content">
+                {{ context.generateEnrollButtonLabel() }}
+              </span>
+              <span class="action unregister">
+                Unregister
+              </span>
+            </template>
           </AppButton>
 
           <!-- NOTE: Participants here. Missing API -->
@@ -410,13 +443,51 @@ export default defineComponent({
   gap: 1.75rem;
 }
 
-.unit-details > .actions > .button {
+.unit-details > .actions > .button.enroll {
   min-width: 15rem;
 
   justify-content: center;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
+}
+
+.unit-details > .actions > .button.enroll.neutral:disabled {
+  filter: none;
+}
+
+.unit-details > .actions > .button.enroll .icon {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll .action {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
+  display: inline;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover {
+  border-color: var(--color-border-button-highlight-hover);
+  background-color: var(--color-background-button-highlight-hover);
+  color: var(--color-text-button-highlight-hover);
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .icon.enrolled {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .icon.unregister {
+  display: inline;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .content {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
+  display: inline;
 }
 
 .unit-details > .note {

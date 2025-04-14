@@ -8,9 +8,24 @@ import {
 
 import {
   SCHEDULE_CATEGORY,
+  COMPETITION_PARTICIPANT_STATUS,
+  COMPETITION_STATUS,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+
+const ENROLLMENT_STATUS = {
+  ENROLLED: 'enrolled',
+  NOT_ENROLLED: 'notEnrolled',
+  ENROLLMENT_CLOSED: 'enrollmentClosed',
+}
+
+const ENROLLMENT_ACTION_TEXT = {
+  [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
+  [ENROLLMENT_STATUS.NOT_ENROLLED]: 'Enroll now',
+  [ENROLLMENT_STATUS.ENROLLMENT_CLOSED]: 'Registration ended',
+  DEFAULT: 'Enroll now',
+}
 
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
@@ -21,7 +36,7 @@ const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
 /**
  * Context class for SectionLeague component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseFuroContext<null, PropsType, null>} - Base class.
  */
 export default class SectionLeagueContext extends BaseFuroContext {
 /**
@@ -93,12 +108,30 @@ export default class SectionLeagueContext extends BaseFuroContext {
   /**
    * Extract competition.
    *
-   * @returns {CompetitionEntity | null}
+   * @returns {PropsType['competition']}
    */
   extractCompetition () {
     return this.props
       .competition
       ?? null
+  }
+
+  /**
+   * get: participantStatusId
+   *
+   * @returns {PropsType['participantStatusId']}
+   */
+  get participantStatusId () {
+    return this.props.participantStatusId
+  }
+
+  /**
+   * get: competitionStatusId
+   *
+   * @returns {PropsType['competitionStatusId']}
+   */
+  get competitionStatusId () {
+    return this.props.competitionStatusId
   }
 
   /**
@@ -559,21 +592,38 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string}
    */
   generateEnrollButtonLabel () {
-    if (this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
-      return 'Enroll now'
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return ENROLLMENT_ACTION_TEXT[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_TEXT.DEFAULT
+  }
+
+  /**
+   * Generate enroll button variant.
+   *
+   * @returns {'primary' | 'neutral'}
+   */
+  generateEnrollButtonVariant () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
+      return 'neutral'
     }
 
-    if (!this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })) {
-      return 'Registration ended'
-    }
+    return 'primary'
+  }
 
-    return 'Enroll now'
+  /**
+   * Generate CSS classes for enrollment button.
+   *
+   * @returns {Record<string, boolean>}
+   */
+  generateEnrollButtonClasses () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return {
+      enrolled: enrollmentStatus === ENROLLMENT_STATUS.ENROLLED,
+    }
   }
 
   /**
@@ -582,10 +632,66 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {boolean}
    */
   shouldDisableEnrollButton () {
-    return !this.isTargetPeriodById({
-      startDateId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-      endDateId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
-    })
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return [
+      ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
+    ]
+      .includes(enrollmentStatus)
+  }
+
+  /**
+   * Generate enrollment status.
+   *
+   * @returns {(typeof ENROLLMENT_STATUS)[keyof typeof ENROLLMENT_STATUS]}
+   */
+  generateEnrollmentStatus () {
+    if (this.hasEnrolled()) {
+      return ENROLLMENT_STATUS.ENROLLED
+    }
+
+    if (this.isEnrollmentClosed()) {
+      return ENROLLMENT_STATUS.ENROLLMENT_CLOSED
+    }
+
+    return ENROLLMENT_STATUS.NOT_ENROLLED
+  }
+
+  /**
+   * Check if the participant has enrolled.
+   *
+   * @returns {boolean}
+   */
+  hasEnrolled () {
+    if (this.participantStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
+      COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,
+    ]
+      .includes(this.participantStatusId)
+  }
+
+  /**
+   * Check if enrollment is closed.
+   *
+   * @returns {boolean}
+   */
+  isEnrollmentClosed () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+      COMPETITION_STATUS.COMPLETED.ID,
+      COMPETITION_STATUS.CANCELED.ID,
+    ]
+      .includes(this.competitionStatusId)
   }
 
   /**
@@ -694,7 +800,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
  *   statusReactive: import('vue').Reactive<{
@@ -705,4 +811,12 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
 /**
  * @typedef {SectionLeagueContextParams} SectionLeagueContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   competition: CompetitionEntity | null
+ *   participantStatusId: number | null
+ *   competitionStatusId: number | null
+ * }} PropsType
  */

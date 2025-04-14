@@ -138,7 +138,10 @@ export default defineComponent({
   font-weight: 500;
   line-height: 1;
 
-  transition: filter 0.3s var(--transition-timing-base);
+  transition: filter 0.3s var(--transition-timing-base),
+    --color-darken-filter 0.3s var(--transition-timing-base),
+    border-color 0.3s var(--transition-timing-base),
+    color 0.3s var(--transition-timing-base);
 
   user-select: none;
 }
@@ -198,8 +201,6 @@ export default defineComponent({
     var(--color-darken-filter),
     var(--color-darken-filter)
   );
-
-  transition: --color-darken-filter 0.3s var(--transition-timing-base);
 }
 
 .unit-button.filled:not(:disabled):hover {
@@ -210,8 +211,6 @@ export default defineComponent({
   border-color: var(--color-border-button-outlined);
 
   background-color: transparent;
-
-  transition: border-color 0.3s var(--transition-timing-base);
 }
 
 .unit-button.outlined:not(:disabled):hover {
