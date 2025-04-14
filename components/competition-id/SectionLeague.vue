@@ -162,6 +162,7 @@ export default defineComponent({
         <div class="actions">
           <AppButton class="button"
             :disabled="context.shouldDisableEnrollButton()"
+            :variant="context.generateEnrollButtonVariant()"
             @click="context.showTermsDialog()"
           >
             {{

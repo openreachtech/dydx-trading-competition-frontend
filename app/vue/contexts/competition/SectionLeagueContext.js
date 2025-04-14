@@ -599,6 +599,21 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate enroll button variant.
+   *
+   * @returns {'primary' | 'neutral'}
+   */
+  generateEnrollButtonVariant () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
+      return 'neutral'
+    }
+
+    return 'primary'
+  }
+
+  /**
    * Whether to disable enroll button or not.
    *
    * @returns {boolean}
