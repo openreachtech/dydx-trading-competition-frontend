@@ -32,6 +32,15 @@ export default class TopRankingCardContext extends BaseFuroContext {
   }
 
   /**
+   * get: shouldHidePrize
+   *
+   * @returns {PropsType['shouldHidePrize']}
+   */
+  get shouldHidePrize () {
+    return this.props.shouldHidePrize
+  }
+
+  /**
    * get: rank.
    *
    * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['rank'] | null}
@@ -231,10 +240,22 @@ export default class TopRankingCardContext extends BaseFuroContext {
       `top-${this.rank}`,
     ]
   }
+
+  /**
+   * Generate CSS classes for prize.
+   *
+   * @returns {Record<string, boolean>} CSS classes.
+   */
+  generatePrizeClasses () {
+    return {
+      hidden: this.shouldHidePrize,
+    }
+  }
 }
 
 /**
  * @typedef {{
  *   rankDetails: import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker | null
+ *   shouldHidePrize: boolean
  * }} PropsType
  */
