@@ -19,6 +19,7 @@ import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/que
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
+import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
@@ -67,6 +68,7 @@ export default defineComponent({
     const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
     const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
+    const unregisterFromCompetitionGraphqlClient = useGraphqlClient(UnregisterFromCompetitionMutationGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -98,6 +100,7 @@ export default defineComponent({
         competitionLeaderboard: competitionLeaderboardGraphqlClient,
         competitionFinalOutcome: competitionFinalOutcomeGraphqlClient,
         competitionParticipants: competitionParticipantsGraphqlClient,
+        unregisterFromCompetition: unregisterFromCompetitionGraphqlClient,
       },
       statusReactive,
     }

@@ -774,6 +774,18 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: unregisterFromCompetitionCapsule
+   *
+   * @returns {import('~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlCapsule').default}
+   */
+  get unregisterFromCompetitionCapsule () {
+    return this.graphqlClientHash
+      .unregisterFromCompetition
+      .capsuleRef
+      .value
+  }
+
+  /**
    * Generate leaderboard pagination result.
    *
    * @returns {PaginationResult}
@@ -941,6 +953,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competitionLeaderboard: GraphqlClient
  *     competitionFinalOutcome: GraphqlClient
  *     competitionParticipants: GraphqlClient
+ *     unregisterFromCompetition: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
