@@ -166,6 +166,11 @@
   --color-text-message-warn: var(--palette-yellow);
   --color-text-message-info: var(--palette-purple-lighter);
 
+  --color-text-participant-status-active: var(--palette-green);
+  --color-text-participant-status-completed: var(--palette-green);
+  --color-text-participant-status-disqualified: var(--palette-red);
+  --color-text-participant-status-canceled: var(--color-text-tertiary);
+
   /* Border Colors */
   --color-border-default: #303045;
   --color-border-destructive: #e4555533;

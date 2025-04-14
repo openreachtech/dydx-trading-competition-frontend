@@ -6,6 +6,7 @@ import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
   COMPETITION_STATUS,
+  COMPETITION_PARTICIPANT_STATUS,
 } from '~/app/constants'
 
 const HEADING_LABEL = {
@@ -362,6 +363,26 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   generateTopRankerClasses () {
     return {
       hidden: this.shouldHideTopRankers(),
+    }
+  }
+
+  /**
+   * Generate CSS classes for participant status.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {Record<string, boolean>}
+   */
+  generateParticipantStatusClasses ({
+    statusId,
+  }) {
+    return {
+      registered: statusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      active: statusId === COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
+      disqualified: statusId === COMPETITION_PARTICIPANT_STATUS.DISQUALIFIED.ID,
+      completed: statusId === COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,
+      canceled: statusId === COMPETITION_PARTICIPANT_STATUS.CANCELED.ID,
     }
   }
 }

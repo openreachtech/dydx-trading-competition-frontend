@@ -151,7 +151,11 @@ export default defineComponent({
         </template>
 
         <template #body-participantStatus="{ value }">
-          <span class="unit-status participant">
+          <span class="unit-status participant"
+            :class="context.generateParticipantStatusClasses({
+              statusId: value.statusId,
+            })"
+          >
             {{ value.name }}
           </span>
         </template>
@@ -542,5 +546,26 @@ export default defineComponent({
   line-height: var(--size-line-height-base);
 
   color: var(--color-text-secondary);
+}
+
+.unit-status.participant {
+  text-transform: capitalize;
+  color: var(--color-text-primary);
+}
+
+.unit-status.participant.active {
+  color: var(--color-text-participant-status-active);
+}
+
+.unit-status.participant.completed {
+  color: var(--color-text-participant-status-completed);
+}
+
+.unit-status.participant.disqualified {
+  color: var(--color-text-participant-status-disqualified);
+}
+
+.unit-status.participant.canceled {
+  color: var(--color-text-participant-status-canceled);
 }
 </style>
