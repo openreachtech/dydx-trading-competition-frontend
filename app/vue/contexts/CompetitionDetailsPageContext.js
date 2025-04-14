@@ -178,6 +178,13 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         },
       },
       {
+        key: 'outcomeRoi',
+        label: 'ROI',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+      {
         key: 'outcomePrize',
         label: 'Prize',
         columnOptions: {
@@ -455,6 +462,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       outcomeAddress: it.address.address,
       outcomeBaseline: it.performanceBaseline,
       outcomePnl: it.pnl,
+      outcomeRoi: it.roi,
       outcomePrize: it.prizeUsdAmount,
     }))
   }
@@ -760,6 +768,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   outcomeName: string
  *   outcomeAddress: string
  *   outcomePnl: number
+ *   outcomeRoi: number
  *   outcomeBaseline: number
  *   outcomePrize: string
  * }} NormalizedLeaderboardFinalOutcomeEntry
