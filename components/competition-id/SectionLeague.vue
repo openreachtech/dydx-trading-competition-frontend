@@ -179,7 +179,12 @@ export default defineComponent({
             </template>
 
             <template #default>
-              {{ context.generateEnrollButtonLabel() }}
+              <span class="content">
+                {{ context.generateEnrollButtonLabel() }}
+              </span>
+              <span class="action unregister">
+                Unregister
+              </span>
             </template>
           </AppButton>
 
@@ -459,6 +464,10 @@ export default defineComponent({
   display: none;
 }
 
+.unit-details > .actions > .button.enroll .action {
+  display: none;
+}
+
 .unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
   display: inline;
 }
@@ -474,6 +483,14 @@ export default defineComponent({
 }
 
 .unit-details > .actions > .button.enroll.enrolled:hover .icon.unregister {
+  display: inline;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .content {
+  display: none;
+}
+
+.unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
   display: inline;
 }
 
