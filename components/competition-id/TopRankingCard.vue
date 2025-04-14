@@ -102,6 +102,15 @@ export default defineComponent({
           {{ context.generatePnl() }}
         </dd>
       </div>
+
+      <div class="entry">
+        <dt class="term">
+          Prize
+        </dt>
+        <dd class="figure prize">
+          {{ context.generatePrize() }}
+        </dd>
+      </div>
     </dl>
   </div>
 </template>

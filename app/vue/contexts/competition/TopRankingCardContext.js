@@ -77,6 +77,17 @@ export default class TopRankingCardContext extends BaseFuroContext {
   }
 
   /**
+   * get: prize.
+   *
+   * @returns {import('~/app/vue/contexts/competition/SectionLeaderboardContext').TopRanker['prize'] | null}
+   */
+  get prize () {
+    return this.rankDetails
+      ?.prize
+      ?? null
+  }
+
+  /**
    * Generate name.
    *
    * @returns {string}
@@ -120,6 +131,19 @@ export default class TopRankingCardContext extends BaseFuroContext {
       figure: this.pnl,
     })
       .normalizeAsPnl()
+  }
+
+  /**
+   * Generate Prize.
+   *
+   * @returns {string}
+   */
+  generatePrize () {
+    if (this.prize === null) {
+      return '--'
+    }
+
+    return `$${this.prize}`
   }
 
   /**
