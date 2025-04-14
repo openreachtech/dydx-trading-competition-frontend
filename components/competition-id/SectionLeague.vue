@@ -450,10 +450,6 @@ export default defineComponent({
 
   font-size: var(--font-size-medium);
   font-weight: 500;
-
-  transition: border-color 250ms var(--transition-timing-base),
-    background-color 250ms var(--transition-timing-base),
-    color 250ms var(--transition-timing-base);
 }
 
 .unit-details > .actions > .button.enroll.neutral:disabled {
