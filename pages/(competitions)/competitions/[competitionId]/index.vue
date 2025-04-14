@@ -7,6 +7,7 @@ import {
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
 import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
+import CompetitionCancelationDialog from '~/components/dialogs/CompetitionCancelationDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionPrizeRules from '~/components/competition-id/SectionPrizeRules.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
@@ -40,6 +41,7 @@ export default defineComponent({
   components: {
     CompetitionTermsDialog,
     CompetitionEnrollmentDialog,
+    CompetitionCancelationDialog,
     SectionLeague,
     SectionPrizeRules,
     SectionSchedules,
@@ -57,6 +59,8 @@ export default defineComponent({
     const competitionTermsDialogRef = ref(null)
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionEnrollmentDialogRef = ref(null)
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const competitionCancelationDialogRef = ref(null)
 
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
@@ -125,6 +129,7 @@ export default defineComponent({
     return {
       competitionTermsDialogRef,
       competitionEnrollmentDialogRef,
+      competitionCancelationDialogRef,
 
       context,
       mutationContext,
@@ -138,6 +143,9 @@ export default defineComponent({
     <SectionLeague :competition="context.competition"
       :participant-status-id="context.participantStatusId"
       :competition-status-id="context.competitionStatusId"
+      @show-cancelation-dialog="context.showDialog({
+        dialogElement: competitionCancelationDialogRef,
+      })"
       @show-terms-dialog="context.showDialog({
         dialogElement: competitionTermsDialogRef,
       })"
@@ -171,5 +179,7 @@ export default defineComponent({
         formElement: $event.formElement,
       })"
     />
+
+    <CompetitionCancelationDialog ref="competitionCancelationDialogRef" />
   </div>
 </template>

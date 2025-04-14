@@ -93,6 +93,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
   static get EMIT_EVENT_NAME () {
     return {
       SHOW_TERMS_DIALOG: 'show-terms-dialog',
+      SHOW_CANCELATION_DIALOG: 'showCancelationDialog',
     }
   }
 
@@ -705,6 +706,32 @@ export default class SectionLeagueContext extends BaseFuroContext {
     }
 
     return this.description.length > MAX_DESCRIPTION_PREVIEW_LENGTH
+  }
+
+  /**
+   * Initiate action dialog. Open the correct dialog based on enrollment status.
+   *
+   * @returns {void}
+   */
+  initiateActionDialog () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
+      this.showCancelationDialog()
+
+      return
+    }
+
+    this.showTermsDialog()
+  }
+
+  /**
+   * Show cancelation dialog.
+   *
+   * @returns {void}
+   */
+  showCancelationDialog () {
+    this.emit(this.EMIT_EVENT_NAME.SHOW_CANCELATION_DIALOG)
   }
 
   /**

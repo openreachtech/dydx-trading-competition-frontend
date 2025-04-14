@@ -66,6 +66,7 @@ export default defineComponent({
 
   emits: [
     'showTermsDialog',
+    'showCancelationDialog',
   ],
 
   setup (
@@ -164,7 +165,7 @@ export default defineComponent({
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
-            @click="context.showTermsDialog()"
+            @click="context.initiateActionDialog()"
           >
             <template #startIcon>
               <Icon name="heroicons:check-circle"
