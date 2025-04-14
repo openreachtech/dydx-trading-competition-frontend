@@ -55,6 +55,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionStatusId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
   },
 
   emits: [

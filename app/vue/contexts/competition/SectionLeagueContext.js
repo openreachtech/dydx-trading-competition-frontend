@@ -111,6 +111,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionStatusId
+   *
+   * @returns {PropsType['competitionStatusId']}
+   */
+  get competitionStatusId () {
+    return this.props.competitionStatusId
+  }
+
+  /**
    * get: competitionStatus
    *
    * @returns {CompetitionEntity['status'] | null}
@@ -720,5 +729,6 @@ export default class SectionLeagueContext extends BaseFuroContext {
  * @typedef {{
  *   competition: CompetitionEntity | null
  *   participantStatusId: number | null
+ *   competitionStatusId: number | null
  * }} PropsType
  */
