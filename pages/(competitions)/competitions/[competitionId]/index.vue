@@ -7,6 +7,7 @@ import {
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
 import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
+import CompetitionCancelationDialog from '~/components/dialogs/CompetitionCancelationDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionPrizeRules from '~/components/competition-id/SectionPrizeRules.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
@@ -19,6 +20,7 @@ import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/que
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
+import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
@@ -39,6 +41,7 @@ export default defineComponent({
   components: {
     CompetitionTermsDialog,
     CompetitionEnrollmentDialog,
+    CompetitionCancelationDialog,
     SectionLeague,
     SectionPrizeRules,
     SectionSchedules,
@@ -56,6 +59,8 @@ export default defineComponent({
     const competitionTermsDialogRef = ref(null)
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionEnrollmentDialogRef = ref(null)
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const competitionCancelationDialogRef = ref(null)
 
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
@@ -67,6 +72,7 @@ export default defineComponent({
     const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
     const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
+    const unregisterFromCompetitionGraphqlClient = useGraphqlClient(UnregisterFromCompetitionMutationGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: JoinCompetitionFormElementClerk,
@@ -80,6 +86,7 @@ export default defineComponent({
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingParticipant: true,
+      isUnregisteringCompetition: false,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
@@ -91,6 +98,7 @@ export default defineComponent({
       route,
       walletStore,
       leaderboardEntriesRef,
+      competitionCancelationDialogRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
@@ -98,6 +106,7 @@ export default defineComponent({
         competitionLeaderboard: competitionLeaderboardGraphqlClient,
         competitionFinalOutcome: competitionFinalOutcomeGraphqlClient,
         competitionParticipants: competitionParticipantsGraphqlClient,
+        unregisterFromCompetition: unregisterFromCompetitionGraphqlClient,
       },
       statusReactive,
     }
@@ -122,6 +131,7 @@ export default defineComponent({
     return {
       competitionTermsDialogRef,
       competitionEnrollmentDialogRef,
+      competitionCancelationDialogRef,
 
       context,
       mutationContext,
@@ -135,6 +145,9 @@ export default defineComponent({
     <SectionLeague :competition="context.competition"
       :participant-status-id="context.participantStatusId"
       :competition-status-id="context.competitionStatusId"
+      @show-cancelation-dialog="context.showDialog({
+        dialogElement: competitionCancelationDialogRef,
+      })"
       @show-terms-dialog="context.showDialog({
         dialogElement: competitionTermsDialogRef,
       })"
@@ -167,6 +180,12 @@ export default defineComponent({
       @join-competition="mutationContext.joinCompetition({
         formElement: $event.formElement,
       })"
+    />
+
+    <CompetitionCancelationDialog ref="competitionCancelationDialogRef"
+      :competition-name="context.competitionTitle"
+      :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
+      @unregister-from-competition="context.unregisterFromCompetition()"
     />
   </div>
 </template>

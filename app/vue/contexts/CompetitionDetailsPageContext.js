@@ -34,6 +34,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    competitionCancelationDialogRef,
     statusReactive,
   }) {
     super({
@@ -45,6 +46,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
+    this.competitionCancelationDialogRef = competitionCancelationDialogRef
     this.statusReactive = statusReactive
   }
 
@@ -64,6 +66,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    competitionCancelationDialogRef,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -74,6 +77,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         walletStore,
         graphqlClientHash,
         leaderboardEntriesRef,
+        competitionCancelationDialogRef,
         statusReactive,
       })
     )
@@ -423,6 +427,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Unregister from competition
+   *
+   * @returns {Promise<void>}
+   */
+  async unregisterFromCompetition () {
+    await this.graphqlClientHash
+      .unregisterFromCompetition
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+          },
+        },
+        hooks: this.unregisterFromCompetitionLauncherHooks,
+      })
+  }
+
+  /**
    * get: localWalletAddress
    *
    * @returns {string | null}
@@ -449,6 +471,40 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       afterRequest: async capsule => {
         this.statusReactive.isLoading = false
+      },
+    }
+  }
+
+  /**
+   * get: unregisterFromCompetitionLauncherHooks.
+   *
+   * @returns {furo.GraphqlLauncherHooks} - Launcher hooks.
+   */
+  get unregisterFromCompetitionLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isUnregisteringFromCompetition = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isUnregisteringFromCompetition = false
+
+        this.dismissDialog({
+          dialogElement: this.competitionCancelationDialog,
+        })
+
+        await this.graphqlClientHash
+          .competitionParticipant
+          .invokeRequestOnEvent({
+            variables: {
+              input: {
+                competitionId: this.extractCompetitionId(),
+                address: this.localWalletAddress,
+              },
+            },
+            hooks: this.competitionParticipantLauncherHooks,
+          })
       },
     }
   }
@@ -640,12 +696,30 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isUnregisteringFromCompetition
+   *
+   * @returns {boolean}
+   */
+  get isUnregisteringFromCompetition () {
+    return this.statusReactive.isUnregisteringFromCompetition
+  }
+
+  /**
    * get: leaderboardEntries
    *
    * @returns {LeaderboardEntries}
    */
   get leaderboardEntries () {
     return this.leaderboardEntriesRef.value
+  }
+
+  /**
+   * get: competitionCancelationDialog
+   *
+   * @returns {import('~/components/units/AppDialog.vue').default | null}
+   */
+  get competitionCancelationDialog () {
+    return this.competitionCancelationDialogRef.value
   }
 
   /**
@@ -666,6 +740,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get competitionStatusId () {
     return this.competitionCapsuleRef.value
       .statusId
+  }
+
+  /**
+   * get: competitionTitle
+   *
+   * @returns {string | null}
+   */
+  get competitionTitle () {
+    return this.competitionCapsuleRef
+      .value
+      .title
   }
 
   /**
@@ -769,6 +854,18 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get competitionFinalOutcomeCapsule () {
     return this.graphqlClientHash
       .competitionFinalOutcome
+      .capsuleRef
+      .value
+  }
+
+  /**
+   * get: unregisterFromCompetitionCapsule
+   *
+   * @returns {import('~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlCapsule').default}
+   */
+  get unregisterFromCompetitionCapsule () {
+    return this.graphqlClientHash
+      .unregisterFromCompetition
       .capsuleRef
       .value
   }
@@ -934,6 +1031,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
+ *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
@@ -941,6 +1039,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competitionLeaderboard: GraphqlClient
  *     competitionFinalOutcome: GraphqlClient
  *     competitionParticipants: GraphqlClient
+ *     unregisterFromCompetition: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
@@ -959,6 +1058,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingParticipant: boolean
+ *   isUnregisteringFromCompetition: boolean
  * }} StatusReactive
  */
 
