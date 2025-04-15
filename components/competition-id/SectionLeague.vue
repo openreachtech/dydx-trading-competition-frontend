@@ -205,11 +205,12 @@ export default defineComponent({
           >
 
           <div class="buttons">
-            <button class="button">
+            <!-- TODO: Implement share feature. -->
+            <!-- <button class="button">
               <Icon name="heroicons:share"
                 size="1.25rem"
               />
-            </button>
+            </button> -->
 
             <CopyButton :content-to-copy="context.generateCompetitionUrl()"
               icon-name="heroicons:link"
