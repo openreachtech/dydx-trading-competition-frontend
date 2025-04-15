@@ -89,7 +89,7 @@ export default defineComponent({
               rel="noopener noreferrer"
               target="_blank"
             >
-              General Terms and Conditions
+              General Terms of Use
             </NuxtLink>
           </p>
         </div>

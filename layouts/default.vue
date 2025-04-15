@@ -75,7 +75,7 @@ export default {
           rel="noopener noreferrer"
           class="link"
         >
-          Terms and Conditions
+          Terms of Use
         </NuxtLink>
       </p>
     </template>

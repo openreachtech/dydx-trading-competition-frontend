@@ -192,7 +192,7 @@ export default defineComponent({
             size="1rem"
           />
 
-          <span>Terms and Conditions</span>
+          <span>Terms of Use</span>
         </NuxtLink>
 
         <button class="button"
