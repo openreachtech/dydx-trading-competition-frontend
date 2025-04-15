@@ -96,6 +96,40 @@ export default {
             Terms of Use
           </NuxtLink>
         </p>
+
+        <ul class="links">
+          <li v-for="(platform, index) of context.socialPlatforms"
+            :key="index"
+            class="entry"
+          >
+            <NuxtLink :to="platform.href"
+              external
+              rel="noopener noreferrer"
+              target="_blank"
+              class="link"
+            >
+              <Icon :name="platform.iconName"
+                class="icon"
+              />
+            </NuxtLink>
+          </li>
+          <li v-for="(platform, index) of context.dydxPlatforms"
+            :key="index"
+            class="entry"
+          >
+            <NuxtLink :to="platform.href"
+              external
+              rel="noopener noreferrer"
+              target="_blank"
+              class="link"
+            >
+              <img :src="platform.imageUrl"
+                :alt="platform.name"
+                class="icon image"
+              >
+            </NuxtLink>
+          </li>
+        </ul>
       </div>
     </template>
   </AppDefaultLayout>
@@ -153,6 +187,13 @@ export default {
   background-color: var(--color-background-menu-entry-hover);
 }
 
+.unit-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .unit-footer > .copyright {
   font-weight: 500;
 
@@ -168,5 +209,39 @@ export default {
 
 .unit-footer > .copyright > .link:hover {
   text-decoration: underline;
+}
+
+.unit-footer > .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.unit-footer > .links > .entry > .link {
+  color: var(--color-text-placeholder);
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-footer > .links > .entry:hover > .link {
+  color: var(--color-text-primary);
+}
+
+.unit-footer > .links > .entry > .link > .icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.unit-footer > .links > .entry > .link > .icon.image {
+  filter: grayscale(1) brightness(0.8);
+  transition: filter 250ms var(--transition-timing-base);
+}
+
+.unit-footer > .links > .entry:hover > .link > .icon.image {
+  filter: grayscale(0) brightness(1.7);
 }
 </style>
