@@ -148,7 +148,7 @@ export default {
 .unit-header > .search {
   display: none;
 
-  @media (30rem < width) {
+  @media (60rem < width) {
     display: block;
   }
 }
