@@ -183,6 +183,18 @@ export default defineComponent({
           <span>Open dydx.trade</span>
         </NuxtLink>
 
+        <NuxtLink to="/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          <Icon name="heroicons:document-solid"
+            size="1rem"
+          />
+
+          <span>Terms of Use</span>
+        </NuxtLink>
+
         <button class="button"
           @click="context.attemptWalletDisconnection()"
         >

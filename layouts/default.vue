@@ -68,7 +68,15 @@ export default {
 
     <template #footer>
       <p class="copyright">
-        © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
+        <span>
+          © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
+        </span><NuxtLink to="/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          Terms of Use
+        </NuxtLink>
       </p>
     </template>
   </AppDefaultLayout>
@@ -127,11 +135,19 @@ export default {
 }
 
 .unit-body > .footer > .copyright {
-  font-size: var(--font-size-base);
   font-weight: 500;
 
   text-align: center;
 
   color: var(--color-text-placeholder);
+}
+
+.unit-body > .footer > .copyright > .link {
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+}
+
+.unit-body > .footer > .copyright > .link:hover {
+  text-decoration: underline;
 }
 </style>
