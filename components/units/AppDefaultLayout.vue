@@ -164,7 +164,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
 
-  @media (30rem < width) {
+  @media (60rem < width) {
     display: none;
   }
 }
@@ -243,7 +243,7 @@ export default defineComponent({
 .unit-body.open-nav > .navigation {
   transform: translateX(0);
 
-  @media (30rem < width) {
+  @media (60rem < width) {
     transform: translateX(100%);
   }
 }
@@ -303,7 +303,7 @@ export default defineComponent({
 
   animation: fade-in var(--time-transition-nav-toggle) var(--transition-timing-base) forwards;
 
-  @media (30rem < width) {
+  @media (60rem < width) {
     display: none;
 
     animation: none;
@@ -313,7 +313,7 @@ export default defineComponent({
 .unit-body:not(.open-nav, .open-search) > .backdrop {
   animation: fade-out var(--time-transition-nav-toggle) var(--transition-timing-base) forwards;
 
-  @media (30rem < width) {
+  @media (60rem < width) {
     animation: none;
   }
 }
