@@ -66,6 +66,7 @@ export default defineComponent({
 
   emits: [
     'showTermsDialog',
+    'showCancelationDialog',
   ],
 
   setup (
@@ -164,7 +165,7 @@ export default defineComponent({
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
-            @click="context.showTermsDialog()"
+            @click="context.initiateActionDialog()"
           >
             <template #startIcon>
               <Icon name="heroicons:check-circle"
@@ -204,11 +205,12 @@ export default defineComponent({
           >
 
           <div class="buttons">
-            <button class="button">
+            <!-- TODO: Implement share feature. -->
+            <!-- <button class="button">
               <Icon name="heroicons:share"
                 size="1.25rem"
               />
-            </button>
+            </button> -->
 
             <CopyButton :content-to-copy="context.generateCompetitionUrl()"
               icon-name="heroicons:link"

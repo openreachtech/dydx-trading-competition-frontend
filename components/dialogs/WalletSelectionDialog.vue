@@ -4,6 +4,10 @@ import {
   ref,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 import AppMessage from '~/components/units/AppMessage.vue'
@@ -19,6 +23,7 @@ import WalletSelectionDialogContext from '~/app/vue/contexts/dialogs/WalletSelec
 
 export default defineComponent({
   components: {
+    NuxtLink,
     AppButton,
     AppDialog,
     AppMessage,
@@ -73,9 +78,21 @@ export default defineComponent({
 
     <template #contents>
       <div class="unit-contents">
-        <p class="description">
-          Select your preferred wallet from the list below and connect.
-        </p>
+        <div class="description">
+          <p class="text">
+            Select your preferred wallet from the list below and connect.
+          </p>
+          <p class="text">
+            By connecting your wallet, you acknowledge that you have read and
+            agreed to the following <NuxtLink to="/terms"
+              class="link"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              General Terms of Use
+            </NuxtLink>
+          </p>
+        </div>
 
         <AppMessage variant="box"
           severity="error"
@@ -109,6 +126,11 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* Reset  */
+p + p {
+  margin-block-start: 0;
+}
+
 .unit-dialog {
   width: 100%;
   max-width: min(
@@ -135,18 +157,22 @@ export default defineComponent({
 }
 
 .unit-contents > .description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
   font-size: var(--font-size-small);
 
   color: var(--color-text-placeholder);
 }
 
-.unit-contents > .description > .link {
+.unit-contents > .description > .text > .link {
   font-weight: 700;
 
-  color: inherit;
+  color: var(--color-text-tertiary);
 }
 
-.unit-contents > .description > .link:hover {
+.unit-contents > .description > .text > .link:hover {
   text-decoration: underline;
 }
 

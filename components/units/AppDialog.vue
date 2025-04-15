@@ -107,6 +107,8 @@ export default defineComponent({
     align-items: stretch;
 
     background-color: var(--color-background-dialog);
+
+    animation: fade-in 150ms var(--transition-timing-base) forwards;
   }
 
   .unit-header {
@@ -144,6 +146,13 @@ export default defineComponent({
 
   .unit-header > .button.close:hover {
     color: var(--color-text-primary);
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
   }
 }
 </style>

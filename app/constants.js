@@ -536,7 +536,7 @@ export const ERROR_MESSAGE_HASH = {
   CompetitionParticipantAddressNotFound: 'Competition participant address not found',
   AddressNotFound: 'Address not found',
   ParticipantLimitExceeded: 'Participant limit exceeded',
-  AddressAlreadyRegisteredToCompetition: 'Address already registered to competition',
+  AddressAlreadyRegisteredToCompetition: 'You can only register to one competition at a time',
   InvalidCompetitionState: 'Invalid competition state',
   NameAlreadyBeenUsed: 'Name has already been used',
   CurrentDetailInformationSameToNewDetailInformation: 'No changes in detail information',

@@ -7,3 +7,8 @@
     font-family: var(--font-family-body);
   }
 }
+
+h1 {
+  /* Reset text-transform from base css. */
+  text-transform: none;
+}
