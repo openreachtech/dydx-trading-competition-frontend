@@ -17,23 +17,23 @@ export default class LandingPageContext extends BaseFuroContext {
     return [
       {
         title: 'Open Creation',
-        description: 'Anyone can create their own trading arenas, fostering a democratized environment for skill demonstration. This openness allows communities to develop their own challenges and reward structures.',
+        description: 'Users can create their own trading arenas, fostering a democratized environment for skill demonstration. This openness allows communities to develop their own challenges and reward structures.',
       },
       {
         title: 'Full Transparency',
-        description: 'Hourly PnL tracking on the decentralized perpetual exchange (dYdX) ensures all results are verifiable and trustworthy. Unlike centralized exchanges, DEXs make trading activity publicly visible on-chain.',
+        description: 'Hourly PnL tracking on dYdX ensures all results are verifiable and trustworthy. Unlike centralized exchanges, trading activities on decentralized exchanges are on-chain and publicly visible.',
       },
       {
         title: 'Learning Opportunity',
-        description: 'Study strategies from genuine top-performing traders with access to their actual positions, timing, and lot sizes. This creates unique opportunities to find role models and learn from verifiably successful strategies.',
+        description: 'Study strategies from genuine top-performing traders with access to their actual positions, timing, and lot sizes. This creates unique opportunities to find role models and learn from proven, successful strategies.',
       },
       {
         title: 'Authenticity',
-        description: "Create a space where trading performance can be verified with blockchain-based evidence rather than relying on unverifiable claims. Competition records are permanently stored as part of a trader's on-chain persona.",
+        description: "Create a space where trading performance can be verified with blockchain-based system rather than relying on unverifiable claims. Competition records are permanently stored as part of a trader's on-chain persona.",
       },
       {
         title: 'Skill Verification',
-        description: 'True trading talent should be demonstrated on a DEX with verifiable results. As on-chain identity becomes increasingly important, competition achievements serve as valuable credentials in the crypto space.',
+        description: 'True trading talent should be demonstrated on a decentralized exchange with verifiable results. As on-chain identity becomes increasingly important, competition achievements serve as valuable credentials in the crypto space.',
       },
       {
         title: 'Community Building',
@@ -52,7 +52,7 @@ export default class LandingPageContext extends BaseFuroContext {
       {
         title: 'Beginners',
         subtitle: 'Breaking down entry barriers',
-        description: 'Perpetual swap trading has a steep learning curve, and DEX platforms often have additional technical barriers to entry. Our competitions create an approachable environment for newcomers.',
+        description: 'Perpetual swap trading has a steep learning curve, and decentralized exchanges often have additional technical barriers to entry. Our competitions create an approachable environment for newcomers.',
         characteristics: [
           'Fun, gamified elements that make complex trading more approachable',
           'Community-hosted competitions create welcoming entry points',
@@ -110,9 +110,9 @@ export default class LandingPageContext extends BaseFuroContext {
           {
             actor: 'trader',
             title: 'Registration & Deposit',
-            description: 'Traders register to participate by connecting their wallets and meeting the deposit requirements.',
+            description: 'Traders can register to participate by connecting their wallets so long as they meet the deposit requirements.',
             characteristics: [
-              'Find active competition to join',
+              'Find active competition(s) to join',
               'Link dYdX wallet address to register',
               'Choose display name for leaderboard',
               'Ensure account meets minimum deposit requirements',
@@ -149,7 +149,7 @@ export default class LandingPageContext extends BaseFuroContext {
           {
             actor: 'trader',
             title: 'Active Trading',
-            description: 'Traders begin taking positions and executing their strategies on the dYdX platform.',
+            description: 'Traders begin taking positions and executing their strategies on dYdX.',
             characteristics: [
               'Enter positions based on market analysis',
               'Manage risk through position sizing',
@@ -245,7 +245,7 @@ export default class LandingPageContext extends BaseFuroContext {
     return [
       {
         question: 'How do I create my own competition?',
-        answer: 'Anyone can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please contact <a href="https://x.com/dydxfoundation" target="_blank">dYdX Foundation (@dydxfoundation)</a> or <a href="https://x.com/clc_validator" target="_blank">Crypto Learning Club | dYdX Validator (@clc_validator)</a>.',
+        answer: 'Users can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please contact <a href="https://x.com/dydxfoundation" target="_blank">dYdX Foundation (@dydxfoundation)</a> or <a href="https://x.com/clc_validator" target="_blank">Crypto Learning Club | dYdX Validator (@clc_validator)</a>.',
       },
       {
         question: 'How is my trading performance calculated?',

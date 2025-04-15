@@ -87,7 +87,7 @@ export default defineComponent({
 
         <p class="description">
           The dYdX Trading Arena Board is designed to serve traders across
-          multiple experience levels, providing unique benefits for each segment.
+          multiple experience levels, providing unique benefits for each group.
         </p>
 
         <div class="unit-audience">
@@ -181,7 +181,7 @@ export default defineComponent({
         <NuxtLink class="button call-to-action"
           to="/competitions"
         >
-          Get it? Let's join a competition now!
+          You can join a competition now!
         </NuxtLink>
       </div>
     </section>
