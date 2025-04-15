@@ -40,6 +40,9 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'og:title', property: 'og:title', content: 'dYdX Trading Arena' },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'dYdX Trading Arena' },
+        { hid: 'twitter:title', property: 'twitter:title', content: 'dYdX Trading Arena' },
         { hid: 'description', name: 'description', content: '' },
         { name: 'format-detection', content: 'telephone=no' },
       ],
