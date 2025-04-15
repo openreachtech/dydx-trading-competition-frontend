@@ -10,6 +10,8 @@ import AppLogo from '~/components/header/AppLogo.vue'
 import AddressesSearchBarHeader from '~/components/search/AddressesSearchBarHeader.vue'
 import AddressesSearchBarSide from '~/components/search/AddressesSearchBarSide.vue'
 
+import DefaultLayoutContext from '~/layouts/DefaultLayoutContext'
+
 export default {
   name: 'DefaultLayout',
 
@@ -20,6 +22,21 @@ export default {
     AddressesSearchBarSide,
     Icon,
     NuxtLink,
+  },
+
+  setup (
+    props,
+    componentContext
+  ) {
+    const args = {
+      props,
+      componentContext,
+    }
+    const context = DefaultLayoutContext.create(args)
+
+    return {
+      context,
+    }
   },
 }
 </script>
