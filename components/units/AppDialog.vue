@@ -111,10 +111,6 @@ export default defineComponent({
     animation: fade-in 150ms var(--transition-timing-base) forwards;
   }
 
-  .furo-dialog:not([open]).design {
-    animation: fade-out 150ms var(--transition-timing-base) forwards;
-  }
-
   .unit-header {
     padding-block-end: 0.75rem;
 
@@ -155,25 +151,6 @@ export default defineComponent({
   @keyframes fade-in {
     0% {
       opacity: 0;
-      display: none;
-      transform: scale(0.95);
-    }
-
-    100% {
-      opacity: 1;
-      display: block;
-    }
-  }
-
-  @keyframes fade-out {
-    0% {
-      opacity: 1;
-      display: block;
-    }
-
-    100% {
-      opacity: 0;
-      display: none;
       transform: scale(0.95);
     }
   }
