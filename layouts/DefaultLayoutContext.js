@@ -2,12 +2,25 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  DYDX_TRADE_CTA_URL,
+} from '~/app/constants'
+
 /**
  * DefaultLayoutContext
  *
  * @extends {BaseFuroContext<null, {}, null>}
  */
 export default class DefaultLayoutContext extends BaseFuroContext {
+  /**
+   * get: dydxTradeCtaUrl
+   *
+   * @returns {string}
+   */
+  static get dydxTradeCtaUrl () {
+    return DYDX_TRADE_CTA_URL
+  }
+
   /**
    * get: socialPlatforms
    *
@@ -44,6 +57,17 @@ export default class DefaultLayoutContext extends BaseFuroContext {
         href: 'https://dydx.trade',
       },
     ]
+  }
+
+  /**
+   * get: dydxTradeCtaUrl
+   *
+   * @returns {string}
+   */
+  get dydxTradeCtaUrl () {
+    return /** @type {string} */ (
+      this.Ctor.dydxTradeCtaUrl
+    )
   }
 }
 

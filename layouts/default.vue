@@ -59,7 +59,7 @@ export default {
     </template>
 
     <template #search-header>
-      <NuxtLink to="https://dydx.trade"
+      <NuxtLink :to="context.dydxTradeCtaUrl"
         external
         target="_blank"
         rel="noopener noreferrer"
