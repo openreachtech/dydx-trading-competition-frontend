@@ -170,7 +170,7 @@ export default defineComponent({
           <span>My league profile</span>
         </NuxtLink>
 
-        <NuxtLink to="https://dydx.trade"
+        <NuxtLink :to="context.dydxTradeCtaUrl"
           external
           target="_blank"
           rel="noopener noreferrer"

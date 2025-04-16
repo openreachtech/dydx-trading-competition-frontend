@@ -12,6 +12,7 @@ import {
 import {
   CONNECTOR_TYPE,
   ONBOARDING_STATUS,
+  DYDX_TRADE_CTA_URL,
 } from '~/app/constants'
 
 /**
@@ -83,11 +84,31 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     return '/img/wallets/generic-wallet.svg'
   }
 
+  /**
+   * get: dydxTradeCtaUrl
+   *
+   * @returns {string}
+   */
+  static get dydxTradeCtaUrl () {
+    return DYDX_TRADE_CTA_URL
+  }
+
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
       SHOW_KEY_DERIVATION_DIALOG: 'showKeyDerivationDialog',
     }
+  }
+
+  /**
+   * get: dydxTradeCtaUrl
+   *
+   * @returns {string}
+   */
+  get dydxTradeCtaUrl () {
+    return /** @type {string} */ (
+      this.Ctor.dydxTradeCtaUrl
+    )
   }
 
   /**
