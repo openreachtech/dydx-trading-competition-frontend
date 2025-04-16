@@ -24,6 +24,11 @@ export default defineComponent({
   },
 
   props: {
+    isJoining: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     competition: {
       /** @type {import('vue').PropType<import('./CompetitionEnrollmentDialogContext').PropsType['competition']>} */
       type: Object,
@@ -148,7 +153,9 @@ export default defineComponent({
           {{ context.joinCompetitionErrorMessage }}
         </AppMessage>
 
-        <AppButton class="button">
+        <AppButton class="button"
+          :is-loading="context.isJoining"
+        >
           Enroll League
         </AppButton>
       </form>

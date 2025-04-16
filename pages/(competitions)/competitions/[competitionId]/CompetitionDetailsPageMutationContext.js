@@ -17,6 +17,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
     props,
     componentContext,
 
+    competitionEnrollmentDialogRef,
+    refetchHash,
     graphqlClientHash,
     formClerkHash,
     errorMessageHashReactive,
@@ -27,6 +29,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
       componentContext,
     })
 
+    this.competitionEnrollmentDialogRef = competitionEnrollmentDialogRef
+    this.refetchHash = refetchHash
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.errorMessageHashReactive = errorMessageHashReactive
@@ -45,6 +49,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
   static create ({
     props,
     componentContext,
+    competitionEnrollmentDialogRef,
+    refetchHash,
     graphqlClientHash,
     formClerkHash,
     errorMessageHashReactive,
@@ -54,12 +60,23 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
       new this({
         props,
         componentContext,
+        competitionEnrollmentDialogRef,
+        refetchHash,
         graphqlClientHash,
         formClerkHash,
         errorMessageHashReactive,
         statusReactive,
       })
     )
+  }
+
+  /**
+   * get: competitionEnrollmentDialogRef
+   *
+   * @returns {import('~/components/units/AppDialog.vue').default | null}
+   */
+  get competitionEnrollmentDialog () {
+    return this.competitionEnrollmentDialogRef.value
   }
 
   /**
@@ -129,7 +146,18 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 
         if (capsule.hasError()) {
           this.errorMessageHashReactive.joinCompetition = capsule.getResolvedErrorMessage()
+
+          return
         }
+
+        if (this.competitionEnrollmentDialog) {
+          this.competitionEnrollmentDialog.dismissDialog()
+        }
+
+        await Promise.allSettled([
+          this.refetchHash.competitionParticipant(),
+          this.refetchHash.leaderboardEntries(),
+        ])
       },
     }
   }
@@ -137,6 +165,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ *   competitionEnrollmentDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   refetchHash: import('~/app/vue/contexts/CompetitionDetailsPageContext').RefetchHash
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>
