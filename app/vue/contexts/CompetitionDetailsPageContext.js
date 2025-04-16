@@ -421,6 +421,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   generateRefetchHash () {
     return {
       competitionParticipant: () => this.fetchCompetitionParticipant(),
+      leaderboardEntries: () => this.fetchLeaderboardEntries(),
     }
   }
 
@@ -1146,5 +1147,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {'competitionParticipant'} RefetchHashKeys
+ * @typedef {'competitionParticipant'
+ *   | 'leaderboardEntries'
+ * } RefetchHashKeys
  */

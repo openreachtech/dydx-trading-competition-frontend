@@ -152,7 +152,10 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
           this.competitionEnrollmentDialog.dismissDialog()
         }
 
-        await this.refetchHash.competitionParticipant()
+        await Promise.allSettled([
+          this.refetchHash.competitionParticipant(),
+          this.refetchHash.leaderboardEntries(),
+        ])
       },
     }
   }
