@@ -334,7 +334,7 @@ export default defineComponent({
       #181825 46.63%,
       rgba(24, 24, 37, 0.00) 100%
     );
-  background-position: center;
+  background-position: top;
   background-size: cover;
   background-repeat: no-repeat;
 
@@ -518,6 +518,7 @@ export default defineComponent({
   gap: 0.75rem;
 
   min-width: 0;
+  max-height: fit-content;
 }
 
 .unit-meta > .actions {
