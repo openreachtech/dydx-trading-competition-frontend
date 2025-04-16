@@ -518,6 +518,7 @@ export default defineComponent({
   gap: 0.75rem;
 
   min-width: 0;
+  max-height: fit-content;
 }
 
 .unit-meta > .actions {
