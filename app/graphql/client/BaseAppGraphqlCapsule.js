@@ -32,11 +32,13 @@ export default class BaseAppGraphqlCapsule extends BaseGraphqlCapsule {
         ? value.includes(errorCode)
         : value === errorCode
       ))
-    const [errorCodeHashKey] = errorCodeHashEntries[errorCodeIndex]
+    const matchedErrorCodeHashEntry = errorCodeHashEntries[errorCodeIndex]
 
-    if (!errorCodeHashKey) {
+    if (!matchedErrorCodeHashEntry) {
       return errorCode
     }
+
+    const [errorCodeHashKey] = matchedErrorCodeHashEntry
 
     return ERROR_MESSAGE_HASH[errorCodeHashKey]
       ?? errorCode
