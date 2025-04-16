@@ -148,11 +148,11 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
           this.errorMessageHashReactive.joinCompetition = capsule.getResolvedErrorMessage()
         }
 
-        if (!this.competitionEnrollmentDialog) {
-          return
+        if (this.competitionEnrollmentDialog) {
+          this.competitionEnrollmentDialog.dismissDialog()
         }
 
-        this.competitionEnrollmentDialog.dismissDialog()
+        await this.refetchHash.competitionParticipant()
       },
     }
   }
