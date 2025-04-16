@@ -146,6 +146,8 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 
         if (capsule.hasError()) {
           this.errorMessageHashReactive.joinCompetition = capsule.getResolvedErrorMessage()
+
+          return
         }
 
         if (this.competitionEnrollmentDialog) {
