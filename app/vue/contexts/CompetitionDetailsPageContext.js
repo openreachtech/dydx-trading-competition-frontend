@@ -525,17 +525,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           dialogElement: this.competitionCancelationDialog,
         })
 
-        await this.graphqlClientHash
-          .competitionParticipant
-          .invokeRequestOnEvent({
-            variables: {
-              input: {
-                competitionId: this.extractCompetitionId(),
-                address: this.localWalletAddress,
+        // TODO: Move mutation logic to mutation context.
+        await Promise.allSettled([
+          this.graphqlClientHash
+            .competitionParticipant
+            .invokeRequestOnEvent({
+              variables: {
+                input: {
+                  competitionId: this.extractCompetitionId(),
+                  address: this.localWalletAddress,
+                },
               },
-            },
-            hooks: this.competitionParticipantLauncherHooks,
-          })
+              hooks: this.competitionParticipantLauncherHooks,
+            }),
+          this.fetchLeaderboardEntries(),
+        ])
       },
     }
   }
