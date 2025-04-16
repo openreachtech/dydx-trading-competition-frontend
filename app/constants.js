@@ -13,6 +13,8 @@ export const STORAGE_KEY = {
   WALLET: 'wallet',
 }
 
+export const DYDX_TRADE_CTA_URL = 'https://dydx.trade/markets?utm_source=clc&utm_medium=trading-competition&utm_campaign=07042025-clc-menu-cta&utm_term=&utm_content=trading-comp-menu-cta'
+
 export const ORDINAL_SUFFIX_HASH = {
   1: 'st',
   2: 'nd',
