@@ -18,6 +18,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
     componentContext,
 
     competitionEnrollmentDialogRef,
+    refetchHash,
     graphqlClientHash,
     formClerkHash,
     errorMessageHashReactive,
@@ -29,6 +30,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
     })
 
     this.competitionEnrollmentDialogRef = competitionEnrollmentDialogRef
+    this.refetchHash = refetchHash
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.errorMessageHashReactive = errorMessageHashReactive
@@ -48,6 +50,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
     props,
     componentContext,
     competitionEnrollmentDialogRef,
+    refetchHash,
     graphqlClientHash,
     formClerkHash,
     errorMessageHashReactive,
@@ -58,6 +61,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
         props,
         componentContext,
         competitionEnrollmentDialogRef,
+        refetchHash,
         graphqlClientHash,
         formClerkHash,
         errorMessageHashReactive,
@@ -157,6 +161,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   competitionEnrollmentDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   refetchHash: import('~/app/vue/contexts/CompetitionDetailsPageContext').RefetchHash
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>

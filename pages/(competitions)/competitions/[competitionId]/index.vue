@@ -117,6 +117,7 @@ export default defineComponent({
       props,
       componentContext,
       competitionEnrollmentDialogRef,
+      refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
         joinCompetition: joinCompetitionGraphqlClient,
       },

@@ -308,6 +308,25 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Fetch competition participant.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitionParticipant () {
+    await this.graphqlClientHash
+      .competitionParticipant
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            address: this.localWalletAddress,
+          },
+        },
+        hooks: this.competitionParticipantLauncherHooks,
+      })
+  }
+
+  /**
    * Fetch leaderboard entries.
    *
    * @returns {Promise<void>}
@@ -392,6 +411,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         },
         hooks: this.competitionFinalOutcomeLauncherHooks,
       })
+  }
+
+  /**
+   * Generate refetch hash. Have to be arrow function to conserve `this` scope.
+   *
+   * @returns {RefetchHash}
+   */
+  generateRefetchHash () {
+    return {
+      competitionParticipant: () => this.fetchCompetitionParticipant(),
+    }
   }
 
   /**
@@ -1109,4 +1139,12 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   outcomeBaseline: number
  *   outcomePrize: string
  * }} NormalizedLeaderboardFinalOutcomeEntry
+ */
+
+/**
+ * @typedef {Record<RefetchHashKeys, () => Promise<void>>} RefetchHash
+ */
+
+/**
+ * @typedef {'competitionParticipant'} RefetchHashKeys
  */
