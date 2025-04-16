@@ -60,6 +60,15 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
   }
 
   /**
+   * get: isJoining
+   *
+   * @returns {boolean}
+   */
+  get isJoining () {
+    return this.props.isJoining
+  }
+
+  /**
    * get: validationMessage
    *
    * @returns {furo.ValidatorHashType['message']}

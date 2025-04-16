@@ -116,6 +116,8 @@ export default defineComponent({
     const mutationArgs = {
       props,
       componentContext,
+      competitionEnrollmentDialogRef,
+      refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
         joinCompetition: joinCompetitionGraphqlClient,
       },
@@ -175,6 +177,7 @@ export default defineComponent({
     <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
       :competition="context.competition"
       :initial-username="context.addressName"
+      :is-joining="mutationContext.isJoining"
       :validation-message="mutationContext.joinCompetitionValidationMessage"
       :error-message-hash="mutationContext.errorMessageHashReactive"
       @join-competition="mutationContext.joinCompetition({
