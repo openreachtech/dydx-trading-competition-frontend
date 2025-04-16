@@ -116,6 +116,7 @@ export default defineComponent({
     const mutationArgs = {
       props,
       componentContext,
+      competitionEnrollmentDialogRef,
       graphqlClientHash: {
         joinCompetition: joinCompetitionGraphqlClient,
       },
