@@ -15,7 +15,6 @@ import {
 
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
-import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -27,7 +26,6 @@ export default defineComponent({
     NuxtLink,
     CopyButton,
     LinkTooltipButton,
-    ProfileRenameDialog,
   },
 
   props: {
@@ -51,15 +49,10 @@ export default defineComponent({
       ],
       required: true,
     },
-    isRenaming: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
 
   emits: [
-    'updateUsername',
+    'showProfileRenameDialog',
   ],
 
   setup (
@@ -68,8 +61,6 @@ export default defineComponent({
   ) {
     const route = useRoute()
     const walletStore = useWalletStore()
-    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
-    const profileRenameDialogRef = ref(null)
 
     const args = {
       props,
@@ -81,8 +72,6 @@ export default defineComponent({
       .setupComponent()
 
     return {
-      profileRenameDialogRef,
-
       context,
     }
   },
@@ -91,14 +80,6 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <ProfileRenameDialog ref="profileRenameDialogRef"
-      :initial-username="context.addressName"
-      :is-renaming="context.isRenaming"
-      @update-username="context.updateUsername({
-        formElement: $event.formElement
-      })"
-    />
-
     <div class="inner">
       <div class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
@@ -116,9 +97,7 @@ export default defineComponent({
           <span>{{ context.addressName }}</span>
 
           <button class="button"
-            @click="context.showDialog({
-              dialogElement: profileRenameDialogRef,
-            })"
+            @click="context.showProfileRenameDialog()"
           >
             <Icon name="heroicons:pencil"
               size="1.5rem"
