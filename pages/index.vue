@@ -749,8 +749,8 @@ export default defineComponent({
 .button.call-to-action:hover {
   background-color: color-mix(
     in srgb,
-    var(--color-background-button-primary) var(--value-button-hover-overlay-opacity),
-    var(--color-background-button-hover-overlay)
+    var(--color-background-button-primary) var(--value-button-hover-overlay-darken-opacity),
+    var(--color-background-button-hover-overlay-darken)
   );
 
   box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);

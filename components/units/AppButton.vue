@@ -191,8 +191,8 @@ export default defineComponent({
 .unit-button.filled:not(:disabled):hover {
   background-color: color-mix(
     in srgb,
-    var(--color-background-button) var(--value-button-hover-overlay-opacity),
-    var(--color-background-button-hover-overlay)
+    var(--color-background-button) var(--value-button-hover-overlay-darken-opacity),
+    var(--color-background-button-hover-overlay-darken)
   );
 }
 
