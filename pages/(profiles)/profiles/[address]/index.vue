@@ -49,6 +49,8 @@ export default defineComponent({
     const profileRenameDialogRef = ref(null)
     /** @type {import('vue').Ref<string | null>} */
     const errorMessageRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const mutationErrorMessageRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
     const profileOverviewRef = ref(null)
     const statusReactive = reactive({
@@ -88,6 +90,8 @@ export default defineComponent({
           await context.refetchAddressName()
         },
       },
+      profileRenameDialogRef,
+      errorMessageRef: mutationErrorMessageRef,
       statusReactive: mutationStatusReactive,
     }
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
@@ -121,6 +125,7 @@ export default defineComponent({
     <ProfileRenameDialog ref="profileRenameDialogRef"
       :initial-username="context.addressName"
       :is-renaming="mutationContext.isRenaming"
+      :error-message="mutationContext.errorMessage"
       @update-username="mutationContext.updateUsername({
         formElement: $event.formElement,
       })"

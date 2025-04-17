@@ -20,6 +20,8 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
     graphqlClientHash,
     formClerkHash,
     refetchFunctionHash,
+    profileRenameDialogRef,
+    errorMessageRef,
     statusReactive,
   }) {
     super({
@@ -30,6 +32,8 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.refetchFunctionHash = refetchFunctionHash
+    this.profileRenameDialogRef = profileRenameDialogRef
+    this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
   }
 
@@ -48,6 +52,8 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
     graphqlClientHash,
     formClerkHash,
     refetchFunctionHash,
+    profileRenameDialogRef,
+    errorMessageRef,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -57,9 +63,20 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
         graphqlClientHash,
         formClerkHash,
         refetchFunctionHash,
+        profileRenameDialogRef,
+        errorMessageRef,
         statusReactive,
       })
     )
+  }
+
+  /**
+   * get: errorMessage
+   *
+   * @returns {string | null}
+   */
+  get errorMessage () {
+    return this.errorMessageRef.value
   }
 
   /**
@@ -69,6 +86,15 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
    */
   get isRenaming () {
     return this.statusReactive.isRenaming
+  }
+
+  /**
+   * get: profileRenameDialog
+   *
+   * @returns {import('~/components/units/AppDialog.vue').default | null}
+   */
+  get profileRenameDialog () {
+    return this.profileRenameDialogRef.value
   }
 
   /**
@@ -111,6 +137,17 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
       },
       afterRequest: async capsule => {
         this.statusReactive.isRenaming = false
+
+        if (capsule.hasError()) {
+          this.errorMessageRef.value = capsule.getResolvedErrorMessage()
+
+          return
+        }
+
+        this.errorMessageRef.value = null
+        this.dismissDialog({
+          dialogElement: this.profileRenameDialog,
+        })
       },
     }
   }
@@ -157,6 +194,8 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   refetchFunctionHash: Record<RefetchFunctionHashKeys, () => Promise<void>>
+ *   profileRenameDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  * }} ProfileDetailsPageMutationContextParams
  */
