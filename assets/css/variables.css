@@ -55,6 +55,8 @@
   --color-background-button-competition-step: var(--palette-layer-3);
   --color-background-button-highlight-hover: var(--palette-purple-faded);
 
+  --color-background-button-hover-overlay-darken: var(--palette-black);
+
   --color-background-badge-info: var(--palette-purple-faded);
   --color-background-badge-success: var(--palette-green-faded);
   --color-background-badge-warn: var(--palette-yellow-faded);
@@ -265,4 +267,5 @@
 
   /* Values */
   --value-golden-ratio: 1.618;
+  --value-button-hover-overlay-darken-opacity: 72%; /* Used in color-mix(), must be percentage. */
 }
