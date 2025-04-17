@@ -33,6 +33,15 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: errorMessage
+   *
+   * @returns {string | null}
+   */
+  get errorMessage () {
+    return this.props.errorMessage
+  }
+
+  /**
    * Submit form.
    *
    * @param {{
@@ -49,7 +58,5 @@ export default class ProfileRenameDialogContext extends AppDialogContext {
         formElement,
       }
     )
-
-    this.dismissDialog()
   }
 }

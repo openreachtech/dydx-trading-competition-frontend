@@ -8,6 +8,7 @@ import {
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
 import SectionProfileHistory from '~/components/profile/SectionProfileHistory.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 
 import {
   useGraphqlClient,
@@ -29,6 +30,7 @@ export default defineComponent({
     SectionProfileOverview,
     SectionProfileFinancialMetrics,
     SectionProfileHistory,
+    ProfileRenameDialog,
   },
 
   setup (
@@ -43,8 +45,12 @@ export default defineComponent({
       invokeRequestWithFormValueHash: putAddressNameGraphqlClient.invokeRequestWithFormValueHash,
     })
 
+    /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
+    const profileRenameDialogRef = ref(null)
     /** @type {import('vue').Ref<string | null>} */
     const errorMessageRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const mutationErrorMessageRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
     const profileOverviewRef = ref(null)
     const statusReactive = reactive({
@@ -84,12 +90,16 @@ export default defineComponent({
           await context.refetchAddressName()
         },
       },
+      profileRenameDialogRef,
+      errorMessageRef: mutationErrorMessageRef,
       statusReactive: mutationStatusReactive,
     }
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
       .setupComponent()
 
     return {
+      profileRenameDialogRef,
+
       context,
       mutationContext,
     }
@@ -103,14 +113,23 @@ export default defineComponent({
       :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
-      @update-username="mutationContext.updateUsername({
-        formElement: $event.formElement,
+      @show-profile-rename-dialog="mutationContext.showDialog({
+        dialogElement: profileRenameDialogRef,
       })"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
     <SectionProfileHistory :profile-overview="context.profileOverview" />
+
+    <ProfileRenameDialog ref="profileRenameDialogRef"
+      :initial-username="context.addressName"
+      :is-renaming="mutationContext.isRenaming"
+      :error-message="mutationContext.errorMessage"
+      @update-username="mutationContext.updateUsername({
+        formElement: $event.formElement,
+      })"
+    />
   </div>
 </template>
 

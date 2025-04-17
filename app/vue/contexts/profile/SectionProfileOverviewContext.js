@@ -59,17 +59,8 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
-      UPDATE_USERNAME: 'updateUsername',
+      SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
     }
-  }
-
-  /**
-   * get: isRenaming
-   *
-   * @returns {boolean}
-   */
-  get isRenaming () {
-    return this.props.isRenaming
   }
 
   /**
@@ -175,25 +166,6 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     return Array.isArray(this.route.params.address)
       ? this.route.params.address[0]
       : this.route.params.address
-  }
-
-  /**
-   * Update username.
-   *
-   * @param {{
-   *   formElement: HTMLFormElement
-   * }} params - Parameters.
-   * @returns {void}
-   */
-  updateUsername ({
-    formElement,
-  }) {
-    this.emit(
-      this.EMIT_EVENT_NAME.UPDATE_USERNAME,
-      {
-        formElement,
-      }
-    )
   }
 
   /**
@@ -364,39 +336,12 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
-   * Show wallet selection dialog.
+   * Show `profileRenameDialog`
    *
-   * @param {{
-   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
-   * }} params - Parameters.
    * @returns {void}
    */
-  showDialog ({
-    dialogElement,
-  }) {
-    if (!dialogElement) {
-      return
-    }
-
-    dialogElement.showDialog()
-  }
-
-  /**
-   * Dismiss wallet selection dialog.
-   *
-   * @param {{
-   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
-   * }} params - Parameters.
-   * @returns {void}
-   */
-  dismissDialog ({
-    dialogElement,
-  }) {
-    if (!dialogElement) {
-      return
-    }
-
-    dialogElement.dismissDialog()
+  showProfileRenameDialog () {
+    this.emit(this.EMIT_EVENT_NAME.SHOW_PROFILE_RENAME_DIALOG)
   }
 }
 
