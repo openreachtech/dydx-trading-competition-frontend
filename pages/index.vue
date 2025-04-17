@@ -726,12 +726,6 @@ export default defineComponent({
 /******** Call-to-action button ********/
 /* TODO: Should have shared styles between link-button and button */
 
-@property --color-darken-filter {
-  syntax: '<color>';
-  initial-value: #00000000;
-  inherits: false;
-}
-
 .button.call-to-action {
   border-radius: 0.5rem;
   border-style: solid;
@@ -747,18 +741,17 @@ export default defineComponent({
   color: var(--color-text-primary);
 
   background-color: var(--color-background-button-primary);
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-darken-filter),
-    var(--color-darken-filter)
-  );
 
   transition: box-shadow 500ms var(--transition-timing-base),
-    --color-darken-filter 500ms var(--transition-timing-base);
+    background-color 500ms var(--transition-timing-base);
 }
 
 .button.call-to-action:hover {
-  --color-darken-filter: #00000047;
+  background-color: color-mix(
+    in srgb,
+    var(--color-background-button-primary) var(--value-button-hover-overlay-opacity),
+    var(--color-background-button-hover-overlay)
+  );
 
   box-shadow: 0 0 7rem 2rem var(--palette-purple-faded);
 }
