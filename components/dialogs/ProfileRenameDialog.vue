@@ -19,9 +19,12 @@ export default defineComponent({
 
   props: {
     initialUsername: {
-      type: String,
+      type: [
+        String,
+        null,
+      ],
       required: false,
-      default: '',
+      default: null,
     },
     isRenaming: {
       type: Boolean,
