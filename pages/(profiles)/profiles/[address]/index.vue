@@ -109,8 +109,8 @@ export default defineComponent({
       :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
-      @update-username="mutationContext.updateUsername({
-        formElement: $event.formElement,
+      @show-profile-rename-dialog="mutationContext.showDialog({
+        dialogElement: profileRenameDialogRef,
       })"
     />
 

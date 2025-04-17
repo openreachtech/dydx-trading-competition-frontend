@@ -114,6 +114,42 @@ export default class ProfileDetailsPageMutationContext extends BaseFuroContext {
       },
     }
   }
+
+  /**
+   * Show dialog.
+   *
+   * @param {{
+   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  showDialog ({
+    dialogElement,
+  }) {
+    if (!dialogElement) {
+      return
+    }
+
+    dialogElement.showDialog()
+  }
+
+  /**
+   * Dismiss dialog.
+   *
+   * @param {{
+   *   dialogElement: import('~/components/units/AppDialog.vue').default | null
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  dismissDialog ({
+    dialogElement,
+  }) {
+    if (!dialogElement) {
+      return
+    }
+
+    dialogElement.dismissDialog()
+  }
 }
 
 /**
