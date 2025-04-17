@@ -50,9 +50,7 @@ export default defineComponent({
     },
   },
 
-  emits: [
-    'showProfileRenameDialog',
-  ],
+  emits: Object.values(SectionProfileOverviewContext.EMIT_EVENT_NAME),
 
   setup (
     props,
