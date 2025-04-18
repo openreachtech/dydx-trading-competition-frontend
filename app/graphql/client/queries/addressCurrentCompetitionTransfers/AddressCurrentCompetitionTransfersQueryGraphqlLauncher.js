@@ -5,7 +5,7 @@ import AddressCurrentCompetitionTransfersQueryGraphqlPayload from '~/app/graphql
 /**
  * AddressCurrentCompetitionTransfersQuery graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof AddressCurrentCompetitionTransfersQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class AddressCurrentCompetitionTransfersQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

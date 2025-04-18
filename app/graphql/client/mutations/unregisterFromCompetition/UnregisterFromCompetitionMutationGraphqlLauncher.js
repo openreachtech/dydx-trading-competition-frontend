@@ -6,7 +6,7 @@ import UnregisterFromCompetitionMutationGraphqlCapsule from './UnregisterFromCom
 /**
  * UnregisterFromCompetition mutation graphql launcher.
  *
- * @extends {BaseAppGraphqlLauncher<typeof UnregisterFromCompetitionMutationGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class UnregisterFromCompetitionMutationGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

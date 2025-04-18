@@ -5,7 +5,7 @@ import AddressPastCompetitionsQueryGraphqlCapsule from '~/app/graphql/client/que
 /**
  * AddressPastCompetitionsQuery graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof AddressPastCompetitionsQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class AddressPastCompetitionsQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

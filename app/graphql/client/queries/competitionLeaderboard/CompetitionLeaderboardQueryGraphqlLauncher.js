@@ -5,7 +5,7 @@ import CompetitionLeaderboardQueryGraphqlCapsule from '~/app/graphql/client/quer
 /**
  * CompetitionLeaderboardQuery graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof CompetitionLeaderboardQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class CompetitionLeaderboardQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

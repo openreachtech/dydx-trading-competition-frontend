@@ -6,7 +6,7 @@ import CompetitionFinalOutcomeQueryGraphqlCapsule from './CompetitionFinalOutcom
 /**
  * CompetitionFinalOutcome query graphql launcher.
  *
- * @extends {BaseAppGraphqlLauncher<typeof CompetitionFinalOutcomeQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class CompetitionFinalOutcomeQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

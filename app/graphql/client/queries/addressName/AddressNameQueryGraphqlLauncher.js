@@ -5,7 +5,7 @@ import AddressNameQueryGraphqlCapsule from './AddressNameQueryGraphqlCapsule'
 /**
  * AddressNameQuery graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof AddressNameQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class AddressNameQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */
