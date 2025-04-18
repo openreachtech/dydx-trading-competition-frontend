@@ -77,7 +77,13 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     )
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends ProfileDetailsContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     this.graphqlClientHash.addressCurrentCompetition
       .invokeRequestOnMounted({

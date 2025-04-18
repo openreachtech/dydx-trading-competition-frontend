@@ -86,7 +86,13 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
     return this.graphqlClientHash.addressCurrentCompetitionTransfers.capsuleRef
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends ProfileTransferHistoryContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     this.watch(
       () => this.route.query.transferPage,
