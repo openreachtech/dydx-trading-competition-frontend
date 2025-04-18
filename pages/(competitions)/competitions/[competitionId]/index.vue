@@ -89,7 +89,7 @@ export default defineComponent({
       isLoadingLeaderboard: true,
       isLoadingParticipant: true,
       isLoadingEnrolledParticipantsNumber: true,
-      isUnregisteringCompetition: false,
+      isUnregisteringFromCompetition: false,
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
