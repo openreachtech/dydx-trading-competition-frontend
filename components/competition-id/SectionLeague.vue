@@ -283,27 +283,10 @@ export default defineComponent({
                 class="icon"
               />
 
-              <span class="limit">
-                <span class="label">Min:</span>
-                <span class="figure">
-                  {{
-                    context.normalizeNumber({
-                      value: context.participantLowerLimit,
-                    })
-                  }}
-                </span>
-              </span>
-
-              <span class="limit">
-                <span class="connector">-</span>
-                <span class="label">Max:</span>
-                <span class="figure">
-                  {{
-                    context.normalizeNumber({
-                      value: context.participantUpperLimit,
-                    })
-                  }}
-                </span>
+              <span class="enrolled">
+                {{ context.normalizeEnrolledParticipantsNumber() }}
+              </span><span class="limit upper">
+                / {{ context.normalizeParticipantUpperLimit() }}
               </span>
             </dd>
           </div>
@@ -681,29 +664,17 @@ export default defineComponent({
   background-color: var(--color-background-connector);
 }
 
-.unit-statistics > .entry > .details.participant {
-  flex-wrap: wrap;
-}
-
-.unit-statistics > .entry > .details.participant > .label {
-  font-size: var(--font-size-small);
-  font-weight: 500;
-}
-
-.unit-statistics > .entry > .details.participant > .limit {
-  display: inline-flex;
-  gap: 0.25rem;
-}
-
-.unit-statistics > .entry > .details.participant > .limit > .connector {
-  margin-inline-end: 0.25rem;
-}
-
-.unit-statistics > .entry > .details.participant > .limit > .figure {
+.unit-statistics > .entry > .details.participant > .enrolled {
+  font-size: var(--font-size-base);
   font-weight: 700;
 
   color: var(--color-text-primary);
 }
+
+.unit-statistics > .entry > .details.participant > .limit.upper {
+  font-size: var(--font-size-small);
+  font-weight: 500;
+ }
 
 .unit-statistics > .entry > .details.prize {
   flex-direction: column;

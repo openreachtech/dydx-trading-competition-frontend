@@ -255,6 +255,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize participant upper limit.
+   *
+   * @returns {string}
+   */
+  normalizeParticipantUpperLimit () {
+    return this.normalizeNumber({
+      value: this.participantUpperLimit,
+    })
+  }
+
+  /**
    * get: participantLowerLimit
    *
    * @returns {CompetitionEntity['participantLowerLimit'] | null}
