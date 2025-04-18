@@ -66,11 +66,11 @@ export default class AddressesSearchBarContext extends BaseFuroContext {
    * }} params - Parameters of this method.
    * @returns {Promise<void>}
    */
-  async searchAddressesByName ({
+  async searchAddresses ({
     query,
   }) {
     await this.graphqlClientHash
-      .searchAddressesByName
+      .searchAddresses
       .invokeRequestOnEvent({
         variables: {
           input: {
@@ -81,7 +81,7 @@ export default class AddressesSearchBarContext extends BaseFuroContext {
             },
           },
         },
-        hooks: this.searchAddressesByNameLauncherHooks,
+        hooks: this.searchAddressesLauncherHooks,
       })
   }
 
@@ -119,24 +119,24 @@ export default class AddressesSearchBarContext extends BaseFuroContext {
    * @returns {Addresses}
    */
   get addresses () {
-    return this.searchAddressesByNameCapsuleRef.value.addresses
+    return this.searchAddressesCapsuleRef.value.addresses
   }
 
   /**
-   * get: searchAddressesByNameCapsuleRef
+   * get: searchAddressesCapsuleRef
    *
-   * @returns {AddressesSearchBarContext['graphqlClientHash']['searchAddressesByName']['capsuleRef']}
+   * @returns {AddressesSearchBarContext['graphqlClientHash']['searchAddresses']['capsuleRef']}
    */
-  get searchAddressesByNameCapsuleRef () {
-    return this.graphqlClientHash.searchAddressesByName.capsuleRef
+  get searchAddressesCapsuleRef () {
+    return this.graphqlClientHash.searchAddresses.capsuleRef
   }
 
   /**
-   * get: SearchAddressesByNameLauncherHooks
+   * get: searchAddressesLauncherHooks
    *
    * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
    */
-  get searchAddressesByNameLauncherHooks () {
+  get searchAddressesLauncherHooks () {
     return {
       beforeRequest: async payload => {
         this.statusReactive.isLoading = true
@@ -171,7 +171,7 @@ export default class AddressesSearchBarContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {'searchAddressesByName'} GraphqlClientHashKeys
+ * @typedef {'searchAddresses'} GraphqlClientHashKeys
  */
 
 /**
@@ -185,7 +185,5 @@ export default class AddressesSearchBarContext extends BaseFuroContext {
  */
 
 /**
- * @typedef {import('~/app/graphql/client/queries/searchAddressesByName/SearchAddressesByNameQueryGraphqlCapsule')
- *   .ResponseContent['searchAddressesByName']['addresses']
- * } Addresses
+ * @typedef {Array<import('~/app/graphql/client/queries/searchAddresses/SearchAddressesQueryGraphqlCapsule').Address>} Addresses
  */

@@ -15,7 +15,7 @@ import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
-import SearchAddressesByNameQueryGraphqlLauncher from '~/app/graphql/client/queries/searchAddressesByName/SearchAddressesByNameQueryGraphqlLauncher'
+import SearchAddressesQueryGraphqlLauncher from '~/app/graphql/client/queries/searchAddresses/SearchAddressesQueryGraphqlLauncher'
 
 import AddressesSearchBarSideContext from '~/app/vue/contexts/search/AddressesSearchBarSideContext'
 
@@ -33,14 +33,14 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
     })
-    const searchAddressesByNameGraphqlClient = useGraphqlClient(SearchAddressesByNameQueryGraphqlLauncher)
+    const searchAddressesGraphqlClient = useGraphqlClient(SearchAddressesQueryGraphqlLauncher)
 
     const args = {
       props,
       componentContext,
       statusReactive,
       graphqlClientHash: {
-        searchAddressesByName: searchAddressesByNameGraphqlClient,
+        searchAddresses: searchAddressesGraphqlClient,
       },
     }
     const context = AddressesSearchBarSideContext.create(args)
@@ -58,7 +58,7 @@ export default defineComponent({
     :class="context.generateSearchClasses()"
   >
     <AppSearchBar placeholder="Search by address, name..."
-      @search="query => context.searchAddressesByName({
+      @search="query => context.searchAddresses({
         query,
       })"
     />
