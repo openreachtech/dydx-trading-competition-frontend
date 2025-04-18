@@ -344,6 +344,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Fetch competition enrolled participants number.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitionEnrolledParticipantsNumber () {
+    await this.graphqlClientHash
+      .competitionEnrolledParticipantsNumber
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+          },
+        },
+        hooks: this.competitionEnrolledParticipantsNumberLauncherHooks,
+      })
+  }
+
+  /**
    * Fetch leaderboard entries.
    *
    * @returns {Promise<void>}
@@ -439,6 +457,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return {
       competitionParticipant: () => this.fetchCompetitionParticipant(),
       leaderboardEntries: () => this.fetchLeaderboardEntries(),
+      competitionEnrolledParticipantsNumber: () => this.fetchCompetitionEnrolledParticipantsNumber(),
     }
   }
 
@@ -556,6 +575,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
               hooks: this.competitionParticipantLauncherHooks,
             }),
           this.fetchLeaderboardEntries(),
+          this.fetchCompetitionEnrolledParticipantsNumber(),
         ])
       },
     }
@@ -1257,5 +1277,6 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 /**
  * @typedef {'competitionParticipant'
  *   | 'leaderboardEntries'
+ *   | 'competitionEnrolledParticipantsNumber'
  * } RefetchHashKeys
  */
