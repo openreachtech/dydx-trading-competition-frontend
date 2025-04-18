@@ -100,7 +100,12 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   static calculateTotalPrize ({
     prizeRulesRef,
   }) {
-    const amounts = prizeRulesRef.value.map(prizeRule => Number(prizeRule.amount))
+    const amounts = prizeRulesRef.value.map(prizeRule => {
+      const amount = parseFloat(prizeRule.amount)
+      const multiplier = prizeRule.rankTo - prizeRule.rankFrom + 1
+
+      return amount * multiplier
+    })
     const totalAmount = amounts.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0

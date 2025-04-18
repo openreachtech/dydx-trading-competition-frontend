@@ -5,7 +5,7 @@ import PutAddressNameMutationGraphqlCapsule from './PutAddressNameMutationGraphq
 /**
  * PutAddressNameMutation graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof PutAddressNameMutationGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class PutAddressNameMutationGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

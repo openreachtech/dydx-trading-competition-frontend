@@ -5,7 +5,7 @@ import SearchAddressesByNameQueryGraphqlCapsule from '~/app/graphql/client/queri
 /**
  * SearchAddressesByNameQuery graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof SearchAddressesByNameQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class SearchAddressesByNameQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

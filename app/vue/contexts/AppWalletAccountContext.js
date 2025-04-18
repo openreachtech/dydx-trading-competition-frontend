@@ -122,7 +122,13 @@ export default class AppWalletAccountContext extends BaseFuroContext {
       .address
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends AppWalletAccountContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     onMounted(async () => {
       await this.attemptWalletReconnection()

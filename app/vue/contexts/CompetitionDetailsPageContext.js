@@ -223,7 +223,13 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     ]
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends CompetitionDetailsPageContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     const route = useRoute()
     const { competitionId } = route.params
@@ -304,6 +310,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       }
     )
 
+    this.graphqlClientHash
+      .competitionEnrolledParticipantsNumber
+      .invokeRequestOnMounted({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+          },
+        },
+        hooks: this.competitionEnrolledParticipantsNumberLauncherHooks,
+      })
+
     return this
   }
 
@@ -323,6 +340,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
         },
         hooks: this.competitionParticipantLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch competition enrolled participants number.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitionEnrolledParticipantsNumber () {
+    await this.graphqlClientHash
+      .competitionEnrolledParticipantsNumber
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+          },
+        },
+        hooks: this.competitionEnrolledParticipantsNumberLauncherHooks,
       })
   }
 
@@ -422,6 +457,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return {
       competitionParticipant: () => this.fetchCompetitionParticipant(),
       leaderboardEntries: () => this.fetchLeaderboardEntries(),
+      competitionEnrolledParticipantsNumber: () => this.fetchCompetitionEnrolledParticipantsNumber(),
     }
   }
 
@@ -539,6 +575,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
               hooks: this.competitionParticipantLauncherHooks,
             }),
           this.fetchLeaderboardEntries(),
+          this.fetchCompetitionEnrolledParticipantsNumber(),
         ])
       },
     }
@@ -586,6 +623,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         this.leaderboardEntriesRef.value = this.normalizeCompetitionParticipantEntries({
           participants: capsule.participants,
         })
+      },
+    }
+  }
+
+  /**
+   * get: competitionEnrolledParticipantsNumberLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get competitionEnrolledParticipantsNumberLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingEnrolledParticipantsNumber = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingEnrolledParticipantsNumber = false
       },
     }
   }
@@ -731,6 +786,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingEnrolledParticipantsNumber
+   *
+   * @returns {boolean}
+   */
+  get isLoadingEnrolledParticipantsNumber () {
+    return this.statusReactive.isLoadingEnrolledParticipantsNumber
+  }
+
+  /**
    * get: isUnregisteringFromCompetition
    *
    * @returns {boolean}
@@ -765,6 +829,26 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get competition () {
     return this.competitionCapsuleRef.value
       .extractCompetition()
+  }
+
+  /**
+   * get: participantUpperLimit
+   *
+   * @returns {number | null}
+   */
+  get participantUpperLimit () {
+    return this.competitionCapsuleRef.value
+      .participantUpperLimit
+  }
+
+  /**
+   * get: participantLowerLimit
+   *
+   * @returns {number | null}
+   */
+  get participantLowerLimit () {
+    return this.competitionCapsuleRef.value
+      .participantLowerLimit
   }
 
   /**
@@ -891,6 +975,44 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       .competitionFinalOutcome
       .capsuleRef
       .value
+  }
+
+  /**
+   * get: competitionEnrolledParticipantsNumberCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionEnrolledParticipantsNumber/CompetitionEnrolledParticipantsNumberQueryGraphqlCapsule').default}
+   */
+  get competitionEnrolledParticipantsNumberCapsule () {
+    return this.graphqlClientHash
+      .competitionEnrolledParticipantsNumber
+      .capsuleRef
+      .value
+  }
+
+  /**
+   * get: enrolledParticipantsNumber
+   *
+   * @returns {number | null}
+   */
+  get enrolledParticipantsNumber () {
+    return this.competitionEnrolledParticipantsNumberCapsule
+      .enrolledParticipantsNumber
+  }
+
+  /**
+   * Check if the competition is full.
+   *
+   * @returns {boolean}
+   */
+  isCompetitionFull () {
+    if (
+      this.enrolledParticipantsNumber === null
+      || this.participantUpperLimit === null
+    ) {
+      return false
+    }
+
+    return this.enrolledParticipantsNumber >= this.participantUpperLimit
   }
 
   /**
@@ -1074,6 +1196,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competitionLeaderboard: GraphqlClient
  *     competitionFinalOutcome: GraphqlClient
  *     competitionParticipants: GraphqlClient
+ *     competitionEnrolledParticipantsNumber: GraphqlClient
  *     unregisterFromCompetition: GraphqlClient
  *   }
  *   statusReactive: StatusReactive
@@ -1093,6 +1216,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingParticipant: boolean
+ *   isLoadingEnrolledParticipantsNumber: boolean
  *   isUnregisteringFromCompetition: boolean
  * }} StatusReactive
  */
@@ -1153,5 +1277,6 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 /**
  * @typedef {'competitionParticipant'
  *   | 'leaderboardEntries'
+ *   | 'competitionEnrolledParticipantsNumber'
  * } RefetchHashKeys
  */

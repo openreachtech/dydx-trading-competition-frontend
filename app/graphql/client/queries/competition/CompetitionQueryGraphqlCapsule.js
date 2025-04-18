@@ -64,6 +64,28 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.statusId
       ?? null
   }
+
+  /**
+   * get: participantUpperLimit
+   *
+   * @returns {number | null}
+   */
+  get participantUpperLimit () {
+    return this.extractCompetition()
+      ?.participantUpperLimit
+      ?? null
+  }
+
+  /**
+   * get: participantLowerLimit
+   *
+   * @returns {number | null}
+   */
+  get participantLowerLimit () {
+    return this.extractCompetition()
+      ?.participantLowerLimit
+      ?? null
+  }
 }
 
 /**

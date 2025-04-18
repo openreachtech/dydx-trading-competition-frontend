@@ -122,6 +122,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-button {
+  --color-background-button: var(--color-background-button-primary);
+
   border-radius: 0.5rem;
   border-style: solid;
   border-width: var(--size-thinnest);
@@ -132,6 +134,7 @@ export default defineComponent({
 
   display: inline-grid;
 
+  background-color: var(--color-background-button);
   color: var(--color-text-primary);
 
   font-size: var(--font-size-small);
@@ -139,7 +142,7 @@ export default defineComponent({
   line-height: 1;
 
   transition: filter 0.3s var(--transition-timing-base),
-    --color-darken-filter 0.3s var(--transition-timing-base),
+    background-color 0.3s var(--transition-timing-base),
     border-color 0.3s var(--transition-timing-base),
     color 0.3s var(--transition-timing-base);
 
@@ -164,47 +167,35 @@ export default defineComponent({
 
 /* Variants */
 .unit-button.primary {
-  background-color: var(--color-background-button-primary);
+  --color-background-button: var(--color-background-button-primary);
 }
 
 .unit-button.neutral {
   border-color: var(--color-border-button-neutral);
 
-  background-color: var(--color-background-button-neutral);
+  --color-background-button: var(--color-background-button-neutral);
 }
 
 .unit-button.success {
-  background-color: var(--color-background-button-success);
+  --color-background-button: var(--color-background-button-success);
 }
 
 .unit-button.error {
-  background-color: var(--color-background-button-error);
+  --color-background-button: var(--color-background-button-error);
 }
 
 .unit-button.muted {
   border-color: var(--color-border-button-muted);
 
-  background-color: var(--color-background-button-muted);
-}
-
-/* Appearance */
-/* NOTE: Custom property to add transition to gradient. */
-@property --color-darken-filter {
-  syntax: '<color>';
-  initial-value: #00000000;
-  inherits: false;
-}
-
-.unit-button.filled {
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-darken-filter),
-    var(--color-darken-filter)
-  );
+  --color-background-button: var(--color-background-button-muted);
 }
 
 .unit-button.filled:not(:disabled):hover {
-  --color-darken-filter: #00000047;
+  background-color: color-mix(
+    in srgb,
+    var(--color-background-button) var(--value-button-hover-overlay-darken-opacity),
+    var(--color-background-button-hover-overlay-darken)
+  );
 }
 
 .unit-button.outlined {

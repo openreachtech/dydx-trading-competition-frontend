@@ -157,6 +157,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseFuroConte
         await Promise.allSettled([
           this.refetchHash.competitionParticipant(),
           this.refetchHash.leaderboardEntries(),
+          this.refetchHash.competitionEnrolledParticipantsNumber(),
         ])
       },
     }

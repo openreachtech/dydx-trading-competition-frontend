@@ -16,6 +16,25 @@ export default class PutAddressNameMutationGraphqlPayload extends BaseAppSignatu
       }
     `
   }
+
+  /**
+   * Extract filtered variables.
+   *
+   * @override
+   */
+  extractFilteredVariables () {
+    const variables = super.extractFilteredVariables()
+
+    return /** @type {*} */ ({
+      ...variables,
+      input: {
+        ...variables.input,
+        name: variables.input
+          .name
+          .trim(),
+      },
+    })
+  }
 }
 
 /**

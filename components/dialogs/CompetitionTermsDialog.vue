@@ -104,7 +104,7 @@ export default defineComponent({
 
               <p class="content">
                 Trading period: <span class="highlight">
-                  {{ context.extractCompetitionEndDate() }}
+                  {{ context.extractCompetitionStartDate() }}
                 </span> to <span class="highlight">
                   {{ context.extractCompetitionEndDate() }}
                 </span>.

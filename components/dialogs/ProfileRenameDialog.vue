@@ -7,6 +7,7 @@ import {
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
 import AppInput from '~/components/units/AppInput.vue'
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import ProfileRenameDialogContext from './ProfileRenameDialogContext'
 
@@ -15,18 +16,30 @@ export default defineComponent({
     AppButton,
     AppDialog,
     AppInput,
+    AppMessage,
   },
 
   props: {
     initialUsername: {
-      type: String,
+      type: [
+        String,
+        null,
+      ],
       required: false,
-      default: '',
+      default: null,
     },
     isRenaming: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    errorMessage: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
     },
   },
 
@@ -84,6 +97,12 @@ export default defineComponent({
             :value="context.initialUsername"
           />
         </label>
+
+        <AppMessage severity="error"
+          :is-hidden="!context.errorMessage"
+        >
+          {{ context.errorMessage }}
+        </AppMessage>
 
         <AppButton class="button"
           type="submit"

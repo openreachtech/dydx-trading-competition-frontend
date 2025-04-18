@@ -5,7 +5,7 @@ import AddCompetitionMutationGraphqlCapsule from '~/app/graphql/client/mutations
 /**
  * AddCompetitionMutation graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof AddCompetitionMutationGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class AddCompetitionMutationGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */
