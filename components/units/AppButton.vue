@@ -171,6 +171,8 @@ export default defineComponent({
 }
 
 .unit-button.neutral {
+  border-color: var(--color-border-button-neutral);
+
   --color-background-button: var(--color-background-button-neutral);
 }
 
