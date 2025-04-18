@@ -17,12 +17,14 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
 const ENROLLMENT_STATUS = {
   ENROLLED: 'enrolled',
   NOT_ENROLLED: 'notEnrolled',
+  NOT_ENROLLED_BUT_FULL: 'notEnrolledButFull',
   ENROLLMENT_CLOSED: 'enrollmentClosed',
 }
 
 const ENROLLMENT_ACTION_TEXT = {
   [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
   [ENROLLMENT_STATUS.NOT_ENROLLED]: 'Enroll now',
+  [ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL]: 'Max participants reached',
   [ENROLLMENT_STATUS.ENROLLMENT_CLOSED]: 'Registration ended',
   DEFAULT: 'Enroll now',
 }
@@ -142,6 +144,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
    */
   get enrolledParticipantsNumber () {
     return this.props.enrolledParticipantsNumber
+  }
+
+  /**
+   * get: isCompetitionFull
+   *
+   * @returns {PropsType['isCompetitionFull']}
+   */
+  get isCompetitionFull () {
+    return this.props.isCompetitionFull
   }
 
   /**
@@ -668,6 +679,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
+      ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
       ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
     ]
       .includes(enrollmentStatus)
@@ -685,6 +697,10 @@ export default class SectionLeagueContext extends BaseFuroContext {
 
     if (this.isEnrollmentClosed()) {
       return ENROLLMENT_STATUS.ENROLLMENT_CLOSED
+    }
+
+    if (this.isCompetitionFull) {
+      return ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL
     }
 
     return ENROLLMENT_STATUS.NOT_ENROLLED
@@ -878,5 +894,6 @@ export default class SectionLeagueContext extends BaseFuroContext {
  *   participantStatusId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
+ *   isCompetitionFull: boolean
  * }} PropsType
  */

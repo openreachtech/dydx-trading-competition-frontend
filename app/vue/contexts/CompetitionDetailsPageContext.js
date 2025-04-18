@@ -812,6 +812,26 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: participantUpperLimit
+   *
+   * @returns {number | null}
+   */
+  get participantUpperLimit () {
+    return this.competitionCapsuleRef.value
+      .participantUpperLimit
+  }
+
+  /**
+   * get: participantLowerLimit
+   *
+   * @returns {number | null}
+   */
+  get participantLowerLimit () {
+    return this.competitionCapsuleRef.value
+      .participantLowerLimit
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {number | null}
@@ -957,6 +977,22 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get enrolledParticipantsNumber () {
     return this.competitionEnrolledParticipantsNumberCapsule
       .enrolledParticipantsNumber
+  }
+
+  /**
+   * Check if the competition is full.
+   *
+   * @returns {boolean}
+   */
+  isCompetitionFull () {
+    if (
+      this.enrolledParticipantsNumber === null
+      || this.participantUpperLimit === null
+    ) {
+      return false
+    }
+
+    return this.enrolledParticipantsNumber >= this.participantUpperLimit
   }
 
   /**
