@@ -5,7 +5,7 @@ import UploadImageMutationGraphqlCapsule from './UploadImageMutationGraphqlCapsu
 /**
  * UploadImageMutation graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof UploadImageMutationGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class UploadImageMutationGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

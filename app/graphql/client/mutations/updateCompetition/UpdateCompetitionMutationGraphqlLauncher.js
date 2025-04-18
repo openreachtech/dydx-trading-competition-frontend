@@ -5,7 +5,7 @@ import UpdateCompetitionMutationGraphqlCapsule from './UpdateCompetitionMutation
 /**
  * UpdateCompetitionMutation graphql launcher
  *
- * @extends {BaseAppGraphqlLauncher<typeof UpdateCompetitionMutationGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class UpdateCompetitionMutationGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */

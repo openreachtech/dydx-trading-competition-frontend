@@ -6,7 +6,7 @@ import CompetitionStatisticsQueryGraphqlCapsule from './CompetitionStatisticsQue
 /**
  * Competition Statistics query graphql launcher.
  *
- * @extends {BaseAppGraphqlLauncher<typeof CompetitionStatisticsQueryGraphqlLauncher>}
+ * @extends {BaseAppGraphqlLauncher}
  */
 export default class CompetitionStatisticsQueryGraphqlLauncher extends BaseAppGraphqlLauncher {
   /** @override */
