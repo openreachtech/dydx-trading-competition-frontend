@@ -20,6 +20,7 @@ import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/que
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
 import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
+import CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionEnrolledParticipantsNumber/CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher'
 import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
@@ -72,6 +73,7 @@ export default defineComponent({
     const competitionLeaderboardGraphqlClient = useGraphqlClient(CompetitionLeaderboardQueryGraphqlLauncher)
     const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
+    const competitionEnrolledParticipantsNumberGraphqlClient = useGraphqlClient(CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher)
     const unregisterFromCompetitionGraphqlClient = useGraphqlClient(UnregisterFromCompetitionMutationGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
@@ -86,6 +88,7 @@ export default defineComponent({
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingParticipant: true,
+      isLoadingEnrolledParticipantsNumber: true,
       isUnregisteringCompetition: false,
     })
     const mutationStatusReactive = reactive({
@@ -106,6 +109,7 @@ export default defineComponent({
         competitionLeaderboard: competitionLeaderboardGraphqlClient,
         competitionFinalOutcome: competitionFinalOutcomeGraphqlClient,
         competitionParticipants: competitionParticipantsGraphqlClient,
+        competitionEnrolledParticipantsNumber: competitionEnrolledParticipantsNumberGraphqlClient,
         unregisterFromCompetition: unregisterFromCompetitionGraphqlClient,
       },
       statusReactive,
@@ -147,6 +151,7 @@ export default defineComponent({
     <SectionLeague :competition="context.competition"
       :participant-status-id="context.participantStatusId"
       :competition-status-id="context.competitionStatusId"
+      :enrolled-participants-number="context.enrolledParticipantsNumber"
       @show-cancelation-dialog="context.showDialog({
         dialogElement: competitionCancelationDialogRef,
       })"
