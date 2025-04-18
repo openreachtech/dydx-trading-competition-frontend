@@ -691,19 +691,36 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {(typeof ENROLLMENT_STATUS)[keyof typeof ENROLLMENT_STATUS]}
    */
   generateEnrollmentStatus () {
-    if (this.hasEnrolled()) {
-      return ENROLLMENT_STATUS.ENROLLED
+    const enrollmentStatusCases = this.generateEnrollmentStatusCases()
+    const matchedCase = enrollmentStatusCases.find(it => it.checker())
+
+    if (!matchedCase) {
+      return ENROLLMENT_STATUS.NOT_ENROLLED
     }
 
-    if (this.isEnrollmentClosed()) {
-      return ENROLLMENT_STATUS.ENROLLMENT_CLOSED
-    }
+    return matchedCase.result
+  }
 
-    if (this.isCompetitionFull) {
-      return ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL
-    }
-
-    return ENROLLMENT_STATUS.NOT_ENROLLED
+  /**
+   * Generate cases for `enrollmentStatus`
+   *
+   * @returns {Array<EnrollmentStatusCase>}
+   */
+  generateEnrollmentStatusCases () {
+    return [
+      {
+        checker: () => this.hasEnrolled(),
+        result: ENROLLMENT_STATUS.ENROLLED,
+      },
+      {
+        checker: () => this.isEnrollmentClosed(),
+        result: ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
+      },
+      {
+        checker: () => this.isCompetitionFull,
+        result: ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
+      },
+    ]
   }
 
   /**
@@ -896,4 +913,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
  *   enrolledParticipantsNumber: number | null
  *   isCompetitionFull: boolean
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   checker: () => boolean
+ *   result: string
+ * }} EnrollmentStatusCase
  */
