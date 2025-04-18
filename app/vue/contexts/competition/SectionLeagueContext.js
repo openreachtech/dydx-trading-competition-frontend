@@ -136,6 +136,26 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: enrolledParticipantsNumber
+   *
+   * @returns {PropsType['enrolledParticipantsNumber']}
+   */
+  get enrolledParticipantsNumber () {
+    return this.props.enrolledParticipantsNumber
+  }
+
+  /**
+   * Normalize enrolled participants number.
+   *
+   * @returns {string}
+   */
+  normalizeEnrolledParticipantsNumber () {
+    return this.normalizeNumber({
+      value: this.enrolledParticipantsNumber,
+    })
+  }
+
+  /**
    * get: competitionStatus
    *
    * @returns {CompetitionEntity['status'] | null}
@@ -845,5 +865,6 @@ export default class SectionLeagueContext extends BaseFuroContext {
  *   competition: CompetitionEntity | null
  *   participantStatusId: number | null
  *   competitionStatusId: number | null
+ *   enrolledParticipantsNumber: number | null
  * }} PropsType
  */

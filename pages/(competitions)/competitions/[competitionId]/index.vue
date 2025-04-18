@@ -88,6 +88,7 @@ export default defineComponent({
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingParticipant: true,
+      isLoadingEnrolledParticipantsNumber: true,
       isUnregisteringCompetition: false,
     })
     const mutationStatusReactive = reactive({
@@ -150,6 +151,7 @@ export default defineComponent({
     <SectionLeague :competition="context.competition"
       :participant-status-id="context.participantStatusId"
       :competition-status-id="context.competitionStatusId"
+      :enrolled-participants-number="context.enrolledParticipantsNumber"
       @show-cancelation-dialog="context.showDialog({
         dialogElement: competitionCancelationDialogRef,
       })"

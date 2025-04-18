@@ -304,6 +304,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       }
     )
 
+    this.graphqlClientHash
+      .competitionEnrolledParticipantsNumber
+      .invokeRequestOnMounted({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+          },
+        },
+        hooks: this.competitionEnrolledParticipantsNumberLauncherHooks,
+      })
+
     return this
   }
 
@@ -591,6 +602,24 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionEnrolledParticipantsNumberLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get competitionEnrolledParticipantsNumberLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingEnrolledParticipantsNumber = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingEnrolledParticipantsNumber = false
+      },
+    }
+  }
+
+  /**
    * get: competitionLeaderboardLauncherHooks
    *
    * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
@@ -728,6 +757,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    */
   get isLoadingParticipant () {
     return this.statusReactive.isLoadingParticipant
+  }
+
+  /**
+   * get: isLoadingEnrolledParticipantsNumber
+   *
+   * @returns {boolean}
+   */
+  get isLoadingEnrolledParticipantsNumber () {
+    return this.statusReactive.isLoadingEnrolledParticipantsNumber
   }
 
   /**
@@ -903,6 +941,16 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       .competitionEnrolledParticipantsNumber
       .capsuleRef
       .value
+  }
+
+  /**
+   * get: enrolledParticipantsNumber
+   *
+   * @returns {number | null}
+   */
+  get enrolledParticipantsNumber () {
+    return this.competitionEnrolledParticipantsNumberCapsule
+      .enrolledParticipantsNumber
   }
 
   /**
@@ -1106,6 +1154,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingParticipant: boolean
+ *   isLoadingEnrolledParticipantsNumber: boolean
  *   isUnregisteringFromCompetition: boolean
  * }} StatusReactive
  */

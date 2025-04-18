@@ -62,6 +62,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    enrolledParticipantsNumber: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
   },
 
   emits: [
@@ -189,7 +196,15 @@ export default defineComponent({
             </template>
           </AppButton>
 
-          <!-- NOTE: Participants here. Missing API -->
+          <span class="unit-participants">
+            <Icon name="heroicons:users"
+              size="1.125rem"
+            />
+            <span class="amount">
+              {{ context.normalizeEnrolledParticipantsNumber() }}
+            </span>
+            <span>already enrolled</span>
+          </span>
         </div>
 
         <AppLeagueCountdown class="note"
@@ -506,6 +521,22 @@ export default defineComponent({
 
 .unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
   display: inline;
+}
+
+.unit-participants {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-participants > .amount {
+  margin-inline-start: 0.125rem;
+
+  font-weight: 700;
+
+  color: var(--color-text-secondary);
 }
 
 .unit-details > .note {
