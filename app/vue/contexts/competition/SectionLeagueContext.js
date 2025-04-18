@@ -556,12 +556,13 @@ export default class SectionLeagueContext extends BaseFuroContext {
    *   options?: Intl.NumberFormatOptions
    * }} params - Parameters.
    * @returns {string} Normalized number string.
+   * @todo Put this method inside BaseAppContext
    */
   normalizeNumber ({
     value,
     options = {},
   }) {
-    if (!value) {
+    if (value === null) {
       return '--'
     }
 
