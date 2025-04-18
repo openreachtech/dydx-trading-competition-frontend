@@ -150,6 +150,7 @@ export default defineComponent({
   <div>
     <SectionLeague :competition="context.competition"
       :participant-status-id="context.participantStatusId"
+      :is-competition-full="context.isCompetitionFull()"
       :competition-status-id="context.competitionStatusId"
       :enrolled-participants-number="context.enrolledParticipantsNumber"
       @show-cancelation-dialog="context.showDialog({
