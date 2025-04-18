@@ -223,7 +223,13 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     ]
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends CompetitionDetailsPageContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     const route = useRoute()
     const { competitionId } = route.params

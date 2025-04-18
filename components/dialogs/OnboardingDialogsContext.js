@@ -58,7 +58,13 @@ export default class OnboardingDialogsContext extends BaseFuroContext {
     )
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends OnboardingDialogsContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     this.expose(
       this.generateExposeHash()

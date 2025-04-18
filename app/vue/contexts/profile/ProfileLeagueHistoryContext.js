@@ -80,7 +80,13 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
     return useRoute()
   }
 
-  /** @override */
+  /**
+   * Setup component context.
+   *
+   * @template {X extends ProfileLeagueHistoryContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
   setupComponent () {
     this.watch(
       () => this.route.query.leaguePage,
