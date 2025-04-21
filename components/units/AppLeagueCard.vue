@@ -114,7 +114,9 @@ export default defineComponent({
       </div>
     </div>
 
-    <NuxtLink :to="context.generateDestination()" />
+    <NuxtLink :to="context.generateDestination()"
+      class="link"
+    />
   </div>
 </template>
 
@@ -126,6 +128,10 @@ export default defineComponent({
 .unit-card > * {
   grid-row: 1 / -1;
   grid-column: 1 / -1;
+}
+
+.unit-card > .link {
+  z-index: calc(var(--value-z-index-layer-content) + 0);
 }
 
 .unit-contents {
