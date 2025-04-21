@@ -108,7 +108,7 @@ export default defineComponent({
           </span>
 
           <span class="unit">
-            participants
+            max participants
           </span>
         </span>
       </div>
