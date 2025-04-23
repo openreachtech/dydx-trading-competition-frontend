@@ -148,60 +148,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
-   * Extract first three ongoing leaderboard entries.
-   *
-   * @returns {Array<TopRanker>}
-   */
-  extractTopThreeOngoingLeaderboardEntries () {
-    if (this.competitionStatusId !== COMPETITION_STATUS.IN_PROGRESS.ID) {
-      return []
-    }
-
-    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
-    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedOngoingLeaderboardEntry>} */ (
-      this.leaderboardTableEntries
-    )
-
-    return leaderboardEntries
-      .slice(0, 3)
-      .map(entry => ({
-        rank: entry.ongoingRank,
-        name: entry.ongoingName,
-        address: entry.ongoingAddress,
-        pnl: entry.ongoingPnl,
-        roi: entry.ongoingRoi,
-        prize: null,
-      }))
-  }
-
-  /**
-   * Extract first three leaderboard final outcome entries.
-   *
-   * @returns {Array<TopRanker>}
-   */
-  extractTopThreeLeaderboardFinalOutcomeEntries () {
-    if (this.competitionStatusId !== COMPETITION_STATUS.COMPLETED.ID) {
-      return []
-    }
-
-    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
-    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedLeaderboardFinalOutcomeEntry>} */ (
-      this.leaderboardTableEntries
-    )
-
-    return leaderboardEntries
-      .slice(0, 3)
-      .map(entry => ({
-        rank: entry.outcomeRank,
-        name: entry.outcomeName,
-        address: entry.outcomeAddress,
-        pnl: entry.outcomePnl,
-        roi: entry.outcomeRoi,
-        prize: entry.outcomePrize,
-      }))
-  }
-
-  /**
    * Whether to hide top rankers or not.
    *
    * @returns {boolean}
@@ -428,15 +374,4 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  * }} PropsType
- */
-
-/**
- * @typedef {{
- *   rank: number
- *   name: string
- *   address: string
- *   pnl: number
- *   roi: number
- *   prize: string | null
- * }} TopRanker
  */
