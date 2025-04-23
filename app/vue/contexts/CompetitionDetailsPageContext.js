@@ -251,6 +251,11 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         })
 
       await this.fetchLeaderboardEntries()
+
+      const currentPage = this.extractCurrentPage()
+      if (currentPage !== 1) {
+        await this.fetchTopThreeLeaderboardEntries()
+      }
     })
 
     this.watch(
@@ -449,6 +454,71 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
         },
         hooks: this.competitionFinalOutcomeLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch top three leaderboard entries.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchTopThreeLeaderboardEntries () {
+    if (this.competitionStatusId === null) {
+      return
+    }
+
+    const fetchFunctionHash = {
+      [COMPETITION_STATUS.CANCELED.ID]: null,
+      [COMPETITION_STATUS.CREATED.ID]: null,
+      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: null,
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: () => this.fetchOngoingTopThree(),
+      [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchTopThreeFinalOutcome(),
+    }
+
+    await fetchFunctionHash[this.competitionStatusId]?.()
+  }
+
+  /**
+   * Fetch ongoing top three.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchOngoingTopThree () {
+    await this.graphqlClientHash
+      .competitionLeaderboard
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            pagination: {
+              limit: 3,
+              offset: 0,
+            },
+          },
+        },
+        hooks: this.ongoingTopThreeLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch top three in the final outcome.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchTopThreeFinalOutcome () {
+    await this.graphqlClientHash
+      .competitionFinalOutcome
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            pagination: {
+              limit: 3,
+              offset: 0,
+            },
+          },
+        },
+        hooks: this.topThreeFinalOutcomeLauncherHooks,
       })
   }
 
@@ -673,6 +743,13 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         this.leaderboardEntriesRef.value = this.normalizeOngoingLeaderboardEntries({
           rankings: capsule.rankings,
         })
+
+        const currentPage = this.extractCurrentPage()
+        if (currentPage === 1) {
+          this.topThreeLeaderboardEntriesRef.value = this.normalizeOngoingTopThree({
+            rankings: capsule.rankings,
+          })
+        }
       },
     }
   }
@@ -702,6 +779,13 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         this.leaderboardEntriesRef.value = this.normalizeLeaderboardFinalOutcomeEntries({
           outcomes: capsule.outcomes,
         })
+
+        const currentPage = this.extractCurrentPage()
+        if (currentPage === 1) {
+          this.topThreeLeaderboardEntriesRef.value = this.normalizeTopThreeFinalOutcome({
+            outcomes: capsule.outcomes,
+          })
+        }
       },
     }
   }
@@ -769,6 +853,119 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       outcomeRoi: it.roi,
       outcomePrize: it.prizeUsdAmount,
     }))
+  }
+
+  /**
+   * get: ongoingTopThreeLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get ongoingTopThreeLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingTopThree = true
+
+        return false
+      },
+      /**
+       * @type {(
+       *   capsule: import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule').default
+       * ) => Promise<void>}
+       */
+      // @ts-expect-error: The exact type of capsule is unknown to afterRequest. Should be resolved in newer version of furo-nuxt.
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingTopThree = false
+
+        this.topThreeLeaderboardEntriesRef.value = this.normalizeOngoingTopThree({
+          rankings: capsule.rankings,
+        })
+      },
+    }
+  }
+
+  /**
+   * get: topThreeFinalOutcomeLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get topThreeFinalOutcomeLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingTopThree = true
+
+        return false
+      },
+      /**
+       * @type {(
+       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       * ) => Promise<void>}
+       * @todo: Fix import path of this capsule. It should be in `queries` directory.
+       */
+      // @ts-expect-error: The exact type of capsule is unknown to afterRequest. Should be resolved in newer version of furo-nuxt.
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingTopThree = false
+
+        this.topThreeLeaderboardEntriesRef.value = this.normalizeTopThreeFinalOutcome({
+          outcomes: capsule.outcomes,
+        })
+      },
+    }
+  }
+
+  /**
+   * Normalize ongoing top three.
+   *
+   * @param {{
+   *   rankings: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).ResponseContent['competitionLeaderboard']['rankings']
+   * }} params - Parameters.
+   * @returns {TopThreeLeaderboardEntries}
+   */
+  normalizeOngoingTopThree ({
+    rankings,
+  }) {
+    const firstThree = rankings.slice(0, 3)
+    if (firstThree.length === 0) {
+      return []
+    }
+
+    return firstThree
+      .map(it => ({
+        rank: it.ranking,
+        name: it.address.name ?? '----',
+        address: it.address.address,
+        roi: it.roi,
+        pnl: it.pnl,
+        prize: null,
+      }))
+  }
+
+  /**
+   * Normalize top three in the final outcome.
+   *
+   * @param {{
+   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   * }} params - Parameters.
+   * @returns {TopThreeLeaderboardEntries}
+   */
+  normalizeTopThreeFinalOutcome ({
+    outcomes,
+  }) {
+    const firstThree = outcomes.slice(0, 3)
+    if (firstThree.length === 0) {
+      return []
+    }
+
+    return firstThree
+      .map(it => ({
+        rank: it.ranking,
+        name: it.address.name,
+        address: it.address.address,
+        roi: it.roi,
+        pnl: it.pnl,
+        prize: it.prizeUsdAmount,
+      }))
   }
 
   /**
