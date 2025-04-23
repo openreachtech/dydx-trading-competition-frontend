@@ -252,10 +252,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
       // Top three and leaderboard invoke the same query.
       // Make sure top three runs first to receive correct pagination result.
-      const currentPage = this.extractCurrentPage()
-      if (currentPage !== 1) {
-        await this.fetchTopThreeLeaderboardEntries()
-      }
+      await this.fetchTopThreeLeaderboardEntries()
 
       await this.fetchLeaderboardEntries()
     })
@@ -745,13 +742,6 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         this.leaderboardEntriesRef.value = this.normalizeOngoingLeaderboardEntries({
           rankings: capsule.rankings,
         })
-
-        const currentPage = this.extractCurrentPage()
-        if (currentPage === 1) {
-          this.topThreeLeaderboardEntriesRef.value = this.normalizeOngoingTopThree({
-            rankings: capsule.rankings,
-          })
-        }
       },
     }
   }
@@ -781,13 +771,6 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         this.leaderboardEntriesRef.value = this.normalizeLeaderboardFinalOutcomeEntries({
           outcomes: capsule.outcomes,
         })
-
-        const currentPage = this.extractCurrentPage()
-        if (currentPage === 1) {
-          this.topThreeLeaderboardEntriesRef.value = this.normalizeTopThreeFinalOutcome({
-            outcomes: capsule.outcomes,
-          })
-        }
       },
     }
   }
