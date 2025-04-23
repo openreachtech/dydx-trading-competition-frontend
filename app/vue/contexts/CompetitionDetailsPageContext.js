@@ -34,6 +34,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
     statusReactive,
   }) {
@@ -46,6 +47,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
+    this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
     this.statusReactive = statusReactive
   }
@@ -66,6 +68,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
     statusReactive,
   }) {
@@ -77,6 +80,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         walletStore,
         graphqlClientHash,
         leaderboardEntriesRef,
+        topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
         statusReactive,
       })
@@ -245,6 +249,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
           hooks: this.competitionLauncherHooks,
         })
+
+      // Top three and leaderboard invoke the same query.
+      // Make sure top three runs first to receive correct pagination result.
+      await this.fetchTopThreeLeaderboardEntries()
 
       await this.fetchLeaderboardEntries()
     })
@@ -445,6 +453,71 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           },
         },
         hooks: this.competitionFinalOutcomeLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch top three leaderboard entries.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchTopThreeLeaderboardEntries () {
+    if (this.competitionStatusId === null) {
+      return
+    }
+
+    const fetchFunctionHash = {
+      [COMPETITION_STATUS.CANCELED.ID]: null,
+      [COMPETITION_STATUS.CREATED.ID]: null,
+      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: null,
+      [COMPETITION_STATUS.IN_PROGRESS.ID]: () => this.fetchOngoingTopThree(),
+      [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchTopThreeFinalOutcome(),
+    }
+
+    await fetchFunctionHash[this.competitionStatusId]?.()
+  }
+
+  /**
+   * Fetch ongoing top three.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchOngoingTopThree () {
+    await this.graphqlClientHash
+      .competitionLeaderboard
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            pagination: {
+              limit: 3,
+              offset: 0,
+            },
+          },
+        },
+        hooks: this.ongoingTopThreeLauncherHooks,
+      })
+  }
+
+  /**
+   * Fetch top three in the final outcome.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchTopThreeFinalOutcome () {
+    await this.graphqlClientHash
+      .competitionFinalOutcome
+      .invokeRequestOnEvent({
+        variables: {
+          input: {
+            competitionId: this.extractCompetitionId(),
+            pagination: {
+              limit: 3,
+              offset: 0,
+            },
+          },
+        },
+        hooks: this.topThreeFinalOutcomeLauncherHooks,
       })
   }
 
@@ -768,6 +841,119 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: ongoingTopThreeLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get ongoingTopThreeLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingTopThree = true
+
+        return false
+      },
+      /**
+       * @type {(
+       *   capsule: import('~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule').default
+       * ) => Promise<void>}
+       */
+      // @ts-expect-error: The exact type of capsule is unknown to afterRequest. Should be resolved in newer version of furo-nuxt.
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingTopThree = false
+
+        this.topThreeLeaderboardEntriesRef.value = this.normalizeOngoingTopThree({
+          rankings: capsule.rankings,
+        })
+      },
+    }
+  }
+
+  /**
+   * get: topThreeFinalOutcomeLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get topThreeFinalOutcomeLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isLoadingTopThree = true
+
+        return false
+      },
+      /**
+       * @type {(
+       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       * ) => Promise<void>}
+       * @todo: Fix import path of this capsule. It should be in `queries` directory.
+       */
+      // @ts-expect-error: The exact type of capsule is unknown to afterRequest. Should be resolved in newer version of furo-nuxt.
+      afterRequest: async capsule => {
+        this.statusReactive.isLoadingTopThree = false
+
+        this.topThreeLeaderboardEntriesRef.value = this.normalizeTopThreeFinalOutcome({
+          outcomes: capsule.outcomes,
+        })
+      },
+    }
+  }
+
+  /**
+   * Normalize ongoing top three.
+   *
+   * @param {{
+   *   rankings: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).ResponseContent['competitionLeaderboard']['rankings']
+   * }} params - Parameters.
+   * @returns {TopThreeLeaderboardEntries}
+   */
+  normalizeOngoingTopThree ({
+    rankings,
+  }) {
+    const firstThree = rankings.slice(0, 3)
+    if (firstThree.length === 0) {
+      return []
+    }
+
+    return firstThree
+      .map(it => ({
+        rank: it.ranking,
+        name: it.address.name ?? '----',
+        address: it.address.address,
+        roi: it.roi,
+        pnl: it.pnl,
+        prize: null,
+      }))
+  }
+
+  /**
+   * Normalize top three in the final outcome.
+   *
+   * @param {{
+   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   * }} params - Parameters.
+   * @returns {TopThreeLeaderboardEntries}
+   */
+  normalizeTopThreeFinalOutcome ({
+    outcomes,
+  }) {
+    const firstThree = outcomes.slice(0, 3)
+    if (firstThree.length === 0) {
+      return []
+    }
+
+    return firstThree
+      .map(it => ({
+        rank: it.ranking,
+        name: it.address.name,
+        address: it.address.address,
+        roi: it.roi,
+        pnl: it.pnl,
+        prize: it.prizeUsdAmount,
+      }))
+  }
+
+  /**
    * get: isLoadingLeaderboard
    *
    * @returns {boolean}
@@ -810,6 +996,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    */
   get leaderboardEntries () {
     return this.leaderboardEntriesRef.value
+  }
+
+  /**
+   * get: topThreeLeaderboardEntries
+   *
+   * @returns {TopThreeLeaderboardEntries}
+   */
+  get topThreeLeaderboardEntries () {
+    return this.topThreeLeaderboardEntriesRef.value
   }
 
   /**
@@ -1188,6 +1383,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
+ *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
@@ -1215,6 +1411,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
+ *   isLoadingTopThree: boolean
  *   isLoadingParticipant: boolean
  *   isLoadingEnrolledParticipantsNumber: boolean
  *   isUnregisteringFromCompetition: boolean
@@ -1268,6 +1465,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   outcomeBaseline: number
  *   outcomePrize: string
  * }} NormalizedLeaderboardFinalOutcomeEntry
+ */
+
+/**
+ * @typedef {Array<NormalizedTopThreeLeaderboardEntry>} TopThreeLeaderboardEntries
+ */
+
+/**
+ * @typedef {{
+ *   rank: number
+ *   name: string
+ *   address: string
+ *   pnl: number
+ *   roi: number
+ *   prize: string | null
+ * }} NormalizedTopThreeLeaderboardEntry
  */
 
 /**
