@@ -125,7 +125,7 @@ export default defineComponent({
             size="1.5rem"
             class="icon"
           />
-          <span>Leagues List</span>
+          <span>Arenas List</span>
         </NuxtLink>
 
         <h2 class="heading">
