@@ -65,7 +65,7 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
-    /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
+    /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries>} */
     const topThreeLeaderboardEntriesRef = ref([])
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)

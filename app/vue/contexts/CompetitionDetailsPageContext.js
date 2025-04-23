@@ -1201,7 +1201,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
- *   topThreeLeaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
+ *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
@@ -1283,6 +1283,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   outcomeBaseline: number
  *   outcomePrize: string
  * }} NormalizedLeaderboardFinalOutcomeEntry
+ */
+
+/**
+ * @typedef {Array<NormalizedTopThreeLeaderboardEntry>} TopThreeLeaderboardEntries
+ */
+
+/**
+ * @typedef {{
+ *   rank: number
+ *   name: string
+ *   address: string
+ *   pnl: number
+ *   roi: number
+ *   prize: string | null
+ * }} NormalizedTopThreeLeaderboardEntry
  */
 
 /**
