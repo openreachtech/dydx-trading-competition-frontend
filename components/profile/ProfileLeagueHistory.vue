@@ -4,6 +4,10 @@ import {
   reactive,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
@@ -18,6 +22,7 @@ import ProfileLeagueHistoryContext from '~/app/vue/contexts/profile/ProfileLeagu
 
 export default defineComponent({
   components: {
+    NuxtLink,
     AppTable,
     AppPagination,
     AppIconBadge,
@@ -57,14 +62,18 @@ export default defineComponent({
       min-width="45rem"
     >
       <template #body-title="{ value, row }">
-        <div class="unit-title">
+        <NuxtLink class="unit-title"
+          :to="context.generateCompetitionUrl({
+            competitionId: row.competitionId,
+          })"
+        >
           <img :src="row.image"
             :alt="value"
             class="image"
           >
 
           <span>{{ value }}</span>
-        </div>
+        </NuxtLink>
       </template>
 
       <template #body-rank="{ value }">
@@ -151,6 +160,12 @@ export default defineComponent({
   font-weight: 700;
 
   color: var(--color-text-tertiary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-title[href]:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-title > .image {
