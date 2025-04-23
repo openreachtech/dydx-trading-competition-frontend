@@ -166,13 +166,18 @@ export default defineComponent({
 
 .unit-section > .headline > .note {
   display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
 
   font-size: var(--font-size-small);
   letter-spacing: 0.16em;
 
   color: var(--color-text-tertiary);
+
+  @media (60rem < width) {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
 .unit-section > .headline > .note > .highlight {
