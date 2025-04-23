@@ -89,6 +89,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
       isLoadingLeaderboard: true,
+      isLoadingTopThree: true,
       isLoadingParticipant: true,
       isLoadingEnrolledParticipantsNumber: true,
       isUnregisteringFromCompetition: false,

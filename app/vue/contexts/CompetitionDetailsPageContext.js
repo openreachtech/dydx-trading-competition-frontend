@@ -1229,6 +1229,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
+ *   isLoadingTopThree: boolean
  *   isLoadingParticipant: boolean
  *   isLoadingEnrolledParticipantsNumber: boolean
  *   isUnregisteringFromCompetition: boolean
