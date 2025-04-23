@@ -250,12 +250,14 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           hooks: this.competitionLauncherHooks,
         })
 
-      await this.fetchLeaderboardEntries()
-
+      // Top three and leaderboard invoke the same query.
+      // Make sure top three runs first to receive correct pagination result.
       const currentPage = this.extractCurrentPage()
       if (currentPage !== 1) {
         await this.fetchTopThreeLeaderboardEntries()
       }
+
+      await this.fetchLeaderboardEntries()
     })
 
     this.watch(
