@@ -46,7 +46,7 @@ export default class AddressPastCompetitionsQueryGraphqlCapsule extends BaseAppG
  *   addressPastCompetitions: {
  *     competitions: Array<{
  *       competition: {
- *         competitionId: string
+ *         competitionId: number
  *         title: string
  *         description: string
  *         participantUpperLimit: number
