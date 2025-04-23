@@ -65,6 +65,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: topThreeLeaderboardEntries
+   *
+   * @returns {PropsType['topThreeLeaderboardEntries']} Top three leaderboard entries.
+   */
+  get topThreeLeaderboardEntries () {
+    return this.props.topThreeLeaderboardEntries
+  }
+
+  /**
    * get: leaderboardPaginationResult
    *
    * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
@@ -123,29 +132,18 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
    * Extract top three rankers.
    *
-   * @returns {Array<TopRanker | null>} Top three rankers.
+   * @returns {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedTopThreeLeaderboardEntry | null>} Top three rankers.
    */
   generateTopThree () {
     if (this.shouldHideTopRankers()) {
       return []
     }
 
-    // Narrow type of this.competitionStatusId for extractor hash.
-    if (this.competitionStatusId === null) {
-      return []
-    }
-
-    const topRankerExtractorHash = {
-      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractTopThreeOngoingLeaderboardEntries(),
-      [COMPETITION_STATUS.COMPLETED.ID]: this.extractTopThreeLeaderboardFinalOutcomeEntries(),
-    }
-
-    const firstThreeRankers = topRankerExtractorHash[this.competitionStatusId]
-      ?? []
-
     return Array.from(
       { length: 3 },
-      (it, index) => firstThreeRankers.at(index) ?? null
+      (it, index) => this.topThreeLeaderboardEntries
+        .at(index)
+        ?? null
     )
   }
 
@@ -426,6 +424,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   isLoadingLeaderboard: boolean
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  * }} PropsType

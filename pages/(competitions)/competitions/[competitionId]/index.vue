@@ -177,6 +177,7 @@ export default defineComponent({
     <SectionSchedules :schedules="context.schedules" />
 
     <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+      :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"

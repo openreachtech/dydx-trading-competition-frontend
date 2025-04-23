@@ -1016,7 +1016,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * get: topThreeLeaderboardEntries
    *
-   * @returns {LeaderboardEntries}
+   * @returns {TopThreeLeaderboardEntries}
    */
   get topThreeLeaderboardEntries () {
     return this.topThreeLeaderboardEntriesRef.value
