@@ -503,6 +503,7 @@ export default defineComponent({
 
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1.75rem;
 }
 
