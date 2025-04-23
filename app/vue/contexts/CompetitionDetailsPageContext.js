@@ -34,6 +34,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
     statusReactive,
   }) {
@@ -46,6 +47,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
+    this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
     this.statusReactive = statusReactive
   }
@@ -66,6 +68,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
+    topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
     statusReactive,
   }) {
@@ -77,6 +80,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         walletStore,
         graphqlClientHash,
         leaderboardEntriesRef,
+        topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
         statusReactive,
       })
@@ -813,6 +817,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: topThreeLeaderboardEntries
+   *
+   * @returns {LeaderboardEntries}
+   */
+  get topThreeLeaderboardEntries () {
+    return this.topThreeLeaderboardEntriesRef.value
+  }
+
+  /**
    * get: competitionCancelationDialog
    *
    * @returns {import('~/components/units/AppDialog.vue').default | null}
@@ -1188,6 +1201,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
+ *   topThreeLeaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
