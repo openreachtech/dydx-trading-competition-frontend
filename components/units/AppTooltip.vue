@@ -11,6 +11,18 @@ export default defineComponent({
       type: /** @type {import('vue').PropType<import('~/app/vue/contexts/AppTooltipContext').TooltipPosition>} */ (String),
       required: false,
       default: 'top',
+      /** @type {(value: string) => boolean} */
+      validator: value => [
+        'top',
+        'top-start',
+        'top-end',
+        'right',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+      ]
+        .includes(value),
     },
     message: {
       type: String,
