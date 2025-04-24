@@ -10,6 +10,8 @@ import {
 
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import CopyButton from '~/components/buttons/CopyButton.vue'
 
 import {
   useGraphqlClient,
@@ -24,6 +26,8 @@ export default defineComponent({
     Icon,
     AppTable,
     AppPagination,
+    LinkTooltipButton,
+    CopyButton,
   },
 
   setup (
@@ -63,26 +67,42 @@ export default defineComponent({
       <template #body-time="{ value }">
         <span class="unit-time">
           <span>
-            {{ value.date }}
+            {{
+              context.generateDate({
+                dateString: value,
+              })
+            }}
           </span>
           <span class="hour">
-            {{ value.hour }}
+            {{
+              context.generateHour({
+                dateString: value,
+              })
+            }}
           </span>
         </span>
       </template>
 
-      <template #body-participant="{ value }">
+      <template #body-participant="{ value, row }">
         <div class="unit-participant"
-          :class="value.classes"
+          :class="context.generateParticipantClasses({
+            categoryId: row.categoryId,
+          })"
         >
           <span class="icon">
             <Icon size="1.25rem"
-              :name="value.iconName"
+              :name="context.generateParticipantIconName({
+                categoryId: row.categoryId,
+              })"
             />
           </span>
 
           <span class="address">
-            {{ value.address }}
+            {{
+              context.shortenAddress({
+                address: value.address,
+              })
+            }}
           </span>
         </div>
       </template>
@@ -93,7 +113,7 @@ export default defineComponent({
         </span>
       </template>
 
-      <template #body-hash="{ value }">
+      <template #body-hash="{ value, row, index }">
         <div class="unit-hash">
           <span class="hash">
             <span>
@@ -104,16 +124,19 @@ export default defineComponent({
               }}
             </span>
 
-            <button class="button">
-              <Icon name="heroicons-outline:duplicate"
-                size="1rem"
-              />
-            </button>
-            <button class="button">
-              <Icon name="heroicons-outline:external-link"
-                size="1rem"
-              />
-            </button>
+            <CopyButton :content-to-copy="value" />
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateTransactionHashUrl({
+                transactionHash: value,
+                blockHeight: row.blockHeight,
+              })"
+              external
+              target="_blank"
+              rel="noopener noreferrer"
+              :tooltip-position="context.generateRowTooltipPosition({
+                index,
+              })"
+            />
           </span>
 
           <span class="note">
