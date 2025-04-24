@@ -367,6 +367,38 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
 
     return formatter.format(date)
   }
+
+  /**
+   * Generate transaction hash URL.
+   *
+   * @param {{
+   *   transactionHash: string
+   *   blockHeight: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateTransactionHashUrl ({
+    transactionHash,
+    blockHeight,
+  }) {
+    return `https://www.mintscan.io/dydx/tx/${transactionHash}?height=${blockHeight}`
+  }
+
+  /**
+   * Generate row tooltip position.
+   *
+   * @param {{
+   *   index: number
+   * }} params - Parameters.
+   * @returns {'top-start' | 'bottom-start'}
+   */
+  generateRowTooltipPosition ({
+    index,
+  }) {
+    return index === 0
+      ? 'bottom-start'
+      : 'top-start'
+  }
 }
 
 /**

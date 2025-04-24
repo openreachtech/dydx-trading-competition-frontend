@@ -10,6 +10,7 @@ import {
 
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
 import {
   useGraphqlClient,
@@ -24,6 +25,7 @@ export default defineComponent({
     Icon,
     AppTable,
     AppPagination,
+    LinkTooltipButton,
   },
 
   setup (
@@ -109,7 +111,7 @@ export default defineComponent({
         </span>
       </template>
 
-      <template #body-hash="{ value }">
+      <template #body-hash="{ value, row, index }">
         <div class="unit-hash">
           <span class="hash">
             <span>
@@ -125,11 +127,18 @@ export default defineComponent({
                 size="1rem"
               />
             </button>
-            <button class="button">
-              <Icon name="heroicons-outline:external-link"
-                size="1rem"
-              />
-            </button>
+            <LinkTooltipButton tooltip-message="View on Mintscan"
+              :href="context.generateTransactionHashUrl({
+                transactionHash: value,
+                blockHeight: row.blockHeight,
+              })"
+              external
+              target="_blank"
+              rel="noopener noreferrer"
+              :tooltip-position="context.generateRowTooltipPosition({
+                index,
+              })"
+            />
           </span>
 
           <span class="note">
