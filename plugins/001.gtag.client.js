@@ -7,6 +7,11 @@ import {
 export default defineNuxtPlugin({
   parallel: true,
   setup () {
+    // Should only enable Google Tag in production.
+    if (import.meta.env.MODE !== 'production') {
+      return
+    }
+
     const runtimeConfig = useRuntimeConfig()
     const gtagId = runtimeConfig.public.GTAG_ID
 
