@@ -63,26 +63,42 @@ export default defineComponent({
       <template #body-time="{ value }">
         <span class="unit-time">
           <span>
-            {{ value.date }}
+            {{
+              context.generateDate({
+                dateString: value,
+              })
+            }}
           </span>
           <span class="hour">
-            {{ value.hour }}
+            {{
+              context.generateHour({
+                dateString: value,
+              })
+            }}
           </span>
         </span>
       </template>
 
-      <template #body-participant="{ value }">
+      <template #body-participant="{ value, row }">
         <div class="unit-participant"
-          :class="value.classes"
+          :class="context.generateParticipantClasses({
+            categoryId: row.categoryId,
+          })"
         >
           <span class="icon">
             <Icon size="1.25rem"
-              :name="value.iconName"
+              :name="context.generateParticipantIconName({
+                categoryId: row.categoryId,
+              })"
             />
           </span>
 
           <span class="address">
-            {{ value.address }}
+            {{
+              context.shortenAddress({
+                address: value.address,
+              })
+            }}
           </span>
         </div>
       </template>
