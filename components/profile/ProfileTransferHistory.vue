@@ -11,6 +11,7 @@ import {
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import CopyButton from '~/components/buttons/CopyButton.vue'
 
 import {
   useGraphqlClient,
@@ -26,6 +27,7 @@ export default defineComponent({
     AppTable,
     AppPagination,
     LinkTooltipButton,
+    CopyButton,
   },
 
   setup (
@@ -122,11 +124,7 @@ export default defineComponent({
               }}
             </span>
 
-            <button class="button">
-              <Icon name="heroicons-outline:duplicate"
-                size="1rem"
-              />
-            </button>
+            <CopyButton :content-to-copy="value" />
             <LinkTooltipButton tooltip-message="View on Mintscan"
               :href="context.generateTransactionHashUrl({
                 transactionHash: value,
