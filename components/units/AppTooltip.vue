@@ -11,6 +11,18 @@ export default defineComponent({
       type: /** @type {import('vue').PropType<import('~/app/vue/contexts/AppTooltipContext').TooltipPosition>} */ (String),
       required: false,
       default: 'top',
+      /** @type {(value: string) => boolean} */
+      validator: value => [
+        'top',
+        'top-start',
+        'top-end',
+        'right',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+      ]
+        .includes(value),
     },
     message: {
       type: String,
@@ -137,6 +149,38 @@ export default defineComponent({
   );
 }
 
+.unit-tooltip.top-start > .message {
+  bottom: calc(100% + 0.75rem);
+  right: 0;
+}
+
+.unit-tooltip.top-start > .message::before {
+  top: 100%;
+  right: 0;
+
+  clip-path: polygon(
+    0% 0%,
+    50% 100%,
+    50% 0%
+  );
+}
+
+.unit-tooltip.top-end > .message {
+  bottom: calc(100% + 0.75rem);
+  left: 0;
+}
+
+.unit-tooltip.top-end > .message::before {
+  top: 100%;
+  left: 0;
+
+  clip-path: polygon(
+    50% 0%,
+    50% 100%,
+    100% 0%
+  );
+}
+
 .unit-tooltip.right > .message {
   left: calc(100% + 0.75rem);
 }
@@ -161,6 +205,38 @@ export default defineComponent({
   clip-path: polygon(
     0% 100%,
     50% 0%,
+    100% 100%
+  );
+}
+
+.unit-tooltip.bottom-start > .message {
+  top: calc(100% + 0.75rem);
+  right: 0;
+}
+
+.unit-tooltip.bottom-start > .message::before {
+  bottom: 100%;
+  right: 0;
+
+  clip-path: polygon(
+    0% 100%,
+    50% 0%,
+    50% 100%
+  );
+}
+
+.unit-tooltip.bottom-end > .message {
+  top: calc(100% + 0.75rem);
+  left: 0;
+}
+
+.unit-tooltip.bottom-end > .message::before {
+  bottom: 100%;
+  left: 0;
+
+  clip-path: polygon(
+    50% 0%,
+    50% 100%,
     100% 100%
   );
 }

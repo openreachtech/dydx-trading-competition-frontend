@@ -86,8 +86,12 @@ export default class AppTooltipContext extends BaseFuroContext {
 
 /**
  * @typedef {'top'
+ *   | 'top-start'
+ *   | 'top-end'
  *   | 'right'
  *   | 'bottom'
+ *   | 'bottom-start'
+ *   | 'bottom-end'
  *   | 'left'
  * } TooltipPosition
  */
