@@ -221,6 +221,7 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
       },
       amount: it.amount,
       hash: it.transactionHash,
+      blockHeight: it.blockHeight,
     }))
   }
 
@@ -420,5 +421,6 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
  *   }
  *   amount: string
  *   hash: string
+ *   blockHeight: number
  * }} TableEntry
  */
