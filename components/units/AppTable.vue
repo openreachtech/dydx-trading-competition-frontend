@@ -111,6 +111,7 @@ export default defineComponent({
               <slot :name="`body-${entry.key}`"
                 :row="row"
                 :value="row[entry.key]"
+                :index="index"
               >
                 {{ row[entry.key] }}
               </slot>
