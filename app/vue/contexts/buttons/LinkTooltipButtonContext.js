@@ -18,6 +18,15 @@ export default class LinkTooltipButton extends BaseFuroContext {
   }
 
   /**
+   * get: tooltipPosition
+   *
+   * @returns {import('~/app/vue/contexts/AppTooltipContext').TooltipPosition}
+   */
+  get tooltipPosition () {
+    return this.props.tooltipPosition
+  }
+
+  /**
    * get: href
    *
    * @returns {string}

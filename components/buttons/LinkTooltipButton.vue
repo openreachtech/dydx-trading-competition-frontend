@@ -26,6 +26,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    tooltipPosition: {
+      type: /** @type {import('vue').PropType<import('~/app/vue/contexts/AppTooltipContext').TooltipPosition>} */ (String),
+      required: false,
+      default: 'top',
+    },
     href: {
       type: String,
       required: true,
@@ -66,7 +71,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppTooltip :message="context.tooltipMessage">
+  <AppTooltip :message="context.tooltipMessage"
+    :position="context.tooltipPosition"
+  >
     <template #contents>
       <NuxtLink :to="context.href"
         class="link"
