@@ -240,6 +240,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
    */
   generateTableEntries () {
     return this.competitions.map(it => ({
+      competitionId: it.competition.competitionId,
       title: it.competition.title,
       image: it.competition.image ?? '',
       rank: it.rank,
@@ -251,6 +252,20 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
       },
       status: it.competition.status,
     }))
+  }
+
+  /**
+   * Generate competition URL.
+   *
+   * @param {{
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateCompetitionUrl ({
+    competitionId,
+  }) {
+    return `/competitions/${competitionId}`
   }
 
   /**
@@ -404,6 +419,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
 
 /**
  * @typedef {{
+ *   competitionId: number
  *   title: string
  *   image: string
  *   rank: number

@@ -53,6 +53,15 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    topThreeLeaderboardEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['topThreeLeaderboardEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
     leaderboardPaginationResult: {
       /**
        * @type {import('vue').PropType<

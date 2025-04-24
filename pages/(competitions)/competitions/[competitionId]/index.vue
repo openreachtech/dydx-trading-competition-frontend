@@ -65,6 +65,8 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
+    /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries>} */
+    const topThreeLeaderboardEntriesRef = ref([])
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
@@ -87,6 +89,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
       isLoadingLeaderboard: true,
+      isLoadingTopThree: true,
       isLoadingParticipant: true,
       isLoadingEnrolledParticipantsNumber: true,
       isUnregisteringFromCompetition: false,
@@ -101,6 +104,7 @@ export default defineComponent({
       route,
       walletStore,
       leaderboardEntriesRef,
+      topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
@@ -173,6 +177,7 @@ export default defineComponent({
     <SectionSchedules :schedules="context.schedules" />
 
     <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+      :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"

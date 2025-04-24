@@ -65,6 +65,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: topThreeLeaderboardEntries
+   *
+   * @returns {PropsType['topThreeLeaderboardEntries']} Top three leaderboard entries.
+   */
+  get topThreeLeaderboardEntries () {
+    return this.props.topThreeLeaderboardEntries
+  }
+
+  /**
    * get: leaderboardPaginationResult
    *
    * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
@@ -123,84 +132,19 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
    * Extract top three rankers.
    *
-   * @returns {Array<TopRanker | null>} Top three rankers.
+   * @returns {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedTopThreeLeaderboardEntry | null>} Top three rankers.
    */
   generateTopThree () {
     if (this.shouldHideTopRankers()) {
       return []
     }
 
-    // Narrow type of this.competitionStatusId for extractor hash.
-    if (this.competitionStatusId === null) {
-      return []
-    }
-
-    const topRankerExtractorHash = {
-      [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractTopThreeOngoingLeaderboardEntries(),
-      [COMPETITION_STATUS.COMPLETED.ID]: this.extractTopThreeLeaderboardFinalOutcomeEntries(),
-    }
-
-    const firstThreeRankers = topRankerExtractorHash[this.competitionStatusId]
-      ?? []
-
     return Array.from(
       { length: 3 },
-      (it, index) => firstThreeRankers.at(index) ?? null
+      (it, index) => this.topThreeLeaderboardEntries
+        .at(index)
+        ?? null
     )
-  }
-
-  /**
-   * Extract first three ongoing leaderboard entries.
-   *
-   * @returns {Array<TopRanker>}
-   */
-  extractTopThreeOngoingLeaderboardEntries () {
-    if (this.competitionStatusId !== COMPETITION_STATUS.IN_PROGRESS.ID) {
-      return []
-    }
-
-    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
-    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedOngoingLeaderboardEntry>} */ (
-      this.leaderboardTableEntries
-    )
-
-    return leaderboardEntries
-      .slice(0, 3)
-      .map(entry => ({
-        rank: entry.ongoingRank,
-        name: entry.ongoingName,
-        address: entry.ongoingAddress,
-        pnl: entry.ongoingPnl,
-        roi: entry.ongoingRoi,
-        prize: null,
-      }))
-  }
-
-  /**
-   * Extract first three leaderboard final outcome entries.
-   *
-   * @returns {Array<TopRanker>}
-   */
-  extractTopThreeLeaderboardFinalOutcomeEntries () {
-    if (this.competitionStatusId !== COMPETITION_STATUS.COMPLETED.ID) {
-      return []
-    }
-
-    // Type assertion as TypeScript can not narrow the type of entries with the current structure.
-    const leaderboardEntries = /** @type {Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').NormalizedLeaderboardFinalOutcomeEntry>} */ (
-      this.leaderboardTableEntries
-    )
-
-    return leaderboardEntries
-      .slice(0, 3)
-      .map(entry => ({
-        rank: entry.outcomeRank,
-        name: entry.outcomeName,
-        address: entry.outcomeAddress,
-        pnl: entry.outcomePnl,
-        roi: entry.outcomeRoi,
-        prize: entry.outcomePrize,
-      }))
   }
 
   /**
@@ -426,18 +370,8 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   isLoadingLeaderboard: boolean
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  * }} PropsType
- */
-
-/**
- * @typedef {{
- *   rank: number
- *   name: string
- *   address: string
- *   pnl: number
- *   roi: number
- *   prize: string | null
- * }} TopRanker
  */

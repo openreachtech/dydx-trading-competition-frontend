@@ -118,6 +118,16 @@ export default defineComponent({
       <div class="unit-details"
         :class="context.generateLeagueDetailClasses()"
       >
+        <NuxtLink to="/competitions"
+          class="link back"
+        >
+          <Icon name="heroicons:chevron-left"
+            size="1.5rem"
+            class="icon"
+          />
+          <span>Arenas List</span>
+        </NuxtLink>
+
         <h2 class="heading">
           {{ context.normalizeTitle() }}
         </h2>
@@ -361,6 +371,39 @@ export default defineComponent({
   }
 }
 
+.unit-details > .link.back {
+  margin-block-end: 1.5rem;
+
+  align-items: center;
+  gap: 0.75rem;
+
+  display: inline-flex;
+
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
+
+  transition: color 250ms var(--transition-timing-base),
+    gap 250ms var(--transition-timing-base);
+}
+
+.unit-details > .link.back[href]:hover {
+  gap: 0.5rem;
+
+  color: var(--color-text-primary);
+}
+
+.unit-details > .link.back > .icon {
+  color: var(--color-text-tertiary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-details > .link.back[href]:hover > .icon {
+  color: var(--color-text-primary);
+}
+
 .unit-details > .heading {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-headline);
@@ -460,6 +503,7 @@ export default defineComponent({
 
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1.75rem;
 }
 
