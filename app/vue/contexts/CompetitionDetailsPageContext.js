@@ -760,7 +760,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       /**
        * @type {(
-       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       *   capsule: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
        * ) => Promise<void>}
        * @todo: Fix import path of this capsule. It should be in `queries` directory.
        */
@@ -822,7 +822,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    * Normalize leaderboard final outcome entries.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
    * }} params - Parameters.
    * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
    */
@@ -882,7 +882,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       /**
        * @type {(
-       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       *   capsule: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
        * ) => Promise<void>}
        * @todo: Fix import path of this capsule. It should be in `queries` directory.
        */
@@ -930,7 +930,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    * Normalize top three in the final outcome.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
    * }} params - Parameters.
    * @returns {TopThreeLeaderboardEntries}
    */
@@ -1163,7 +1163,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * get: competitionFinalOutcomeCapsule
    *
-   * @returns {import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
+   * @returns {import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
    */
   get competitionFinalOutcomeCapsule () {
     return this.graphqlClientHash
