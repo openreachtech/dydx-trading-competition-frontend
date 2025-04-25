@@ -8,10 +8,12 @@ import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
 import AppSkeleton from '~/components/units/AppSkeleton.vue'
+import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
 
 import {
   useRoute,
+  useRouter,
 } from 'vue-router'
 
 import {
@@ -29,6 +31,7 @@ export default defineComponent({
     AppPagination,
     AppLoadingLayout,
     AppSkeleton,
+    AppSearchBar,
     LeagueHeroSection,
   },
 
@@ -37,6 +40,7 @@ export default defineComponent({
     componentContext
   ) {
     const route = useRoute()
+    const router = useRouter()
 
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const competitionStatisticsGraphqlClient = useGraphqlClient(CompetitionStatisticsQueryGraphqlLauncher)
@@ -49,6 +53,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      router,
       graphqlClientHash: {
         competitions: competitionsGraphqlClient,
         competitionStatistics: competitionStatisticsGraphqlClient,
@@ -71,6 +76,14 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <LeagueHeroSection :competition-statistics-capsule="context.competitionStatisticsCapsule" />
+
+    <AppSearchBar has-filter
+      placeholder="Search for arena"
+      size="large"
+      @search="query => context.fetchCompetitions({
+        title: query,
+      })"
+    />
 
     <AppLoadingLayout :is-loading="context.isLoadingCompetitions">
       <template #contents>

@@ -30,6 +30,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    router,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -39,6 +40,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.router = router
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
@@ -56,6 +58,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    router,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -64,6 +67,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        router,
         graphqlClientHash,
         statusReactive,
       })
@@ -110,6 +114,14 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     title,
     statusId,
   } = {}) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        title,
+      },
+    })
+
+    const queryTitle = this.extractQueryTitle()
     const currentPage = this.extractCurrentPage()
 
     await this.graphqlClientHash
@@ -118,7 +130,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         variables: {
           ...this.defaultCompetitionsVariables,
           input: {
-            title,
+            title: queryTitle,
             statusId,
             pagination: {
               ...this.defaultCompetitionsVariables.input.pagination,
@@ -144,6 +156,20 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Extract title from route query.
+   *
+   * @returns {string | null}
+   */
+  extractQueryTitle () {
+    const queryTitle = Array.isArray(this.route.query.title)
+      ? this.route.query.title[0]
+      : this.route.query.title
+
+    return queryTitle
+      ?? null
   }
 
   /**
@@ -251,6 +277,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: {
  *     competitions: GraphqlClient
  *     competitionStatistics: GraphqlClient
