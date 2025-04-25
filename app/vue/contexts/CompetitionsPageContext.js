@@ -29,6 +29,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     props,
     componentContext,
 
+    route,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -37,6 +38,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.route = route
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
@@ -53,6 +55,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -60,6 +63,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        route,
         graphqlClientHash,
         statusReactive,
       })
@@ -74,13 +78,6 @@ export default class CompetitionsPageContext extends BaseFuroContext {
    * @this {T}
    */
   setupComponent () {
-    const route = useRoute()
-    const currentPageComputed = computed(() => (
-      isNaN(Number(route.query.page))
-        ? 1
-        : Number(route.query.page)
-    ))
-
     this.graphqlClientHash
       .competitionStatistics
       .invokeRequestOnMounted({
@@ -88,27 +85,65 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       })
 
     this.watch(
-      () => route.query.page,
-      () => this.graphqlClientHash
-        .competitions
-        .invokeRequestOnEvent({
-          variables: {
-            ...this.defaultCompetitionsVariables,
-            input: {
-              pagination: {
-                ...this.defaultCompetitionsVariables.input.pagination,
-                offset: (currentPageComputed.value - 1) * PAGINATION.LIMIT,
-              },
-            },
-          },
-          hooks: this.graphqlRequestHooks,
-        }),
+      () => this.extractCurrentPage(),
+      async () => {
+        await this.fetchCompetitions()
+      },
       {
         immediate: true,
       }
     )
 
     return this
+  }
+
+  /**
+   * Fetch competitions
+   *
+   * @param {{
+   *   title?: string
+   *   statusId?: number
+   * }} [params] - Parameters.
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitions ({
+    title,
+    statusId,
+  } = {}) {
+    const currentPage = this.extractCurrentPage()
+
+    await this.graphqlClientHash
+      .competitions
+      .invokeRequestOnEvent({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            title,
+            statusId,
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPage - 1) * PAGINATION.LIMIT,
+            },
+          },
+        },
+        hooks: this.graphqlRequestHooks,
+      })
+  }
+
+  /**
+   * Extract current page.
+   *
+   * @returns {number} Current page.
+   */
+  extractCurrentPage () {
+    const currentPageQuery = Array.isArray(this.route.query.page)
+      ? this.route.query.page[0]
+      : this.route.query.page
+    const currentPage = Number(currentPageQuery)
+
+    return isNaN(currentPage)
+      ? 1
+      : currentPage
   }
 
   /**
@@ -215,6 +250,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
  *   graphqlClientHash: {
  *     competitions: GraphqlClient
  *     competitionStatistics: GraphqlClient

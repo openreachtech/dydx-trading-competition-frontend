@@ -11,6 +11,10 @@ import AppSkeleton from '~/components/units/AppSkeleton.vue'
 import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
 
 import {
+  useRoute,
+} from 'vue-router'
+
+import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
@@ -32,6 +36,8 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const competitionStatisticsGraphqlClient = useGraphqlClient(CompetitionStatisticsQueryGraphqlLauncher)
     const statusReactive = reactive({
@@ -42,6 +48,7 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
       graphqlClientHash: {
         competitions: competitionsGraphqlClient,
         competitionStatistics: competitionStatisticsGraphqlClient,
