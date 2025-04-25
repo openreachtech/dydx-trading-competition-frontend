@@ -188,6 +188,7 @@ export default defineComponent({
           <span>Filters</span>
 
           <span class="indicator"
+            :class="context.generateFilterIndicatorClasses()"
             aria-hidden="true"
           />
         </button>
@@ -371,8 +372,8 @@ export default defineComponent({
   background-color: var(--color-background-search-indicator);
 }
 
-.unit-filter:not(.selected) > .button > .indicator {
-  opacity: 0;
+.unit-filter > .button > .indicator.hidden {
+  visibility: hidden;
 }
 
 .unit-filter > .button:hover,

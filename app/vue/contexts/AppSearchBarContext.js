@@ -209,6 +209,17 @@ export default class AppSearchBarContext extends BaseFuroContext {
   }
 
   /**
+   * Check if there are no active filters.
+   *
+   * @returns {boolean}
+   */
+  hasNoActiveFilters () {
+    const activeFilters = this.extractActiveFilters()
+
+    return activeFilters.length === 0
+  }
+
+  /**
    * Extract active filters.
    *
    * @returns {Array<string>}
@@ -247,6 +258,17 @@ export default class AppSearchBarContext extends BaseFuroContext {
       open: this.isOpenFilterRef.value,
       selected: this.isOpenFilterRef.value,
       hidden: !this.hasFilter,
+    }
+  }
+
+  /**
+   * Generate classes for the filter indicator.
+   *
+   * @returns {import('vue').HTMLAttributes['class']} CSS classes.
+   */
+  generateFilterIndicatorClasses () {
+    return {
+      hidden: this.hasNoActiveFilters(),
     }
   }
 
