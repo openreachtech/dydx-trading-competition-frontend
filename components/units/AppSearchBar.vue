@@ -307,6 +307,8 @@ export default defineComponent({
   gap: 1rem;
 
   flex: 1;
+
+  min-width: 0;
 }
 
 .unit-search > .input-container > .label > .icon {
@@ -316,6 +318,8 @@ export default defineComponent({
 .unit-search > .input-container > .label > .input {
   outline-width: 0;
   border-width: 0;
+
+  min-width: 0;
 
   padding-block: 0.625rem;
   padding-inline: 0;
@@ -521,7 +525,11 @@ export default defineComponent({
   top: calc(100% + 0.25rem);
   right: -0.75rem;
 
-  width: 27.5rem;
+  /* TODO: Ad-hoc solution with magic numbers. Please try to do something smarter. */
+  width: min(
+    27.5rem,
+    87vw
+  );
 
   z-index: calc(var(--value-z-index-layer-content) + 2);
 }
