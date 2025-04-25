@@ -262,6 +262,15 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Check if the competitions list is empty.
+   *
+   * @returns {boolean}
+   */
+  hasEmptyCompetitions () {
+    return this.competitions.length === 0
+  }
+
+  /**
    * Generate pagination.
    *
    * @returns {Pagination} Pagination object.
@@ -270,6 +279,28 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     return {
       limit: PAGINATION.LIMIT,
       totalRecords: this.competitionsCapsuleRef.value.totalCount ?? 0,
+    }
+  }
+
+  /**
+   * Generate CSS classes for empty placeholder of competitions.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateEmptyCompetitionsClasses () {
+    return {
+      hidden: !this.hasEmptyCompetitions(),
+    }
+  }
+
+  /**
+   * Generate CSS classes for pagination.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generatePaginationClasses () {
+    return {
+      hidden: this.hasEmptyCompetitions(),
     }
   }
 }

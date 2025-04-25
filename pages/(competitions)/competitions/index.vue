@@ -4,6 +4,10 @@ import {
   reactive,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
@@ -27,6 +31,7 @@ import CompetitionsPageContext from '~/app/vue/contexts/CompetitionsPageContext'
 
 export default defineComponent({
   components: {
+    Icon,
     AppLeagueCard,
     AppPagination,
     AppLoadingLayout,
@@ -94,6 +99,17 @@ export default defineComponent({
               :competition="it"
             />
           </div>
+
+          <div class="unit-empty competitions"
+            :class="context.generateEmptyCompetitionsClasses()"
+          >
+            <Icon name="heroicons:magnifying-glass"
+              size="7rem"
+            />
+            <p class="description">
+              No arenas found
+            </p>
+          </div>
         </div>
       </template>
 
@@ -108,6 +124,7 @@ export default defineComponent({
 
     <AppPagination :pagination="context.generatePaginationResult()"
       class="pagination"
+      :class="context.generatePaginationClasses()"
     />
   </div>
 </template>
@@ -134,7 +151,35 @@ export default defineComponent({
   }
 }
 
+.unit-empty.competitions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding-block: 4rem 2rem;
+  padding-inline: 1rem;
+
+  text-align: center;
+
+  color: var(--color-text-placeholder);
+}
+
+.unit-empty.competitions > .description {
+  font-size: var(--font-size-large);
+  font-weight: 700;
+}
+
+.unit-empty.hidden {
+  display: none;
+}
+
 .unit-container > .pagination {
   margin-block-start: 4rem;
+}
+
+.unit-container > .pagination.hidden {
+  display: none;
 }
 </style>
