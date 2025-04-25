@@ -85,6 +85,7 @@ export default defineComponent({
     <AppSearchBar has-filter
       placeholder="Search for arena"
       size="large"
+      :filters="context.competitionsFilters"
       @search="query => context.fetchCompetitions({
         title: query,
       })"

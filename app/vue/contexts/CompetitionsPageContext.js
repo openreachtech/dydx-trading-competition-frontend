@@ -4,6 +4,7 @@ import {
 
 import {
   PAGINATION,
+  COMPETITION_STATUS,
 } from '~/app/constants'
 
 /**
@@ -219,6 +220,42 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         },
       },
     }
+  }
+
+  /**
+   * get: competitionsFilters.
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppSearchBarContext').Filter>}
+   */
+  get competitionsFilters () {
+    return [
+      {
+        name: 'statusId',
+        caption: 'Status',
+        options: [
+          {
+            label: 'Created',
+            value: COMPETITION_STATUS.CREATED.ID,
+          },
+          {
+            label: 'Registration Ended',
+            value: COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+          },
+          {
+            label: 'In Progress',
+            value: COMPETITION_STATUS.IN_PROGRESS.ID,
+          },
+          {
+            label: 'Completed',
+            value: COMPETITION_STATUS.COMPLETED.ID,
+          },
+          {
+            label: 'Canceled',
+            value: COMPETITION_STATUS.CANCELED.ID,
+          },
+        ],
+      },
+    ]
   }
 
   /**
