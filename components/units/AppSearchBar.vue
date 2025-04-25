@@ -8,6 +8,8 @@ import {
   Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
+
 import {
   useRoute,
   useRouter,
@@ -26,6 +28,7 @@ import AppSearchBarContext, {
 export default defineComponent({
   components: {
     Icon,
+    AppButton,
   },
 
   directives: {
@@ -214,6 +217,22 @@ export default defineComponent({
                     {{ option.label }}
                   </button>
                 </div>
+              </div>
+
+              <div class="actions">
+                <AppButton type="button"
+                  appearance="outlined"
+                  class="button"
+                  @click="context.clearFilters()"
+                >
+                  Clear
+                </AppButton>
+                <AppButton type="button"
+                  class="button"
+                  @click="context.closeFilter()"
+                >
+                  Done
+                </AppButton>
               </div>
             </div>
           </slot>
@@ -564,6 +583,19 @@ export default defineComponent({
 
 .unit-filters > .filter > .options > .option.active {
   background-color: var(--color-background-filter-active);
+}
+
+.unit-filters > .actions {
+  margin-block-start: 1rem;
+
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.unit-filters > .actions > .button {
+  padding-block: 0.75rem;
+  padding-inline: 1.25rem;
 }
 
 @keyframes fade-in {
