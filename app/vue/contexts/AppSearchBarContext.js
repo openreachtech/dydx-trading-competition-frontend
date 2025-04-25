@@ -180,6 +180,46 @@ export default class AppSearchBarContext extends BaseFuroContext {
   }
 
   /**
+   * Clear filters.
+   *
+   * @returns {Promise<void>}
+   */
+  async clearFilters () {
+    const filters = this.generateFiltersForRemoval()
+
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        ...filters,
+      },
+    })
+  }
+
+  /**
+   * Generate filters for removal.
+   *
+   * @returns {Record<string, REMOVED_QUERY_VALUE>}
+   */
+  generateFiltersForRemoval () {
+    const activeFilters = this.extractActiveFilters()
+
+    return Object.fromEntries(
+      activeFilters.map(filter => [filter, REMOVED_QUERY_VALUE])
+    )
+  }
+
+  /**
+   * Extract active filters.
+   *
+   * @returns {Array<string>}
+   */
+  extractActiveFilters () {
+    return this.filters
+      .map(filter => filter.name)
+      .filter(filter => this.route.query[filter])
+  }
+
+  /**
    * Generate classes for the search bar element.
    *
    * @returns {Array<string | Record<string, boolean>>} CSS classes.
