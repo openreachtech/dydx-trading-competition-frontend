@@ -88,13 +88,29 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         hooks: this.competitionStatisticsLauncherHooks,
       })
 
+    const queryTitle = this.extractQueryTitle()
+    const currentPage = this.extractCurrentPage()
+
+    this.graphqlClientHash
+      .competitions
+      .invokeRequestOnMounted({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            title: queryTitle,
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPage - 1) * PAGINATION.LIMIT,
+            },
+          },
+        },
+        hooks: this.graphqlRequestHooks,
+      })
+
     this.watch(
       () => this.extractCurrentPage(),
       async () => {
         await this.fetchCompetitions()
-      },
-      {
-        immediate: true,
       }
     )
 
