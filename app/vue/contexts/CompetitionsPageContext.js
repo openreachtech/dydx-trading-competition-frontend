@@ -4,7 +4,6 @@ import {
 
 import {
   PAGINATION,
-  REMOVED_QUERY_VALUE,
 } from '~/app/constants'
 
 /**
@@ -123,11 +122,19 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     title,
     statusId,
   } = {}) {
+    const {
+      title: _,
+      ...restQuery
+    } = this.route.query
+    const replacementQuery = title
+      ? {
+        ...restQuery,
+        title,
+      }
+      : restQuery
+
     await this.router.replace({
-      query: {
-        ...this.route.query,
-        title: title || REMOVED_QUERY_VALUE,
-      },
+      query: replacementQuery,
     })
 
     const queryTitle = this.extractQueryTitle()

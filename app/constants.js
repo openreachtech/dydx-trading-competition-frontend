@@ -13,9 +13,6 @@ export const STORAGE_KEY = {
   WALLET: 'wallet',
 }
 
-// When updating route query, `undefined` will remove an existing value.
-export const REMOVED_QUERY_VALUE = undefined
-
 export const DYDX_TRADE_CTA_URL = 'https://dydx.trade/markets?utm_source=clc&utm_medium=trading-competition&utm_campaign=07042025-clc-menu-cta&utm_term=&utm_content=trading-comp-menu-cta'
 
 export const ORDINAL_SUFFIX_HASH = {
