@@ -2,10 +2,6 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
-import {
-  REMOVED_QUERY_VALUE,
-} from '~/app/constants'
-
 export const EMIT_EVENT_NAME = /** @type {const} */ ({
   SEARCH: 'search',
 })
@@ -167,15 +163,20 @@ export default class AppSearchBarContext extends BaseFuroContext {
       name,
       value,
     })
-    const newValue = isActive
-      ? REMOVED_QUERY_VALUE
-      : value
+    const {
+      [name]: _,
+      ...restQuery
+    } = this.route.query
+
+    const replacementQuery = isActive
+      ? restQuery
+      : {
+        ...restQuery,
+        [name]: value,
+      }
 
     await this.router.replace({
-      query: {
-        ...this.route.query,
-        [name]: newValue,
-      },
+      query: replacementQuery,
     })
   }
 
@@ -185,27 +186,15 @@ export default class AppSearchBarContext extends BaseFuroContext {
    * @returns {Promise<void>}
    */
   async clearFilters () {
-    const filters = this.generateFiltersForRemoval()
+    const activeFilters = this.extractActiveFilters()
+    const replacementQuery = Object.fromEntries(
+      Object.entries(this.route.query)
+        .filter(([key]) => !activeFilters.includes(key))
+    )
 
     await this.router.replace({
-      query: {
-        ...this.route.query,
-        ...filters,
-      },
+      query: replacementQuery,
     })
-  }
-
-  /**
-   * Generate filters for removal.
-   *
-   * @returns {Record<string, REMOVED_QUERY_VALUE>}
-   */
-  generateFiltersForRemoval () {
-    const activeFilters = this.extractActiveFilters()
-
-    return Object.fromEntries(
-      activeFilters.map(filter => [filter, REMOVED_QUERY_VALUE])
-    )
   }
 
   /**
