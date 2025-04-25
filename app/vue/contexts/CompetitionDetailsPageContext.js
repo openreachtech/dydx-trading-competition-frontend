@@ -1027,6 +1027,39 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionHost
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host'] | null}
+   */
+  get competitionHost () {
+    return this.competition
+      ?.host
+      ?? null
+  }
+
+  /**
+   * get: competitionHostAddress
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['address'] | null}
+   */
+  get competitionHostAddress () {
+    return this.competitionHost
+      ?.address
+      ?? null
+  }
+
+  /**
+   * get: competitionHostName
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['name'] | null}
+   */
+  get competitionHostName () {
+    return this.competitionHost
+      ?.name
+      ?? null
+  }
+
+  /**
    * get: participantUpperLimit
    *
    * @returns {number | null}
@@ -1192,6 +1225,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get enrolledParticipantsNumber () {
     return this.competitionEnrolledParticipantsNumberCapsule
       .enrolledParticipantsNumber
+  }
+
+  /**
+   * Check if current user is the competition's host.
+   *
+   * @returns {boolean}
+   */
+  isCompetitionHost () {
+    return this.competitionHostAddress === this.localWalletAddress
   }
 
   /**
