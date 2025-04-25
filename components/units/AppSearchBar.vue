@@ -190,7 +190,33 @@ export default defineComponent({
         </button>
 
         <div class="dropdown filter">
-          <slot name="filter" />
+          <slot name="filter">
+            <div class="unit-filters">
+              <div v-for="filter of context.filters"
+                class="filter"
+              >
+                <span class="caption">
+                  {{ filter.caption }}
+                </span>
+                <div class="options">
+                  <button v-for="option of filter.options"
+                    type="button"
+                    class="option"
+                    :class="context.generateFilterOptionClasses({
+                      name: filter.name,
+                      value: option.value,
+                    })"
+                    @click="context.toggleFilterOptionState({
+                      name: filter.name,
+                      value: option.value,
+                    })"
+                  >
+                    {{ option.label }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </slot>
         </div>
       </div>
     </div>
@@ -488,6 +514,56 @@ export default defineComponent({
   display: none;
 
   animation: fade-out 150ms var(--transition-timing-base) forwards;
+}
+
+.unit-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.unit-filters > .filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.unit-filters > .filter > .caption {
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-filters > .filter > .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.unit-filters > .filter > .options > .option {
+  border-radius: 0.5rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-default);
+
+  padding-block: 0.4375rem;
+  padding-inline: 0.75rem;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
+
+  transition: background-color 250ms var(--transition-timing-base),
+    border-color 250ms var(--transition-timing-base);
+}
+
+.unit-filters > .filter > .options > .option:hover {
+  border-color: var(--color-border-filter-hover);
+}
+
+.unit-filters > .filter > .options > .option.active {
+  background-color: var(--color-background-filter-active);
 }
 
 @keyframes fade-in {
