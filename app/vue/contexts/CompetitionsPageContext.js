@@ -1,12 +1,4 @@
 import {
-  computed,
-} from 'vue'
-
-import {
-  useRoute,
-} from '#imports'
-
-import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
