@@ -2,6 +2,10 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  REMOVED_QUERY_VALUE,
+} from '~/app/constants'
+
 export const EMIT_EVENT_NAME = /** @type {const} */ ({
   SEARCH: 'search',
 })
@@ -24,6 +28,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
   constructor ({
     props,
     componentContext,
+    route,
+    router,
     isOpenResultRef,
     isOpenFilterRef,
     debouncedSearch,
@@ -33,6 +39,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.route = route
+    this.router = router
     this.isOpenResultRef = isOpenResultRef
     this.isOpenFilterRef = isOpenFilterRef
     this.debouncedSearch = debouncedSearch
@@ -50,6 +58,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
+    router,
     isOpenResultRef,
     isOpenFilterRef,
     debouncedSearch,
@@ -58,6 +68,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        route,
+        router,
         isOpenResultRef,
         isOpenFilterRef,
         debouncedSearch,
@@ -91,6 +103,15 @@ export default class AppSearchBarContext extends BaseFuroContext {
    */
   get hasFilter () {
     return this.props.hasFilter
+  }
+
+  /**
+   * get: filters
+   *
+   * @returns {Array<Filter>} Filters.
+   */
+  get filters () {
+    return this.props.filters
   }
 
   /**
@@ -130,6 +151,35 @@ export default class AppSearchBarContext extends BaseFuroContext {
   }
 
   /**
+   * Toggle filter option state.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async toggleFilterOptionState ({
+    name,
+    value,
+  }) {
+    const isActive = this.isFilterOptionActive({
+      name,
+      value,
+    })
+    const newValue = isActive
+      ? REMOVED_QUERY_VALUE
+      : value
+
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [name]: newValue,
+      },
+    })
+  }
+
+  /**
    * Generate classes for the search bar element.
    *
    * @returns {Array<string | Record<string, boolean>>} CSS classes.
@@ -158,6 +208,54 @@ export default class AppSearchBarContext extends BaseFuroContext {
       selected: this.isOpenFilterRef.value,
       hidden: !this.hasFilter,
     }
+  }
+
+  /**
+   * Generate CSS classes for filter options.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateFilterOptionClasses ({
+    name,
+    value,
+  }) {
+    const isActive = this.isFilterOptionActive({
+      name,
+      value,
+    })
+
+    return {
+      active: isActive,
+    }
+  }
+
+  /**
+   * Check if a filter is being active.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isFilterOptionActive ({
+    name,
+    value,
+  }) {
+    const queryFilter = this.route.query[name]
+    if (!queryFilter) {
+      return false
+    }
+
+    const expectedValue = typeof value === 'string'
+      ? value
+      : value.toString()
+
+    return queryFilter === expectedValue
   }
 
   /**
@@ -216,6 +314,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   isOpenResultRef: import('vue').Ref<boolean>
  *   isOpenFilterRef: import('vue').Ref<boolean>
  *   debouncedSearch: (...args: Array<any>) => void
@@ -237,4 +337,15 @@ export default class AppSearchBarContext extends BaseFuroContext {
  * @typedef {'base'
  *   | 'transparent'
  * } VariantProp
+ */
+
+/**
+ * @typedef {{
+ *   name: string
+ *   caption?: string
+ *   options: Array<{
+ *     value: string | number
+ *     label: string
+ *   }>
+ * }} Filter
  */

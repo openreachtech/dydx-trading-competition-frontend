@@ -9,6 +9,11 @@ import {
 } from '#components'
 
 import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
+import {
   useDebounce,
 } from '~/composables/useDebounce'
 
@@ -39,6 +44,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    filters: {
+      /** @type {import('vue').PropType<Array<import('~/app/vue/contexts/AppSearchBarContext').Filter>>} */
+      type: Array,
+      required: false,
+      default: () => [],
     },
     results: {
       /** @type {import('vue').PropType<Array<*>>} */
@@ -82,6 +93,9 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
     const isOpenResultRef = ref(false)
     const isOpenFilterRef = ref(false)
     const debouncedSearch = useDebounce({
@@ -92,6 +106,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
+      router,
       isOpenResultRef,
       isOpenFilterRef,
       debouncedSearch,
