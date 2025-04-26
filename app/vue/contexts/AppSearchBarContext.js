@@ -321,11 +321,7 @@ export default class AppSearchBarContext extends BaseFuroContext {
       return false
     }
 
-    const expectedValue = typeof value === 'string'
-      ? value
-      : value.toString()
-
-    return queryFilter === expectedValue
+    return queryFilter === String(value)
   }
 
   /**
