@@ -159,6 +159,29 @@ export default class AppSearchBarContext extends BaseFuroContext {
     name,
     value,
   }) {
+    const replacementQuery = this.buildReplacementQuery({
+      name,
+      value,
+    })
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+  }
+
+  /**
+   * Build replacement query.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buildReplacementQuery ({
+    name,
+    value,
+  }) {
     const isActive = this.isFilterOptionActive({
       name,
       value,
@@ -168,16 +191,12 @@ export default class AppSearchBarContext extends BaseFuroContext {
       ...restQuery
     } = this.route.query
 
-    const replacementQuery = isActive
+    return isActive
       ? restQuery
       : {
         ...restQuery,
-        [name]: value,
+        [name]: String(value),
       }
-
-    await this.router.replace({
-      query: replacementQuery,
-    })
   }
 
   /**
