@@ -649,6 +649,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for competition edit button.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateCompetitionEditButtonClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
    * Generate description expansion button label.
    *
    * @returns {string}
