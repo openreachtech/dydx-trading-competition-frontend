@@ -129,6 +129,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionId
+   *
+   * @returns {PropsType['competitionId']}
+   */
+  get competitionId () {
+    return this.props.competitionId
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {PropsType['competitionStatusId']}
@@ -640,6 +649,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for competition edit button.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateCompetitionEditButtonClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
    * Generate description expansion button label.
    *
    * @returns {string}
@@ -909,6 +929,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
       ?.scheduledDatetime
       ?? null
   }
+
+  /**
+   * Generate URL of competition edit page.
+   *
+   * @returns {string}
+   */
+  generateCompetitionEditUrl () {
+    return this.competitionId === null
+      ? ''
+      : `/competitions/${this.competitionId}/edit`
+  }
 }
 
 /**
@@ -929,6 +960,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
  * @typedef {{
  *   competition: CompetitionEntity | null
  *   participantStatusId: number | null
+ *   competitionId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
  *   isHostOfCompetition: boolean
