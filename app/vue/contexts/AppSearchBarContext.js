@@ -24,6 +24,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
   constructor ({
     props,
     componentContext,
+    route,
+    router,
     isOpenResultRef,
     isOpenFilterRef,
     debouncedSearch,
@@ -33,6 +35,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.route = route
+    this.router = router
     this.isOpenResultRef = isOpenResultRef
     this.isOpenFilterRef = isOpenFilterRef
     this.debouncedSearch = debouncedSearch
@@ -50,6 +54,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
+    router,
     isOpenResultRef,
     isOpenFilterRef,
     debouncedSearch,
@@ -58,6 +64,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        route,
+        router,
         isOpenResultRef,
         isOpenFilterRef,
         debouncedSearch,
@@ -91,6 +99,15 @@ export default class AppSearchBarContext extends BaseFuroContext {
    */
   get hasFilter () {
     return this.props.hasFilter
+  }
+
+  /**
+   * get: filters
+   *
+   * @returns {Array<Filter>} Filters.
+   */
+  get filters () {
+    return this.props.filters
   }
 
   /**
@@ -130,6 +147,98 @@ export default class AppSearchBarContext extends BaseFuroContext {
   }
 
   /**
+   * Toggle filter option state.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async toggleFilterOptionState ({
+    name,
+    value,
+  }) {
+    const replacementQuery = this.buildReplacementQuery({
+      name,
+      value,
+    })
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+  }
+
+  /**
+   * Build replacement query.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buildReplacementQuery ({
+    name,
+    value,
+  }) {
+    const isActive = this.isFilterOptionActive({
+      name,
+      value,
+    })
+    const {
+      [name]: _,
+      ...restQuery
+    } = this.route.query
+
+    return isActive
+      ? restQuery
+      : {
+        ...restQuery,
+        [name]: String(value),
+      }
+  }
+
+  /**
+   * Clear filters.
+   *
+   * @returns {Promise<void>}
+   */
+  async clearFilters () {
+    const activeFilters = this.extractActiveFilters()
+    const replacementQuery = Object.fromEntries(
+      Object.entries(this.route.query)
+        .filter(([key]) => !activeFilters.includes(key))
+    )
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+  }
+
+  /**
+   * Check if there are no active filters.
+   *
+   * @returns {boolean}
+   */
+  hasNoActiveFilters () {
+    const activeFilters = this.extractActiveFilters()
+
+    return activeFilters.length === 0
+  }
+
+  /**
+   * Extract active filters.
+   *
+   * @returns {Array<string>}
+   */
+  extractActiveFilters () {
+    return this.filters
+      .map(filter => filter.name)
+      .filter(filter => this.route.query[filter])
+  }
+
+  /**
    * Generate classes for the search bar element.
    *
    * @returns {Array<string | Record<string, boolean>>} CSS classes.
@@ -158,6 +267,61 @@ export default class AppSearchBarContext extends BaseFuroContext {
       selected: this.isOpenFilterRef.value,
       hidden: !this.hasFilter,
     }
+  }
+
+  /**
+   * Generate classes for the filter indicator.
+   *
+   * @returns {import('vue').HTMLAttributes['class']} CSS classes.
+   */
+  generateFilterIndicatorClasses () {
+    return {
+      hidden: this.hasNoActiveFilters(),
+    }
+  }
+
+  /**
+   * Generate CSS classes for filter options.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateFilterOptionClasses ({
+    name,
+    value,
+  }) {
+    const isActive = this.isFilterOptionActive({
+      name,
+      value,
+    })
+
+    return {
+      active: isActive,
+    }
+  }
+
+  /**
+   * Check if a filter is being active.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isFilterOptionActive ({
+    name,
+    value,
+  }) {
+    const queryFilter = this.route.query[name]
+    if (!queryFilter) {
+      return false
+    }
+
+    return queryFilter === String(value)
   }
 
   /**
@@ -216,6 +380,8 @@ export default class AppSearchBarContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   isOpenResultRef: import('vue').Ref<boolean>
  *   isOpenFilterRef: import('vue').Ref<boolean>
  *   debouncedSearch: (...args: Array<any>) => void
@@ -237,4 +403,15 @@ export default class AppSearchBarContext extends BaseFuroContext {
  * @typedef {'base'
  *   | 'transparent'
  * } VariantProp
+ */
+
+/**
+ * @typedef {{
+ *   name: string
+ *   caption?: string
+ *   options: Array<{
+ *     value: string | number
+ *     label: string
+ *   }>
+ * }} Filter
  */

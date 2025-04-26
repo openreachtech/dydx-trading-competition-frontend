@@ -4,11 +4,21 @@ import {
   reactive,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
 import AppSkeleton from '~/components/units/AppSkeleton.vue'
+import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
 
 import {
   useGraphqlClient,
@@ -21,10 +31,12 @@ import CompetitionsPageContext from '~/app/vue/contexts/CompetitionsPageContext'
 
 export default defineComponent({
   components: {
+    Icon,
     AppLeagueCard,
     AppPagination,
     AppLoadingLayout,
     AppSkeleton,
+    AppSearchBar,
     LeagueHeroSection,
   },
 
@@ -32,6 +44,9 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
     const competitionStatisticsGraphqlClient = useGraphqlClient(CompetitionStatisticsQueryGraphqlLauncher)
     const statusReactive = reactive({
@@ -42,6 +57,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
+      router,
       graphqlClientHash: {
         competitions: competitionsGraphqlClient,
         competitionStatistics: competitionStatisticsGraphqlClient,
@@ -65,6 +82,15 @@ export default defineComponent({
   <div class="unit-container">
     <LeagueHeroSection :competition-statistics-capsule="context.competitionStatisticsCapsule" />
 
+    <AppSearchBar has-filter
+      placeholder="Search for arena"
+      size="large"
+      :filters="context.competitionsFilters"
+      @search="query => context.fetchCompetitions({
+        title: query,
+      })"
+    />
+
     <AppLoadingLayout :is-loading="context.isLoadingCompetitions">
       <template #contents>
         <div>
@@ -73,6 +99,17 @@ export default defineComponent({
               :key="it.competitionId"
               :competition="it"
             />
+          </div>
+
+          <div class="unit-empty competitions"
+            :class="context.generateEmptyCompetitionsClasses()"
+          >
+            <Icon name="heroicons:magnifying-glass"
+              size="7rem"
+            />
+            <p class="description">
+              No arenas found
+            </p>
           </div>
         </div>
       </template>
@@ -88,6 +125,7 @@ export default defineComponent({
 
     <AppPagination :pagination="context.generatePaginationResult()"
       class="pagination"
+      :class="context.generatePaginationClasses()"
     />
   </div>
 </template>
@@ -114,7 +152,35 @@ export default defineComponent({
   }
 }
 
+.unit-empty.competitions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding-block: 4rem 2rem;
+  padding-inline: 1rem;
+
+  text-align: center;
+
+  color: var(--color-text-placeholder);
+}
+
+.unit-empty.competitions > .description {
+  font-size: var(--font-size-large);
+  font-weight: 700;
+}
+
+.unit-empty.hidden {
+  display: none;
+}
+
 .unit-container > .pagination {
   margin-block-start: 4rem;
+}
+
+.unit-container > .pagination.hidden {
+  display: none;
 }
 </style>
