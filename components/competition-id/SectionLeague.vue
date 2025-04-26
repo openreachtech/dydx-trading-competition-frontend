@@ -57,6 +57,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,
@@ -263,6 +270,15 @@ export default defineComponent({
           >
 
           <div class="buttons">
+            <NuxtLink :to="context.generateCompetitionEditUrl()"
+              class="link edit"
+              :class="context.generateCompetitionEditButtonClasses()"
+            >
+              <Icon name="heroicons:pencil-square"
+                size="1.25rem"
+              />
+            </NuxtLink>
+
             <!-- TODO: Implement share feature. -->
             <!-- <button class="button">
               <Icon name="heroicons:share"
@@ -657,6 +673,7 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
@@ -674,6 +691,24 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons > .button:hover {
   color: var(--color-text-secondary);
+}
+
+.unit-meta > .actions > .buttons > .link.edit {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-text-button-highlight);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-meta > .actions > .buttons > .link.edit:hover {
+  color: var(--color-text-button-highlight-hover);
+}
+
+.unit-meta > .actions > .buttons > .link.edit.hidden {
+  display: none;
 }
 
 .unit-statistics {
