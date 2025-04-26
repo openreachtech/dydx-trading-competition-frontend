@@ -147,6 +147,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: isHostOfCompetition
+   *
+   * @returns {PropsType['isHostOfCompetition']}
+   */
+  get isHostOfCompetition () {
+    return this.props.isHostOfCompetition
+  }
+
+  /**
    * get: isCompetitionFull
    *
    * @returns {PropsType['isCompetitionFull']}
@@ -911,6 +920,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
  *   participantStatusId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
+ *   isHostOfCompetition: boolean
  *   isCompetitionFull: boolean
  * }} PropsType
  */

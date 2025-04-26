@@ -69,6 +69,10 @@ export default defineComponent({
       ],
       required: true,
     },
+    isHostOfCompetition: {
+      type: Boolean,
+      required: true,
+    },
     isCompetitionFull: {
       type: Boolean,
       required: true,
