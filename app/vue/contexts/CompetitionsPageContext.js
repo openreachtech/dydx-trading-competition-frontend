@@ -122,16 +122,9 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     title,
     statusId,
   } = {}) {
-    const {
-      title: _,
-      ...restQuery
-    } = this.route.query
-    const replacementQuery = title
-      ? {
-        ...restQuery,
-        title,
-      }
-      : restQuery
+    const replacementQuery = this.buileTitleReplacementQuery({
+      title,
+    })
 
     await this.router.replace({
       query: replacementQuery,
@@ -156,6 +149,30 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         },
         hooks: this.graphqlRequestHooks,
       })
+  }
+
+  /**
+   * Build replacement query for `title`.
+   *
+   * @param {{
+   *   title?: string
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buileTitleReplacementQuery ({
+    title,
+  }) {
+    const {
+      title: _,
+      ...restQuery
+    } = this.route.query
+
+    return title
+      ? {
+        ...restQuery,
+        title,
+      }
+      : restQuery
   }
 
   /**
