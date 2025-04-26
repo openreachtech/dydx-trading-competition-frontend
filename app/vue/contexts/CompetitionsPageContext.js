@@ -1,12 +1,4 @@
 import {
-  computed,
-} from 'vue'
-
-import {
-  useRoute,
-} from '#imports'
-
-import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -29,6 +21,8 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     props,
     componentContext,
 
+    route,
+    router,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -37,6 +31,8 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       componentContext,
     })
 
+    this.route = route
+    this.router = router
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
@@ -53,6 +49,8 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
+    router,
     graphqlClientHash,
     statusReactive,
   }) {
@@ -60,6 +58,8 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       new this({
         props,
         componentContext,
+        route,
+        router,
         graphqlClientHash,
         statusReactive,
       })
@@ -74,41 +74,135 @@ export default class CompetitionsPageContext extends BaseFuroContext {
    * @this {T}
    */
   setupComponent () {
-    const route = useRoute()
-    const currentPageComputed = computed(() => (
-      isNaN(Number(route.query.page))
-        ? 1
-        : Number(route.query.page)
-    ))
-
     this.graphqlClientHash
       .competitionStatistics
       .invokeRequestOnMounted({
         hooks: this.competitionStatisticsLauncherHooks,
       })
 
-    this.watch(
-      () => route.query.page,
-      () => this.graphqlClientHash
-        .competitions
-        .invokeRequestOnEvent({
-          variables: {
-            ...this.defaultCompetitionsVariables,
-            input: {
-              pagination: {
-                ...this.defaultCompetitionsVariables.input.pagination,
-                offset: (currentPageComputed.value - 1) * PAGINATION.LIMIT,
-              },
+    const queryTitle = this.extractQueryTitle()
+    const currentPage = this.extractCurrentPage()
+
+    this.graphqlClientHash
+      .competitions
+      .invokeRequestOnMounted({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            title: queryTitle,
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPage - 1) * PAGINATION.LIMIT,
             },
           },
-          hooks: this.graphqlRequestHooks,
-        }),
-      {
-        immediate: true,
+        },
+        hooks: this.graphqlRequestHooks,
+      })
+
+    this.watch(
+      () => this.extractCurrentPage(),
+      async () => {
+        await this.fetchCompetitions()
       }
     )
 
     return this
+  }
+
+  /**
+   * Fetch competitions
+   *
+   * @param {{
+   *   title?: string
+   *   statusId?: number
+   * }} [params] - Parameters.
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitions ({
+    title,
+    statusId,
+  } = {}) {
+    const replacementQuery = this.buileTitleReplacementQuery({
+      title,
+    })
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+
+    const queryTitle = this.extractQueryTitle()
+    const currentPage = this.extractCurrentPage()
+
+    await this.graphqlClientHash
+      .competitions
+      .invokeRequestOnEvent({
+        variables: {
+          ...this.defaultCompetitionsVariables,
+          input: {
+            title: queryTitle,
+            statusId,
+            pagination: {
+              ...this.defaultCompetitionsVariables.input.pagination,
+              offset: (currentPage - 1) * PAGINATION.LIMIT,
+            },
+          },
+        },
+        hooks: this.graphqlRequestHooks,
+      })
+  }
+
+  /**
+   * Build replacement query for `title`.
+   *
+   * @param {{
+   *   title?: string
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buileTitleReplacementQuery ({
+    title,
+  }) {
+    const {
+      title: _,
+      ...restQuery
+    } = this.route.query
+
+    return title
+      ? {
+        ...restQuery,
+        title,
+      }
+      : restQuery
+  }
+
+  /**
+   * Extract current page.
+   *
+   * @returns {number} Current page.
+   */
+  extractCurrentPage () {
+    const currentPageQuery = Array.isArray(this.route.query.page)
+      ? this.route.query.page[0]
+      : this.route.query.page
+    const currentPage = Number(currentPageQuery)
+
+    return isNaN(currentPage)
+      ? 1
+      : currentPage
+  }
+
+  /**
+   * Extract title from route query.
+   *
+   * @returns {string | null}
+   */
+  extractQueryTitle () {
+    const queryTitle = Array.isArray(this.route.query.title)
+      ? this.route.query.title[0]
+      : this.route.query.title
+
+    return queryTitle
+      ?? null
   }
 
   /**
@@ -201,6 +295,15 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Check if the competitions list is empty.
+   *
+   * @returns {boolean}
+   */
+  hasEmptyCompetitions () {
+    return this.competitions.length === 0
+  }
+
+  /**
    * Generate pagination.
    *
    * @returns {Pagination} Pagination object.
@@ -211,10 +314,34 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       totalRecords: this.competitionsCapsuleRef.value.totalCount ?? 0,
     }
   }
+
+  /**
+   * Generate CSS classes for empty placeholder of competitions.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateEmptyCompetitionsClasses () {
+    return {
+      hidden: !this.hasEmptyCompetitions(),
+    }
+  }
+
+  /**
+   * Generate CSS classes for pagination.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generatePaginationClasses () {
+    return {
+      hidden: this.hasEmptyCompetitions(),
+    }
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: {
  *     competitions: GraphqlClient
  *     competitionStatistics: GraphqlClient
