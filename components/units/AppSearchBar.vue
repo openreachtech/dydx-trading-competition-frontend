@@ -196,14 +196,16 @@ export default defineComponent({
         <div class="dropdown filter">
           <slot name="filter">
             <div class="unit-filters">
-              <div v-for="filter of context.filters"
+              <div v-for="(filter, filterIndex) of context.filters"
+                :key="filterIndex"
                 class="filter"
               >
                 <span class="caption">
                   {{ filter.caption }}
                 </span>
                 <div class="options">
-                  <button v-for="option of filter.options"
+                  <button v-for="(option, optionIndex) of filter.options"
+                    :key="optionIndex"
                     type="button"
                     class="option"
                     :class="context.generateFilterOptionClasses({
