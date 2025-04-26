@@ -176,6 +176,7 @@
   --color-text-participant-status-disqualified: var(--palette-red);
   --color-text-participant-status-canceled: var(--color-text-tertiary);
 
+  --color-text-button-highlight: var(--palette-purple);
   --color-text-button-highlight-hover: var(--palette-purple-lighter);
 
   /* Border Colors */
