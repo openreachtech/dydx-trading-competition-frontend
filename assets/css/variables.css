@@ -130,6 +130,8 @@
   --color-background-message-warn: var(--palette-yellow-faded);
   --color-background-message-info: var(--palette-purple-faded);
 
+  --color-background-filter-active: var(--palette-layer-5);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -209,6 +211,8 @@
 
   --color-border-form-step: var(--palette-layer-5);
   --color-border-form-step-active: var(--palette-purple);
+
+  --color-border-filter-hover: var(--palette-layer-7);
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,
