@@ -1232,7 +1232,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    *
    * @returns {boolean}
    */
-  isCompetitionHost () {
+  isHostOfCompetition () {
     return this.competitionHostAddress === this.localWalletAddress
   }
 
