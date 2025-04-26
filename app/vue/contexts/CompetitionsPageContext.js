@@ -105,7 +105,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     this.watch(
       [
         () => this.extractCurrentPage(),
-        () => this.extractActiveCompetitionsFilters(),
+        () => this.extractQueryStatusId(),
       ],
       async () => {
         await this.fetchCompetitions()
@@ -280,17 +280,6 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         ],
       },
     ]
-  }
-
-  /**
-   * Extract active filters.
-   *
-   * @returns {Array<string>}
-   */
-  extractActiveCompetitionsFilters () {
-    return this.competitionsFilters
-      .map(filter => filter.name)
-      .filter(filter => this.route.query[filter])
   }
 
   /**
