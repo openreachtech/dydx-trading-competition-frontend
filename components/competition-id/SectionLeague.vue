@@ -57,6 +57,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,
