@@ -629,6 +629,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for host badge.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateHostBadgeClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
    * Generate description expansion button label.
    *
    * @returns {string}
