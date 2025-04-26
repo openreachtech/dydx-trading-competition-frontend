@@ -10,6 +10,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppBadge from '~/components/units/AppBadge.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
@@ -31,6 +32,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppBadge,
     AppIconBadge,
     AppButton,
     AppLeagueCountdown,
@@ -67,6 +69,10 @@ export default defineComponent({
         Number,
         null,
       ],
+      required: true,
+    },
+    isHostOfCompetition: {
+      type: Boolean,
       required: true,
     },
     isCompetitionFull: {
@@ -142,6 +148,15 @@ export default defineComponent({
           >
             {{ context.generateBadgeDescription() }}
           </AppIconBadge>
+
+          <AppBadge severity="neutral"
+            class="badge host"
+            :class="context.generateHostBadgeClasses()"
+          >
+            <Icon name="ph:crown-simple"
+              size="1.25rem"
+            />
+          </AppBadge>
 
           <div class="timeline">
             <span class="period">
@@ -436,6 +451,17 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 1.125rem;
+}
+
+.unit-status > .badge.host {
+  padding-block: 0.125rem;
+  padding-inline: 0.5rem;
+
+  align-self: stretch;
+}
+
+.unit-status > .badge.host.hidden {
+  display: none;
 }
 
 .unit-status > .timeline {
