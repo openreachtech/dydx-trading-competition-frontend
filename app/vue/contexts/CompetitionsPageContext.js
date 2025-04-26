@@ -4,6 +4,7 @@ import {
 
 import {
   PAGINATION,
+  COMPETITION_STATUS,
 } from '~/app/constants'
 
 /**
@@ -81,6 +82,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       })
 
     const queryTitle = this.extractQueryTitle()
+    const queryStatusId = this.extractQueryStatusId()
     const currentPage = this.extractCurrentPage()
 
     this.graphqlClientHash
@@ -90,6 +92,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
           ...this.defaultCompetitionsVariables,
           input: {
             title: queryTitle,
+            statusId: queryStatusId,
             pagination: {
               ...this.defaultCompetitionsVariables.input.pagination,
               offset: (currentPage - 1) * PAGINATION.LIMIT,
@@ -100,7 +103,10 @@ export default class CompetitionsPageContext extends BaseFuroContext {
       })
 
     this.watch(
-      () => this.extractCurrentPage(),
+      [
+        () => this.extractCurrentPage(),
+        () => this.extractActiveCompetitionsFilters(),
+      ],
       async () => {
         await this.fetchCompetitions()
       }
@@ -131,6 +137,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     })
 
     const queryTitle = this.extractQueryTitle()
+    const queryStatusId = this.extractQueryStatusId()
     const currentPage = this.extractCurrentPage()
 
     await this.graphqlClientHash
@@ -140,7 +147,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
           ...this.defaultCompetitionsVariables,
           input: {
             title: queryTitle,
-            statusId,
+            statusId: queryStatusId,
             pagination: {
               ...this.defaultCompetitionsVariables.input.pagination,
               offset: (currentPage - 1) * PAGINATION.LIMIT,
@@ -206,6 +213,24 @@ export default class CompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Extract query status id.
+   *
+   * @returns {number | null}
+   */
+  extractQueryStatusId () {
+    const queryStatusId = Array.isArray(this.route.query.statusId)
+      ? this.route.query.statusId[0]
+      : this.route.query.statusId
+
+    const statusId = Number(queryStatusId)
+    if (isNaN(statusId)) {
+      return null
+    }
+
+    return statusId
+  }
+
+  /**
    * get: defaultCompetitionsVariables
    *
    * @returns {import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlPayload').CompetitionsQueryRequestVariables}
@@ -219,6 +244,53 @@ export default class CompetitionsPageContext extends BaseFuroContext {
         },
       },
     }
+  }
+
+  /**
+   * get: competitionsFilters.
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppSearchBarContext').Filter>}
+   */
+  get competitionsFilters () {
+    return [
+      {
+        name: 'statusId',
+        caption: 'Status',
+        options: [
+          {
+            label: 'Created',
+            value: COMPETITION_STATUS.CREATED.ID,
+          },
+          {
+            label: 'Registration Ended',
+            value: COMPETITION_STATUS.REGISTRATION_ENDED.ID,
+          },
+          {
+            label: 'In Progress',
+            value: COMPETITION_STATUS.IN_PROGRESS.ID,
+          },
+          {
+            label: 'Completed',
+            value: COMPETITION_STATUS.COMPLETED.ID,
+          },
+          {
+            label: 'Canceled',
+            value: COMPETITION_STATUS.CANCELED.ID,
+          },
+        ],
+      },
+    ]
+  }
+
+  /**
+   * Extract active filters.
+   *
+   * @returns {Array<string>}
+   */
+  extractActiveCompetitionsFilters () {
+    return this.competitionsFilters
+      .map(filter => filter.name)
+      .filter(filter => this.route.query[filter])
   }
 
   /**
