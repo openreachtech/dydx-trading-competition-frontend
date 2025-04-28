@@ -44,14 +44,6 @@ export default defineComponent({
       required: false,
       default: null,
     },
-    initialCompetitionImageUrl: {
-      type: [
-        String,
-        null,
-      ],
-      required: false,
-      default: null,
-    },
   },
 
   setup (

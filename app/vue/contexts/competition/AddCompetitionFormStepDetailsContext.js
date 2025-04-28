@@ -107,10 +107,11 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
   /**
    * get: initialCompetitionImageUrl
    *
-   * @returns {PropsType['initialCompetitionImageUrl']}
+   * @returns {string | null}
    */
   get initialCompetitionImageUrl () {
-    return this.props.initialCompetitionImageUrl
+    return this.initialFormValueHash.competitionImageUrl
+      ?? null
   }
 
   /**
@@ -293,13 +294,10 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
- *   initialFormValueHash: Record<FormInputFieldNames, string | null>
- *   initialCompetitionImageUrl: string | null
+ *   initialFormValueHash: {
+ *     title: string | null
+ *     description: string | null
+ *     competitionImageUrl?: string | null
+ *   }
  * }} PropsType
- */
-
-/**
- * @typedef {'title'
- *   | 'description'
- * } FormInputFieldNames
  */
