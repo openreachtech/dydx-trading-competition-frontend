@@ -134,19 +134,15 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    * @returns {string}
    */
   generateCompetitionImageUrl () {
-    if (
-      this.initialCompetitionImageUrl === null
-      && this.imageSource === null
-    ) {
-      return FALLBACK_COMPETITION_IMAGE_URL
-    }
-
-    if (this.imageSource !== null) {
+    if (this.imageSource) {
       return this.imageSource
     }
 
-    return this.initialCompetitionImageUrl
-      ?? FALLBACK_COMPETITION_IMAGE_URL
+    if (this.initialCompetitionImageUrl) {
+      return this.initialCompetitionImageUrl
+    }
+
+    return FALLBACK_COMPETITION_IMAGE_URL
   }
 
   /**
