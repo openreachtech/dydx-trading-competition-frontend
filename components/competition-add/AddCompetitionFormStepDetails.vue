@@ -111,6 +111,7 @@ export default defineComponent({
       </span>
 
       <AppInput name="title"
+        :value="context.initialTitle"
         placeholder="Give your league a name (max 30 characters)"
         :has-error="Boolean(context.validationMessage.title)"
         :error-message="context.validationMessage.title"
@@ -124,6 +125,7 @@ export default defineComponent({
 
       <AppTextarea name="description"
         rows="10"
+        :value="context.initialDescription"
         placeholder="Describe your league (max 250 characters)"
         :has-error="Boolean(context.validationMessage.description)"
         :error-message="context.validationMessage.description"
