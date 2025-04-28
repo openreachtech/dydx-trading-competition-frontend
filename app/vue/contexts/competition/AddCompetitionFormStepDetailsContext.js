@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+const FALLBACK_COMPETITION_IMAGE_URL = '/img/badges/league-badge-placeholder.png'
+
 /**
  * AddCompetitionFormStepDetailsContext
  *
@@ -109,6 +111,36 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    */
   get initialCompetitionImageUrl () {
     return this.props.initialCompetitionImageUrl
+  }
+
+  /**
+   * get: imageSource
+   *
+   * @returns {string | null}
+   */
+  get imageSource () {
+    return this.imageSourceRef.value
+  }
+
+  /**
+   * Generate competition image URL.
+   *
+   * @returns {string}
+   */
+  generateCompetitionImageUrl () {
+    if (
+      this.initialCompetitionImageUrl === null
+      && this.imageSource === null
+    ) {
+      return FALLBACK_COMPETITION_IMAGE_URL
+    }
+
+    if (this.imageSource !== null) {
+      return this.imageSource
+    }
+
+    return this.initialCompetitionImageUrl
+      ?? FALLBACK_COMPETITION_IMAGE_URL
   }
 
   /**
@@ -233,7 +265,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   uploadInputShallowRef: import('vue').ShallowRef<HTMLInputElement | null>
- *   imageSourceRef: import('vue').Ref<string>
+ *   imageSourceRef: import('vue').Ref<string | null>
  *   imageIdRef: import('vue').Ref<number | null>
  *   statusReactive: StatusReactive
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
