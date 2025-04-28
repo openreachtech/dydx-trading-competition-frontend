@@ -92,7 +92,9 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    * @returns {string | null}
    */
   get initialTitle () {
-    return this.initialFormValueHash.title
+    return this.initialFormValueHash
+      ?.title
+      ?? null
   }
 
   /**
@@ -101,7 +103,9 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    * @returns {string | null}
    */
   get initialDescription () {
-    return this.initialFormValueHash.description
+    return this.initialFormValueHash
+      ?.description
+      ?? null
   }
 
   /**
@@ -110,7 +114,8 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    * @returns {string | null}
    */
   get initialCompetitionImageUrl () {
-    return this.initialFormValueHash.competitionImageUrl
+    return this.initialFormValueHash
+      ?.competitionImageUrl
       ?? null
   }
 
