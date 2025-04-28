@@ -60,8 +60,8 @@ export default defineComponent({
   ) {
     /** @type {import('vue').ShallowRef<HTMLInputElement | null>} */
     const uploadInputShallowRef = shallowRef(null)
-    /** @type {import('vue').Ref<string>} */
-    const imageSourceRef = ref('/img/badges/league-badge-placeholder.png')
+    /** @type {import('vue').Ref<string | null>} */
+    const imageSourceRef = ref(null)
     /** @type {import('vue').Ref<number | null>} */
     const imageIdRef = ref(null)
     /** @type {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').StatusReactive} */
@@ -160,7 +160,7 @@ export default defineComponent({
           })"
         >
 
-        <img :src="context.imageSourceRef.value"
+        <img :src="context.generateCompetitionImageUrl()"
           alt="League badge"
           class="image"
         >
