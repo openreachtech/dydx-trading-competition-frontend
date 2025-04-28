@@ -76,6 +76,42 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
   }
 
   /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialTitle
+   *
+   * @returns {string | null}
+   */
+  get initialTitle () {
+    return this.initialFormValueHash.title
+  }
+
+  /**
+   * get: initialDescription
+   *
+   * @returns {string | null}
+   */
+  get initialDescription () {
+    return this.initialFormValueHash.description
+  }
+
+  /**
+   * get: initialCompetitionImageUrl
+   *
+   * @returns {PropsType['initialCompetitionImageUrl']}
+   */
+  get initialCompetitionImageUrl () {
+    return this.props.initialCompetitionImageUrl
+  }
+
+  /**
    * get: isUploadingImage
    *
    * @returns {boolean}
@@ -225,5 +261,13 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: Record<FormInputFieldNames, string | null>
+ *   initialCompetitionImageUrl: string | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {'title'
+ *   | 'description'
+ * } FormInputFieldNames
  */

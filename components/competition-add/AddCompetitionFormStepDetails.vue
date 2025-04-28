@@ -35,6 +35,23 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialFormValueHash: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').PropsType['initialFormValueHash']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
+    initialCompetitionImageUrl: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (
