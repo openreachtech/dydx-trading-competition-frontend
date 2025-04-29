@@ -28,6 +28,19 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialFormValueHash: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('./AddCompetitionFormStepTimelineContext').PropsType['initialFormValueHash']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (
@@ -118,6 +131,7 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
+                  :initial-date="phase.initialStartDate"
                 />
               </label>
             </fieldset>
@@ -139,6 +153,7 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
+                  :initial-date="phase.initialEndDate"
                   :disabled="!phase.endDateInputId"
                 />
               </label>
