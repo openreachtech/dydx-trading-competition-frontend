@@ -28,6 +28,19 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialFormValueHash: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('./AddCompetitionFormStepTimelineContext').PropsType['initialFormValueHash']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (

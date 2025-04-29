@@ -64,6 +64,26 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
   }
 
   /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialSchedules
+   *
+   * @returns {Array<Schedule>}
+   */
+  get initialSchedules () {
+    return this.initialFormValueHash
+      ?.schedules
+      ?? []
+  }
+
+  /**
    * Generate timeline.
    *
    * @returns {Timeline}
@@ -158,5 +178,23 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: InitialFormValueHash | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   schedules: Array<Schedule>
+ * }} InitialFormValueHash
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
  */
