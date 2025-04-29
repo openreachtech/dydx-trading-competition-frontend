@@ -124,6 +124,15 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   }
 
   /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
    * Calculate total prize.
    *
    * @returns {number}
@@ -284,5 +293,12 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: InitialFormValueHash | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   prizeRules: Array<PrizeRule>
+ * }} InitialFormValueHash
  */
