@@ -25,6 +25,15 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    initialDate: {
+      type: [
+        Date,
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
     shouldDisablePastDates: {
       type: Boolean,
       required: false,
@@ -53,15 +62,10 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    const inputValueRef = ref('')
+    const inputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
     /** @type {import('./AppDatePickerContext').DateReactive} */
-    const dateReactive = reactive({
-      currentMonth: new Date()
-        .getMonth(),
-      currentYear: new Date()
-        .getFullYear(),
-    })
+    const dateReactive = reactive(generateInitialDateReactive())
 
     const args = {
       props,
@@ -76,6 +80,39 @@ export default defineComponent({
 
     return {
       context,
+    }
+
+    /**
+     * Generate initial input value.
+     *
+     * @returns {string}
+     */
+    function generateInitialInputValue () {
+      if (props.initialDate === null) {
+        return ''
+      }
+
+      return new Date(props.initialDate)
+        .toISOString()
+        .split('T')
+        .at(0)
+        ?? ''
+    }
+
+    /**
+     * Generate initial `dateReactive`.
+     *
+     * @returns {import('./AppDatePickerContext').DateReactive}
+     */
+    function generateInitialDateReactive () {
+      const date = props.initialDate === null
+        ? new Date()
+        : new Date(props.initialDate)
+
+      return {
+        currentMonth: date.getMonth(),
+        currentYear: date.getFullYear(),
+      }
     }
   },
 })

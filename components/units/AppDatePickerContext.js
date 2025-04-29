@@ -583,6 +583,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
 
 /**
  * @typedef {{
+ *   initialDate: Date | string | null
  *   shouldDisablePastDates: boolean
  *   shouldStayOnSelect: boolean
  *   rootClass: string
