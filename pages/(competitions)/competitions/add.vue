@@ -97,21 +97,23 @@ export default defineComponent({
         @submit.prevent="context.submitForm()"
       >
         <div class="steps">
-          <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+          <div class="content">
+            <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
+          </div>
 
           <div class="unit-actions">
             <AppButton appearance="outlined"
@@ -216,8 +218,17 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps > .step.hidden {
-  display: none;
+.unit-form > .steps > .content {
+  display: grid;
+}
+
+.unit-form > .steps > .content > * {
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+}
+
+.unit-form > .steps > .content > .step.hidden {
+  visibility: hidden;
 }
 
 .unit-actions {
