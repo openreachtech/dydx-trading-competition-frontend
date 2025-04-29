@@ -9,6 +9,7 @@ import {
   Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
@@ -31,6 +32,7 @@ export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    AppButton,
     AddCompetitionFormSteps,
     AddCompetitionFormStepDetails,
     AddCompetitionFormStepTimeline,
@@ -110,9 +112,30 @@ export default defineComponent({
           <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
             :validation-message="context.addCompetitionValidationMessage"
           />
+
+          <div class="unit-actions">
+            <AppButton appearance="outlined"
+              class="button back"
+              type="button"
+              :disabled="context.shouldDisablePreviousStepButton()"
+              @click="context.goToPreviousStep()"
+            >
+              <Icon name="heroicons-outline:chevron-left"
+                size="1rem"
+              />
+            </AppButton>
+            <AppButton :type="context.generateNextStepButtonType"
+              @click="context.goToNextStep({
+                mouseEvent: $event,
+              })"
+            >
+              {{ context.generateNextStepButtonLabel() }}
+            </AppButton>
+          </div>
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+          :steps="context.steps"
           :error-message-hash="context.errorMessageHashReactive"
           @go-to-step="context.goToStep($event)"
         />
@@ -193,5 +216,18 @@ export default defineComponent({
 
 .unit-form > .steps > .step.hidden {
   display: none;
+}
+
+.unit-actions {
+  margin-block-start: 2.5rem;
+
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.unit-actions > .button.back {
+  padding-block: 0.625rem;
+  padding-inline: 0.625rem;
 }
 </style>
