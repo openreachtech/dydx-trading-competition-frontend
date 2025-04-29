@@ -148,6 +148,8 @@ export default defineComponent({
 .unit-page {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
+  padding-block-end: 12rem;
+
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
   }
