@@ -64,6 +64,26 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
   }
 
   /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialSchedules
+   *
+   * @returns {Array<Schedule>}
+   */
+  get initialSchedules () {
+    return this.initialFormValueHash
+      ?.schedules
+      ?? []
+  }
+
+  /**
    * Generate timeline.
    *
    * @returns {Timeline}
@@ -75,6 +95,8 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
         title: 'Registration Stage',
         startDateInputId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+        initialStartDate: this.extractInitialRegistrationStartDate(),
+        initialEndDate: this.extractInitialRegistrationEndDate(),
         note: '(automatically set to one day before Competition Stage start date)',
       },
       {
@@ -83,14 +105,94 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
         title: 'Competition Stage',
         startDateInputId: SCHEDULE_CATEGORY.COMPETITION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
+        initialStartDate: this.extractInitialCompetitionStartDate(),
+        initialEndDate: this.extractInitialCompetitionEndDate(),
         note: '(automatically set to one day before Reward Distribution start date)',
       },
       {
         iconName: 'heroicons:flag-solid',
         title: 'Reward Distribution',
         startDateInputId: SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
+        initialStartDate: this.extractInitialPrizeDistributeDate(),
       },
     ]
+  }
+
+  /**
+   * Extract initial date.
+   *
+   * @param {{
+   *   scheduleCategoryId: number
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractInitialDate ({
+    scheduleCategoryId,
+  }) {
+    const schedule = this.initialSchedules.find(
+      it => it.category.categoryId === scheduleCategoryId
+    )
+
+    if (!schedule) {
+      return null
+    }
+
+    return schedule.scheduledDatetime
+  }
+
+  /**
+   * Extract initial registration start date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialRegistrationStartDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    })
+  }
+
+  /**
+   * Extract initial registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialRegistrationEndDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract initial competition start date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialCompetitionStartDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.COMPETITION_START.ID,
+    })
+  }
+
+  /**
+   * Extract initial competition end date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialCompetitionEndDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
+    })
+  }
+
+  /**
+   * Extract initial prize distribution date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialPrizeDistributeDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
+    })
   }
 
   /**
@@ -151,6 +253,8 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
  *   title: string
  *   startDateInputId: number
  *   endDateInputId?: number
+ *   initialStartDate: string | null
+ *   initialEndDate?: string | null
  *   note?: string
  * }} Phase
  */
@@ -158,5 +262,23 @@ export default class AddCompetitionFormStepTimelineContext extends BaseFuroConte
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: InitialFormValueHash | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   schedules: Array<Schedule>
+ * }} InitialFormValueHash
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
  */

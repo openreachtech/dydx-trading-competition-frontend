@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+const FALLBACK_COMPETITION_IMAGE_URL = '/img/badges/league-badge-placeholder.png'
+
 /**
  * AddCompetitionFormStepDetailsContext
  *
@@ -73,6 +75,74 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    */
   get validationMessage () {
     return this.props.validationMessage
+  }
+
+  /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialTitle
+   *
+   * @returns {string | null}
+   */
+  get initialTitle () {
+    return this.initialFormValueHash
+      ?.title
+      ?? null
+  }
+
+  /**
+   * get: initialDescription
+   *
+   * @returns {string | null}
+   */
+  get initialDescription () {
+    return this.initialFormValueHash
+      ?.description
+      ?? null
+  }
+
+  /**
+   * get: initialCompetitionImageUrl
+   *
+   * @returns {string | null}
+   */
+  get initialCompetitionImageUrl () {
+    return this.initialFormValueHash
+      ?.competitionImageUrl
+      ?? null
+  }
+
+  /**
+   * get: imageSource
+   *
+   * @returns {string | null}
+   */
+  get imageSource () {
+    return this.imageSourceRef.value
+  }
+
+  /**
+   * Generate competition image URL.
+   *
+   * @returns {string}
+   */
+  generateCompetitionImageUrl () {
+    if (this.imageSource) {
+      return this.imageSource
+    }
+
+    if (this.initialCompetitionImageUrl) {
+      return this.initialCompetitionImageUrl
+    }
+
+    return FALLBACK_COMPETITION_IMAGE_URL
   }
 
   /**
@@ -197,7 +267,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   uploadInputShallowRef: import('vue').ShallowRef<HTMLInputElement | null>
- *   imageSourceRef: import('vue').Ref<string>
+ *   imageSourceRef: import('vue').Ref<string | null>
  *   imageIdRef: import('vue').Ref<number | null>
  *   statusReactive: StatusReactive
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
@@ -225,5 +295,10 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: {
+ *     title: string | null
+ *     description: string | null
+ *     competitionImageUrl?: string | null
+ *   }
  * }} PropsType
  */

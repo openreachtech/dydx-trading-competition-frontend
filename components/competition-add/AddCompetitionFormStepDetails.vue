@@ -35,6 +35,15 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialFormValueHash: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').PropsType['initialFormValueHash']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (
@@ -43,8 +52,8 @@ export default defineComponent({
   ) {
     /** @type {import('vue').ShallowRef<HTMLInputElement | null>} */
     const uploadInputShallowRef = shallowRef(null)
-    /** @type {import('vue').Ref<string>} */
-    const imageSourceRef = ref('/img/badges/league-badge-placeholder.png')
+    /** @type {import('vue').Ref<string | null>} */
+    const imageSourceRef = ref(null)
     /** @type {import('vue').Ref<number | null>} */
     const imageIdRef = ref(null)
     /** @type {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').StatusReactive} */
@@ -94,6 +103,7 @@ export default defineComponent({
       </span>
 
       <AppInput name="title"
+        :value="context.initialTitle"
         placeholder="Give your league a name (max 30 characters)"
         :has-error="Boolean(context.validationMessage.title)"
         :error-message="context.validationMessage.title"
@@ -107,6 +117,7 @@ export default defineComponent({
 
       <AppTextarea name="description"
         rows="10"
+        :value="context.initialDescription"
         placeholder="Describe your league (max 250 characters)"
         :has-error="Boolean(context.validationMessage.description)"
         :error-message="context.validationMessage.description"
@@ -141,7 +152,7 @@ export default defineComponent({
           })"
         >
 
-        <img :src="context.imageSourceRef.value"
+        <img :src="context.generateCompetitionImageUrl()"
           alt="League badge"
           class="image"
         >
