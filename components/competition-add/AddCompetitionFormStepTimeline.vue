@@ -131,6 +131,7 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
+                  :initial-date="phase.initialStartDate"
                 />
               </label>
             </fieldset>
@@ -152,6 +153,7 @@ export default defineComponent({
 
                 <AppDatePicker should-disable-past-dates
                   name="scheduledDatetime"
+                  :initial-date="phase.initialEndDate"
                   :disabled="!phase.endDateInputId"
                 />
               </label>
