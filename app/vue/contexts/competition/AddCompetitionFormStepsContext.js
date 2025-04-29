@@ -9,7 +9,7 @@ import {
 /**
  * AddCompetitionFormStepsContext
  *
- * @extends {BaseFuroContext<(typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
+ * @extends {BaseFuroContext<null, PropsType, (typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
  */
 export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /** @override */
@@ -20,7 +20,7 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /**
    * get: currentStep
    *
-   * @returns {number}
+   * @returns {PropsType['currentStep']}
    */
   get currentStep () {
     return this.props.currentStep
@@ -29,7 +29,7 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /**
    * get: errorMessageHash
    *
-   * @returns {Record<string, string | null>}
+   * @returns {PropsType['errorMessageHash']}
    */
   get errorMessageHash () {
     return this.props.errorMessageHash
@@ -41,7 +41,9 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
    * @returns {string | null}
    */
   get addCompetitionErrorMessage () {
-    return this.errorMessageHash.addCompetition
+    return this.errorMessageHash
+      ?.addCompetition
+      ?? null
   }
 
   /**
@@ -181,4 +183,11 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
  *   step: number
  *   title: string
  * }} Step
+ */
+
+/**
+ * @typedef {{
+ *   currentStep: number
+ *   errorMessageHash: Record<string, string | null> | null
+ * }} PropsType
  */

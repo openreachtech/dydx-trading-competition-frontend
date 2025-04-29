@@ -28,7 +28,11 @@ export default defineComponent({
       required: true,
     },
     errorMessageHash: {
-      /** @type {import('vue').PropType<Record<string, string | null> | null>} */
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepsContext').PropsType['errorMessageHash']
+       * >}
+       */
       type: [
         Object,
         null,
