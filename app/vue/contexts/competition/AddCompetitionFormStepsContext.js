@@ -86,61 +86,6 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   }
 
   /**
-   * Check if is last step.
-   *
-   * @returns {boolean} `true` if the current step is the last step.
-   */
-  isLastStep () {
-    return this.currentStep === this.generateSteps().length
-  }
-
-  /**
-   * Go to next step.
-   *
-   * @param {{
-   *   mouseEvent: MouseEvent
-   * }} params - Parameters.
-   * @returns {void}
-   */
-  nextStep ({
-    mouseEvent,
-  }) {
-    if (this.isLastStep()) {
-      return
-    }
-
-    // Prevent default event before last step because `this.generateActionButtonType()`
-    // runs before the the event is invoked, which causes the form to submit before last step.
-    mouseEvent.preventDefault()
-
-    this.goToStep({
-      step: this.currentStep + 1,
-    })
-  }
-
-  /**
-   * Generate action button label.
-   *
-   * @returns {string}
-   */
-  generateActionButtonLabel () {
-    return this.isLastStep()
-      ? 'Host New League'
-      : 'Next'
-  }
-
-  /**
-   * Generate action button type.
-   *
-   * @returns {'submit' | 'button'}
-   */
-  generateActionButtonType () {
-    return this.isLastStep()
-      ? 'submit'
-      : 'button'
-  }
-
-  /**
    * Generate aria-current.
    *
    * @param {{
@@ -158,32 +103,6 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
     return isCurrentStep
       ? 'step'
       : 'false'
-  }
-
-  /**
-   * Generate steps.
-   *
-   * @returns {Array<Step>}
-   */
-  generateSteps () {
-    return [
-      {
-        step: 1,
-        title: 'Details',
-      },
-      {
-        step: 2,
-        title: 'Timeline',
-      },
-      {
-        step: 3,
-        title: 'Participation',
-      },
-      {
-        step: 4,
-        title: 'Rank & Prize',
-      },
-    ]
   }
 }
 
