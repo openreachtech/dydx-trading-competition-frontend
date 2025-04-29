@@ -50,14 +50,7 @@ export default defineComponent({
     componentContext
   ) {
     /** @type {import('./AddCompetitionFormStepPrizeContext').AddCompetitionFormStepPrizeContextFactoryParams['prizeRulesRef']} */
-    const prizeRulesRef = ref([
-      {
-        rankFrom: 1,
-        rankTo: 1,
-        amount: '0',
-        isRankRange: false,
-      },
-    ])
+    const prizeRulesRef = ref(generateInitialPrizeRules())
 
     const args = {
       props,
@@ -69,6 +62,28 @@ export default defineComponent({
 
     return {
       context,
+    }
+
+    /**
+     * Generate initial prize rules.
+     *
+     * @returns {Array<import('./AddCompetitionFormStepPrizeContext').PrizeRule>}
+     */
+    function generateInitialPrizeRules () {
+      const defaultPrizeRules = [
+        {
+          rankFrom: 1,
+          rankTo: 1,
+          amount: '0',
+          isRankRange: false,
+        },
+      ]
+
+      if (!props.initialFormValueHash) {
+        return defaultPrizeRules
+      }
+
+      return props.initialFormValueHash.prizeRules
     }
   },
 })
