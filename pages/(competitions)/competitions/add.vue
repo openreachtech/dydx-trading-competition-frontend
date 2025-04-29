@@ -98,19 +98,31 @@ export default defineComponent({
       >
         <div class="steps">
           <div class="content">
-            <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })"
+            <AddCompetitionFormStepDetails class="step"
+              :class="context.generateStepClasses({
+                step: 1,
+              })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })"
+            <AddCompetitionFormStepTimeline class="step"
+              :class="context.generateStepClasses({
+                step: 2,
+              })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })"
+            <AddCompetitionFormStepParticipation class="step"
+              :class="context.generateStepClasses({
+                step: 3,
+              })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
+            <AddCompetitionFormStepPrize class="step"
+              :class="context.generateStepClasses({
+                step: 4,
+              })"
               :validation-message="context.addCompetitionValidationMessage"
             />
           </div>
