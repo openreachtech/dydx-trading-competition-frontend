@@ -314,7 +314,6 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     step,
   }) {
     return [
-      'step',
       {
         hidden: this.currentStepRef.value !== step,
       },
