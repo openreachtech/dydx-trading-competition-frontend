@@ -135,6 +135,7 @@ export default defineComponent({
         </div>
 
         <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+          :steps="context.steps"
           :error-message-hash="context.errorMessageHashReactive"
           @go-to-step="context.goToStep($event)"
         />

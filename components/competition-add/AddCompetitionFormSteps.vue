@@ -23,6 +23,15 @@ export default defineComponent({
   },
 
   props: {
+    steps: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepsContext').PropsType['steps']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
     currentStep: {
       type: Number,
       required: true,
@@ -65,7 +74,7 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <div class="steps">
-      <div v-for="it of context.generateSteps()"
+      <div v-for="it of context.steps"
         :key="it.step"
         class="unit-step"
         :aria-current="context.generateAriaCurrent({

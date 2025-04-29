@@ -18,6 +18,15 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   }
 
   /**
+   * get: steps
+   *
+   * @returns {PropsType['steps']}
+   */
+  get steps () {
+    return this.props.steps
+  }
+
+  /**
    * get: currentStep
    *
    * @returns {PropsType['currentStep']}
@@ -187,6 +196,7 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
 
 /**
  * @typedef {{
+ *   steps: Array<import('~/app/vue/contexts/AddCompetitionPageContext').Step>
  *   currentStep: number
  *   errorMessageHash: Record<string, string | null> | null
  * }} PropsType
