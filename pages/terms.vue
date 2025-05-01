@@ -468,7 +468,7 @@ export default defineComponent({
       <p class="clause">
         CLC has received a grant from the dYdX Ecosystem Development Program to
         create and administer the Site, without any ongoing control or direction
-        by the dYdX Foundation, dYdX Trading Inc. and/or any other
+        by the dYdX Foundation, dYdX Trading Inc., dYdX Operations Services Limited and/or any other
         dYdX-affiliated entities (collectively, "dYdX Entities").
       </p>
 
