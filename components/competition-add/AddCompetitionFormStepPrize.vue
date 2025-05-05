@@ -43,6 +43,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    shouldOmitTotalPrize: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   setup (
@@ -239,6 +244,7 @@ export default defineComponent({
         <input type="text"
           name="totalPrize"
           class="input hidden"
+          :disabled="context.shouldOmitTotalPrize"
           :value="context.calculateTotalPrize()"
         >
 

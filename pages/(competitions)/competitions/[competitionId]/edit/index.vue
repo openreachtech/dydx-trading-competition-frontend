@@ -25,12 +25,23 @@ import {
 import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
+import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+import UpdateCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetition/UpdateCompetitionMutationGraphqlLauncher'
+import UpdateCompetitionSchedulesMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionSchedules/UpdateCompetitionSchedulesMutationGraphqlLauncher'
+import UpdateCompetitionLimitsMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionLimits/UpdateCompetitionLimitsMutationGraphqlLauncher'
+import UpdateCompetitionPrizeRulesMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionPrizeRules/UpdateCompetitionPrizeRulesMutationGraphqlLauncher'
+
+import UpdateCompetitionFormElementClerk from '~/app/domClerk/UpdateCompetitionFormElementClerk'
+import UpdateCompetitionSchedulesFormElementClerk from '~/app/domClerk/UpdateCompetitionSchedulesFormElementClerk'
+import UpdateCompetitionLimitsFormElementClerk from '~/app/domClerk/UpdateCompetitionLimitsFormElementClerk'
+import UpdateCompetitionPrizeRulesFormElementClerk from '~/app/domClerk/UpdateCompetitionPrizeRulesFormElementClerk'
 
 import CompetitionDetailsEditFetcher from './CompetitionDetailsEditFetcher'
 
 import CompetitionDetailsEditPageContext from './CompetitionDetailsEditPageContext'
+import CompetitionDetailsEditMutationContext from './CompetitionDetailsEditMutationContext'
 
 export default defineComponent({
   components: {
@@ -51,10 +62,12 @@ export default defineComponent({
     const route = useRoute()
 
     const currentStepRef = ref(1)
-    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
-    const editCompetitionFormShallowRef = shallowRef(null)
     const statusReactive = reactive({
       isLoadingInitialValue: true,
+      isUpdatingCompetition: false,
+      isUpdatingCompetitionSchedules: false,
+      isUpdatingCompetitionLimits: false,
+      isUpdatingCompetitionPrizeRules: false,
     })
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
@@ -75,13 +88,68 @@ export default defineComponent({
         competitionDetailsEdit: competitionDetailsEditFetcher,
       },
       currentStepRef,
-      editCompetitionFormShallowRef,
     }
     const context = CompetitionDetailsEditPageContext.create(args)
       .setupComponent()
 
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionSchedulesFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionLimitsFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionPrizeRulesFormShallowRef = shallowRef(null)
+
+    const updateCompetitionGraphqlClient = useGraphqlClient(UpdateCompetitionMutationGraphqlLauncher)
+    const updateCompetitionFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionSchedulesGraphqlClient = useGraphqlClient(UpdateCompetitionSchedulesMutationGraphqlLauncher)
+    const updateCompetitionSchedulesFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionSchedulesFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionSchedulesGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionLimitsGraphqlClient = useGraphqlClient(UpdateCompetitionLimitsMutationGraphqlLauncher)
+    const updateCompetitionLimitsFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionLimitsFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionLimitsGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionPrizeRulesGraphqlClient = useGraphqlClient(UpdateCompetitionPrizeRulesMutationGraphqlLauncher)
+    const updateCompetitionPrizeRulesFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionPrizeRulesFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionPrizeRulesGraphqlClient.invokeRequestWithFormValueHash,
+    })
+
+    const mutationArgs = {
+      props,
+      componentContext,
+      route,
+      graphqlClientHash: {
+        updateCompetition: updateCompetitionGraphqlClient,
+        updateCompetitionSchedules: updateCompetitionSchedulesGraphqlClient,
+        updateCompetitionLimits: updateCompetitionLimitsGraphqlClient,
+        updateCompetitionPrizeRules: updateCompetitionPrizeRulesGraphqlClient,
+      },
+      formClerkHash: {
+        updateCompetition: updateCompetitionFormClerk,
+        updateCompetitionSchedules: updateCompetitionSchedulesFormClerk,
+        updateCompetitionLimits: updateCompetitionLimitsFormClerk,
+        updateCompetitionPrizeRules: updateCompetitionPrizeRulesFormClerk,
+      },
+      updateCompetitionFormShallowRef,
+      updateCompetitionSchedulesFormShallowRef,
+      updateCompetitionLimitsFormShallowRef,
+      updateCompetitionPrizeRulesFormShallowRef,
+      statusReactive,
+    }
+    const mutationContext = CompetitionDetailsEditMutationContext.create(mutationArgs)
+      .setupComponent()
+
     return {
       context,
+      mutationContext,
     }
   },
 })
@@ -103,61 +171,111 @@ export default defineComponent({
       </span>
     </div>
 
-    <form class="unit-form">
+    <div class="unit-form-container">
       <div class="steps">
-        <div class="content">
-          <AddCompetitionFormStepDetails class="step"
-            :class="context.generateStepClasses({
-              step: 1,
-            })"
-            :validation-message="{}"
-            :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
-          />
-
-          <AddCompetitionFormStepTimeline class="step"
-            :class="context.generateStepClasses({
-              step: 2,
-            })"
-            :validation-message="{}"
-            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
-          />
-
-          <AddCompetitionFormStepParticipation class="step"
-            :class="context.generateStepClasses({
-              step: 3,
-            })"
-            :validation-message="{}"
-            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
-          />
-
-          <AddCompetitionFormStepPrize class="step"
-            :class="context.generateStepClasses({
-              step: 4,
-            })"
-            :validation-message="{}"
-            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
-          />
-        </div>
-
-        <div class="actions">
-          <AppButton appearance="outlined"
-            class="button back"
-            type="button"
+        <form :ref="mutationContext.updateCompetitionFormShallowRef"
+          class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 1,
+          })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetition()"
+        >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
           >
-            <Icon name="heroicons-outline:chevron-left"
-              size="1rem"
-            />
-          </AppButton>
-          <AppButton>
+          <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
+            :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetition"
+          >
             Save changes
           </AppButton>
-        </div>
+        </form>
+
+        <form :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
+          class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 2,
+          })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
+        >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
+          <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
+            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionSchedules"
+          >
+            Save changes
+          </AppButton>
+        </form>
+
+        <form :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
+          class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 3,
+          })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
+        >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
+          <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
+            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionLimits"
+          >
+            Save changes
+          </AppButton>
+        </form>
+
+        <form :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
+          class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 4,
+          })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
+        >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
+          <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
+            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
+            should-omit-total-prize
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionPrizeRules"
+          >
+            Save changes
+          </AppButton>
+        </form>
       </div>
 
       <AddCompetitionFormSteps :current-step="context.currentStep"
         :steps="context.steps"
+        @go-to-step="context.goToStep($event)"
       />
-    </form>
+    </div>
   </div>
 </template>
 
@@ -199,7 +317,7 @@ export default defineComponent({
   line-height: var(--size-line-height-large);
 }
 
-.unit-form {
+.unit-form-container {
   margin-block-start: 2.25rem;
 
   display: flex;
@@ -213,7 +331,9 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps {
+.unit-form-container > .steps {
+  display: grid;
+
   border-radius: 1.25rem;
 
   padding-block: 1.25rem;
@@ -230,29 +350,32 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps > .content {
-  display: grid;
-}
-
-.unit-form > .steps > .content > * {
+.unit-form-container > .steps > * {
   grid-row: 1 / -1;
   grid-column: 1 / -1;
 }
 
-.unit-form > .steps > .content > .step.hidden {
+.unit-form-container > .steps > .step.hidden {
   visibility: hidden;
 }
 
-.unit-form > .steps > .actions {
-  margin-block-start: 2.5rem;
-
+.unit-form {
   display: flex;
-  justify-content: end;
-  gap: 1rem;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.unit-form > .steps > .actions > .button.back {
-  padding-block: 0.625rem;
-  padding-inline: 0.625rem;
+.unit-form > .input.hidden {
+  display: none;
+}
+
+.unit-form > .controls {
+  flex: 1;
+}
+
+.unit-form > .button.submit {
+  margin-block-start: 2.5rem;
+
+  align-self: end;
 }
 </style>
