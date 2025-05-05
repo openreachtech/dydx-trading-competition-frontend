@@ -18,6 +18,8 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    currentStepRef,
+    editCompetitionFormShallowRef,
   }) {
     super({
       props,
@@ -25,6 +27,8 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.currentStepRef = currentStepRef
+    this.editCompetitionFormShallowRef = editCompetitionFormShallowRef
   }
 
   /**
@@ -40,14 +44,27 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    currentStepRef,
+    editCompetitionFormShallowRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
         route,
+        currentStepRef,
+        editCompetitionFormShallowRef,
       })
     )
+  }
+
+  /**
+   * get: currentStep
+   *
+   * @returns {number}
+   */
+  get currentStep () {
+    return this.currentStepRef.value
   }
 
   /**
@@ -84,6 +101,8 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   currentStepRef: import('vue').Ref<number>
+ *   editCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditPageContextParams
  */
 
