@@ -30,6 +30,7 @@ export default class UpdateCompetitionSchedulesFormElementClerk extends BaseFilt
             SCHEDULE_CATEGORY.REGISTRATION_END.ID,
             SCHEDULE_CATEGORY.COMPETITION_START.ID,
             SCHEDULE_CATEGORY.COMPETITION_END.ID,
+            SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
           ]
 
           return it.length >= 4
