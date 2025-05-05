@@ -179,6 +179,20 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
   }
 
   /**
+   * Go to step.
+   *
+   * @param {{
+   *   step: number
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  goToStep ({
+    step,
+  }) {
+    this.currentStepRef.value = step
+  }
+
+  /**
    * Generate competition details URL.
    *
    * @returns {string}
