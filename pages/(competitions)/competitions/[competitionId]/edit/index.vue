@@ -25,12 +25,23 @@ import {
 import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
+import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+import UpdateCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetition/UpdateCompetitionMutationGraphqlLauncher'
+import UpdateCompetitionSchedulesMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionSchedules/UpdateCompetitionSchedulesMutationGraphqlLauncher'
+import UpdateCompetitionLimitsMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionLimits/UpdateCompetitionLimitsMutationGraphqlLauncher'
+import UpdateCompetitionPrizeRulesMutationGraphqlLauncher from '~/app/graphql/client/mutations/updateCompetitionPrizeRules/UpdateCompetitionPrizeRulesMutationGraphqlLauncher'
+
+import UpdateCompetitionFormElementClerk from '~/app/domClerk/UpdateCompetitionFormElementClerk'
+import UpdateCompetitionSchedulesFormElementClerk from '~/app/domClerk/UpdateCompetitionSchedulesFormElementClerk'
+import UpdateCompetitionLimitsFormElementClerk from '~/app/domClerk/UpdateCompetitionLimitsFormElementClerk'
+import UpdateCompetitionPrizeRulesFormElementClerk from '~/app/domClerk/UpdateCompetitionPrizeRulesFormElementClerk'
 
 import CompetitionDetailsEditFetcher from './CompetitionDetailsEditFetcher'
 
 import CompetitionDetailsEditPageContext from './CompetitionDetailsEditPageContext'
+import CompetitionDetailsEditMutationContext from './CompetitionDetailsEditMutationContext'
 
 export default defineComponent({
   components: {
@@ -55,6 +66,10 @@ export default defineComponent({
     const editCompetitionFormShallowRef = shallowRef(null)
     const statusReactive = reactive({
       isLoadingInitialValue: true,
+      isUpdatingCompetition: false,
+      isUpdatingCompetitionSchedules: false,
+      isUpdatingCompetitionLimits: false,
+      isUpdatingCompetitionPrizeRules: false,
     })
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
@@ -80,8 +95,51 @@ export default defineComponent({
     const context = CompetitionDetailsEditPageContext.create(args)
       .setupComponent()
 
+    const updateCompetitionGraphqlClient = useGraphqlClient(UpdateCompetitionMutationGraphqlLauncher)
+    const updateCompetitionFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionSchedulesGraphqlClient = useGraphqlClient(UpdateCompetitionSchedulesMutationGraphqlLauncher)
+    const updateCompetitionSchedulesFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionSchedulesFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionSchedulesGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionLimitsGraphqlClient = useGraphqlClient(UpdateCompetitionLimitsMutationGraphqlLauncher)
+    const updateCompetitionLimitsFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionLimitsFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionLimitsGraphqlClient.invokeRequestWithFormValueHash,
+    })
+    const updateCompetitionPrizeRulesGraphqlClient = useGraphqlClient(UpdateCompetitionPrizeRulesMutationGraphqlLauncher)
+    const updateCompetitionPrizeRulesFormClerk = useAppFormClerk({
+      FormElementClerk: UpdateCompetitionPrizeRulesFormElementClerk,
+      invokeRequestWithFormValueHash: updateCompetitionPrizeRulesGraphqlClient.invokeRequestWithFormValueHash,
+    })
+
+    const mutationArgs = {
+      props,
+      componentContext,
+      route,
+      graphqlClientHash: {
+        updateCompetition: updateCompetitionGraphqlClient,
+        updateCompetitionSchedules: updateCompetitionSchedulesGraphqlClient,
+        updateCompetitionLimits: updateCompetitionLimitsGraphqlClient,
+        updateCompetitionPrizeRules: updateCompetitionPrizeRulesGraphqlClient,
+      },
+      formClerkHash: {
+        updateCompetition: updateCompetitionFormClerk,
+        updateCompetitionSchedules: updateCompetitionSchedulesFormClerk,
+        updateCompetitionLimits: updateCompetitionLimitsFormClerk,
+        updateCompetitionPrizeRules: updateCompetitionPrizeRulesFormClerk,
+      },
+      statusReactive,
+    }
+    const mutationContext = CompetitionDetailsEditMutationContext.create(mutationArgs)
+      .setupComponent()
+
     return {
       context,
+      mutationContext,
     }
   },
 })
