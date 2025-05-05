@@ -126,6 +126,9 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
       () => this.initialPrizeRules,
       () => {
         this.syncInitialPrizeRules()
+      },
+      {
+        once: true,
       }
     )
 
