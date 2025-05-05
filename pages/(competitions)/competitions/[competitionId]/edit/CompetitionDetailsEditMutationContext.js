@@ -241,6 +241,198 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     return this.updateCompetitionPrizeRulesFormShallowRef
       .value
   }
+
+  /**
+   * Extract competition id from route params.
+   *
+   * @returns {number | null}
+   */
+  extractCompetitionIdFromRoute () {
+    const competitionIdParam = Array.isArray(this.route.params.competitionId)
+      ? this.route.params.competitionId[0]
+      : this.route.params.competitionId
+    const competitionId = Number(competitionIdParam)
+
+    return isNaN(competitionId)
+      ? null
+      : competitionId
+  }
+
+  /**
+   * Submit form `updateCompetition`.
+   *
+   * @returns {Promise<void>}
+   */
+  async submitFormUpdateCompetition () {
+    if (!this.updateCompetitionFormElement) {
+      return
+    }
+
+    await this.updateCompetitionFormClerk
+      .submitForm({
+        formElement: this.updateCompetitionFormElement,
+        hooks: this.updateCompetitionLauncherHooks,
+      })
+  }
+
+  /**
+   * get: updateCompetitionLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get updateCompetitionLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isUpdatingCompetition = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isUpdatingCompetition = false
+      },
+    }
+  }
+
+  /**
+   * get: isUpdatingCompetition
+   *
+   * @returns {boolean}
+   */
+  get isUpdatingCompetition () {
+    return this.statusReactive.isUpdatingCompetition
+  }
+
+  /**
+   * Submit form `updateCompetitionSchedules`.
+   *
+   * @returns {Promise<void>}
+   */
+  async submitFormUpdateCompetitionSchedules () {
+    if (!this.updateCompetitionSchedulesFormElement) {
+      return
+    }
+
+    await this.updateCompetitionSchedulesFormClerk
+      .submitForm({
+        formElement: this.updateCompetitionSchedulesFormElement,
+        hooks: this.updateCompetitionSchedulesLauncherHooks,
+      })
+  }
+
+  /**
+   * get: updateCompetitionSchedulesLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get updateCompetitionSchedulesLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isUpdatingCompetitionSchedules = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isUpdatingCompetitionSchedules = false
+      },
+    }
+  }
+
+  /**
+   * get: isUpdatingCompetitionSchedules
+   *
+   * @returns {boolean}
+   */
+  get isUpdatingCompetitionSchedules () {
+    return this.statusReactive.isUpdatingCompetitionSchedules
+  }
+
+  /**
+   * Submit form `updateCompetitionLimits`.
+   *
+   * @returns {Promise<void>}
+   */
+  async submitFormUpdateCompetitionLimits () {
+    if (!this.updateCompetitionLimitsFormElement) {
+      return
+    }
+
+    await this.updateCompetitionLimitsFormClerk
+      .submitForm({
+        formElement: this.updateCompetitionLimitsFormElement,
+        hooks: this.updateCompetitionLimitsLauncherHooks,
+      })
+  }
+
+  /**
+   * get: updateCompetitionLimitsLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get updateCompetitionLimitsLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isUpdatingCompetitionLimits = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isUpdatingCompetitionLimits = false
+      },
+    }
+  }
+
+  /**
+   * get: isUpdatingCompetitionLimits
+   *
+   * @returns {boolean}
+   */
+  get isUpdatingCompetitionLimits () {
+    return this.statusReactive.isUpdatingCompetitionLimits
+  }
+
+  /**
+   * Submit form `updateCompetitionPrizeRules`.
+   *
+   * @returns {Promise<void>}
+   */
+  async submitFormUpdateCompetitionPrizeRules () {
+    if (!this.updateCompetitionPrizeRulesFormElement) {
+      return
+    }
+
+    await this.updateCompetitionPrizeRulesFormClerk
+      .submitForm({
+        formElement: this.updateCompetitionPrizeRulesFormElement,
+        hooks: this.updateCompetitionPrizeRulesLauncherHooks,
+      })
+  }
+
+  /**
+   * get: updateCompetitionPrizeRulesLauncherHooks
+   *
+   * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
+   */
+  get updateCompetitionPrizeRulesLauncherHooks () {
+    return {
+      beforeRequest: async payload => {
+        this.statusReactive.isUpdatingCompetitionPrizeRules = true
+
+        return false
+      },
+      afterRequest: async capsule => {
+        this.statusReactive.isUpdatingCompetitionPrizeRules = false
+      },
+    }
+  }
+
+  /**
+   * get: isUpdatingCompetitionPrizeRules
+   *
+   * @returns {boolean}
+   */
+  get isUpdatingCompetitionPrizeRules () {
+    return this.statusReactive.isUpdatingCompetitionPrizeRules
+  }
 }
 
 /**
