@@ -178,6 +178,7 @@ export default defineComponent({
           :class="context.generateStepClasses({
             step: 1,
           })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetition()"
         >
           <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
             :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
@@ -185,6 +186,7 @@ export default defineComponent({
           />
           <AppButton type="submit"
             class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetition"
           >
             Save changes
           </AppButton>
@@ -195,6 +197,7 @@ export default defineComponent({
           :class="context.generateStepClasses({
             step: 2,
           })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
         >
           <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
             :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
@@ -202,6 +205,7 @@ export default defineComponent({
           />
           <AppButton type="submit"
             class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionSchedules"
           >
             Save changes
           </AppButton>
@@ -212,6 +216,7 @@ export default defineComponent({
           :class="context.generateStepClasses({
             step: 3,
           })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
         >
           <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
             :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
@@ -219,6 +224,7 @@ export default defineComponent({
           />
           <AppButton type="submit"
             class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionLimits"
           >
             Save changes
           </AppButton>
@@ -229,6 +235,7 @@ export default defineComponent({
           :class="context.generateStepClasses({
             step: 4,
           })"
+          @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
         >
           <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
             :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
@@ -236,6 +243,7 @@ export default defineComponent({
           />
           <AppButton type="submit"
             class="button submit"
+            :is-loading="mutationContext.isUpdatingCompetitionPrizeRules"
           >
             Save changes
           </AppButton>
