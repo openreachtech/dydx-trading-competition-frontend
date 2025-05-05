@@ -68,6 +68,32 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: steps
+   *
+   * @returns {Array<Step>}
+   */
+  get steps () {
+    return [
+      {
+        step: 1,
+        title: 'Details',
+      },
+      {
+        step: 2,
+        title: 'Timeline',
+      },
+      {
+        step: 3,
+        title: 'Participation',
+      },
+      {
+        step: 4,
+        title: 'Rank & Prize',
+      },
+    ]
+  }
+
+  /**
    * Generate competition details URL.
    *
    * @returns {string}
@@ -96,6 +122,24 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
       ? null
       : competitionId
   }
+
+  /**
+   * Generate CSS classes for step element.
+   *
+   * @param {{
+   *   step: number
+   * }} params - Parameters.
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateStepClasses ({
+    step,
+  }) {
+    return [
+      {
+        hidden: this.currentStep !== step,
+      },
+    ]
+  }
 }
 
 /**
@@ -108,4 +152,11 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
 
 /**
  * @typedef {CompetitionDetailsEditPageContextParams} CompetitionDetailsEditPageContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   step: number
+ *   title: string
+ * }} Step
  */
