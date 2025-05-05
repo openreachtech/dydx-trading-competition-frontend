@@ -61,6 +61,130 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       })
     )
   }
+
+  /**
+   * get: updateCompetitionFormClerk
+   *
+   * @returns {FormClerk}
+   */
+  get updateCompetitionFormClerk () {
+    return this.formClerkHash
+      .updateCompetition
+  }
+
+  /**
+   * get: updateCompetitionValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get updateCompetitionValidation () {
+    return this.updateCompetitionFormClerk
+      .validationRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get updateCompetitionValidationMessage () {
+    return this.updateCompetitionValidation
+      .message
+  }
+
+  /**
+   * get: updateCompetitionSchedulesFormClerk
+   *
+   * @returns {FormClerk}
+   */
+  get updateCompetitionSchedulesFormClerk () {
+    return this.formClerkHash
+      .updateCompetitionSchedules
+  }
+
+  /**
+   * get: updateCompetitionSchedulesValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get updateCompetitionSchedulesValidation () {
+    return this.updateCompetitionSchedulesFormClerk
+      .validationRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionSchedulesValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get updateCompetitionSchedulesValidationMessage () {
+    return this.updateCompetitionSchedulesValidation
+      .message
+  }
+
+  /**
+   * get: updateCompetitionLimitsFormClerk
+   *
+   * @returns {FormClerk}
+   */
+  get updateCompetitionLimitsFormClerk () {
+    return this.formClerkHash
+      .updateCompetitionLimits
+  }
+
+  /**
+   * get: updateCompetitionLimitsValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get updateCompetitionLimitsValidation () {
+    return this.updateCompetitionLimitsFormClerk
+      .validationRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionLimitsValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get updateCompetitionLimitsValidationMessage () {
+    return this.updateCompetitionLimitsValidation
+      .message
+  }
+
+  /**
+   * get: updateCompetitionPrizeRulesFormClerk
+   *
+   * @returns {FormClerk}
+   */
+  get updateCompetitionPrizeRulesFormClerk () {
+    return this.formClerkHash
+      .updateCompetitionPrizeRules
+  }
+
+  /**
+   * get: updateCompetitionPrizeRulesValidation
+   *
+   * @returns {furo.ValidatorHashType}
+   */
+  get updateCompetitionPrizeRulesValidation () {
+    return this.updateCompetitionPrizeRulesFormClerk
+      .validationRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionPrizeRulesValidationMessage
+   *
+   * @returns {furo.ValidatorHashType['message']}
+   */
+  get updateCompetitionPrizeRulesValidationMessage () {
+    return this.updateCompetitionPrizeRulesValidation
+      .message
+  }
 }
 
 /**
