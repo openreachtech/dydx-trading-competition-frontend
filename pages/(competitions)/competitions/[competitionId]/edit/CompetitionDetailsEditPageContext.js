@@ -18,6 +18,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    fetcherHash,
     currentStepRef,
     editCompetitionFormShallowRef,
   }) {
@@ -27,6 +28,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.fetcherHash = fetcherHash
     this.currentStepRef = currentStepRef
     this.editCompetitionFormShallowRef = editCompetitionFormShallowRef
   }
@@ -44,6 +46,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    fetcherHash,
     currentStepRef,
     editCompetitionFormShallowRef,
   }) {
@@ -52,10 +55,92 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        fetcherHash,
         currentStepRef,
         editCompetitionFormShallowRef,
       })
     )
+  }
+
+  /**
+   * Setup component.
+   *
+   * @template {X extends CompetitionDetailsEditPageContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.fetcherHash
+      .competitionDetailsEdit
+      .fetchCompetitionOnMounted()
+
+    return this
+  }
+
+  /**
+   * get: competitionDetailsEditCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default}
+   */
+  get competitionDetailsEditCapsule () {
+    return this.fetcherHash
+      .competitionDetailsEdit
+      .competitionCapsule
+  }
+
+  /**
+   * Generate initial form value hash for step details.
+   *
+   * @returns {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').InitialFormValueHash}
+   */
+  generateStepDetailsInitialValueHash () {
+    return {
+      title: this.competitionDetailsEditCapsule.title,
+      description: this.competitionDetailsEditCapsule.description,
+      competitionImageUrl: this.competitionDetailsEditCapsule.image,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step details.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepTimelineContext').InitialFormValueHash}
+   */
+  generateStepTimelineInitialValueHash () {
+    return {
+      schedules: this.competitionDetailsEditCapsule.schedules,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step participation.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepParticipationContext').InitialFormValueHash}
+   */
+  generateStepParticipationInitialValueHash () {
+    return {
+      participantLowerLimit: this.competitionDetailsEditCapsule.participantLowerLimit,
+      participantUpperLimit: this.competitionDetailsEditCapsule.participantUpperLimit,
+      minimumDeposit: this.competitionDetailsEditCapsule.minimumDeposit,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step prize.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepPrizeContext').InitialFormValueHash}
+   */
+  generateStepPrizeInitialValueHash () {
+    const prizeRules = this.competitionDetailsEditCapsule
+      .prizeRules
+      .map(prizeRule => ({
+        ...prizeRule,
+        isRankRange: prizeRule.rankFrom !== prizeRule.rankTo,
+      }))
+
+    return {
+      prizeRules,
+    }
   }
 
   /**
@@ -145,6 +230,9 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   fetcherHash: {
+ *     competitionDetailsEdit: import('./CompetitionDetailsEditFetcher').default
+ *   }
  *   currentStepRef: import('vue').Ref<number>
  *   editCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditPageContextParams
