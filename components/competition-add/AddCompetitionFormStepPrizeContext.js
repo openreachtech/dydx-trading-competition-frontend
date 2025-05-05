@@ -115,6 +115,24 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   }
 
   /**
+   * Setup component.
+   *
+   * @template {X extends AddCompetitionFormStepPrizeContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.watch(
+      () => this.initialPrizeRules,
+      () => {
+        this.syncInitialPrizeRules()
+      }
+    )
+
+    return this
+  }
+
+  /**
    * get: validationMessage
    *
    * @returns {PropsType['validationMessage']}
@@ -130,6 +148,26 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
    */
   get initialFormValueHash () {
     return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialPrizeRules
+   *
+   * @returns {Array<PrizeRule>}
+   */
+  get initialPrizeRules () {
+    return this.initialFormValueHash
+      ?.prizeRules
+      ?? []
+  }
+
+  /**
+   * Sync initial prize rules when prop changes.
+   *
+   * @returns {void}
+   */
+  syncInitialPrizeRules () {
+    this.prizeRulesRef.value = this.initialPrizeRules
   }
 
   /**
