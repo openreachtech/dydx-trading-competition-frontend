@@ -111,6 +111,7 @@ export default defineComponent({
               step: 1,
             })"
             :validation-message="{}"
+            :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
           />
 
           <AddCompetitionFormStepTimeline class="step"
@@ -118,6 +119,7 @@ export default defineComponent({
               step: 2,
             })"
             :validation-message="{}"
+            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
           />
 
           <AddCompetitionFormStepParticipation class="step"
@@ -125,6 +127,7 @@ export default defineComponent({
               step: 3,
             })"
             :validation-message="{}"
+            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
           />
 
           <AddCompetitionFormStepPrize class="step"
@@ -132,6 +135,7 @@ export default defineComponent({
               step: 4,
             })"
             :validation-message="{}"
+            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
           />
         </div>
 
