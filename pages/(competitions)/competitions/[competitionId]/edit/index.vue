@@ -214,6 +214,7 @@ export default defineComponent({
 
       <AddCompetitionFormSteps :current-step="context.currentStep"
         :steps="context.steps"
+        @go-to-step="context.goToStep($event)"
       />
     </form>
   </div>
