@@ -162,6 +162,15 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   }
 
   /**
+   * get: shouldOmitTotalPrize
+   *
+   * @returns {PropsType['shouldOmitTotalPrize']}
+   */
+  get shouldOmitTotalPrize () {
+    return this.props.shouldOmitTotalPrize
+  }
+
+  /**
    * Sync initial prize rules when prop changes.
    *
    * @returns {void}
@@ -332,6 +341,7 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
  *   initialFormValueHash: InitialFormValueHash | null
+ *   shouldOmitTotalPrize: boolean
  * }} PropsType
  */
 
