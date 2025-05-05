@@ -62,8 +62,6 @@ export default defineComponent({
     const route = useRoute()
 
     const currentStepRef = ref(1)
-    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
-    const editCompetitionFormShallowRef = shallowRef(null)
     const statusReactive = reactive({
       isLoadingInitialValue: true,
       isUpdatingCompetition: false,
@@ -90,10 +88,18 @@ export default defineComponent({
         competitionDetailsEdit: competitionDetailsEditFetcher,
       },
       currentStepRef,
-      editCompetitionFormShallowRef,
     }
     const context = CompetitionDetailsEditPageContext.create(args)
       .setupComponent()
+
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionSchedulesFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionLimitsFormShallowRef = shallowRef(null)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const updateCompetitionPrizeRulesFormShallowRef = shallowRef(null)
 
     const updateCompetitionGraphqlClient = useGraphqlClient(UpdateCompetitionMutationGraphqlLauncher)
     const updateCompetitionFormClerk = useAppFormClerk({
@@ -132,6 +138,10 @@ export default defineComponent({
         updateCompetitionLimits: updateCompetitionLimitsFormClerk,
         updateCompetitionPrizeRules: updateCompetitionPrizeRulesFormClerk,
       },
+      updateCompetitionFormShallowRef,
+      updateCompetitionSchedulesFormShallowRef,
+      updateCompetitionLimitsFormShallowRef,
+      updateCompetitionPrizeRulesFormShallowRef,
       statusReactive,
     }
     const mutationContext = CompetitionDetailsEditMutationContext.create(mutationArgs)
@@ -163,7 +173,8 @@ export default defineComponent({
 
     <div class="unit-form-container">
       <div class="steps">
-        <form class="unit-form step"
+        <form :ref="mutationContext.updateCompetitionFormShallowRef"
+          class="unit-form step"
           :class="context.generateStepClasses({
             step: 1,
           })"
@@ -179,7 +190,8 @@ export default defineComponent({
           </AppButton>
         </form>
 
-        <form class="unit-form step"
+        <form :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
+          class="unit-form step"
           :class="context.generateStepClasses({
             step: 2,
           })"
@@ -195,7 +207,8 @@ export default defineComponent({
           </AppButton>
         </form>
 
-        <form class="unit-form step"
+        <form :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
+          class="unit-form step"
           :class="context.generateStepClasses({
             step: 3,
           })"
@@ -211,7 +224,8 @@ export default defineComponent({
           </AppButton>
         </form>
 
-        <form class="unit-form step"
+        <form :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
+          class="unit-form step"
           :class="context.generateStepClasses({
             step: 4,
           })"
