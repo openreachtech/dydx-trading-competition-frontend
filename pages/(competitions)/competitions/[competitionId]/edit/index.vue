@@ -198,14 +198,6 @@ export default defineComponent({
         </div>
 
         <div class="actions">
-          <AppButton appearance="outlined"
-            class="button back"
-            type="button"
-          >
-            <Icon name="heroicons-outline:chevron-left"
-              size="1rem"
-            />
-          </AppButton>
           <AppButton>
             Save changes
           </AppButton>
