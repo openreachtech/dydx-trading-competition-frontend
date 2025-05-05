@@ -89,6 +89,61 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
   }
 
   /**
+   * Generate initial form value hash for step details.
+   *
+   * @returns {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').InitialFormValueHash}
+   */
+  generateStepDetailsInitialValueHash () {
+    return {
+      title: this.competitionDetailsEditCapsule.title,
+      description: this.competitionDetailsEditCapsule.description,
+      competitionImageUrl: this.competitionDetailsEditCapsule.image,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step details.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepTimelineContext').InitialFormValueHash}
+   */
+  generateStepTimelineInitialValueHash () {
+    return {
+      schedules: this.competitionDetailsEditCapsule.schedules,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step participation.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepParticipationContext').InitialFormValueHash}
+   */
+  generateStepParticipationInitialValueHash () {
+    return {
+      participantLowerLimit: this.competitionDetailsEditCapsule.participantLowerLimit,
+      participantUpperLimit: this.competitionDetailsEditCapsule.participantUpperLimit,
+      minimumDeposit: this.competitionDetailsEditCapsule.minimumDeposit,
+    }
+  }
+
+  /**
+   * Generate initial form value hash for step prize.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepPrizeContext').InitialFormValueHash}
+   */
+  generateStepPrizeInitialValueHash () {
+    const prizeRules = this.competitionDetailsEditCapsule
+      .prizeRules
+      .map(prizeRule => ({
+        ...prizeRule,
+        isRankRange: prizeRule.rankFrom !== prizeRule.rankTo,
+      }))
+
+    return {
+      prizeRules,
+    }
+  }
+
+  /**
    * get: currentStep
    *
    * @returns {number}
