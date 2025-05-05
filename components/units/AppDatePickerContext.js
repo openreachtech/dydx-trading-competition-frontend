@@ -80,6 +80,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
       () => this.initialDate,
       () => {
         this.syncInitialInputValue()
+      },
+      {
+        once: true,
       }
     )
 
