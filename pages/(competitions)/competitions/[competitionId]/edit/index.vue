@@ -163,45 +163,69 @@ export default defineComponent({
 
     <div class="unit-form-container">
       <div class="steps">
-        <div class="content">
-          <AddCompetitionFormStepDetails class="step"
-            :class="context.generateStepClasses({
-              step: 1,
-            })"
-            :validation-message="mutationContext.updateCompetitionValidationMessage"
+        <form class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 1,
+          })"
+        >
+          <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
             :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
+            class="controls"
           />
-
-          <AddCompetitionFormStepTimeline class="step"
-            :class="context.generateStepClasses({
-              step: 2,
-            })"
-            :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
-            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
-          />
-
-          <AddCompetitionFormStepParticipation class="step"
-            :class="context.generateStepClasses({
-              step: 3,
-            })"
-            :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
-            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
-          />
-
-          <AddCompetitionFormStepPrize class="step"
-            :class="context.generateStepClasses({
-              step: 4,
-            })"
-            :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
-            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
-          />
-        </div>
-
-        <div class="actions">
-          <AppButton>
+          <AppButton type="submit"
+            class="button submit"
+          >
             Save changes
           </AppButton>
-        </div>
+        </form>
+
+        <form class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 2,
+          })"
+        >
+          <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
+            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+          >
+            Save changes
+          </AppButton>
+        </form>
+
+        <form class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 3,
+          })"
+        >
+          <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
+            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+          >
+            Save changes
+          </AppButton>
+        </form>
+
+        <form class="unit-form step"
+          :class="context.generateStepClasses({
+            step: 4,
+          })"
+        >
+          <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
+            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
+            class="controls"
+          />
+          <AppButton type="submit"
+            class="button submit"
+          >
+            Save changes
+          </AppButton>
+        </form>
       </div>
 
       <AddCompetitionFormSteps :current-step="context.currentStep"
@@ -265,6 +289,8 @@ export default defineComponent({
 }
 
 .unit-form-container > .steps {
+  display: grid;
+
   border-radius: 1.25rem;
 
   padding-block: 1.25rem;
@@ -281,29 +307,28 @@ export default defineComponent({
   }
 }
 
-.unit-form-container > .steps > .content {
-  display: grid;
-}
-
-.unit-form-container > .steps > .content > * {
+.unit-form-container > .steps > * {
   grid-row: 1 / -1;
   grid-column: 1 / -1;
 }
 
-.unit-form-container > .steps > .content > .step.hidden {
+.unit-form-container > .steps > .step.hidden {
   visibility: hidden;
 }
 
-.unit-form-container > .steps > .actions {
-  margin-block-start: 2.5rem;
-
+.unit-form {
   display: flex;
-  justify-content: end;
-  gap: 1rem;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.unit-form-container > .steps > .actions > .button.back {
-  padding-block: 0.625rem;
-  padding-inline: 0.625rem;
+.unit-form > .controls {
+  flex: 1;
+}
+
+.unit-form > .button.submit {
+  margin-block-start: 2.5rem;
+
+  align-self: end;
 }
 </style>
