@@ -180,6 +180,11 @@ export default defineComponent({
           })"
           @submit.prevent="mutationContext.submitFormUpdateCompetition()"
         >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
           <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
             :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
             class="controls"
@@ -199,6 +204,11 @@ export default defineComponent({
           })"
           @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
         >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
           <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
             :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
             class="controls"
@@ -218,6 +228,11 @@ export default defineComponent({
           })"
           @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
         >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
           <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
             :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
             class="controls"
@@ -237,6 +252,11 @@ export default defineComponent({
           })"
           @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
         >
+          <input type="number"
+            class="input hidden"
+            name="competitionId"
+            :value="mutationContext.extractCompetitionIdFromRoute()"
+          >
           <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
             :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
             class="controls"
@@ -342,6 +362,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.unit-form > .input.hidden {
+  display: none;
 }
 
 .unit-form > .controls {
