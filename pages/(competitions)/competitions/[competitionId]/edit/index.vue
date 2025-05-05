@@ -259,6 +259,7 @@ export default defineComponent({
           >
           <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
             :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
+            should-omit-total-prize
             class="controls"
           />
           <AppButton type="submit"
