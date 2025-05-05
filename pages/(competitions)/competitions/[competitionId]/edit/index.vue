@@ -1,6 +1,8 @@
 <script>
 import {
   defineComponent,
+  ref,
+  shallowRef,
 } from 'vue'
 
 import {
@@ -26,10 +28,16 @@ export default defineComponent({
   ) {
     const route = useRoute()
 
+    const currentStepRef = ref(1)
+    /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
+    const editCompetitionFormShallowRef = shallowRef(null)
+
     const args = {
       props,
       componentContext,
       route,
+      currentStepRef,
+      editCompetitionFormShallowRef,
     }
     const context = CompetitionDetailsEditPageContext.create(args)
       .setupComponent()
