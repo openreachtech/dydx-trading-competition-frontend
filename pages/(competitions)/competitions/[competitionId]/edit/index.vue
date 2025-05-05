@@ -161,7 +161,7 @@ export default defineComponent({
       </span>
     </div>
 
-    <form class="unit-form">
+    <div class="unit-form-container">
       <div class="steps">
         <div class="content">
           <AddCompetitionFormStepDetails class="step"
@@ -208,7 +208,7 @@ export default defineComponent({
         :steps="context.steps"
         @go-to-step="context.goToStep($event)"
       />
-    </form>
+    </div>
   </div>
 </template>
 
@@ -250,7 +250,7 @@ export default defineComponent({
   line-height: var(--size-line-height-large);
 }
 
-.unit-form {
+.unit-form-container {
   margin-block-start: 2.25rem;
 
   display: flex;
@@ -264,7 +264,7 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps {
+.unit-form-container > .steps {
   border-radius: 1.25rem;
 
   padding-block: 1.25rem;
@@ -281,20 +281,20 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps > .content {
+.unit-form-container > .steps > .content {
   display: grid;
 }
 
-.unit-form > .steps > .content > * {
+.unit-form-container > .steps > .content > * {
   grid-row: 1 / -1;
   grid-column: 1 / -1;
 }
 
-.unit-form > .steps > .content > .step.hidden {
+.unit-form-container > .steps > .content > .step.hidden {
   visibility: hidden;
 }
 
-.unit-form > .steps > .actions {
+.unit-form-container > .steps > .actions {
   margin-block-start: 2.5rem;
 
   display: flex;
@@ -302,7 +302,7 @@ export default defineComponent({
   gap: 1rem;
 }
 
-.unit-form > .steps > .actions > .button.back {
+.unit-form-container > .steps > .actions > .button.back {
   padding-block: 0.625rem;
   padding-inline: 0.625rem;
 }
