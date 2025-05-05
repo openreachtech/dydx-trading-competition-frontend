@@ -168,7 +168,7 @@ export default defineComponent({
             :class="context.generateStepClasses({
               step: 1,
             })"
-            :validation-message="{}"
+            :validation-message="mutationContext.updateCompetitionValidationMessage"
             :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
           />
 
@@ -176,7 +176,7 @@ export default defineComponent({
             :class="context.generateStepClasses({
               step: 2,
             })"
-            :validation-message="{}"
+            :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
             :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
           />
 
@@ -184,7 +184,7 @@ export default defineComponent({
             :class="context.generateStepClasses({
               step: 3,
             })"
-            :validation-message="{}"
+            :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
             :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
           />
 
@@ -192,7 +192,7 @@ export default defineComponent({
             :class="context.generateStepClasses({
               step: 4,
             })"
-            :validation-message="{}"
+            :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
             :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
           />
         </div>
