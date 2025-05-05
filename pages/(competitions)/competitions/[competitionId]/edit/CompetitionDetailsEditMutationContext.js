@@ -21,6 +21,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     graphqlClientHash,
     formClerkHash,
     statusReactive,
+    updateCompetitionFormShallowRef,
+    updateCompetitionSchedulesFormShallowRef,
+    updateCompetitionLimitsFormShallowRef,
+    updateCompetitionPrizeRulesFormShallowRef,
   }) {
     super({
       props,
@@ -31,6 +35,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.statusReactive = statusReactive
+    this.updateCompetitionFormShallowRef = updateCompetitionFormShallowRef
+    this.updateCompetitionSchedulesFormShallowRef = updateCompetitionSchedulesFormShallowRef
+    this.updateCompetitionLimitsFormShallowRef = updateCompetitionLimitsFormShallowRef
+    this.updateCompetitionPrizeRulesFormShallowRef = updateCompetitionPrizeRulesFormShallowRef
   }
 
   /**
@@ -49,6 +57,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     graphqlClientHash,
     formClerkHash,
     statusReactive,
+    updateCompetitionFormShallowRef,
+    updateCompetitionSchedulesFormShallowRef,
+    updateCompetitionLimitsFormShallowRef,
+    updateCompetitionPrizeRulesFormShallowRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -58,6 +70,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
         graphqlClientHash,
         formClerkHash,
         statusReactive,
+        updateCompetitionFormShallowRef,
+        updateCompetitionSchedulesFormShallowRef,
+        updateCompetitionLimitsFormShallowRef,
+        updateCompetitionPrizeRulesFormShallowRef,
       })
     )
   }
@@ -185,6 +201,46 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     return this.updateCompetitionPrizeRulesValidation
       .message
   }
+
+  /**
+   * get: updateCompetitionFormElement
+   *
+   * @returns {HTMLFormElement | null}
+   */
+  get updateCompetitionFormElement () {
+    return this.updateCompetitionFormShallowRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionSchedulesFormElement
+   *
+   * @returns {HTMLFormElement | null}
+   */
+  get updateCompetitionSchedulesFormElement () {
+    return this.updateCompetitionSchedulesFormShallowRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionLimitsFormElement
+   *
+   * @returns {HTMLFormElement | null}
+   */
+  get updateCompetitionLimitsFormElement () {
+    return this.updateCompetitionLimitsFormShallowRef
+      .value
+  }
+
+  /**
+   * get: updateCompetitionPrizeRulesFormElement
+   *
+   * @returns {HTMLFormElement | null}
+   */
+  get updateCompetitionPrizeRulesFormElement () {
+    return this.updateCompetitionPrizeRulesFormShallowRef
+      .value
+  }
 }
 
 /**
@@ -193,6 +249,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   statusReactive: StatusReactive
+ *   updateCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
+ *   updateCompetitionSchedulesFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
+ *   updateCompetitionLimitsFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
+ *   updateCompetitionPrizeRulesFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditMutationContextParams
  */
 

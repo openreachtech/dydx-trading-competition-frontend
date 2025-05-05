@@ -20,7 +20,6 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     route,
     fetcherHash,
     currentStepRef,
-    editCompetitionFormShallowRef,
   }) {
     super({
       props,
@@ -30,7 +29,6 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     this.route = route
     this.fetcherHash = fetcherHash
     this.currentStepRef = currentStepRef
-    this.editCompetitionFormShallowRef = editCompetitionFormShallowRef
   }
 
   /**
@@ -48,7 +46,6 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     route,
     fetcherHash,
     currentStepRef,
-    editCompetitionFormShallowRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -57,7 +54,6 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
         route,
         fetcherHash,
         currentStepRef,
-        editCompetitionFormShallowRef,
       })
     )
   }
@@ -248,7 +244,6 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
  *     competitionDetailsEdit: import('./CompetitionDetailsEditFetcher').default
  *   }
  *   currentStepRef: import('vue').Ref<number>
- *   editCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditPageContextParams
  */
 
