@@ -3,6 +3,7 @@ import {
   defineComponent,
   ref,
   shallowRef,
+  reactive,
 } from 'vue'
 
 import {
@@ -20,6 +21,14 @@ import AddCompetitionFormStepPrize from '~/components/competition-add/AddCompeti
 import {
   useRoute,
 } from 'vue-router'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
+
+import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+
+import CompetitionDetailsEditFetcher from './CompetitionDetailsEditFetcher'
 
 import CompetitionDetailsEditPageContext from './CompetitionDetailsEditPageContext'
 
@@ -44,11 +53,27 @@ export default defineComponent({
     const currentStepRef = ref(1)
     /** @type {import('vue').ShallowRef<HTMLFormElement | null>} */
     const editCompetitionFormShallowRef = shallowRef(null)
+    const statusReactive = reactive({
+      isLoadingInitialValue: true,
+    })
+
+    const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
+    const competitionDetailsEditFetcherArgs = {
+      route,
+      graphqlClientHash: {
+        competition: competitionGraphqlClient,
+      },
+      statusReactive,
+    }
+    const competitionDetailsEditFetcher = CompetitionDetailsEditFetcher.create(competitionDetailsEditFetcherArgs)
 
     const args = {
       props,
       componentContext,
       route,
+      fetcherHash: {
+        competitionDetailsEdit: competitionDetailsEditFetcher,
+      },
       currentStepRef,
       editCompetitionFormShallowRef,
     }

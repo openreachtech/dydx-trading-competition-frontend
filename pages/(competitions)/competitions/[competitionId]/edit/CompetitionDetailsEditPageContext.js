@@ -18,6 +18,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    fetcherHash,
     currentStepRef,
     editCompetitionFormShallowRef,
   }) {
@@ -27,6 +28,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.fetcherHash = fetcherHash
     this.currentStepRef = currentStepRef
     this.editCompetitionFormShallowRef = editCompetitionFormShallowRef
   }
@@ -44,6 +46,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    fetcherHash,
     currentStepRef,
     editCompetitionFormShallowRef,
   }) {
@@ -52,10 +55,37 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        fetcherHash,
         currentStepRef,
         editCompetitionFormShallowRef,
       })
     )
+  }
+
+  /**
+   * Setup component.
+   *
+   * @template {X extends CompetitionDetailsEditPageContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.fetcherHash
+      .competitionDetailsEdit
+      .fetchCompetitionOnMounted()
+
+    return this
+  }
+
+  /**
+   * get: competitionDetailsEditCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default}
+   */
+  get competitionDetailsEditCapsule () {
+    return this.fetcherHash
+      .competitionDetailsEdit
+      .competitionCapsule
   }
 
   /**
@@ -145,6 +175,9 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   fetcherHash: {
+ *     competitionDetailsEdit: import('./CompetitionDetailsEditFetcher').default
+ *   }
  *   currentStepRef: import('vue').Ref<number>
  *   editCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditPageContextParams
