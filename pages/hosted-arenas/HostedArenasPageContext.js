@@ -223,6 +223,35 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       totalRecords: this.extractTotalCount(),
     }
   }
+
+  /**
+   * get: competitionsTableHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get competitionsTableHeaderEntries () {
+    return [
+      {
+        key: 'title',
+        label: 'Title',
+      },
+      {
+        key: 'startDate',
+        label: 'Start (MM/DD/YYYY)',
+      },
+      {
+        key: 'endDate',
+        label: 'End (MM/DD/YYYY)',
+      },
+      {
+        key: 'status',
+        label: 'Status',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
 }
 
 /**
