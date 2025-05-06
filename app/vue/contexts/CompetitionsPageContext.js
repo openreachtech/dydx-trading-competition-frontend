@@ -128,7 +128,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
     title,
     statusId,
   } = {}) {
-    const replacementQuery = this.buileTitleReplacementQuery({
+    const replacementQuery = this.buildTitleReplacementQuery({
       title,
     })
 
@@ -166,7 +166,7 @@ export default class CompetitionsPageContext extends BaseFuroContext {
    * }} params - Parameters.
    * @returns {import('vue-router').LocationQuery}
    */
-  buileTitleReplacementQuery ({
+  buildTitleReplacementQuery ({
     title,
   }) {
     const {
