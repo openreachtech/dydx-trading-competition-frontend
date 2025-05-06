@@ -4,6 +4,7 @@ import {
 
 import {
   PAGINATION,
+  SCHEDULE_CATEGORY,
 } from '~/app/constants'
 
 /**
@@ -272,7 +273,138 @@ export default class HostedArenasPageContext extends BaseFuroContext {
 
     return competitions.map(competition => ({
       title: competition.title,
+      image: this.generateCompetitionImageUrl({
+        image: competition.image,
+      }),
+      startDate: this.extractRegistrationStartDate({
+        schedules: competition.schedules,
+      }),
+      endDate: this.extractCompetitionEndDate({
+        schedules: competition.schedules,
+      }),
     }))
+  }
+
+  /**
+   * Generate competition image url.
+   *
+   * @param {{
+   *   image?: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateCompetitionImageUrl ({
+    image,
+  }) {
+    if (!image) {
+      return '/img/badges/league-badge-placeholder.png'
+    }
+
+    return image
+  }
+
+  /**
+   * Extract registration start date of competition.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractRegistrationStartDate ({
+    schedules,
+  }) {
+    return this.extractCompetitionDatetimeById({
+      schedules,
+      categoryId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    })
+  }
+
+  /**
+   * Extract end date of competition.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractCompetitionEndDate ({
+    schedules,
+  }) {
+    return this.extractCompetitionDatetimeById({
+      schedules,
+      categoryId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
+    })
+  }
+
+  /**
+   * Extract competition datetime by id.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   *   categoryId: number
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractCompetitionDatetimeById ({
+    schedules,
+    categoryId,
+  }) {
+    return schedules.find(schedule => schedule.category.categoryId === categoryId)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Format date.
+   *
+   * @param {{
+   *   datetime: string | null
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatDate ({
+    datetime,
+  }) {
+    if (!datetime) {
+      return '--/--/--'
+    }
+
+    const date = new Date(datetime)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'UTC',
+    })
+
+    return formatter.format(date)
+  }
+
+  /**
+   * Format time.
+   *
+   * @param {{
+   *   datetime: string | null
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatTime ({
+    datetime,
+  }) {
+    if (!datetime) {
+      return '-- UTC'
+    }
+
+    const date = new Date(datetime)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'UTC',
+      hour12: false,
+    })
+
+    return `${formatter.format(date)} UTC`
   }
 }
 
@@ -295,4 +427,15 @@ export default class HostedArenasPageContext extends BaseFuroContext {
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
  */

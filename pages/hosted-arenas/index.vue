@@ -115,6 +115,56 @@ export default defineComponent({
           </span>
         </span>
       </template>
+
+      <template #body-startDate="{ value }">
+        <span class="unit-column date">
+          <Icon name="heroicons:rocket-launch-solid"
+            size="1rem"
+            class="icon"
+          />
+          <span class="date">
+            {{
+              context.formatDate({
+                datetime: value,
+              })
+            }}
+          </span>
+
+          <span />
+          <span class="time">
+            {{
+              context.formatTime({
+                datetime: value,
+              })
+            }}
+          </span>
+        </span>
+      </template>
+
+      <template #body-endDate="{ value }">
+        <span class="unit-column date">
+          <Icon name="heroicons:flag-solid"
+            size="1rem"
+            class="icon"
+          />
+          <span class="date">
+            {{
+              context.formatDate({
+                datetime: value,
+              })
+            }}
+          </span>
+
+          <span />
+          <span class="time">
+            {{
+              context.formatTime({
+                datetime: value,
+              })
+            }}
+          </span>
+        </span>
+      </template>
     </AppTable>
 
     <AppPagination :pagination="context.generateCompetitionsPaginationResult()" />
@@ -211,5 +261,27 @@ export default defineComponent({
     -webkit-line-clamp: var(--max-line-count);
     -webkit-box-orient: vertical;
   }
+}
+
+.unit-column.date {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 0.125rem;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+
+.unit-column.date > .icon {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.date > .date {
+  color: var(--color-text-secondary);
+}
+
+.unit-column.date > .time {
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-tertiary);
 }
 </style>
