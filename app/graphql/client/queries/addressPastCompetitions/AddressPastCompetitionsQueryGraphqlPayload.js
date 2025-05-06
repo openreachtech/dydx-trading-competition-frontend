@@ -3,7 +3,7 @@ import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 /**
  * AddressPastCompetitionsQuery graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof AddressPastCompetitionsQueryGraphqlPayload, AddressPastCompetitionsQueryRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<AddressPastCompetitionsQueryRequestVariables>}
  */
 export default class AddressPastCompetitionsQueryGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */
