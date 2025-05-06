@@ -68,6 +68,7 @@ export default defineComponent({
       fetcherHash: {
         hostedArenas: hostedArenasFetcher,
       },
+      statusReactive,
     }
     const context = HostedArenasPageContext.create(args)
       .setupComponent()
@@ -105,6 +106,7 @@ export default defineComponent({
     <AppTable :header-entries="context.competitionsTableHeaderEntries"
       :entries="context.generateCompetitionsTableEntries()"
       class="table"
+      :is-loading="context.isLoadingCompetitions"
     >
       <template #body-title="{ value, row }">
         <span class="unit-column title">
