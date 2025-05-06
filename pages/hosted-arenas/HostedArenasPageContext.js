@@ -18,6 +18,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    router,
     fetcherHash,
   }) {
     super({
@@ -26,6 +27,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.router = router
     this.fetcherHash = fetcherHash
   }
 
@@ -42,6 +44,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    router,
     fetcherHash,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -49,6 +52,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        router,
         fetcherHash,
       })
     )
@@ -134,11 +138,56 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       ? 1
       : currentPage
   }
+
+  /**
+   * Update `title` query.
+   *
+   * @param {{
+   *   title?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async updateTitleQuery ({
+    title,
+  }) {
+    const replacementQuery = this.buileTitleReplacementQuery({
+      title,
+    })
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+  }
+
+  /**
+   * Build replacement query for `title`.
+   *
+   * @param {{
+   *   title?: string
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buileTitleReplacementQuery ({
+    title,
+  }) {
+    const {
+      title: _,
+      ...restQuery
+    } = this.route.query
+
+    return title
+      ? {
+        ...restQuery,
+        title,
+      }
+      : restQuery
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   fetcherHash: {
  *     hostedArenas: import('./HostedArenasFetcher').default
  *   }
