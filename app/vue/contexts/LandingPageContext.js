@@ -245,7 +245,7 @@ export default class LandingPageContext extends BaseFuroContext {
     return [
       {
         question: 'How do I create my own competition?',
-        answer: 'Users can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please contact <a href="https://x.com/dydxfoundation" target="_blank">dYdX Foundation (@dydxfoundation)</a> or <a href="https://x.com/clc_validator" target="_blank">Crypto Learning Club | dYdX Validator (@clc_validator)</a>.',
+        answer: 'Users can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please fill in <a href="https://forms.gle/iYC1G5sjD7DSaRwp6" target="_blank">this form</a>.',
       },
       {
         question: 'How is my trading performance calculated?',
