@@ -252,6 +252,28 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       },
     ]
   }
+
+  /**
+   * Extract `competitions`
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
+   */
+  extractCompetitions () {
+    return this.competitionsCapsule.extractCompetitions()
+  }
+
+  /**
+   * Generate table entries for `competitions`.
+   *
+   * @returns {Array<*>}
+   */
+  generateCompetitionsTableEntries () {
+    const competitions = this.extractCompetitions()
+
+    return competitions.map(competition => ({
+      title: competition.title,
+    }))
+  }
 }
 
 /**

@@ -20,6 +20,7 @@ import {
 
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import AppTable from '~/components/units/AppTable.vue'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
@@ -32,6 +33,7 @@ export default defineComponent({
     Icon,
     AppSearchBar,
     AppPagination,
+    AppTable,
   },
 
   setup (
@@ -98,6 +100,23 @@ export default defineComponent({
       })"
     />
 
+    <AppTable :header-entries="context.competitionsTableHeaderEntries"
+      :entries="context.generateCompetitionsTableEntries()"
+      class="table"
+    >
+      <template #body-title="{ value, row }">
+        <span class="unit-column title">
+          <img :src="row.image"
+            :alt="value"
+            class="image"
+          >
+          <span class="title">
+            {{ value }}
+          </span>
+        </span>
+      </template>
+    </AppTable>
+
     <AppPagination :pagination="context.generateCompetitionsPaginationResult()" />
   </div>
 </template>
@@ -148,5 +167,49 @@ export default defineComponent({
 
 .unit-page > .search {
   margin-block-end: 1.5rem;
+}
+
+.unit-page > .table {
+  margin-block-end: 1.5rem;
+}
+
+.unit-column.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.unit-column.title > .image {
+  border-radius: 0.5rem;
+
+  width: 2rem;
+  height: 2rem;
+
+  padding-block: 0.125rem;
+  padding-inline: 0.125rem;
+
+  object-fit: cover;
+
+  background-color: var(--color-background-skeleton);
+}
+
+.unit-column.title > .title {
+  --max-line-count: 2;
+
+  max-height: calc(var(--max-line-count) * var(--size-line-height-base));
+
+  overflow: hidden;
+
+  font-weight: 700;
+  line-height: var(--size-line-height-base);
+}
+
+@supports (line-clamp: 2) or ((-webkit-line-clamp: 2) and (display: -webkit-box) and (-webkit-box-orient: vertical)) {
+  .unit-column.title > .title {
+    display: -webkit-box;
+    line-clamp: var(--max-line-count);
+    -webkit-line-clamp: var(--max-line-count);
+    -webkit-box-orient: vertical;
+  }
 }
 </style>
