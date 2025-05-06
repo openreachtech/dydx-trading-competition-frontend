@@ -3,7 +3,7 @@ import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 /**
  * UploadImageMutation graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof UploadImageMutationGraphqlPayload, UploadImageMutationRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<UploadImageMutationRequestVariables>}
  */
 export default class UploadImageMutationGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */

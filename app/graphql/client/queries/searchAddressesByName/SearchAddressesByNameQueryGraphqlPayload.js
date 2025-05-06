@@ -3,7 +3,7 @@ import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 /**
  * SearchAddressesByNameQuery graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof SearchAddressesByNameQueryGraphqlPayload, SearchAddressesByNameQueryRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<SearchAddressesByNameQueryRequestVariables>}
  */
 export default class SearchAddressesByNameQueryGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */
