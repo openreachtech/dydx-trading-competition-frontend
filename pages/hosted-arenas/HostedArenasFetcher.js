@@ -90,6 +90,7 @@ export default class HostedArenasFetcher {
             pagination,
           },
         },
+        hooks: this.competitionsLauncherHooks,
       })
   }
 
@@ -114,6 +115,7 @@ export default class HostedArenasFetcher {
             pagination,
           },
         },
+        hooks: this.competitionsLauncherHooks,
       })
   }
 
