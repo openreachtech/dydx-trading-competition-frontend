@@ -160,39 +160,18 @@ export default defineComponent({
       </div> -->
 
       <div class="actions">
-        <NuxtLink class="link"
-          :to="context.generateProfileUrl()"
-        >
-          <Icon name="heroicons:user"
-            size="1rem"
-          />
-
-          <span>My league profile</span>
-        </NuxtLink>
-
-        <NuxtLink :to="context.dydxTradeCtaUrl"
-          external
-          target="_blank"
-          rel="noopener noreferrer"
+        <NuxtLink v-for="(link, index) of context.generateNavigationLinks()"
+          :key="index"
           class="link"
+          :to="link.href"
+          v-bind="context.generateExternalLinkAttributes({
+            isExternal: link.isExternal,
+          })"
         >
-          <Icon name="heroicons:home-solid"
+          <Icon :name="link.iconName"
             size="1rem"
           />
-
-          <span>Open dydx.trade</span>
-        </NuxtLink>
-
-        <NuxtLink to="/terms"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-        >
-          <Icon name="heroicons:document-solid"
-            size="1rem"
-          />
-
-          <span>Terms of Use</span>
+          <span>{{ link.label }}</span>
         </NuxtLink>
 
         <button class="button"
