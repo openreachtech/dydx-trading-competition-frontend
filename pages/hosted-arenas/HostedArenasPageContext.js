@@ -4,7 +4,10 @@ import {
 
 import {
   PAGINATION,
+  SCHEDULE_CATEGORY,
 } from '~/app/constants'
+
+import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 /**
  * HostedArenasPageContext
@@ -24,6 +27,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     route,
     router,
     fetcherHash,
+    statusReactive,
   }) {
     super({
       props,
@@ -33,6 +37,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     this.route = route
     this.router = router
     this.fetcherHash = fetcherHash
+    this.statusReactive = statusReactive
   }
 
   /**
@@ -50,6 +55,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     route,
     router,
     fetcherHash,
+    statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -58,8 +64,18 @@ export default class HostedArenasPageContext extends BaseFuroContext {
         route,
         router,
         fetcherHash,
+        statusReactive,
       })
     )
+  }
+
+  /**
+   * get: isLoadingCompetitions
+   *
+   * @returns {boolean}
+   */
+  get isLoadingCompetitions () {
+    return this.statusReactive.isLoadingCompetitions
   }
 
   /**
@@ -223,6 +239,243 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       totalRecords: this.extractTotalCount(),
     }
   }
+
+  /**
+   * get: competitionsTableHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get competitionsTableHeaderEntries () {
+    return [
+      {
+        key: 'title',
+        label: 'Title',
+      },
+      {
+        key: 'startDate',
+        label: 'Start (MM/DD/YYYY)',
+      },
+      {
+        key: 'endDate',
+        label: 'End (MM/DD/YYYY)',
+      },
+      {
+        key: 'status',
+        label: 'Status',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
+   * Extract `competitions`
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
+   */
+  extractCompetitions () {
+    return this.competitionsCapsule.extractCompetitions()
+  }
+
+  /**
+   * Generate table entries for `competitions`.
+   *
+   * @returns {Array<*>}
+   */
+  generateCompetitionsTableEntries () {
+    const competitions = this.extractCompetitions()
+
+    return competitions.map(competition => ({
+      title: competition.title,
+      image: this.generateCompetitionImageUrl({
+        image: competition.image,
+      }),
+      startDate: this.extractRegistrationStartDate({
+        schedules: competition.schedules,
+      }),
+      endDate: this.extractCompetitionEndDate({
+        schedules: competition.schedules,
+      }),
+      status: competition.status.statusId,
+    }))
+  }
+
+  /**
+   * Generate competition image url.
+   *
+   * @param {{
+   *   image?: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateCompetitionImageUrl ({
+    image,
+  }) {
+    if (!image) {
+      return '/img/badges/league-badge-placeholder.png'
+    }
+
+    return image
+  }
+
+  /**
+   * Extract registration start date of competition.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractRegistrationStartDate ({
+    schedules,
+  }) {
+    return this.extractCompetitionDatetimeById({
+      schedules,
+      categoryId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    })
+  }
+
+  /**
+   * Extract end date of competition.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractCompetitionEndDate ({
+    schedules,
+  }) {
+    return this.extractCompetitionDatetimeById({
+      schedules,
+      categoryId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
+    })
+  }
+
+  /**
+   * Extract competition datetime by id.
+   *
+   * @param {{
+   *   schedules: Array<Schedule>
+   *   categoryId: number
+   * }} params - Parameters.
+   * @returns {string | null}
+   */
+  extractCompetitionDatetimeById ({
+    schedules,
+    categoryId,
+  }) {
+    return schedules.find(schedule => schedule.category.categoryId === categoryId)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Format date.
+   *
+   * @param {{
+   *   datetime: string | null
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatDate ({
+    datetime,
+  }) {
+    if (!datetime) {
+      return '--/--/--'
+    }
+
+    const date = new Date(datetime)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      timeZone: 'UTC',
+    })
+
+    return formatter.format(date)
+  }
+
+  /**
+   * Format time.
+   *
+   * @param {{
+   *   datetime: string | null
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatTime ({
+    datetime,
+  }) {
+    if (!datetime) {
+      return '-- UTC'
+    }
+
+    const date = new Date(datetime)
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'UTC',
+      hour12: false,
+    })
+
+    return `${formatter.format(date)} UTC`
+  }
+
+  /**
+   * Generate badge severity.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
+   */
+  generateBadgeSeverity ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateSeverity()
+  }
+
+  /**
+   * Generate badge description.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {string} Badge description.
+   */
+  generateBadgeDescription ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateDescription()
+  }
+
+  /**
+   * Generate icon name for badge.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateIconNameReturnType} Icon name.
+   */
+  generateBadgeIconName ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateIconName()
+  }
 }
 
 /**
@@ -232,6 +485,9 @@ export default class HostedArenasPageContext extends BaseFuroContext {
  *   fetcherHash: {
  *     hostedArenas: import('./HostedArenasFetcher').default
  *   }
+ *   statusReactive: import('vue').Reactive<{
+ *     isLoadingCompetitions: boolean
+ *   }>
  * }} HostedArenasPageContextParams
  */
 
@@ -244,4 +500,15 @@ export default class HostedArenasPageContext extends BaseFuroContext {
  *   limit: number
  *   totalRecords: number
  * }} PaginationResult
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
  */
