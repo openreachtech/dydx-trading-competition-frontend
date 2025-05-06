@@ -27,6 +27,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     route,
     router,
     fetcherHash,
+    statusReactive,
   }) {
     super({
       props,
@@ -36,6 +37,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     this.route = route
     this.router = router
     this.fetcherHash = fetcherHash
+    this.statusReactive = statusReactive
   }
 
   /**
@@ -53,6 +55,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     route,
     router,
     fetcherHash,
+    statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -61,8 +64,18 @@ export default class HostedArenasPageContext extends BaseFuroContext {
         route,
         router,
         fetcherHash,
+        statusReactive,
       })
     )
+  }
+
+  /**
+   * get: isLoadingCompetitions
+   *
+   * @returns {boolean}
+   */
+  get isLoadingCompetitions () {
+    return this.statusReactive.isLoadingCompetitions
   }
 
   /**
@@ -472,6 +485,9 @@ export default class HostedArenasPageContext extends BaseFuroContext {
  *   fetcherHash: {
  *     hostedArenas: import('./HostedArenasFetcher').default
  *   }
+ *   statusReactive: import('vue').Reactive<{
+ *     isLoadingCompetitions: boolean
+ *   }>
  * }} HostedArenasPageContextParams
  */
 
