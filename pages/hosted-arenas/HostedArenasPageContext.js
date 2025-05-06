@@ -154,7 +154,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
   async updateTitleQuery ({
     title,
   }) {
-    const replacementQuery = this.buileTitleReplacementQuery({
+    const replacementQuery = this.buildTitleReplacementQuery({
       title,
     })
 
@@ -171,7 +171,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
    * }} params - Parameters.
    * @returns {import('vue-router').LocationQuery}
    */
-  buileTitleReplacementQuery ({
+  buildTitleReplacementQuery ({
     title,
   }) {
     const {
