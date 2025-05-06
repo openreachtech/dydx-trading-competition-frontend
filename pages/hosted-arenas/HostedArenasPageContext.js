@@ -7,6 +7,8 @@ import {
   SCHEDULE_CATEGORY,
 } from '~/app/constants'
 
+import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+
 /**
  * HostedArenasPageContext
  *
@@ -282,6 +284,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       endDate: this.extractCompetitionEndDate({
         schedules: competition.schedules,
       }),
+      status: competition.status.statusId,
     }))
   }
 
@@ -405,6 +408,60 @@ export default class HostedArenasPageContext extends BaseFuroContext {
     })
 
     return `${formatter.format(date)} UTC`
+  }
+
+  /**
+   * Generate badge severity.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
+   */
+  generateBadgeSeverity ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateSeverity()
+  }
+
+  /**
+   * Generate badge description.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {string} Badge description.
+   */
+  generateBadgeDescription ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateDescription()
+  }
+
+  /**
+   * Generate icon name for badge.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateIconNameReturnType} Icon name.
+   */
+  generateBadgeIconName ({
+    statusId,
+  }) {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId,
+    })
+
+    return badgeContext.generateIconName()
   }
 }
 
