@@ -20,6 +20,8 @@ import {
 
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import AppTable from '~/components/units/AppTable.vue'
+import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
@@ -32,6 +34,8 @@ export default defineComponent({
     Icon,
     AppSearchBar,
     AppPagination,
+    AppTable,
+    AppIconBadge,
   },
 
   setup (
@@ -64,6 +68,7 @@ export default defineComponent({
       fetcherHash: {
         hostedArenas: hostedArenasFetcher,
       },
+      statusReactive,
     }
     const context = HostedArenasPageContext.create(args)
       .setupComponent()
@@ -97,6 +102,90 @@ export default defineComponent({
         title: query,
       })"
     />
+
+    <AppTable :header-entries="context.competitionsTableHeaderEntries"
+      :entries="context.generateCompetitionsTableEntries()"
+      class="table"
+      :is-loading="context.isLoadingCompetitions"
+    >
+      <template #body-title="{ value, row }">
+        <span class="unit-column title">
+          <img :src="row.image"
+            :alt="value"
+            class="image"
+          >
+          <span class="title">
+            {{ value }}
+          </span>
+        </span>
+      </template>
+
+      <template #body-startDate="{ value }">
+        <span class="unit-column date">
+          <Icon name="heroicons:rocket-launch-solid"
+            size="1rem"
+            class="icon"
+          />
+          <span class="date">
+            {{
+              context.formatDate({
+                datetime: value,
+              })
+            }}
+          </span>
+
+          <span />
+          <span class="time">
+            {{
+              context.formatTime({
+                datetime: value,
+              })
+            }}
+          </span>
+        </span>
+      </template>
+
+      <template #body-endDate="{ value }">
+        <span class="unit-column date">
+          <Icon name="heroicons:flag-solid"
+            size="1rem"
+            class="icon"
+          />
+          <span class="date">
+            {{
+              context.formatDate({
+                datetime: value,
+              })
+            }}
+          </span>
+
+          <span />
+          <span class="time">
+            {{
+              context.formatTime({
+                datetime: value,
+              })
+            }}
+          </span>
+        </span>
+      </template>
+
+      <template #body-status="{ value }">
+        <AppIconBadge :icon-name="context.generateBadgeIconName({
+                        statusId: value,
+                      })"
+          :severity="context.generateBadgeSeverity({
+            statusId: value,
+          })"
+        >
+          {{
+            context.generateBadgeDescription({
+              statusId: value,
+            })
+          }}
+        </AppIconBadge>
+      </template>
+    </AppTable>
 
     <AppPagination :pagination="context.generateCompetitionsPaginationResult()" />
   </div>
@@ -148,5 +237,71 @@ export default defineComponent({
 
 .unit-page > .search {
   margin-block-end: 1.5rem;
+}
+
+.unit-page > .table {
+  margin-block-end: 1.5rem;
+}
+
+.unit-column.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.unit-column.title > .image {
+  border-radius: 0.5rem;
+
+  width: 2rem;
+  height: 2rem;
+
+  padding-block: 0.125rem;
+  padding-inline: 0.125rem;
+
+  object-fit: cover;
+
+  background-color: var(--color-background-skeleton);
+}
+
+.unit-column.title > .title {
+  --max-line-count: 2;
+
+  max-height: calc(var(--max-line-count) * var(--size-line-height-base));
+
+  overflow: hidden;
+
+  font-weight: 700;
+  line-height: var(--size-line-height-base);
+}
+
+@supports (line-clamp: 2) or ((-webkit-line-clamp: 2) and (display: -webkit-box) and (-webkit-box-orient: vertical)) {
+  .unit-column.title > .title {
+    display: -webkit-box;
+    line-clamp: var(--max-line-count);
+    -webkit-line-clamp: var(--max-line-count);
+    -webkit-box-orient: vertical;
+  }
+}
+
+.unit-column.date {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 0.125rem;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+
+.unit-column.date > .icon {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.date > .date {
+  color: var(--color-text-secondary);
+}
+
+.unit-column.date > .time {
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-tertiary);
 }
 </style>
