@@ -123,7 +123,8 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
    */
   setupComponent () {
     this.watch(
-      () => this.initialPrizeRules,
+      // This array always starts empty. We only invoke one-time watcher if it is no longer empty.
+      () => this.initialPrizeRules.length,
       () => {
         this.syncInitialPrizeRules()
       },
