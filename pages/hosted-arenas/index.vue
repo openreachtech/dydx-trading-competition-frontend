@@ -6,6 +6,7 @@ import {
 
 import {
   useRoute,
+  useRouter,
 } from 'vue-router'
 import {
   useGraphqlClient,
@@ -17,6 +18,8 @@ import {
   Icon,
 } from '#components'
 
+import AppSearchBar from '~/components/units/AppSearchBar.vue'
+
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
 import HostedArenasFetcher from './HostedArenasFetcher'
@@ -26,6 +29,7 @@ export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    AppSearchBar,
   },
 
   setup (
@@ -33,6 +37,7 @@ export default defineComponent({
     componentContext
   ) {
     const route = useRoute()
+    const router = useRouter()
     const walletStore = useWalletStore()
 
     const statusReactive = reactive({
@@ -53,6 +58,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      router,
       fetcherHash: {
         hostedArenas: hostedArenasFetcher,
       },
@@ -81,6 +87,13 @@ export default defineComponent({
         My Hosted Arenas
       </span>
     </div>
+
+    <AppSearchBar placeholder="Search your hosted arenas"
+      size="large"
+      @search="query => context.updateTitleQuery({
+        title: query,
+      })"
+    />
   </div>
 </template>
 
