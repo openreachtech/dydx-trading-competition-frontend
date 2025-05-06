@@ -54,6 +54,7 @@ export default class CompetitionsQueryGraphqlPayload extends BaseAppGraphqlPaylo
  *   input: {
  *     title?: string
  *     statusId?: number
+ *     hostAddress?: string
  *     pagination: {
  *       limit: number
  *       offset: number
