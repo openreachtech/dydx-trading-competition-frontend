@@ -21,6 +21,10 @@ import AddCompetitionFormStepParticipation from '~/components/competition-add/Ad
 import AddCompetitionFormStepPrize from '~/components/competition-add/AddCompetitionFormStepPrize.vue'
 
 import {
+  definePageMeta,
+} from '#imports'
+
+import {
   useRoute,
 } from 'vue-router'
 
@@ -63,6 +67,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      middleware: [
+        'competition-edit-permission',
+      ],
+    })
+
     const route = useRoute()
 
     const currentStepRef = ref(1)
