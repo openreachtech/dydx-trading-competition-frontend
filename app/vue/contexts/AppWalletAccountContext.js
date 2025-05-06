@@ -135,6 +135,11 @@ export default class AppWalletAccountContext extends BaseFuroContext {
         label: 'My league profile',
       },
       {
+        href: '/hosted-arenas',
+        iconName: 'heroicons-outline:rectangle-stack',
+        label: 'My hosted arenas',
+      },
+      {
         href: this.dydxTradeCtaUrl,
         iconName: 'heroicons:home-solid',
         label: 'Open dydx.trade',
