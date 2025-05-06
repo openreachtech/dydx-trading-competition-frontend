@@ -19,6 +19,7 @@ import {
 } from '#components'
 
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
+import AppPagination from '~/components/units/AppPagination.vue'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
@@ -30,6 +31,7 @@ export default defineComponent({
     NuxtLink,
     Icon,
     AppSearchBar,
+    AppPagination,
   },
 
   setup (
@@ -90,10 +92,13 @@ export default defineComponent({
 
     <AppSearchBar placeholder="Search your hosted arenas"
       size="large"
+      class="search"
       @search="query => context.updateTitleQuery({
         title: query,
       })"
     />
+
+    <AppPagination :pagination="context.generateCompetitionsPaginationResult()" />
   </div>
 </template>
 
@@ -139,5 +144,9 @@ export default defineComponent({
   font-size: var(--font-size-large);
   font-weight: 500;
   line-height: var(--size-line-height-large);
+}
+
+.unit-page > .search {
+  margin-block-end: 1.5rem;
 }
 </style>
