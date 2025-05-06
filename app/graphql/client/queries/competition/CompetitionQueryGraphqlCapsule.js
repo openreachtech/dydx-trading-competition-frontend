@@ -119,6 +119,39 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.participantLowerLimit
       ?? null
   }
+
+  /**
+   * get: host
+   *
+   * @returns {Host | null}
+   */
+  get host () {
+    return this.extractCompetition()
+      ?.host
+      ?? null
+  }
+
+  /**
+   * get: hostAddress
+   *
+   * @returns {string | null}
+   */
+  get hostAddress () {
+    return this.host
+      ?.address
+      ?? null
+  }
+
+  /**
+   * get: hostName
+   *
+   * @returns {string | null}
+   */
+  get hostName () {
+    return this.host
+      ?.name
+      ?? null
+  }
 }
 
 /**
@@ -136,10 +169,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   description: string
  *   participantUpperLimit: number
  *   participantLowerLimit: number
- *   host: {
- *     address: string
- *     name: string
- *   }
+ *   host: Host
  *   totalPrize: number
  *   minimumDeposit: string
  *   image?: string
@@ -162,4 +192,11 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *     amount: string
  *   }>
  * }} CompetitionEntity
+ */
+
+/**
+ * @typedef {{
+ *   address: string
+ *   name: string
+ * }} Host
  */
