@@ -21,6 +21,7 @@ import {
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppTable from '~/components/units/AppTable.vue'
+import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
@@ -34,6 +35,7 @@ export default defineComponent({
     AppSearchBar,
     AppPagination,
     AppTable,
+    AppIconBadge,
   },
 
   setup (
@@ -164,6 +166,22 @@ export default defineComponent({
             }}
           </span>
         </span>
+      </template>
+
+      <template #body-status="{ value }">
+        <AppIconBadge :icon-name="context.generateBadgeIconName({
+                        statusId: value,
+                      })"
+          :severity="context.generateBadgeSeverity({
+            statusId: value,
+          })"
+        >
+          {{
+            context.generateBadgeDescription({
+              statusId: value,
+            })
+          }}
+        </AppIconBadge>
       </template>
     </AppTable>
 
