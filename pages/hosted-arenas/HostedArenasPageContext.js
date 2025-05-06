@@ -2,6 +2,10 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  PAGINATION,
+} from '~/app/constants'
+
 /**
  * HostedArenasPageContext
  *
@@ -182,6 +186,43 @@ export default class HostedArenasPageContext extends BaseFuroContext {
       }
       : restQuery
   }
+
+  /**
+   * get: competitionsCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').default}
+   */
+  get competitionsCapsule () {
+    return this.fetcherHash
+      .hostedArenas
+      .competitionsCapsule
+  }
+
+  /**
+   * Extract `totalCount`.
+   *
+   * @returns {number}
+   */
+  extractTotalCount () {
+    const {
+      totalCount,
+    } = this.competitionsCapsule
+
+    return totalCount
+      ?? 0
+  }
+
+  /**
+   * Generate `competitions` pagination result.
+   *
+   * @returns {PaginationResult}
+   */
+  generateCompetitionsPaginationResult () {
+    return {
+      limit: PAGINATION.LIMIT,
+      totalRecords: this.extractTotalCount(),
+    }
+  }
 }
 
 /**
@@ -196,4 +237,11 @@ export default class HostedArenasPageContext extends BaseFuroContext {
 
 /**
  * @typedef {HostedArenasPageContextParams} HostedArenasPageContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   limit: number
+ *   totalRecords: number
+ * }} PaginationResult
  */
