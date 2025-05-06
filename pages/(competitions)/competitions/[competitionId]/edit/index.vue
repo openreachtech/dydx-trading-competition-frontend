@@ -12,6 +12,8 @@ import {
 } from '#components'
 
 import AppButton from '~/components/units/AppButton.vue'
+import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
+import AppSkeleton from '~/components/units/AppSkeleton.vue'
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
@@ -48,6 +50,8 @@ export default defineComponent({
     NuxtLink,
     Icon,
     AppButton,
+    AppLoadingLayout,
+    AppSkeleton,
     AddCompetitionFormSteps,
     AddCompetitionFormStepDetails,
     AddCompetitionFormStepTimeline,
@@ -88,6 +92,7 @@ export default defineComponent({
         competitionDetailsEdit: competitionDetailsEditFetcher,
       },
       currentStepRef,
+      statusReactive,
     }
     const context = CompetitionDetailsEditPageContext.create(args)
       .setupComponent()
@@ -171,111 +176,124 @@ export default defineComponent({
       </span>
     </div>
 
-    <div class="unit-form-container">
-      <div class="steps">
-        <form :ref="mutationContext.updateCompetitionFormShallowRef"
-          class="unit-form step"
-          :class="context.generateStepClasses({
-            step: 1,
-          })"
-          @submit.prevent="mutationContext.submitFormUpdateCompetition()"
-        >
-          <input type="number"
-            class="input hidden"
-            name="competitionId"
-            :value="mutationContext.extractCompetitionIdFromRoute()"
-          >
-          <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
-            :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
-            class="controls"
-          />
-          <AppButton type="submit"
-            class="button submit"
-            :is-loading="mutationContext.isUpdatingCompetition"
-          >
-            Save changes
-          </AppButton>
-        </form>
+    <AppLoadingLayout :is-loading="context.isLoadingInitialValue">
+      <template #contents>
+        <!-- NOTE: Empty div wrapper as a workaround for hiding issue. Fixed in newer furo-nuxt version. -->
+        <div>
+          <div class="unit-form-container">
+            <div class="steps">
+              <form :ref="mutationContext.updateCompetitionFormShallowRef"
+                class="unit-form step"
+                :class="context.generateStepClasses({
+                  step: 1,
+                })"
+                @submit.prevent="mutationContext.submitFormUpdateCompetition()"
+              >
+                <input type="number"
+                  class="input hidden"
+                  name="competitionId"
+                  :value="mutationContext.extractCompetitionIdFromRoute()"
+                >
+                <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
+                  :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
+                  class="controls"
+                />
+                <AppButton type="submit"
+                  class="button submit"
+                  :is-loading="mutationContext.isUpdatingCompetition"
+                >
+                  Save changes
+                </AppButton>
+              </form>
 
-        <form :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
-          class="unit-form step"
-          :class="context.generateStepClasses({
-            step: 2,
-          })"
-          @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
-        >
-          <input type="number"
-            class="input hidden"
-            name="competitionId"
-            :value="mutationContext.extractCompetitionIdFromRoute()"
-          >
-          <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
-            :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
-            class="controls"
-          />
-          <AppButton type="submit"
-            class="button submit"
-            :is-loading="mutationContext.isUpdatingCompetitionSchedules"
-          >
-            Save changes
-          </AppButton>
-        </form>
+              <form :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
+                class="unit-form step"
+                :class="context.generateStepClasses({
+                  step: 2,
+                })"
+                @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
+              >
+                <input type="number"
+                  class="input hidden"
+                  name="competitionId"
+                  :value="mutationContext.extractCompetitionIdFromRoute()"
+                >
+                <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
+                  :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
+                  class="controls"
+                />
+                <AppButton type="submit"
+                  class="button submit"
+                  :is-loading="mutationContext.isUpdatingCompetitionSchedules"
+                >
+                  Save changes
+                </AppButton>
+              </form>
 
-        <form :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
-          class="unit-form step"
-          :class="context.generateStepClasses({
-            step: 3,
-          })"
-          @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
-        >
-          <input type="number"
-            class="input hidden"
-            name="competitionId"
-            :value="mutationContext.extractCompetitionIdFromRoute()"
-          >
-          <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
-            :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
-            class="controls"
-          />
-          <AppButton type="submit"
-            class="button submit"
-            :is-loading="mutationContext.isUpdatingCompetitionLimits"
-          >
-            Save changes
-          </AppButton>
-        </form>
+              <form :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
+                class="unit-form step"
+                :class="context.generateStepClasses({
+                  step: 3,
+                })"
+                @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
+              >
+                <input type="number"
+                  class="input hidden"
+                  name="competitionId"
+                  :value="mutationContext.extractCompetitionIdFromRoute()"
+                >
+                <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
+                  :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
+                  class="controls"
+                />
+                <AppButton type="submit"
+                  class="button submit"
+                  :is-loading="mutationContext.isUpdatingCompetitionLimits"
+                >
+                  Save changes
+                </AppButton>
+              </form>
 
-        <form :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
-          class="unit-form step"
-          :class="context.generateStepClasses({
-            step: 4,
-          })"
-          @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
-        >
-          <input type="number"
-            class="input hidden"
-            name="competitionId"
-            :value="mutationContext.extractCompetitionIdFromRoute()"
-          >
-          <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
-            :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
-            should-omit-total-prize
-            class="controls"
-          />
-          <AppButton type="submit"
-            class="button submit"
-            :is-loading="mutationContext.isUpdatingCompetitionPrizeRules"
-          >
-            Save changes
-          </AppButton>
-        </form>
-      </div>
+              <form :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
+                class="unit-form step"
+                :class="context.generateStepClasses({
+                  step: 4,
+                })"
+                @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
+              >
+                <input type="number"
+                  class="input hidden"
+                  name="competitionId"
+                  :value="mutationContext.extractCompetitionIdFromRoute()"
+                >
+                <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
+                  :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
+                  should-omit-total-prize
+                  class="controls"
+                />
+                <AppButton type="submit"
+                  class="button submit"
+                  :is-loading="mutationContext.isUpdatingCompetitionPrizeRules"
+                >
+                  Save changes
+                </AppButton>
+              </form>
+            </div>
 
-      <AddCompetitionFormSteps :current-step="context.currentStep"
-        :steps="context.steps"
-        @go-to-step="context.goToStep($event)"
-      />
-    </div>
+            <AddCompetitionFormSteps :current-step="context.currentStep"
+              :steps="context.steps"
+              @go-to-step="context.goToStep($event)"
+            />
+          </div>
+        </div>
+      </template>
+
+      <template #loader>
+        <AppSkeleton height="40rem"
+          class="unit-form-container"
+        />
+      </template>
+    </AppLoadingLayout>
   </div>
 </template>
 
