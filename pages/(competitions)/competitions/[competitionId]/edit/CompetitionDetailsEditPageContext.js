@@ -20,6 +20,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     route,
     fetcherHash,
     currentStepRef,
+    statusReactive,
   }) {
     super({
       props,
@@ -29,6 +30,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     this.route = route
     this.fetcherHash = fetcherHash
     this.currentStepRef = currentStepRef
+    this.statusReactive = statusReactive
   }
 
   /**
@@ -46,6 +48,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     route,
     fetcherHash,
     currentStepRef,
+    statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -54,6 +57,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
         route,
         fetcherHash,
         currentStepRef,
+        statusReactive,
       })
     )
   }
@@ -71,6 +75,16 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
       .fetchCompetitionOnMounted()
 
     return this
+  }
+
+  /**
+   * get: isLoadingInitialValue
+   *
+   * @returns {boolean}
+   */
+  get isLoadingInitialValue () {
+    return this.statusReactive
+      .isLoadingInitialValue
   }
 
   /**
@@ -244,6 +258,9 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
  *     competitionDetailsEdit: import('./CompetitionDetailsEditFetcher').default
  *   }
  *   currentStepRef: import('vue').Ref<number>
+ *   statusReactive: import('vue').Reactive<{
+ *     isLoadingInitialValue: boolean
+ *   }>
  * }} CompetitionDetailsEditPageContextParams
  */
 
