@@ -1,13 +1,25 @@
 <script>
 import {
   defineComponent,
+  reactive,
 } from 'vue'
+
+import {
+  useRoute,
+} from 'vue-router'
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
+import useWalletStore from '~/stores/wallet'
 
 import {
   NuxtLink,
   Icon,
 } from '#components'
 
+import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
+
+import HostedArenasFetcher from './HostedArenasFetcher'
 import HostedArenasPageContext from './HostedArenasPageContext'
 
 export default defineComponent({
@@ -20,9 +32,30 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const walletStore = useWalletStore()
+
+    const statusReactive = reactive({
+      isLoadingCompetitions: true,
+    })
+
+    const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
+    const hostedArenasFetcher = HostedArenasFetcher.create({
+      route,
+      walletStore,
+      graphqlClientHash: {
+        competitions: competitionsGraphqlClient,
+      },
+      statusReactive,
+    })
+
     const args = {
       props,
       componentContext,
+      route,
+      fetcherHash: {
+        hostedArenas: hostedArenasFetcher,
+      },
     }
     const context = HostedArenasPageContext.create(args)
       .setupComponent()
