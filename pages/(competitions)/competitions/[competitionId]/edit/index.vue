@@ -173,11 +173,13 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="header">
-      <NuxtLink :to="context.generateCompetitionDetailsUrl()"
+      <NuxtLink
+        :to="context.generateCompetitionDetailsUrl()"
         aria-label="Go back to competition details"
         class="link back"
       >
-        <Icon name="heroicons:arrow-left"
+        <Icon
+          name="heroicons:arrow-left"
           size="1.5rem"
         />
       </NuxtLink>
@@ -192,23 +194,27 @@ export default defineComponent({
         <div>
           <div class="unit-form-container">
             <div class="steps">
-              <form :ref="mutationContext.updateCompetitionFormShallowRef"
+              <form
+                :ref="mutationContext.updateCompetitionFormShallowRef"
                 class="unit-form step"
                 :class="context.generateStepClasses({
                   step: 1,
                 })"
                 @submit.prevent="mutationContext.submitFormUpdateCompetition()"
               >
-                <input type="number"
+                <input
+                  type="number"
                   class="input hidden"
                   name="competitionId"
                   :value="mutationContext.extractCompetitionIdFromRoute()"
                 >
-                <AddCompetitionFormStepDetails :validation-message="mutationContext.updateCompetitionValidationMessage"
+                <AddCompetitionFormStepDetails
+                  :validation-message="mutationContext.updateCompetitionValidationMessage"
                   :initial-form-value-hash="context.generateStepDetailsInitialValueHash()"
                   class="controls"
                 />
-                <AppButton type="submit"
+                <AppButton
+                  type="submit"
                   class="button submit"
                   :is-loading="mutationContext.isUpdatingCompetition"
                 >
@@ -216,23 +222,27 @@ export default defineComponent({
                 </AppButton>
               </form>
 
-              <form :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
+              <form
+                :ref="mutationContext.updateCompetitionSchedulesFormShallowRef"
                 class="unit-form step"
                 :class="context.generateStepClasses({
                   step: 2,
                 })"
                 @submit.prevent="mutationContext.submitFormUpdateCompetitionSchedules()"
               >
-                <input type="number"
+                <input
+                  type="number"
                   class="input hidden"
                   name="competitionId"
                   :value="mutationContext.extractCompetitionIdFromRoute()"
                 >
-                <AddCompetitionFormStepTimeline :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
+                <AddCompetitionFormStepTimeline
+                  :validation-message="mutationContext.updateCompetitionSchedulesValidationMessage"
                   :initial-form-value-hash="context.generateStepTimelineInitialValueHash()"
                   class="controls"
                 />
-                <AppButton type="submit"
+                <AppButton
+                  type="submit"
                   class="button submit"
                   :is-loading="mutationContext.isUpdatingCompetitionSchedules"
                 >
@@ -240,23 +250,27 @@ export default defineComponent({
                 </AppButton>
               </form>
 
-              <form :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
+              <form
+                :ref="mutationContext.updateCompetitionLimitsFormShallowRef"
                 class="unit-form step"
                 :class="context.generateStepClasses({
                   step: 3,
                 })"
                 @submit.prevent="mutationContext.submitFormUpdateCompetitionLimits()"
               >
-                <input type="number"
+                <input
+                  type="number"
                   class="input hidden"
                   name="competitionId"
                   :value="mutationContext.extractCompetitionIdFromRoute()"
                 >
-                <AddCompetitionFormStepParticipation :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
+                <AddCompetitionFormStepParticipation
+                  :validation-message="mutationContext.updateCompetitionLimitsValidationMessage"
                   :initial-form-value-hash="context.generateStepParticipationInitialValueHash()"
                   class="controls"
                 />
-                <AppButton type="submit"
+                <AppButton
+                  type="submit"
                   class="button submit"
                   :is-loading="mutationContext.isUpdatingCompetitionLimits"
                 >
@@ -264,24 +278,28 @@ export default defineComponent({
                 </AppButton>
               </form>
 
-              <form :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
+              <form
+                :ref="mutationContext.updateCompetitionPrizeRulesFormShallowRef"
                 class="unit-form step"
                 :class="context.generateStepClasses({
                   step: 4,
                 })"
                 @submit.prevent="mutationContext.submitFormUpdateCompetitionPrizeRules()"
               >
-                <input type="number"
+                <input
+                  type="number"
                   class="input hidden"
                   name="competitionId"
                   :value="mutationContext.extractCompetitionIdFromRoute()"
                 >
-                <AddCompetitionFormStepPrize :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
+                <AddCompetitionFormStepPrize
+                  :validation-message="mutationContext.updateCompetitionPrizeRulesValidationMessage"
                   :initial-form-value-hash="context.generateStepPrizeInitialValueHash()"
                   should-omit-total-prize
                   class="controls"
                 />
-                <AppButton type="submit"
+                <AppButton
+                  type="submit"
                   class="button submit"
                   :is-loading="mutationContext.isUpdatingCompetitionPrizeRules"
                 >
@@ -290,7 +308,8 @@ export default defineComponent({
               </form>
             </div>
 
-            <AddCompetitionFormSteps :current-step="context.currentStep"
+            <AddCompetitionFormSteps
+              :current-step="context.currentStep"
               :steps="context.steps"
               @go-to-step="context.goToStep($event)"
             />
@@ -299,7 +318,8 @@ export default defineComponent({
       </template>
 
       <template #loader>
-        <AppSkeleton height="40rem"
+        <AppSkeleton
+          height="40rem"
           class="unit-form-container"
         />
       </template>
