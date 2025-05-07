@@ -109,7 +109,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-page">
-    <SectionProfileOverview :competition="context.currentCompetition"
+    <SectionProfileOverview
+      :competition="context.currentCompetition"
       :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
@@ -122,7 +123,8 @@ export default defineComponent({
 
     <SectionProfileHistory :profile-overview="context.profileOverview" />
 
-    <ProfileRenameDialog ref="profileRenameDialogRef"
+    <ProfileRenameDialog
+      ref="profileRenameDialogRef"
       :initial-username="context.addressName"
       :is-renaming="mutationContext.isRenaming"
       :error-message="mutationContext.errorMessage"

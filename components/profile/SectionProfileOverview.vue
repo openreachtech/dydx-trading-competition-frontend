@@ -78,7 +78,8 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <div class="unit-basic"
+      <div
+        class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
       >
         <span class="label">
@@ -86,17 +87,20 @@ export default defineComponent({
         </span>
 
         <span class="heading">
-          <Icon name="heroicons:user"
+          <Icon
+            name="heroicons:user"
             class="icon"
             size="2.25rem"
           />
 
           <span>{{ context.addressName }}</span>
 
-          <button class="button"
+          <button
+            class="button"
             @click="context.showProfileRenameDialog()"
           >
-            <Icon name="heroicons:pencil"
+            <Icon
+              name="heroicons:pencil"
               size="1.5rem"
             />
           </button>
@@ -110,11 +114,13 @@ export default defineComponent({
           </span>
 
           <div class="actions">
-            <CopyButton :content-to-copy="context.profileAddress"
+            <CopyButton
+              :content-to-copy="context.profileAddress"
               icon-size="1.25rem"
             />
 
-            <LinkTooltipButton :href="context.generateProfileAddressUrl()"
+            <LinkTooltipButton
+              :href="context.generateProfileAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
@@ -133,10 +139,12 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <NuxtLink :to="context.generateCompetitionUrl()"
+              <NuxtLink
+                :to="context.generateCompetitionUrl()"
                 class="link"
               >
-                <img class="image"
+                <img
+                  class="image"
                   :src="context.image"
                   :alt="context.generateCompetitionTitle()"
                 >
@@ -160,7 +168,8 @@ export default defineComponent({
               PnL & ROI
             </dt>
 
-            <dd class="description profit"
+            <dd
+              class="description profit"
               :class="context.generatePnlClasses()"
             >
               {{ context.generatePnlRoi() }}
@@ -173,7 +182,8 @@ export default defineComponent({
             </dt>
 
             <dd class="description ranking">
-              <Icon name="heroicons:trophy"
+              <Icon
+                name="heroicons:trophy"
                 size="1.25rem"
                 class="icon"
               />

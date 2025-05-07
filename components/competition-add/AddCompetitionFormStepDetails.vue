@@ -102,7 +102,8 @@ export default defineComponent({
         League title
       </span>
 
-      <AppInput name="title"
+      <AppInput
+        name="title"
         :value="context.initialTitle"
         placeholder="Give your league a name (max 30 characters)"
         :has-error="Boolean(context.validationMessage.title)"
@@ -115,7 +116,8 @@ export default defineComponent({
         Description
       </span>
 
-      <AppTextarea name="description"
+      <AppTextarea
+        name="description"
         rows="10"
         :value="context.initialDescription"
         placeholder="Describe your league (max 250 characters)"
@@ -134,13 +136,15 @@ export default defineComponent({
       </p>
 
       <div class="uploader">
-        <input type="number"
+        <input
+          type="number"
           class="input hidden"
           name="imageId"
           :value="context.imageIdRef.value"
         >
 
-        <input ref="uploadInputShallowRef"
+        <input
+          ref="uploadInputShallowRef"
           type="file"
           accept="image/png, image/jpeg"
           class="input file"
@@ -152,7 +156,8 @@ export default defineComponent({
           })"
         >
 
-        <img :src="context.generateCompetitionImageUrl()"
+        <img
+          :src="context.generateCompetitionImageUrl()"
           alt="League badge"
           class="image"
         >
@@ -163,7 +168,8 @@ export default defineComponent({
             <span>Max size of 2MB</span>
           </span>
 
-          <AppButton appearance="outlined"
+          <AppButton
+            appearance="outlined"
             type="button"
             class="button"
             :is-loading="context.isUploadingImage"

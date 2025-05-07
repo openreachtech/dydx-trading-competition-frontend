@@ -63,14 +63,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <FuroDialog ref="dialogComponentRef"
+  <FuroDialog
+    ref="dialogComponentRef"
     class="design"
     v-bind="$attrs"
   >
     <template #contents>
       <slot name="header">
         <div class="unit-header">
-          <slot name="title"
+          <slot
+            name="title"
             :title="context.title"
           >
             <span class="title">{{
@@ -78,10 +80,12 @@ export default defineComponent({
             }}</span>
           </slot>
 
-          <button class="button close"
+          <button
+            class="button close"
             @click="context.dismissDialog()"
           >
-            <Icon name="heroicons:x-mark"
+            <Icon
+              name="heroicons:x-mark"
               size="1.5rem"
             />
           </button>

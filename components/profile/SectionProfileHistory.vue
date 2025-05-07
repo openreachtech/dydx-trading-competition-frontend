@@ -49,7 +49,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-section">
-    <AppTabLayout :tabs="context.tabs"
+    <AppTabLayout
+      :tabs="context.tabs"
       :active-tab-key="context.tabs[0].tabKey"
     >
       <template #contents>

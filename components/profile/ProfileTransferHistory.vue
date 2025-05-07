@@ -59,7 +59,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-container">
-    <AppTable :header-entries="context.tableHeaderEntries"
+    <AppTable
+      :header-entries="context.tableHeaderEntries"
       :entries="context.generateTableEntries()"
       should-hide-header-cells
       min-width="45rem"
@@ -84,13 +85,15 @@ export default defineComponent({
       </template>
 
       <template #body-participant="{ value, row }">
-        <div class="unit-participant"
+        <div
+          class="unit-participant"
           :class="context.generateParticipantClasses({
             categoryId: row.categoryId,
           })"
         >
           <span class="icon">
-            <Icon size="1.25rem"
+            <Icon
+              size="1.25rem"
               :name="context.generateParticipantIconName({
                 categoryId: row.categoryId,
               })"
@@ -125,7 +128,8 @@ export default defineComponent({
             </span>
 
             <CopyButton :content-to-copy="value" />
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateTransactionHashUrl({
                 transactionHash: value,
                 blockHeight: row.blockHeight,
@@ -146,7 +150,8 @@ export default defineComponent({
       </template>
     </AppTable>
 
-    <AppPagination class="pagination"
+    <AppPagination
+      class="pagination"
       page-key="transferPage"
       :pagination="context.paginationResult"
     />

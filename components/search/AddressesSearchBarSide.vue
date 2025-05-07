@@ -54,25 +54,30 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-container"
+  <div
+    class="unit-container"
     :class="context.generateSearchClasses()"
   >
-    <AppSearchBar placeholder="Search by address, name..."
+    <AppSearchBar
+      placeholder="Search by address, name..."
       @search="query => context.searchAddresses({
         query,
       })"
     />
 
     <ul class="unit-addresses">
-      <li v-for="it of context.addresses"
+      <li
+        v-for="it of context.addresses"
         :key="it.address"
       >
-        <NuxtLink class="unit-address"
+        <NuxtLink
+          class="unit-address"
           :to="context.generateAddressUrl({
             address: it.address,
           })"
         >
-          <img src="~/assets/img/address-icon.svg"
+          <img
+            src="~/assets/img/address-icon.svg"
             :alt="it.address"
             class="image"
           >
@@ -94,7 +99,8 @@ export default defineComponent({
     </ul>
 
     <div class="empty">
-      <Icon name="heroicons:magnifying-glass"
+      <Icon
+        name="heroicons:magnifying-glass"
         size="5rem"
       />
 
@@ -104,7 +110,8 @@ export default defineComponent({
     </div>
 
     <div class="loading">
-      <Icon name="svg-spinners:90-ring-with-bg"
+      <Icon
+        name="svg-spinners:90-ring-with-bg"
         size="1.5rem"
       />
     </div>

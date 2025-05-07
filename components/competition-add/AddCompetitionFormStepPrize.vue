@@ -101,7 +101,8 @@ export default defineComponent({
       </p>
     </div>
 
-    <span class="message error"
+    <span
+      class="message error"
       :class="context.generateErrorMessageClasses({
         fieldName: 'prizeRules',
       })"
@@ -111,7 +112,8 @@ export default defineComponent({
 
     <div class="tier">
       <h3 class="heading">
-        <Icon class="icon"
+        <Icon
+          class="icon"
           size="1.25rem"
           name="heroicons:chart-pie"
         />
@@ -127,16 +129,19 @@ export default defineComponent({
           Prize
         </span>
 
-        <fieldset v-for="(it, index) of context.prizeRulesRef.value"
+        <fieldset
+          v-for="(it, index) of context.prizeRulesRef.value"
           class="unit-fieldset"
           name="prizeRules[]"
         >
-          <span class="ranks"
+          <span
+            class="ranks"
             :class="context.generateRankRangeClasses({
               prizeRule: it,
             })"
           >
-            <AppInput type="number"
+            <AppInput
+              type="number"
               :value="it.rankFrom"
               root-class="rank"
               name="rankFrom"
@@ -149,7 +154,8 @@ export default defineComponent({
 
             <span class="connector">to</span>
 
-            <AppInput type="number"
+            <AppInput
+              type="number"
               :value="it.rankTo"
               root-class="rank to"
               name="rankTo"
@@ -161,7 +167,8 @@ export default defineComponent({
             />
           </span>
 
-          <button class="button toggle"
+          <button
+            class="button toggle"
             :class="context.generateToggleButtonClasses({
               prizeRule: it,
             })"
@@ -170,12 +177,14 @@ export default defineComponent({
               index,
             })"
           >
-            <Icon name="heroicons-outline:plus"
+            <Icon
+              name="heroicons-outline:plus"
               size="0.875rem"
               class="plus"
             />
 
-            <Icon name="heroicons-outline:minus"
+            <Icon
+              name="heroicons-outline:minus"
               size="0.875rem"
               class="minus"
             />
@@ -183,7 +192,8 @@ export default defineComponent({
 
           <div class="connector" />
 
-          <AppInput root-class="input prize"
+          <AppInput
+            root-class="input prize"
             placeholder="Enter prize amount"
             name="amount"
             :value="it.amount"
@@ -194,20 +204,23 @@ export default defineComponent({
             })"
           />
 
-          <button class="button minus"
+          <button
+            class="button minus"
             type="button"
             @click="context.removePrizeRule({
               index,
             })"
           >
-            <Icon name="heroicons-outline:minus"
+            <Icon
+              name="heroicons-outline:minus"
               size="1.5rem"
             />
           </button>
         </fieldset>
       </div>
 
-      <AppButton appearance="outlined"
+      <AppButton
+        appearance="outlined"
         type="button"
         :disabled="context.shouldProhibitMoreRules()"
         @click="context.addPrizeRule()"
@@ -222,7 +235,8 @@ export default defineComponent({
 
     <div class="pool">
       <h3 class="heading">
-        <Icon class="icon"
+        <Icon
+          class="icon"
           size="1.25rem"
           name="heroicons:trophy"
         />
@@ -231,12 +245,14 @@ export default defineComponent({
       </h3>
 
       <span class="total">
-        <img src="~/assets/img/tokens/usdc.svg"
+        <img
+          src="~/assets/img/tokens/usdc.svg"
           alt="USDC"
           class="icon"
         >
 
-        <input type="text"
+        <input
+          type="text"
           name="totalPrize"
           class="input hidden"
           :value="context.calculateTotalPrize()"

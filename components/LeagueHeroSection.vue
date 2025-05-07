@@ -83,7 +83,8 @@ export default defineComponent({
     </p>
 
     <div class="actions">
-      <AppButton class="button"
+      <AppButton
+        class="button"
         @click="context.hostLeague()"
       >
         Host a league

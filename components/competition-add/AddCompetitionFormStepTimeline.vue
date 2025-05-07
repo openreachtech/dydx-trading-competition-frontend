@@ -80,7 +80,8 @@ export default defineComponent({
       </p>
     </div>
 
-    <span class="message error"
+    <span
+      class="message error"
       :class="context.generateErrorMessageClasses({
         fieldName: 'schedules',
       })"
@@ -89,14 +90,16 @@ export default defineComponent({
     </span>
 
     <div class="timeline">
-      <div v-for="phase of context.generateTimeline()"
+      <div
+        v-for="phase of context.generateTimeline()"
         :key="phase.startDateInputId"
         class="unit-stage"
         :class="context.generatePhaseClasses({
           phase,
         })"
       >
-        <Icon :name="phase.iconName"
+        <Icon
+          :name="phase.iconName"
           size="1rem"
           class="icon"
           :aria-hidden="phase.shouldHideIcon"
@@ -115,7 +118,8 @@ export default defineComponent({
           </span>
 
           <div class="unit-pickers">
-            <fieldset class="fieldset"
+            <fieldset
+              class="fieldset"
               name="schedules[]"
             >
               <label class="date">
@@ -123,20 +127,23 @@ export default defineComponent({
                   Start (MM/DD/YYYY)
                 </span>
 
-                <input type="number"
+                <input
+                  type="number"
                   name="categoryId"
                   class="input hidden"
                   :value="phase.startDateInputId"
                 >
 
-                <AppDatePicker should-disable-past-dates
+                <AppDatePicker
+                  should-disable-past-dates
                   name="scheduledDatetime"
                   :initial-date="phase.initialStartDate"
                 />
               </label>
             </fieldset>
 
-            <fieldset class="fieldset end"
+            <fieldset
+              class="fieldset end"
               name="schedules[]"
             >
               <label class="date">
@@ -144,14 +151,16 @@ export default defineComponent({
                   End (MM/DD/YYYY)
                 </span>
 
-                <input type="number"
+                <input
+                  type="number"
                   name="categoryId"
                   class="input hidden"
                   :disabled="!phase.endDateInputId"
                   :value="phase.endDateInputId"
                 >
 
-                <AppDatePicker should-disable-past-dates
+                <AppDatePicker
+                  should-disable-past-dates
                   name="scheduledDatetime"
                   :initial-date="phase.initialEndDate"
                   :disabled="!phase.endDateInputId"

@@ -82,7 +82,8 @@ export default defineComponent({
   <div class="unit-container">
     <LeagueHeroSection :competition-statistics-capsule="context.competitionStatisticsCapsule" />
 
-    <AppSearchBar has-filter
+    <AppSearchBar
+      has-filter
       placeholder="Search for arena"
       size="large"
       :filters="context.competitionsFilters"
@@ -95,16 +96,19 @@ export default defineComponent({
       <template #contents>
         <div>
           <div class="unit-cards">
-            <AppLeagueCard v-for="it of context.competitions"
+            <AppLeagueCard
+              v-for="it of context.competitions"
               :key="it.competitionId"
               :competition="it"
             />
           </div>
 
-          <div class="unit-empty competitions"
+          <div
+            class="unit-empty competitions"
             :class="context.generateEmptyCompetitionsClasses()"
           >
-            <Icon name="heroicons:magnifying-glass"
+            <Icon
+              name="heroicons:magnifying-glass"
               size="7rem"
             />
             <p class="description">
@@ -116,14 +120,16 @@ export default defineComponent({
 
       <template #loader>
         <div class="unit-cards">
-          <AppSkeleton v-for="it of 6"
+          <AppSkeleton
+            v-for="it of 6"
             height="21.25rem"
           />
         </div>
       </template>
     </AppLoadingLayout>
 
-    <AppPagination :pagination="context.generatePaginationResult()"
+    <AppPagination
+      :pagination="context.generatePaginationResult()"
       class="pagination"
       :class="context.generatePaginationClasses()"
     />

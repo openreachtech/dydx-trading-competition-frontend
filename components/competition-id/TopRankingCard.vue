@@ -52,7 +52,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-card"
+  <div
+    class="unit-card"
     :class="context.generateCardClasses()"
   >
     <div class="details">
@@ -63,7 +64,8 @@ export default defineComponent({
           }}
         </span>
 
-        <NuxtLink class="name"
+        <NuxtLink
+          class="name"
           :to="context.generateProfileUrl()"
         >
           {{ context.generateName() }}
@@ -74,7 +76,8 @@ export default defineComponent({
             {{ context.generateShortenedAddress() }}
           </span>
 
-          <LinkTooltipButton class="link"
+          <LinkTooltipButton
+            class="link"
             :href="context.generateAddressUrl()"
             target="_blank"
             rel="noopener noreferrer"
@@ -85,7 +88,8 @@ export default defineComponent({
         </span>
       </div>
 
-      <img :src="context.generateTrophyImageUrl()"
+      <img
+        :src="context.generateTrophyImageUrl()"
         class="image"
       >
     </div>
@@ -111,7 +115,8 @@ export default defineComponent({
         </dd>
       </div>
 
-      <div class="entry"
+      <div
+        class="entry"
         :class="context.generatePrizeClasses()"
       >
         <dt class="term">

@@ -49,7 +49,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-dialogs">
-    <WalletSelectionDialog ref="walletSelectionDialogRef"
+    <WalletSelectionDialog
+      ref="walletSelectionDialogRef"
       @next-step="context.goToDerivationStep()"
     />
 

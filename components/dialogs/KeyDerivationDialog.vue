@@ -65,12 +65,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     class="unit-dialog"
   >
     <template #title>
       <span class="unit-title">
-        <img :src="context.generateWalletIconSource()"
+        <img
+          :src="context.generateWalletIconSource()"
           alt="MetaMask"
           class="image"
         >
@@ -86,7 +88,8 @@ export default defineComponent({
           compatibility. New users will receive two signature requests.
         </p>
 
-        <div v-for="(loader, index) of context.derivationLoaders"
+        <div
+          v-for="(loader, index) of context.derivationLoaders"
           :key="index"
           class="unit-loader"
           :class="context.generateLoaderClasses({
@@ -102,18 +105,21 @@ export default defineComponent({
             </p>
           </div>
 
-          <Icon name="svg-spinners:90-ring-with-bg"
+          <Icon
+            name="svg-spinners:90-ring-with-bg"
             size="2rem"
             class="icon loading"
           />
 
-          <Icon name="heroicons:check-circle"
+          <Icon
+            name="heroicons:check-circle"
             size="2rem"
             class="icon done"
           />
         </div>
 
-        <AppMessage variant="box"
+        <AppMessage
+          variant="box"
           severity="error"
           :is-hidden="!context.errorMessage"
         >
@@ -125,7 +131,8 @@ export default defineComponent({
             Signing is free and will not send a transaction.
           </span>
 
-          <AppButton class="button"
+          <AppButton
+            class="button"
             :is-loading="context.isDeriving()"
             @click="context.deriveKeys()"
           >

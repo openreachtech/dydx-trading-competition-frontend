@@ -51,7 +51,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     :title="context.generateDialogTitle()"
     class="unit-dialog"
   >
@@ -178,7 +179,8 @@ export default defineComponent({
               <p class="content">
                 By entering or participating in the trading arena, each Participant represents and warrants
                 that they have read, and agree to comply with, the dydx.trade user interface terms of use
-                (available here: <a class="link"
+                (available here: <a
+                  class="link"
                   href="https://dydx.trade/terms"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -334,13 +336,15 @@ export default defineComponent({
         </section>
 
         <div class="unit-actions">
-          <AppButton class="button"
+          <AppButton
+            class="button"
             @click="context.showEnrollmentDialog()"
           >
             Agree and Join competition
           </AppButton>
 
-          <AppButton variant="muted"
+          <AppButton
+            variant="muted"
             class="button"
             @click="context.dismissDialog()"
           >

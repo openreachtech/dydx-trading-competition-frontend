@@ -59,13 +59,15 @@ export default {
     </template>
 
     <template #search-header>
-      <NuxtLink :to="context.dydxTradeCtaUrl"
+      <NuxtLink
+        :to="context.dydxTradeCtaUrl"
         external
         target="_blank"
         rel="noopener noreferrer"
         class="link trade menu-entry"
       >
-        <Icon name="heroicons-solid:home"
+        <Icon
+          name="heroicons-solid:home"
           size="1rem"
         />
 
@@ -88,7 +90,8 @@ export default {
         <p class="copyright">
           <span>
             © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
-          </span><NuxtLink to="/terms"
+          </span><NuxtLink
+            to="/terms"
             target="_blank"
             rel="noopener noreferrer"
             class="link"
@@ -98,32 +101,38 @@ export default {
         </p>
 
         <ul class="links">
-          <li v-for="(platform, index) of context.socialPlatforms"
+          <li
+            v-for="(platform, index) of context.socialPlatforms"
             :key="index"
             class="entry"
           >
-            <NuxtLink :to="platform.href"
+            <NuxtLink
+              :to="platform.href"
               external
               rel="noopener noreferrer"
               target="_blank"
               class="link"
             >
-              <Icon :name="platform.iconName"
+              <Icon
+                :name="platform.iconName"
                 class="icon"
               />
             </NuxtLink>
           </li>
-          <li v-for="(platform, index) of context.dydxPlatforms"
+          <li
+            v-for="(platform, index) of context.dydxPlatforms"
             :key="index"
             class="entry"
           >
-            <NuxtLink :to="platform.href"
+            <NuxtLink
+              :to="platform.href"
               external
               rel="noopener noreferrer"
               target="_blank"
               class="link"
             >
-              <img :src="platform.imageUrl"
+              <img
+                :src="platform.imageUrl"
                 :alt="platform.name"
                 class="icon image"
               >

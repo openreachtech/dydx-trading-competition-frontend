@@ -68,7 +68,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     title="Unregister From Arena"
     class="unit-dialog"
   >
@@ -77,19 +78,22 @@ export default defineComponent({
         <p class="description">
           Are you sure you want to unregister from the <b>{{ context.competitionName }}</b> trading arena right now?
         </p>
-        <AppMessage variant="text"
+        <AppMessage
+          variant="text"
           severity="warn"
         >
           You will be marked as disqualified. This action cannot be undone.
         </AppMessage>
 
         <div class="actions">
-          <AppButton appearance="outlined"
+          <AppButton
+            appearance="outlined"
             @click="context.dismissDialog()"
           >
             No, stay on the arena
           </AppButton>
-          <AppButton :is-loading="context.isUnregisteringFromCompetition"
+          <AppButton
+            :is-loading="context.isUnregisteringFromCompetition"
             @click="context.unregisterFromCompetition()"
           >
             Yes, unregister me

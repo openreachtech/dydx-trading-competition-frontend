@@ -43,12 +43,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-textarea"
+  <span
+    class="unit-textarea"
     :class="{
       error: context.hasError,
     }"
   >
-    <textarea v-bind="$attrs"
+    <textarea
+      v-bind="$attrs"
       class="textarea"
     />
 

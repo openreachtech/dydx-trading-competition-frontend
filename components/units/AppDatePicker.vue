@@ -119,24 +119,28 @@ export default defineComponent({
 </script>
 
 <template>
-  <span v-on-click-outside="() => context.closeDropdown()"
+  <span
+    v-on-click-outside="() => context.closeDropdown()"
     class="unit-picker"
     :class="context.generateDatePickerClasses()"
   >
     <span class="unit-input">
-      <input type="text"
+      <input
+        type="text"
         class="input"
         v-bind="$attrs"
         :value="context.inputValue"
         @click="context.openDropdown()"
       >
 
-      <button class="button"
+      <button
+        class="button"
         type="button"
         @click="context.toggleDropdown()"
       >
         <slot name="inputIcon">
-          <Icon name="heroicons:calendar"
+          <Icon
+            name="heroicons:calendar"
             size="1rem"
           />
         </slot>
@@ -145,40 +149,47 @@ export default defineComponent({
 
     <div class="unit-dropdown">
       <div class="header">
-        <button class="button"
+        <button
+          class="button"
           type="button"
           @click="context.goToPreviousMonth()"
         >
-          <Icon name="heroicons:chevron-left"
+          <Icon
+            name="heroicons:chevron-left"
             size="1.25rem"
           />
         </button>
 
-        <button class="button month"
+        <button
+          class="button month"
           type="button"
         >
           {{ context.generateDisplayedCurrentMonthYear() }}
         </button>
 
-        <button class="button"
+        <button
+          class="button"
           type="button"
           @click="context.goToNextMonth()"
         >
-          <Icon name="heroicons:chevron-right"
+          <Icon
+            name="heroicons:chevron-right"
             size="1.25rem"
           />
         </button>
       </div>
 
       <div class="dates">
-        <div v-for="it of context.daysOfWeek"
+        <div
+          v-for="it of context.daysOfWeek"
           :key="it"
           class="label"
         >
           {{ it }}
         </div>
 
-        <button v-for="(it, index) of context.generateDisplayedDays()"
+        <button
+          v-for="(it, index) of context.generateDisplayedDays()"
           :key="index"
           type="button"
           class="date"

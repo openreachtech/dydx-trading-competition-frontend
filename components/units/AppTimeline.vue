@@ -42,7 +42,8 @@ export default defineComponent({
 
 <template>
   <div class="unit-timeline">
-    <span class="fallback"
+    <span
+      class="fallback"
       :class="{
         hidden: context.shouldHideFallback(),
       }"
@@ -50,16 +51,19 @@ export default defineComponent({
       ----
     </span>
 
-    <div v-for="(event, index) of context.timeline"
+    <div
+      v-for="(event, index) of context.timeline"
       :key="index"
       class="event"
     >
-      <div class="unit-connector"
+      <div
+        class="unit-connector"
         :class="{
           elapsed: context.hasElapsed({ timestamp: event.timestamp }),
         }"
       >
-        <slot name="indicator"
+        <slot
+          name="indicator"
           :event="event"
         >
           <div class="indicator" />
@@ -68,7 +72,8 @@ export default defineComponent({
       </div>
 
       <div class="contents">
-        <slot name="contents"
+        <slot
+          name="contents"
           :event="event"
         >
           <span>
