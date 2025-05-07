@@ -156,11 +156,13 @@ export default defineComponent({
             {{ context.generateBadgeDescription() }}
           </AppIconBadge>
 
-          <AppBadge severity="neutral"
+          <AppBadge
+            severity="neutral"
             class="badge host"
             :class="context.generateHostBadgeClasses()"
           >
-            <Icon name="ph:crown-simple"
+            <Icon
+              name="ph:crown-simple"
               size="1.25rem"
             />
           </AppBadge>
@@ -270,11 +272,13 @@ export default defineComponent({
           >
 
           <div class="buttons">
-            <NuxtLink :to="context.generateCompetitionEditUrl()"
+            <NuxtLink
+              :to="context.generateCompetitionEditUrl()"
               class="link edit"
               :class="context.generateCompetitionEditButtonClasses()"
             >
-              <Icon name="heroicons:pencil-square"
+              <Icon
+                name="heroicons:pencil-square"
                 size="1.25rem"
               />
             </NuxtLink>
