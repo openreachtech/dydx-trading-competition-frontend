@@ -151,7 +151,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-on-click-outside="() => context.closeResult()"
+  <div
+    v-on-click-outside="() => context.closeResult()"
     class="unit-search"
     :class="context.generateSearchBarClasses()"
     v-bind="$attrs"
@@ -159,12 +160,14 @@ export default defineComponent({
     <div class="input-container">
       <label class="label">
         <slot name="searchIcon">
-          <Icon class="icon"
+          <Icon
+            class="icon"
             name="heroicons:magnifying-glass"
           />
         </slot>
 
-        <input class="input"
+        <input
+          class="input"
           :placeholder="context.placeholder"
           @input="context.debouncedSearch({
             inputEvent: $event,
@@ -173,21 +176,25 @@ export default defineComponent({
         >
       </label>
 
-      <div v-on-click-outside="() => context.closeFilter()"
+      <div
+        v-on-click-outside="() => context.closeFilter()"
         class="unit-filter"
         :class="context.generateFilterClasses()"
       >
-        <button class="button"
+        <button
+          class="button"
           @click.stop="context.toggleFilter()"
         >
-          <Icon name="heroicons:funnel"
+          <Icon
+            name="heroicons:funnel"
             size="1.25rem"
             class="icon"
           />
 
           <span>Filters</span>
 
-          <span class="indicator"
+          <span
+            class="indicator"
             :class="context.generateFilterIndicatorClasses()"
             aria-hidden="true"
           />
@@ -196,7 +203,8 @@ export default defineComponent({
         <div class="dropdown filter">
           <slot name="filter">
             <div class="unit-filters">
-              <div v-for="(filter, filterIndex) of context.filters"
+              <div
+                v-for="(filter, filterIndex) of context.filters"
                 :key="filterIndex"
                 class="filter"
               >
@@ -204,7 +212,8 @@ export default defineComponent({
                   {{ filter.caption }}
                 </span>
                 <div class="options">
-                  <button v-for="(option, optionIndex) of filter.options"
+                  <button
+                    v-for="(option, optionIndex) of filter.options"
                     :key="optionIndex"
                     type="button"
                     class="option"
@@ -223,14 +232,16 @@ export default defineComponent({
               </div>
 
               <div class="actions">
-                <AppButton type="button"
+                <AppButton
+                  type="button"
                   appearance="outlined"
                   class="button"
                   @click="context.clearFilters()"
                 >
                   Clear
                 </AppButton>
-                <AppButton type="button"
+                <AppButton
+                  type="button"
                   class="button"
                   @click="context.closeFilter()"
                 >
@@ -244,14 +255,16 @@ export default defineComponent({
     </div>
 
     <div class="dropdown results">
-      <slot name="results"
+      <slot
+        name="results"
         :results="context.results"
       />
 
       <div class="empty-container">
         <slot name="emptyResult">
           <div class="unit-empty">
-            <Icon name="heroicons:magnifying-glass"
+            <Icon
+              name="heroicons:magnifying-glass"
               size="5rem"
             />
 
@@ -265,7 +278,8 @@ export default defineComponent({
       <div class="loading-container">
         <slot name="loading">
           <div class="unit-loading">
-            <Icon name="svg-spinners:90-ring-with-bg"
+            <Icon
+              name="svg-spinners:90-ring-with-bg"
               size="1.5rem"
             />
           </div>

@@ -44,7 +44,8 @@ export default defineComponent({
         transparent competitions on dYdX's decentralized exchange.
       </p>
 
-      <NuxtLink class="button call-to-action"
+      <NuxtLink
+        class="button call-to-action"
         to="/competitions"
       >
         Let's join a competition now!
@@ -63,7 +64,8 @@ export default defineComponent({
         </p>
 
         <div class="unit-purposes">
-          <div v-for="it of context.purposes"
+          <div
+            v-for="it of context.purposes"
             :key="it.title"
             class="card"
           >
@@ -91,7 +93,8 @@ export default defineComponent({
         </p>
 
         <div class="unit-audience">
-          <div v-for="it of context.audience"
+          <div
+            v-for="it of context.audience"
             :key="it.title"
             class="card"
           >
@@ -108,7 +111,8 @@ export default defineComponent({
             </p>
 
             <ul class="unit-characteristics">
-              <li v-for="characteristic of it.characteristics"
+              <li
+                v-for="characteristic of it.characteristics"
                 class="characteristic"
               >
                 <span class="bullet" />
@@ -138,7 +142,8 @@ export default defineComponent({
               {{ phase.phaseName }}
             </h3>
 
-            <div v-for="it of phase.timeline"
+            <div
+              v-for="it of phase.timeline"
               class="unit-stage"
               :class="it.actor"
             >
@@ -156,7 +161,8 @@ export default defineComponent({
                 </p>
 
                 <ul class="unit-characteristics">
-                  <li v-for="(characteristic, index) of it.characteristics"
+                  <li
+                    v-for="(characteristic, index) of it.characteristics"
                     :key="index"
                     class="characteristic"
                   >
@@ -178,7 +184,8 @@ export default defineComponent({
           </template>
         </div>
 
-        <NuxtLink class="button call-to-action"
+        <NuxtLink
+          class="button call-to-action"
           to="/competitions"
         >
           You can join a competition now!
@@ -197,7 +204,8 @@ export default defineComponent({
         </p>
 
         <div class="unit-faqs">
-          <div v-for="it of context.faqs"
+          <div
+            v-for="it of context.faqs"
             :key="it.question"
             class="card"
           >

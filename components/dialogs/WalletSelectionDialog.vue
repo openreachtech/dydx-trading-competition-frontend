@@ -67,7 +67,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     class="unit-dialog"
   >
     <template #title>
@@ -84,7 +85,8 @@ export default defineComponent({
           </p>
           <p class="text">
             By connecting your wallet, you acknowledge that you have read and
-            agreed to the following <NuxtLink to="/terms"
+            agreed to the following <NuxtLink
+              to="/terms"
               class="link"
               rel="noopener noreferrer"
               target="_blank"
@@ -94,7 +96,8 @@ export default defineComponent({
           </p>
         </div>
 
-        <AppMessage variant="box"
+        <AppMessage
+          variant="box"
           severity="error"
           :is-hidden="!context.errorMessage"
         >
@@ -102,14 +105,16 @@ export default defineComponent({
         </AppMessage>
 
         <div class="actions">
-          <AppButton v-for="it of context.generateDisplayedWallets()"
+          <AppButton
+            v-for="it of context.generateDisplayedWallets()"
             variant="neutral"
             @click="context.selectWallet({
               wallet: it,
             })"
           >
             <template #startIcon>
-              <img :src="it.icon"
+              <img
+                :src="it.icon"
                 :alt="it.name"
                 class="image wallet"
               >

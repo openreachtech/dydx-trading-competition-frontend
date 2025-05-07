@@ -61,10 +61,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-countdown"
+  <span
+    class="unit-countdown"
     :class="context.generateCountdownClasses()"
   >
-    <Icon :name="context.iconName"
+    <Icon
+      :name="context.iconName"
       :size="context.iconSize"
       class="icon"
     />

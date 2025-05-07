@@ -74,7 +74,8 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <div class="steps">
-      <div v-for="it of context.steps"
+      <div
+        v-for="it of context.steps"
         :key="it.step"
         class="unit-step"
         :aria-current="context.generateAriaCurrent({
@@ -87,14 +88,16 @@ export default defineComponent({
         }"
       >
         <div class="step">
-          <button class="button"
+          <button
+            class="button"
             type="button"
             @click="context.goToStep({
               step: it.step,
             })"
           >
             <span class="indicator">
-              <Icon name="heroicons:check"
+              <Icon
+                name="heroicons:check"
                 size="1rem"
                 class="icon"
               />
@@ -122,7 +125,8 @@ export default defineComponent({
       </p>
     </div>
 
-    <AppMessage severity="error"
+    <AppMessage
+      severity="error"
       variant="box"
       :is-hidden="!context.addCompetitionErrorMessage"
     >

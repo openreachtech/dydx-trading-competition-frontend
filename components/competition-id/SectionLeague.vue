@@ -115,13 +115,16 @@ export default defineComponent({
     <OnboardingDialogs ref="onboardingDialogsComponentRef" />
 
     <div class="inner">
-      <div class="unit-details"
+      <div
+        class="unit-details"
         :class="context.generateLeagueDetailClasses()"
       >
-        <NuxtLink to="/competitions"
+        <NuxtLink
+          to="/competitions"
           class="link back"
         >
-          <Icon name="heroicons:chevron-left"
+          <Icon
+            name="heroicons:chevron-left"
             size="1.5rem"
             class="icon"
           />
@@ -133,7 +136,8 @@ export default defineComponent({
         </h2>
 
         <div class="unit-status">
-          <AppIconBadge :severity="context.generateBadgeSeverity()"
+          <AppIconBadge
+            :severity="context.generateBadgeSeverity()"
             :icon-name="context.generateBadgeIconName()"
           >
             {{ context.generateBadgeDescription() }}
@@ -141,7 +145,8 @@ export default defineComponent({
 
           <div class="timeline">
             <span class="period">
-              <Icon name="heroicons:rocket-launch-solid"
+              <Icon
+                name="heroicons:rocket-launch-solid"
                 size="1.25rem"
               />
               <span class="timestamp">
@@ -152,7 +157,8 @@ export default defineComponent({
             <span class="period">
               <span class="connector" />
 
-              <Icon name="heroicons:flag-solid"
+              <Icon
+                name="heroicons:flag-solid"
                 size="1.25rem"
               />
               <span class="timestamp">
@@ -165,7 +171,8 @@ export default defineComponent({
         <p class="description">
           <span>
             {{ context.normalizeDescription() }}
-          </span> <button class="button"
+          </span> <button
+            class="button"
             @click="context.toggleDescriptionExpansion()"
           >
             {{ context.generateDescriptionExpansionButtonLabel() }}
@@ -173,7 +180,8 @@ export default defineComponent({
         </p>
 
         <span class="balance">
-          <Icon name="heroicons:wallet"
+          <Icon
+            name="heroicons:wallet"
             class="icon"
             size="1.125rem"
           />
@@ -182,19 +190,22 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton class="button enroll"
+          <AppButton
+            class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
             @click="context.initiateActionDialog()"
           >
             <template #startIcon>
-              <Icon name="heroicons:check-circle"
+              <Icon
+                name="heroicons:check-circle"
                 size="1.25rem"
                 class="icon enrolled"
               />
 
-              <Icon name="heroicons:user-minus"
+              <Icon
+                name="heroicons:user-minus"
                 size="1.25rem"
                 class="icon unregister"
               />
@@ -211,7 +222,8 @@ export default defineComponent({
           </AppButton>
 
           <span class="unit-participants">
-            <Icon name="heroicons:users"
+            <Icon
+              name="heroicons:users"
               size="1.125rem"
             />
             <span class="amount">
@@ -221,14 +233,16 @@ export default defineComponent({
           </span>
         </div>
 
-        <AppLeagueCountdown class="note"
+        <AppLeagueCountdown
+          class="note"
           :schedules="context.schedules"
         />
       </div>
 
       <div class="unit-meta">
         <div class="actions">
-          <img :src="context.generateImageUrl()"
+          <img
+            :src="context.generateImageUrl()"
             :alt="context.generateHostName()"
             class="image"
           >
@@ -241,7 +255,8 @@ export default defineComponent({
               />
             </button> -->
 
-            <CopyButton :content-to-copy="context.generateCompetitionUrl()"
+            <CopyButton
+              :content-to-copy="context.generateCompetitionUrl()"
               icon-name="heroicons:link"
               icon-size="1.25rem"
             />
@@ -256,12 +271,14 @@ export default defineComponent({
 
             <dd class="details host">
               <span class="user">
-                <Icon name="heroicons:user-circle"
+                <Icon
+                  name="heroicons:user-circle"
                   size="1.25rem"
                   class="icon"
                 />
 
-                <NuxtLink class="name"
+                <NuxtLink
+                  class="name"
                   :to="context.generateProfileUrl()"
                 >
                   {{ context.generateHostName() }}
@@ -277,7 +294,8 @@ export default defineComponent({
 
                 <CopyButton :content-to-copy="context.hostAddress" />
 
-                <LinkTooltipButton :href="context.generateHostAddressUrl()"
+                <LinkTooltipButton
+                  :href="context.generateHostAddressUrl()"
                   target="_blank"
                   rel="noopener noreferrer"
                   tooltip-message="View on Mintscan"
@@ -292,7 +310,8 @@ export default defineComponent({
             </dt>
 
             <dd class="details participant">
-              <Icon name="heroicons:user"
+              <Icon
+                name="heroicons:user"
                 size="1.25rem"
                 class="icon"
               />
@@ -311,7 +330,8 @@ export default defineComponent({
             </dt>
             <dd class="details prize">
               <span class="amount">
-                <img src="~/assets/img/tokens/usdc.svg"
+                <img
+                  src="~/assets/img/tokens/usdc.svg"
                   alt="usdc"
                   class="image"
                 >

@@ -70,21 +70,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-on-click-outside="() => context.closeDropdown()"
+  <div
+    v-on-click-outside="() => context.closeDropdown()"
     class="unit-account"
     :class="context.generateDropdownClasses()"
   >
-    <button class="button"
+    <button
+      class="button"
       @click="context.toggleDropdown"
     >
-      <img :src="context.generateWalletImageUrl()"
+      <img
+        :src="context.generateWalletImageUrl()"
         alt="Wallet Icon"
         class="image"
       >
 
       <span>{{ context.generateSourceAccountAddress() }}</span>
 
-      <Icon name="heroicons:chevron-down-16-solid"
+      <Icon
+        name="heroicons:chevron-down-16-solid"
         size="1rem"
         class="icon"
       />
@@ -93,7 +97,8 @@ export default defineComponent({
     <div class="unit-dropdown">
       <div class="address">
         <div class="unit-chain">
-          <img src="~/assets/img/address-icon.svg"
+          <img
+            src="~/assets/img/address-icon.svg"
             alt="dYdX Chain Address"
             class="image"
           >
@@ -104,7 +109,8 @@ export default defineComponent({
             <span class="content">
               <span>{{ context.generateLocalAccountAddress() }}</span>
               <CopyButton :content-to-copy="context.localWalletAddress" />
-              <LinkTooltipButton tooltip-message="View on Mintscan"
+              <LinkTooltipButton
+                tooltip-message="View on Mintscan"
                 target="_blank"
                 rel="noopener noreferrer"
                 :href="context.generateAddressUrl()"
@@ -116,7 +122,8 @@ export default defineComponent({
         <div class="connector" />
 
         <div class="unit-chain">
-          <img :src="context.generateWalletImageUrl()"
+          <img
+            :src="context.generateWalletImageUrl()"
             alt="Wallet Icon"
             class="image"
           >
@@ -135,7 +142,8 @@ export default defineComponent({
           Welcome back! One or more of your keys needs to be recovered
         </p>
 
-        <AppButton type="button"
+        <AppButton
+          type="button"
           class="button"
           @click="context.showKeyDerivationDialog()"
         >
@@ -160,45 +168,53 @@ export default defineComponent({
       </div> -->
 
       <div class="actions">
-        <NuxtLink class="link"
+        <NuxtLink
+          class="link"
           :to="context.generateProfileUrl()"
         >
-          <Icon name="heroicons:user"
+          <Icon
+            name="heroicons:user"
             size="1rem"
           />
 
           <span>My league profile</span>
         </NuxtLink>
 
-        <NuxtLink :to="context.dydxTradeCtaUrl"
+        <NuxtLink
+          :to="context.dydxTradeCtaUrl"
           external
           target="_blank"
           rel="noopener noreferrer"
           class="link"
         >
-          <Icon name="heroicons:home-solid"
+          <Icon
+            name="heroicons:home-solid"
             size="1rem"
           />
 
           <span>Open dydx.trade</span>
         </NuxtLink>
 
-        <NuxtLink to="/terms"
+        <NuxtLink
+          to="/terms"
           target="_blank"
           rel="noopener noreferrer"
           class="link"
         >
-          <Icon name="heroicons:document-solid"
+          <Icon
+            name="heroicons:document-solid"
             size="1rem"
           />
 
           <span>Terms of Use</span>
         </NuxtLink>
 
-        <button class="button"
+        <button
+          class="button"
           @click="context.attemptWalletDisconnection()"
         >
-          <Icon name="heroicons:arrow-right-start-on-rectangle"
+          <Icon
+            name="heroicons:arrow-right-start-on-rectangle"
             size="1rem"
           />
 

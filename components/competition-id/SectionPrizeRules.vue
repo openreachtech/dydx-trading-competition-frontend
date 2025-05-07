@@ -43,11 +43,13 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <div v-for="(prizeRule, index) of context.normalizePrizeRules()"
+      <div
+        v-for="(prizeRule, index) of context.normalizePrizeRules()"
         :key="index"
         class="unit-rank"
       >
-        <Icon name="heroicons:trophy"
+        <Icon
+          name="heroicons:trophy"
           size="1.5rem"
           class="icon"
         />

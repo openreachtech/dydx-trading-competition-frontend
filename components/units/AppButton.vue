@@ -93,7 +93,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="unit-button"
+  <button
+    class="unit-button"
     :class="[
       context.props.variant,
       context.props.appearance,

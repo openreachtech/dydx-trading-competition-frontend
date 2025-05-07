@@ -55,10 +55,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-input"
+  <span
+    class="unit-input"
     :class="context.generateInputClasses()"
   >
-    <input v-bind="$attrs"
+    <input
+      v-bind="$attrs"
       class="input"
       @input="context.onInput({
         inputEvent: $event,

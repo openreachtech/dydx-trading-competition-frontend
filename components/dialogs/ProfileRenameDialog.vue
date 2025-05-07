@@ -75,12 +75,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     title="Update Display Name"
     class="unit-dialog"
   >
     <template #contents>
-      <form ref="formElementRef"
+      <form
+        ref="formElementRef"
         class="unit-contents"
         @submit.prevent="context.submitForm({
           formElement: formElementRef,
@@ -93,18 +95,21 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display Name</span>
 
-          <AppInput name="name"
+          <AppInput
+            name="name"
             :value="context.initialUsername"
           />
         </label>
 
-        <AppMessage severity="error"
+        <AppMessage
+          severity="error"
           :is-hidden="!context.errorMessage"
         >
           {{ context.errorMessage }}
         </AppMessage>
 
-        <AppButton class="button"
+        <AppButton
+          class="button"
           type="submit"
           :is-loading="context.isRenaming"
         >

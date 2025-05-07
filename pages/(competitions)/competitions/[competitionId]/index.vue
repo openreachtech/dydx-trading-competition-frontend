@@ -152,7 +152,8 @@ export default defineComponent({
 
 <template>
   <div>
-    <SectionLeague :competition="context.competition"
+    <SectionLeague
+      :competition="context.competition"
       :participant-status-id="context.participantStatusId"
       :is-competition-full="context.isCompetitionFull()"
       :competition-status-id="context.competitionStatusId"
@@ -165,7 +166,8 @@ export default defineComponent({
       })"
     />
 
-    <CompetitionTermsDialog ref="competitionTermsDialogRef"
+    <CompetitionTermsDialog
+      ref="competitionTermsDialogRef"
       :competition="context.competition"
       @show-enrollment-dialog="context.showDialog({
         dialogElement: competitionEnrollmentDialogRef,
@@ -176,7 +178,8 @@ export default defineComponent({
 
     <SectionSchedules :schedules="context.schedules" />
 
-    <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+    <SectionLeaderboard
+      :competition-status-id="context.competitionStatusId"
       :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
@@ -185,7 +188,8 @@ export default defineComponent({
       :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
     />
 
-    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
+    <CompetitionEnrollmentDialog
+      ref="competitionEnrollmentDialogRef"
       :competition="context.competition"
       :initial-username="context.addressName"
       :is-joining="mutationContext.isJoining"
@@ -196,7 +200,8 @@ export default defineComponent({
       })"
     />
 
-    <CompetitionCancelationDialog ref="competitionCancelationDialogRef"
+    <CompetitionCancelationDialog
+      ref="competitionCancelationDialogRef"
       :competition-name="context.competitionTitle"
       :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
       @unregister-from-competition="context.unregisterFromCompetition()"

@@ -64,7 +64,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-table-container"
+  <div
+    class="unit-table-container"
     :class="{
       empty: context.isEmpty(),
       loading: context.isLoading,
@@ -73,21 +74,24 @@ export default defineComponent({
     <slot name="header" />
 
     <div class="scroll-container">
-      <table class="unit-table"
+      <table
+        class="unit-table"
         :style="{
           minWidth: context.minWidth,
         }"
       >
         <thead class="thead">
           <tr class="row">
-            <th v-for="headerEntry of context.headerEntries"
+            <th
+              v-for="headerEntry of context.headerEntries"
               :key="headerEntry.key"
               class="cell head"
               :class="context.generateCellClasses({
                 columnOptions: headerEntry.columnOptions,
               })"
             >
-              <slot :label="headerEntry.label"
+              <slot
+                :label="headerEntry.label"
                 :property="headerEntry.key"
                 :name="`head-${headerEntry.key}`"
               >
@@ -98,17 +102,20 @@ export default defineComponent({
         </thead>
 
         <tbody class="tbody">
-          <tr v-for="(row, index) of context.entries"
+          <tr
+            v-for="(row, index) of context.entries"
             :key="index"
             class="row"
           >
-            <td v-for="entry of context.headerEntries"
+            <td
+              v-for="entry of context.headerEntries"
               class="cell"
               :class="context.generateCellClasses({
                 columnOptions: entry.columnOptions,
               })"
             >
-              <slot :name="`body-${entry.key}`"
+              <slot
+                :name="`body-${entry.key}`"
                 :row="row"
                 :value="row[entry.key]"
                 :index="index"
@@ -124,7 +131,8 @@ export default defineComponent({
     <div class="empty-container">
       <slot name="empty">
         <div class="unit-empty">
-          <Icon name="heroicons:table-cells"
+          <Icon
+            name="heroicons:table-cells"
             size="2rem"
           />
 
@@ -138,7 +146,8 @@ export default defineComponent({
     <div class="loading-container">
       <slot name="loading">
         <div class="unit-loading">
-          <Icon name="svg-spinners:90-ring-with-bg"
+          <Icon
+            name="svg-spinners:90-ring-with-bg"
             size="1.5rem"
           />
         </div>

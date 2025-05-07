@@ -82,44 +82,51 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="inner">
-      <NuxtLink to="/competitions"
+      <NuxtLink
+        to="/competitions"
         class="return"
       >
-        <Icon name="heroicons:arrow-left"
+        <Icon
+          name="heroicons:arrow-left"
           size="1.5rem"
         />
 
         <span>Leagues</span>
       </NuxtLink>
 
-      <form :ref="context.addCompetitionFormShallowRef"
+      <form
+        :ref="context.addCompetitionFormShallowRef"
         class="unit-form"
         @submit.prevent="context.submitForm()"
       >
         <div class="steps">
           <div class="content">
-            <AddCompetitionFormStepDetails class="step"
+            <AddCompetitionFormStepDetails
+              class="step"
               :class="context.generateStepClasses({
                 step: 1,
               })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepTimeline class="step"
+            <AddCompetitionFormStepTimeline
+              class="step"
               :class="context.generateStepClasses({
                 step: 2,
               })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepParticipation class="step"
+            <AddCompetitionFormStepParticipation
+              class="step"
               :class="context.generateStepClasses({
                 step: 3,
               })"
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepPrize class="step"
+            <AddCompetitionFormStepPrize
+              class="step"
               :class="context.generateStepClasses({
                 step: 4,
               })"
@@ -128,17 +135,20 @@ export default defineComponent({
           </div>
 
           <div class="unit-actions">
-            <AppButton appearance="outlined"
+            <AppButton
+              appearance="outlined"
               class="button back"
               type="button"
               :disabled="context.shouldDisablePreviousStepButton()"
               @click="context.goToPreviousStep()"
             >
-              <Icon name="heroicons-outline:chevron-left"
+              <Icon
+                name="heroicons-outline:chevron-left"
                 size="1rem"
               />
             </AppButton>
-            <AppButton :type="context.generateNextStepButtonType"
+            <AppButton
+              :type="context.generateNextStepButtonType"
               @click="context.goToNextStep({
                 mouseEvent: $event,
               })"
@@ -148,7 +158,8 @@ export default defineComponent({
           </div>
         </div>
 
-        <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+        <AddCompetitionFormSteps
+          :current-step="context.currentStepRef.value"
           :steps="context.steps"
           :error-message-hash="context.errorMessageHashReactive"
           @go-to-step="context.goToStep($event)"

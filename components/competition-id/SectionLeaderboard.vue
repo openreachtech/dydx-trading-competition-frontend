@@ -101,20 +101,24 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <h2 class="heading"
+      <h2
+        class="heading"
         :class="context.generateSectionHeadingClasses()"
       >
         {{ context.generateSectionHeading() }}
       </h2>
 
-      <div class="unit-champions"
+      <div
+        class="unit-champions"
         :class="context.generateTopRankerClasses()"
       >
-        <div v-for="(it, index) of context.generateTopThree()"
+        <div
+          v-for="(it, index) of context.generateTopThree()"
           :key="index"
           class="champion"
         >
-          <TopRankingCard :rank-details="it"
+          <TopRankingCard
+            :rank-details="it"
             :should-hide-prize="!context.hasFinishedCompetition()"
             class="card"
           />
@@ -123,20 +127,23 @@ export default defineComponent({
         </div>
       </div>
 
-      <span class="note"
+      <span
+        class="note"
         :class="context.generateLastUpdateNoteClasses()"
       >
         {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
-      <AppTable :header-entries="context.leaderboardTableHeaderEntries"
+      <AppTable
+        :header-entries="context.leaderboardTableHeaderEntries"
         :entries="context.leaderboardTableEntries"
         :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
         <!-- ** Competition participants list ** -->
         <template #body-participantName="{ value, row }">
-          <NuxtLink class="unit-name participant"
+          <NuxtLink
+            class="unit-name participant"
             :to="context.generateProfileUrl({
               address: row.participantAddress,
             })"
@@ -149,7 +156,8 @@ export default defineComponent({
           <span class="unit-address participant">
             <span>{{ value }}</span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -160,7 +168,8 @@ export default defineComponent({
         </template>
 
         <template #body-participantStatus="{ value }">
-          <span class="unit-status participant"
+          <span
+            class="unit-status participant"
             :class="context.generateParticipantStatusClasses({
               statusId: value.statusId,
             })"
@@ -177,7 +186,8 @@ export default defineComponent({
         </template>
 
         <template #body-ongoingName="{ value, row }">
-          <NuxtLink class="unit-name ongoing"
+          <NuxtLink
+            class="unit-name ongoing"
             :to="context.generateProfileUrl({
               address: row.ongoingAddress,
             })"
@@ -196,7 +206,8 @@ export default defineComponent({
               }}
             </span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -244,7 +255,8 @@ export default defineComponent({
         </template>
 
         <template #body-outcomeName="{ value, row }">
-          <NuxtLink class="unit-name outcome"
+          <NuxtLink
+            class="unit-name outcome"
             :to="context.generateProfileUrl({
               address: row.outcomeAddress,
             })"
@@ -263,7 +275,8 @@ export default defineComponent({
               }}
             </span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -310,7 +323,8 @@ export default defineComponent({
         </template>
       </AppTable>
 
-      <AppPagination class="pagination"
+      <AppPagination
+        class="pagination"
         page-key="leaderboardPage"
         :pagination="context.leaderboardPaginationResult"
       />

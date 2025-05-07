@@ -67,13 +67,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-tooltip"
+  <span
+    class="unit-tooltip"
     :class="context.generateTooltipClasses()"
   >
     <slot name="contents" />
 
     <span class="message">
-      <slot name="tooltip"
+      <slot
+        name="tooltip"
         :message="context.generateTooltipMessage()"
       >
         {{ context.generateTooltipMessage() }}

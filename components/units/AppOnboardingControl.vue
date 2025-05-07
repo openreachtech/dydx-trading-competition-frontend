@@ -53,10 +53,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-onboarding"
+  <div
+    class="unit-onboarding"
     :class="context.generateOnboardingControlClasses()"
   >
-    <AppButton class="button connect"
+    <AppButton
+      class="button connect"
       @click="context.showDialog({
         dialogElement: walletSelectionDialogRef,
       })"
@@ -64,13 +66,15 @@ export default defineComponent({
       Connect Wallet
     </AppButton>
 
-    <AppWalletAccount class="account"
+    <AppWalletAccount
+      class="account"
       @show-key-derivation-dialog="context.showDialog({
         dialogElement: keyDerivationDialogRef,
       })"
     />
 
-    <WalletSelectionDialog ref="walletSelectionDialogRef"
+    <WalletSelectionDialog
+      ref="walletSelectionDialogRef"
       @next-step="context.goToDerivationStep()"
     />
 

@@ -17,10 +17,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <NuxtLink to="/"
+  <NuxtLink
+    to="/"
     class="unit-logo"
   >
-    <Icon name="heroicons-solid:home"
+    <Icon
+      name="heroicons-solid:home"
       size="1.5rem"
       class="icon"
     />

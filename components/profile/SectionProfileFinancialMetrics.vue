@@ -35,7 +35,8 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <dl class="inner">
-      <div v-for="(it, index) of context.metrics"
+      <div
+        v-for="(it, index) of context.metrics"
         :key="index"
         class="unit-description"
       >
