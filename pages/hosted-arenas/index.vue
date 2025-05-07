@@ -83,10 +83,12 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="header">
-      <NuxtLink to="/competitions"
+      <NuxtLink
+        to="/competitions"
         class="link"
       >
-        <Icon name="heroicons-outline:arrow-left"
+        <Icon
+          name="heroicons-outline:arrow-left"
           size="1.5rem"
         />
       </NuxtLink>
@@ -95,7 +97,8 @@ export default defineComponent({
       </span>
     </div>
 
-    <AppSearchBar placeholder="Search your hosted arenas"
+    <AppSearchBar
+      placeholder="Search your hosted arenas"
       size="large"
       class="search"
       @search="query => context.updateTitleQuery({
@@ -103,14 +106,16 @@ export default defineComponent({
       })"
     />
 
-    <AppTable :header-entries="context.competitionsTableHeaderEntries"
+    <AppTable
+      :header-entries="context.competitionsTableHeaderEntries"
       :entries="context.generateCompetitionsTableEntries()"
       class="table"
       :is-loading="context.isLoadingCompetitions"
     >
       <template #body-title="{ value, row }">
         <span class="unit-column title">
-          <img :src="row.image"
+          <img
+            :src="row.image"
             :alt="value"
             class="image"
           >
@@ -122,7 +127,8 @@ export default defineComponent({
 
       <template #body-startDate="{ value }">
         <span class="unit-column date">
-          <Icon name="heroicons:rocket-launch-solid"
+          <Icon
+            name="heroicons:rocket-launch-solid"
             size="1rem"
             class="icon"
           />
@@ -147,7 +153,8 @@ export default defineComponent({
 
       <template #body-endDate="{ value }">
         <span class="unit-column date">
-          <Icon name="heroicons:flag-solid"
+          <Icon
+            name="heroicons:flag-solid"
             size="1rem"
             class="icon"
           />
@@ -171,9 +178,10 @@ export default defineComponent({
       </template>
 
       <template #body-status="{ value }">
-        <AppIconBadge :icon-name="context.generateBadgeIconName({
-                        statusId: value,
-                      })"
+        <AppIconBadge
+          :icon-name="context.generateBadgeIconName({
+            statusId: value,
+          })"
           :severity="context.generateBadgeSeverity({
             statusId: value,
           })"
