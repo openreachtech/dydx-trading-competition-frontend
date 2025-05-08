@@ -1,8 +1,20 @@
 <script>
 import {
   defineComponent,
+  reactive,
 } from 'vue'
 
+import {
+  useRoute,
+} from 'vue-router'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
+
+import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+
+import HostedArenaDetailsFetcher from './HostedArenaDetailsFetcher'
 import HostedArenaDetailsPageContext from './HostedArenaDetailsPageContext'
 
 export default defineComponent({
@@ -10,9 +22,29 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+
+    const statusReactive = reactive({
+      isLoadingCompetition: false,
+    })
+
+    const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
+
+    const hostedArenaDetailsFetcher = HostedArenaDetailsFetcher.create({
+      route,
+      graphqlClientHash: {
+        competition: competitionGraphqlClient,
+      },
+      statusReactive,
+    })
+
     const args = {
       props,
       componentContext,
+      fetcherHash: {
+        hostedArenaDetails: hostedArenaDetailsFetcher,
+      },
+      statusReactive,
     }
     const context = HostedArenaDetailsPageContext.create(args)
       .setupComponent()
