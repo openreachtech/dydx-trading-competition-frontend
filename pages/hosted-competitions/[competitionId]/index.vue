@@ -14,8 +14,8 @@ import {
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 
-import HostedArenaDetailsFetcher from './HostedArenaDetailsFetcher'
-import HostedArenaDetailsPageContext from './HostedArenaDetailsPageContext'
+import HostedCompetitionDetailsFetcher from './HostedCompetitionDetailsFetcher'
+import HostedCompetitionDetailsPageContext from './HostedCompetitionDetailsPageContext'
 
 export default defineComponent({
   setup (
@@ -30,7 +30,7 @@ export default defineComponent({
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
 
-    const hostedArenaDetailsFetcher = HostedArenaDetailsFetcher.create({
+    const hostedCompetitionDetailsFetcher = HostedCompetitionDetailsFetcher.create({
       route,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
@@ -42,11 +42,11 @@ export default defineComponent({
       props,
       componentContext,
       fetcherHash: {
-        hostedArenaDetails: hostedArenaDetailsFetcher,
+        hostedCompetitionDetails: hostedCompetitionDetailsFetcher,
       },
       statusReactive,
     }
-    const context = HostedArenaDetailsPageContext.create(args)
+    const context = HostedCompetitionDetailsPageContext.create(args)
       .setupComponent()
 
     return {
