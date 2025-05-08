@@ -25,8 +25,8 @@ import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
-import HostedArenasFetcher from './HostedArenasFetcher'
-import HostedArenasPageContext from './HostedArenasPageContext'
+import HostedCompetitionsFetcher from './HostedCompetitionsFetcher'
+import HostedCompetitionsPageContext from './HostedCompetitionsPageContext'
 
 export default defineComponent({
   components: {
@@ -51,7 +51,7 @@ export default defineComponent({
     })
 
     const competitionsGraphqlClient = useGraphqlClient(CompetitionsQueryGraphqlLauncher)
-    const hostedArenasFetcher = HostedArenasFetcher.create({
+    const hostedCompetitionsFetcher = HostedCompetitionsFetcher.create({
       route,
       walletStore,
       graphqlClientHash: {
@@ -66,11 +66,11 @@ export default defineComponent({
       route,
       router,
       fetcherHash: {
-        hostedArenas: hostedArenasFetcher,
+        hostedCompetitions: hostedCompetitionsFetcher,
       },
       statusReactive,
     }
-    const context = HostedArenasPageContext.create(args)
+    const context = HostedCompetitionsPageContext.create(args)
       .setupComponent()
 
     return {
