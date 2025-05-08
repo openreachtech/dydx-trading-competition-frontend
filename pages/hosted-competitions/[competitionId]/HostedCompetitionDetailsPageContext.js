@@ -101,6 +101,27 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .image
       ?? '/img/badges/league-badge-placeholder.png'
   }
+
+  /**
+   * get: tabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  get tabs () {
+    return [
+      {
+        tabKey: 'details',
+        label: 'Arena Details',
+      },
+      {
+        tabKey: 'participants',
+        label: 'Participants',
+      },
+    ]
+  }
 }
 
 /**
