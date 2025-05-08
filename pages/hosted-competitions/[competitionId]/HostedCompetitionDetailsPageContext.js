@@ -79,6 +79,28 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .hostedCompetitionDetails
       .competitionCapsule
   }
+
+  /**
+   * Generate title.
+   *
+   * @returns {string}
+   */
+  generateTitle () {
+    return this.competitionCapsule
+      .title
+      ?? '----'
+  }
+
+  /**
+   * Generate image URL.
+   *
+   * @returns {string}
+   */
+  generateImageUrl () {
+    return this.competitionCapsule
+      .image
+      ?? '/img/badges/league-badge-placeholder.png'
+  }
 }
 
 /**
