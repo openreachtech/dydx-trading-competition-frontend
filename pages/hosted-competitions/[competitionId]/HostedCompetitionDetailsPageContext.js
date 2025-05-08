@@ -3,15 +3,15 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 /**
- * HostedArenaDetailsPageContext
+ * HostedCompetitionDetailsPageContext
  *
  * @extends {BaseFuroContext<null, {}, null>}
  */
-export default class HostedArenaDetailsPageContext extends BaseFuroContext {
+export default class HostedCompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * Constructor
    *
-   * @param {HostedArenaDetailsPageContextParams} params - Parameters of this constructor.
+   * @param {HostedCompetitionDetailsPageContextParams} params - Parameters of this constructor.
    */
   constructor ({
     props,
@@ -32,9 +32,9 @@ export default class HostedArenaDetailsPageContext extends BaseFuroContext {
   /**
    * Factory method to create a new instance of this class.
    *
-   * @template {X extends typeof HostedArenaDetailsPageContext ? X : never} T, X
+   * @template {X extends typeof HostedCompetitionDetailsPageContext ? X : never} T, X
    * @override
-   * @param {HostedArenaDetailsPageContextFactoryParams} params - Parameters of this factory method.
+   * @param {HostedCompetitionDetailsPageContextFactoryParams} params - Parameters of this factory method.
    * @returns {InstanceType<T>} An instance of this class.
    * @this {T}
    */
@@ -57,13 +57,13 @@ export default class HostedArenaDetailsPageContext extends BaseFuroContext {
   /**
    * Setup component.
    *
-   * @template {X extends HostedArenaDetailsPageContext ? X : never} T, X
+   * @template {X extends HostedCompetitionDetailsPageContext ? X : never} T, X
    * @override
    * @this {T}
    */
   setupComponent () {
     this.fetcherHash
-      .hostedArenaDetails
+      .hostedCompetitionDetails
       .fetchCompetitionOnMounted()
 
     return this
@@ -76,7 +76,7 @@ export default class HostedArenaDetailsPageContext extends BaseFuroContext {
    */
   get competitionCapsule () {
     return this.fetcherHash
-      .hostedArenaDetails
+      .hostedCompetitionDetails
       .competitionCapsule
   }
 }
@@ -84,14 +84,14 @@ export default class HostedArenaDetailsPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   fetcherHash: {
- *     hostedArenaDetails: import('./HostedArenaDetailsFetcher').default
+ *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
  *   }
  *   statusReactive: StatusReactive
- * }} HostedArenaDetailsPageContextParams
+ * }} HostedCompetitionDetailsPageContextParams
  */
 
 /**
- * @typedef {HostedArenaDetailsPageContextParams} HostedArenaDetailsPageContextFactoryParams
+ * @typedef {HostedCompetitionDetailsPageContextParams} HostedCompetitionDetailsPageContextFactoryParams
  */
 
 /**

@@ -10,15 +10,15 @@ import {
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 /**
- * HostedArenasPageContext
+ * HostedCompetitionsPageContext
  *
  * @extends {BaseFuroContext<null, {}, null>}
  */
-export default class HostedArenasPageContext extends BaseFuroContext {
+export default class HostedCompetitionsPageContext extends BaseFuroContext {
   /**
    * Constructor
    *
-   * @param {HostedArenasPageContextParams} params - Parameters of this constructor.
+   * @param {HostedCompetitionsPageContextParams} params - Parameters of this constructor.
    */
   constructor ({
     props,
@@ -43,9 +43,9 @@ export default class HostedArenasPageContext extends BaseFuroContext {
   /**
    * Factory method to create a new instance of this class.
    *
-   * @template {X extends typeof HostedArenasPageContext ? X : never} T, X
+   * @template {X extends typeof HostedCompetitionsPageContext ? X : never} T, X
    * @override
-   * @param {HostedArenasPageContextFactoryParams} params - Parameters of this factory method.
+   * @param {HostedCompetitionsPageContextFactoryParams} params - Parameters of this factory method.
    * @returns {InstanceType<T>} An instance of this class.
    * @this {T}
    */
@@ -79,23 +79,23 @@ export default class HostedArenasPageContext extends BaseFuroContext {
   }
 
   /**
-   * get: hostedArenasFetcher
+   * get: hostedCompetitionsFetcher
    *
-   * @returns {import('./HostedArenasFetcher').default}
+   * @returns {import('./HostedCompetitionsFetcher').default}
    */
-  get hostedArenasFetcher () {
-    return this.fetcherHash.hostedArenas
+  get hostedCompetitionsFetcher () {
+    return this.fetcherHash.hostedCompetitions
   }
 
   /**
    * Setup component.
    *
-   * @template {X extends HostedArenasPageContext ? X : never} T, X
+   * @template {X extends HostedCompetitionsPageContext ? X : never} T, X
    * @override
    * @this {T}
    */
   setupComponent () {
-    this.hostedArenasFetcher.fetchCompetitionsOnMounted()
+    this.hostedCompetitionsFetcher.fetchCompetitionsOnMounted()
 
     this.watch(
       [
@@ -104,7 +104,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
         () => this.extractCurrentPageFromRoute(),
       ],
       async () => {
-        await this.hostedArenasFetcher.fetchCompetitionsOnEvent()
+        await this.hostedCompetitionsFetcher.fetchCompetitionsOnEvent()
       }
     )
 
@@ -210,7 +210,7 @@ export default class HostedArenasPageContext extends BaseFuroContext {
    */
   get competitionsCapsule () {
     return this.fetcherHash
-      .hostedArenas
+      .hostedCompetitions
       .competitionsCapsule
   }
 
@@ -483,16 +483,16 @@ export default class HostedArenasPageContext extends BaseFuroContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   router: ReturnType<import('vue-router').useRouter>
  *   fetcherHash: {
- *     hostedArenas: import('./HostedArenasFetcher').default
+ *     hostedCompetitions: import('./HostedCompetitionsFetcher').default
  *   }
  *   statusReactive: import('vue').Reactive<{
  *     isLoadingCompetitions: boolean
  *   }>
- * }} HostedArenasPageContextParams
+ * }} HostedCompetitionsPageContextParams
  */
 
 /**
- * @typedef {HostedArenasPageContextParams} HostedArenasPageContextFactoryParams
+ * @typedef {HostedCompetitionsPageContextParams} HostedCompetitionsPageContextFactoryParams
  */
 
 /**
