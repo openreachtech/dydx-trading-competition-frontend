@@ -2,11 +2,11 @@ import {
   PAGINATION,
 } from '~/app/constants'
 
-export default class HostedArenasFetcher {
+export default class HostedCompetitionsFetcher {
   /**
    * Constructor of this class.
    *
-   * @param {HostedArenasFetcherParams} params - Parameters.
+   * @param {HostedCompetitionsFetcherParams} params - Parameters.
    */
   constructor ({
     route,
@@ -23,8 +23,8 @@ export default class HostedArenasFetcher {
   /**
    * Factory method.
    *
-   * @template {X extends typeof HostedArenasFetcher ? X : never} T, X
-   * @param {HostedArenasFetcherFactoryParams} params - Parameters.
+   * @template {X extends typeof HostedCompetitionsFetcher ? X : never} T, X
+   * @param {HostedCompetitionsFetcherFactoryParams} params - Parameters.
    * @returns {InstanceType<T>}
    * @this {T}
    */
@@ -210,11 +210,11 @@ export default class HostedArenasFetcher {
  *   statusReactive: import('vue').Reactive<{
  *     isLoadingCompetitions: boolean
  *   }>
- * }} HostedArenasFetcherParams
+ * }} HostedCompetitionsFetcherParams
  */
 
 /**
- * @typedef {HostedArenasFetcherParams} HostedArenasFetcherFactoryParams
+ * @typedef {HostedCompetitionsFetcherParams} HostedCompetitionsFetcherFactoryParams
  */
 
 /**

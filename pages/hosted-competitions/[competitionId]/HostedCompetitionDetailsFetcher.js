@@ -1,8 +1,8 @@
-export default class HostedArenaDetailsFetcher {
+export default class HostedCompetitionDetailsFetcher {
   /**
    * Constructor of this class.
    *
-   * @param {HostedArenaDetailsFetcherParams} params - Parameters.
+   * @param {HostedCompetitionDetailsFetcherParams} params - Parameters.
    */
   constructor ({
     route,
@@ -17,8 +17,8 @@ export default class HostedArenaDetailsFetcher {
   /**
    * Factory method.
    *
-   * @template {X extends typeof HostedArenaDetailsFetcher ? X : never} T, X
-   * @param {HostedArenaDetailsFetcherFactoryParams} params - Parameters.
+   * @template {X extends typeof HostedCompetitionDetailsFetcher ? X : never} T, X
+   * @param {HostedCompetitionDetailsFetcherFactoryParams} params - Parameters.
    * @returns {InstanceType<T>}
    * @this {T}
    */
@@ -129,8 +129,8 @@ export default class HostedArenaDetailsFetcher {
    */
   extractCompetitionIdFromRoute () {
     const competitionIdParam = Array.isArray(this.route.params.competitionId)
-      ? this.route.params.arenaId[0]
-      : this.route.params.arenaId
+      ? this.route.params.competitionId[0]
+      : this.route.params.competitionId
     const competitionId = Number(competitionIdParam)
 
     return isNaN(competitionId)
@@ -146,11 +146,11 @@ export default class HostedArenaDetailsFetcher {
  *     competition: GraphqlClient
  *   }
  *   statusReactive: import('vue').Reactive<Record<string, boolean>>
- * }} HostedArenaDetailsFetcherParams
+ * }} HostedCompetitionDetailsFetcherParams
  */
 
 /**
- * @typedef {HostedArenaDetailsFetcherParams} HostedArenaDetailsFetcherFactoryParams
+ * @typedef {HostedCompetitionDetailsFetcherParams} HostedCompetitionDetailsFetcherFactoryParams
  */
 
 /**
