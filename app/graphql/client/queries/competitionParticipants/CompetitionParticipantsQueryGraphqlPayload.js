@@ -21,6 +21,7 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
               name
               phasedAt
             }
+            equity
           }
           pagination {
             totalCount

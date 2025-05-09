@@ -68,6 +68,37 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   }
 
   /**
+   * Setup component.
+   *
+   * @template {X extends AppDatePikcerContext ? X : never} T, X
+   * @override
+   * @this {T}
+   * @todo: Fix typo `pikcer` -> `picker`.
+   */
+  setupComponent () {
+    this.watch(
+      () => this.initialDate,
+      () => {
+        this.syncInitialInputValue()
+      },
+      {
+        once: true,
+      }
+    )
+
+    return this
+  }
+
+  /**
+   * get: initialDate
+   *
+   * @returns {Date | string | null}
+   */
+  get initialDate () {
+    return this.props.initialDate
+  }
+
+  /**
    * get: shouldDisablePastDates
    *
    * @returns {boolean} `true` if past dates should be disabled.
@@ -101,6 +132,29 @@ export default class AppDatePikcerContext extends BaseFuroContext {
    */
   get inputValue () {
     return this.inputValueRef.value
+  }
+
+  /**
+   * Sync the initial value of date picker.
+   *
+   * @returns {void}
+   */
+  syncInitialInputValue () {
+    if (this.initialDate === null) {
+      return
+    }
+
+    const dateString = new Date(this.initialDate)
+      .toISOString()
+      .split('T')
+      .at(0)
+      ?? null
+
+    if (!dateString) {
+      return
+    }
+
+    this.inputValueRef.value = dateString
   }
 
   /**

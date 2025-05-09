@@ -295,10 +295,14 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
- *   initialFormValueHash: {
- *     title: string | null
- *     description: string | null
- *     competitionImageUrl?: string | null
- *   }
+ *   initialFormValueHash: InitialFormValueHash | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   title: string | null
+ *   description: string | null
+ *   competitionImageUrl?: string | null
+ * }} InitialFormValueHash
  */

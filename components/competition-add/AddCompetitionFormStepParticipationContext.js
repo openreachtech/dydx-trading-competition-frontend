@@ -69,8 +69,8 @@ export default class AddCompetitionFormStepParticipationContext extends BaseFuro
 
 /**
  * @typedef {{
- *   participantLowerLimit: number
- *   participantUpperLimit: number
- *   minimumDeposit: string
+ *   participantLowerLimit: number | null
+ *   participantUpperLimit: number | null
+ *   minimumDeposit: string | null
  * }} InitialFormValueHash
  */

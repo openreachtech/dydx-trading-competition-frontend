@@ -132,6 +132,8 @@
 
   --color-background-filter-active: var(--palette-layer-5);
 
+  --color-background-divider: var(--palette-layer-5);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -176,6 +178,7 @@
   --color-text-participant-status-disqualified: var(--palette-red);
   --color-text-participant-status-canceled: var(--color-text-tertiary);
 
+  --color-text-button-highlight: var(--palette-purple);
   --color-text-button-highlight-hover: var(--palette-purple-lighter);
 
   /* Border Colors */

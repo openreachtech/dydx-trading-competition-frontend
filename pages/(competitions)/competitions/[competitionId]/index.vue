@@ -155,7 +155,9 @@ export default defineComponent({
     <SectionLeague
       :competition="context.competition"
       :participant-status-id="context.participantStatusId"
+      :is-host-of-competition="context.isHostOfCompetition()"
       :is-competition-full="context.isCompetitionFull()"
+      :competition-id="context.extractCompetitionId()"
       :competition-status-id="context.competitionStatusId"
       :enrolled-participants-number="context.enrolledParticipantsNumber"
       @show-cancelation-dialog="context.showDialog({
