@@ -72,6 +72,17 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * get: competitionParticipantsCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantsCapsule () {
+    return this.fetcherHash
+      .competitionParticipants
+      .competitionParticipantsCapsule
+  }
+
+  /**
    * get: competitionCapsule
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default}
@@ -199,6 +210,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   fetcherHash: {
+ *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
  *   }
  *   statusReactive: StatusReactive
