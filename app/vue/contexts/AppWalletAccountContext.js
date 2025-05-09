@@ -135,7 +135,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
         label: 'My league profile',
       },
       {
-        href: '/hosted-arenas',
+        href: '/hosted-competitions',
         iconName: 'heroicons-outline:rectangle-stack',
         label: 'My hosted arenas',
       },
