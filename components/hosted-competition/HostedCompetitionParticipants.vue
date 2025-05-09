@@ -10,6 +10,7 @@ import {
 import AppButton from '~/components/units/AppButton.vue'
 import AppCheckbox from '~/components/units/AppCheckbox.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import AppSelect from '~/components/units/AppSelect.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
@@ -22,6 +23,7 @@ export default defineComponent({
     AppButton,
     AppCheckbox,
     AppPagination,
+    AppSelect,
     AppTable,
     CopyButton,
     LinkTooltipButton,
@@ -112,6 +114,37 @@ export default defineComponent({
           </AppButton>
         </span>
       </template>
+
+      <template #body-status="{ value }">
+        <span class="unit-status">
+          <AppSelect
+            class="select"
+            :items="context.generateParticipantStatusSelectOptions()"
+            :model-value="String(value.statusId)"
+          >
+            <AppButton
+              class="button"
+              variant="neutral"
+            >
+              <span>
+                {{
+                  context.generateParticipantStatusName({
+                    statusId: value,
+                  })
+                }}
+              </span>
+
+              <template #endIcon>
+                <Icon
+                  name="heroicons:chevron-down"
+                  size="1rem"
+                  class="icon"
+                />
+              </template>
+            </AppButton>
+          </AppSelect>
+        </span>
+      </template>
     </AppTable>
 
     <AppPagination class="pagination" />
@@ -161,5 +194,25 @@ export default defineComponent({
 
 .unit-equity > .button:hover {
   color: var(--color-text-primary);
+}
+
+.unit-status {
+  display: inline-flex;
+  justify-content: end;
+}
+
+.unit-status > .select .button {
+  border-width: 0;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+
+  text-transform: capitalize;
+
+  background-color: transparent;
+}
+
+.unit-status > .select .button .icon {
+  color: var(--color-text-tertiary);
 }
 </style>
