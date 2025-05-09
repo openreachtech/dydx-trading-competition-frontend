@@ -2,6 +2,10 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  COMPETITION_PARTICIPANT_STATUS,
+} from '~/app/constants'
+
 /**
  * HostedCompetitionParticipantsContext
  *
@@ -119,6 +123,42 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
     address,
   }) {
     return `https://www.mintscan.io/dydx/address/${address}`
+  }
+
+  /**
+   * Generate participant status select options.
+   *
+   * @returns {Array<import('~/components/units/AppSelectContext').SelectOption>}
+   */
+  generateParticipantStatusSelectOptions () {
+    const classHash = {
+      [COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID]: 'text-success',
+      [COMPETITION_PARTICIPANT_STATUS.DISQUALIFIED.ID]: 'text-error',
+    }
+
+    return Object.values(COMPETITION_PARTICIPANT_STATUS)
+      .map(status => ({
+        label: status.NAME,
+        value: String(status.ID),
+        class: classHash[status.ID],
+      }))
+  }
+
+  /**
+   * Generate participant status name.
+   *
+   * @param {{
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {string} Participant status name.
+   */
+  generateParticipantStatusName ({
+    statusId,
+  }) {
+    return Object.values(COMPETITION_PARTICIPANT_STATUS)
+      .find(it => it.ID === statusId)
+      ?.NAME
+      ?? ''
   }
 }
 
