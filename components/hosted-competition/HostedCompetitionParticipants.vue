@@ -3,6 +3,11 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
+import AppButton from '~/components/units/AppButton.vue'
 import AppCheckbox from '~/components/units/AppCheckbox.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppTable from '~/components/units/AppTable.vue'
@@ -13,6 +18,8 @@ import HostedCompetitionParticipantsContext from './HostedCompetitionParticipant
 
 export default defineComponent({
   components: {
+    Icon,
+    AppButton,
     AppCheckbox,
     AppPagination,
     AppTable,
@@ -86,6 +93,25 @@ export default defineComponent({
           />
         </span>
       </template>
+
+      <template #body-equity="{ value }">
+        <span class="unit-equity">
+          <span class="equity">
+            {{ value }}
+          </span>
+
+          <AppButton
+            class="button"
+            is-rounded
+            variant="neutral"
+          >
+            <Icon
+              name="heroicons:arrow-path-rounded-square"
+              size="1.25rem"
+            />
+          </AppButton>
+        </span>
+      </template>
     </AppTable>
 
     <AppPagination class="pagination" />
@@ -109,5 +135,31 @@ export default defineComponent({
 
 .unit-address > .address {
   color: var(--color-text-secondary);
+}
+
+.unit-equity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unit-equity > .equity {
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
+}
+
+.unit-equity > .button {
+  border-width: 0;
+
+  padding-block: 0;
+  padding-inline: 0;
+
+  background-color: transparent;
+  color: var(--color-text-tertiary);
+}
+
+.unit-equity > .button:hover {
+  color: var(--color-text-primary);
 }
 </style>
