@@ -98,10 +98,6 @@ export default defineComponent({
 
       <template #body-equity="{ value }">
         <span class="unit-equity">
-          <span class="equity">
-            {{ value }}
-          </span>
-
           <AppButton
             class="button"
             is-rounded
@@ -112,6 +108,10 @@ export default defineComponent({
               size="1.25rem"
             />
           </AppButton>
+
+          <span class="equity">
+            {{ value }}
+          </span>
         </span>
       </template>
 
