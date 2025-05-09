@@ -173,24 +173,9 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   totalPrize: number
  *   minimumDeposit: string
  *   image?: string
- *   schedules: Array<{
- *     category: {
- *       categoryId: number
- *       name: string
- *       description: string
- *     }
- *     scheduledDatetime: string
- *   }>
- *   status: {
- *     statusId: number
- *     name: string
- *     phasedAt: string
- *   }
- *   prizeRules: Array<{
- *     rankFrom: number
- *     rankTo: number
- *     amount: string
- *   }>
+ *   schedules: Array<Schedule>
+ *   status: Status
+ *   prizeRules: Array<PrizeRule>
  * }} CompetitionEntity
  */
 
@@ -199,4 +184,31 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   address: string
  *   name: string
  * }} Host
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
+ */
+
+/**
+ * @typedef {{
+ *   rankFrom: number
+ *   rankTo: number
+ *   amount: string
+ * }} PrizeRule
+ */
+
+/**
+ * @typedef {{
+ *   statusId: number
+ *   name: string
+ *   phasedAt: string
+ * }} Status
  */
