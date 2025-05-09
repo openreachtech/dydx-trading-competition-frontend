@@ -19,6 +19,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     props,
     componentContext,
 
+    route,
     fetcherHash,
     statusReactive,
   }) {
@@ -27,6 +28,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       componentContext,
     })
 
+    this.route = route
     this.fetcherHash = fetcherHash
     this.statusReactive = statusReactive
   }
@@ -43,6 +45,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   static create ({
     props,
     componentContext,
+    route,
     fetcherHash,
     statusReactive,
   }) {
@@ -50,6 +53,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       new this({
         props,
         componentContext,
+        route,
         fetcherHash,
         statusReactive,
       })
@@ -65,10 +69,97 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
    */
   setupComponent () {
     this.fetcherHash
+      .competitionParticipants
+      .fetchCompetitionParticipantsOnMounted()
+
+    this.fetcherHash
       .hostedCompetitionDetails
       .fetchCompetitionOnMounted()
 
+    this.watch(
+      () => this.extractCurrentPageFromRoute(),
+      async () => {
+        await this.fetcherHash
+          .competitionParticipants
+          .fetchCompetitionParticipantsOnEvent()
+      }
+    )
+
     return this
+  }
+
+  /**
+   * Extract current page from route.
+   *
+   * @returns {number}.
+   */
+  extractCurrentPageFromRoute () {
+    const currentPageQuery = Array.isArray(this.route.query.page)
+      ? this.route.query.page[0]
+      : this.route.query.page
+    const currentPage = Number(currentPageQuery)
+
+    return isNaN(currentPage)
+      ? 1
+      : currentPage
+  }
+
+  /**
+   * get: competitionParticipantsCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantsCapsule () {
+    return this.fetcherHash
+      .competitionParticipants
+      .competitionParticipantsCapsule
+  }
+
+  /**
+   * get: participants
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>}
+   */
+  get participants () {
+    return this.competitionParticipantsCapsule.participants
+  }
+
+  /**
+   * get: participantsLimit
+   *
+   * @returns {number | null}
+   */
+  get participantsLimit () {
+    return this.competitionParticipantsCapsule.limit
+  }
+
+  /**
+   * get: participantsTotalCount
+   *
+   * @returns {number | null}
+   */
+  get participantsTotalCount () {
+    return this.competitionParticipantsCapsule.totalCount
+  }
+
+  /**
+   * Generate participants pagination.
+   *
+   * @returns {{
+   *   limit: number
+   *   totalRecords: number
+   * }}
+   */
+  generateParticipantsPagination () {
+    const limit = this.participantsLimit
+      ?? 0
+    const totalRecords = this.participantsTotalCount
+      ?? 0
+
+    return {
+      limit,
+      totalRecords,
+    }
   }
 
   /**
@@ -198,7 +289,9 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
  *   fetcherHash: {
+ *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
  *   }
  *   statusReactive: StatusReactive
