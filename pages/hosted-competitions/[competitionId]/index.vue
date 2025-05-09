@@ -132,7 +132,10 @@ export default defineComponent({
         </div>
 
         <div class="tab content">
-          <HostedCompetitionParticipants :participants="context.participants" />
+          <HostedCompetitionParticipants
+            :participants="context.participants"
+            :pagination="context.generateParticipantsPagination()"
+          />
         </div>
       </template>
     </AppTabLayout>

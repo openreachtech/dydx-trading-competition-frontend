@@ -22,6 +22,15 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   }
 
   /**
+   * get: pagination
+   *
+   * @returns {PropsType['pagination']}
+   */
+  get pagination () {
+    return this.props.pagination
+  }
+
+  /**
    * get: participantsHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -165,6 +174,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   participants: Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>
+ *   pagination: Pagination
  * }} PropsType
  */
 
@@ -175,4 +185,11 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
  *   equity: number
  *   status: number
  * }} TableBodyEntry
+ */
+
+/**
+ * @typedef {{
+ *   limit: number
+ *   totalRecords: number
+ * }} Pagination
  */
