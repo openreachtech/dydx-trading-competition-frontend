@@ -17,6 +17,7 @@ import {
   Icon,
 } from '#components'
 
+import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import HostedCompetitionDetails from '~/components/hosted-competition/HostedCompetitionDetails.vue'
 
@@ -29,6 +30,7 @@ export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    AppIconBadge,
     AppTabLayout,
     HostedCompetitionDetails,
   },
@@ -91,9 +93,18 @@ export default defineComponent({
         :alt="context.generateTitle()"
       >
 
-      <h2 class="heading">
-        {{ context.generateTitle() }}
-      </h2>
+      <div class="headline">
+        <h2 class="heading">
+          {{ context.generateTitle() }}
+        </h2>
+        <AppIconBadge
+          :severity="context.generateBadgeSeverity()"
+          :icon-name="context.generateBadgeIconName()"
+          class="badge"
+        >
+          {{ context.generateBadgeDescription() }}
+        </AppIconBadge>
+      </div>
     </div>
 
     <AppTabLayout
@@ -163,10 +174,19 @@ export default defineComponent({
   background-color: var(--color-background-skeleton);
 }
 
-.unit-page > .header > .heading {
+.unit-page > .header > .headline > .heading {
   font-size: var(--font-size-large);
   font-weight: 700;
   line-height: var(--size-line-height-large);
+}
+
+.unit-page > .header > .headline > .badge {
+  margin-block: 0;
+
+  padding-block: 0;
+  padding-inline: 0;
+
+  background-color: transparent;
 }
 
 .tab.content {
