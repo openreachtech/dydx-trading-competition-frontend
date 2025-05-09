@@ -19,6 +19,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     props,
     componentContext,
 
+    route,
     fetcherHash,
     statusReactive,
   }) {
@@ -27,6 +28,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       componentContext,
     })
 
+    this.route = route
     this.fetcherHash = fetcherHash
     this.statusReactive = statusReactive
   }
@@ -43,6 +45,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   static create ({
     props,
     componentContext,
+    route,
     fetcherHash,
     statusReactive,
   }) {
@@ -50,6 +53,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       new this({
         props,
         componentContext,
+        route,
         fetcherHash,
         statusReactive,
       })
@@ -72,7 +76,32 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .hostedCompetitionDetails
       .fetchCompetitionOnMounted()
 
+    this.watch(
+      () => this.extractCurrentPageFromRoute(),
+      async () => {
+        await this.fetcherHash
+          .competitionParticipants
+          .fetchCompetitionParticipantsOnEvent()
+      }
+    )
+
     return this
+  }
+
+  /**
+   * Extract current page from route.
+   *
+   * @returns {number}.
+   */
+  extractCurrentPageFromRoute () {
+    const currentPageQuery = Array.isArray(this.route.query.page)
+      ? this.route.query.page[0]
+      : this.route.query.page
+    const currentPage = Number(currentPageQuery)
+
+    return isNaN(currentPage)
+      ? 1
+      : currentPage
   }
 
   /**
@@ -260,6 +289,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
  *   fetcherHash: {
  *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
