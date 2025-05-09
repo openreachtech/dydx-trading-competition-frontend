@@ -20,6 +20,7 @@ import {
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import HostedCompetitionDetails from '~/components/hosted-competition/HostedCompetitionDetails.vue'
+import HostedCompetitionParticipants from '~/components/hosted-competition/HostedCompetitionParticipants.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
@@ -36,6 +37,7 @@ export default defineComponent({
     AppIconBadge,
     AppTabLayout,
     HostedCompetitionDetails,
+    HostedCompetitionParticipants,
   },
 
   setup (
@@ -130,7 +132,7 @@ export default defineComponent({
         </div>
 
         <div class="tab content">
-          <div>Participants</div>
+          <HostedCompetitionParticipants :participants="context.participants" />
         </div>
       </template>
     </AppTabLayout>
