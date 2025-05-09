@@ -22,8 +22,11 @@ import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import HostedCompetitionDetails from '~/components/hosted-competition/HostedCompetitionDetails.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
 
+import CompetitionParticipantsFetcher from './CompetitionParticipantsFetcher'
 import HostedCompetitionDetailsFetcher from './HostedCompetitionDetailsFetcher'
+
 import HostedCompetitionDetailsPageContext from './HostedCompetitionDetailsPageContext'
 
 export default defineComponent({
@@ -43,10 +46,19 @@ export default defineComponent({
 
     const statusReactive = reactive({
       isLoadingCompetition: false,
+      isLoadingCompetitionParticipants: false,
     })
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
+    const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
 
+    const competitionParticipantsFetcher = CompetitionParticipantsFetcher.create({
+      route,
+      graphqlClientHash: {
+        competitionParticipants: competitionParticipantsGraphqlClient,
+      },
+      statusReactive,
+    })
     const hostedCompetitionDetailsFetcher = HostedCompetitionDetailsFetcher.create({
       route,
       graphqlClientHash: {
@@ -59,6 +71,7 @@ export default defineComponent({
       props,
       componentContext,
       fetcherHash: {
+        competitionParticipants: competitionParticipantsFetcher,
         hostedCompetitionDetails: hostedCompetitionDetailsFetcher,
       },
       statusReactive,
