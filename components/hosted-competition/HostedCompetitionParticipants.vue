@@ -52,6 +52,10 @@ export default defineComponent({
       :entries="context.generateParticipantsTableEntries()"
       class="table"
     >
+      <template #head-checkbox>
+        <AppCheckbox />
+      </template>
+
       <template #body-checkbox>
         <AppCheckbox />
       </template>
