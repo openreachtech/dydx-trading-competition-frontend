@@ -96,6 +96,44 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * get: participantsLimit
+   *
+   * @returns {number | null}
+   */
+  get participantsLimit () {
+    return this.competitionParticipantsCapsule.limit
+  }
+
+  /**
+   * get: participantsTotalCount
+   *
+   * @returns {number | null}
+   */
+  get participantsTotalCount () {
+    return this.competitionParticipantsCapsule.totalCount
+  }
+
+  /**
+   * Generate participants pagination.
+   *
+   * @returns {{
+   *   limit: number
+   *   totalRecords: number
+   * }}
+   */
+  generateParticipantsPagination () {
+    const limit = this.participantsLimit
+      ?? 0
+    const totalRecords = this.participantsTotalCount
+      ?? 0
+
+    return {
+      limit,
+      totalRecords,
+    }
+  }
+
+  /**
    * get: competitionCapsule
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default}

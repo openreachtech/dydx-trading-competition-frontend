@@ -34,6 +34,13 @@ export default defineComponent({
       type: /** @type {import('vue').PropType<import('./HostedCompetitionParticipantsContext').PropsType['participants']>} */ (Array),
       required: true,
     },
+    pagination: {
+      type: /** @type {import('vue').PropType<import('./HostedCompetitionParticipantsContext').PropsType['pagination']>} */ ([
+        Object,
+        null,
+      ]),
+      required: true,
+    },
   },
 
   setup (
@@ -147,7 +154,10 @@ export default defineComponent({
       </template>
     </AppTable>
 
-    <AppPagination class="pagination" />
+    <AppPagination
+      class="pagination"
+      :pagination="context.pagination"
+    />
   </div>
 </template>
 
