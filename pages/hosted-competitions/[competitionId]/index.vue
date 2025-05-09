@@ -18,6 +18,7 @@ import {
 } from '#components'
 
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
+import HostedCompetitionDetails from '~/components/hosted-competition/HostedCompetitionDetails.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 
@@ -29,6 +30,7 @@ export default defineComponent({
     NuxtLink,
     Icon,
     AppTabLayout,
+    HostedCompetitionDetails,
   },
 
   setup (
@@ -100,7 +102,7 @@ export default defineComponent({
     >
       <template #contents>
         <div class="tab content">
-          <div>Arena Details</div>
+          <HostedCompetitionDetails :competition="context.extractCompetition()" />
         </div>
 
         <div class="tab content">

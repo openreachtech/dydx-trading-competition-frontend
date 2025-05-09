@@ -81,6 +81,15 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * Extract `competition.`
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null}
+   */
+  extractCompetition () {
+    return this.competitionCapsule.extractCompetition()
+  }
+
+  /**
    * Generate title.
    *
    * @returns {string}
