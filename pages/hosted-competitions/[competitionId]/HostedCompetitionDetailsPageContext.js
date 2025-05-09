@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+
 /**
  * HostedCompetitionDetailsPageContext
  *
@@ -90,6 +92,28 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * get: status
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Status | null}
+   */
+  get status () {
+    return this.extractCompetition()
+      ?.status
+      ?? null
+  }
+
+  /**
+   * get: statusId
+   *
+   * @returns {number | null}
+   */
+  get statusId () {
+    return this.status
+      ?.statusId
+      ?? null
+  }
+
+  /**
    * Generate title.
    *
    * @returns {string}
@@ -109,6 +133,45 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     return this.competitionCapsule
       .image
       ?? '/img/badges/league-badge-placeholder.png'
+  }
+
+  /**
+   * Generate badge severity.
+   *
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
+   */
+  generateBadgeSeverity () {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId: this.statusId,
+    })
+
+    return badgeContext.generateSeverity()
+  }
+
+  /**
+   * Generate badge description.
+   *
+   * @returns {string} Badge description.
+   */
+  generateBadgeDescription () {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId: this.statusId,
+    })
+
+    return badgeContext.generateDescription()
+  }
+
+  /**
+   * Generate icon name for badge.
+   *
+   * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateIconNameReturnType} Icon name.
+   */
+  generateBadgeIconName () {
+    const badgeContext = CompetitionBadgeContext.create({
+      statusId: this.statusId,
+    })
+
+    return badgeContext.generateIconName()
   }
 
   /**
