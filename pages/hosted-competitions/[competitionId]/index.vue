@@ -72,6 +72,7 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
       fetcherHash: {
         competitionParticipants: competitionParticipantsFetcher,
         hostedCompetitionDetails: hostedCompetitionDetailsFetcher,
