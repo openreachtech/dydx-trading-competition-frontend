@@ -132,6 +132,8 @@
 
   --color-background-filter-active: var(--palette-layer-5);
 
+  --color-background-divider: var(--palette-layer-5);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
