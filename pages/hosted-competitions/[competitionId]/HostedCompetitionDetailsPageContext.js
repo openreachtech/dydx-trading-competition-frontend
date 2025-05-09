@@ -65,6 +65,10 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
    */
   setupComponent () {
     this.fetcherHash
+      .competitionParticipants
+      .fetchCompetitionParticipantsOnMounted()
+
+    this.fetcherHash
       .hostedCompetitionDetails
       .fetchCompetitionOnMounted()
 
@@ -80,6 +84,15 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     return this.fetcherHash
       .competitionParticipants
       .competitionParticipantsCapsule
+  }
+
+  /**
+   * get: participants
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>}
+   */
+  get participants () {
+    return this.competitionParticipantsCapsule.participants
   }
 
   /**
