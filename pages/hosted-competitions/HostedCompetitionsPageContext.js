@@ -287,6 +287,7 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
     const competitions = this.extractCompetitions()
 
     return competitions.map(competition => ({
+      competitionId: competition.competitionId,
       title: competition.title,
       image: this.generateCompetitionImageUrl({
         image: competition.image,
@@ -299,6 +300,20 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
       }),
       status: competition.status.statusId,
     }))
+  }
+
+  /**
+   * Generate URL to competition details page.
+   *
+   * @param {{
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateCompetitionDetailsUrl ({
+    competitionId,
+  }) {
+    return `/hosted-competitions/${competitionId}`
   }
 
   /**

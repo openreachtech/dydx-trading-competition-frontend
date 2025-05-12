@@ -113,7 +113,12 @@ export default defineComponent({
       :is-loading="context.isLoadingCompetitions"
     >
       <template #body-title="{ value, row }">
-        <span class="unit-column title">
+        <NuxtLink
+          class="unit-column title"
+          :to="context.generateCompetitionDetailsUrl({
+            competitionId: row.competitionId,
+          })"
+        >
           <img
             :src="row.image"
             :alt="value"
@@ -122,7 +127,7 @@ export default defineComponent({
           <span class="title">
             {{ value }}
           </span>
-        </span>
+        </NuxtLink>
       </template>
 
       <template #body-startDate="{ value }">
