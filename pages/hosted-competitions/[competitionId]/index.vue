@@ -5,6 +5,10 @@ import {
 } from 'vue'
 
 import {
+  definePageMeta,
+} from '#imports'
+
+import {
   useRoute,
 } from 'vue-router'
 
@@ -49,6 +53,10 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      middleware: 'competition-edit-permission',
+    })
+
     const route = useRoute()
 
     const statusReactive = reactive({
