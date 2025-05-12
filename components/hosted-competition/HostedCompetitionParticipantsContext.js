@@ -13,6 +13,56 @@ import {
  */
 export default class HostedCompetitionParticipantsContext extends BaseFuroContext {
   /**
+   * Constructor
+   *
+   * @param {HostedCompetitionParticipantsContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    route,
+    router,
+    selectedParticipantRef,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.route = route
+    this.router = router
+    this.selectedParticipantRef = selectedParticipantRef
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof HostedCompetitionParticipantsContext ? X : never} T, X
+   * @override
+   * @param {HostedCompetitionParticipantsContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    route,
+    router,
+    selectedParticipantRef,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        route,
+        router,
+        selectedParticipantRef,
+      })
+    )
+  }
+
+  /**
    * get: participants
    *
    * @returns {PropsType['participants']}
@@ -135,6 +185,103 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   }
 
   /**
+   * get: selectedParticipants
+   *
+   * @returns {Record<string, boolean>}
+   */
+  get selectedParticipant () {
+    return this.selectedParticipantRef.value
+  }
+
+  /**
+   * Check if one or more participants have been selected.
+   *
+   * @returns {boolean}
+   */
+  hasSelectedParticipants () {
+    return Object.values(this.selectedParticipant)
+      .some(it => it)
+  }
+
+  /**
+   * Update statusId query.
+   *
+   * @param {{
+   *   statusId: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async updateStatusIdQuery ({
+    statusId,
+  }) {
+    const replacementQuery = this.buildReplacementQuery({
+      name: 'statusId',
+      value: statusId,
+    })
+
+    await this.router.replace({
+      query: replacementQuery,
+    })
+  }
+
+  /**
+   * Build replacement query.
+   *
+   * @param {{
+   *   name: string
+   *   value: string | number
+   * }} params - Parameters.
+   * @returns {import('vue-router').LocationQuery}
+   */
+  buildReplacementQuery ({
+    name,
+    value,
+  }) {
+    const {
+      [name]: _,
+      ...restQuery
+    } = this.route.query
+
+    return value
+      ? {
+        ...restQuery,
+        [name]: String(value),
+      }
+      : restQuery
+  }
+
+  /**
+   * Extract statusId from route.
+   *
+   * @returns {string}.
+   */
+  extractStatusIdFromRoute () {
+    const competitionIdParam = Array.isArray(this.route.params.competitionId)
+      ? this.route.params.competitionId[0]
+      : this.route.params.competitionId
+
+    return competitionIdParam
+      ?? ''
+  }
+
+  /**
+   * Generate full participant status select options.
+   *
+   * @returns {Array<import('~/components/units/AppSelectContext').SelectOption>}
+   */
+  generateParticipantStatusFullSelectOptions () {
+    const participantStatusSelectOptions = this.generateParticipantStatusSelectOptions()
+
+    return [
+      {
+        label: 'All status',
+        value: '',
+      },
+      ...participantStatusSelectOptions,
+    ]
+  }
+
+  /**
    * Generate participant status select options.
    *
    * @returns {Array<import('~/components/units/AppSelectContext').SelectOption>}
@@ -170,6 +317,18 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
       ?? ''
   }
 }
+
+/**
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
+ *   selectedParticipantRef: import('vue').Ref<Record<string, boolean>>
+ * }} HostedCompetitionParticipantsContextParams
+ */
+
+/**
+ * @typedef {HostedCompetitionParticipantsContextParams} HostedCompetitionParticipantsContextFactoryParams
+ */
 
 /**
  * @typedef {{
