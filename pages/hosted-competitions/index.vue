@@ -113,7 +113,12 @@ export default defineComponent({
       :is-loading="context.isLoadingCompetitions"
     >
       <template #body-title="{ value, row }">
-        <span class="unit-column title">
+        <NuxtLink
+          class="unit-column title"
+          :to="context.generateCompetitionDetailsUrl({
+            competitionId: row.competitionId,
+          })"
+        >
           <img
             :src="row.image"
             :alt="value"
@@ -122,7 +127,7 @@ export default defineComponent({
           <span class="title">
             {{ value }}
           </span>
-        </span>
+        </NuxtLink>
       </template>
 
       <template #body-startDate="{ value }">
@@ -255,6 +260,14 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   gap: 1rem;
+
+  color: var(--color-text-primary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-column.title:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-column.title > .image {
