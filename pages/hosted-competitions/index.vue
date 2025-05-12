@@ -260,6 +260,14 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   gap: 1rem;
+
+  color: var(--color-text-primary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-column.title:hover {
+  color: var(--color-text-highlight-purple);
 }
 
 .unit-column.title > .image {
