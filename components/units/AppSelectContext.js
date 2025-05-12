@@ -17,6 +17,7 @@ export default class AppSelectContext extends BaseFuroContext {
     props,
     componentContext,
     statusReactive,
+    containerElementShallowRef,
     selectedValueRef,
   }) {
     super({
@@ -25,6 +26,7 @@ export default class AppSelectContext extends BaseFuroContext {
     })
 
     this.statusReactive = statusReactive
+    this.containerElementShallowRef = containerElementShallowRef
     this.selectedValueRef = selectedValueRef
   }
 
@@ -41,6 +43,7 @@ export default class AppSelectContext extends BaseFuroContext {
     props,
     componentContext,
     statusReactive,
+    containerElementShallowRef,
     selectedValueRef,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -48,6 +51,7 @@ export default class AppSelectContext extends BaseFuroContext {
         props,
         componentContext,
         statusReactive,
+        containerElementShallowRef,
         selectedValueRef,
       })
     )
@@ -120,6 +124,24 @@ export default class AppSelectContext extends BaseFuroContext {
   }
 
   /**
+   * get: position
+   *
+   * @returns {AppSelectContextProps['position']}
+   */
+  get position () {
+    return this.props.position
+  }
+
+  /**
+   * get: containerElement
+   *
+   * @returns {HTMLDivElement | null}
+   */
+  get containerElement () {
+    return this.containerElementShallowRef.value
+  }
+
+  /**
    * Setup component.
    *
    * @template {X extends AppSelectContext ? X : never} T, X
@@ -140,6 +162,57 @@ export default class AppSelectContext extends BaseFuroContext {
     )
 
     return this
+  }
+
+  /**
+   * Generate style for dropdown.
+   *
+   * @returns {import('vue').HTMLAttributes['style']}
+   */
+  generateDropdownStyle () {
+    if (this.containerElement === null) {
+      return {}
+    }
+
+    const containerRect = this.containerElement.getBoundingClientRect()
+
+    const topOffset = containerRect.bottom + window.scrollY
+    const insetInline = this.generateInsetInline()
+
+    return {
+      insetBlockStart: `${(topOffset / 16) + 0.25}rem`,
+      ...insetInline,
+    }
+  }
+
+  /**
+   * Generate `insetInline`.
+   *
+   * @returns {Record<string, string>}
+   */
+  generateInsetInline () {
+    if (this.containerElement === null) {
+      return {
+        insetInlineStart: '0',
+      }
+    }
+
+    const containerRect = this.containerElement.getBoundingClientRect()
+
+    const leftOffset = containerRect.left + window.scrollX
+    if (this.position === 'left') {
+      return {
+        insetInlineStart: `${(leftOffset / 16)}rem`,
+        insetInlineEnd: 'auto',
+      }
+    }
+
+    const rightOffset = window.innerWidth - containerRect.right + window.scrollX
+
+    return {
+      insetInlineStart: 'auto',
+      insetInlineEnd: `${(rightOffset / 16)}rem`,
+    }
   }
 
   /**
@@ -240,6 +313,7 @@ export default class AppSelectContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext.js').BaseFuroContextParams & {
  *   props: AppSelectContextProps
  *   statusReactive: AppSelectStatusReactive
+ *   containerElementShallowRef: import('vue').ShallowRef<HTMLDivElement | null>
  *   selectedValueRef: import('vue').Ref<string>
  * }} AppSelectContextParams
  */
@@ -272,5 +346,6 @@ export default class AppSelectContext extends BaseFuroContext {
  *   placeholder: string
  *   isLoading: boolean
  *   iconName: string
+ *   position: 'left' | 'right'
  * }} AppSelectContextProps
  */
