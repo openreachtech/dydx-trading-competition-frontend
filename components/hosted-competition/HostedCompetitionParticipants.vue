@@ -1,7 +1,13 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
 
 import {
   Icon,
@@ -47,9 +53,17 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
+    const selectedParticipantRef = ref({})
+
     const args = {
       props,
       componentContext,
+      route,
+      router,
+      selectedParticipantRef,
     }
     const context = HostedCompetitionParticipantsContext.create(args)
       .setupComponent()
@@ -68,6 +82,65 @@ export default defineComponent({
       :entries="context.generateParticipantsTableEntries()"
       class="table"
     >
+      <template #header>
+        <div class="unit-header">
+          <div
+            class="actions"
+            :class="{
+              hidden: !context.hasSelectedParticipants(),
+            }"
+          >
+            <AppButton
+              variant="neutral"
+              class="button"
+            >
+              <span>Fetch Equity</span>
+              <Icon
+                name="heroicons:arrow-path-rounded-square"
+                size="1rem"
+              />
+            </AppButton>
+
+            <div class="divider" />
+
+            <AppSelect
+              class="select"
+              :items="context.generateParticipantStatusSelectOptions()"
+            >
+              <AppButton
+                variant="neutral"
+                size="icon"
+                class="button"
+              >
+                <span>Change Status</span>
+                <Icon
+                  name="heroicons:chevron-down"
+                  size="1rem"
+                />
+              </AppButton>
+            </AppSelect>
+          </div>
+
+          <span
+            class="heading"
+            :class="{
+              hidden: context.hasSelectedParticipants(),
+            }"
+          >
+            Select participants to fetch their equity or update their status
+          </span>
+
+          <AppSelect
+            :items="context.generateParticipantStatusFullSelectOptions()"
+            placeholder="All Status"
+            :model-value="context.extractStatusIdFromRoute()"
+            @update:model-value="context.updateStatusIdQuery({
+              statusId: $event,
+            })"
+          />
+        </div>
+      </template>
+
       <template #head-checkbox>
         <AppCheckbox />
       </template>
@@ -164,6 +237,62 @@ export default defineComponent({
 <style scoped>
 .unit-container > .pagination {
   margin-block-start: 1.5rem;
+}
+
+.unit-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  margin-block-end: 0.25rem;
+
+  @media (48rem < width) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.unit-header > .actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.unit-header > .actions > .button,
+.unit-header > .actions > .select .button {
+  border-width: 0;
+
+  padding-block: 0;
+  padding-inline: 0;
+
+  background-color: transparent;
+  color: var(--color-text-tertiary);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-header > .actions > .button:hover,
+.unit-header > .actions > .select .button:hover {
+  background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.unit-header > .actions > .divider {
+  inline-size: var(--size-thinnest);
+  block-size: 1.25rem;
+
+  background-color: var(--color-background-divider);
+}
+
+.unit-header > .heading {
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+
+  color: var(--color-text-placeholder);
+}
+
+.unit-header > :where(.actions, .heading).hidden {
+  display: none;
 }
 
 .unit-name {
