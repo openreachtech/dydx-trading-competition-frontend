@@ -77,7 +77,10 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .fetchCompetitionOnMounted()
 
     this.watch(
-      () => this.extractCurrentPageFromRoute(),
+      [
+        () => this.extractCurrentPageFromRoute(),
+        () => this.extractStatusIdFromRoute(),
+      ],
       async () => {
         await this.fetcherHash
           .competitionParticipants
@@ -102,6 +105,22 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Extract statusId from route.
+   *
+   * @returns {number | null}.
+   */
+  extractStatusIdFromRoute () {
+    const statusIdQuery = Array.isArray(this.route.query.statusId)
+      ? this.route.query.statusId[0]
+      : this.route.query.statusId
+    const statusId = Number(statusIdQuery)
+
+    return isNaN(statusId)
+      ? null
+      : statusId
   }
 
   /**
@@ -160,6 +179,24 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       limit,
       totalRecords,
     }
+  }
+
+  /**
+   * Fetch `participantsCurrentEquities`.
+   *
+   * @param {{
+   *   competitionParticipantIds: Array<number>
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async fetchParticipantsCurrentEquities ({
+    competitionParticipantIds,
+  }) {
+    await this.fetcherHash
+      .participantsCurrentEquities
+      .fetchParticipantsCurrentEquitiesOnEvent({
+        competitionParticipantIds,
+      })
   }
 
   /**
@@ -293,6 +330,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
  *   fetcherHash: {
  *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
+ *     participantsCurrentEquities: import('./ParticipantsCurrentEquitiesFetcher').default
  *   }
  *   statusReactive: StatusReactive
  * }} HostedCompetitionDetailsPageContextParams
