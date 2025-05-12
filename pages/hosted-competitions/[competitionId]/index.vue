@@ -94,6 +94,9 @@ export default defineComponent({
       graphqlClientHash: {
         bulkUpdateParticipantStatus: bulkUpdateParticipantStatusGraphqlClient,
       },
+      fetcherHash: {
+        competitionParticipants: competitionParticipantsFetcher,
+      },
       statusReactive,
     }
     const mutationContext = HostedCompetitionDetailsMutationContext.create(mutationArgs)
