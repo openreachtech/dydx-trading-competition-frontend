@@ -194,35 +194,6 @@ export default defineComponent({
         </template>
       </div>
     </div>
-
-    <div class="actions">
-      <button class="button">
-        <Icon
-          name="heroicons:rocket-launch"
-          class="icon"
-          size="1rem"
-        />
-        <span>Start Now</span>
-      </button>
-      <div class="divider" />
-      <button class="button">
-        <Icon
-          name="heroicons-outline:flag"
-          class="icon"
-          size="1rem"
-        />
-        <span>End Arena</span>
-      </button>
-      <div class="divider" />
-      <button class="button cancel">
-        <Icon
-          name="heroicons-outline:x-mark"
-          class="icon"
-          size="1rem"
-        />
-        <span>Cancel Arena</span>
-      </button>
-    </div>
   </div>
 </template>
 
