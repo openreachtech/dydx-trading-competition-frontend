@@ -102,6 +102,7 @@ export default defineComponent({
             <AppButton
               variant="neutral"
               class="button"
+              @click="context.emitFetchParticipantsCurrentEquities()"
             >
               <span>Fetch Equity</span>
               <Icon
@@ -202,12 +203,15 @@ export default defineComponent({
         </span>
       </template>
 
-      <template #body-equity="{ value }">
+      <template #body-equity="{ value, row }">
         <span class="unit-equity">
           <AppButton
             class="button"
             is-rounded
             variant="neutral"
+            @click="context.emitFetchParticipantsCurrentEquities({
+              competitionParticipantIds: [row.competitionParticipantId]
+            })"
           >
             <Icon
               name="heroicons:arrow-path-rounded-square"
