@@ -62,6 +62,13 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
     )
   }
 
+  /** @override */
+  static get EMIT_EVENT_NAME () {
+    return {
+      BULK_UPDATE_PARTICIPANT_STATUS: 'bulkUpdateParticipantStatus',
+    }
+  }
+
   /**
    * get: participants
    *

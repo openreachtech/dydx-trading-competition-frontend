@@ -25,10 +25,13 @@ import HostedCompetitionParticipants from '~/components/hosted-competition/Hoste
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
 
+import BulkUpdateParticipantStatusMutationGraphqlLauncher from '~/app/graphql/client/mutations/bulkUpdateParticipantStatus/BulkUpdateParticipantStatusMutationGraphqlLauncher'
+
 import CompetitionParticipantsFetcher from './CompetitionParticipantsFetcher'
 import HostedCompetitionDetailsFetcher from './HostedCompetitionDetailsFetcher'
 
 import HostedCompetitionDetailsPageContext from './HostedCompetitionDetailsPageContext'
+import HostedCompetitionDetailsMutationContext from '~/pages/hosted-competitions/[competitionId]/HostedCompetitionDetailsMutationContext'
 
 export default defineComponent({
   components: {
@@ -49,6 +52,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoadingCompetition: false,
       isLoadingCompetitionParticipants: false,
+      isBulkUpdatingCompetitionStatus: false,
     })
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
@@ -82,8 +86,22 @@ export default defineComponent({
     const context = HostedCompetitionDetailsPageContext.create(args)
       .setupComponent()
 
+    const bulkUpdateParticipantStatusGraphqlClient = useGraphqlClient(BulkUpdateParticipantStatusMutationGraphqlLauncher)
+
+    const mutationArgs = {
+      props,
+      componentContext,
+      graphqlClientHash: {
+        bulkUpdateParticipantStatus: bulkUpdateParticipantStatusGraphqlClient,
+      },
+      statusReactive,
+    }
+    const mutationContext = HostedCompetitionDetailsMutationContext.create(mutationArgs)
+      .setupComponent()
+
     return {
       context,
+      mutationContext,
     }
   },
 })
