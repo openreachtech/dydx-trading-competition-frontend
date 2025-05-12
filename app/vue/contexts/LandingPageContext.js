@@ -249,7 +249,7 @@ export default class LandingPageContext extends BaseFuroContext {
       },
       {
         question: 'How is my trading performance calculated?',
-        answer: 'Performance is calculated using the following formulas: <br /> <b>Baseline</b> = Initial Equity + Total Deposits - Total Withdrawals <br /> <b>PnL</b> = Current Equity - Baseline <br /> <b>ROI</b> = PnL / Baseline <br /> The system takes hourly snapshots to update these metrics throughout the competition.',
+        answer: 'Performance is calculated using the following formulas: <br /> <b>Baseline</b> = Initial Equity + Total Deposits <br /> <b>PnL</b> = Current Equity - Baseline <br /> <b>ROI</b> = PnL / Baseline <br /> Note that withdrawals during the competition will decrease your Current Equity.',
       },
       {
         question: 'Is my private key safe when using this platform?',
