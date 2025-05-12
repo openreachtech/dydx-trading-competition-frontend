@@ -47,6 +47,11 @@ export default defineComponent({
       ]),
       required: true,
     },
+    isBulkUpdatingParticipantStatus: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   emits: Object.values(
@@ -110,11 +115,16 @@ export default defineComponent({
             <AppSelect
               class="select"
               :items="context.generateParticipantStatusSelectOptions()"
+              :is-loading="context.isBulkUpdatingParticipantStatus"
+              @update:model-value="context.emitBulkUpdateParticipantStatus({
+                statusId: $event,
+              })"
             >
               <AppButton
                 variant="neutral"
                 size="icon"
                 class="button"
+                :is-loading="context.isBulkUpdatingParticipantStatus"
               >
                 <span>Change Status</span>
                 <Icon

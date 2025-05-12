@@ -88,6 +88,15 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   }
 
   /**
+   * get: isBulkUpdatingParticipantStatus
+   *
+   * @returns {PropsType['isBulkUpdatingParticipantStatus']}
+   */
+  get isBulkUpdatingParticipantStatus () {
+    return this.props.isBulkUpdatingParticipantStatus
+  }
+
+  /**
    * get: participantsHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -118,6 +127,39 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
         },
       },
     ]
+  }
+
+  /**
+   * Emit `bulkUpdateParticipantStatus`.
+   *
+   * @param {{
+   *   statusId: string
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  emitBulkUpdateParticipantStatus ({
+    statusId,
+  }) {
+    const normalizedStatusId = Number(statusId)
+
+    this.emit(
+      this.EMIT_EVENT_NAME.BULK_UPDATE_PARTICIPANT_STATUS,
+      {
+        competitionParticipantIds: this.extractSelectedParticipantIds(),
+        statusId: normalizedStatusId,
+      }
+    )
+  }
+
+  /**
+   * Extract selected participant ids.
+   *
+   * @returns {Array<number>}
+   */
+  extractSelectedParticipantIds () {
+    return Object.keys(this.selectedParticipant)
+      .filter(id => this.selectedParticipant[id])
+      .map(id => Number(id))
   }
 
   /**
@@ -446,6 +488,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
  * @typedef {{
  *   participants: Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>
  *   pagination: Pagination
+ *   isBulkUpdatingParticipantStatus: boolean
  * }} PropsType
  */
 

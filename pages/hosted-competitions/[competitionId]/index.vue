@@ -154,6 +154,7 @@ export default defineComponent({
           <HostedCompetitionParticipants
             :participants="context.participants"
             :pagination="context.generateParticipantsPagination()"
+            @bulk-update-participant-status="mutationContext.executeBulkUpdateCompetitionStatusOnEvent($event)"
           />
         </div>
       </template>
