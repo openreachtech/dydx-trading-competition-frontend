@@ -77,7 +77,10 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .fetchCompetitionOnMounted()
 
     this.watch(
-      () => this.extractCurrentPageFromRoute(),
+      [
+        () => this.extractCurrentPageFromRoute(),
+        () => this.extractStatusIdFromRoute(),
+      ],
       async () => {
         await this.fetcherHash
           .competitionParticipants
@@ -102,6 +105,22 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Extract statusId from route.
+   *
+   * @returns {number | null}.
+   */
+  extractStatusIdFromRoute () {
+    const statusIdQuery = Array.isArray(this.route.query.statusId)
+      ? this.route.query.statusId[0]
+      : this.route.query.statusId
+    const statusId = Number(statusIdQuery)
+
+    return isNaN(statusId)
+      ? null
+      : statusId
   }
 
   /**
