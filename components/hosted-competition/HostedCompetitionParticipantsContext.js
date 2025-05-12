@@ -134,18 +134,20 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
    *
    * @param {{
    *   statusId: string
+   *   competitionParticipantIds?: Array<number>
    * }} params - Parameters.
    * @returns {void}
    */
   emitBulkUpdateParticipantStatus ({
     statusId,
+    competitionParticipantIds = this.extractSelectedParticipantIds(),
   }) {
     const normalizedStatusId = Number(statusId)
 
     this.emit(
       this.EMIT_EVENT_NAME.BULK_UPDATE_PARTICIPANT_STATUS,
       {
-        competitionParticipantIds: this.extractSelectedParticipantIds(),
+        competitionParticipantIds,
         statusId: normalizedStatusId,
       }
     )
