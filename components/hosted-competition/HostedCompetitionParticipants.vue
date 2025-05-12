@@ -49,6 +49,10 @@ export default defineComponent({
     },
   },
 
+  emits: Object.values(
+    HostedCompetitionParticipantsContext.EMIT_EVENT_NAME
+  ),
+
   setup (
     props,
     componentContext
