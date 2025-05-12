@@ -221,12 +221,16 @@ export default defineComponent({
         </span>
       </template>
 
-      <template #body-status="{ value }">
+      <template #body-status="{ value, row }">
         <span class="unit-status">
           <AppSelect
             class="select"
             :items="context.generateParticipantStatusSelectOptions()"
             :model-value="String(value.statusId)"
+            @update:model-value="context.emitBulkUpdateParticipantStatus({
+              competitionParticipantIds: [row.competitionParticipantId],
+              statusId: $event,
+            })"
           >
             <AppButton
               class="button"
