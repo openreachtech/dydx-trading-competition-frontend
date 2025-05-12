@@ -261,11 +261,11 @@ export default class LandingPageContext extends BaseFuroContext {
       },
       {
         question: 'What happens if I withdraw funds during a competition?',
-        answer: 'Withdrawals during a competition are tracked and factored into your performance calculations.',
+        answer: 'Withdrawals during a competition are tracked and factored into your performance calculations. <br /><br />For example, if you start with $1,000 initial equity and withdraw $300, your current equity becomes $700. In this case, your Baseline would still be $1,000, your PnL would be -$300 (= $700 - $1,000), and your ROI would be -30% (= -$300 / $1,000).',
       },
       {
         question: "I've run out of funds during the competition. Can I make an additional deposit?",
-        answer: 'Yes, depositing additional funds during the competition is allowed. However, please note that additional deposits will increase your baseline, which may negatively impact your ROI. Traders can adopt an aggressive strategy that takes additional deposits into account.',
+        answer: 'Yes, depositing additional funds during the competition is allowed. However, please note that additional deposits will increase your baseline, which may negatively impact your ROI. <br /><br />For example, if you started with $1,000 initial equity and then deposit an additional $500, your baseline would increase to $1,500. If your current equity after trading is $1,800, your PnL would be $300 (= $1,800 - $1,500) and your ROI would be 20% (= $300 / $1,500).',
       },
       {
         question: 'How do multiple accounts get prevented?',
