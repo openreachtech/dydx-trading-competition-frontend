@@ -229,6 +229,7 @@ export default defineComponent({
         <span class="unit-status">
           <AppSelect
             class="select"
+            position="right"
             :items="context.generateParticipantStatusSelectOptions()"
             :model-value="String(value.statusId)"
             @update:model-value="context.emitBulkUpdateParticipantStatus({
