@@ -133,6 +133,7 @@ export default defineComponent({
           <AppSelect
             :items="context.generateParticipantStatusFullSelectOptions()"
             placeholder="All Status"
+            class="something"
             :model-value="context.extractStatusIdFromRoute()"
             @update:model-value="context.updateStatusIdQuery({
               statusId: $event,
@@ -142,11 +143,22 @@ export default defineComponent({
       </template>
 
       <template #head-checkbox>
-        <AppCheckbox />
+        <AppCheckbox
+          :model-value="context.hasSelectedAllParticipants()"
+          :indeterminate="context.hasIndeterminatelySelectedParticipants()"
+          @update:model-value="context.toggleSelectAllParticipants()"
+        />
       </template>
 
-      <template #body-checkbox>
-        <AppCheckbox />
+      <template #body-checkbox="{ row }">
+        <AppCheckbox
+          :model-value="context.isParticipantSelected({
+            participantId: row.competitionParticipantId,
+          })"
+          @update:model-value="context.toggleParticipant({
+            participantId: row.competitionParticipantId,
+          })"
+        />
       </template>
 
       <template #body-name="{ value }">

@@ -121,6 +121,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   generateParticipantsTableEntries () {
     return this.participants.map(
       participant => ({
+        competitionParticipantId: participant.competitionParticipantId,
         name: participant.address.name,
         address: participant.address.address,
         equity: participant.equity,
@@ -201,6 +202,110 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   hasSelectedParticipants () {
     return Object.values(this.selectedParticipant)
       .some(it => it)
+  }
+
+  /**
+   * Get is all participants selected.
+   *
+   * @returns {boolean} Is all participants selected.
+   */
+  hasSelectedAllParticipants () {
+    if (this.hasIndeterminatelySelectedParticipants()) {
+      return true
+    }
+
+    const selectedParticipantValues = Object.values(this.selectedParticipant)
+
+    return selectedParticipantValues.length !== 0
+      && selectedParticipantValues.every(it => it)
+  }
+
+  /**
+   * Get is indeterminate select all participants.
+   *
+   * @returns {boolean} Is indeterminate select all participants.
+   */
+  hasIndeterminatelySelectedParticipants () {
+    const selectedParticipantValues = Object.values(this.selectedParticipant)
+
+    if (
+      selectedParticipantValues.length === 0
+      || selectedParticipantValues.every(it => it === false)
+    ) {
+      return false
+    }
+
+    if (
+      selectedParticipantValues.length < this.participants.length
+      && selectedParticipantValues.every(it => it)
+    ) {
+      return true
+    }
+
+    return selectedParticipantValues.some(it => it === false)
+  }
+
+  /**
+   * Toggle select state of all participants.
+   *
+   * @returns {void}
+   */
+  toggleSelectAllParticipants () {
+    if (this.hasSelectedAllParticipants()) {
+      this.deselectAllParticipants()
+
+      return
+    }
+
+    this.selectAllParticipants()
+  }
+
+  /**
+   * Select all participants.
+   */
+  selectAllParticipants () {
+    /** @type {Record<string, boolean>} */
+    const result = {}
+
+    this.participants.forEach(participant => {
+      result[participant.competitionParticipantId] = true
+    })
+
+    this.selectedParticipantRef.value = result
+  }
+
+  /**
+   * Deselect all participants.
+   */
+  deselectAllParticipants () {
+    this.selectedParticipantRef.value = {}
+  }
+
+  /**
+   * Check if a participant is selected.
+   *
+   * @param {{
+   *   participantId: string | number
+   * }} params - Parameters.
+   * @returns {boolean} Is participant selected.
+   */
+  isParticipantSelected ({
+    participantId,
+  }) {
+    return this.selectedParticipant[participantId]
+  }
+
+  /**
+   * Select participant.
+   *
+   * @param {{
+   *   participantId: string | number
+   * }} params - Parameters.
+   */
+  toggleParticipant ({
+    participantId,
+  }) {
+    this.selectedParticipantRef.value[participantId] = !this.selectedParticipant[participantId]
   }
 
   /**
@@ -339,6 +444,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
 
 /**
  * @typedef {{
+ *   competitionParticipantId: number
  *   name: string
  *   address: string
  *   equity: number
