@@ -18,6 +18,7 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
     componentContext,
 
     graphqlClientHash,
+    fetcherHash,
     statusReactive,
   }) {
     super({
@@ -26,6 +27,7 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
     })
 
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
     this.statusReactive = statusReactive
   }
 
@@ -42,6 +44,7 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
     props,
     componentContext,
     graphqlClientHash,
+    fetcherHash,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -49,6 +52,7 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
         props,
         componentContext,
         graphqlClientHash,
+        fetcherHash,
         statusReactive,
       })
     )
@@ -106,6 +110,10 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
       },
       afterRequest: async capsule => {
         this.statusReactive.isBulkUpdatingCompetitionStatus = false
+
+        await this.fetcherHash
+          .competitionParticipants
+          .fetchCompetitionParticipantsOnEvent()
       },
     }
   }
@@ -115,6 +123,9 @@ export default class HostedCompetitionDetailsMutationContext extends BaseFuroCon
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   graphqlClientHash: {
  *     bulkUpdateParticipantStatus: GraphqlClient
+ *   }
+ *   fetcherHash: {
+ *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *   }
  *   statusReactive: StatusReactive
  * }} HostedCompetitionDetailsMutationContextParams
