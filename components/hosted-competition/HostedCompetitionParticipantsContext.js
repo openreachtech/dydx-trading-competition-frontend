@@ -66,6 +66,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   static get EMIT_EVENT_NAME () {
     return {
       BULK_UPDATE_PARTICIPANT_STATUS: 'bulkUpdateParticipantStatus',
+      FETCH_PARTICIPANTS_CURRENT_EQUITIES: 'fetchParticipantsCurrentEquities',
     }
   }
 
@@ -149,6 +150,25 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
       {
         competitionParticipantIds,
         statusId: normalizedStatusId,
+      }
+    )
+  }
+
+  /**
+   * Emit `fetchParticipantsCurrentEquities`.
+   *
+   * @param {{
+   *   competitionParticipantIds?: Array<number>
+   * }} [params] - Parameters.
+   * @returns {void}
+   */
+  emitFetchParticipantsCurrentEquities ({
+    competitionParticipantIds = this.extractSelectedParticipantIds(),
+  } = {}) {
+    this.emit(
+      this.EMIT_EVENT_NAME.FETCH_PARTICIPANTS_CURRENT_EQUITIES,
+      {
+        competitionParticipantIds,
       }
     )
   }
