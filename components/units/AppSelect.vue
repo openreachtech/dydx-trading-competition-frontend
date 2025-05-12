@@ -3,6 +3,7 @@ import {
   defineComponent,
   reactive,
   ref,
+  shallowRef,
 } from 'vue'
 
 import {
@@ -60,6 +61,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    position: {
+      type: /** @type {import('vue').PropType<import('./AppSelectContext').AppSelectContextProps['position']>} */ (String),
+      default: 'left',
+    },
   },
 
   emits: [
@@ -70,6 +75,8 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    /** @type {import('vue').ShallowRef<HTMLDivElement | null>} */
+    const containerElementShallowRef = shallowRef(null)
     const selectedValueRef = ref('')
 
     const args = {
@@ -78,6 +85,7 @@ export default defineComponent({
       statusReactive: reactive({
         isOpenSelect: false,
       }),
+      containerElementShallowRef,
       selectedValueRef,
     }
 
@@ -93,6 +101,7 @@ export default defineComponent({
 
 <template>
   <div
+    :ref="context.containerElementShallowRef"
     class="unit-select"
     :class="context.generateContainerClass()"
   >
@@ -141,43 +150,46 @@ export default defineComponent({
       </slot>
     </div>
 
-    <Transition name="fade">
-      <div
-        v-if="context.isOpenSelect"
-        v-on-click-outside="() => context.closeSelect()"
-        class="contents"
-      >
-        <template
-          v-for="(item, index) in items"
-          :key="index"
+    <Teleport to="#teleports">
+      <Transition name="fade">
+        <div
+          v-if="context.isOpenSelect"
+          v-on-click-outside="() => context.closeSelect()"
+          class="unit-contents"
+          :style="context.generateDropdownStyle()"
         >
-          <slot
-            :name="item.value"
-            :item="item"
+          <template
+            v-for="(item, index) in items"
+            :key="index"
           >
-            <div
-              class="item"
-              :class="context.generateItemClass({
-                selectedOption: item,
-              })"
-              @click="() => context.selectOption({
-                selectedOption: item,
-              })"
+            <slot
+              :name="item.value"
+              :item="item"
             >
-              <Icon
-                v-if="item.iconName"
-                class="icon"
-                :name="item.iconName"
-              />
+              <div
+                class="item"
+                :class="context.generateItemClass({
+                  selectedOption: item,
+                })"
+                @click="() => context.selectOption({
+                  selectedOption: item,
+                })"
+              >
+                <Icon
+                  v-if="item.iconName"
+                  class="icon"
+                  :name="item.iconName"
+                />
 
-              <span class="label">
-                {{ item.label }}
-              </span>
-            </div>
-          </slot>
-        </template>
-      </div>
-    </Transition>
+                <span class="label">
+                  {{ item.label }}
+                </span>
+              </div>
+            </slot>
+          </template>
+        </div>
+      </Transition>
+    </Teleport>
     </input>
   </div>
 </template>
@@ -197,7 +209,7 @@ export default defineComponent({
   transition: transform 200ms ease-in-out;
 }
 
-.unit-select > .contents {
+.unit-contents {
   --color-border: var(--palette-layer-6);
   --color-background: var(--palette-layer-2);
 
@@ -231,7 +243,7 @@ export default defineComponent({
   animation: fade-out 200ms ease-in-out;
 }
 
-.unit-select > .contents .item {
+.unit-contents .item {
   border-radius: var(--size-border-radius-micro);
   padding-block: 0.625rem;
   padding-inline: 1rem;
@@ -242,18 +254,18 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.unit-select > .contents .item.disabled {
+.unit-contents .item.disabled {
   color: var(--color-text-placeholder);
   pointer-events: none;
 }
 
-.unit-select > .contents .item:hover {
+.unit-contents .item:hover {
   --color-background-item-hover: var(--palette-layer-5);
 
   background-color: var(--color-background-item-hover);
 }
 
-.unit-select > .contents .item.selected {
+.unit-contents .item.selected {
   --color-background-item-selected: var(--palette-layer-3);
 
   background-color: var(--color-background-item-selected);
