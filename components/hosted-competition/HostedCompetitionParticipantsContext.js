@@ -432,15 +432,15 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
    * @returns {string}.
    */
   extractStatusIdFromRoute () {
-    const statusId = Array.isArray(this.route.params.statusId)
-      ? this.route.params.statusId[0]
-      : this.route.params.statusId
+    const statusIdQuery = Array.isArray(this.route.query.statusId)
+      ? this.route.query.statusId[0]
+      : this.route.query.statusId
 
-    if (!statusId) {
+    if (!statusIdQuery) {
       return ''
     }
 
-    return statusId
+    return statusIdQuery
   }
 
   /**

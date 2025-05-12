@@ -104,16 +104,26 @@ export default class CompetitionParticipantsFetcher {
     }
 
     const currentPage = this.extractCurrentPageFromRoute()
+    const statusId = this.extractStatusIdFromRoute()
 
-    return {
-      input: {
-        competitionId,
-        pagination: {
-          limit: PAGINATION.LIMIT,
-          offset: (currentPage - 1) * PAGINATION.LIMIT,
-        },
+    const baseInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (currentPage - 1) * PAGINATION.LIMIT,
       },
     }
+
+    return statusId === null
+      ? {
+        input: baseInput,
+      }
+      : {
+        input: {
+          ...baseInput,
+          statusId,
+        },
+      }
   }
 
   /**
@@ -148,6 +158,22 @@ export default class CompetitionParticipantsFetcher {
     return isNaN(competitionId)
       ? null
       : competitionId
+  }
+
+  /**
+   * Extract statusId from route.
+   *
+   * @returns {number | null}.
+   */
+  extractStatusIdFromRoute () {
+    const statusIdQuery = Array.isArray(this.route.query.statusId)
+      ? this.route.query.statusId[0]
+      : this.route.query.statusId
+    const statusId = Number(statusIdQuery)
+
+    return isNaN(statusId)
+      ? null
+      : statusId
   }
 
   /**
