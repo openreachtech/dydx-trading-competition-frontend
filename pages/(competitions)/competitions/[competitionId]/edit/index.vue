@@ -185,6 +185,14 @@ export default defineComponent({
       <span class="heading">
         Edit League
       </span>
+      <Icon
+        name="svg-spinners:90-ring-with-bg"
+        size="1.25rem"
+        class="icon loading"
+        :class="{
+          hidden: !context.isLoadingInitialValue,
+        }"
+      />
     </div>
 
     <div class="unit-form-container">
@@ -348,6 +356,10 @@ export default defineComponent({
   font-size: var(--font-size-large);
   font-weight: 500;
   line-height: var(--size-line-height-large);
+}
+
+.unit-page > .header > .icon.loading.hidden {
+  display: none;
 }
 
 .unit-form-container {
