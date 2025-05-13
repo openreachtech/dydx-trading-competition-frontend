@@ -56,6 +56,11 @@ export default class DefaultLayoutContext extends BaseFuroContext {
         imageUrl: '/img/dydx/dydx-trade.svg',
         href: 'https://dydx.trade',
       },
+      {
+        name: 'tokensender.dydxarena.com',
+        imageUrl: '/img/dydx/dydx-tokensender.svg',
+        href: 'https://tokensender.dydxarena.com',
+      },
     ]
   }
 
