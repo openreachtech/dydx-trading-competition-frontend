@@ -538,10 +538,18 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   generateParticipantStatusName ({
     statusId,
   }) {
-    return Object.values(COMPETITION_PARTICIPANT_STATUS)
-      .find(it => it.ID === statusId)
-      ?.NAME
-      ?? ''
+    const fallbackValue = 'Unknown Status'
+
+    const matchedStatus = this.competitionParticipantStatuses
+      .find(it => it.statusId === statusId)
+      ?? null
+    if (matchedStatus === null) {
+      return fallbackValue
+    }
+
+    return this.formatCompetitionParticipantStatus({
+      statusName: matchedStatus.name,
+    })
   }
 }
 
