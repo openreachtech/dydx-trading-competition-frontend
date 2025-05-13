@@ -52,6 +52,10 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    competitionParticipantStatuses: {
+      type: /** @type {import('vue').PropType<import('./HostedCompetitionParticipantsContext').PropsType['competitionParticipantStatuses']>} */ (Array),
+      required: true,
+    },
   },
 
   emits: Object.values(

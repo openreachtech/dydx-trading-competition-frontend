@@ -73,6 +73,10 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       .fetchCompetitionParticipantsOnMounted()
 
     this.fetcherHash
+      .competitionParticipantStatuses
+      .fetchCompetitionParticipantStatusesOnMounted()
+
+    this.fetcherHash
       .hostedCompetitionDetails
       .fetchCompetitionOnMounted()
 
@@ -352,6 +356,18 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
       },
     ]
   }
+
+  /**
+   * get: competitionParticipantStatuses
+   *
+   * @returns {Array<import('~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlCapsule').Status>}
+   */
+  get competitionParticipantStatuses () {
+    return this.fetcherHash
+      .competitionParticipantStatuses
+      .competitionParticipantStatusesCapsule
+      .statuses
+  }
 }
 
 /**
@@ -359,6 +375,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
  *   route: ReturnType<import('vue-router').useRoute>
  *   fetcherHash: {
  *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
+ *     competitionParticipantStatuses: import('./CompetitionParticipantStatusesFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
  *     participantsCurrentEquities: import('./ParticipantsCurrentEquitiesFetcher').default
  *   }
