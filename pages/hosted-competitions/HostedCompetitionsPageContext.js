@@ -339,6 +339,7 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
    *   competitionId: number
    * }} params - Parameters.
    * @returns {Promise<void>}
+   * @throws {Error} Will throw if action is unknown.
    */
   async selectCompetitionAction ({
     action,
@@ -353,7 +354,11 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
       }),
     }
 
-    await actionHash[action]?.()
+    if (!actionHash[action]) {
+      throw new Error(`Unknown action: ${action}`)
+    }
+
+    await actionHash[action]()
   }
 
   /**
