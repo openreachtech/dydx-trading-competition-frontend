@@ -10,6 +10,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppBadge from '~/components/units/AppBadge.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
@@ -31,6 +32,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppBadge,
     AppIconBadge,
     AppButton,
     AppLeagueCountdown,
@@ -55,6 +57,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,
@@ -67,6 +76,10 @@ export default defineComponent({
         Number,
         null,
       ],
+      required: true,
+    },
+    isHostOfCompetition: {
+      type: Boolean,
       required: true,
     },
     isCompetitionFull: {
@@ -142,6 +155,17 @@ export default defineComponent({
           >
             {{ context.generateBadgeDescription() }}
           </AppIconBadge>
+
+          <AppBadge
+            severity="neutral"
+            class="badge host"
+            :class="context.generateHostBadgeClasses()"
+          >
+            <Icon
+              name="ph:crown-simple"
+              size="1.25rem"
+            />
+          </AppBadge>
 
           <div class="timeline">
             <span class="period">
@@ -248,6 +272,17 @@ export default defineComponent({
           >
 
           <div class="buttons">
+            <NuxtLink
+              :to="context.generateCompetitionEditUrl()"
+              class="link edit"
+              :class="context.generateCompetitionEditButtonClasses()"
+            >
+              <Icon
+                name="heroicons:pencil-square"
+                size="1.25rem"
+              />
+            </NuxtLink>
+
             <!-- TODO: Implement share feature. -->
             <!-- <button class="button">
               <Icon name="heroicons:share"
@@ -436,6 +471,17 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 1.125rem;
+}
+
+.unit-status > .badge.host {
+  padding-block: 0.125rem;
+  padding-inline: 0.5rem;
+
+  align-self: stretch;
+}
+
+.unit-status > .badge.host.hidden {
+  display: none;
 }
 
 .unit-status > .timeline {
@@ -631,6 +677,7 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
@@ -648,6 +695,24 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons > .button:hover {
   color: var(--color-text-secondary);
+}
+
+.unit-meta > .actions > .buttons > .link.edit {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-text-button-highlight);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-meta > .actions > .buttons > .link.edit:hover {
+  color: var(--color-text-button-highlight-hover);
+}
+
+.unit-meta > .actions > .buttons > .link.edit.hidden {
+  display: none;
 }
 
 .unit-statistics {

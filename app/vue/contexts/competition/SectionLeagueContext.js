@@ -129,6 +129,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionId
+   *
+   * @returns {PropsType['competitionId']}
+   */
+  get competitionId () {
+    return this.props.competitionId
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {PropsType['competitionStatusId']}
@@ -144,6 +153,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
    */
   get enrolledParticipantsNumber () {
     return this.props.enrolledParticipantsNumber
+  }
+
+  /**
+   * get: isHostOfCompetition
+   *
+   * @returns {PropsType['isHostOfCompetition']}
+   */
+  get isHostOfCompetition () {
+    return this.props.isHostOfCompetition
   }
 
   /**
@@ -620,6 +638,28 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * Generate CSS classes for host badge.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateHostBadgeClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
+   * Generate CSS classes for competition edit button.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateCompetitionEditButtonClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
    * Generate description expansion button label.
    *
    * @returns {string}
@@ -889,6 +929,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
       ?.scheduledDatetime
       ?? null
   }
+
+  /**
+   * Generate URL of competition edit page.
+   *
+   * @returns {string}
+   */
+  generateCompetitionEditUrl () {
+    return this.competitionId === null
+      ? ''
+      : `/competitions/${this.competitionId}/edit`
+  }
 }
 
 /**
@@ -909,8 +960,10 @@ export default class SectionLeagueContext extends BaseFuroContext {
  * @typedef {{
  *   competition: CompetitionEntity | null
  *   participantStatusId: number | null
+ *   competitionId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
+ *   isHostOfCompetition: boolean
  *   isCompetitionFull: boolean
  * }} PropsType
  */
