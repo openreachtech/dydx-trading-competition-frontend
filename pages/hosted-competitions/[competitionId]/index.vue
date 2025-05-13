@@ -166,6 +166,18 @@ export default defineComponent({
           </AppIconBadge>
         </div>
       </div>
+
+      <NuxtLink
+        :to="context.generateCompetitionEditUrl()"
+        class="link edit"
+      >
+        <Icon
+          name="heroicons:pencil-square"
+          size="1rem"
+          class="icon"
+        />
+        <span>Edit League</span>
+      </NuxtLink>
     </div>
 
     <AppTabLayout
@@ -218,6 +230,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 1;
 }
 
 .unit-page > .header > .content > .link {
@@ -259,6 +272,35 @@ export default defineComponent({
   padding-inline: 0;
 
   background-color: transparent;
+}
+
+.unit-page > .header > .link.edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 0.5rem;
+  border-width: calc(var(--size-thinnest) * 1.5);
+  border-color: var(--color-border-button-outlined);
+  border-style: solid;
+
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  color: var(--color-text-primary);
+
+  transition: border-color 250ms var(--transition-timing-base);
+}
+
+.unit-page > .header > .link.edit:hover {
+  border-color: var(--color-border-button-outlined-hover);
+}
+
+.unit-page > .header > .link.edit > .icon {
+  color: var(--color-text-tertiary);
 }
 
 .tab.content {

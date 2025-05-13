@@ -264,6 +264,36 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * Generate URL to competition edit page.
+   *
+   * @returns {string}
+   */
+  generateCompetitionEditUrl () {
+    const competitionId = this.extractCompetitionIdFromRoute()
+    if (competitionId === null) {
+      return ''
+    }
+
+    return `/competitions/${competitionId}/edit`
+  }
+
+  /**
+   * Extract competition id from route params.
+   *
+   * @returns {number | null}
+   */
+  extractCompetitionIdFromRoute () {
+    const competitionIdParam = Array.isArray(this.route.params.competitionId)
+      ? this.route.params.competitionId[0]
+      : this.route.params.competitionId
+    const competitionId = Number(competitionIdParam)
+
+    return isNaN(competitionId)
+      ? null
+      : competitionId
+  }
+
+  /**
    * Generate badge severity.
    *
    * @returns {import('~/app/vue/contexts/badges/CompetitionBadgeContext').GenerateSeverityReturnType} Badge severity.
