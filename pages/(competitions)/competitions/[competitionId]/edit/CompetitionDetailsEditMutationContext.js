@@ -20,6 +20,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     route,
     graphqlClientHash,
     formClerkHash,
+    fetcherHash,
     statusReactive,
     updateCompetitionFormShallowRef,
     updateCompetitionSchedulesFormShallowRef,
@@ -34,6 +35,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     this.route = route
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
+    this.fetcherHash = fetcherHash
     this.statusReactive = statusReactive
     this.updateCompetitionFormShallowRef = updateCompetitionFormShallowRef
     this.updateCompetitionSchedulesFormShallowRef = updateCompetitionSchedulesFormShallowRef
@@ -56,6 +58,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     route,
     graphqlClientHash,
     formClerkHash,
+    fetcherHash,
     statusReactive,
     updateCompetitionFormShallowRef,
     updateCompetitionSchedulesFormShallowRef,
@@ -69,6 +72,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
         route,
         graphqlClientHash,
         formClerkHash,
+        fetcherHash,
         statusReactive,
         updateCompetitionFormShallowRef,
         updateCompetitionSchedulesFormShallowRef,
@@ -289,6 +293,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetition = false
+
+        await this.fetcherHash
+          .competition
+          .fetchCompetitionOnEvent()
       },
     }
   }
@@ -333,6 +341,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionSchedules = false
+
+        await this.fetcherHash
+          .competition
+          .fetchCompetitionOnEvent()
       },
     }
   }
@@ -377,6 +389,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionLimits = false
+
+        await this.fetcherHash
+          .competition
+          .fetchCompetitionOnEvent()
       },
     }
   }
@@ -421,6 +437,10 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionPrizeRules = false
+
+        await this.fetcherHash
+          .competition
+          .fetchCompetitionOnEvent()
       },
     }
   }
@@ -440,6 +460,9 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
  *   route: ReturnType<import('vue-router').useRoute>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
+ *   fetcherHash: {
+ *     competition: import('./CompetitionDetailsEditFetcher').default
+ *   }
  *   statusReactive: StatusReactive
  *   updateCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  *   updateCompetitionSchedulesFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>

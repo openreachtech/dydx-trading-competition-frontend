@@ -153,6 +153,9 @@ export default defineComponent({
         updateCompetitionLimits: updateCompetitionLimitsFormClerk,
         updateCompetitionPrizeRules: updateCompetitionPrizeRulesFormClerk,
       },
+      fetcherHash: {
+        competition: competitionDetailsEditFetcher,
+      },
       updateCompetitionFormShallowRef,
       updateCompetitionSchedulesFormShallowRef,
       updateCompetitionLimitsFormShallowRef,
