@@ -9,6 +9,11 @@ import {
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
+const ACTION_HASH = /** @type {const} */ ({
+  VIEW_DETAILS: 'viewDetails',
+  EDIT_LEAGUE: 'editLeague',
+})
+
 /**
  * HostedCompetitionsPageContext
  *
@@ -252,6 +257,10 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
         label: 'Title',
       },
       {
+        key: 'actions',
+        label: '',
+      },
+      {
         key: 'startDate',
         label: 'Start (MM/DD/YYYY)',
       },
@@ -303,6 +312,87 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: actionOptions
+   *
+   * @returns {Array<import('~/components/units/AppSelectContext').SelectOption>}
+   */
+  get actionOptions () {
+    return [
+      {
+        label: 'View Details',
+        value: ACTION_HASH.VIEW_DETAILS,
+        iconName: 'heroicons-outline:eye',
+      },
+      {
+        label: 'Edit League',
+        value: ACTION_HASH.EDIT_LEAGUE,
+        iconName: 'heroicons:pencil-square',
+      },
+    ]
+  }
+
+  /**
+   * Select competition action.
+   *
+   * @param {{
+   *   action: (typeof ACTION_HASH)[keyof typeof ACTION_HASH]
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async selectCompetitionAction ({
+    action,
+    competitionId,
+  }) {
+    const actionHash = {
+      [ACTION_HASH.VIEW_DETAILS]: () => this.navigateToCompetitionDetails({
+        competitionId,
+      }),
+      [ACTION_HASH.EDIT_LEAGUE]: () => this.navigateToCompetitionEdit({
+        competitionId,
+      }),
+    }
+
+    await actionHash[action]?.()
+  }
+
+  /**
+   * Navigate to competition details page.
+   *
+   * @param {{
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async navigateToCompetitionDetails ({
+    competitionId,
+  }) {
+    const competitionDetailsUrl = this.generateCompetitionDetailsUrl({
+      competitionId,
+    })
+
+    await this.router.push(competitionDetailsUrl)
+  }
+
+  /**
+   * Navigate to competition edit page.
+   *
+   * @param {{
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async navigateToCompetitionEdit ({
+    competitionId,
+  }) {
+    const competitionDetailsUrl = this.generateCompetitionEditUrl({
+      competitionId,
+    })
+
+    await this.router.push(competitionDetailsUrl)
+  }
+
+  /**
    * Generate URL to competition details page.
    *
    * @param {{
@@ -314,6 +404,20 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
     competitionId,
   }) {
     return `/hosted-competitions/${competitionId}`
+  }
+
+  /**
+   * Generate URL to competition edit page.
+   *
+   * @param {{
+   *   competitionId: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateCompetitionEditUrl ({
+    competitionId,
+  }) {
+    return `/competitions/${competitionId}/edit`
   }
 
   /**

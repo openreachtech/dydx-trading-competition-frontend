@@ -18,6 +18,8 @@ import {
   Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
+import AppSelect from '~/components/units/AppSelect.vue'
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppTable from '~/components/units/AppTable.vue'
@@ -30,6 +32,8 @@ import HostedCompetitionsPageContext from './HostedCompetitionsPageContext'
 
 export default defineComponent({
   components: {
+    AppButton,
+    AppSelect,
     NuxtLink,
     Icon,
     AppSearchBar,
@@ -128,6 +132,28 @@ export default defineComponent({
             {{ value }}
           </span>
         </NuxtLink>
+      </template>
+
+      <template #body-actions="{ row }">
+        <AppSelect
+          class="unit-column actions"
+          :items="context.actionOptions"
+          @update:model-value="context.selectCompetitionAction({
+            action: $event,
+            competitionId: row.competitionId,
+          })"
+        >
+          <AppButton
+            variant="neutral"
+            is-rounded
+            class="button select"
+          >
+            <Icon
+              name="heroicons-outline:ellipsis-vertical"
+              size="1rem"
+            />
+          </AppButton>
+        </AppSelect>
       </template>
 
       <template #body-startDate="{ value }">
@@ -302,6 +328,13 @@ export default defineComponent({
     -webkit-line-clamp: var(--max-line-count);
     -webkit-box-orient: vertical;
   }
+}
+
+.unit-column.actions .button.select {
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
+  background-color: transparent;
 }
 
 .unit-column.date {
