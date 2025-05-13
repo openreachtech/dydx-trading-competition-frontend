@@ -67,6 +67,7 @@ export default defineComponent({
     ref="dialogComponentRef"
     class="design"
     v-bind="$attrs"
+    @click-backdrop="context.dismissDialog()"
   >
     <template #contents>
       <slot name="header">
