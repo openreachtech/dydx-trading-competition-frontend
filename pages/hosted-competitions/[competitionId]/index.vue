@@ -135,35 +135,49 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="header">
+      <div class="content">
+        <NuxtLink
+          to="/hosted-competitions"
+          class="link back"
+          aria-label="See hosted arenas list"
+        >
+          <Icon
+            name="heroicons:arrow-left"
+            size="1.5rem"
+          />
+        </NuxtLink>
+
+        <img
+          class="image"
+          :src="context.generateImageUrl()"
+          :alt="context.generateTitle()"
+        >
+
+        <div class="headline">
+          <h2 class="heading">
+            {{ context.generateTitle() }}
+          </h2>
+          <AppIconBadge
+            :severity="context.generateBadgeSeverity()"
+            :icon-name="context.generateBadgeIconName()"
+            class="badge"
+          >
+            {{ context.generateBadgeDescription() }}
+          </AppIconBadge>
+        </div>
+      </div>
+
       <NuxtLink
-        to="/hosted-competitions"
-        class="link back"
-        aria-label="See hosted arenas list"
+        :to="context.generateCompetitionEditUrl()"
+        class="link edit"
       >
         <Icon
-          name="heroicons:arrow-left"
-          size="1.5rem"
+          name="heroicons:pencil-square"
+          size="1rem"
+          class="icon"
         />
+        <span>Edit League</span>
       </NuxtLink>
-
-      <img
-        class="image"
-        :src="context.generateImageUrl()"
-        :alt="context.generateTitle()"
-      >
-
-      <div class="headline">
-        <h2 class="heading">
-          {{ context.generateTitle() }}
-        </h2>
-        <AppIconBadge
-          :severity="context.generateBadgeSeverity()"
-          :icon-name="context.generateBadgeIconName()"
-          class="badge"
-        >
-          {{ context.generateBadgeDescription() }}
-        </AppIconBadge>
-      </div>
     </div>
 
     <AppTabLayout
@@ -212,7 +226,14 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-page > .header > .link {
+.unit-page > .header > .content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.unit-page > .header > .content > .link {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -220,13 +241,13 @@ export default defineComponent({
   color: inherit;
 }
 
-.unit-page > .header > .link.back {
+.unit-page > .header > .content > .link.back {
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
-.unit-page > .header > .image {
+.unit-page > .header > .content > .image {
   border-radius: 0.625rem;
 
   inline-size: 2.5rem;
@@ -238,19 +259,48 @@ export default defineComponent({
   background-color: var(--color-background-skeleton);
 }
 
-.unit-page > .header > .headline > .heading {
+.unit-page > .header > .content > .headline > .heading {
   font-size: var(--font-size-large);
   font-weight: 700;
   line-height: var(--size-line-height-large);
 }
 
-.unit-page > .header > .headline > .badge {
+.unit-page > .header > .content > .headline > .badge {
   margin-block: 0;
 
   padding-block: 0;
   padding-inline: 0;
 
   background-color: transparent;
+}
+
+.unit-page > .header > .link.edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 0.5rem;
+  border-width: calc(var(--size-thinnest) * 1.5);
+  border-color: var(--color-border-button-outlined);
+  border-style: solid;
+
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  color: var(--color-text-primary);
+
+  transition: border-color 250ms var(--transition-timing-base);
+}
+
+.unit-page > .header > .link.edit:hover {
+  border-color: var(--color-border-button-outlined-hover);
+}
+
+.unit-page > .header > .link.edit > .icon {
+  color: var(--color-text-tertiary);
 }
 
 .tab.content {
