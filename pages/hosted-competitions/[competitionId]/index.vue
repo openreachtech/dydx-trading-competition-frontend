@@ -28,11 +28,13 @@ import HostedCompetitionParticipants from '~/components/hosted-competition/Hoste
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
+import CompetitionParticipantStatusesQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlLauncher'
 import ParticipantsCurrentEquitiesQueryGraphqlLauncher from '~/app/graphql/client/queries/participantsCurrentEquities/ParticipantsCurrentEquitiesQueryGraphqlLauncher'
 
 import BulkUpdateParticipantStatusMutationGraphqlLauncher from '~/app/graphql/client/mutations/bulkUpdateParticipantStatus/BulkUpdateParticipantStatusMutationGraphqlLauncher'
 
 import CompetitionParticipantsFetcher from './CompetitionParticipantsFetcher'
+import CompetitionParticipantStatusesFetcher from './CompetitionParticipantStatusesFetcher'
 import HostedCompetitionDetailsFetcher from './HostedCompetitionDetailsFetcher'
 import ParticipantsCurrentEquitiesFetcher from './ParticipantsCurrentEquitiesFetcher'
 
@@ -68,12 +70,19 @@ export default defineComponent({
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
+    const competitionParticipantStatusesGraphqlClient = useGraphqlClient(CompetitionParticipantStatusesQueryGraphqlLauncher)
     const participantsCurrentEquitiesGraphqlClient = useGraphqlClient(ParticipantsCurrentEquitiesQueryGraphqlLauncher)
 
     const competitionParticipantsFetcher = CompetitionParticipantsFetcher.create({
       route,
       graphqlClientHash: {
         competitionParticipants: competitionParticipantsGraphqlClient,
+      },
+      statusReactive,
+    })
+    const competitionParticipantStatusesFetcher = CompetitionParticipantStatusesFetcher.create({
+      graphqlClientHash: {
+        competitionParticipantStatuses: competitionParticipantStatusesGraphqlClient,
       },
       statusReactive,
     })
@@ -100,6 +109,7 @@ export default defineComponent({
       route,
       fetcherHash: {
         competitionParticipants: competitionParticipantsFetcher,
+        competitionParticipantStatuses: competitionParticipantStatusesFetcher,
         hostedCompetitionDetails: hostedCompetitionDetailsFetcher,
         participantsCurrentEquities: participantsCurrentEquitiesFetcher,
       },
@@ -193,6 +203,7 @@ export default defineComponent({
           <HostedCompetitionParticipants
             :participants="context.participants"
             :pagination="context.generateParticipantsPagination()"
+            :competition-participant-statuses="context.competitionParticipantStatuses"
             @bulk-update-participant-status="mutationContext.executeBulkUpdateCompetitionStatusOnEvent($event)"
             @fetch-participants-current-equities="context.fetchParticipantsCurrentEquities($event)"
           />

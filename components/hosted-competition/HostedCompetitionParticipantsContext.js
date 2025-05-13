@@ -98,6 +98,15 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   }
 
   /**
+   * get: competitionParticipantStatuses
+   *
+   * @returns {PropsType['competitionParticipantStatuses']}
+   */
+  get competitionParticipantStatuses () {
+    return this.props.competitionParticipantStatuses
+  }
+
+  /**
    * get: participantsHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -471,12 +480,50 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
       [COMPETITION_PARTICIPANT_STATUS.DISQUALIFIED.ID]: 'text-error',
     }
 
-    return Object.values(COMPETITION_PARTICIPANT_STATUS)
+    return this.competitionParticipantStatuses
       .map(status => ({
-        label: status.NAME,
-        value: String(status.ID),
-        class: classHash[status.ID],
+        label: this.formatCompetitionParticipantStatus({
+          statusName: status.name,
+        }),
+        value: String(status.statusId),
+        class: classHash[status.statusId],
       }))
+  }
+
+  /**
+   * Format competition participant status.
+   *
+   * @param {{
+   *   statusName: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatCompetitionParticipantStatus ({
+    statusName,
+  }) {
+    return statusName.split('_')
+      .map(it => this.capitalizeString({
+        string: it,
+      }))
+      .join(' ')
+  }
+
+  /**
+   * Capitalize string.
+   *
+   * @param {{
+   *   string: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  capitalizeString ({
+    string,
+  }) {
+    const firstCharacter = string.charAt(0)
+      .toUpperCase()
+    const remainingCharacters = string.slice(1)
+
+    return `${firstCharacter}${remainingCharacters}`
   }
 
   /**
@@ -490,10 +537,18 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   generateParticipantStatusName ({
     statusId,
   }) {
-    return Object.values(COMPETITION_PARTICIPANT_STATUS)
-      .find(it => it.ID === statusId)
-      ?.NAME
-      ?? ''
+    const fallbackValue = 'Unknown Status'
+
+    const matchedStatus = this.competitionParticipantStatuses
+      .find(it => it.statusId === statusId)
+      ?? null
+    if (matchedStatus === null) {
+      return fallbackValue
+    }
+
+    return this.formatCompetitionParticipantStatus({
+      statusName: matchedStatus.name,
+    })
   }
 }
 
@@ -514,6 +569,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
  *   participants: Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>
  *   pagination: Pagination
  *   isBulkUpdatingParticipantStatus: boolean
+ *   competitionParticipantStatuses: Array<import('~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlCapsule').Status>
  * }} PropsType
  */
 
