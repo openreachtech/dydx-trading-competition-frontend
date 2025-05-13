@@ -135,34 +135,36 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="header">
-      <NuxtLink
-        to="/hosted-competitions"
-        class="link back"
-        aria-label="See hosted arenas list"
-      >
-        <Icon
-          name="heroicons:arrow-left"
-          size="1.5rem"
-        />
-      </NuxtLink>
-
-      <img
-        class="image"
-        :src="context.generateImageUrl()"
-        :alt="context.generateTitle()"
-      >
-
-      <div class="headline">
-        <h2 class="heading">
-          {{ context.generateTitle() }}
-        </h2>
-        <AppIconBadge
-          :severity="context.generateBadgeSeverity()"
-          :icon-name="context.generateBadgeIconName()"
-          class="badge"
+      <div class="content">
+        <NuxtLink
+          to="/hosted-competitions"
+          class="link back"
+          aria-label="See hosted arenas list"
         >
-          {{ context.generateBadgeDescription() }}
-        </AppIconBadge>
+          <Icon
+            name="heroicons:arrow-left"
+            size="1.5rem"
+          />
+        </NuxtLink>
+
+        <img
+          class="image"
+          :src="context.generateImageUrl()"
+          :alt="context.generateTitle()"
+        >
+
+        <div class="headline">
+          <h2 class="heading">
+            {{ context.generateTitle() }}
+          </h2>
+          <AppIconBadge
+            :severity="context.generateBadgeSeverity()"
+            :icon-name="context.generateBadgeIconName()"
+            class="badge"
+          >
+            {{ context.generateBadgeDescription() }}
+          </AppIconBadge>
+        </div>
       </div>
     </div>
 
@@ -212,7 +214,13 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-page > .header > .link {
+.unit-page > .header > .content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.unit-page > .header > .content > .link {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -220,13 +228,13 @@ export default defineComponent({
   color: inherit;
 }
 
-.unit-page > .header > .link.back {
+.unit-page > .header > .content > .link.back {
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
-.unit-page > .header > .image {
+.unit-page > .header > .content > .image {
   border-radius: 0.625rem;
 
   inline-size: 2.5rem;
@@ -238,13 +246,13 @@ export default defineComponent({
   background-color: var(--color-background-skeleton);
 }
 
-.unit-page > .header > .headline > .heading {
+.unit-page > .header > .content > .headline > .heading {
   font-size: var(--font-size-large);
   font-weight: 700;
   line-height: var(--size-line-height-large);
 }
 
-.unit-page > .header > .headline > .badge {
+.unit-page > .header > .content > .headline > .badge {
   margin-block: 0;
 
   padding-block: 0;
