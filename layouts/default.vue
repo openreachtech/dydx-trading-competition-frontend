@@ -251,6 +251,6 @@ export default {
 }
 
 .unit-footer > .links > .entry:hover > .link > .icon.image {
-  filter: grayscale(0) brightness(1.7);
+  filter: grayscale(0) brightness(1.2);
 }
 </style>
