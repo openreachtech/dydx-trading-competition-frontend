@@ -501,8 +501,7 @@ export default class HostedCompetitionParticipantsContext extends BaseFuroContex
   formatCompetitionParticipantStatus ({
     statusName,
   }) {
-    return statusName.replaceAll('_', ' ')
-      .split(' ')
+    return statusName.split('_')
       .map(it => this.capitalizeString({
         string: it,
       }))
