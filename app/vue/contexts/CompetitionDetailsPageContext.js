@@ -168,6 +168,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         label: 'Address',
       },
       {
+        key: 'participantEquity',
+        label: 'Equity',
+      },
+      {
         key: 'participantStatus',
         label: 'Status',
         columnOptions: {
@@ -791,6 +795,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return participants.map(it => ({
       participantName: it.address.name,
       participantAddress: it.address.address,
+      participantEquity: it.equity,
       participantStatus: it.status,
     }))
   }
