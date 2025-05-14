@@ -147,7 +147,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     }
 
     // Extract filename from Content-Disposition header
-    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/u
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/ui
     const matchedFilenames = contentDisposition.match(filenameRegex)
 
     if (!matchedFilenames) {
