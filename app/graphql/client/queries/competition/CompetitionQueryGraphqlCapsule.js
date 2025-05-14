@@ -152,6 +152,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.name
       ?? null
   }
+
+  /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get outcomeCsvUrl () {
+    return this.extractCompetition()
+      ?.outcomeCsvUrl
+      ?? null
+  }
 }
 
 /**
@@ -176,6 +187,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   schedules: Array<Schedule>
  *   status: Status
  *   prizeRules: Array<PrizeRule>
+ *   outcomeCsvUrl?: string
  * }} CompetitionEntity
  */
 
