@@ -5,8 +5,10 @@ import {
 
 import {
   NuxtLink,
+  Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
@@ -17,6 +19,8 @@ import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLea
 export default defineComponent({
   components: {
     NuxtLink,
+    Icon,
+    AppButton,
     AppTable,
     AppPagination,
     TopRankingCard,
@@ -77,6 +81,14 @@ export default defineComponent({
         null,
       ],
       required: true,
+    },
+    outcomeCsvUrl: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
     },
   },
 
@@ -323,11 +335,34 @@ export default defineComponent({
         </template>
       </AppTable>
 
-      <AppPagination
-        class="pagination"
-        page-key="leaderboardPage"
-        :pagination="context.leaderboardPaginationResult"
-      />
+      <div class="unit-footer">
+        <div class="empty" />
+
+        <AppPagination
+          class="pagination"
+          page-key="leaderboardPage"
+          :pagination="context.leaderboardPaginationResult"
+        />
+
+        <AppButton
+          variant="neutral"
+          class="button download-result"
+          :class="{
+            hidden: !context.outcomeCsvUrl,
+          }"
+          @click="context.downloadOutcomeCsv()"
+        >
+          <template #startIcon>
+            <Icon
+              name="heroicons:arrow-down-tray"
+              size="1rem"
+            />
+          </template>
+          <template #default>
+            Download full result
+          </template>
+        </AppButton>
+      </div>
     </div>
   </section>
 </template>
@@ -414,8 +449,37 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-section > .inner > .pagination {
+.unit-footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1.75rem;
+  column-gap: 1rem;
+
   margin-block-start: 1.25rem;
+
+  @media (48rem < width) {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+.unit-footer > .empty {
+  display: none;
+
+  @media (48rem < width) {
+    display: block;
+  }
+}
+
+.unit-footer > .button.download-result {
+  justify-self: center;
+
+  @media (48rem < width) {
+    justify-self: end;
+  }
+}
+
+.unit-footer > .button.download-result.hidden {
+  display: none;
 }
 
 /***************** Top 3 rankers ****************/
