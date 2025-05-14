@@ -42,6 +42,7 @@ export default class CompetitionQueryGraphqlPayload extends BaseAppGraphqlPayloa
               rankTo
               amount
             }
+            outcomeCsvUrl
           }
         }
       }

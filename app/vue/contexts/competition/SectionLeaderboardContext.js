@@ -92,6 +92,39 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {PropsType['outcomeCsvUrl']}
+   */
+  get outcomeCsvUrl () {
+    return this.props.outcomeCsvUrl
+  }
+
+  /**
+   * Download outcome CSV.
+   *
+   * @returns {Promise<void>}
+   */
+  async downloadOutcomeCsv () {
+    if (this.outcomeCsvUrl === null) {
+      return
+    }
+
+    const response = await fetch(this.outcomeCsvUrl)
+    const fileBlob = await response.blob()
+    const blobURL = URL.createObjectURL(fileBlob)
+
+    const link = document.createElement('a')
+
+    link.href = blobURL
+    link.download = 'outcome.csv'
+
+    link.click()
+
+    URL.revokeObjectURL(blobURL)
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}
@@ -373,5 +406,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
+ *   outcomeCsvUrl: string | null
  * }} PropsType
  */

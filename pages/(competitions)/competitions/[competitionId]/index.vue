@@ -188,6 +188,7 @@ export default defineComponent({
       :is-loading-leaderboard="context.isLoadingLeaderboard"
       :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
       :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
+      :outcome-csv-url="context.competitionOutcomeCsvUrl"
     />
 
     <CompetitionEnrollmentDialog
