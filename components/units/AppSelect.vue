@@ -216,7 +216,7 @@ export default defineComponent({
   border-width: var(--size-thinnest);
   border-style: solid;
   border-color: var(--color-border);
-  border-radius: var(--size-border-radius-tiny);
+  border-radius: 0.5rem;
 
   padding: 0.75rem;
 
@@ -244,7 +244,7 @@ export default defineComponent({
 }
 
 .unit-contents .item {
-  border-radius: var(--size-border-radius-micro);
+  border-radius: 0.25rem;
   padding-block: 0.625rem;
   padding-inline: 1rem;
 
