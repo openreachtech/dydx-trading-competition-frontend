@@ -125,6 +125,40 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize equity.
+   *
+   * @param {{
+   *   equity: number
+   *   statusId: number
+   * }} params - Parameters.
+   * @returns {string | number}
+   */
+  normalizeEquity ({
+    equity,
+    statusId,
+  }) {
+    if (statusId !== COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID) {
+      return '--'
+    }
+
+    return equity
+  }
+
+  /**
+   * Normalize status name.
+   *
+   * @param {{
+   *   statusName: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeStatusName ({
+    statusName,
+  }) {
+    return statusName.replaceAll('_', ' ')
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}

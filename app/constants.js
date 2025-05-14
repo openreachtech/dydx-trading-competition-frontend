@@ -76,6 +76,11 @@ export const COMPETITION_PARTICIPANT_STATUS = {
     NAME: 'canceled',
     DESCRIPTION: 'Participant has canceled their registration',
   },
+  AWAITING_DEPOSIT: {
+    ID: 6,
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Participant has registered and is required to deposit funds to activate participation',
+  },
 }
 
 export const SCHEDULE_CATEGORY = {
