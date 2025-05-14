@@ -137,7 +137,7 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     equity,
     statusId,
   }) {
-    if (statusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID) {
+    if (statusId !== COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID) {
       return '--'
     }
 
