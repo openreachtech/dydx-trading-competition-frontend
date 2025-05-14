@@ -111,8 +111,8 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
     }
 
     const response = await fetch(this.outcomeCsvUrl)
-    const pdfBlob = await response.blob()
-    const blobURL = URL.createObjectURL(pdfBlob)
+    const fileBlob = await response.blob()
+    const blobURL = URL.createObjectURL(fileBlob)
 
     const link = document.createElement('a')
 
