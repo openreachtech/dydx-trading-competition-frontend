@@ -116,12 +116,50 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 
     const link = document.createElement('a')
 
+    const filename = this.extractOutcomeCsvFilename({
+      response,
+    })
+
     link.href = blobURL
-    link.download = 'outcome.csv'
+    link.download = filename
 
     link.click()
 
     URL.revokeObjectURL(blobURL)
+  }
+
+  /**
+   * Extract outcome CSV filename.
+   *
+   * @param {{
+   *   response: Response
+   * }} params - Parameters.
+   * @returns {string} Filename.
+   */
+  extractOutcomeCsvFilename ({
+    response,
+  }) {
+    const fallbackFilename = 'outcome.csv'
+
+    const contentDisposition = response.headers.get('Content-Disposition')
+    if (!contentDisposition) {
+      return fallbackFilename
+    }
+
+    // Extract filename from Content-Disposition header
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/ui
+    const matchedFilenames = contentDisposition.match(filenameRegex)
+
+    if (!matchedFilenames) {
+      return fallbackFilename
+    }
+
+    // Index 0 is the full match, index 1 is the filename.
+    const firstMatchedFilename = matchedFilenames.at(1)
+
+    return firstMatchedFilename
+      ? firstMatchedFilename.replace(/['"]/ug, '')
+      : fallbackFilename
   }
 
   /**
