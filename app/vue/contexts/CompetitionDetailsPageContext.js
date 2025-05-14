@@ -1101,6 +1101,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionOutcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get competitionOutcomeCsvUrl () {
+    return this.competitionCapsuleRef
+      .value
+      .outcomeCsvUrl
+  }
+
+  /**
    * get: participantStatusId
    *
    * @returns {number | null}
