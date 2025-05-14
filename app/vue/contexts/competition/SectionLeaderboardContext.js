@@ -125,6 +125,20 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * Normalize status name.
+   *
+   * @param {{
+   *   statusName: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeStatusName ({
+    statusName,
+  }) {
+    return statusName.replaceAll('_', ' ')
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}

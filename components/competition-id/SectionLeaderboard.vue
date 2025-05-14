@@ -186,7 +186,11 @@ export default defineComponent({
               statusId: value.statusId,
             })"
           >
-            {{ value.name }}
+            {{
+              context.normalizeStatusName({
+                statusName: value.name,
+              })
+            }}
           </span>
         </template>
 
