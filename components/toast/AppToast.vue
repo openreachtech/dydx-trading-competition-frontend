@@ -38,7 +38,7 @@ export default defineComponent({
     color: {
       type: /** @type {import('vue').PropType<import('./AppToastContext').PropsType['color']>} */ (String),
       required: false,
-      default: 'default',
+      default: 'neutral',
     },
     timeout: {
       type: Number,

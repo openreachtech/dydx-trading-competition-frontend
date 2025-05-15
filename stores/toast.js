@@ -79,7 +79,7 @@ export default function useToastStore () {
  * @typedef {{
  *   title?: string | null
  *   message: string
- *   color: ToastColors
+ *   color?: ToastColors
  *   timeout?: number
  *   shouldHideProgressBar?: boolean
  *   shouldPauseOnHover?: boolean
