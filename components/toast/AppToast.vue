@@ -1,7 +1,7 @@
 <script>
 import {
   defineComponent,
-  ref,
+  reactive,
   shallowRef,
 } from 'vue'
 
@@ -67,7 +67,10 @@ export default defineComponent({
     componentContext
   ) {
     const toastStore = useToastStore()
-    const isRunningRef = ref(true)
+
+    const statusReactive = reactive({
+      isRunning: true,
+    })
     /** @type {import('vue').ShallowRef<HTMLDivElement | null>} */
     const progressBarElementShallowRef = shallowRef(null)
 
@@ -75,7 +78,7 @@ export default defineComponent({
       props,
       componentContext,
       toastStore,
-      isRunningRef,
+      statusReactive,
       progressBarElementShallowRef,
     }
     const context = AppToastContext.create(args)

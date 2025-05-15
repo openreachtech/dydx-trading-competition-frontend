@@ -23,7 +23,7 @@ export default class AppToastContext extends BaseFuroContext {
     componentContext,
 
     toastStore,
-    isRunningRef,
+    statusReactive,
     progressBarElementShallowRef,
   }) {
     super({
@@ -32,7 +32,7 @@ export default class AppToastContext extends BaseFuroContext {
     })
 
     this.toastStore = toastStore
-    this.isRunningRef = isRunningRef
+    this.statusReactive = statusReactive
     this.progressBarElementShallowRef = progressBarElementShallowRef
   }
 
@@ -49,7 +49,7 @@ export default class AppToastContext extends BaseFuroContext {
     props,
     componentContext,
     toastStore,
-    isRunningRef,
+    statusReactive,
     progressBarElementShallowRef,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -57,7 +57,7 @@ export default class AppToastContext extends BaseFuroContext {
         props,
         componentContext,
         toastStore,
-        isRunningRef,
+        statusReactive,
         progressBarElementShallowRef,
       })
     )
@@ -141,7 +141,7 @@ export default class AppToastContext extends BaseFuroContext {
    * @returns {boolean}
    */
   get isRunning () {
-    return this.isRunningRef.value
+    return this.statusReactive.isRunning
   }
 
   /**
@@ -212,7 +212,7 @@ export default class AppToastContext extends BaseFuroContext {
       return
     }
 
-    this.isRunningRef.value = false
+    this.statusReactive.isRunning = false
   }
 
   /**
@@ -230,7 +230,7 @@ export default class AppToastContext extends BaseFuroContext {
       return
     }
 
-    this.isRunningRef.value = true
+    this.statusReactive.isRunning = true
   }
 
   /**
@@ -259,7 +259,9 @@ export default class AppToastContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   toastStore: import('~/stores/toast').ToastStore
- *   isRunningRef: import('vue').Ref<boolean>
+ *   statusReactive: import('vue').Reactive<{
+ *     isRunning: boolean
+ *   }>
  *   progressBarElementShallowRef: import('vue').ShallowRef<HTMLDivElement | null>
  * }} AppToastContextParams
  */
