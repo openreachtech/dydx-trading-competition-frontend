@@ -75,7 +75,7 @@ export default defineComponent({
 
 .unit-toasts > .toasts > .entry {
   @media (48rem < width) {
-    max-inline-size: 30rem;
+    inline-size: 28rem;
   }
 }
 
