@@ -166,7 +166,7 @@ export default defineComponent({
 .unit-toast > .contents {
   display: flex;
   align-items: start;
-  gap: 1rem;
+  gap: 0.675rem;
 
   padding-block: 0.75rem;
   padding-inline: 0.75rem;
