@@ -526,21 +526,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
     }
 
     const date = new Date(dateString)
-
     const dateFormatter = new Intl.DateTimeFormat('en-US', {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
-      timeZone: 'UTC',
-    })
-    const hourFormatter = new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
-      timeZone: 'UTC',
+      timeZoneName: 'short',
     })
 
-    return `${dateFormatter.format(date)}-${hourFormatter.format(date)} UTC`
+    return dateFormatter.format(date)
   }
 
   /**
