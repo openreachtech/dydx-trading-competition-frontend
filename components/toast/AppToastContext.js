@@ -73,6 +73,15 @@ export default class AppToastContext extends BaseFuroContext {
   }
 
   /**
+   * get: title
+   *
+   * @returns {string | null}
+   */
+  get title () {
+    return this.props.title
+  }
+
+  /**
    * get: message
    *
    * @returns {string}

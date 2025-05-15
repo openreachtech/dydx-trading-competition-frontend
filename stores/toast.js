@@ -77,6 +77,7 @@ export default function useToastStore () {
 
 /**
  * @typedef {{
+ *   title?: string | null
  *   message: string
  *   color: ToastColors
  *   timeout?: number

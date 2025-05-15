@@ -23,6 +23,14 @@ export default defineComponent({
       type: Symbol,
       required: true,
     },
+    title: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
     message: {
       type: String,
       required: true,
@@ -101,6 +109,9 @@ export default defineComponent({
       />
 
       <div class="text">
+        <span class="title">
+          {{ context.title }}
+        </span>
         <p class="message">
           {{ context.message }}
         </p>
@@ -185,6 +196,15 @@ export default defineComponent({
 
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
+}
+
+.unit-toast > .contents > .text > .title {
+  font-weight: 500;
+}
+
+.unit-toast > .contents > .text > .title:empty {
+  display: none;
 }
 
 .unit-toast > .contents > .button.dismiss {
