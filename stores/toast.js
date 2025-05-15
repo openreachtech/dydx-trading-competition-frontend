@@ -78,7 +78,7 @@ export default function useToastStore () {
 /**
  * @typedef {{
  *   message: string
- *   type: ToastTypes
+ *   color: ToastColors
  *   timeout?: number
  *   shouldHideProgressBar?: boolean
  *   shouldPauseOnHover?: boolean
@@ -97,5 +97,5 @@ export default function useToastStore () {
  *   | 'error'
  *   | 'warning'
  *   | 'info'
- * } ToastTypes
+ * } ToastColors
  */

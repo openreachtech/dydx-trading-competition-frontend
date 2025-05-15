@@ -82,12 +82,12 @@ export default class AppToastContext extends BaseFuroContext {
   }
 
   /**
-   * get: type
+   * get: color
    *
-   * @returns {import('~/stores/toast').ToastTypes}
+   * @returns {import('~/stores/toast').ToastColors}
    */
-  get type () {
-    return this.props.type
+  get color () {
+    return this.props.color
   }
 
   /**

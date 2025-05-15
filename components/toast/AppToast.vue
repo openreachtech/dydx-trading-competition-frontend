@@ -27,8 +27,8 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    type: {
-      type: /** @type {import('vue').PropType<import('./AppToastContext').PropsType['type']>} */ (String),
+    color: {
+      type: /** @type {import('vue').PropType<import('./AppToastContext').PropsType['color']>} */ (String),
       required: false,
       default: 'default',
     },
