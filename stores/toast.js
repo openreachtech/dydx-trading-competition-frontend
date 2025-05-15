@@ -82,6 +82,7 @@ export default function useToastStore () {
  *   timeout?: number
  *   shouldHideProgressBar?: boolean
  *   shouldPauseOnHover?: boolean
+ *   iconName?: string
  * }} Toast
  */
 

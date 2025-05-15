@@ -118,6 +118,15 @@ export default class AppToastContext extends BaseFuroContext {
   }
 
   /**
+   * get: iconName
+   *
+   * @returns {string}
+   */
+  get iconName () {
+    return this.props.iconName
+  }
+
+  /**
    * get: isRunning
    *
    * @returns {boolean}

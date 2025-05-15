@@ -47,6 +47,11 @@ export default defineComponent({
       required: false,
       default: true,
     },
+    iconName: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   setup (
@@ -86,7 +91,14 @@ export default defineComponent({
     })"
   >
     <div class="contents">
-      <slot name="icon" />
+      <Icon
+        :name="context.iconName"
+        size="1.25rem"
+        class="icon"
+        :class="{
+          hidden: !context.iconName,
+        }"
+      />
 
       <div class="text">
         <p class="message">
@@ -158,6 +170,14 @@ export default defineComponent({
 
   padding-block: 0.75rem;
   padding-inline: 0.75rem;
+}
+
+.unit-toast > .contents > .icon {
+  color: var(--color-text-primary);
+}
+
+.unit-toast > .contents > .icon.hidden {
+  display: none;
 }
 
 .unit-toast > .contents > .text {
