@@ -5,6 +5,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppToastContainer from '~/components/toast/AppToastContainer.vue'
 import AppDefaultLayout from '~/components/units/AppDefaultLayout.vue'
 import AppLogo from '~/components/header/AppLogo.vue'
 import AddressesSearchBarHeader from '~/components/search/AddressesSearchBarHeader.vue'
@@ -16,6 +17,7 @@ export default {
   name: 'DefaultLayout',
 
   components: {
+    AppToastContainer,
     AppDefaultLayout,
     AppLogo,
     AddressesSearchBarHeader,
@@ -142,6 +144,8 @@ export default {
       </div>
     </template>
   </AppDefaultLayout>
+
+  <AppToastContainer />
 </template>
 
 <style scoped>
