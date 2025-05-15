@@ -91,6 +91,9 @@ export default defineComponent({
 <template>
   <div
     class="unit-toast"
+    :class="[
+      context.color,
+    ]"
     @mouseenter="context.onMouseEnter({
       mouseEvent: $event,
     })"
@@ -144,17 +147,9 @@ export default defineComponent({
 
 <style scoped>
 .unit-toast {
-  --color-background-toast-neutral: var(--palette-layer-2);
-  --color-background-toast-info: var(--color-palette-layer-2);
-  --color-background-toast-success: var(--color-palette-layer-2);
-  --color-background-toast-error: var(--color-palette-layer-2);
-  --color-background-toast-warning: var(--color-palette-layer-2);
-
-  --color-background-progress-bar-neutral: var(--palette-purple);
-  --color-background-progress-bar-info: var(--palette-purple);
-  --color-background-progress-bar-success: var(--palette-purple);
-  --color-background-progress-bar-error: var(--palette-purple);
-  --color-background-progress-bar-warning: var(--palette-purple);
+  --color-background-toast: var(--palette-layer-2);
+  --color-background-progress-bar: var(--palette-layer-7);
+  --color-text-icon: var(--color-text-primary);
 }
 
 .unit-toast {
@@ -167,7 +162,7 @@ export default defineComponent({
 
   overflow: hidden;
 
-  background-color: var(--color-background-toast-neutral);
+  background-color: var(--color-background-toast);
 
   @media (48rem < width) {
     border-radius: 0.5rem;
@@ -184,7 +179,7 @@ export default defineComponent({
 }
 
 .unit-toast > .contents > .icon {
-  color: var(--color-text-primary);
+  color: var(--color-text-icon);
 }
 
 .unit-toast > .contents > .icon.hidden {
@@ -205,6 +200,10 @@ export default defineComponent({
 
 .unit-toast > .contents > .text > .title:empty {
   display: none;
+}
+
+.unit-toast > .contents > .text > .message {
+  color: var(--color-text-secondary);
 }
 
 .unit-toast > .contents > .button.dismiss {
@@ -228,7 +227,7 @@ export default defineComponent({
   block-size: 0.25rem;
   inline-size: 100%;
 
-  background-color: var(--color-background-progress-bar-neutral);
+  background-color: var(--color-background-progress-bar);
 
   transform-origin: left;
   animation: scale-x linear 1 forwards;
@@ -242,5 +241,31 @@ export default defineComponent({
   100% {
     scale: 0 1;
   }
+}
+
+/***** Colors *****/
+.unit-toast.neutral {
+  --color-background-progress-bar: var(--palette-layer-7);
+  --color-text-icon: var(--color-text-primary);
+}
+
+.unit-toast.success {
+  --color-background-progress-bar: var(--palette-green);
+  --color-text-icon: var(--palette-green);
+}
+
+.unit-toast.error {
+  --color-background-progress-bar: var(--palette-red);
+  --color-text-icon: var(--palette-red);
+}
+
+.unit-toast.warning {
+  --color-background-progress-bar: var(--palette-yellow);
+  --color-text-icon: var(--palette-yellow);
+}
+
+.unit-toast.info {
+  --color-background-progress-bar: var(--palette-purple);
+  --color-text-icon: var(--palette-purple);
 }
 </style>
