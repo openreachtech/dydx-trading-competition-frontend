@@ -31,6 +31,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    toastStore,
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
@@ -44,6 +45,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
@@ -65,6 +67,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    toastStore,
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
@@ -77,6 +80,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        toastStore,
         walletStore,
         graphqlClientHash,
         leaderboardEntriesRef,
@@ -636,6 +640,16 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 
         this.dismissDialog({
           dialogElement: this.competitionCancelationDialog,
+        })
+
+        const successMessage = this.competitionTitle
+          ? `You have successfully unregistered from "${this.competitionTitle}" arena`
+          : 'You have successfully unregistered from this arena'
+
+        this.toastStore.add({
+          message: successMessage,
+          iconName: 'heroicons:arrow-uturn-left',
+          color: 'success',
         })
 
         // TODO: Move mutation logic to mutation context.
@@ -1446,6 +1460,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   toastStore: import('~/stores/toast').ToastStore
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>

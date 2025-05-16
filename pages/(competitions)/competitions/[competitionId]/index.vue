@@ -105,6 +105,7 @@ export default defineComponent({
       componentContext,
       route,
       walletStore,
+      toastStore,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
