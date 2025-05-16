@@ -3,6 +3,10 @@ import {
 } from '#imports'
 
 import {
+  useHead,
+} from '@unhead/vue'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
@@ -10,6 +14,7 @@ import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
   BASE_INDEXER_URL,
+  BASE_PAGE_TITLE,
 } from '~/app/constants'
 
 /**
@@ -121,6 +126,19 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       },
       {
         immediate: true,
+      }
+    )
+
+    this.watch(
+      () => this.addressName,
+      () => {
+        if (this.addressName === null) {
+          return
+        }
+
+        useHead({
+          title: `${this.addressName} (Profile) - ${BASE_PAGE_TITLE}`,
+        })
       }
     )
 
