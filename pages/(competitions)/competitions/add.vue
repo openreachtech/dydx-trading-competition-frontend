@@ -54,7 +54,7 @@ export default defineComponent({
   ) {
     definePageMeta({
       $furo: {
-        pageTitle: `New arena - ${BASE_PAGE_TITLE}`,
+        pageTitle: `New Arena - ${BASE_PAGE_TITLE}`,
       },
     })
 
