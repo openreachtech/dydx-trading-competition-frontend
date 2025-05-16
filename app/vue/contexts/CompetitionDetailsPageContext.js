@@ -7,10 +7,15 @@ import {
 } from '#imports'
 
 import {
+  useHead,
+} from '@unhead/vue'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
 import {
+  BASE_PAGE_TITLE,
   COMPETITION_STATUS,
   PAGINATION,
 } from '~/app/constants'
@@ -269,6 +274,19 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       () => this.extractCurrentPage(),
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.competitionTitle,
+      () => {
+        if (this.competitionTitle === null) {
+          return
+        }
+
+        useHead({
+          title: `${this.competitionTitle} - ${BASE_PAGE_TITLE}`,
+        })
       }
     )
 
