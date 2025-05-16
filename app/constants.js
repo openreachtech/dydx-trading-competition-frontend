@@ -1,4 +1,5 @@
-import dydxAppConfig from '~/app/dydxV4AppConfig.json'
+// NOTE: If this constant file is imported in `nuxt.config.js`, it must use relative paths.
+import dydxAppConfig from './dydxV4AppConfig.json'
 
 export const HEADER_KEY = {
   ACCESS_TOKEN: 'x-renchan-access-token',
