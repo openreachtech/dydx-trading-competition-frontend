@@ -9,6 +9,14 @@ import {
 
 import AppMessage from '~/components/units/AppMessage.vue'
 
+import {
+  definePageMeta,
+} from '#imports'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
+
 import TermsPageContext from './TermsPageContext'
 
 export default defineComponent({
@@ -21,6 +29,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `Terms of Use - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const args = {
       props,
       componentContext,
