@@ -2,6 +2,14 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  useHead,
+} from '@unhead/vue'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
+
 /**
  * CompetitionDetailsEditPageContext
  *
@@ -73,6 +81,19 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     this.fetcherHash
       .competitionDetailsEdit
       .fetchCompetitionOnMounted()
+
+    this.watch(
+      () => this.competitionDetailsEditCapsule.title,
+      newTitle => {
+        if (newTitle === null) {
+          return
+        }
+
+        useHead({
+          title: `✏️ ${newTitle} - ${BASE_PAGE_TITLE}`,
+        })
+      }
+    )
 
     return this
   }

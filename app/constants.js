@@ -1,4 +1,5 @@
-import dydxAppConfig from '~/app/dydxV4AppConfig.json'
+// NOTE: If this constant file is imported in `nuxt.config.js`, it must use relative paths.
+import dydxAppConfig from './dydxV4AppConfig.json'
 
 export const HEADER_KEY = {
   ACCESS_TOKEN: 'x-renchan-access-token',
@@ -12,6 +13,8 @@ export const STORAGE_KEY = {
   SELECTED_NETWORK: 'dydx.SelectedNetwork',
   WALLET: 'wallet',
 }
+
+export const BASE_PAGE_TITLE = 'dYdX Trading Arena'
 
 export const DYDX_TRADE_CTA_URL = 'https://dydx.trade/markets?utm_source=clc&utm_medium=trading-competition&utm_campaign=07042025-clc-menu-cta&utm_term=&utm_content=trading-comp-menu-cta'
 

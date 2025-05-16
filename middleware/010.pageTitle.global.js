@@ -7,6 +7,10 @@ import {
   FuroMeta,
 } from '@openreachtech/furo-nuxt'
 
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
+
 /**
  * Page Title middleware (global)
  *
@@ -19,7 +23,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   })
 
   const resolvedPageTitle = furoMeta.pageTitle
-    ?? 'dYdX Trading Arena'
+    ?? BASE_PAGE_TITLE
 
   useSeoMeta({
     title: resolvedPageTitle,

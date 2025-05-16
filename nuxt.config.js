@@ -6,6 +6,10 @@ import nodePolyfills from 'vite-plugin-node-stdlib-browser'
 
 import furoEnv from './app/globals/furo-env'
 
+import {
+  BASE_PAGE_TITLE,
+} from './app/constants'
+
 // Reference: https://nuxt.com/docs/api/nuxt-config.
 export default defineNuxtConfig({
   // https://nuxt.com/docs/api/nuxt-config#compatibilitydate
@@ -15,7 +19,7 @@ export default defineNuxtConfig({
   // Nuxt App configuration: https://nuxt.com/docs/api/nuxt-config#app.
   app: {
     head: {
-      title: '⋯', // Loading title, can not be empty.
+      title: BASE_PAGE_TITLE, // Loading title, can not be empty.
       script: [
         {
           innerHTML: `

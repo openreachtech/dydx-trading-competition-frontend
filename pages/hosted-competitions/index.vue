@@ -25,7 +25,15 @@ import AppPagination from '~/components/units/AppPagination.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import HostedCompetitionsFetcher from './HostedCompetitionsFetcher'
 import HostedCompetitionsPageContext from './HostedCompetitionsPageContext'
@@ -46,6 +54,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `My Arenas - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const route = useRoute()
     const router = useRouter()
     const walletStore = useWalletStore()
