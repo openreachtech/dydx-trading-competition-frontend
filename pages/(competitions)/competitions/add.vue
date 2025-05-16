@@ -16,6 +16,10 @@ import AddCompetitionFormStepTimeline from '~/components/competition-add/AddComp
 import AddCompetitionFormStepParticipation from '~/components/competition-add/AddCompetitionFormStepParticipation.vue'
 import AddCompetitionFormStepPrize from '~/components/competition-add/AddCompetitionFormStepPrize.vue'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 
 import {
@@ -25,6 +29,10 @@ import {
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddCompetitionFormElementClerk from '~/app/domClerk/AddCompetitionFormElementClerk'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import AddCompetitionPageContext from '~/app/vue/contexts/AddCompetitionPageContext'
 
@@ -44,6 +52,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `New arena - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const addCompetitionGraphqlClient = useGraphqlClient(AddCompetitionMutationGraphqlLauncher)
     const addCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: AddCompetitionFormElementClerk,
