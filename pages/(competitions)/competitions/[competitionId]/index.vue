@@ -33,6 +33,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import useAppFormClerk from '~/composables/useAppFormClerk'
+import useToastStore from '~/stores/toast'
 import useWalletStore from '~/stores/wallet'
 
 import CompetitionDetailsPageContext from '~/app/vue/contexts/CompetitionDetailsPageContext'
@@ -54,6 +55,7 @@ export default defineComponent({
     componentContext
   ) {
     const route = useRoute()
+    const toastStore = useToastStore()
     const walletStore = useWalletStore()
 
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
@@ -124,6 +126,7 @@ export default defineComponent({
     const mutationArgs = {
       props,
       componentContext,
+      toastStore,
       competitionEnrollmentDialogRef,
       refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
