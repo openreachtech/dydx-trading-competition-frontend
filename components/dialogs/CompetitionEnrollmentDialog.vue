@@ -6,7 +6,7 @@ import {
 
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'

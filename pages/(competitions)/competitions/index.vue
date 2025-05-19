@@ -5,8 +5,21 @@ import {
 } from 'vue'
 
 import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
+import {
   Icon,
 } from '#components'
+
+import {
+  definePageMeta,
+} from '#imports'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
 
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
@@ -15,17 +28,12 @@ import AppSkeleton from '~/components/units/AppSkeleton.vue'
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
 
-import {
-  useRoute,
-  useRouter,
-} from 'vue-router'
-
-import {
-  useGraphqlClient,
-} from '@openreachtech/furo-nuxt'
-
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 import CompetitionStatisticsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionStatistics/CompetitionStatisticsQueryGraphqlLauncher'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import CompetitionsPageContext from '~/app/vue/contexts/CompetitionsPageContext'
 
@@ -44,6 +52,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `Arenas - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const route = useRoute()
     const router = useRouter()
 

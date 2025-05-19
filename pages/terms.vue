@@ -7,7 +7,15 @@ import {
   NuxtLink,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AppMessage from '~/components/units/AppMessage.vue'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import TermsPageContext from './TermsPageContext'
 
@@ -21,6 +29,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `Terms of Use - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const args = {
       props,
       componentContext,

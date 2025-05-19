@@ -1,6 +1,14 @@
 import {
+  useHead,
+} from '@unhead/vue'
+
+import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
@@ -89,6 +97,19 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
         await this.fetcherHash
           .competitionParticipants
           .fetchCompetitionParticipantsOnEvent()
+      }
+    )
+
+    this.watch(
+      () => this.competitionTitle,
+      () => {
+        if (this.competitionTitle === null) {
+          return
+        }
+
+        useHead({
+          title: `${this.competitionTitle} - ${BASE_PAGE_TITLE}`,
+        })
       }
     )
 
@@ -246,13 +267,21 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * get: competitionTitle
+   *
+   * @returns {string | null}
+   */
+  get competitionTitle () {
+    return this.competitionCapsule.title
+  }
+
+  /**
    * Generate title.
    *
    * @returns {string}
    */
   generateTitle () {
-    return this.competitionCapsule
-      .title
+    return this.competitionTitle
       ?? '----'
   }
 

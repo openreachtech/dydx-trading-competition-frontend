@@ -9,6 +9,10 @@ import {
   Icon,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
@@ -25,6 +29,10 @@ import {
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddCompetitionFormElementClerk from '~/app/domClerk/AddCompetitionFormElementClerk'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import AddCompetitionPageContext from '~/app/vue/contexts/AddCompetitionPageContext'
 
@@ -44,6 +52,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `New Arena - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const addCompetitionGraphqlClient = useGraphqlClient(AddCompetitionMutationGraphqlLauncher)
     const addCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: AddCompetitionFormElementClerk,

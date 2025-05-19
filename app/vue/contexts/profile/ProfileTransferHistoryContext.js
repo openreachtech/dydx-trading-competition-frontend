@@ -1,6 +1,6 @@
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   BaseFuroContext,

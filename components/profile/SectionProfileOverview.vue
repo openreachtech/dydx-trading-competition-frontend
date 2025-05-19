@@ -5,7 +5,7 @@ import {
 
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   Icon,

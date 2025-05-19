@@ -1,10 +1,10 @@
 import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+  useRoute,
+} from 'vue-router'
 
 import {
-  useRoute,
-} from '#imports'
+  BaseFuroContext,
+} from '@openreachtech/furo-nuxt'
 
 import {
   SCHEDULE_CATEGORY,
