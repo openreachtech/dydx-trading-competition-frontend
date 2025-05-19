@@ -64,7 +64,12 @@ export default defineComponent({
       <span>No records found.</span>
     </div>
 
-    <div class="accounts">
+    <div
+      class="accounts"
+      :class="{
+        hidden: context.shouldHideOverview(),
+      }"
+    >
       <div
         v-for="childSubaccount of context.childSubaccounts"
         :key="childSubaccount.subaccountNumber"
@@ -197,6 +202,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.unit-container > .accounts.hidden {
+  display: none;
 }
 
 .unit-account {
