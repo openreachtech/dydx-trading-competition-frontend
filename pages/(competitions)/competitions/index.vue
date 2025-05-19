@@ -5,8 +5,21 @@ import {
 } from 'vue'
 
 import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
+import {
   Icon,
 } from '#components'
+
+import {
+  definePageMeta,
+} from '#imports'
+
+import {
+  useGraphqlClient,
+} from '@openreachtech/furo-nuxt'
 
 import AppLeagueCard from '~/components/units/AppLeagueCard.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
@@ -14,19 +27,6 @@ import AppLoadingLayout from '~/components/units/AppLoadingLayout.vue'
 import AppSkeleton from '~/components/units/AppSkeleton.vue'
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import LeagueHeroSection from '~/components/LeagueHeroSection.vue'
-
-import {
-  definePageMeta,
-} from '#imports'
-
-import {
-  useRoute,
-  useRouter,
-} from 'vue-router'
-
-import {
-  useGraphqlClient,
-} from '@openreachtech/furo-nuxt'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 import CompetitionStatisticsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionStatistics/CompetitionStatisticsQueryGraphqlLauncher'

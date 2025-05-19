@@ -1,10 +1,10 @@
 import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
-
-import {
   useHead,
 } from '@unhead/vue'
+
+import {
+  BaseFuroContext,
+} from '@openreachtech/furo-nuxt'
 
 import {
   BASE_PAGE_TITLE,

@@ -7,11 +7,11 @@ import {
   NuxtLink,
 } from '#components'
 
-import AppMessage from '~/components/units/AppMessage.vue'
-
 import {
   definePageMeta,
 } from '#imports'
+
+import AppMessage from '~/components/units/AppMessage.vue'
 
 import {
   BASE_PAGE_TITLE,

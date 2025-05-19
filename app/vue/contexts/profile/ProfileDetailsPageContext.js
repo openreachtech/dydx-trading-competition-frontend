@@ -1,10 +1,9 @@
 import {
-  useRoute,
-} from '#imports'
-
-import {
   useHead,
 } from '@unhead/vue'
+import {
+  useRoute,
+} from 'vue-router'
 
 import {
   BaseFuroContext,

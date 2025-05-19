@@ -9,16 +9,16 @@ import {
   Icon,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
 import AddCompetitionFormStepParticipation from '~/components/competition-add/AddCompetitionFormStepParticipation.vue'
 import AddCompetitionFormStepPrize from '~/components/competition-add/AddCompetitionFormStepPrize.vue'
-
-import {
-  definePageMeta,
-} from '#imports'
 
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
 

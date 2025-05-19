@@ -3,12 +3,12 @@ import {
 } from 'vue'
 
 import {
-  useRoute,
-} from '#imports'
-
-import {
   useHead,
 } from '@unhead/vue'
+
+import {
+  useRoute,
+} from '#imports'
 
 import {
   BaseFuroContext,

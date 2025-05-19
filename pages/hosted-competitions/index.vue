@@ -18,16 +18,16 @@ import {
   Icon,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AppSelect from '~/components/units/AppSelect.vue'
 import AppSearchBar from '~/components/units/AppSearchBar.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
-
-import {
-  definePageMeta,
-} from '#imports'
 
 import CompetitionsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlLauncher'
 
