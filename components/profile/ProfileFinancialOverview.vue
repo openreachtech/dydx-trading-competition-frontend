@@ -3,12 +3,17 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
 import AppTable from '~/components/units/AppTable.vue'
 
 import ProfileFinancialOverviewContext from './ProfileFinancialOverviewContext'
 
 export default defineComponent({
   components: {
+    Icon,
     AppTable,
   },
 
@@ -46,7 +51,25 @@ export default defineComponent({
     <!-- Past orders implementation is to be decided. -->
     <!-- <div></div> -->
 
-    <div class="accounts">
+    <div
+      class="empty"
+      :class="{
+        hidden: !context.shouldHideOverview(),
+      }"
+    >
+      <Icon
+        name="heroicons:table-cells"
+        size="2rem"
+      />
+      <span>No records found.</span>
+    </div>
+
+    <div
+      class="accounts"
+      :class="{
+        hidden: context.shouldHideOverview(),
+      }"
+    >
       <div
         v-for="childSubaccount of context.childSubaccounts"
         :key="childSubaccount.subaccountNumber"
@@ -155,10 +178,34 @@ export default defineComponent({
   margin-block-start: 2rem;
 }
 
+.unit-container > .empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding-block: 3rem;
+  padding-inline: 1rem;
+
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-container > .empty.hidden {
+  display: none;
+}
+
 .unit-container > .accounts {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.unit-container > .accounts.hidden {
+  display: none;
 }
 
 .unit-account {
