@@ -67,7 +67,7 @@ export default {
   <div
     class="unit-checkbox"
     :class="{
-      disabled: disabled,
+      disabled: context.disabled,
     }"
     @click="context.toggle()"
   >
