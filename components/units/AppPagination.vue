@@ -70,7 +70,10 @@ export default defineComponent({
 <template>
   <FuroPagination
     class="design"
-    v-bind="{...$attrs, ...props}"
+    v-bind="{
+      ...$attrs,
+      ...props,
+    }"
   >
     <template #previous>
       <slot name="previous">
