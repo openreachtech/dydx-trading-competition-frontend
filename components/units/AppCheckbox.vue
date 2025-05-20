@@ -74,9 +74,9 @@ export default {
     <div
       class="checkbox"
       :class="{
-        'checked': context.internalValueRef.value,
-        'disabled': context.disabled,
-        'indeterminate': context.shouldShowIndeterminateStatus(),
+        checked: context.internalValueRef.value,
+        disabled: context.disabled,
+        indeterminate: context.shouldShowIndeterminateStatus(),
       }"
     >
       <input
