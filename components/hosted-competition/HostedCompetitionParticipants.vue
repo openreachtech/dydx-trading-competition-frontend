@@ -214,7 +214,7 @@ export default defineComponent({
             is-rounded
             variant="neutral"
             @click="context.emitFetchParticipantsCurrentEquities({
-              competitionParticipantIds: [row.competitionParticipantId]
+              competitionParticipantIds: [row.competitionParticipantId],
             })"
           >
             <Icon

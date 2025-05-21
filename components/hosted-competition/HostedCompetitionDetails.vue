@@ -178,7 +178,7 @@ export default defineComponent({
                 <span>
                   {{
                     context.normalizeTimestamp({
-                      timestamp: event.timestamp
+                      timestamp: event.timestamp,
                     })
                   }}
                 </span>

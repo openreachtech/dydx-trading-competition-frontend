@@ -67,16 +67,16 @@ export default {
   <div
     class="unit-checkbox"
     :class="{
-      disabled: disabled,
+      disabled: context.disabled,
     }"
     @click="context.toggle()"
   >
     <div
       class="checkbox"
       :class="{
-        'checked': context.internalValueRef.value,
-        'disabled': context.disabled,
-        'indeterminate': context.shouldShowIndeterminateStatus(),
+        checked: context.internalValueRef.value,
+        disabled: context.disabled,
+        indeterminate: context.shouldShowIndeterminateStatus(),
       }"
     >
       <input
