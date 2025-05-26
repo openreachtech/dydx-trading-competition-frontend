@@ -222,6 +222,10 @@
   --color-border-rank-emerald: #9db6fc;
   --color-border-rank-diamond: #40dc9f;
 
+  --color-shadow-rank-gold: #ecc05433;
+  --color-shadow-rank-emerald: #40dc9f33;
+  --color-shadow-rank-diamond: #9cb5fb33;
+
   /* Typography */
   --font-family-sans-fallback: -apple-system,
     BlinkMacSystemFont,

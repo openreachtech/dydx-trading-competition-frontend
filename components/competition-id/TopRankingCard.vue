@@ -159,14 +159,20 @@ export default defineComponent({
 
 .unit-card.top-1 > .border {
   --color-gradient-prominent: var(--color-border-rank-gold);
+
+  box-shadow: 0 -0.25px 1.25rem 0 var(--color-shadow-rank-gold);
 }
 
 .unit-card.top-2 > .border {
   --color-gradient-prominent: var(--color-border-rank-emerald);
+
+  box-shadow: 0 -0.25rem 1.25rem 0 var(--color-shadow-rank-emerald);
 }
 
 .unit-card.top-3 > .border {
   --color-gradient-prominent: var(--color-border-rank-diamond);
+
+  box-shadow: 0 -0.25rem 1.25rem 0 var(--color-shadow-rank-diamond);
 }
 
 .unit-content {
