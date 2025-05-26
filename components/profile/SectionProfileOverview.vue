@@ -77,7 +77,12 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <div class="inner">
+    <div
+      class="inner"
+      :class="{
+        participating: context.isParticipatingInArena(),
+      }"
+    >
       <div
         class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
@@ -243,6 +248,10 @@ export default defineComponent({
   @media (60rem < width) {
     padding-block: 6.5rem 5rem;
   }
+}
+
+.unit-section > .inner:not(.participating) {
+  padding-block-end: 8rem;
 }
 
 .unit-section > .inner > .meta.hidden {
