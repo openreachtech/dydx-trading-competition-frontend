@@ -230,8 +230,9 @@ export default defineComponent({
   max-width: var(--size-body-max-width);
 
   background-image: url('~/assets/img/backgrounds/rectangles.svg');
-  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
 
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
