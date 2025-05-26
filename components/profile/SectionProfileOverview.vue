@@ -77,7 +77,12 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <div class="inner">
+    <div
+      class="inner"
+      :class="{
+        participating: context.isParticipatingInArena(),
+      }"
+    >
       <div
         class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
@@ -131,7 +136,12 @@ export default defineComponent({
         </div>
       </div>
 
-      <div class="meta">
+      <div
+        class="meta"
+        :class="{
+          hidden: !context.isParticipatingInArena(),
+        }"
+      >
         <dl class="unit-description">
           <div class="entry">
             <dt class="term">
@@ -220,8 +230,9 @@ export default defineComponent({
   max-width: var(--size-body-max-width);
 
   background-image: url('~/assets/img/backgrounds/rectangles.svg');
-  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
 
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
@@ -238,6 +249,14 @@ export default defineComponent({
   @media (60rem < width) {
     padding-block: 6.5rem 5rem;
   }
+}
+
+.unit-section > .inner:not(.participating) {
+  padding-block-end: 8rem;
+}
+
+.unit-section > .inner > .meta.hidden {
+  display: none;
 }
 
 .unit-basic {
