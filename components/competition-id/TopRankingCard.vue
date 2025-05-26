@@ -187,7 +187,9 @@ export default defineComponent({
   color: var(--color-text-tertiary);
   background-color: var(--color-background-card);
 
-  background-image: url('~/assets/img/backgrounds/dots-faded.svg');
+  background-image:
+    url('~/assets/img/backgrounds/dots-faded.svg'),
+    linear-gradient(var(--color-background-gradient-top-rank-card));
   background-size: 150% 180%;
   background-repeat: no-repeat;
   background-position: center;

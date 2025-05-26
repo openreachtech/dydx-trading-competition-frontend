@@ -134,6 +134,8 @@
 
   --color-background-divider: var(--palette-layer-5);
 
+  --color-background-gradient-top-rank-card: to bottom, var(--palette-layer-1), var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
