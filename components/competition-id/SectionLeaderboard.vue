@@ -389,18 +389,22 @@ export default defineComponent({
 
   padding-block: 4rem 2.5rem;
 
+  background-image:
+    url('~/assets/img/backgrounds/league-leaderboard.png'),
+    url('~/assets/img/backgrounds/stars.png');
+  background-repeat:
+    no-repeat,
+    no-repeat;
+  background-position:
+    110%,
+    top;
+
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
   }
 
   @media (48rem < width) {
     padding-block: 5rem 3.5rem;
-  }
-
-  @media (60rem < width) {
-    background-image: url('~/assets/img/backgrounds/league-leaderboard.png');
-    background-repeat: no-repeat;
-    background-position: 110%;
   }
 }
 
