@@ -218,6 +218,10 @@
 
   --color-border-filter-hover: var(--palette-layer-7);
 
+  --color-border-rank-gold: #f2c555;
+  --color-border-rank-emerald: #9db6fc;
+  --color-border-rank-diamond: #40dc9f;
+
   /* Typography */
   --font-family-sans-fallback: -apple-system,
     BlinkMacSystemFont,

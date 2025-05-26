@@ -158,15 +158,15 @@ export default defineComponent({
 }
 
 .unit-card.top-1 > .border {
-  --color-gradient-prominent: #f2c555;
+  --color-gradient-prominent: var(--color-border-rank-gold);
 }
 
 .unit-card.top-2 > .border {
-  --color-gradient-prominent: #9db6fc;
+  --color-gradient-prominent: var(--color-border-rank-emerald);
 }
 
 .unit-card.top-3 > .border {
-  --color-gradient-prominent: #40dc9f;
+  --color-gradient-prominent: var(--color-border-rank-diamond);
 }
 
 .unit-content {
