@@ -52,7 +52,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-card">
+  <div
+    class="unit-card"
+    :class="context.generateCardClasses()"
+  >
+    <div class="border" />
+
     <div
       class="unit-content"
       :class="context.generateCardClasses()"
@@ -134,13 +139,42 @@ export default defineComponent({
 
 <style scoped>
 .unit-card {
+  display: grid;
+}
+
+.unit-card > * {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+.unit-card > .border {
   border-radius: 0.5rem;
-  border-width: var(--size-thinnest);
-  border-style: solid;
-  border-color: var(--color-border-card);
+
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-gradient-prominent),
+    #0000
+  );
+}
+
+.unit-card.top-1 > .border {
+  --color-gradient-prominent: #f2c555;
+}
+
+.unit-card.top-2 > .border {
+  --color-gradient-prominent: #9db6fc;
+}
+
+.unit-card.top-3 > .border {
+  --color-gradient-prominent: #40dc9f;
 }
 
 .unit-content {
+  margin-block-start: calc(var(--size-thinnest) * 1.5);
+  margin-inline: calc(var(--size-thinnest) * 1.5 * 2);
+
+  border-radius: 0.5rem;
+
   padding-block: 1.25rem;
   padding-inline: 1.25rem;
 
