@@ -447,8 +447,11 @@ export default defineComponent({
 .unit-description > .entry > .description.participation > .image {
   border-radius: 0.625rem;
 
-  width: 2.25rem;
-  height: 2.25rem;
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
+  width: 3.5rem;
+  height: 3.5rem;
 
   background-color: var(--color-background-card);
 }
