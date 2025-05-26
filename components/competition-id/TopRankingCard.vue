@@ -148,7 +148,7 @@ export default defineComponent({
 }
 
 .unit-card > .border {
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
 
   background-image: linear-gradient(
     to bottom,
@@ -179,7 +179,7 @@ export default defineComponent({
   margin-block-start: calc(var(--size-thinnest) * 1.5);
   margin-inline: calc(var(--size-thinnest) * 1.5 * 2);
 
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
 
   padding-block: 1.25rem;
   padding-inline: 1.25rem;
