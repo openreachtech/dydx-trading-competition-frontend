@@ -49,6 +49,17 @@ export default class UploadImageMutationGraphqlCapsule extends BaseAppGraphqlCap
       ?.image
       ?? null
   }
+
+  /**
+   * get: imageUrl
+   *
+   * @returns {UploadImageMutationResponseContent['uploadImage']['imageUrl'] | null}
+   */
+  get imageUrl () {
+    return this.extractUploadImageValueHash()
+      ?.imageUrl
+      ?? null
+  }
 }
 
 /**
@@ -57,6 +68,7 @@ export default class UploadImageMutationGraphqlCapsule extends BaseAppGraphqlCap
  *     imageId: number
  *     contentType: string
  *     image: string
+ *     imageUrl: string
  *   }
  * }} UploadImageMutationResponseContent
  */

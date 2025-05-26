@@ -14,6 +14,7 @@ export default class UploadImageMutationGraphqlPayload extends BaseAppGraphqlPay
           imageId
           contentType
           image
+          imageUrl
         }
       }
     `
