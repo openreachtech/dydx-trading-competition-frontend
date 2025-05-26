@@ -190,6 +190,15 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Check if the user is participating in an arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipatingInArena () {
+    return this.competitionId !== null
+  }
+
+  /**
    * Generate PnL and ROI.
    *
    * @returns {string} PnL and ROI.

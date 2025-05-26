@@ -131,7 +131,12 @@ export default defineComponent({
         </div>
       </div>
 
-      <div class="meta">
+      <div
+        class="meta"
+        :class="{
+          hidden: !context.isParticipatingInArena(),
+        }"
+      >
         <dl class="unit-description">
           <div class="entry">
             <dt class="term">
@@ -238,6 +243,10 @@ export default defineComponent({
   @media (60rem < width) {
     padding-block: 6.5rem 5rem;
   }
+}
+
+.unit-section > .inner > .meta.hidden {
+  display: none;
 }
 
 .unit-basic {
