@@ -54,8 +54,8 @@ export default defineComponent({
     const uploadInputShallowRef = shallowRef(null)
     /** @type {import('vue').Ref<string | null>} */
     const imageSourceRef = ref(null)
-    /** @type {import('vue').Ref<number | null>} */
-    const imageIdRef = ref(null)
+    /** @type {import('vue').Ref<string | null>} */
+    const imageUrlRef = ref(null)
     /** @type {import('~/app/vue/contexts/competition/AddCompetitionFormStepDetailsContext').StatusReactive} */
     const statusReactive = reactive({
       isUploadingImage: false,
@@ -67,7 +67,7 @@ export default defineComponent({
       componentContext,
       uploadInputShallowRef,
       imageSourceRef,
-      imageIdRef,
+      imageUrlRef,
       statusReactive,
       graphqlClientHash: {
         uploadImage: uploadImageGraphqlClient,
@@ -137,10 +137,10 @@ export default defineComponent({
 
       <div class="uploader">
         <input
-          type="number"
+          type="text"
           class="input hidden"
-          name="imageId"
-          :value="context.imageIdRef.value"
+          name="imageUrl"
+          :value="context.imageUrlRef.value"
         >
 
         <input

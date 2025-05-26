@@ -21,7 +21,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 
     uploadInputShallowRef,
     imageSourceRef,
-    imageIdRef,
+    imageUrlRef,
     statusReactive,
     graphqlClientHash,
   }) {
@@ -32,7 +32,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 
     this.uploadInputShallowRef = uploadInputShallowRef
     this.imageSourceRef = imageSourceRef
-    this.imageIdRef = imageIdRef
+    this.imageUrlRef = imageUrlRef
     this.statusReactive = statusReactive
     this.graphqlClientHash = graphqlClientHash
   }
@@ -50,7 +50,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
     props,
     componentContext,
     uploadInputShallowRef,
-    imageIdRef,
+    imageUrlRef,
     imageSourceRef,
     statusReactive,
     graphqlClientHash,
@@ -60,7 +60,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
         props,
         componentContext,
         uploadInputShallowRef,
-        imageIdRef,
+        imageUrlRef,
         imageSourceRef,
         statusReactive,
         graphqlClientHash,
@@ -164,12 +164,12 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
   }
 
   /**
-   * get: imageId
+   * get: imageUrl
    *
-   * @returns {number | null}
+   * @returns {string | null}
    */
-  get imageId () {
-    return this.uploadImageCapsuleRef.value.imageId
+  get imageUrl () {
+    return this.uploadImageCapsuleRef.value.imageUrl
   }
 
   /**
@@ -225,7 +225,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
         return false
       },
       afterRequest: async capsule => {
-        this.imageIdRef.value = capsule.imageId
+        this.imageUrlRef.value = capsule.imageUrl
 
         this.statusReactive.isUploadingImage = false
       },
@@ -268,7 +268,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   uploadInputShallowRef: import('vue').ShallowRef<HTMLInputElement | null>
  *   imageSourceRef: import('vue').Ref<string | null>
- *   imageIdRef: import('vue').Ref<number | null>
+ *   imageUrlRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  * }} AddCompetitionFormStepDetailsContextParams
