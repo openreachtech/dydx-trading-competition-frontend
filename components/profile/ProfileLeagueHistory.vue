@@ -70,7 +70,7 @@ export default defineComponent({
           })"
         >
           <img
-            :src="row.image"
+            :src="row.imageUrl"
             :alt="value"
             class="image"
           >

@@ -218,13 +218,13 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
-   * @returns {CompetitionEntity['image'] | null}
+   * @returns {CompetitionEntity['imageUrl'] | null}
    */
-  get image () {
+  get imageUrl () {
     return this.extractCompetition()
-      ?.image
+      ?.imageUrl
       ?? null
   }
 
@@ -448,7 +448,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string} Image URL
    */
   generateImageUrl () {
-    return this.image
+    return this.imageUrl
       ?? '/img/badges/league-badge-placeholder.png'
   }
 

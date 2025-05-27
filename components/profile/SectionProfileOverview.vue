@@ -155,7 +155,7 @@ export default defineComponent({
               >
                 <img
                   class="image"
-                  :src="context.image"
+                  :src="context.imageUrl"
                   :alt="context.generateCompetitionTitle()"
                 >
                 <span>{{ context.generateCompetitionTitle() }}</span>

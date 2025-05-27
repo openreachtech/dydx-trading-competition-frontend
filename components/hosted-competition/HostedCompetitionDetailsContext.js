@@ -122,13 +122,13 @@ export default class HostedCompetitionDetailsContext extends BaseFuroContext {
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
    * @returns {string | null}
    */
-  get image () {
+  get imageUrl () {
     return this.competition
-      ?.image
+      ?.imageUrl
       ?? null
   }
 

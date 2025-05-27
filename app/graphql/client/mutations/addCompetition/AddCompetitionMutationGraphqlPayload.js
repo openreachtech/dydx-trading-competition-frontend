@@ -25,7 +25,7 @@ export default class AddCompetitionMutationGraphqlPayload extends BaseAppSignatu
  *     description: string
  *     minimumDeposit: string
  *     totalPrize: string
- *     imageId?: number
+ *     imageUrl?: string
  *     participantUpperLimit: number
  *     participantLowerLimit: number
  *     schedules: Array<{

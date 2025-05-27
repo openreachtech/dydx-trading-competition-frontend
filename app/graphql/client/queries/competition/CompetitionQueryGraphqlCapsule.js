@@ -43,13 +43,13 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
    * @returns {string | null}
    */
-  get image () {
+  get imageUrl () {
     return this.extractCompetition()
-      ?.image
+      ?.imageUrl
       ?? null
   }
 
@@ -183,7 +183,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   host: Host
  *   totalPrize: number
  *   minimumDeposit: string
- *   image?: string
+ *   imageUrl?: string
  *   schedules: Array<Schedule>
  *   status: Status
  *   prizeRules: Array<PrizeRule>
