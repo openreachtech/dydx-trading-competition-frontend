@@ -298,8 +298,8 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
     return competitions.map(competition => ({
       competitionId: competition.competitionId,
       title: competition.title,
-      image: this.generateCompetitionImageUrl({
-        image: competition.image,
+      imageUrl: this.generateCompetitionImageUrl({
+        imageUrl: competition.imageUrl,
       }),
       startDate: this.extractRegistrationStartDate({
         schedules: competition.schedules,
@@ -429,18 +429,18 @@ export default class HostedCompetitionsPageContext extends BaseFuroContext {
    * Generate competition image url.
    *
    * @param {{
-   *   image?: string
+   *   imageUrl?: string
    * }} params - Parameters.
    * @returns {string}
    */
   generateCompetitionImageUrl ({
-    image,
+    imageUrl,
   }) {
-    if (!image) {
+    if (!imageUrl) {
       return '/img/badges/league-badge-placeholder.png'
     }
 
-    return image
+    return imageUrl
   }
 
   /**

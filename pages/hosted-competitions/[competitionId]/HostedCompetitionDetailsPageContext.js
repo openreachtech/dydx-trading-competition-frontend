@@ -292,7 +292,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
    */
   generateImageUrl () {
     return this.competitionCapsule
-      .image
+      .imageUrl
       ?? '/img/badges/league-badge-placeholder.png'
   }
 

@@ -102,13 +102,13 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
    * @returns {string} Image URL.
    */
-  get image () {
+  get imageUrl () {
     return this.competition
-      ?.image
+      ?.imageUrl
       ?? '/img/badges/league-badge-placeholder.png'
   }
 

@@ -128,7 +128,7 @@ export default class CompetitionDetailsEditPageContext extends BaseFuroContext {
     return {
       title: this.competitionDetailsEditCapsule.title,
       description: this.competitionDetailsEditCapsule.description,
-      competitionImageUrl: this.competitionDetailsEditCapsule.image,
+      competitionImageUrl: this.competitionDetailsEditCapsule.imageUrl,
     }
   }
 
