@@ -57,7 +57,7 @@ export default class AddressPastCompetitionsQueryGraphqlCapsule extends BaseAppG
  *         }
  *         totalPrize: string
  *         minimumDeposit: string
- *         image?: string
+ *         imageUrl?: string
  *         schedules: Array<{
  *           category: {
  *             categoryId: string

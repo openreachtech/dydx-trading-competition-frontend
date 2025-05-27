@@ -24,7 +24,7 @@ export default class AddressPastCompetitionsQueryGraphqlPayload extends BaseAppG
               }
               totalPrize
               minimumDeposit
-              image
+              imageUrl
               schedules {
                 category {
                   categoryId
