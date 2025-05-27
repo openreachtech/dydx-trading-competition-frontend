@@ -114,6 +114,7 @@ export default defineComponent({
   <div class="unit-page">
     <SectionProfileOverview
       :competition="context.currentCompetition"
+      :competition-participant-status-id="context.competitionParticipantStatusId"
       :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
