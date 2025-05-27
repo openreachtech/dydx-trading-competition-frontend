@@ -12,6 +12,7 @@ export default class CompetitionParticipantQueryGraphqlPayload extends BaseAppGr
       query CompetitionParticipant ($input: CompetitionParticipantInput!) {
         competitionParticipant (input: $input) {
           participant {
+            competitionParticipantId
             address {
               address
               name
@@ -21,6 +22,7 @@ export default class CompetitionParticipantQueryGraphqlPayload extends BaseAppGr
               name
               phasedAt
             }
+            equity
           }
         }
       }
