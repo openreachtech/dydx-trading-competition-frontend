@@ -82,6 +82,15 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionParticipantStatusId () {
+    return this.props.competitionParticipantStatusId
+  }
+
+  /**
    * get: competitionId
    *
    * @returns {string | null} Competition ID.

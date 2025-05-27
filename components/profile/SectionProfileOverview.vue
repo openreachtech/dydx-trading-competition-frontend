@@ -42,6 +42,14 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionParticipantStatusId: {
+      /** @type {import('vue').PropType<number | null>} */
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
     ranking: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Ranking>} */
       type: [
