@@ -78,6 +78,8 @@ export default defineComponent({
   display: inline-flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  min-width: 0;
 }
 
 .unit-input > .input {
