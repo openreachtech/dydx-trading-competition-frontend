@@ -264,6 +264,10 @@ export default defineComponent({
   grid-column: 1 / -1;
 }
 
+.unit-form > .steps > .content > .step {
+  min-width: 0;
+}
+
 .unit-form > .steps > .content > .step.hidden {
   visibility: hidden;
 }
