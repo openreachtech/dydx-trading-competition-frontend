@@ -79,6 +79,7 @@ export default defineComponent({
   flex-direction: column;
   gap: 0.25rem;
 
+  /* Make sure the input is shrinkable in flex layout. */
   min-width: 0;
 }
 
