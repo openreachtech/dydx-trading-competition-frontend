@@ -65,6 +65,9 @@ export default defineComponent({
   display: inline-flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  /* Make sure the input is shrinkable in flex layout. */
+  min-width: 0;
 }
 
 .unit-textarea .textarea {
