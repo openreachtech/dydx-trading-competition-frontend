@@ -58,9 +58,9 @@ export default defineComponent({
     },
   },
 
-  emits: Object.values(
-    HostedCompetitionParticipantsContext.EMIT_EVENT_NAME
-  ),
+  emits: [
+    HostedCompetitionParticipantsContext.EMIT_EVENT_NAME.BULK_UPDATE_PARTICIPANT_STATUS,
+  ],
 
   setup (
     props,
@@ -103,20 +103,6 @@ export default defineComponent({
               hidden: !context.hasSelectedParticipants(),
             }"
           >
-            <AppButton
-              variant="neutral"
-              class="button"
-              @click="context.emitFetchParticipantsCurrentEquities()"
-            >
-              <span>Fetch Equity</span>
-              <Icon
-                name="heroicons:arrow-path-rounded-square"
-                size="1rem"
-              />
-            </AppButton>
-
-            <div class="divider" />
-
             <AppSelect
               class="select"
               :items="context.generateParticipantStatusSelectOptions()"
@@ -207,25 +193,9 @@ export default defineComponent({
         </span>
       </template>
 
-      <template #body-equity="{ value, row }">
+      <template #body-equity="{ value }">
         <span class="unit-equity">
-          <AppButton
-            class="button"
-            is-rounded
-            variant="neutral"
-            @click="context.emitFetchParticipantsCurrentEquities({
-              competitionParticipantIds: [row.competitionParticipantId],
-            })"
-          >
-            <Icon
-              name="heroicons:arrow-path-rounded-square"
-              size="1.25rem"
-            />
-          </AppButton>
-
-          <span class="equity">
-            {{ value }}
-          </span>
+          {{ value }}
         </span>
       </template>
 
@@ -349,29 +319,9 @@ export default defineComponent({
 }
 
 .unit-equity {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.unit-equity > .equity {
   font-weight: 500;
 
   color: var(--color-text-secondary);
-}
-
-.unit-equity > .button {
-  border-width: 0;
-
-  padding-block: 0;
-  padding-inline: 0;
-
-  background-color: transparent;
-  color: var(--color-text-tertiary);
-}
-
-.unit-equity > .button:hover {
-  color: var(--color-text-primary);
 }
 
 .unit-status {
