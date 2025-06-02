@@ -58,9 +58,9 @@ export default defineComponent({
     },
   },
 
-  emits: Object.values(
-    HostedCompetitionParticipantsContext.EMIT_EVENT_NAME
-  ),
+  emits: [
+    HostedCompetitionParticipantsContext.EMIT_EVENT_NAME.BULK_UPDATE_PARTICIPANT_STATUS,
+  ],
 
   setup (
     props,
