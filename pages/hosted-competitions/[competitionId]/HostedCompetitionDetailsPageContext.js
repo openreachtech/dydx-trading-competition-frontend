@@ -207,24 +207,6 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
-   * Fetch `participantsCurrentEquities`.
-   *
-   * @param {{
-   *   competitionParticipantIds: Array<number>
-   * }} params - Parameters.
-   * @returns {Promise<void>}
-   */
-  async fetchParticipantsCurrentEquities ({
-    competitionParticipantIds,
-  }) {
-    await this.fetcherHash
-      .participantsCurrentEquities
-      .fetchParticipantsCurrentEquitiesOnEvent({
-        competitionParticipantIds,
-      })
-  }
-
-  /**
    * get: competitionCapsule
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default}
@@ -406,7 +388,6 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
  *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     competitionParticipantStatuses: import('./CompetitionParticipantStatusesFetcher').default
  *     hostedCompetitionDetails: import('./HostedCompetitionDetailsFetcher').default
- *     participantsCurrentEquities: import('./ParticipantsCurrentEquitiesFetcher').default
  *   }
  *   statusReactive: StatusReactive
  * }} HostedCompetitionDetailsPageContextParams
