@@ -103,20 +103,6 @@ export default defineComponent({
               hidden: !context.hasSelectedParticipants(),
             }"
           >
-            <AppButton
-              variant="neutral"
-              class="button"
-              @click="context.emitFetchParticipantsCurrentEquities()"
-            >
-              <span>Fetch Equity</span>
-              <Icon
-                name="heroicons:arrow-path-rounded-square"
-                size="1rem"
-              />
-            </AppButton>
-
-            <div class="divider" />
-
             <AppSelect
               class="select"
               :items="context.generateParticipantStatusSelectOptions()"
