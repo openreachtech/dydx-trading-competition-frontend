@@ -30,7 +30,7 @@ export default class DefaultLayoutContext extends BaseFuroContext {
     return [
       {
         iconName: 'ph:x-logo-duotone',
-        href: 'https://x.com/clc_validator',
+        href: 'https://x.com/dydxarena',
       },
       {
         iconName: 'ph:github-logo-duotone',

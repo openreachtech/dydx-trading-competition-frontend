@@ -91,7 +91,7 @@ export default {
       <div class="unit-footer">
         <p class="copyright">
           <span>
-            © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
+            © 2025 CLC. All rights reserved.
           </span><NuxtLink
             to="/terms"
             target="_blank"
