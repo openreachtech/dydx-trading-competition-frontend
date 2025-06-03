@@ -471,9 +471,6 @@ export default defineComponent({
 .unit-description > .entry > .description.participation > .image {
   border-radius: 0.625rem;
 
-  padding-block: 0.375rem;
-  padding-inline: 0.375rem;
-
   width: 3.5rem;
   height: 3.5rem;
 
@@ -481,6 +478,9 @@ export default defineComponent({
 }
 
 .unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
   object-fit: scale-down;
 }
 
