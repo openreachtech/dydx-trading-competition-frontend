@@ -300,9 +300,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    * @returns {number | null}
    */
   get competitionParticipantStatusId () {
-    return this.competitionParticipantCapsule
-      ?.statusId
-      ?? null
+    return this.competitionParticipantCapsule.statusId
   }
 
   /**
