@@ -4,6 +4,10 @@ import {
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
+import {
+  COMPETITION_PARTICIPANT_STATUS,
+} from '~/app/constants'
+
 /**
  * SectionProfileOverviewContext
  *
@@ -360,6 +364,33 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    */
   showProfileRenameDialog () {
     this.emit(this.EMIT_EVENT_NAME.SHOW_PROFILE_RENAME_DIALOG)
+  }
+
+  /**
+   * Check if the participant is registered.
+   *
+   * @returns {boolean}
+   */
+  isParticipantRegistered () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID
+  }
+
+  /**
+   * Check if the participant is active in the arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipantActive () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID
+  }
+
+  /**
+   * Check if the participant status is awaiting deposit.
+   *
+   * @returns {boolean}
+   */
+  isParticipantAwaitingDeposit () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
 }
 
