@@ -170,7 +170,7 @@ export default defineComponent({
                   :to="context.generateCompetitionUrl()"
                   class="link"
                 >
-                  <span>{{ context.generateCompetitionTitle() }}</span>
+                  {{ context.generateCompetitionTitle() }}
                 </NuxtLink>
                 <AppBadge
                   severity="neutral"
@@ -425,11 +425,14 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-description > .entry > .description.participation > .title > .link {
+.unit-description > .entry > .description.participation > .title {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.3rem;
+}
 
+.unit-description > .entry > .description.participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
