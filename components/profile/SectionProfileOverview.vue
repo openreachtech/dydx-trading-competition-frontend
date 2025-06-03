@@ -175,6 +175,11 @@ export default defineComponent({
                 <AppBadge
                   severity="neutral"
                   class="status"
+                  :class="{
+                    registered: context.isParticipantRegistered(),
+                    active: context.isParticipantActive(),
+                    'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                  }"
                 >
                   <Icon
                     name="heroicons:user"
@@ -445,6 +450,8 @@ export default defineComponent({
 }
 
 .unit-description > .entry > .description.participation > .title > .status {
+  --color-text-badge: var(--color-text-secondary);
+
   border-radius: 0.25rem;
 
   padding-block: var(--size-thinnest);
@@ -452,7 +459,11 @@ export default defineComponent({
 
   gap: 0.375rem;
 
-  color: var(--color-text-secondary);
+  color: var(--color-text-badge);
+}
+
+.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+  --color-text-badge: var(--palette-yellow);
 }
 
 .unit-description > .entry > .description.participation > .image {
