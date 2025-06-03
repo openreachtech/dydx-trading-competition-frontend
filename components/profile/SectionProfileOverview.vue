@@ -12,6 +12,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppBadge from '~/components/units/AppBadge.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppBadge,
     CopyButton,
     LinkTooltipButton,
   },
@@ -36,6 +38,14 @@ export default defineComponent({
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
       type: [
         Object,
+        null,
+      ],
+      required: true,
+    },
+    competitionParticipantStatusId: {
+      /** @type {import('vue').PropType<number | null>} */
+      type: [
+        Number,
         null,
       ],
       required: true,
@@ -149,17 +159,37 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <NuxtLink
-                :to="context.generateCompetitionUrl()"
-                class="link"
+              <img
+                class="image"
+                :src="context.imageUrl"
+                :alt="context.generateCompetitionTitle()"
               >
-                <img
-                  class="image"
-                  :src="context.imageUrl"
-                  :alt="context.generateCompetitionTitle()"
+
+              <span class="title">
+                <NuxtLink
+                  :to="context.generateCompetitionUrl()"
+                  class="link"
                 >
-                <span>{{ context.generateCompetitionTitle() }}</span>
-              </NuxtLink>
+                  {{ context.generateCompetitionTitle() }}
+                </NuxtLink>
+                <AppBadge
+                  severity="neutral"
+                  class="status"
+                  :class="{
+                    registered: context.isParticipantRegistered(),
+                    active: context.isParticipantActive(),
+                    'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                  }"
+                >
+                  <Icon
+                    :name="context.generateParticipantStatusBadgeIcon()"
+                    size="0.875rem"
+                  />
+                  <span>
+                    {{ context.generateParticipantStatusBadgeText() }}
+                  </span>
+                </AppBadge>
+              </span>
             </dd>
           </div>
 
@@ -396,11 +426,20 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation > .link {
+.unit-description > .entry > .description.participation {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 0.75rem;
+}
 
+.unit-description > .entry > .description.participation > .title {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.3rem;
+}
+
+.unit-description > .entry > .description.participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -408,20 +447,40 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .link[href]:hover {
+.unit-description > .entry > .description.participation > .title > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-description > .entry > .description.participation > .link > .image {
+.unit-description > .entry > .description.participation > .title > .status {
+  --color-text-badge: var(--color-text-secondary);
+
+  border-radius: 0.25rem;
+
+  padding-block: var(--size-thinnest);
+  padding-inline: 0.375rem 0.5rem;
+
+  gap: 0.375rem;
+
+  color: var(--color-text-badge);
+}
+
+.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+  --color-text-badge: var(--palette-yellow);
+}
+
+.unit-description > .entry > .description.participation > .image {
   border-radius: 0.625rem;
 
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
 
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .link > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
   object-fit: scale-down;
 }
 

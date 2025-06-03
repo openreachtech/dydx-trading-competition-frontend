@@ -18,6 +18,7 @@ import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
@@ -39,6 +40,7 @@ export default defineComponent({
   ) {
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
     const putAddressNameFormClerk = useAppFormClerk({
       FormElementClerk: PutAddressNameFormElementClerk,
@@ -68,6 +70,7 @@ export default defineComponent({
       graphqlClientHash: {
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
+        competitionParticipant: competitionParticipantGraphqlClient,
       },
       profileOverviewRef,
       errorMessageRef,
@@ -111,6 +114,7 @@ export default defineComponent({
   <div class="unit-page">
     <SectionProfileOverview
       :competition="context.currentCompetition"
+      :competition-participant-status-id="context.competitionParticipantStatusId"
       :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"

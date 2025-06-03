@@ -1,4 +1,7 @@
 import {
+  onMounted,
+} from 'vue'
+import {
   useHead,
 } from '@unhead/vue'
 import {
@@ -89,14 +92,30 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    * @this {T}
    */
   setupComponent () {
-    this.graphqlClientHash.addressCurrentCompetition
-      .invokeRequestOnMounted({
-        variables: {
-          input: {
-            address: this.route.params.address,
+    onMounted(async () => {
+      await this.graphqlClientHash.addressCurrentCompetition
+        .invokeRequestOnEvent({
+          variables: {
+            input: {
+              address: this.route.params.address,
+            },
           },
-        },
-      })
+        })
+
+      if (this.currentCompetitionId === null) {
+        return
+      }
+
+      await this.graphqlClientHash.competitionParticipant
+        .invokeRequestOnEvent({
+          variables: {
+            input: {
+              competitionId: this.currentCompetitionId,
+              address: this.route.params.address,
+            },
+          },
+        })
+    })
 
     this.graphqlClientHash.addressName
       .invokeRequestOnMounted({
@@ -264,6 +283,27 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantCapsule () {
+    return this.graphqlClientHash
+      .competitionParticipant
+      .capsuleRef
+      .value
+  }
+
+  /**
+   * get: competitionParticipantStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionParticipantStatusId () {
+    return this.competitionParticipantCapsule.statusId
+  }
+
+  /**
    * get: addressNameCapsuleRef
    *
    * @returns {AddressNameCapsuleRef} Capsule ref.
@@ -356,6 +396,16 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: currentCompetitionId
+   *
+   * @returns {number | null}
+   */
+  get currentCompetitionId () {
+    return this.addressCurrentCompetitionCapsuleRef.value
+      .competitionId
+  }
+
+  /**
    * get: currentRanking
    *
    * @returns {import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').Ranking} Current ranking.
@@ -441,6 +491,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 /**
  * @typedef {'addressCurrentCompetition'
  *   | 'addressName'
+ *   | 'competitionParticipant'
  * } GraphqlClientHashKeys
  */
 
