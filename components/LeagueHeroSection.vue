@@ -67,9 +67,11 @@ export default defineComponent({
     <div class="headline">
       <span class="note">
         <span>Powered by</span>
-        <span class="highlight">
-          Crypto Learning Club | dYdX Validator
-        </span>
+        <img
+          src="~/assets/img/logos/clc-text.svg"
+          alt="CLC logo"
+          class="image"
+        >
       </span>
 
       <h1 class="heading">
@@ -166,24 +168,18 @@ export default defineComponent({
 }
 
 .unit-section > .headline > .note {
-  display: inline-flex;
-  flex-direction: column;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 
   font-size: var(--font-size-small);
   letter-spacing: 0.16em;
 
   color: var(--color-text-tertiary);
-
-  @media (60rem < width) {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-  }
 }
 
-.unit-section > .headline > .note > .highlight {
-  font-size: var(--font-size-base);
-  font-weight: 700;
+.unit-section > .headline > .note > .image {
+  height: var(--font-size-extra);
 }
 
 .unit-section > .description {
