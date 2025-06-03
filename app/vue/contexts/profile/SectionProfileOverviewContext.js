@@ -367,6 +367,19 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Generate icon for participant status badge.
+   *
+   * @returns {string} Icon name.
+   */
+  generateParticipantStatusBadgeIcon () {
+    if (this.isParticipantActive()) {
+      return 'heroicons:user'
+    }
+
+    return 'heroicons:user-solid'
+  }
+
+  /**
    * Generate participant status badge text.
    *
    * @returns {string}

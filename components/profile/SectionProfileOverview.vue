@@ -182,7 +182,7 @@ export default defineComponent({
                   }"
                 >
                   <Icon
-                    name="heroicons:user"
+                    :name="context.generateParticipantStatusBadgeIcon()"
                     size="0.875rem"
                   />
                   <span>
