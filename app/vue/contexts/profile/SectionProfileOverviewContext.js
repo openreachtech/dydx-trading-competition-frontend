@@ -367,6 +367,47 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Generate participant status badge text.
+   *
+   * @returns {string}
+   */
+  generateParticipantStatusBadgeText () {
+    const cases = this.generateParticipantStatusBadgeTextCases()
+    const matchedCase = cases.find(it => it.checker())
+
+    if (!matchedCase) {
+      return '--'
+    }
+
+    return matchedCase.result
+  }
+
+  /**
+   * Generate cases for participant status badge text.
+   *
+   * @returns {Array<{
+   *   checker: () => boolean
+   *   result: string
+   * }>}
+   */
+  generateParticipantStatusBadgeTextCases () {
+    return [
+      {
+        checker: () => this.isParticipantRegistered(),
+        result: 'Registered',
+      },
+      {
+        checker: () => this.isParticipantActive(),
+        result: 'Active',
+      },
+      {
+        checker: () => this.isParticipantAwaitingDeposit(),
+        result: 'Waiting Deposit',
+      },
+    ]
+  }
+
+  /**
    * Check if the participant is registered.
    *
    * @returns {boolean}

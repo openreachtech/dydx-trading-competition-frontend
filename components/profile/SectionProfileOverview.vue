@@ -185,7 +185,9 @@ export default defineComponent({
                     name="heroicons:user"
                     size="0.875rem"
                   />
-                  <span>Active</span>
+                  <span>
+                    {{ context.generateParticipantStatusBadgeText() }}
+                  </span>
                 </AppBadge>
               </span>
             </dd>
