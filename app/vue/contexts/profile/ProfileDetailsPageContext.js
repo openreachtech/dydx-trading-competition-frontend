@@ -285,7 +285,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   /**
    * get: competitionParticipantCapsule
    *
-   * @returns {import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default | null}
+   * @returns {import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default}
    */
   get competitionParticipantCapsule () {
     return this.graphqlClientHash
