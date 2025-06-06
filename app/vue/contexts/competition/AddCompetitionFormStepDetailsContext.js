@@ -236,7 +236,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    * Revoke the image's object URL after it is loaded.
    *
    * @param {{
-   *   objectUrl: string
+   *   objectUrl: string | null
    * }} params - Parameters.
    * @returns {void}
    */
