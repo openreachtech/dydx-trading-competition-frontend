@@ -151,15 +151,13 @@ export default defineComponent({
           @change="context.uploadFile({
             changeEvent: $event,
           })"
-          @load="context.releaseImageObjectUrl({
-            objectUrl: context.imageSourceRef.value,
-          })"
         >
 
         <img
           :src="context.generateCompetitionImageUrl()"
           alt="League badge"
           class="image"
+          @load="context.releaseImageObjectUrl()"
         >
 
         <div class="actions">
