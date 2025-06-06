@@ -157,9 +157,7 @@ export default defineComponent({
           :src="context.generateCompetitionImageUrl()"
           alt="League badge"
           class="image"
-          @load="context.releaseImageObjectUrl({
-            objectUrl: context.imageSourceRef.value,
-          })"
+          @load="context.releaseImageObjectUrl()"
         >
 
         <div class="actions">
