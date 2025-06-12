@@ -181,12 +181,7 @@ export default defineComponent({
 
         <template #body-participantEquity="{ value, row }">
           <span class="unit-column equity">
-            {{
-              context.normalizeEquity({
-                equity: value,
-                statusId: row.participantStatus.id,
-              })
-            }}
+            {{ value }}
           </span>
         </template>
 
