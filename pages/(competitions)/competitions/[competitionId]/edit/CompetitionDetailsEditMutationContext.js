@@ -18,6 +18,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     componentContext,
 
     route,
+    toastStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -33,6 +34,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     })
 
     this.route = route
+    this.toastStore = toastStore
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.fetcherHash = fetcherHash
@@ -56,6 +58,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     props,
     componentContext,
     route,
+    toastStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -70,6 +73,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
         props,
         componentContext,
         route,
+        toastStore,
         graphqlClientHash,
         formClerkHash,
         fetcherHash,
@@ -291,8 +295,19 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetition/UpdateCompetitionMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetition = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
@@ -339,8 +354,19 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionSchedules/UpdateCompetitionSchedulesMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionSchedules = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
@@ -387,8 +413,19 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionLimits/UpdateCompetitionLimitsMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionLimits = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
@@ -435,8 +472,19 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionPrizeRules/UpdateCompetitionPrizeRulesMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionPrizeRules = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
@@ -458,6 +506,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   toastStore: import('~/stores/toast').ToastStore
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   fetcherHash: {
