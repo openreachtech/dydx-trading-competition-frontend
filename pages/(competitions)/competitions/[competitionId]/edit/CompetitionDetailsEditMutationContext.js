@@ -298,6 +298,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetition = false
 
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
+
         await this.fetcherHash
           .competition
           .fetchCompetitionOnEvent()
@@ -345,6 +354,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionSchedules = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
@@ -394,6 +412,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionLimits = false
 
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
+
         await this.fetcherHash
           .competition
           .fetchCompetitionOnEvent()
@@ -441,6 +468,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
       },
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionPrizeRules = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
 
         await this.fetcherHash
           .competition
