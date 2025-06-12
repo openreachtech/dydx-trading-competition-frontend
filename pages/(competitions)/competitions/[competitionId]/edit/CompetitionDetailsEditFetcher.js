@@ -6,10 +6,12 @@ export default class CompetitionDetailsEditFetcher {
    */
   constructor ({
     route,
+    toastStore,
     graphqlClientHash,
     statusReactive,
   }) {
     this.route = route
+    this.toastStore = toastStore
     this.graphqlClientHash = graphqlClientHash
     this.statusReactive = statusReactive
   }
@@ -24,12 +26,14 @@ export default class CompetitionDetailsEditFetcher {
    */
   static create ({
     route,
+    toastStore,
     graphqlClientHash,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
         route,
+        toastStore,
         graphqlClientHash,
         statusReactive,
       })
@@ -112,6 +116,13 @@ export default class CompetitionDetailsEditFetcher {
       },
       afterRequest: async capsule => {
         this.statusReactive.isLoadingInitialValue = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+        }
       },
     }
   }
@@ -132,6 +143,7 @@ export default class CompetitionDetailsEditFetcher {
 /**
  * @typedef {{
  *   route: ReturnType<import('vue-router').useRoute>
+ *   toastStore: import('~/stores/toast').ToastStore
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *   }

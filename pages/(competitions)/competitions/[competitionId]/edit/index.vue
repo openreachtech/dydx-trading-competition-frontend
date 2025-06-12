@@ -88,6 +88,7 @@ export default defineComponent({
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
     const competitionDetailsEditFetcherArgs = {
       route,
+      toastStore,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
       },
