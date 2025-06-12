@@ -17,13 +17,13 @@ export default class BaseAppGraphqlCapsule extends BaseGraphqlCapsule {
   /**
    * Get error message after resolving its error code.
    *
-   * @returns {string | null} Resolved error message.
+   * @returns {string} Resolved error message.
    */
   getResolvedErrorMessage () {
     const errorCode = this.getErrorMessage()
 
     if (errorCode === null) {
-      return null
+      return ERROR_MESSAGE_HASH.Unknown
     }
 
     const errorCodeHashEntries = Object.entries(ERROR_CODE_HASH)
