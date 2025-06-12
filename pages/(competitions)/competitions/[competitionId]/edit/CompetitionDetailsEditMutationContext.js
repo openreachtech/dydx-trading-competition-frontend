@@ -295,6 +295,8 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetition/UpdateCompetitionMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetition = false
 
@@ -352,6 +354,8 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionSchedules/UpdateCompetitionSchedulesMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionSchedules = false
 
@@ -409,6 +413,8 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionLimits/UpdateCompetitionLimitsMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionLimits = false
 
@@ -466,6 +472,8 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/mutations/updateCompetitionPrizeRules/UpdateCompetitionPrizeRulesMutationGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isUpdatingCompetitionPrizeRules = false
 

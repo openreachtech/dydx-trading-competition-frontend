@@ -114,6 +114,8 @@ export default class CompetitionDetailsEditFetcher {
 
         return false
       },
+      /** @type {(capsule: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default) => Promise<void>} */
+      // @ts-expect-error: Type mismatch, but we need to use the capsule type.
       afterRequest: async capsule => {
         this.statusReactive.isLoadingInitialValue = false
 
