@@ -18,6 +18,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     componentContext,
 
     route,
+    toastStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -33,6 +34,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     })
 
     this.route = route
+    this.toastStore = toastStore
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.fetcherHash = fetcherHash
@@ -56,6 +58,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
     props,
     componentContext,
     route,
+    toastStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -70,6 +73,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
         props,
         componentContext,
         route,
+        toastStore,
         graphqlClientHash,
         formClerkHash,
         fetcherHash,
@@ -458,6 +462,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseFuroConte
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   toastStore: import('~/stores/toast').ToastStore
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   fetcherHash: {

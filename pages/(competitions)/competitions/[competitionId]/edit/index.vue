@@ -29,6 +29,9 @@ import {
 import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
+
+import useToastStore from '~/stores/toast'
+
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
@@ -70,6 +73,8 @@ export default defineComponent({
     })
 
     const route = useRoute()
+
+    const toastStore = useToastStore()
 
     const currentStepRef = ref(1)
     const statusReactive = reactive({
@@ -137,6 +142,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      toastStore,
       graphqlClientHash: {
         updateCompetition: updateCompetitionGraphqlClient,
         updateCompetitionSchedules: updateCompetitionSchedulesGraphqlClient,
