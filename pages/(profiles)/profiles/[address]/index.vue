@@ -5,9 +5,12 @@ import {
   ref,
 } from 'vue'
 
+import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
-import SectionProfileHistory from '~/components/profile/SectionProfileHistory.vue'
+import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
+import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
+import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
 import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 
 import {
@@ -28,10 +31,13 @@ import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationConte
 
 export default defineComponent({
   components: {
+    AppTabLayout,
     SectionProfileOverview,
     SectionProfileFinancialMetrics,
-    SectionProfileHistory,
     ProfileRenameDialog,
+    ProfileTransferHistory,
+    ProfileLeagueHistory,
+    ProfileFinancialOverview,
   },
 
   setup (
@@ -125,7 +131,19 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <SectionProfileHistory :profile-overview="context.profileOverview" />
+    <AppTabLayout
+      class="tabs"
+      :tabs="context.profileTabs"
+      :active-tab-key="context.profileTabs[0].tabKey"
+    >
+      <template #contents>
+        <ProfileFinancialOverview :profile-overview="context.profileOverview" />
+
+        <ProfileTransferHistory />
+
+        <ProfileLeagueHistory />
+      </template>
+    </AppTabLayout>
 
     <ProfileRenameDialog
       ref="profileRenameDialogRef"
@@ -145,6 +163,19 @@ export default defineComponent({
 
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
+  }
+}
+
+.unit-page > .tabs {
+  margin-inline: auto;
+
+  padding-block: 2.5rem;
+  padding-inline: var(--size-body-padding-inline-mobile);
+
+  max-width: var(--size-body-max-width);
+
+  @media (30rem < width) {
+    padding-inline: var(--size-body-padding-inline-desktop);
   }
 }
 </style>
