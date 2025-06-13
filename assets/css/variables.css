@@ -130,6 +130,12 @@
   --color-background-message-warn: var(--palette-yellow-faded);
   --color-background-message-info: var(--palette-purple-faded);
 
+  --color-background-filter-active: var(--palette-layer-5);
+
+  --color-background-divider: var(--palette-layer-5);
+
+  --color-background-gradient-top-rank-card: to bottom, var(--palette-layer-1), var(--palette-layer-2);
+
   /* Text */
   --color-text: var(--palette-black);
   --color-text-primary: #fafafd;
@@ -174,6 +180,7 @@
   --color-text-participant-status-disqualified: var(--palette-red);
   --color-text-participant-status-canceled: var(--color-text-tertiary);
 
+  --color-text-button-highlight: var(--palette-purple);
   --color-text-button-highlight-hover: var(--palette-purple-lighter);
 
   /* Border Colors */
@@ -192,6 +199,7 @@
   --color-border-input: var(--palette-layer-7);
   --color-border-input-focus: var(--palette-purple);
   --color-border-input-error: var(--palette-red);
+  --color-border-input-disabled: var(--palette-layer-5);
 
   --color-border-card: var(--palette-layer-4);
   --color-border-card-hover: var(--palette-layer-6);
@@ -209,6 +217,16 @@
 
   --color-border-form-step: var(--palette-layer-5);
   --color-border-form-step-active: var(--palette-purple);
+
+  --color-border-filter-hover: var(--palette-layer-7);
+
+  --color-border-rank-gold: #f2c555;
+  --color-border-rank-emerald: #9db6fc;
+  --color-border-rank-diamond: #40dc9f;
+
+  --color-shadow-rank-gold: #ecc05433;
+  --color-shadow-rank-emerald: #40dc9f33;
+  --color-shadow-rank-diamond: #9cb5fb33;
 
   /* Typography */
   --font-family-sans-fallback: -apple-system,

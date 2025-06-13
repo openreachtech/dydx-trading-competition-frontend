@@ -9,6 +9,11 @@ import {
   Icon,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
+import AppButton from '~/components/units/AppButton.vue'
 import AddCompetitionFormSteps from '~/components/competition-add/AddCompetitionFormSteps.vue'
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
@@ -25,12 +30,17 @@ import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddCompetitionFormElementClerk from '~/app/domClerk/AddCompetitionFormElementClerk'
 
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
+
 import AddCompetitionPageContext from '~/app/vue/contexts/AddCompetitionPageContext'
 
 export default defineComponent({
   components: {
     NuxtLink,
     Icon,
+    AppButton,
     AddCompetitionFormSteps,
     AddCompetitionFormStepDetails,
     AddCompetitionFormStepTimeline,
@@ -42,6 +52,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `New Arena - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const addCompetitionGraphqlClient = useGraphqlClient(AddCompetitionMutationGraphqlLauncher)
     const addCompetitionFormClerk = useAppFormClerk({
       FormElementClerk: AddCompetitionFormElementClerk,
@@ -80,39 +96,85 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <div class="inner">
-      <NuxtLink to="/competitions"
+      <NuxtLink
+        to="/competitions"
         class="return"
       >
-        <Icon name="heroicons:arrow-left"
+        <Icon
+          name="heroicons:arrow-left"
           size="1.5rem"
         />
 
         <span>Leagues</span>
       </NuxtLink>
 
-      <form :ref="context.addCompetitionFormShallowRef"
+      <form
+        :ref="context.addCompetitionFormShallowRef"
         class="unit-form"
         @submit.prevent="context.submitForm()"
       >
         <div class="steps">
-          <AddCompetitionFormStepDetails :class="context.generateStepClasses({ step: 1 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+          <div class="content">
+            <AddCompetitionFormStepDetails
+              class="step"
+              :class="context.generateStepClasses({
+                step: 1,
+              })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepTimeline :class="context.generateStepClasses({ step: 2 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepTimeline
+              class="step"
+              :class="context.generateStepClasses({
+                step: 2,
+              })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepParticipation :class="context.generateStepClasses({ step: 3 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepParticipation
+              class="step"
+              :class="context.generateStepClasses({
+                step: 3,
+              })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
 
-          <AddCompetitionFormStepPrize :class="context.generateStepClasses({ step: 4 })"
-            :validation-message="context.addCompetitionValidationMessage"
-          />
+            <AddCompetitionFormStepPrize
+              class="step"
+              :class="context.generateStepClasses({
+                step: 4,
+              })"
+              :validation-message="context.addCompetitionValidationMessage"
+            />
+          </div>
+
+          <div class="unit-actions">
+            <AppButton
+              appearance="outlined"
+              class="button back"
+              type="button"
+              :disabled="context.shouldDisablePreviousStepButton()"
+              @click="context.goToPreviousStep()"
+            >
+              <Icon
+                name="heroicons-outline:chevron-left"
+                size="1rem"
+              />
+            </AppButton>
+            <AppButton
+              :type="context.generateNextStepButtonType"
+              @click="context.goToNextStep({
+                mouseEvent: $event,
+              })"
+            >
+              {{ context.generateNextStepButtonLabel() }}
+            </AppButton>
+          </div>
         </div>
 
-        <AddCompetitionFormSteps :current-step="context.currentStepRef.value"
+        <AddCompetitionFormSteps
+          :current-step="context.currentStepRef.value"
+          :steps="context.steps"
           :error-message-hash="context.errorMessageHashReactive"
           @go-to-step="context.goToStep($event)"
         />
@@ -124,6 +186,8 @@ export default defineComponent({
 <style scoped>
 .unit-page {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
+
+  padding-block-end: 12rem;
 
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
@@ -191,7 +255,33 @@ export default defineComponent({
   }
 }
 
-.unit-form > .steps > .step.hidden {
-  display: none;
+.unit-form > .steps > .content {
+  display: grid;
+}
+
+.unit-form > .steps > .content > * {
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+}
+
+.unit-form > .steps > .content > .step {
+  min-width: 0;
+}
+
+.unit-form > .steps > .content > .step.hidden {
+  visibility: hidden;
+}
+
+.unit-actions {
+  margin-block-start: 2.5rem;
+
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.unit-actions > .button.back {
+  padding-block: 0.625rem;
+  padding-inline: 0.625rem;
 }
 </style>

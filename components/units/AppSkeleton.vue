@@ -48,7 +48,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="unit-skeleton"
+  <div
+    class="unit-skeleton"
     :style="context.generateSkeletonStyles()"
     aria-hidden="true"
   />

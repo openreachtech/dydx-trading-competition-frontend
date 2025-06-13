@@ -4,6 +4,10 @@ import {
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
+import {
+  COMPETITION_PARTICIPANT_STATUS,
+} from '~/app/constants'
+
 /**
  * SectionProfileOverviewContext
  *
@@ -82,9 +86,18 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionParticipantStatusId () {
+    return this.props.competitionParticipantStatusId
+  }
+
+  /**
    * get: competitionId
    *
-   * @returns {string | null} Competition ID.
+   * @returns {number | null} Competition ID.
    */
   get competitionId () {
     return this.competition
@@ -102,13 +115,13 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
    * @returns {string} Image URL.
    */
-  get image () {
+  get imageUrl () {
     return this.competition
-      ?.image
+      ?.imageUrl
       ?? '/img/badges/league-badge-placeholder.png'
   }
 
@@ -187,6 +200,15 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
     }
 
     return urlWalletAddress === userAddress
+  }
+
+  /**
+   * Check if the user is participating in an arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipatingInArena () {
+    return this.competitionId !== null
   }
 
   /**
@@ -342,6 +364,87 @@ export default class SectionProfileOverviewContext extends BaseFuroContext {
    */
   showProfileRenameDialog () {
     this.emit(this.EMIT_EVENT_NAME.SHOW_PROFILE_RENAME_DIALOG)
+  }
+
+  /**
+   * Generate icon for participant status badge.
+   *
+   * @returns {string} Icon name.
+   */
+  generateParticipantStatusBadgeIcon () {
+    if (this.isParticipantActive()) {
+      return 'heroicons:user'
+    }
+
+    return 'heroicons:user-solid'
+  }
+
+  /**
+   * Generate participant status badge text.
+   *
+   * @returns {string}
+   */
+  generateParticipantStatusBadgeText () {
+    const cases = this.generateParticipantStatusBadgeTextCases()
+    const matchedCase = cases.find(it => it.checker())
+
+    if (!matchedCase) {
+      return '--'
+    }
+
+    return matchedCase.result
+  }
+
+  /**
+   * Generate cases for participant status badge text.
+   *
+   * @returns {Array<{
+   *   checker: () => boolean
+   *   result: string
+   * }>}
+   */
+  generateParticipantStatusBadgeTextCases () {
+    return [
+      {
+        checker: () => this.isParticipantRegistered(),
+        result: 'Registered',
+      },
+      {
+        checker: () => this.isParticipantActive(),
+        result: 'Active',
+      },
+      {
+        checker: () => this.isParticipantAwaitingDeposit(),
+        result: 'Waiting Deposit',
+      },
+    ]
+  }
+
+  /**
+   * Check if the participant is registered.
+   *
+   * @returns {boolean}
+   */
+  isParticipantRegistered () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID
+  }
+
+  /**
+   * Check if the participant is active in the arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipantActive () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID
+  }
+
+  /**
+   * Check if the participant status is awaiting deposit.
+   *
+   * @returns {boolean}
+   */
+  isParticipantAwaitingDeposit () {
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
 }
 

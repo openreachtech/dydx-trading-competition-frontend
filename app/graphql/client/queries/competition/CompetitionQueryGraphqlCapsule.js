@@ -32,6 +32,39 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   }
 
   /**
+   * get: description
+   *
+   * @returns {string | null}
+   */
+  get description () {
+    return this.extractCompetition()
+      ?.description
+      ?? null
+  }
+
+  /**
+   * get: imageUrl
+   *
+   * @returns {string | null}
+   */
+  get imageUrl () {
+    return this.extractCompetition()
+      ?.imageUrl
+      ?? null
+  }
+
+  /**
+   * get: minimumDeposit
+   *
+   * @returns {string | null}
+   */
+  get minimumDeposit () {
+    return this.extractCompetition()
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
    * get: schedules
    *
    * @returns {CompetitionEntity['schedules']} Schedules as an array.
@@ -86,6 +119,50 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.participantLowerLimit
       ?? null
   }
+
+  /**
+   * get: host
+   *
+   * @returns {Host | null}
+   */
+  get host () {
+    return this.extractCompetition()
+      ?.host
+      ?? null
+  }
+
+  /**
+   * get: hostAddress
+   *
+   * @returns {string | null}
+   */
+  get hostAddress () {
+    return this.host
+      ?.address
+      ?? null
+  }
+
+  /**
+   * get: hostName
+   *
+   * @returns {string | null}
+   */
+  get hostName () {
+    return this.host
+      ?.name
+      ?? null
+  }
+
+  /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get outcomeCsvUrl () {
+    return this.extractCompetition()
+      ?.outcomeCsvUrl
+      ?? null
+  }
 }
 
 /**
@@ -103,30 +180,47 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   description: string
  *   participantUpperLimit: number
  *   participantLowerLimit: number
- *   host: {
- *     address: string
- *     name: string
- *   }
+ *   host: Host
  *   totalPrize: number
  *   minimumDeposit: string
- *   image?: string
- *   schedules: Array<{
- *     category: {
- *       categoryId: number
- *       name: string
- *       description: string
- *     }
- *     scheduledDatetime: string
- *   }>
- *   status: {
- *     statusId: number
- *     name: string
- *     phasedAt: string
- *   }
- *   prizeRules: Array<{
- *     rankFrom: number
- *     rankTo: number
- *     amount: string
- *   }>
+ *   imageUrl?: string
+ *   schedules: Array<Schedule>
+ *   status: Status
+ *   prizeRules: Array<PrizeRule>
+ *   outcomeCsvUrl?: string
  * }} CompetitionEntity
+ */
+
+/**
+ * @typedef {{
+ *   address: string
+ *   name: string
+ * }} Host
+ */
+
+/**
+ * @typedef {{
+ *   category: {
+ *     categoryId: number
+ *     name: string
+ *     description: string
+ *   }
+ *   scheduledDatetime: string
+ * }} Schedule
+ */
+
+/**
+ * @typedef {{
+ *   rankFrom: number
+ *   rankTo: number
+ *   amount: string
+ * }} PrizeRule
+ */
+
+/**
+ * @typedef {{
+ *   statusId: number
+ *   name: string
+ *   phasedAt: string
+ * }} Status
  */

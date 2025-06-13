@@ -5,6 +5,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppToastContainer from '~/components/toast/AppToastContainer.vue'
 import AppDefaultLayout from '~/components/units/AppDefaultLayout.vue'
 import AppLogo from '~/components/header/AppLogo.vue'
 import AddressesSearchBarHeader from '~/components/search/AddressesSearchBarHeader.vue'
@@ -16,6 +17,7 @@ export default {
   name: 'DefaultLayout',
 
   components: {
+    AppToastContainer,
     AppDefaultLayout,
     AppLogo,
     AddressesSearchBarHeader,
@@ -59,13 +61,15 @@ export default {
     </template>
 
     <template #search-header>
-      <NuxtLink :to="context.dydxTradeCtaUrl"
+      <NuxtLink
+        :to="context.dydxTradeCtaUrl"
         external
         target="_blank"
         rel="noopener noreferrer"
         class="link trade menu-entry"
       >
-        <Icon name="heroicons-solid:home"
+        <Icon
+          name="heroicons-solid:home"
           size="1rem"
         />
 
@@ -87,8 +91,9 @@ export default {
       <div class="unit-footer">
         <p class="copyright">
           <span>
-            © 2025 Crypto Learning Club | dYdX Validator. All rights reserved.
-          </span><NuxtLink to="/terms"
+            © 2025 CLC. All rights reserved.
+          </span><NuxtLink
+            to="/terms"
             target="_blank"
             rel="noopener noreferrer"
             class="link"
@@ -98,32 +103,38 @@ export default {
         </p>
 
         <ul class="links">
-          <li v-for="(platform, index) of context.socialPlatforms"
+          <li
+            v-for="(platform, index) of context.socialPlatforms"
             :key="index"
             class="entry"
           >
-            <NuxtLink :to="platform.href"
+            <NuxtLink
+              :to="platform.href"
               external
               rel="noopener noreferrer"
               target="_blank"
               class="link"
             >
-              <Icon :name="platform.iconName"
+              <Icon
+                :name="platform.iconName"
                 class="icon"
               />
             </NuxtLink>
           </li>
-          <li v-for="(platform, index) of context.dydxPlatforms"
+          <li
+            v-for="(platform, index) of context.dydxPlatforms"
             :key="index"
             class="entry"
           >
-            <NuxtLink :to="platform.href"
+            <NuxtLink
+              :to="platform.href"
               external
               rel="noopener noreferrer"
               target="_blank"
               class="link"
             >
-              <img :src="platform.imageUrl"
+              <img
+                :src="platform.imageUrl"
                 :alt="platform.name"
                 class="icon image"
               >
@@ -133,6 +144,8 @@ export default {
       </div>
     </template>
   </AppDefaultLayout>
+
+  <AppToastContainer />
 </template>
 
 <style scoped>
@@ -242,6 +255,6 @@ export default {
 }
 
 .unit-footer > .links > .entry:hover > .link > .icon.image {
-  filter: grayscale(0) brightness(1.7);
+  filter: grayscale(0) brightness(1.2);
 }
 </style>

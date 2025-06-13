@@ -3,7 +3,7 @@ import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 /**
  * Competitions query payload.
  *
- * @extends {BaseAppGraphqlPayload<typeof CompetitionsQueryGraphqlPayload, CompetitionsQueryRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<CompetitionsQueryRequestVariables>}
  */
 export default class CompetitionsQueryGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */
@@ -23,7 +23,7 @@ export default class CompetitionsQueryGraphqlPayload extends BaseAppGraphqlPaylo
             }
             totalPrize
             minimumDeposit
-            image
+            imageUrl
             schedules {
               category {
                 categoryId
@@ -54,6 +54,7 @@ export default class CompetitionsQueryGraphqlPayload extends BaseAppGraphqlPaylo
  *   input: {
  *     title?: string
  *     statusId?: number
+ *     hostAddress?: string
  *     pagination: {
  *       limit: number
  *       offset: number

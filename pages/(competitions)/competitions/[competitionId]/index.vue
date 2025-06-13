@@ -18,7 +18,7 @@ import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutatio
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
 import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlLauncher'
-import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
+import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
 import CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionEnrolledParticipantsNumber/CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher'
 import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlLauncher'
@@ -33,6 +33,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import useAppFormClerk from '~/composables/useAppFormClerk'
+import useToastStore from '~/stores/toast'
 import useWalletStore from '~/stores/wallet'
 
 import CompetitionDetailsPageContext from '~/app/vue/contexts/CompetitionDetailsPageContext'
@@ -54,6 +55,7 @@ export default defineComponent({
     componentContext
   ) {
     const route = useRoute()
+    const toastStore = useToastStore()
     const walletStore = useWalletStore()
 
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
@@ -103,6 +105,7 @@ export default defineComponent({
       componentContext,
       route,
       walletStore,
+      toastStore,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
@@ -124,6 +127,7 @@ export default defineComponent({
     const mutationArgs = {
       props,
       componentContext,
+      toastStore,
       competitionEnrollmentDialogRef,
       refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
@@ -152,9 +156,12 @@ export default defineComponent({
 
 <template>
   <div>
-    <SectionLeague :competition="context.competition"
+    <SectionLeague
+      :competition="context.competition"
       :participant-status-id="context.participantStatusId"
+      :is-host-of-competition="context.isHostOfCompetition()"
       :is-competition-full="context.isCompetitionFull()"
+      :competition-id="context.extractCompetitionId()"
       :competition-status-id="context.competitionStatusId"
       :enrolled-participants-number="context.enrolledParticipantsNumber"
       @show-cancelation-dialog="context.showDialog({
@@ -165,7 +172,8 @@ export default defineComponent({
       })"
     />
 
-    <CompetitionTermsDialog ref="competitionTermsDialogRef"
+    <CompetitionTermsDialog
+      ref="competitionTermsDialogRef"
       :competition="context.competition"
       @show-enrollment-dialog="context.showDialog({
         dialogElement: competitionEnrollmentDialogRef,
@@ -176,16 +184,19 @@ export default defineComponent({
 
     <SectionSchedules :schedules="context.schedules" />
 
-    <SectionLeaderboard :competition-status-id="context.competitionStatusId"
+    <SectionLeaderboard
+      :competition-status-id="context.competitionStatusId"
       :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"
       :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
       :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
+      :outcome-csv-url="context.competitionOutcomeCsvUrl"
     />
 
-    <CompetitionEnrollmentDialog ref="competitionEnrollmentDialogRef"
+    <CompetitionEnrollmentDialog
+      ref="competitionEnrollmentDialogRef"
       :competition="context.competition"
       :initial-username="context.addressName"
       :is-joining="mutationContext.isJoining"
@@ -196,7 +207,8 @@ export default defineComponent({
       })"
     />
 
-    <CompetitionCancelationDialog ref="competitionCancelationDialogRef"
+    <CompetitionCancelationDialog
+      ref="competitionCancelationDialogRef"
       :competition-name="context.competitionTitle"
       :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
       @unregister-from-competition="context.unregisterFromCompetition()"

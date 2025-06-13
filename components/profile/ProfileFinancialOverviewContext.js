@@ -202,6 +202,15 @@ export default class ProfileFinancialOverviewContext extends BaseFuroContext {
   }
 
   /**
+   * Should hide overview.
+   *
+   * @returns {boolean}
+   */
+  shouldHideOverview () {
+    return this.profileOverview === null
+  }
+
+  /**
    * Generate side position CSS classes.
    *
    * @param {{

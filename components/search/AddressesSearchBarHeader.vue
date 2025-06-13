@@ -52,7 +52,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppSearchBar size="small"
+  <AppSearchBar
+    size="small"
     variant="transparent"
     :is-loading="context.isLoading"
     placeholder="Search by address, name..."
@@ -63,15 +64,18 @@ export default defineComponent({
   >
     <template #results="{ results }">
       <ul class="unit-addresses">
-        <li v-for="it of results"
+        <li
+          v-for="it of results"
           :key="it.address"
         >
-          <NuxtLink class="unit-address"
+          <NuxtLink
+            class="unit-address"
             :to="context.generateAddressUrl({
               address: it.address,
             })"
           >
-            <img src="~/assets/img/address-icon.svg"
+            <img
+              src="~/assets/img/address-icon.svg"
               :alt="it.address"
               class="image"
             >

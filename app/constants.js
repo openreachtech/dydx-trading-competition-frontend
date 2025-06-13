@@ -1,4 +1,5 @@
-import dydxAppConfig from '~/app/dydxV4AppConfig.json'
+// NOTE: If this constant file is imported in `nuxt.config.js`, it must use relative paths.
+import dydxAppConfig from './dydxV4AppConfig.json'
 
 export const HEADER_KEY = {
   ACCESS_TOKEN: 'x-renchan-access-token',
@@ -12,6 +13,8 @@ export const STORAGE_KEY = {
   SELECTED_NETWORK: 'dydx.SelectedNetwork',
   WALLET: 'wallet',
 }
+
+export const BASE_PAGE_TITLE = 'dYdX Trading Arena'
 
 export const DYDX_TRADE_CTA_URL = 'https://dydx.trade/markets?utm_source=clc&utm_medium=trading-competition&utm_campaign=07042025-clc-menu-cta&utm_term=&utm_content=trading-comp-menu-cta'
 
@@ -75,6 +78,11 @@ export const COMPETITION_PARTICIPANT_STATUS = {
     ID: 5,
     NAME: 'canceled',
     DESCRIPTION: 'Participant has canceled their registration',
+  },
+  AWAITING_DEPOSIT: {
+    ID: 6,
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Participant has registered and is required to deposit funds to activate participation',
   },
 }
 
@@ -529,7 +537,7 @@ export const ERROR_MESSAGE_HASH = {
   AddressNotFound: 'Address not found',
   ParticipantLimitExceeded: 'Participant limit exceeded',
   AddressAlreadyRegisteredToCompetition: 'You can only register to one competition at a time',
-  InvalidCompetitionState: 'Invalid competition state',
+  InvalidCompetitionState: 'This action is not allowed during the current arena phase',
   NameAlreadyBeenUsed: 'This username has already been taken',
   AddressNameAlreadyBeenUsed: 'This username has already been taken',
   CurrentDetailInformationSameToNewDetailInformation: 'No changes in detail information',

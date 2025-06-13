@@ -1,6 +1,6 @@
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   BaseFuroContext,
@@ -242,7 +242,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
     return this.competitions.map(it => ({
       competitionId: it.competition.competitionId,
       title: it.competition.title,
-      image: it.competition.image ?? '',
+      imageUrl: it.competition.imageUrl ?? '',
       rank: it.rank,
       baseline: it.performanceBaseline,
       prize: it.prize,
@@ -421,7 +421,7 @@ export default class ProfileLeagueHistoryContext extends BaseFuroContext {
  * @typedef {{
  *   competitionId: number
  *   title: string
- *   image: string
+ *   imageUrl: string
  *   rank: number
  *   baseline: number
  *   prize: string

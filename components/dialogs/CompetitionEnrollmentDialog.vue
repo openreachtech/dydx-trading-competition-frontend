@@ -6,7 +6,7 @@ import {
 
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import AppButton from '~/components/units/AppButton.vue'
 import AppDialog from '~/components/units/AppDialog.vue'
@@ -93,18 +93,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppDialog ref="dialogComponentRef"
+  <AppDialog
+    ref="dialogComponentRef"
     title="Enroll League"
     class="unit-dialog"
   >
     <template #contents>
-      <form ref="formElementRef"
+      <form
+        ref="formElementRef"
         class="unit-contents"
         @submit.prevent="context.submitForm({
           formElement: formElementRef,
         })"
       >
-        <input type="number"
+        <input
+          type="number"
           class="input hidden"
           name="competitionId"
           :value="context.generateCompetitionId()"
@@ -117,7 +120,8 @@ export default defineComponent({
         <label class="label-container">
           <span class="label">Display name</span>
 
-          <AppInput name="name"
+          <AppInput
+            name="name"
             :has-error="Boolean(context.validationMessage.name)"
             :error-message="context.validationMessage.name"
             :value="context.initialUsername"
@@ -128,7 +132,8 @@ export default defineComponent({
           <span class="label">Entry balance</span>
 
           <span class="unit-figure">
-            <img src="~/assets/img/tokens/usdc.svg"
+            <img
+              src="~/assets/img/tokens/usdc.svg"
               alt="USDC"
               class="icon"
             >
@@ -146,14 +151,16 @@ export default defineComponent({
           </p>
         </div>
 
-        <AppMessage :is-hidden="!context.joinCompetitionErrorMessage"
+        <AppMessage
+          :is-hidden="!context.joinCompetitionErrorMessage"
           severity="error"
           variant="box"
         >
           {{ context.joinCompetitionErrorMessage }}
         </AppMessage>
 
-        <AppButton class="button"
+        <AppButton
+          class="button"
           :is-loading="context.isJoining"
         >
           Enroll League

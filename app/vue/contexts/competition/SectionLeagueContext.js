@@ -1,10 +1,10 @@
 import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+  useRoute,
+} from 'vue-router'
 
 import {
-  useRoute,
-} from '#imports'
+  BaseFuroContext,
+} from '@openreachtech/furo-nuxt'
 
 import {
   SCHEDULE_CATEGORY,
@@ -129,6 +129,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionId
+   *
+   * @returns {PropsType['competitionId']}
+   */
+  get competitionId () {
+    return this.props.competitionId
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {PropsType['competitionStatusId']}
@@ -144,6 +153,15 @@ export default class SectionLeagueContext extends BaseFuroContext {
    */
   get enrolledParticipantsNumber () {
     return this.props.enrolledParticipantsNumber
+  }
+
+  /**
+   * get: isHostOfCompetition
+   *
+   * @returns {PropsType['isHostOfCompetition']}
+   */
+  get isHostOfCompetition () {
+    return this.props.isHostOfCompetition
   }
 
   /**
@@ -200,13 +218,13 @@ export default class SectionLeagueContext extends BaseFuroContext {
   }
 
   /**
-   * get: image
+   * get: imageUrl
    *
-   * @returns {CompetitionEntity['image'] | null}
+   * @returns {CompetitionEntity['imageUrl'] | null}
    */
-  get image () {
+  get imageUrl () {
     return this.extractCompetition()
-      ?.image
+      ?.imageUrl
       ?? null
   }
 
@@ -430,7 +448,7 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string} Image URL
    */
   generateImageUrl () {
-    return this.image
+    return this.imageUrl
       ?? '/img/badges/league-badge-placeholder.png'
   }
 
@@ -508,21 +526,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
     }
 
     const date = new Date(dateString)
-
     const dateFormatter = new Intl.DateTimeFormat('en-US', {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
-      timeZone: 'UTC',
-    })
-    const hourFormatter = new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
-      timeZone: 'UTC',
+      timeZoneName: 'short',
     })
 
-    return `${dateFormatter.format(date)}-${hourFormatter.format(date)} UTC`
+    return dateFormatter.format(date)
   }
 
   /**
@@ -616,6 +630,28 @@ export default class SectionLeagueContext extends BaseFuroContext {
   generateLeagueDetailClasses () {
     return {
       'expandable-description': this.hasDescriptionExceededPreviewLength(),
+    }
+  }
+
+  /**
+   * Generate CSS classes for host badge.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateHostBadgeClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
+    }
+  }
+
+  /**
+   * Generate CSS classes for competition edit button.
+   *
+   * @returns {import('vue').HTMLAttributes['class']}
+   */
+  generateCompetitionEditButtonClasses () {
+    return {
+      hidden: !this.isHostOfCompetition,
     }
   }
 
@@ -889,6 +925,17 @@ export default class SectionLeagueContext extends BaseFuroContext {
       ?.scheduledDatetime
       ?? null
   }
+
+  /**
+   * Generate URL of competition edit page.
+   *
+   * @returns {string}
+   */
+  generateCompetitionEditUrl () {
+    return this.competitionId === null
+      ? ''
+      : `/competitions/${this.competitionId}/edit`
+  }
 }
 
 /**
@@ -909,8 +956,10 @@ export default class SectionLeagueContext extends BaseFuroContext {
  * @typedef {{
  *   competition: CompetitionEntity | null
  *   participantStatusId: number | null
+ *   competitionId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
+ *   isHostOfCompetition: boolean
  *   isCompetitionFull: boolean
  * }} PropsType
  */

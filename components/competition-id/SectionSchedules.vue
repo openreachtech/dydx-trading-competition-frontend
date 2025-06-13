@@ -55,10 +55,12 @@ export default defineComponent({
       </h2>
 
       <div class="unit-schedules">
-        <template v-for="(it, index) of context.generateScheduleGroups()"
+        <template
+          v-for="(it, index) of context.generateScheduleGroups()"
           :key="index"
         >
-          <div class="schedule"
+          <div
+            class="schedule"
             :class="{
               active: context.isActiveTimeline({
                 timeline: it.timeline,
@@ -77,7 +79,7 @@ export default defineComponent({
                   <span>
                     {{
                       context.normalizeTimestamp({
-                        timestamp: event.timestamp
+                        timestamp: event.timestamp,
                       })
                     }}
                   </span>
@@ -86,7 +88,8 @@ export default defineComponent({
             </div>
           </div>
 
-          <Icon class="connector"
+          <Icon
+            class="connector"
             name="heroicons:chevron-down"
           />
         </template>

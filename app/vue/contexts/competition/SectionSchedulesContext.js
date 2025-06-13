@@ -147,6 +147,7 @@ export default class SectionSchedulesContext extends BaseFuroContext {
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
+      timeZoneName: 'short',
     })
 
     return formatter.format(date)

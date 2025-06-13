@@ -88,8 +88,10 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
 
 /**
  * @typedef {{
+ *   competitionParticipantId: number
  *   address: Address
  *   status: Status
+ *   equity: number
  * }} Participant
  */
 

@@ -43,12 +43,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-textarea"
+  <span
+    class="unit-textarea"
     :class="{
       error: context.hasError,
     }"
   >
-    <textarea v-bind="$attrs"
+    <textarea
+      v-bind="$attrs"
       class="textarea"
     />
 
@@ -63,6 +65,9 @@ export default defineComponent({
   display: inline-flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  /* Make sure the input is shrinkable in flex layout. */
+  min-width: 0;
 }
 
 .unit-textarea .textarea {

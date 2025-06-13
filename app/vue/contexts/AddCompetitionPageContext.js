@@ -99,6 +99,59 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: steps
+   *
+   * @returns {Array<Step>}
+   */
+  get steps () {
+    return [
+      {
+        step: 1,
+        title: 'Details',
+      },
+      {
+        step: 2,
+        title: 'Timeline',
+      },
+      {
+        step: 3,
+        title: 'Participation',
+      },
+      {
+        step: 4,
+        title: 'Rank & Prize',
+      },
+    ]
+  }
+
+  /**
+   * get: currentStep
+   *
+   * @returns {number}
+   */
+  get currentStep () {
+    return this.currentStepRef.value
+  }
+
+  /**
+   * Check if is first step.
+   *
+   * @returns {boolean} `true` if the current step is the first step.
+   */
+  isFirstStep () {
+    return this.currentStep === 1
+  }
+
+  /**
+   * Check if is last step.
+   *
+   * @returns {boolean} `true` if the current step is the last step.
+   */
+  isLastStep () {
+    return this.currentStep === this.steps.length
+  }
+
+  /**
    * get: addCompetitionFormClerk
    *
    * @returns {AddCompetitionPageContextParams['formClerkHash']['addCompetition']}
@@ -182,6 +235,74 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
   }
 
   /**
+   * Go to previous step.
+   *
+   * @returns {void}
+   */
+  goToPreviousStep () {
+    if (this.isFirstStep()) {
+      return
+    }
+
+    this.currentStepRef.value = this.currentStep - 1
+  }
+
+  /**
+   * Go to next step.
+   *
+   * @param {{
+   *   mouseEvent: MouseEvent
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  goToNextStep ({
+    mouseEvent,
+  }) {
+    if (this.isLastStep()) {
+      return
+    }
+
+    // Prevent default event before last step because `this.generateActionButtonType()`
+    // runs before the the event is invoked, which causes the form to submit before last step.
+    mouseEvent.preventDefault()
+
+    this.goToStep({
+      step: this.currentStep + 1,
+    })
+  }
+
+  /**
+   * Generate next-step button label.
+   *
+   * @returns {string}
+   */
+  generateNextStepButtonLabel () {
+    return this.isLastStep()
+      ? 'Host New League'
+      : 'Save & Continue'
+  }
+
+  /**
+   * Generate next-step button type.
+   *
+   * @returns {'submit' | 'button'}
+   */
+  generateNextStepButtonType () {
+    return this.isLastStep()
+      ? 'submit'
+      : 'button'
+  }
+
+  /**
+   * Wheter to disable previous-step button or not.
+   *
+   * @returns {boolean}
+   */
+  shouldDisablePreviousStepButton () {
+    return this.isFirstStep()
+  }
+
+  /**
    * Generate CSS classes for step element.
    *
    * @param {{
@@ -193,7 +314,6 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
     step,
   }) {
     return [
-      'step',
       {
         hidden: this.currentStepRef.value !== step,
       },
@@ -238,4 +358,11 @@ export default class AddCompetitionPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  * }} StatusReactive
+ */
+
+/**
+ * @typedef {{
+ *   step: number
+ *   title: string
+ * }} Step
  */

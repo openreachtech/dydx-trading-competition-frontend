@@ -30,7 +30,7 @@ export default class DefaultLayoutContext extends BaseFuroContext {
     return [
       {
         iconName: 'ph:x-logo-duotone',
-        href: 'https://x.com/clc_validator',
+        href: 'https://x.com/dydxarena',
       },
       {
         iconName: 'ph:github-logo-duotone',
@@ -55,6 +55,11 @@ export default class DefaultLayoutContext extends BaseFuroContext {
         name: 'dydx.trade',
         imageUrl: '/img/dydx/dydx-trade.svg',
         href: 'https://dydx.trade',
+      },
+      {
+        name: 'tokensender.dydxarena.com',
+        imageUrl: '/img/dydx/dydx-tokensender.svg',
+        href: 'https://tokensender.dydxarena.com',
       },
     ]
   }

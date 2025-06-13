@@ -55,10 +55,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-input"
+  <span
+    class="unit-input"
     :class="context.generateInputClasses()"
   >
-    <input v-bind="$attrs"
+    <input
+      v-bind="$attrs"
       class="input"
       @input="context.onInput({
         inputEvent: $event,
@@ -76,6 +78,9 @@ export default defineComponent({
   display: inline-flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  /* Make sure the input is shrinkable in flex layout. */
+  min-width: 0;
 }
 
 .unit-input > .input {

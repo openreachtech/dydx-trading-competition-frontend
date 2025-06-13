@@ -27,6 +27,15 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    initialFormValueHash: {
+      /** @type {import('vue').PropType<import('./AddCompetitionFormStepParticipationContext').PropsType['initialFormValueHash']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (
@@ -61,7 +70,8 @@ export default defineComponent({
 
     <div class="unit-partition">
       <h3 class="heading">
-        <Icon class="icon"
+        <Icon
+          class="icon"
           size="1.25rem"
           name="heroicons:users"
         />
@@ -70,8 +80,10 @@ export default defineComponent({
       </h3>
 
       <div class="inputs">
-        <AppInput placeholder="Minimum"
+        <AppInput
+          placeholder="Minimum"
           type="number"
+          :value="context.initialParticipantLowerLimit"
           name="participantLowerLimit"
           :has-error="Boolean(context.validationMessage.participantLowerLimit)"
           :error-message="context.validationMessage.participantLowerLimit"
@@ -79,8 +91,10 @@ export default defineComponent({
 
         <div class="connector" />
 
-        <AppInput placeholder="Maximum"
+        <AppInput
+          placeholder="Maximum"
           type="number"
+          :value="context.initialParticipantUpperLimit"
           name="participantUpperLimit"
           :has-error="Boolean(context.validationMessage.participantUpperLimit)"
           :error-message="context.validationMessage.participantUpperLimit"
@@ -95,7 +109,8 @@ export default defineComponent({
 
     <div class="unit-partition">
       <h3 class="heading">
-        <Icon class="icon"
+        <Icon
+          class="icon"
           size="1.25rem"
           name="heroicons:wallet"
         />
@@ -103,8 +118,10 @@ export default defineComponent({
         <span>Entry Balance</span>
       </h3>
 
-      <AppInput name="minimumDeposit"
+      <AppInput
+        name="minimumDeposit"
         placeholder="e.g. 10"
+        :value="context.initialMinimumDeposit"
         :has-error="Boolean(context.validationMessage.minimumDeposit)"
         :error-message="context.validationMessage.minimumDeposit"
       />

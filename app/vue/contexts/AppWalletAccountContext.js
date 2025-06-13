@@ -123,6 +123,62 @@ export default class AppWalletAccountContext extends BaseFuroContext {
   }
 
   /**
+   * Generate navigation links.
+   *
+   * @returns {Array<NavigationLink>}
+   */
+  generateNavigationLinks () {
+    return [
+      {
+        href: this.generateProfileUrl(),
+        iconName: 'heroicons:user',
+        label: 'My league profile',
+      },
+      {
+        href: '/hosted-competitions',
+        iconName: 'heroicons-outline:rectangle-stack',
+        label: 'My hosted arenas',
+      },
+      {
+        href: this.dydxTradeCtaUrl,
+        iconName: 'heroicons:home-solid',
+        label: 'Open dydx.trade',
+        isExternal: true,
+      },
+      {
+        href: '/terms',
+        iconName: 'heroicons:document-solid',
+        label: 'Terms of Use',
+        isExternal: true,
+      },
+    ]
+  }
+
+  /**
+   * Generate HTML attributes for external link.
+   *
+   * @param {{
+   *   isExternal?: boolean
+   * }} params - Parameters.
+   * @returns {{
+   *   external: boolean
+   *   target: string
+   *   rel: string
+   * } | {}}
+   */
+  generateExternalLinkAttributes ({
+    isExternal,
+  }) {
+    return isExternal
+      ? {
+        external: true,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      }
+      : {}
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends AppWalletAccountContext ? X : never} T, X
@@ -381,4 +437,13 @@ export default class AppWalletAccountContext extends BaseFuroContext {
 
 /**
  * @typedef {AppWalletAccountContextParams} AppWalletAccountContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   href: string
+ *   iconName: string
+ *   label: string
+ *   isExternal?: boolean
+ * }} NavigationLink
  */

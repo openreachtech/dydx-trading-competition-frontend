@@ -68,19 +68,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <FuroPagination class="design"
-    v-bind="{...$attrs, ...props}"
+  <FuroPagination
+    class="design"
+    v-bind="{
+      ...$attrs,
+      ...props,
+    }"
   >
     <template #previous>
       <slot name="previous">
-        <Icon name="heroicons-outline:chevron-left"
+        <Icon
+          name="heroicons-outline:chevron-left"
           size="1.25rem"
         />
       </slot>
     </template>
     <template #next>
       <slot name="next">
-        <Icon name="heroicons-outline:chevron-right"
+        <Icon
+          name="heroicons-outline:chevron-right"
           size="1.25rem"
         />
       </slot>

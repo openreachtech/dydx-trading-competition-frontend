@@ -4,13 +4,18 @@ import {
 
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
+
+import {
+  useHead,
+} from '@unhead/vue'
 
 import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
 import {
+  BASE_PAGE_TITLE,
   COMPETITION_STATUS,
   PAGINATION,
 } from '~/app/constants'
@@ -31,6 +36,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     componentContext,
 
     route,
+    toastStore,
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
@@ -44,6 +50,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
@@ -65,6 +72,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     props,
     componentContext,
     route,
+    toastStore,
     walletStore,
     graphqlClientHash,
     leaderboardEntriesRef,
@@ -77,6 +85,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         props,
         componentContext,
         route,
+        toastStore,
         walletStore,
         graphqlClientHash,
         leaderboardEntriesRef,
@@ -166,6 +175,10 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       {
         key: 'participantAddress',
         label: 'Address',
+      },
+      {
+        key: 'participantEquity',
+        label: 'Equity',
       },
       {
         key: 'participantStatus',
@@ -261,6 +274,19 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       () => this.extractCurrentPage(),
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.competitionTitle,
+      () => {
+        if (this.competitionTitle === null) {
+          return
+        }
+
+        useHead({
+          title: `${this.competitionTitle} - ${BASE_PAGE_TITLE}`,
+        })
       }
     )
 
@@ -634,6 +660,16 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
           dialogElement: this.competitionCancelationDialog,
         })
 
+        const successMessage = this.competitionTitle
+          ? `You have successfully unregistered from "${this.competitionTitle}" arena`
+          : 'You have successfully unregistered from this arena'
+
+        this.toastStore.add({
+          message: successMessage,
+          iconName: 'heroicons:arrow-uturn-left',
+          color: 'success',
+        })
+
         // TODO: Move mutation logic to mutation context.
         await Promise.allSettled([
           this.graphqlClientHash
@@ -760,7 +796,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       /**
        * @type {(
-       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       *   capsule: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
        * ) => Promise<void>}
        * @todo: Fix import path of this capsule. It should be in `queries` directory.
        */
@@ -791,6 +827,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return participants.map(it => ({
       participantName: it.address.name,
       participantAddress: it.address.address,
+      participantEquity: it.equity,
       participantStatus: it.status,
     }))
   }
@@ -822,7 +859,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    * Normalize leaderboard final outcome entries.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
    * }} params - Parameters.
    * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
    */
@@ -882,7 +919,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       /**
        * @type {(
-       *   capsule: import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
+       *   capsule: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default
        * ) => Promise<void>}
        * @todo: Fix import path of this capsule. It should be in `queries` directory.
        */
@@ -930,7 +967,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
    * Normalize top three in the final outcome.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
    * }} params - Parameters.
    * @returns {TopThreeLeaderboardEntries}
    */
@@ -1027,6 +1064,39 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionHost
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host'] | null}
+   */
+  get competitionHost () {
+    return this.competition
+      ?.host
+      ?? null
+  }
+
+  /**
+   * get: competitionHostAddress
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['address'] | null}
+   */
+  get competitionHostAddress () {
+    return this.competitionHost
+      ?.address
+      ?? null
+  }
+
+  /**
+   * get: competitionHostName
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['name'] | null}
+   */
+  get competitionHostName () {
+    return this.competitionHost
+      ?.name
+      ?? null
+  }
+
+  /**
    * get: participantUpperLimit
    *
    * @returns {number | null}
@@ -1065,6 +1135,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return this.competitionCapsuleRef
       .value
       .title
+  }
+
+  /**
+   * get: competitionOutcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get competitionOutcomeCsvUrl () {
+    return this.competitionCapsuleRef
+      .value
+      .outcomeCsvUrl
   }
 
   /**
@@ -1163,7 +1244,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * get: competitionFinalOutcomeCapsule
    *
-   * @returns {import('~/app/graphql/client/mutations/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
+   * @returns {import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').default}
    */
   get competitionFinalOutcomeCapsule () {
     return this.graphqlClientHash
@@ -1192,6 +1273,22 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   get enrolledParticipantsNumber () {
     return this.competitionEnrolledParticipantsNumberCapsule
       .enrolledParticipantsNumber
+  }
+
+  /**
+   * Check if current user is the competition's host.
+   *
+   * @returns {boolean}
+   */
+  isHostOfCompetition () {
+    if (
+      this.competitionHostAddress === null
+      && this.localWalletAddress === null
+    ) {
+      return false
+    }
+
+    return this.competitionHostAddress === this.localWalletAddress
   }
 
   /**
@@ -1381,6 +1478,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   toastStore: import('~/stores/toast').ToastStore
  *   walletStore: import('~/stores/wallet').WalletStore
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>

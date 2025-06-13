@@ -5,13 +5,14 @@ import {
 
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   Icon,
   NuxtLink,
 } from '#components'
 
+import AppBadge from '~/components/units/AppBadge.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppBadge,
     CopyButton,
     LinkTooltipButton,
   },
@@ -36,6 +38,14 @@ export default defineComponent({
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
       type: [
         Object,
+        null,
+      ],
+      required: true,
+    },
+    competitionParticipantStatusId: {
+      /** @type {import('vue').PropType<number | null>} */
+      type: [
+        Number,
         null,
       ],
       required: true,
@@ -77,8 +87,14 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <div class="inner">
-      <div class="unit-basic"
+    <div
+      class="inner"
+      :class="{
+        participating: context.isParticipatingInArena(),
+      }"
+    >
+      <div
+        class="unit-basic"
         :class="context.generateBasicDetailsClasses()"
       >
         <span class="label">
@@ -86,17 +102,20 @@ export default defineComponent({
         </span>
 
         <span class="heading">
-          <Icon name="heroicons:user"
+          <Icon
+            name="heroicons:user"
             class="icon"
             size="2.25rem"
           />
 
           <span>{{ context.addressName }}</span>
 
-          <button class="button"
+          <button
+            class="button"
             @click="context.showProfileRenameDialog()"
           >
-            <Icon name="heroicons:pencil"
+            <Icon
+              name="heroicons:pencil"
               size="1.5rem"
             />
           </button>
@@ -110,11 +129,13 @@ export default defineComponent({
           </span>
 
           <div class="actions">
-            <CopyButton :content-to-copy="context.profileAddress"
+            <CopyButton
+              :content-to-copy="context.profileAddress"
               icon-size="1.25rem"
             />
 
-            <LinkTooltipButton :href="context.generateProfileAddressUrl()"
+            <LinkTooltipButton
+              :href="context.generateProfileAddressUrl()"
               aria-label="Go to address on Mintscan"
               target="_blank"
               rel="noopener noreferrer"
@@ -125,7 +146,12 @@ export default defineComponent({
         </div>
       </div>
 
-      <div class="meta">
+      <div
+        class="meta"
+        :class="{
+          hidden: !context.isParticipatingInArena(),
+        }"
+      >
         <dl class="unit-description">
           <div class="entry">
             <dt class="term">
@@ -133,15 +159,37 @@ export default defineComponent({
             </dt>
 
             <dd class="description participation">
-              <NuxtLink :to="context.generateCompetitionUrl()"
-                class="link"
+              <img
+                class="image"
+                :src="context.imageUrl"
+                :alt="context.generateCompetitionTitle()"
               >
-                <img class="image"
-                  :src="context.image"
-                  :alt="context.generateCompetitionTitle()"
+
+              <span class="title">
+                <NuxtLink
+                  :to="context.generateCompetitionUrl()"
+                  class="link"
                 >
-                <span>{{ context.generateCompetitionTitle() }}</span>
-              </NuxtLink>
+                  {{ context.generateCompetitionTitle() }}
+                </NuxtLink>
+                <AppBadge
+                  severity="neutral"
+                  class="status"
+                  :class="{
+                    registered: context.isParticipantRegistered(),
+                    active: context.isParticipantActive(),
+                    'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                  }"
+                >
+                  <Icon
+                    :name="context.generateParticipantStatusBadgeIcon()"
+                    size="0.875rem"
+                  />
+                  <span>
+                    {{ context.generateParticipantStatusBadgeText() }}
+                  </span>
+                </AppBadge>
+              </span>
             </dd>
           </div>
 
@@ -160,7 +208,8 @@ export default defineComponent({
               PnL & ROI
             </dt>
 
-            <dd class="description profit"
+            <dd
+              class="description profit"
               :class="context.generatePnlClasses()"
             >
               {{ context.generatePnlRoi() }}
@@ -173,7 +222,8 @@ export default defineComponent({
             </dt>
 
             <dd class="description ranking">
-              <Icon name="heroicons:trophy"
+              <Icon
+                name="heroicons:trophy"
                 size="1.25rem"
                 class="icon"
               />
@@ -210,8 +260,9 @@ export default defineComponent({
   max-width: var(--size-body-max-width);
 
   background-image: url('~/assets/img/backgrounds/rectangles.svg');
-  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
+  background-size: cover;
 
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
@@ -228,6 +279,14 @@ export default defineComponent({
   @media (60rem < width) {
     padding-block: 6.5rem 5rem;
   }
+}
+
+.unit-section > .inner:not(.participating) {
+  padding-block-end: 8rem;
+}
+
+.unit-section > .inner > .meta.hidden {
+  display: none;
 }
 
 .unit-basic {
@@ -367,11 +426,20 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation > .link {
+.unit-description > .entry > .description.participation {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 0.75rem;
+}
 
+.unit-description > .entry > .description.participation > .title {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.3rem;
+}
+
+.unit-description > .entry > .description.participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -379,20 +447,40 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .link[href]:hover {
+.unit-description > .entry > .description.participation > .title > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-description > .entry > .description.participation > .link > .image {
+.unit-description > .entry > .description.participation > .title > .status {
+  --color-text-badge: var(--color-text-secondary);
+
+  border-radius: 0.25rem;
+
+  padding-block: var(--size-thinnest);
+  padding-inline: 0.375rem 0.5rem;
+
+  gap: 0.375rem;
+
+  color: var(--color-text-badge);
+}
+
+.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+  --color-text-badge: var(--palette-yellow);
+}
+
+.unit-description > .entry > .description.participation > .image {
   border-radius: 0.625rem;
 
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
 
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .link > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+  padding-block: 0.375rem;
+  padding-inline: 0.375rem;
+
   object-fit: scale-down;
 }
 

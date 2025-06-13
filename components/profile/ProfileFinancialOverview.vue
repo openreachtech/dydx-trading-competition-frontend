@@ -3,12 +3,17 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  Icon,
+} from '#components'
+
 import AppTable from '~/components/units/AppTable.vue'
 
 import ProfileFinancialOverviewContext from './ProfileFinancialOverviewContext'
 
 export default defineComponent({
   components: {
+    Icon,
     AppTable,
   },
 
@@ -46,8 +51,27 @@ export default defineComponent({
     <!-- Past orders implementation is to be decided. -->
     <!-- <div></div> -->
 
-    <div class="accounts">
-      <div v-for="childSubaccount of context.childSubaccounts"
+    <div
+      class="empty"
+      :class="{
+        hidden: !context.shouldHideOverview(),
+      }"
+    >
+      <Icon
+        name="heroicons:table-cells"
+        size="2rem"
+      />
+      <span>No records found.</span>
+    </div>
+
+    <div
+      class="accounts"
+      :class="{
+        hidden: context.shouldHideOverview(),
+      }"
+    >
+      <div
+        v-for="childSubaccount of context.childSubaccounts"
         :key="childSubaccount.subaccountNumber"
         class="unit-account"
       >
@@ -76,14 +100,16 @@ export default defineComponent({
           </span>
         </div>
 
-        <AppTable :header-entries="context.subaccountTableHeaderEntries"
+        <AppTable
+          :header-entries="context.subaccountTableHeaderEntries"
           :entries="context.normalizeOpenPerpetualPositions({
             openPerpetualPositions: childSubaccount.openPerpetualPositions,
           })"
           min-width="45rem"
         >
           <template #body-side="{ value }">
-            <span class="unit-side"
+            <span
+              class="unit-side"
               :class="context.generateTradeSideClasses({
                 side: value,
               })"
@@ -110,7 +136,8 @@ export default defineComponent({
           </template>
 
           <template #body-realizedPnl="{ value }">
-            <span class="unit-pnl"
+            <span
+              class="unit-pnl"
               :class="context.generateProfitClasses({
                 figure: value,
               })"
@@ -120,7 +147,8 @@ export default defineComponent({
           </template>
 
           <template #body-unrealizedPnl="{ value }">
-            <span class="unit-pnl"
+            <span
+              class="unit-pnl"
               :class="context.generateProfitClasses({
                 figure: value,
               })"
@@ -130,7 +158,8 @@ export default defineComponent({
           </template>
 
           <template #body-netFunding="{ value }">
-            <span class="unit-net-funding"
+            <span
+              class="unit-net-funding"
               :class="context.generateProfitClasses({
                 figure: value,
               })"
@@ -149,10 +178,34 @@ export default defineComponent({
   margin-block-start: 2rem;
 }
 
+.unit-container > .empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding-block: 3rem;
+  padding-inline: 1rem;
+
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-container > .empty.hidden {
+  display: none;
+}
+
 .unit-container > .accounts {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.unit-container > .accounts.hidden {
+  display: none;
 }
 
 .unit-account {

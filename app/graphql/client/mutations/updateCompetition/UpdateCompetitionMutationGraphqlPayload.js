@@ -26,7 +26,7 @@ export default class UpdateCompetitionMutationGraphqlPayload extends BaseAppSign
  *     description: string
  *     minimumDeposit: string
  *     totalPrize: string
- *     imageId: number
+ *     imageUrl?: string
  *     participantLowerLimit: number
  *     participantUpperLimit: number
  *     signature: {

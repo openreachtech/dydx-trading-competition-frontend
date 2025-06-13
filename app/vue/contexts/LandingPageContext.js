@@ -245,11 +245,11 @@ export default class LandingPageContext extends BaseFuroContext {
     return [
       {
         question: 'How do I create my own competition?',
-        answer: 'Users can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please contact <a href="https://x.com/dydxfoundation" target="_blank">dYdX Foundation (@dydxfoundation)</a> or <a href="https://x.com/clc_validator" target="_blank">Crypto Learning Club | dYdX Validator (@clc_validator)</a>.',
+        answer: 'Users can create a competition by visiting the main page, entering the required details (title, description, prize pool, etc.), setting participation criteria, and signing with their wallet. <br /> <br /> However, to prevent spam attacks and impersonation, the platform will initially operate in a permissioned manner. If you are interested in hosting a competition, please fill in <a href="https://forms.gle/iYC1G5sjD7DSaRwp6" target="_blank">this form</a>.',
       },
       {
         question: 'How is my trading performance calculated?',
-        answer: 'Performance is calculated using the following formulas: <br /> <b>Baseline</b> = Initial Equity + Total Deposits - Total Withdrawals <br /> <b>PnL</b> = Current Equity - Baseline <br /> <b>ROI</b> = PnL / Baseline <br /> The system takes hourly snapshots to update these metrics throughout the competition.',
+        answer: 'Performance is calculated using the following formulas: <br /> <b>Baseline</b> = Initial Equity + Total Deposits <br /> <b>PnL</b> = Current Equity - Baseline <br /> <b>ROI</b> = PnL / Baseline <br /> Note that withdrawals during the competition will decrease your Current Equity.',
       },
       {
         question: 'Is my private key safe when using this platform?',
@@ -261,11 +261,11 @@ export default class LandingPageContext extends BaseFuroContext {
       },
       {
         question: 'What happens if I withdraw funds during a competition?',
-        answer: 'Withdrawals during a competition are tracked and factored into your performance calculations.',
+        answer: 'Withdrawals during a competition are tracked and factored into your performance calculations. <br /><br />For example, if you start with $1,000 initial equity and withdraw $300, your current equity becomes $700. In this case, your Baseline would still be $1,000, your PnL would be -$300 (= $700 - $1,000), and your ROI would be -30% (= -$300 / $1,000).',
       },
       {
         question: "I've run out of funds during the competition. Can I make an additional deposit?",
-        answer: 'Yes, depositing additional funds during the competition is allowed. However, please note that additional deposits will increase your baseline, which may negatively impact your ROI. Traders can adopt an aggressive strategy that takes additional deposits into account.',
+        answer: 'Yes, depositing additional funds during the competition is allowed. However, please note that additional deposits will increase your baseline, which may negatively impact your ROI. <br /><br />For example, if you started with $1,000 initial equity and then deposit an additional $500, your baseline would increase to $1,500. If your current equity after trading is $1,800, your PnL would be $300 (= $1,800 - $1,500) and your ROI would be 20% (= $300 / $1,500).',
       },
       {
         question: 'How do multiple accounts get prevented?',

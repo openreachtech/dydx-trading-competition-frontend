@@ -29,7 +29,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <FuroLoadingLayout class="design"
+  <FuroLoadingLayout
+    class="design"
     v-bind="{
       ...$attrs,
       ...$props,
@@ -42,7 +43,8 @@ export default defineComponent({
     <template #loader>
       <slot name="loader">
         <div class="unit-loader">
-          <Icon name="svg-spinners:90-ring-with-bg"
+          <Icon
+            name="svg-spinners:90-ring-with-bg"
             size="1.5rem"
           />
         </div>

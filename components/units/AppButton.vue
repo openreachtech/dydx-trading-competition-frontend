@@ -93,7 +93,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="unit-button"
+  <button
+    class="unit-button"
     :class="[
       context.props.variant,
       context.props.appearance,
@@ -149,6 +150,11 @@ export default defineComponent({
   user-select: none;
 }
 
+.unit-button > * {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
 .unit-button > .contents {
   display: inline-flex;
   align-items: center;
@@ -156,11 +162,11 @@ export default defineComponent({
 }
 
 .unit-button:not(.is-loading) > .loader {
-  display: none;
+  visibility: hidden;
 }
 
 .unit-button.is-loading > :not(.loader) {
-  display: none;
+  visibility: hidden;
 }
 
 /******************************************************/

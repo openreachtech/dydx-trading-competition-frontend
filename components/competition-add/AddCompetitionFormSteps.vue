@@ -7,7 +7,6 @@ import {
   Icon,
 } from '#components'
 
-import AppButton from '~/components/units/AppButton.vue'
 import AppMessage from '~/components/units/AppMessage.vue'
 
 import AddCompetitionFormStepsContext from '~/app/vue/contexts/competition/AddCompetitionFormStepsContext'
@@ -20,17 +19,29 @@ export const EVENT_NAME = {
 export default defineComponent({
   components: {
     Icon,
-    AppButton,
     AppMessage,
   },
 
   props: {
+    steps: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepsContext').PropsType['steps']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
     currentStep: {
       type: Number,
       required: true,
     },
     errorMessageHash: {
-      /** @type {import('vue').PropType<Record<string, string | null> | null>} */
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/AddCompetitionFormStepsContext').PropsType['errorMessageHash']
+       * >}
+       */
       type: [
         Object,
         null,
@@ -63,7 +74,8 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <div class="steps">
-      <div v-for="it of context.generateSteps()"
+      <div
+        v-for="it of context.steps"
         :key="it.step"
         class="unit-step"
         :aria-current="context.generateAriaCurrent({
@@ -76,14 +88,16 @@ export default defineComponent({
         }"
       >
         <div class="step">
-          <button class="button"
+          <button
+            class="button"
             type="button"
             @click="context.goToStep({
               step: it.step,
             })"
           >
             <span class="indicator">
-              <Icon name="heroicons:check"
+              <Icon
+                name="heroicons:check"
                 size="1rem"
                 class="icon"
               />
@@ -111,23 +125,13 @@ export default defineComponent({
       </p>
     </div>
 
-    <AppMessage severity="error"
+    <AppMessage
+      severity="error"
       variant="box"
       :is-hidden="!context.addCompetitionErrorMessage"
     >
       {{ context.addCompetitionErrorMessage }}
     </AppMessage>
-
-    <div class="unit-actions">
-      <AppButton class="button"
-        :type="context.generateActionButtonType()"
-        @click="context.nextStep({
-          mouseEvent: $event,
-        })"
-      >
-        {{ context.generateActionButtonLabel() }}
-      </AppButton>
-    </div>
   </div>
 </template>
 
@@ -350,19 +354,5 @@ export default defineComponent({
 .unit-guide > .note {
   font-size: var(--font-size-small);
   color: var(--color-text-tertiary);
-}
-
-.unit-actions {
-  display: none;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  @media (48rem < width) {
-    display: flex;
-  }
-}
-
-.unit-actions > .button {
-  justify-content: center;
 }
 </style>

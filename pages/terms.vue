@@ -7,7 +7,15 @@ import {
   NuxtLink,
 } from '#components'
 
+import {
+  definePageMeta,
+} from '#imports'
+
 import AppMessage from '~/components/units/AppMessage.vue'
+
+import {
+  BASE_PAGE_TITLE,
+} from '~/app/constants'
 
 import TermsPageContext from './TermsPageContext'
 
@@ -21,6 +29,12 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    definePageMeta({
+      $furo: {
+        pageTitle: `Terms of Use - ${BASE_PAGE_TITLE}`,
+      },
+    })
+
     const args = {
       props,
       componentContext,
@@ -54,7 +68,8 @@ export default defineComponent({
         by these Terms. If you do not agree completely to these Terms, do not use the Site.
       </p>
 
-      <AppMessage severity="info"
+      <AppMessage
+        severity="info"
         variant="box"
         class="message"
       >
@@ -89,7 +104,8 @@ export default defineComponent({
         ("Sanctions") and is not under the control of any person or entity subject to Sanctions; or (b) a citizen,
         resident, or organized in a jurisdiction or territory that is based in the United States, Canada, the United
         Kingdom or any other jurisdiction that is a Restricted Jurisdiction pursuant to the dydx.trade Terms of Use
-        (<NuxtLink href="https://dydx.trade/terms"
+        (<NuxtLink
+          href="https://dydx.trade/terms"
           class="link"
         >
           https://dydx.trade/terms

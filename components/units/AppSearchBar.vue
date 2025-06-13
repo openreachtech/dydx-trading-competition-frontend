@@ -8,6 +8,13 @@ import {
   Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
 import {
   useDebounce,
 } from '~/composables/useDebounce'
@@ -21,6 +28,7 @@ import AppSearchBarContext, {
 export default defineComponent({
   components: {
     Icon,
+    AppButton,
   },
 
   directives: {
@@ -39,6 +47,12 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false,
+    },
+    filters: {
+      /** @type {import('vue').PropType<Array<import('~/app/vue/contexts/AppSearchBarContext').Filter>>} */
+      type: Array,
+      required: false,
+      default: () => [],
     },
     results: {
       /** @type {import('vue').PropType<Array<*>>} */
@@ -82,6 +96,9 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
     const isOpenResultRef = ref(false)
     const isOpenFilterRef = ref(false)
     const debouncedSearch = useDebounce({
@@ -92,6 +109,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
+      router,
       isOpenResultRef,
       isOpenFilterRef,
       debouncedSearch,
@@ -132,7 +151,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-on-click-outside="() => context.closeResult()"
+  <div
+    v-on-click-outside="() => context.closeResult()"
     class="unit-search"
     :class="context.generateSearchBarClasses()"
     v-bind="$attrs"
@@ -140,12 +160,14 @@ export default defineComponent({
     <div class="input-container">
       <label class="label">
         <slot name="searchIcon">
-          <Icon class="icon"
+          <Icon
+            class="icon"
             name="heroicons:magnifying-glass"
           />
         </slot>
 
-        <input class="input"
+        <input
+          class="input"
           :placeholder="context.placeholder"
           @input="context.debouncedSearch({
             inputEvent: $event,
@@ -154,40 +176,95 @@ export default defineComponent({
         >
       </label>
 
-      <div v-on-click-outside="() => context.closeFilter()"
+      <div
+        v-on-click-outside="() => context.closeFilter()"
         class="unit-filter"
         :class="context.generateFilterClasses()"
       >
-        <button class="button"
+        <button
+          class="button"
           @click.stop="context.toggleFilter()"
         >
-          <Icon name="heroicons:funnel"
+          <Icon
+            name="heroicons:funnel"
             size="1.25rem"
             class="icon"
           />
 
           <span>Filters</span>
 
-          <span class="indicator"
+          <span
+            class="indicator"
+            :class="context.generateFilterIndicatorClasses()"
             aria-hidden="true"
           />
         </button>
 
         <div class="dropdown filter">
-          <slot name="filter" />
+          <slot name="filter">
+            <div class="unit-filters">
+              <div
+                v-for="(filter, filterIndex) of context.filters"
+                :key="filterIndex"
+                class="filter"
+              >
+                <span class="caption">
+                  {{ filter.caption }}
+                </span>
+                <div class="options">
+                  <button
+                    v-for="(option, optionIndex) of filter.options"
+                    :key="optionIndex"
+                    type="button"
+                    class="option"
+                    :class="context.generateFilterOptionClasses({
+                      name: filter.name,
+                      value: option.value,
+                    })"
+                    @click="context.toggleFilterOptionState({
+                      name: filter.name,
+                      value: option.value,
+                    })"
+                  >
+                    {{ option.label }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="actions">
+                <AppButton
+                  type="button"
+                  appearance="outlined"
+                  class="button"
+                  @click="context.clearFilters()"
+                >
+                  Clear
+                </AppButton>
+                <AppButton
+                  type="button"
+                  class="button"
+                  @click="context.closeFilter()"
+                >
+                  Done
+                </AppButton>
+              </div>
+            </div>
+          </slot>
         </div>
       </div>
     </div>
 
     <div class="dropdown results">
-      <slot name="results"
+      <slot
+        name="results"
         :results="context.results"
       />
 
       <div class="empty-container">
         <slot name="emptyResult">
           <div class="unit-empty">
-            <Icon name="heroicons:magnifying-glass"
+            <Icon
+              name="heroicons:magnifying-glass"
               size="5rem"
             />
 
@@ -201,7 +278,8 @@ export default defineComponent({
       <div class="loading-container">
         <slot name="loading">
           <div class="unit-loading">
-            <Icon name="svg-spinners:90-ring-with-bg"
+            <Icon
+              name="svg-spinners:90-ring-with-bg"
               size="1.5rem"
             />
           </div>
@@ -245,6 +323,8 @@ export default defineComponent({
   gap: 1rem;
 
   flex: 1;
+
+  min-width: 0;
 }
 
 .unit-search > .input-container > .label > .icon {
@@ -254,6 +334,8 @@ export default defineComponent({
 .unit-search > .input-container > .label > .input {
   outline-width: 0;
   border-width: 0;
+
+  min-width: 0;
 
   padding-block: 0.625rem;
   padding-inline: 0;
@@ -310,8 +392,8 @@ export default defineComponent({
   background-color: var(--color-background-search-indicator);
 }
 
-.unit-filter:not(.selected) > .button > .indicator {
-  opacity: 0;
+.unit-filter > .button > .indicator.hidden {
+  visibility: hidden;
 }
 
 .unit-filter > .button:hover,
@@ -459,7 +541,11 @@ export default defineComponent({
   top: calc(100% + 0.25rem);
   right: -0.75rem;
 
-  width: 27.5rem;
+  /* TODO: Ad-hoc solution with magic numbers. Please try to do something smarter. */
+  width: min(
+    27.5rem,
+    87vw
+  );
 
   z-index: calc(var(--value-z-index-layer-content) + 2);
 }
@@ -472,6 +558,69 @@ export default defineComponent({
   display: none;
 
   animation: fade-out 150ms var(--transition-timing-base) forwards;
+}
+
+.unit-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.unit-filters > .filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.unit-filters > .filter > .caption {
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-filters > .filter > .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.unit-filters > .filter > .options > .option {
+  border-radius: 0.5rem;
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-default);
+
+  padding-block: 0.4375rem;
+  padding-inline: 0.75rem;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  color: var(--color-text-secondary);
+
+  transition: background-color 250ms var(--transition-timing-base),
+    border-color 250ms var(--transition-timing-base);
+}
+
+.unit-filters > .filter > .options > .option:hover {
+  border-color: var(--color-border-filter-hover);
+}
+
+.unit-filters > .filter > .options > .option.active {
+  background-color: var(--color-background-filter-active);
+}
+
+.unit-filters > .actions {
+  margin-block-start: 1rem;
+
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.unit-filters > .actions > .button {
+  padding-block: 0.75rem;
+  padding-inline: 1.25rem;
 }
 
 @keyframes fade-in {

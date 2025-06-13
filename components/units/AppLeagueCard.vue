@@ -54,7 +54,8 @@ export default defineComponent({
             {{ context.title }}
           </h4>
 
-          <img :src="context.generateImageUrl()"
+          <img
+            :src="context.generateImageUrl()"
             :alt="context.host?.name"
             class="image"
           >
@@ -62,7 +63,8 @@ export default defineComponent({
 
         <div class="unit-status">
           <div>
-            <AppIconBadge :severity="context.generateBadgeSeverity()"
+            <AppIconBadge
+              :severity="context.generateBadgeSeverity()"
               :icon-name="context.generateBadgeIconName()"
             >
               {{ context.generateBadgeDescription() }}
@@ -81,7 +83,8 @@ export default defineComponent({
         </p>
 
         <span class="unit-deposit">
-          <Icon name="heroicons:wallet"
+          <Icon
+            name="heroicons:wallet"
             size="1.125rem"
           />
 
@@ -98,7 +101,8 @@ export default defineComponent({
 
         <span class="unit-participants">
           <span class="figure">
-            <Icon name="heroicons:users"
+            <Icon
+              name="heroicons:users"
               size="1.125rem"
             />
 
@@ -114,7 +118,8 @@ export default defineComponent({
       </div>
     </div>
 
-    <NuxtLink :to="context.generateDestination()"
+    <NuxtLink
+      :to="context.generateDestination()"
       class="link"
     />
   </div>

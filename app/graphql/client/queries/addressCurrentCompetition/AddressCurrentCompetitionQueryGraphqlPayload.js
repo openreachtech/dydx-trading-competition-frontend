@@ -3,7 +3,7 @@ import BaseAppGraphqlPayload from '~/app/graphql/client/BaseAppGraphqlPayload'
 /**
  * AddressCurrentCompetitionQuery graphql payload
  *
- * @extends {BaseAppGraphqlPayload<typeof AddressCurrentCompetitionQueryGraphqlPayload, AddressCurrentCompetitionQueryRequestVariables>}
+ * @extends {BaseAppGraphqlPayload<AddressCurrentCompetitionQueryRequestVariables>}
  */
 export default class AddressCurrentCompetitionQueryGraphqlPayload extends BaseAppGraphqlPayload {
   /** @override */
@@ -23,7 +23,7 @@ export default class AddressCurrentCompetitionQueryGraphqlPayload extends BaseAp
             }
             totalPrize
             minimumDeposit
-            image
+            imageUrl
             schedules {
               category {
                 categoryId

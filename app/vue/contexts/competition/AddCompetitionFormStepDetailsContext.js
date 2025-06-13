@@ -2,6 +2,8 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+const FALLBACK_COMPETITION_IMAGE_URL = '/img/badges/league-badge-placeholder.png'
+
 /**
  * AddCompetitionFormStepDetailsContext
  *
@@ -19,7 +21,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 
     uploadInputShallowRef,
     imageSourceRef,
-    imageIdRef,
+    imageUrlRef,
     statusReactive,
     graphqlClientHash,
   }) {
@@ -30,7 +32,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 
     this.uploadInputShallowRef = uploadInputShallowRef
     this.imageSourceRef = imageSourceRef
-    this.imageIdRef = imageIdRef
+    this.imageUrlRef = imageUrlRef
     this.statusReactive = statusReactive
     this.graphqlClientHash = graphqlClientHash
   }
@@ -48,7 +50,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
     props,
     componentContext,
     uploadInputShallowRef,
-    imageIdRef,
+    imageUrlRef,
     imageSourceRef,
     statusReactive,
     graphqlClientHash,
@@ -58,7 +60,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
         props,
         componentContext,
         uploadInputShallowRef,
-        imageIdRef,
+        imageUrlRef,
         imageSourceRef,
         statusReactive,
         graphqlClientHash,
@@ -73,6 +75,74 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
    */
   get validationMessage () {
     return this.props.validationMessage
+  }
+
+  /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialTitle
+   *
+   * @returns {string | null}
+   */
+  get initialTitle () {
+    return this.initialFormValueHash
+      ?.title
+      ?? null
+  }
+
+  /**
+   * get: initialDescription
+   *
+   * @returns {string | null}
+   */
+  get initialDescription () {
+    return this.initialFormValueHash
+      ?.description
+      ?? null
+  }
+
+  /**
+   * get: initialCompetitionImageUrl
+   *
+   * @returns {string | null}
+   */
+  get initialCompetitionImageUrl () {
+    return this.initialFormValueHash
+      ?.competitionImageUrl
+      ?? null
+  }
+
+  /**
+   * get: imageSource
+   *
+   * @returns {string | null}
+   */
+  get imageSource () {
+    return this.imageSourceRef.value
+  }
+
+  /**
+   * Generate competition image URL.
+   *
+   * @returns {string}
+   */
+  generateCompetitionImageUrl () {
+    if (this.imageSource) {
+      return this.imageSource
+    }
+
+    if (this.initialCompetitionImageUrl) {
+      return this.initialCompetitionImageUrl
+    }
+
+    return FALLBACK_COMPETITION_IMAGE_URL
   }
 
   /**
@@ -94,12 +164,12 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
   }
 
   /**
-   * get: imageId
+   * get: imageUrl
    *
-   * @returns {number | null}
+   * @returns {string | null}
    */
-  get imageId () {
-    return this.uploadImageCapsuleRef.value.imageId
+  get imageUrl () {
+    return this.uploadImageCapsuleRef.value.imageUrl
   }
 
   /**
@@ -155,7 +225,7 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
         return false
       },
       afterRequest: async capsule => {
-        this.imageIdRef.value = capsule.imageId
+        this.imageUrlRef.value = capsule.imageUrl
 
         this.statusReactive.isUploadingImage = false
       },
@@ -165,19 +235,14 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
   /**
    * Revoke the image's object URL after it is loaded.
    *
-   * @param {{
-   *   objectUrl: string
-   * }} params - Parameters.
    * @returns {void}
    */
-  releaseImageObjectUrl ({
-    objectUrl,
-  }) {
-    if (!objectUrl) {
+  releaseImageObjectUrl () {
+    if (!this.imageSource) {
       return
     }
 
-    URL.revokeObjectURL(objectUrl)
+    URL.revokeObjectURL(this.imageSource)
   }
 
   /**
@@ -197,8 +262,8 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   uploadInputShallowRef: import('vue').ShallowRef<HTMLInputElement | null>
- *   imageSourceRef: import('vue').Ref<string>
- *   imageIdRef: import('vue').Ref<number | null>
+ *   imageSourceRef: import('vue').Ref<string | null>
+ *   imageUrlRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  * }} AddCompetitionFormStepDetailsContextParams
@@ -225,5 +290,14 @@ export default class AddCompetitionFormStepDetailsContext extends BaseFuroContex
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: InitialFormValueHash | null
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   title: string | null
+ *   description: string | null
+ *   competitionImageUrl?: string | null
+ * }} InitialFormValueHash
  */

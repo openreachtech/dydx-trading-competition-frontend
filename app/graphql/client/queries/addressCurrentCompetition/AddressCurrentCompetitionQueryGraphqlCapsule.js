@@ -30,6 +30,17 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   }
 
   /**
+   * get: competitionId
+   *
+   * @returns {number | null}
+   */
+  get competitionId () {
+    return this.competition
+      ?.competitionId
+      ?? null
+  }
+
+  /**
    * get: ranking
    *
    * @returns {Ranking}
@@ -52,7 +63,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
 
 /**
  * @typedef {{
- *   competitionId: string
+ *   competitionId: number
  *   title: string
  *   description: string
  *   participantUpperLimit: number
@@ -63,7 +74,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
  *   }
  *   totalPrize: string
  *   minimumDeposit: string
- *   image?: string
+ *   imageUrl?: string
  *   schedules: Array<{
  *     category: {
  *       categoryId: number

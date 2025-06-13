@@ -57,7 +57,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-message"
+  <span
+    class="unit-message"
     :class="context.generateErrorMessageClasses()"
   >
     <slot />

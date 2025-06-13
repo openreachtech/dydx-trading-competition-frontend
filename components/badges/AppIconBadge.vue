@@ -50,7 +50,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppBadge v-bind="context.props"
+  <AppBadge
+    v-bind="context.props"
     :class="{
       'show-icon': context.shouldShowIcon(),
     }"
@@ -59,7 +60,8 @@ export default defineComponent({
       <span class="indicator">
         <span class="dot" />
 
-        <Icon :name="context.props.iconName"
+        <Icon
+          :name="context.props.iconName"
           :size="context.props.iconSize"
         />
       </span>

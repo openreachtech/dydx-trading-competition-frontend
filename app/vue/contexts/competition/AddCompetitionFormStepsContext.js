@@ -9,7 +9,7 @@ import {
 /**
  * AddCompetitionFormStepsContext
  *
- * @extends {BaseFuroContext<(typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
+ * @extends {BaseFuroContext<null, PropsType, (typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
  */
 export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /** @override */
@@ -18,9 +18,18 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   }
 
   /**
+   * get: steps
+   *
+   * @returns {PropsType['steps']}
+   */
+  get steps () {
+    return this.props.steps
+  }
+
+  /**
    * get: currentStep
    *
-   * @returns {number}
+   * @returns {PropsType['currentStep']}
    */
   get currentStep () {
     return this.props.currentStep
@@ -29,7 +38,7 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   /**
    * get: errorMessageHash
    *
-   * @returns {Record<string, string | null>}
+   * @returns {PropsType['errorMessageHash']}
    */
   get errorMessageHash () {
     return this.props.errorMessageHash
@@ -41,7 +50,9 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
    * @returns {string | null}
    */
   get addCompetitionErrorMessage () {
-    return this.errorMessageHash.addCompetition
+    return this.errorMessageHash
+      ?.addCompetition
+      ?? null
   }
 
   /**
@@ -75,61 +86,6 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
   }
 
   /**
-   * Check if is last step.
-   *
-   * @returns {boolean} `true` if the current step is the last step.
-   */
-  isLastStep () {
-    return this.currentStep === this.generateSteps().length
-  }
-
-  /**
-   * Go to next step.
-   *
-   * @param {{
-   *   mouseEvent: MouseEvent
-   * }} params - Parameters.
-   * @returns {void}
-   */
-  nextStep ({
-    mouseEvent,
-  }) {
-    if (this.isLastStep()) {
-      return
-    }
-
-    // Prevent default event before last step because `this.generateActionButtonType()`
-    // runs before the the event is invoked, which causes the form to submit before last step.
-    mouseEvent.preventDefault()
-
-    this.goToStep({
-      step: this.currentStep + 1,
-    })
-  }
-
-  /**
-   * Generate action button label.
-   *
-   * @returns {string}
-   */
-  generateActionButtonLabel () {
-    return this.isLastStep()
-      ? 'Host New League'
-      : 'Next'
-  }
-
-  /**
-   * Generate action button type.
-   *
-   * @returns {'submit' | 'button'}
-   */
-  generateActionButtonType () {
-    return this.isLastStep()
-      ? 'submit'
-      : 'button'
-  }
-
-  /**
    * Generate aria-current.
    *
    * @param {{
@@ -148,32 +104,6 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
       ? 'step'
       : 'false'
   }
-
-  /**
-   * Generate steps.
-   *
-   * @returns {Array<Step>}
-   */
-  generateSteps () {
-    return [
-      {
-        step: 1,
-        title: 'Details',
-      },
-      {
-        step: 2,
-        title: 'Timeline',
-      },
-      {
-        step: 3,
-        title: 'Participation',
-      },
-      {
-        step: 4,
-        title: 'Rank & Prize',
-      },
-    ]
-  }
 }
 
 /**
@@ -181,4 +111,12 @@ export default class AddCompetitionFormStepsContext extends BaseFuroContext {
  *   step: number
  *   title: string
  * }} Step
+ */
+
+/**
+ * @typedef {{
+ *   steps: Array<import('~/app/vue/contexts/AddCompetitionPageContext').Step>
+ *   currentStep: number
+ *   errorMessageHash: Record<string, string | null> | null
+ * }} PropsType
  */

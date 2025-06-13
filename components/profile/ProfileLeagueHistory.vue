@@ -57,17 +57,20 @@ export default defineComponent({
 
 <template>
   <div class="unit-container">
-    <AppTable :header-entries="context.tableHeaderEntries"
+    <AppTable
+      :header-entries="context.tableHeaderEntries"
       :entries="context.generateTableEntries()"
       min-width="45rem"
     >
       <template #body-title="{ value, row }">
-        <NuxtLink class="unit-title"
+        <NuxtLink
+          class="unit-title"
           :to="context.generateCompetitionUrl({
             competitionId: row.competitionId,
           })"
         >
-          <img :src="row.image"
+          <img
+            :src="row.imageUrl"
             :alt="value"
             class="image"
           >
@@ -119,9 +122,10 @@ export default defineComponent({
       </template>
 
       <template #body-status="{ value }">
-        <AppIconBadge :severity="context.generateStatusSeverity({
-                        statusId: value.statusId,
-                      })"
+        <AppIconBadge
+          :severity="context.generateStatusSeverity({
+            statusId: value.statusId,
+          })"
           :icon-name="context.generateStatusIconName({
             statusId: value.statusId,
           })"
@@ -135,7 +139,8 @@ export default defineComponent({
       </template>
     </AppTable>
 
-    <AppPagination class="pagination"
+    <AppPagination
+      class="pagination"
       page-key="leaguePage"
       :pagination="context.paginationResult"
     />

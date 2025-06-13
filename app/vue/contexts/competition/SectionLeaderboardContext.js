@@ -92,6 +92,91 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {PropsType['outcomeCsvUrl']}
+   */
+  get outcomeCsvUrl () {
+    return this.props.outcomeCsvUrl
+  }
+
+  /**
+   * Download outcome CSV.
+   *
+   * @returns {Promise<void>}
+   */
+  async downloadOutcomeCsv () {
+    if (this.outcomeCsvUrl === null) {
+      return
+    }
+
+    const response = await fetch(this.outcomeCsvUrl)
+    const fileBlob = await response.blob()
+    const blobURL = URL.createObjectURL(fileBlob)
+
+    const link = document.createElement('a')
+
+    const filename = this.extractOutcomeCsvFilename({
+      response,
+    })
+
+    link.href = blobURL
+    link.download = filename
+
+    link.click()
+
+    URL.revokeObjectURL(blobURL)
+  }
+
+  /**
+   * Extract outcome CSV filename.
+   *
+   * @param {{
+   *   response: Response
+   * }} params - Parameters.
+   * @returns {string} Filename.
+   */
+  extractOutcomeCsvFilename ({
+    response,
+  }) {
+    const fallbackFilename = 'outcome.csv'
+
+    const contentDisposition = response.headers.get('Content-Disposition')
+    if (!contentDisposition) {
+      return fallbackFilename
+    }
+
+    // Extract filename from Content-Disposition header
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/ui
+    const matchedFilenames = contentDisposition.match(filenameRegex)
+
+    if (!matchedFilenames) {
+      return fallbackFilename
+    }
+
+    // Index 0 is the full match, index 1 is the filename.
+    const firstMatchedFilename = matchedFilenames.at(1)
+
+    return firstMatchedFilename
+      ? firstMatchedFilename.replace(/['"]/ug, '')
+      : fallbackFilename
+  }
+
+  /**
+   * Normalize status name.
+   *
+   * @param {{
+   *   statusName: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  normalizeStatusName ({
+    statusName,
+  }) {
+    return statusName.replaceAll('_', ' ')
+  }
+
+  /**
    * Generate section heading.
    *
    * @returns {string | null}
@@ -373,5 +458,6 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
+ *   outcomeCsvUrl: string | null
  * }} PropsType
  */

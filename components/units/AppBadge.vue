@@ -27,7 +27,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <span class="unit-badge"
+  <span
+    class="unit-badge"
     :class="[
       context.props.severity,
     ]"

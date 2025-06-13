@@ -12,6 +12,7 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
       query CompetitionParticipantsQuery ($input: CompetitionParticipantsInput!) {
         competitionParticipants (input: $input) {
           participants {
+            competitionParticipantId
             address {
               address
               name
@@ -21,6 +22,7 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
               name
               phasedAt
             }
+            equity
           }
           pagination {
             totalCount

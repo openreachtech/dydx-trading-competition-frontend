@@ -97,17 +97,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <AppTooltip :message="context.tooltipMessage"
+  <AppTooltip
+    :message="context.tooltipMessage"
     :active-message="context.tooltipActiveMessage"
     :is-active="context.isDisplayingTooltip"
   >
     <template #contents>
-      <button class="button"
+      <button
+        class="button"
         v-bind="$attrs"
         @click="context.copyContent()"
       >
         <slot>
-          <Icon :name="context.iconName"
+          <Icon
+            :name="context.iconName"
             :size="context.iconSize"
           />
         </slot>

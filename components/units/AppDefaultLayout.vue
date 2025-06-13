@@ -41,7 +41,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div ref="rootElementRef"
+  <div
+    ref="rootElementRef"
     class="unit-body"
   >
     <header class="header">
@@ -50,11 +51,13 @@ export default defineComponent({
 
         <AppOnboardingControl />
 
-        <button class="button toggle-navigation"
+        <button
+          class="button toggle-navigation"
           @click="context.clickToggleSearchPanel()"
         >
           <slot name="toggle-menu">
-            <Icon name="heroicons-outline:bars-3"
+            <Icon
+              name="heroicons-outline:bars-3"
               size="1.5rem"
             />
           </slot>
@@ -62,7 +65,8 @@ export default defineComponent({
       </div>
     </header>
 
-    <div class="backdrop"
+    <div
+      class="backdrop"
       @click="context.handleBackdropClick()"
     />
 
@@ -70,10 +74,12 @@ export default defineComponent({
       <div class="header">
         <slot name="nav-header" />
 
-        <button class="button close"
+        <button
+          class="button close"
           @click="context.closeNavigation()"
         >
-          <Icon name="heroicons-outline:x-mark"
+          <Icon
+            name="heroicons-outline:x-mark"
             size="1.5rem"
           />
         </button>
@@ -86,10 +92,12 @@ export default defineComponent({
       <div class="header">
         <slot name="search-header" />
 
-        <button class="button close"
+        <button
+          class="button close"
           @click="context.closeSearchPanel()"
         >
-          <Icon name="heroicons-outline:x-mark"
+          <Icon
+            name="heroicons-outline:x-mark"
             size="1.5rem"
           />
         </button>

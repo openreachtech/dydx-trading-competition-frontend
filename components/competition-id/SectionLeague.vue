@@ -10,6 +10,7 @@ import {
   NuxtLink,
 } from '#components'
 
+import AppBadge from '~/components/units/AppBadge.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
@@ -31,6 +32,7 @@ export default defineComponent({
   components: {
     Icon,
     NuxtLink,
+    AppBadge,
     AppIconBadge,
     AppButton,
     AppLeagueCountdown,
@@ -55,6 +57,13 @@ export default defineComponent({
       ],
       required: true,
     },
+    competitionId: {
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,
@@ -67,6 +76,10 @@ export default defineComponent({
         Number,
         null,
       ],
+      required: true,
+    },
+    isHostOfCompetition: {
+      type: Boolean,
       required: true,
     },
     isCompetitionFull: {
@@ -115,13 +128,16 @@ export default defineComponent({
     <OnboardingDialogs ref="onboardingDialogsComponentRef" />
 
     <div class="inner">
-      <div class="unit-details"
+      <div
+        class="unit-details"
         :class="context.generateLeagueDetailClasses()"
       >
-        <NuxtLink to="/competitions"
+        <NuxtLink
+          to="/competitions"
           class="link back"
         >
-          <Icon name="heroicons:chevron-left"
+          <Icon
+            name="heroicons:chevron-left"
             size="1.5rem"
             class="icon"
           />
@@ -133,15 +149,28 @@ export default defineComponent({
         </h2>
 
         <div class="unit-status">
-          <AppIconBadge :severity="context.generateBadgeSeverity()"
+          <AppIconBadge
+            :severity="context.generateBadgeSeverity()"
             :icon-name="context.generateBadgeIconName()"
           >
             {{ context.generateBadgeDescription() }}
           </AppIconBadge>
 
+          <AppBadge
+            severity="neutral"
+            class="badge host"
+            :class="context.generateHostBadgeClasses()"
+          >
+            <Icon
+              name="ph:crown-simple"
+              size="1.25rem"
+            />
+          </AppBadge>
+
           <div class="timeline">
             <span class="period">
-              <Icon name="heroicons:rocket-launch-solid"
+              <Icon
+                name="heroicons:rocket-launch-solid"
                 size="1.25rem"
               />
               <span class="timestamp">
@@ -152,7 +181,8 @@ export default defineComponent({
             <span class="period">
               <span class="connector" />
 
-              <Icon name="heroicons:flag-solid"
+              <Icon
+                name="heroicons:flag-solid"
                 size="1.25rem"
               />
               <span class="timestamp">
@@ -165,7 +195,8 @@ export default defineComponent({
         <p class="description">
           <span>
             {{ context.normalizeDescription() }}
-          </span> <button class="button"
+          </span> <button
+            class="button"
             @click="context.toggleDescriptionExpansion()"
           >
             {{ context.generateDescriptionExpansionButtonLabel() }}
@@ -173,7 +204,8 @@ export default defineComponent({
         </p>
 
         <span class="balance">
-          <Icon name="heroicons:wallet"
+          <Icon
+            name="heroicons:wallet"
             class="icon"
             size="1.125rem"
           />
@@ -182,19 +214,22 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton class="button enroll"
+          <AppButton
+            class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
             @click="context.initiateActionDialog()"
           >
             <template #startIcon>
-              <Icon name="heroicons:check-circle"
+              <Icon
+                name="heroicons:check-circle"
                 size="1.25rem"
                 class="icon enrolled"
               />
 
-              <Icon name="heroicons:user-minus"
+              <Icon
+                name="heroicons:user-minus"
                 size="1.25rem"
                 class="icon unregister"
               />
@@ -211,7 +246,8 @@ export default defineComponent({
           </AppButton>
 
           <span class="unit-participants">
-            <Icon name="heroicons:users"
+            <Icon
+              name="heroicons:users"
               size="1.125rem"
             />
             <span class="amount">
@@ -221,19 +257,32 @@ export default defineComponent({
           </span>
         </div>
 
-        <AppLeagueCountdown class="note"
+        <AppLeagueCountdown
+          class="note"
           :schedules="context.schedules"
         />
       </div>
 
       <div class="unit-meta">
         <div class="actions">
-          <img :src="context.generateImageUrl()"
+          <img
+            :src="context.generateImageUrl()"
             :alt="context.generateHostName()"
             class="image"
           >
 
           <div class="buttons">
+            <NuxtLink
+              :to="context.generateCompetitionEditUrl()"
+              class="link edit"
+              :class="context.generateCompetitionEditButtonClasses()"
+            >
+              <Icon
+                name="heroicons:pencil-square"
+                size="1.25rem"
+              />
+            </NuxtLink>
+
             <!-- TODO: Implement share feature. -->
             <!-- <button class="button">
               <Icon name="heroicons:share"
@@ -241,7 +290,8 @@ export default defineComponent({
               />
             </button> -->
 
-            <CopyButton :content-to-copy="context.generateCompetitionUrl()"
+            <CopyButton
+              :content-to-copy="context.generateCompetitionUrl()"
               icon-name="heroicons:link"
               icon-size="1.25rem"
             />
@@ -256,12 +306,14 @@ export default defineComponent({
 
             <dd class="details host">
               <span class="user">
-                <Icon name="heroicons:user-circle"
+                <Icon
+                  name="heroicons:user-circle"
                   size="1.25rem"
                   class="icon"
                 />
 
-                <NuxtLink class="name"
+                <NuxtLink
+                  class="name"
                   :to="context.generateProfileUrl()"
                 >
                   {{ context.generateHostName() }}
@@ -277,7 +329,8 @@ export default defineComponent({
 
                 <CopyButton :content-to-copy="context.hostAddress" />
 
-                <LinkTooltipButton :href="context.generateHostAddressUrl()"
+                <LinkTooltipButton
+                  :href="context.generateHostAddressUrl()"
                   target="_blank"
                   rel="noopener noreferrer"
                   tooltip-message="View on Mintscan"
@@ -292,7 +345,8 @@ export default defineComponent({
             </dt>
 
             <dd class="details participant">
-              <Icon name="heroicons:user"
+              <Icon
+                name="heroicons:user"
                 size="1.25rem"
                 class="icon"
               />
@@ -311,7 +365,8 @@ export default defineComponent({
             </dt>
             <dd class="details prize">
               <span class="amount">
-                <img src="~/assets/img/tokens/usdc.svg"
+                <img
+                  src="~/assets/img/tokens/usdc.svg"
                   alt="usdc"
                   class="image"
                 >
@@ -416,6 +471,17 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 1.125rem;
+}
+
+.unit-status > .badge.host {
+  padding-block: 0.125rem;
+  padding-inline: 0.5rem;
+
+  align-self: stretch;
+}
+
+.unit-status > .badge.host.hidden {
+  display: none;
 }
 
 .unit-status > .timeline {
@@ -611,6 +677,7 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
@@ -628,6 +695,24 @@ export default defineComponent({
 
 .unit-meta > .actions > .buttons > .button:hover {
   color: var(--color-text-secondary);
+}
+
+.unit-meta > .actions > .buttons > .link.edit {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--color-text-button-highlight);
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-meta > .actions > .buttons > .link.edit:hover {
+  color: var(--color-text-button-highlight-hover);
+}
+
+.unit-meta > .actions > .buttons > .link.edit.hidden {
+  display: none;
 }
 
 .unit-statistics {

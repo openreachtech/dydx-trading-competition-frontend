@@ -1,6 +1,6 @@
 import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   BaseFuroContext,
@@ -208,22 +208,9 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
    */
   generateTableEntries () {
     return this.transfers.map(it => ({
-      time: {
-        date: this.generateDate({
-          dateString: it.blockTime,
-        }),
-        hour: this.generateHour({
-          dateString: it.blockTime,
-        }),
-      },
+      time: it.blockTime,
       categoryId: it.category.categoryId,
       participant: {
-        classes: this.generateParticipantClasses({
-          categoryId: it.category.categoryId,
-        }),
-        iconName: this.generateParticipantIconName({
-          categoryId: it.category.categoryId,
-        }),
         address: this.generateParticipantAddress({
           categoryId: it.category.categoryId,
           address: {
@@ -234,6 +221,7 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
       },
       amount: it.amount,
       hash: it.transactionHash,
+      blockHeight: it.blockHeight,
     }))
   }
 
@@ -312,9 +300,8 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
     })
     const addressType = addressTypeHash[categoryId] ?? 'senderAddress'
 
-    return this.shortenAddress({
-      address: address[addressType] ?? '----',
-    })
+    return address[addressType]
+      ?? '----'
   }
 
   /**
@@ -380,6 +367,38 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
 
     return formatter.format(date)
   }
+
+  /**
+   * Generate transaction hash URL.
+   *
+   * @param {{
+   *   transactionHash: string
+   *   blockHeight: number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateTransactionHashUrl ({
+    transactionHash,
+    blockHeight,
+  }) {
+    return `https://www.mintscan.io/dydx/tx/${transactionHash}?height=${blockHeight}`
+  }
+
+  /**
+   * Generate row tooltip position.
+   *
+   * @param {{
+   *   index: number
+   * }} params - Parameters.
+   * @returns {'top-start' | 'bottom-start'}
+   */
+  generateRowTooltipPosition ({
+    index,
+  }) {
+    return index === 0
+      ? 'bottom-start'
+      : 'top-start'
+  }
 }
 
 /**
@@ -427,17 +446,13 @@ export default class ProfileTransferHistoryContext extends BaseFuroContext {
 
 /**
  * @typedef {{
- *   time: {
- *     date: string
- *     hour: string
- *   }
+ *   time: string
  *   categoryId: number
  *   participant: {
- *     classes: Array<string | Record<string, boolean>>
- *     iconName: string
  *     address: string
  *   }
  *   amount: string
  *   hash: string
+ *   blockHeight: number
  * }} TableEntry
  */

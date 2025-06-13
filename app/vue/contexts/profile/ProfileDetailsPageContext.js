@@ -1,6 +1,12 @@
 import {
+  onMounted,
+} from 'vue'
+import {
+  useHead,
+} from '@unhead/vue'
+import {
   useRoute,
-} from '#imports'
+} from 'vue-router'
 
 import {
   BaseFuroContext,
@@ -10,6 +16,7 @@ import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
 import {
   BASE_INDEXER_URL,
+  BASE_PAGE_TITLE,
 } from '~/app/constants'
 
 /**
@@ -78,6 +85,31 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: profileTabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  get profileTabs () {
+    return [
+      {
+        tabKey: 'overview',
+        label: 'Overview',
+      },
+      {
+        tabKey: 'transfers',
+        label: 'Transfer History',
+      },
+      {
+        tabKey: 'past-competitions',
+        label: 'League History',
+      },
+    ]
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends ProfileDetailsContext ? X : never} T, X
@@ -85,14 +117,30 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    * @this {T}
    */
   setupComponent () {
-    this.graphqlClientHash.addressCurrentCompetition
-      .invokeRequestOnMounted({
-        variables: {
-          input: {
-            address: this.route.params.address,
+    onMounted(async () => {
+      await this.graphqlClientHash.addressCurrentCompetition
+        .invokeRequestOnEvent({
+          variables: {
+            input: {
+              address: this.route.params.address,
+            },
           },
-        },
-      })
+        })
+
+      if (this.currentCompetitionId === null) {
+        return
+      }
+
+      await this.graphqlClientHash.competitionParticipant
+        .invokeRequestOnEvent({
+          variables: {
+            input: {
+              competitionId: this.currentCompetitionId,
+              address: this.route.params.address,
+            },
+          },
+        })
+    })
 
     this.graphqlClientHash.addressName
       .invokeRequestOnMounted({
@@ -121,6 +169,19 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       },
       {
         immediate: true,
+      }
+    )
+
+    this.watch(
+      () => this.addressName,
+      () => {
+        if (this.addressName === null) {
+          return
+        }
+
+        useHead({
+          title: `${this.addressName} (Profile) - ${BASE_PAGE_TITLE}`,
+        })
       }
     )
 
@@ -247,6 +308,27 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: competitionParticipantCapsule
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlCapsule').default}
+   */
+  get competitionParticipantCapsule () {
+    return this.graphqlClientHash
+      .competitionParticipant
+      .capsuleRef
+      .value
+  }
+
+  /**
+   * get: competitionParticipantStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionParticipantStatusId () {
+    return this.competitionParticipantCapsule.statusId
+  }
+
+  /**
    * get: addressNameCapsuleRef
    *
    * @returns {AddressNameCapsuleRef} Capsule ref.
@@ -339,6 +421,16 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: currentCompetitionId
+   *
+   * @returns {number | null}
+   */
+  get currentCompetitionId () {
+    return this.addressCurrentCompetitionCapsuleRef.value
+      .competitionId
+  }
+
+  /**
    * get: currentRanking
    *
    * @returns {import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').Ranking} Current ranking.
@@ -424,6 +516,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 /**
  * @typedef {'addressCurrentCompetition'
  *   | 'addressName'
+ *   | 'competitionParticipant'
  * } GraphqlClientHashKeys
  */
 

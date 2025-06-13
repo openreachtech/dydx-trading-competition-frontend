@@ -115,12 +115,72 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
   }
 
   /**
+   * Setup component.
+   *
+   * @template {X extends AddCompetitionFormStepPrizeContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.watch(
+      // This array always starts empty. We only invoke one-time watcher if it is no longer empty.
+      () => this.initialPrizeRules.length,
+      () => {
+        this.syncInitialPrizeRules()
+      },
+      {
+        once: true,
+      }
+    )
+
+    return this
+  }
+
+  /**
    * get: validationMessage
    *
    * @returns {PropsType['validationMessage']}
    */
   get validationMessage () {
     return this.props.validationMessage
+  }
+
+  /**
+   * get: initialFormValueHash
+   *
+   * @returns {PropsType['initialFormValueHash']}
+   */
+  get initialFormValueHash () {
+    return this.props.initialFormValueHash
+  }
+
+  /**
+   * get: initialPrizeRules
+   *
+   * @returns {Array<PrizeRule>}
+   */
+  get initialPrizeRules () {
+    return this.initialFormValueHash
+      ?.prizeRules
+      ?? []
+  }
+
+  /**
+   * get: shouldOmitTotalPrize
+   *
+   * @returns {PropsType['shouldOmitTotalPrize']}
+   */
+  get shouldOmitTotalPrize () {
+    return this.props.shouldOmitTotalPrize
+  }
+
+  /**
+   * Sync initial prize rules when prop changes.
+   *
+   * @returns {void}
+   */
+  syncInitialPrizeRules () {
+    this.prizeRulesRef.value = this.initialPrizeRules
   }
 
   /**
@@ -284,5 +344,13 @@ export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext 
 /**
  * @typedef {{
  *   validationMessage: furo.ValidatorHashType['message']
+ *   initialFormValueHash: InitialFormValueHash | null
+ *   shouldOmitTotalPrize: boolean
  * }} PropsType
+ */
+
+/**
+ * @typedef {{
+ *   prizeRules: Array<PrizeRule>
+ * }} InitialFormValueHash
  */

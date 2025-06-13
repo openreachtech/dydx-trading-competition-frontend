@@ -5,8 +5,10 @@ import {
 
 import {
   NuxtLink,
+  Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
@@ -17,6 +19,8 @@ import SectionLeaderboardContext from '~/app/vue/contexts/competition/SectionLea
 export default defineComponent({
   components: {
     NuxtLink,
+    Icon,
+    AppButton,
     AppTable,
     AppPagination,
     TopRankingCard,
@@ -78,6 +82,14 @@ export default defineComponent({
       ],
       required: true,
     },
+    outcomeCsvUrl: {
+      type: [
+        String,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   setup (
@@ -101,20 +113,24 @@ export default defineComponent({
 <template>
   <section class="unit-section">
     <div class="inner">
-      <h2 class="heading"
+      <h2
+        class="heading"
         :class="context.generateSectionHeadingClasses()"
       >
         {{ context.generateSectionHeading() }}
       </h2>
 
-      <div class="unit-champions"
+      <div
+        class="unit-champions"
         :class="context.generateTopRankerClasses()"
       >
-        <div v-for="(it, index) of context.generateTopThree()"
+        <div
+          v-for="(it, index) of context.generateTopThree()"
           :key="index"
           class="champion"
         >
-          <TopRankingCard :rank-details="it"
+          <TopRankingCard
+            :rank-details="it"
             :should-hide-prize="!context.hasFinishedCompetition()"
             class="card"
           />
@@ -123,20 +139,23 @@ export default defineComponent({
         </div>
       </div>
 
-      <span class="note"
+      <span
+        class="note"
         :class="context.generateLastUpdateNoteClasses()"
       >
         {{ context.formatLastLeaderboardUpdateTimestamp() }}
       </span>
 
-      <AppTable :header-entries="context.leaderboardTableHeaderEntries"
+      <AppTable
+        :header-entries="context.leaderboardTableHeaderEntries"
         :entries="context.leaderboardTableEntries"
         :is-loading="context.isLoadingLeaderboard"
         class="table"
       >
         <!-- ** Competition participants list ** -->
         <template #body-participantName="{ value, row }">
-          <NuxtLink class="unit-name participant"
+          <NuxtLink
+            class="unit-name participant"
             :to="context.generateProfileUrl({
               address: row.participantAddress,
             })"
@@ -149,7 +168,8 @@ export default defineComponent({
           <span class="unit-address participant">
             <span>{{ value }}</span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -159,13 +179,24 @@ export default defineComponent({
           </span>
         </template>
 
+        <template #body-participantEquity="{ value, row }">
+          <span class="unit-column equity">
+            {{ value }}
+          </span>
+        </template>
+
         <template #body-participantStatus="{ value }">
-          <span class="unit-status participant"
+          <span
+            class="unit-status participant"
             :class="context.generateParticipantStatusClasses({
               statusId: value.statusId,
             })"
           >
-            {{ value.name }}
+            {{
+              context.normalizeStatusName({
+                statusName: value.name,
+              })
+            }}
           </span>
         </template>
 
@@ -177,7 +208,8 @@ export default defineComponent({
         </template>
 
         <template #body-ongoingName="{ value, row }">
-          <NuxtLink class="unit-name ongoing"
+          <NuxtLink
+            class="unit-name ongoing"
             :to="context.generateProfileUrl({
               address: row.ongoingAddress,
             })"
@@ -196,7 +228,8 @@ export default defineComponent({
               }}
             </span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -244,7 +277,8 @@ export default defineComponent({
         </template>
 
         <template #body-outcomeName="{ value, row }">
-          <NuxtLink class="unit-name outcome"
+          <NuxtLink
+            class="unit-name outcome"
             :to="context.generateProfileUrl({
               address: row.outcomeAddress,
             })"
@@ -263,7 +297,8 @@ export default defineComponent({
               }}
             </span>
 
-            <LinkTooltipButton tooltip-message="View on Mintscan"
+            <LinkTooltipButton
+              tooltip-message="View on Mintscan"
               :href="context.generateAddressUrl({
                 address: value,
               })"
@@ -310,10 +345,34 @@ export default defineComponent({
         </template>
       </AppTable>
 
-      <AppPagination class="pagination"
-        page-key="leaderboardPage"
-        :pagination="context.leaderboardPaginationResult"
-      />
+      <div class="unit-footer">
+        <div class="empty" />
+
+        <AppPagination
+          class="pagination"
+          page-key="leaderboardPage"
+          :pagination="context.leaderboardPaginationResult"
+        />
+
+        <AppButton
+          variant="neutral"
+          class="button download-result"
+          :class="{
+            hidden: !context.outcomeCsvUrl,
+          }"
+          @click="context.downloadOutcomeCsv()"
+        >
+          <template #startIcon>
+            <Icon
+              name="heroicons:arrow-down-tray"
+              size="1rem"
+            />
+          </template>
+          <template #default>
+            Download full result
+          </template>
+        </AppButton>
+      </div>
     </div>
   </section>
 </template>
@@ -325,18 +384,22 @@ export default defineComponent({
 
   padding-block: 4rem 2.5rem;
 
+  background-image:
+    url('~/assets/img/backgrounds/league-leaderboard.png'),
+    url('~/assets/img/backgrounds/stars.png');
+  background-repeat:
+    no-repeat,
+    no-repeat;
+  background-position:
+    110%,
+    top;
+
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
   }
 
   @media (48rem < width) {
     padding-block: 5rem 3.5rem;
-  }
-
-  @media (60rem < width) {
-    background-image: url('~/assets/img/backgrounds/league-leaderboard.png');
-    background-repeat: no-repeat;
-    background-position: 110%;
   }
 }
 
@@ -400,8 +463,37 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-section > .inner > .pagination {
+.unit-footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1.75rem;
+  column-gap: 1rem;
+
   margin-block-start: 1.25rem;
+
+  @media (48rem < width) {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+.unit-footer > .empty {
+  display: none;
+
+  @media (48rem < width) {
+    display: block;
+  }
+}
+
+.unit-footer > .button.download-result {
+  justify-self: center;
+
+  @media (48rem < width) {
+    justify-self: end;
+  }
+}
+
+.unit-footer > .button.download-result.hidden {
+  display: none;
 }
 
 /***************** Top 3 rankers ****************/
