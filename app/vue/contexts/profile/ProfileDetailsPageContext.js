@@ -85,6 +85,31 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: profileTabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  get profileTabs () {
+    return [
+      {
+        tabKey: 'overview',
+        label: 'Overview',
+      },
+      {
+        tabKey: 'transfers',
+        label: 'Transfer History',
+      },
+      {
+        tabKey: 'past-competitions',
+        label: 'League History',
+      },
+    ]
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends ProfileDetailsContext ? X : never} T, X
