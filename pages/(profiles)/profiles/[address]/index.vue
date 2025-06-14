@@ -8,10 +8,11 @@ import {
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
-import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
+import ProfileOrders from '~/components/profile/ProfileOrders.vue'
 
 import {
   useGraphqlClient,
@@ -38,6 +39,7 @@ export default defineComponent({
     ProfileTransferHistory,
     ProfileLeagueHistory,
     ProfileFinancialOverview,
+    ProfileOrders,
   },
 
   setup (
@@ -142,6 +144,8 @@ export default defineComponent({
         <ProfileTransferHistory />
 
         <ProfileLeagueHistory />
+
+        <ProfileOrders />
       </template>
     </AppTabLayout>
 

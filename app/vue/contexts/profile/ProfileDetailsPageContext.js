@@ -106,6 +106,10 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         tabKey: 'past-competitions',
         label: 'League History',
       },
+      {
+        tabKey: 'orders',
+        label: 'Orders',
+      },
     ]
   }
 
