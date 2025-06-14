@@ -37,6 +37,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     route,
     graphqlClientHash,
     profileOverviewRef,
+    profileOrdersRef,
     errorMessageRef,
     statusReactive,
   }) {
@@ -48,6 +49,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     this.route = route
     this.graphqlClientHash = graphqlClientHash
     this.profileOverviewRef = profileOverviewRef
+    this.profileOrdersRef = profileOrdersRef
     this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
   }
@@ -66,6 +68,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     componentContext,
     graphqlClientHash,
     profileOverviewRef,
+    profileOrdersRef,
     errorMessageRef,
     statusReactive,
   }) {
@@ -78,6 +81,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         route,
         graphqlClientHash,
         profileOverviewRef,
+        profileOrdersRef,
         errorMessageRef,
         statusReactive,
       })
@@ -167,9 +171,14 @@ export default class ProfileDetailsContext extends BaseFuroContext {
           return
         }
 
-        await this.fetchProfileOverview({
-          address,
-        })
+        await Promise.allSettled([
+          this.fetchProfileOverview({
+            address,
+          }),
+          this.fetchProfileOrders({
+            address,
+          }),
+        ])
       },
       {
         immediate: true,
@@ -250,6 +259,56 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       })
     } finally {
       this.statusReactive.isLoadingProfileOverview = false
+    }
+  }
+
+  /**
+   * Fetch profile orders.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {Promise<void>}
+   */
+  async fetchProfileOrders ({
+    address,
+  }) {
+    if (!address) {
+      return
+    }
+
+    try {
+      this.statusReactive.isLoadingProfileOrders = true
+
+      const headers = {
+        accept: 'application/json',
+      }
+      const searchParams = new URLSearchParams({
+        address,
+        parentSubaccountNumber: '0',
+        status: 'OPEN,UNTRIGGERED',
+      })
+      const resourceUrl = `${BASE_INDEXER_URL}/orders/parentSubaccountNumber?${searchParams.toString()}`
+
+      const response = await fetch(resourceUrl, {
+        method: 'GET',
+        headers,
+      })
+
+      if (!response.ok) {
+        throw new Error('Oops! Something went wrong. Reloading the page might help.')
+      }
+
+      const profileOrders = await response.json()
+
+      this.profileOrdersRef.value = profileOrders
+    } catch (error) {
+      // TODO: Error for this API should be displayed independently.
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isLoadingProfileOrders = false
     }
   }
 
@@ -357,6 +416,15 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    */
   get profileOverview () {
     return this.profileOverviewRef.value
+  }
+
+  /**
+   * get: profileOrders
+   *
+   * @returns {Array<ProfileOrder>}
+   */
+  get profileOrders () {
+    return this.profileOrdersRef.value
   }
 
   /**
@@ -507,6 +575,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
+ *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
  *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  *   route: ReturnType<typeof useRoute>
@@ -537,6 +606,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   isLoading: boolean
  *   isFetchingName: boolean
  *   isLoadingProfileOverview: boolean
+ *   isLoadingProfileOrders: boolean
  * }} StatusReactive
  */
 
@@ -600,4 +670,34 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *     }>
  *   }
  * }} ProfileOverview - Result gotten from the indexer.
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#listordersforparentsubaccount}
+ *
+ * @typedef {{
+ *   id: string
+ *   subaccountId: string
+ *   clientId: string
+ *   clobPairId: string
+ *   side: 'BUY' | 'SELL'
+ *   size: string
+ *   totalFilled: string
+ *   price: string
+ *   type: 'LIMIT' | 'MARKET' | 'STOP_LIMIT' | 'STOP_MARKET' | 'TRAILING_STOP' | 'TAKE_PROFIT' | 'TAKE_PROFIT_MARKET'
+ *   reduceOnly: boolean
+ *   orderFlags: string
+ *   goodTilBlock?: string
+ *   goodTilBlockTime?: string
+ *   createdAtHeight?: string
+ *   clientMetadata: string
+ *   triggerPrice?: string
+ *   timeInForce: 'GTT' | 'FOK' | 'IOC'
+ *   status: 'OPEN' | 'UNTRIGGERED' // We only filter for these statuses.
+ *   postOnly: boolean
+ *   ticker: string
+ *   updatedAt: string
+ *   updatedAtHeight: string
+ *   subaccountNumber: number
+ * }} ProfileOrder - ListOrdersForParentSubaccount from the indexer.
  */

@@ -63,10 +63,14 @@ export default defineComponent({
     const mutationErrorMessageRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
     const profileOverviewRef = ref(null)
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>} */
+    const profileOrdersRef = ref([])
+
     const statusReactive = reactive({
       isLoading: false,
       isFetchingName: false,
       isLoadingProfileOverview: true,
+      isLoadingProfileOrders: true,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -81,6 +85,7 @@ export default defineComponent({
         competitionParticipant: competitionParticipantGraphqlClient,
       },
       profileOverviewRef,
+      profileOrdersRef,
       errorMessageRef,
       statusReactive,
     }
