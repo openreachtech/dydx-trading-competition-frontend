@@ -41,6 +41,8 @@ export default defineComponent({
     border-block-end-style: solid;
     border-block-end-color: var(--color-border);
 
+    overflow-x: auto;
+
     gap: 2rem;
   }
 
@@ -54,6 +56,8 @@ export default defineComponent({
 
     font-size: var(--font-size-base);
     font-weight: 500;
+
+    white-space: nowrap;
 
     background-color: transparent;
     color: var(--color-text-tertiary);
