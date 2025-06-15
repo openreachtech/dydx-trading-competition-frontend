@@ -43,7 +43,15 @@ export default defineComponent({
 
     overflow-x: auto;
 
-    gap: 2rem;
+    gap: 0.75rem;
+
+    @media (30rem < width) {
+      gap: 1rem;
+    }
+
+    @media (60rem < width) {
+      gap: 2rem;
+    }
   }
 
   .furo-layout.tab.design > .tabs > .tab {
@@ -52,7 +60,7 @@ export default defineComponent({
     border-block-end-color: transparent;
 
     padding-block: 0 0.75rem;
-    padding-inline: 1rem;
+    padding-inline: 0.75rem;
 
     font-size: var(--font-size-small);
     font-weight: 500;
@@ -66,6 +74,8 @@ export default defineComponent({
       border-color 150ms var(--transition-timing-base);
 
     @media (48rem < width) {
+      padding-inline: 1rem;
+
       font-size: var(--font-size-base);
     }
   }
