@@ -76,6 +76,27 @@ export default class ProfileOrdersContext extends BaseFuroContext {
   }
 
   /**
+   * get: orderTableMobileHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get orderTableMobileHeaderEntries () {
+    return [
+      {
+        key: 'status',
+        label: 'Status | Fill',
+      },
+      {
+        key: 'price',
+        label: 'Price | Type',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
    * Generate order table entries.
    *
    * @returns {Array<Partial<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>}
@@ -84,6 +105,7 @@ export default class ProfileOrdersContext extends BaseFuroContext {
     return this.profileOrders.map(it => ({
       ticker: it.ticker,
       type: it.type,
+      status: it.status,
       side: it.side,
       size: it.size,
       totalFilled: it.totalFilled,
@@ -188,6 +210,29 @@ export default class ProfileOrdersContext extends BaseFuroContext {
     }
 
     return 'cross'
+  }
+
+  /**
+   * Generate displayed fill size.
+   *
+   * @param {{
+   *   totalFilled: string | number
+   *   size: string | number
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateDisplayedFillSize ({
+    totalFilled,
+    size,
+  }) {
+    const normalizedTotalFilled = typeof totalFilled === 'string'
+      ? parseFloat(totalFilled)
+      : totalFilled
+    const normalizedSize = typeof size === 'string'
+      ? parseFloat(size)
+      : size
+
+    return `${normalizedTotalFilled.toFixed(4)} / ${normalizedSize.toFixed(4)}`
   }
 
   /**

@@ -45,6 +45,7 @@ export default defineComponent({
 <template>
   <div class="unit-container">
     <AppTable
+      class="table"
       :header-entries="context.orderTableHeaderEntries"
       :entries="context.generateOrderTableEntries()"
     >
@@ -167,6 +168,72 @@ export default defineComponent({
         </span>
       </template>
     </AppTable>
+
+    <AppTable
+      class="table mobile"
+      :header-entries="context.orderTableMobileHeaderEntries"
+      :entries="context.generateOrderTableEntries()"
+    >
+      <template
+        #body-status="{
+          row,
+        }"
+      >
+        <span class="unit-column mobile status">
+          <span class="status">
+            {{ row.status.toLowerCase() }}
+          </span>
+          <span class="fill">
+            <span class="size">
+              {{
+                context.generateDisplayedFillSize({
+                  totalFilled: row.totalFilled,
+                  size: row.size,
+                })
+              }}
+            </span>
+            <span class="ticker">
+              {{ row.ticker }}
+            </span>
+          </span>
+        </span>
+      </template>
+
+      <template
+        #body-price="{
+          row,
+        }"
+      >
+        <span class="unit-column mobile price">
+          <span class="price">
+            <span
+              class="side"
+              :class="{
+                buy: context.isBuySide({
+                  side: row.side,
+                }),
+                sell: context.isSellSide({
+                  side: row.side,
+                }),
+              }"
+            >
+              {{ row.side.toLowerCase() }}
+            </span>
+            <span class="connector">@</span>
+            <span class="price">
+              {{
+                context.formatCurrency({
+                  figure: row.price,
+                })
+              }}
+            </span>
+          </span>
+          <span class="type">
+            {{ row.type.toLowerCase() }}
+          </span>
+        </span>
+      </template>
+    </AppTable>
   </div>
 </template>
 
@@ -231,5 +298,91 @@ export default defineComponent({
   text-transform: capitalize;
 
   background-color: var(--color-background-margin-mode);
+}
+
+/* UI for the table on mobile. */
+.unit-container > .table:not(.mobile) {
+  @media (width < 60rem) {
+    display: none;
+  }
+}
+
+.unit-container > .table.mobile {
+  @media (60rem <= width) {
+    display: none;
+  }
+}
+
+.unit-column.mobile.status {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.unit-column.mobile.status > .status {
+  text-transform: capitalize;
+}
+
+.unit-column.mobile.status > .fill {
+  font-size: var(--font-size-small);
+}
+
+.unit-column.mobile.status > .fill > .size {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.mobile.status > .fill > .ticker {
+  --color-background-ticker: var(--palette-layer-6);
+
+  margin-inline-start: 0.25rem;
+
+  border-radius: 0.25rem;
+
+  padding-block: 0.125rem;
+  padding-inline: 0.25rem;
+
+  font-size: var(--font-size-mini);
+  text-transform: capitalize;
+
+  background-color: var(--color-background-ticker);
+}
+
+.unit-column.mobile.price {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.unit-column.mobile.price > .price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.unit-column.mobile.price > .price > .side {
+  --color-text-side-buy: var(--palette-green);
+  --color-text-side-sell: var(--palette-red);
+
+  text-transform: capitalize;
+}
+
+.unit-column.mobile.price > .price > .side.buy {
+  color: var(--color-text-side-buy);
+}
+
+.unit-column.mobile.price > .price > .side.sell {
+  color: var(--color-text-side-sell);
+}
+
+.unit-column.mobile.price > .price > .connector {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.mobile.price > .type {
+  font-size: var(--font-size-small);
+
+  text-transform: capitalize;
+
+  color: var(--color-text-tertiary);
 }
 </style>
