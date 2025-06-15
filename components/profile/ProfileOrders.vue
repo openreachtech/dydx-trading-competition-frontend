@@ -173,6 +173,7 @@ export default defineComponent({
       class="table mobile"
       :header-entries="context.orderTableMobileHeaderEntries"
       :entries="context.generateOrderTableEntries()"
+      min-width="15rem"
     >
       <template
         #body-status="{
