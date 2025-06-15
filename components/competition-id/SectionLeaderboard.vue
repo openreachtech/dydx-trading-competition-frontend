@@ -616,6 +616,8 @@ export default defineComponent({
 
 /***************** Non-podium rankers ****************/
 .unit-rank:where(.ongoing, .outcome) {
+  white-space: nowrap;
+
   color: var(--color-text-primary);
 }
 
