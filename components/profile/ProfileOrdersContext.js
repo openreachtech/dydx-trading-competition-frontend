@@ -101,6 +101,20 @@ export default class ProfileOrdersContext extends BaseFuroContext {
   }
 
   /**
+   * Generate ticker URL.
+   *
+   * @param {{
+   *   ticker: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateTickerUrl ({
+    ticker,
+  }) {
+    return `https://dydx.trade/trade/${ticker}`
+  }
+
+  /**
    * Check if is "BUY" side order.
    *
    * @param {{

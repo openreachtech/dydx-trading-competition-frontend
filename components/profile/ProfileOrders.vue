@@ -3,12 +3,17 @@ import {
   defineComponent,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import AppTable from '~/components/units/AppTable.vue'
 
 import ProfileOrdersContext from './ProfileOrdersContext'
 
 export default defineComponent({
   components: {
+    NuxtLink,
     AppTable,
   },
 
@@ -43,6 +48,24 @@ export default defineComponent({
       :header-entries="context.orderTableHeaderEntries"
       :entries="context.generateOrderTableEntries()"
     >
+      <template
+        #body-ticker="{
+          value,
+        }"
+      >
+        <NuxtLink
+          class="unit-column ticker"
+          :to="context.generateTickerUrl({
+            ticker: value,
+          })"
+          external
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ value }}
+        </NuxtLink>
+      </template>
+
       <template
         #body-type="{
           value,
@@ -150,6 +173,16 @@ export default defineComponent({
 <style scoped>
 .unit-container {
   margin-block-start: 2rem;
+}
+
+.unit-column.ticker {
+  white-space: nowrap;
+
+  color: var(--color-text-secondary);
+}
+
+.unit-column.ticker:hover {
+  text-decoration: underline;
 }
 
 .unit-column.type {
