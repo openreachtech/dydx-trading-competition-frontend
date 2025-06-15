@@ -12,6 +12,13 @@ export default defineComponent({
     AppTable,
   },
 
+  props: {
+    profileOrders: {
+      type: Array,
+      required: true,
+    },
+  },
+
   setup (
     props,
     componentContext

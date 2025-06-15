@@ -150,7 +150,7 @@ export default defineComponent({
 
         <ProfileLeagueHistory />
 
-        <ProfileOrders />
+        <ProfileOrders :profile-orders="context.profileOrders" />
       </template>
     </AppTabLayout>
 

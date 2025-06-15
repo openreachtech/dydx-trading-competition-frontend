@@ -5,9 +5,18 @@ import {
 /**
  * ProfileOrdersContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseFuroContext<null, PropsType, null>}
  */
 export default class ProfileOrdersContext extends BaseFuroContext {
+  /**
+   * get: profileOrders
+   *
+   * @returns {Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>}
+   */
+  get profileOrders () {
+    return this.props.profileOrders
+  }
+
   /**
    * get: orderTableHeaderEntries
    *
@@ -54,3 +63,9 @@ export default class ProfileOrdersContext extends BaseFuroContext {
     ]
   }
 }
+
+/**
+ * @typedef {{
+ *   profileOrders: Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>
+ * }} PropsType
+ */
