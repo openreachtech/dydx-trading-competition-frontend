@@ -85,6 +85,12 @@ export default defineComponent({
         class="image"
       >
 
+      <Icon
+        class="wallet error"
+        name="heroicons:exclamation-triangle"
+        size="1.25rem"
+      />
+
       <span>{{ context.generateSourceAccountAddress() }}</span>
 
       <Icon
@@ -219,6 +225,18 @@ export default defineComponent({
 .unit-account > .button > .image {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.unit-account:not(.recovered) > .button > .image {
+  display: none;
+}
+
+.unit-account > .button > .wallet.error {
+  color: var(--color-text-message-warn);
+}
+
+.unit-account.recovered > .button > .wallet.error {
+  display: none;
 }
 
 .unit-account > .button > .icon {
