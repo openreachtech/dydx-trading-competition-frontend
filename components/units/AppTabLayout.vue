@@ -54,7 +54,7 @@ export default defineComponent({
     padding-block: 0 0.75rem;
     padding-inline: 1rem;
 
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     font-weight: 500;
 
     white-space: nowrap;
@@ -64,6 +64,10 @@ export default defineComponent({
 
     transition: color 250ms var(--transition-timing-base),
       border-color 150ms var(--transition-timing-base);
+
+    @media (48rem < width) {
+      font-size: var(--font-size-base);
+    }
   }
 
   .furo-layout.tab.design > .tabs > .tab:hover {
