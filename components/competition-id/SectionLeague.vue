@@ -650,6 +650,9 @@ export default defineComponent({
 }
 
 .unit-meta > .actions {
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
   border-radius: 0.625rem;
 
   padding-inline: 0.5rem 0.75rem;
@@ -716,6 +719,9 @@ export default defineComponent({
 }
 
 .unit-statistics {
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
   border-radius: 0.625rem;
 
   padding-block: 1.25rem 1.5rem;
