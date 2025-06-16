@@ -23,6 +23,15 @@ export default class ProfileTradesContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoading
+   *
+   * @returns {PropsType['isLoading']}
+   */
+  get isLoading () {
+    return this.props.isLoading
+  }
+
+  /**
    * get: tradeTableHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -272,5 +281,6 @@ export default class ProfileTradesContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   profileTrades: Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileTradeFill>
+ *   isLoading: boolean
  * }} PropsType
  */

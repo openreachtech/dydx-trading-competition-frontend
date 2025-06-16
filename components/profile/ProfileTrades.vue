@@ -23,6 +23,11 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   setup (
@@ -48,6 +53,7 @@ export default defineComponent({
     <AppTable
       :header-entries="context.tradeTableHeaderEntries"
       :entries="context.generateTradeTableEntries()"
+      :is-loading="context.isLoading"
       min-width="50rem"
     >
       <template
