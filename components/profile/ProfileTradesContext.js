@@ -81,6 +81,31 @@ export default class ProfileTradesContext extends BaseFuroContext {
   }
 
   /**
+   * get: tradeTableMobileHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get tradeTableMobileHeaderEntries () {
+    return [
+      {
+        key: 'createdAt',
+        label: 'Time',
+      },
+      {
+        key: 'typeSize',
+        label: 'Type | Amount',
+      },
+      {
+        key: 'priceFee',
+        label: 'Price | Fee',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
    * Generate body entries for trade table.
    *
    * @returns {Array<Partial<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileTradeFill>>}
