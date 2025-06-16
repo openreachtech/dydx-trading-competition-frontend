@@ -67,6 +67,8 @@ export default defineComponent({
     const profileOverviewRef = ref(null)
     /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>} */
     const profileOrdersRef = ref([])
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileTradeFill>>} */
+    const profileTradesRef = ref([])
 
     const statusReactive = reactive({
       isLoading: false,
@@ -89,6 +91,7 @@ export default defineComponent({
       },
       profileOverviewRef,
       profileOrdersRef,
+      profileTradesRef,
       errorMessageRef,
       statusReactive,
     }

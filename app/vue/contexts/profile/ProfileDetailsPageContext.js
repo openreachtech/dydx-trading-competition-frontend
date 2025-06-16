@@ -38,6 +38,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     graphqlClientHash,
     profileOverviewRef,
     profileOrdersRef,
+    profileTradesRef,
     errorMessageRef,
     statusReactive,
   }) {
@@ -50,6 +51,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     this.graphqlClientHash = graphqlClientHash
     this.profileOverviewRef = profileOverviewRef
     this.profileOrdersRef = profileOrdersRef
+    this.profileTradesRef = profileTradesRef
     this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
   }
@@ -69,6 +71,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     graphqlClientHash,
     profileOverviewRef,
     profileOrdersRef,
+    profileTradesRef,
     errorMessageRef,
     statusReactive,
   }) {
@@ -82,6 +85,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         graphqlClientHash,
         profileOverviewRef,
         profileOrdersRef,
+        profileTradesRef,
         errorMessageRef,
         statusReactive,
       })
@@ -198,6 +202,9 @@ export default class ProfileDetailsContext extends BaseFuroContext {
             address,
           }),
           this.fetchProfileOrders({
+            address,
+          }),
+          this.fetchProfileTrades({
             address,
           }),
         ])
@@ -335,6 +342,64 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * Fetch profile trades.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {Promise<void>}
+   */
+  async fetchProfileTrades ({
+    address,
+  }) {
+    if (!address) {
+      return
+    }
+
+    this.statusReactive.isLoadingProfileTrades = false
+
+    const searchParams = new URLSearchParams({
+      address,
+      parentSubaccountNumber: '0',
+    })
+    const resourceUrl = `${BASE_INDEXER_URL}/fills/parentSubaccountNumber?${searchParams.toString()}`
+    const fetchOptionHash = this.generateFetchOptionHash()
+
+    try {
+      const response = await fetch(resourceUrl, fetchOptionHash)
+
+      if (!response.ok) {
+        throw new Error('Oops! Something went wrong. Reloading the page might help.')
+      }
+
+      const profileTrade = await response.json()
+
+      this.profileTradesRef.value = profileTrade.fills
+    } catch (error) {
+      // TODO: Error for this API should be displayed independently.
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isLoadingProfileTrades = false
+    }
+  }
+
+  /**
+   * Generate fetch option hash for.
+   *
+   * @returns {RequestInit}
+   */
+  generateFetchOptionHash () {
+    return {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
+    }
+  }
+
+  /**
    * Resolve error message.
    *
    * @param {{
@@ -447,6 +512,15 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    */
   get profileOrders () {
     return this.profileOrdersRef.value
+  }
+
+  /**
+   * get: profileTrades
+   *
+   * @returns {Array<ProfileTradeFill>}
+   */
+  get profileTrades () {
+    return this.profileTradesRef.value
   }
 
   /**
@@ -598,6 +672,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
  *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
+ *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
  *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
  *   route: ReturnType<typeof useRoute>
@@ -723,4 +798,45 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   updatedAtHeight: string
  *   subaccountNumber: number
  * }} ProfileOrder - ListOrdersForParentSubaccount from the indexer.
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#getfillsforparentsubaccount}
+ *
+ * @typedef {{
+ *   pageSize: number
+ *   totalResults: number
+ *   offset: number
+ *   fills: Array<ProfileTradeFill>
+ * }} ProfileTrade
+ */
+
+/**
+ * @typedef {{
+ *   id: string
+ *   side: 'BUY' | 'SELL'
+ *   liquidity: 'MAKER' | 'TAKER'
+ *   type: FillType
+ *   market: string
+ *   marketType: 'PERPETUAL' | 'SPOT'
+ *   price: string
+ *   size: string
+ *   fee: string
+ *   createdAt: string
+ *   createdAtHeight: string
+ *   orderId: string
+ *   clientMetadata: string
+ *   subaccountNumber: number
+ * }} ProfileTradeFill
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#filltype}
+ *
+ * @typedef {'LIMIT'
+ *   | 'LIQUIDATED'
+ *   | 'LIQUIDATION'
+ *   | 'DELEVERAGED'
+ *   | 'OFFSETTING'
+ * } FillType
  */
