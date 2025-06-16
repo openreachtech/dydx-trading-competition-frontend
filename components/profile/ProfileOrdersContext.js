@@ -23,6 +23,15 @@ export default class ProfileOrdersContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoading
+   *
+   * @returns {boolean}
+   */
+  get isLoading () {
+    return this.props.isLoading
+  }
+
+  /**
    * get: orderTableHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -343,5 +352,6 @@ export default class ProfileOrdersContext extends BaseFuroContext {
 /**
  * @typedef {{
  *   profileOrders: Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>
+ *   isLoading: boolean
  * }} PropsType
  */

@@ -22,6 +22,11 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   setup (
@@ -48,6 +53,7 @@ export default defineComponent({
       class="table"
       :header-entries="context.orderTableHeaderEntries"
       :entries="context.generateOrderTableEntries()"
+      :is-loading="context.isLoading"
     >
       <template
         #body-ticker="{

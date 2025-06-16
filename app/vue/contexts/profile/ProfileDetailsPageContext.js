@@ -118,6 +118,15 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingProfileOrders
+   *
+   * @returns {boolean}
+   */
+  get isLoadingProfileOrders () {
+    return this.statusReactive.isLoadingProfileOrders
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends ProfileDetailsContext ? X : never} T, X
