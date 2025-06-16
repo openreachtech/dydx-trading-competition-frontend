@@ -8,10 +8,11 @@ import {
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
-import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
+import ProfileOrders from '~/components/profile/ProfileOrders.vue'
 
 import {
   useGraphqlClient,
@@ -38,6 +39,7 @@ export default defineComponent({
     ProfileTransferHistory,
     ProfileLeagueHistory,
     ProfileFinancialOverview,
+    ProfileOrders,
   },
 
   setup (
@@ -61,10 +63,14 @@ export default defineComponent({
     const mutationErrorMessageRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
     const profileOverviewRef = ref(null)
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>} */
+    const profileOrdersRef = ref([])
+
     const statusReactive = reactive({
       isLoading: false,
       isFetchingName: false,
       isLoadingProfileOverview: true,
+      isLoadingProfileOrders: true,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -79,6 +85,7 @@ export default defineComponent({
         competitionParticipant: competitionParticipantGraphqlClient,
       },
       profileOverviewRef,
+      profileOrdersRef,
       errorMessageRef,
       statusReactive,
     }
@@ -142,6 +149,11 @@ export default defineComponent({
         <ProfileTransferHistory />
 
         <ProfileLeagueHistory />
+
+        <ProfileOrders
+          :profile-orders="context.profileOrders"
+          :is-loading="context.isLoadingProfileOrders"
+        />
       </template>
     </AppTabLayout>
 
