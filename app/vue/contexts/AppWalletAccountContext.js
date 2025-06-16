@@ -135,7 +135,7 @@ export default class AppWalletAccountContext extends BaseFuroContext {
         label: 'My league profile',
       },
       {
-        href: '/hosted-competitions',
+        href: this.generateMyHostedCompetitionsUrl(),
         iconName: 'heroicons-outline:rectangle-stack',
         label: 'My hosted arenas',
       },
@@ -293,6 +293,19 @@ export default class AppWalletAccountContext extends BaseFuroContext {
     }
 
     return `/profiles/${localWalletAddress}`
+  }
+
+  /**
+   * Generate my-hosted-competitions page URL.
+   *
+   * @returns {string}
+   */
+  generateMyHostedCompetitionsUrl () {
+    if (!this.localWalletAddress) {
+      return ''
+    }
+
+    return '/hosted-competitions'
   }
 
   /**
