@@ -161,7 +161,7 @@ export default defineComponent({
           :is-loading="context.isLoadingProfileOrders"
         />
 
-        <ProfileTrades />
+        <ProfileTrades :profile-trades="context.profileTrades" />
       </template>
     </AppTabLayout>
 
