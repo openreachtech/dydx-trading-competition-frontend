@@ -286,19 +286,19 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       return
     }
 
+    this.statusReactive.isLoadingProfileOrders = true
+
+    const headers = {
+      accept: 'application/json',
+    }
+    const searchParams = new URLSearchParams({
+      address,
+      parentSubaccountNumber: '0',
+      status: 'OPEN,UNTRIGGERED',
+    })
+    const resourceUrl = `${BASE_INDEXER_URL}/orders/parentSubaccountNumber?${searchParams.toString()}`
+
     try {
-      this.statusReactive.isLoadingProfileOrders = true
-
-      const headers = {
-        accept: 'application/json',
-      }
-      const searchParams = new URLSearchParams({
-        address,
-        parentSubaccountNumber: '0',
-        status: 'OPEN,UNTRIGGERED',
-      })
-      const resourceUrl = `${BASE_INDEXER_URL}/orders/parentSubaccountNumber?${searchParams.toString()}`
-
       const response = await fetch(resourceUrl, {
         method: 'GET',
         headers,
