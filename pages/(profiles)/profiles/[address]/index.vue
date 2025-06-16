@@ -13,6 +13,7 @@ import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
 import ProfileOrders from '~/components/profile/ProfileOrders.vue'
+import ProfileTrades from '~/components/profile/ProfileTrades.vue'
 
 import {
   useGraphqlClient,
@@ -40,6 +41,7 @@ export default defineComponent({
     ProfileLeagueHistory,
     ProfileFinancialOverview,
     ProfileOrders,
+    ProfileTrades,
   },
 
   setup (
@@ -154,6 +156,8 @@ export default defineComponent({
           :profile-orders="context.profileOrders"
           :is-loading="context.isLoadingProfileOrders"
         />
+
+        <ProfileTrades />
       </template>
     </AppTabLayout>
 

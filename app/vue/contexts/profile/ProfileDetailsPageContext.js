@@ -114,6 +114,10 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         tabKey: 'orders',
         label: 'Orders',
       },
+      {
+        tabKey: 'trades',
+        label: 'Trades',
+      },
     ]
   }
 
