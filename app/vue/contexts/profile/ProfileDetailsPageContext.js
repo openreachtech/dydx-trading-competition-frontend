@@ -131,6 +131,15 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingProfileTrades
+   *
+   * @returns {boolean}
+   */
+  get isLoadingProfileTrades () {
+    return this.statusReactive.isLoadingProfileTrades
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends ProfileDetailsContext ? X : never} T, X
@@ -620,6 +629,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   isFetchingName: boolean
  *   isLoadingProfileOverview: boolean
  *   isLoadingProfileOrders: boolean
+ *   isLoadingProfileTrades: boolean
  * }} StatusReactive
  */
 
