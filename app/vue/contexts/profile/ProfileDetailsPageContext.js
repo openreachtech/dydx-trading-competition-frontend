@@ -356,7 +356,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       return
     }
 
-    this.statusReactive.isLoadingProfileTrades = false
+    this.statusReactive.isLoadingProfileTrades = true
 
     const searchParams = new URLSearchParams({
       address,
