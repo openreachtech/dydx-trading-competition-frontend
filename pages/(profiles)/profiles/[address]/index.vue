@@ -13,6 +13,7 @@ import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
 import ProfileOrders from '~/components/profile/ProfileOrders.vue'
+import ProfileTrades from '~/components/profile/ProfileTrades.vue'
 
 import {
   useGraphqlClient,
@@ -40,6 +41,7 @@ export default defineComponent({
     ProfileLeagueHistory,
     ProfileFinancialOverview,
     ProfileOrders,
+    ProfileTrades,
   },
 
   setup (
@@ -65,12 +67,15 @@ export default defineComponent({
     const profileOverviewRef = ref(null)
     /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>} */
     const profileOrdersRef = ref([])
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileTradeFill>>} */
+    const profileTradesRef = ref([])
 
     const statusReactive = reactive({
       isLoading: false,
       isFetchingName: false,
       isLoadingProfileOverview: true,
       isLoadingProfileOrders: true,
+      isLoadingProfileTrades: true,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -86,6 +91,7 @@ export default defineComponent({
       },
       profileOverviewRef,
       profileOrdersRef,
+      profileTradesRef,
       errorMessageRef,
       statusReactive,
     }
@@ -153,6 +159,11 @@ export default defineComponent({
         <ProfileOrders
           :profile-orders="context.profileOrders"
           :is-loading="context.isLoadingProfileOrders"
+        />
+
+        <ProfileTrades
+          :profile-trades="context.profileTrades"
+          :is-loading="context.isLoadingProfileTrades"
         />
       </template>
     </AppTabLayout>
