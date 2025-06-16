@@ -361,6 +361,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     const searchParams = new URLSearchParams({
       address,
       parentSubaccountNumber: '0',
+      limit: '100', // Only fetch the latest 100 trade fills.
     })
     const resourceUrl = `${BASE_INDEXER_URL}/fills/parentSubaccountNumber?${searchParams.toString()}`
     const fetchOptionHash = this.generateFetchOptionHash()
