@@ -10,6 +10,7 @@ import {
 
 import {
   useRoute,
+  useRouter,
 } from 'vue-router'
 
 import {
@@ -58,6 +59,7 @@ export default defineComponent({
     })
 
     const route = useRoute()
+    const router = useRouter()
 
     const statusReactive = reactive({
       isLoadingCompetition: false,
@@ -95,6 +97,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      router,
       fetcherHash: {
         competitionParticipants: competitionParticipantsFetcher,
         competitionParticipantStatuses: competitionParticipantStatusesFetcher,
@@ -179,7 +182,11 @@ export default defineComponent({
 
     <AppTabLayout
       :tabs="context.tabs"
-      :active-tab-key="context.tabs[0].tabKey"
+      :active-tab-key="context.extractActiveTabKeyFromRoute()"
+      @change-tab="context.changeTab({
+        fromTab: $event.fromTab,
+        toTab: $event.toTab,
+      })"
     >
       <template #contents>
         <div class="tab content">
