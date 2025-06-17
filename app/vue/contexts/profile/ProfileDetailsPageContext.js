@@ -4,9 +4,6 @@ import {
 import {
   useHead,
 } from '@unhead/vue'
-import {
-  useRoute,
-} from 'vue-router'
 
 import {
   BaseFuroContext,
@@ -35,6 +32,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     componentContext,
 
     route,
+    router,
     graphqlClientHash,
     profileOverviewRef,
     profileOrdersRef,
@@ -48,6 +46,7 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.router = router
     this.graphqlClientHash = graphqlClientHash
     this.profileOverviewRef = profileOverviewRef
     this.profileOrdersRef = profileOrdersRef
@@ -68,6 +67,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
+    router,
     graphqlClientHash,
     profileOverviewRef,
     profileOrdersRef,
@@ -75,13 +76,12 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     errorMessageRef,
     statusReactive,
   }) {
-    const route = useRoute()
-
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
         route,
+        router,
         graphqlClientHash,
         profileOverviewRef,
         profileOrdersRef,
@@ -123,6 +123,49 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         label: 'Trades',
       },
     ]
+  }
+
+  /**
+   * Extract active tab key from route.
+   *
+   * @returns {import('vue-router').LocationQueryValue}
+   */
+  extractActiveTabKeyFromRoute () {
+    const activeTabKey = Array.isArray(this.route.query.tab)
+      ? this.route.query.tab.at(0)
+      : this.route.query.tab
+
+    if (!activeTabKey) {
+      return this.profileTabs
+        .at(0)
+        ?.tabKey
+        ?? null
+    }
+
+    return activeTabKey
+  }
+
+  /**
+   * Change tab.
+   *
+   * @param {{
+   *   fromTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   toTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   tabKey?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async changeTab ({
+    fromTab,
+    toTab,
+    tabKey = 'tab',
+  }) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [tabKey]: toTab.tabKey,
+      },
+    })
   }
 
   /**
@@ -670,18 +713,19 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
  *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
  *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
  *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
- *   route: ReturnType<typeof useRoute>
  * }} ProfileDetailsContextParams
  */
 
 /**
- * @typedef {Omit<ProfileDetailsContextParams, FactoryOmittedKeys>} ProfileDetailsContextFactoryParams
+ * @typedef {ProfileDetailsContextParams} ProfileDetailsContextFactoryParams
  */
 
 /**
@@ -689,10 +733,6 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   | 'addressName'
  *   | 'competitionParticipant'
  * } GraphqlClientHashKeys
- */
-
-/**
- * @typedef {'route'} FactoryOmittedKeys
  */
 
 /**
