@@ -5,6 +5,11 @@ import {
   ref,
 } from 'vue'
 
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
@@ -48,6 +53,9 @@ export default defineComponent({
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
@@ -84,6 +92,8 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
+      router,
       graphqlClientHash: {
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
@@ -147,7 +157,11 @@ export default defineComponent({
     <AppTabLayout
       class="tabs"
       :tabs="context.profileTabs"
-      :active-tab-key="context.profileTabs[0].tabKey"
+      :active-tab-key="context.extractActiveTabKeyFromRoute()"
+      @change-tab="context.changeTab({
+        fromTab: $event.fromTab,
+        toTab: $event.toTab,
+      })"
     >
       <template #contents>
         <ProfileFinancialOverview :profile-overview="context.profileOverview" />

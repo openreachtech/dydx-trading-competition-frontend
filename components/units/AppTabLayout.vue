@@ -5,6 +5,10 @@ import {
 
 import FuroTabLayout from '@openreachtech/furo-nuxt/lib/components/FuroTabLayout.vue'
 
+const EVENT_NAME = {
+  CHANGE_TAB: 'changeTab',
+}
+
 export default defineComponent({
   name: 'AppTabLayout',
 
@@ -13,6 +17,10 @@ export default defineComponent({
   },
 
   inheritAttrs: false,
+
+  emits: [
+    EVENT_NAME.CHANGE_TAB,
+  ],
 
   setup (props) {
     return {
@@ -26,6 +34,7 @@ export default defineComponent({
   <FuroTabLayout
     class="design"
     v-bind="$attrs"
+    @change-tab="$emit('changeTab', $event)"
   >
     <template #contents>
       <slot name="contents" />
