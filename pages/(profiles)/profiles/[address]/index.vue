@@ -5,13 +5,20 @@ import {
   ref,
 } from 'vue'
 
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
+
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
+import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
 import ProfileFinancialOverview from '~/components/profile/ProfileFinancialOverview.vue'
-import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
+import ProfileOrders from '~/components/profile/ProfileOrders.vue'
+import ProfileTrades from '~/components/profile/ProfileTrades.vue'
 
 import {
   useGraphqlClient,
@@ -38,12 +45,17 @@ export default defineComponent({
     ProfileTransferHistory,
     ProfileLeagueHistory,
     ProfileFinancialOverview,
+    ProfileOrders,
+    ProfileTrades,
   },
 
   setup (
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
@@ -61,10 +73,17 @@ export default defineComponent({
     const mutationErrorMessageRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOverview | null>} */
     const profileOverviewRef = ref(null)
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileOrder>>} */
+    const profileOrdersRef = ref([])
+    /** @type {import('vue').Ref<Array<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').ProfileTradeFill>>} */
+    const profileTradesRef = ref([])
+
     const statusReactive = reactive({
       isLoading: false,
       isFetchingName: false,
       isLoadingProfileOverview: true,
+      isLoadingProfileOrders: true,
+      isLoadingProfileTrades: true,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -73,12 +92,16 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
+      route,
+      router,
       graphqlClientHash: {
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
         competitionParticipant: competitionParticipantGraphqlClient,
       },
       profileOverviewRef,
+      profileOrdersRef,
+      profileTradesRef,
       errorMessageRef,
       statusReactive,
     }
@@ -134,7 +157,11 @@ export default defineComponent({
     <AppTabLayout
       class="tabs"
       :tabs="context.profileTabs"
-      :active-tab-key="context.profileTabs[0].tabKey"
+      :active-tab-key="context.extractActiveTabKeyFromRoute()"
+      @change-tab="context.changeTab({
+        fromTab: $event.fromTab,
+        toTab: $event.toTab,
+      })"
     >
       <template #contents>
         <ProfileFinancialOverview :profile-overview="context.profileOverview" />
@@ -142,6 +169,16 @@ export default defineComponent({
         <ProfileTransferHistory />
 
         <ProfileLeagueHistory />
+
+        <ProfileOrders
+          :profile-orders="context.profileOrders"
+          :is-loading="context.isLoadingProfileOrders"
+        />
+
+        <ProfileTrades
+          :profile-trades="context.profileTrades"
+          :is-loading="context.isLoadingProfileTrades"
+        />
       </template>
     </AppTabLayout>
 

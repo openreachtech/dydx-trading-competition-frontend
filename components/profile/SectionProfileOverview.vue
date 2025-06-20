@@ -394,6 +394,9 @@ export default defineComponent({
 }
 
 .unit-description {
+  border-width: var(--size-thinnest);
+  border-style: solid;
+  border-color: var(--color-border-card);
   border-radius: 0.875rem;
 
   padding-block: 1.25rem 1.5rem;

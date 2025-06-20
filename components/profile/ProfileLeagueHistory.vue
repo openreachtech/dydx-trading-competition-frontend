@@ -185,6 +185,8 @@ export default defineComponent({
   font-weight: 500;
   line-height: var(--size-line-height-base);
 
+  white-space: nowrap;
+
   color: var(--color-text-secondary);
 }
 

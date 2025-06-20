@@ -28,6 +28,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     componentContext,
 
     route,
+    router,
     fetcherHash,
     statusReactive,
   }) {
@@ -37,6 +38,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     })
 
     this.route = route
+    this.router = router
     this.fetcherHash = fetcherHash
     this.statusReactive = statusReactive
   }
@@ -54,6 +56,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
     props,
     componentContext,
     route,
+    router,
     fetcherHash,
     statusReactive,
   }) {
@@ -62,6 +65,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
         props,
         componentContext,
         route,
+        router,
         fetcherHash,
         statusReactive,
       })
@@ -369,6 +373,49 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
   }
 
   /**
+   * Extract active tab key from route.
+   *
+   * @returns {import('vue-router').LocationQueryValue}
+   */
+  extractActiveTabKeyFromRoute () {
+    const activeTabKey = Array.isArray(this.route.query.tab)
+      ? this.route.query.tab.at(0)
+      : this.route.query.tab
+
+    if (!activeTabKey) {
+      return this.tabs
+        .at(0)
+        ?.tabKey
+        ?? null
+    }
+
+    return activeTabKey
+  }
+
+  /**
+   * Change tab.
+   *
+   * @param {{
+   *   fromTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   toTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   tabKey?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async changeTab ({
+    fromTab,
+    toTab,
+    tabKey = 'tab',
+  }) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [tabKey]: toTab.tabKey,
+      },
+    })
+  }
+
+  /**
    * get: competitionParticipantStatuses
    *
    * @returns {Array<import('~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlCapsule').Status>}
@@ -384,6 +431,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseFuroContext
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   fetcherHash: {
  *     competitionParticipants: import('./CompetitionParticipantsFetcher').default
  *     competitionParticipantStatuses: import('./CompetitionParticipantStatusesFetcher').default

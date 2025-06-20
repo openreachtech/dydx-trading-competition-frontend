@@ -4,9 +4,6 @@ import {
 import {
   useHead,
 } from '@unhead/vue'
-import {
-  useRoute,
-} from 'vue-router'
 
 import {
   BaseFuroContext,
@@ -35,8 +32,11 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     componentContext,
 
     route,
+    router,
     graphqlClientHash,
     profileOverviewRef,
+    profileOrdersRef,
+    profileTradesRef,
     errorMessageRef,
     statusReactive,
   }) {
@@ -46,8 +46,11 @@ export default class ProfileDetailsContext extends BaseFuroContext {
     })
 
     this.route = route
+    this.router = router
     this.graphqlClientHash = graphqlClientHash
     this.profileOverviewRef = profileOverviewRef
+    this.profileOrdersRef = profileOrdersRef
+    this.profileTradesRef = profileTradesRef
     this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
   }
@@ -64,20 +67,25 @@ export default class ProfileDetailsContext extends BaseFuroContext {
   static create ({
     props,
     componentContext,
+    route,
+    router,
     graphqlClientHash,
     profileOverviewRef,
+    profileOrdersRef,
+    profileTradesRef,
     errorMessageRef,
     statusReactive,
   }) {
-    const route = useRoute()
-
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
         route,
+        router,
         graphqlClientHash,
         profileOverviewRef,
+        profileOrdersRef,
+        profileTradesRef,
         errorMessageRef,
         statusReactive,
       })
@@ -106,7 +114,76 @@ export default class ProfileDetailsContext extends BaseFuroContext {
         tabKey: 'past-competitions',
         label: 'League History',
       },
+      {
+        tabKey: 'orders',
+        label: 'Orders',
+      },
+      {
+        tabKey: 'trades',
+        label: 'Trades',
+      },
     ]
+  }
+
+  /**
+   * Extract active tab key from route.
+   *
+   * @returns {import('vue-router').LocationQueryValue}
+   */
+  extractActiveTabKeyFromRoute () {
+    const activeTabKey = Array.isArray(this.route.query.tab)
+      ? this.route.query.tab.at(0)
+      : this.route.query.tab
+
+    if (!activeTabKey) {
+      return this.profileTabs
+        .at(0)
+        ?.tabKey
+        ?? null
+    }
+
+    return activeTabKey
+  }
+
+  /**
+   * Change tab.
+   *
+   * @param {{
+   *   fromTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   toTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   tabKey?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async changeTab ({
+    fromTab,
+    toTab,
+    tabKey = 'tab',
+  }) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [tabKey]: toTab.tabKey,
+      },
+    })
+  }
+
+  /**
+   * get: isLoadingProfileOrders
+   *
+   * @returns {boolean}
+   */
+  get isLoadingProfileOrders () {
+    return this.statusReactive.isLoadingProfileOrders
+  }
+
+  /**
+   * get: isLoadingProfileTrades
+   *
+   * @returns {boolean}
+   */
+  get isLoadingProfileTrades () {
+    return this.statusReactive.isLoadingProfileTrades
   }
 
   /**
@@ -163,9 +240,17 @@ export default class ProfileDetailsContext extends BaseFuroContext {
           return
         }
 
-        await this.fetchProfileOverview({
-          address,
-        })
+        await Promise.allSettled([
+          this.fetchProfileOverview({
+            address,
+          }),
+          this.fetchProfileOrders({
+            address,
+          }),
+          this.fetchProfileTrades({
+            address,
+          }),
+        ])
       },
       {
         immediate: true,
@@ -246,6 +331,115 @@ export default class ProfileDetailsContext extends BaseFuroContext {
       })
     } finally {
       this.statusReactive.isLoadingProfileOverview = false
+    }
+  }
+
+  /**
+   * Fetch profile orders.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {Promise<void>}
+   */
+  async fetchProfileOrders ({
+    address,
+  }) {
+    if (!address) {
+      return
+    }
+
+    this.statusReactive.isLoadingProfileOrders = true
+
+    const headers = {
+      accept: 'application/json',
+    }
+    const searchParams = new URLSearchParams({
+      address,
+      parentSubaccountNumber: '0',
+      status: 'OPEN,UNTRIGGERED',
+    })
+    const resourceUrl = `${BASE_INDEXER_URL}/orders/parentSubaccountNumber?${searchParams.toString()}`
+
+    try {
+      const response = await fetch(resourceUrl, {
+        method: 'GET',
+        headers,
+      })
+
+      if (!response.ok) {
+        throw new Error('Oops! Something went wrong. Reloading the page might help.')
+      }
+
+      const profileOrders = await response.json()
+
+      this.profileOrdersRef.value = profileOrders
+    } catch (error) {
+      // TODO: Error for this API should be displayed independently.
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isLoadingProfileOrders = false
+    }
+  }
+
+  /**
+   * Fetch profile trades.
+   *
+   * @param {{
+   *   address: string | null
+   * }} params - Parameters
+   * @returns {Promise<void>}
+   */
+  async fetchProfileTrades ({
+    address,
+  }) {
+    if (!address) {
+      return
+    }
+
+    this.statusReactive.isLoadingProfileTrades = true
+
+    const searchParams = new URLSearchParams({
+      address,
+      parentSubaccountNumber: '0',
+      limit: '100', // Only fetch the latest 100 trade fills.
+    })
+    const resourceUrl = `${BASE_INDEXER_URL}/fills/parentSubaccountNumber?${searchParams.toString()}`
+    const fetchOptionHash = this.generateFetchOptionHash()
+
+    try {
+      const response = await fetch(resourceUrl, fetchOptionHash)
+
+      if (!response.ok) {
+        throw new Error('Oops! Something went wrong. Reloading the page might help.')
+      }
+
+      const profileTrade = await response.json()
+
+      this.profileTradesRef.value = profileTrade.fills
+    } catch (error) {
+      // TODO: Error for this API should be displayed independently.
+      this.errorMessageRef.value = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isLoadingProfileTrades = false
+    }
+  }
+
+  /**
+   * Generate fetch option hash for.
+   *
+   * @returns {RequestInit}
+   */
+  generateFetchOptionHash () {
+    return {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
     }
   }
 
@@ -353,6 +547,24 @@ export default class ProfileDetailsContext extends BaseFuroContext {
    */
   get profileOverview () {
     return this.profileOverviewRef.value
+  }
+
+  /**
+   * get: profileOrders
+   *
+   * @returns {Array<ProfileOrder>}
+   */
+  get profileOrders () {
+    return this.profileOrdersRef.value
+  }
+
+  /**
+   * get: profileTrades
+   *
+   * @returns {Array<ProfileTradeFill>}
+   */
+  get profileTrades () {
+    return this.profileTradesRef.value
   }
 
   /**
@@ -501,16 +713,19 @@ export default class ProfileDetailsContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
+ *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
+ *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
  *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
- *   route: ReturnType<typeof useRoute>
  * }} ProfileDetailsContextParams
  */
 
 /**
- * @typedef {Omit<ProfileDetailsContextParams, FactoryOmittedKeys>} ProfileDetailsContextFactoryParams
+ * @typedef {ProfileDetailsContextParams} ProfileDetailsContextFactoryParams
  */
 
 /**
@@ -518,10 +733,6 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   | 'addressName'
  *   | 'competitionParticipant'
  * } GraphqlClientHashKeys
- */
-
-/**
- * @typedef {'route'} FactoryOmittedKeys
  */
 
 /**
@@ -533,6 +744,8 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *   isLoading: boolean
  *   isFetchingName: boolean
  *   isLoadingProfileOverview: boolean
+ *   isLoadingProfileOrders: boolean
+ *   isLoadingProfileTrades: boolean
  * }} StatusReactive
  */
 
@@ -596,4 +809,75 @@ export default class ProfileDetailsContext extends BaseFuroContext {
  *     }>
  *   }
  * }} ProfileOverview - Result gotten from the indexer.
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#listordersforparentsubaccount}
+ *
+ * @typedef {{
+ *   id: string
+ *   subaccountId: string
+ *   clientId: string
+ *   clobPairId: string
+ *   side: 'BUY' | 'SELL'
+ *   size: string
+ *   totalFilled: string
+ *   price: string
+ *   type: 'LIMIT' | 'MARKET' | 'STOP_LIMIT' | 'STOP_MARKET' | 'TRAILING_STOP' | 'TAKE_PROFIT' | 'TAKE_PROFIT_MARKET'
+ *   reduceOnly: boolean
+ *   orderFlags: string
+ *   goodTilBlock?: string
+ *   goodTilBlockTime?: string
+ *   createdAtHeight?: string
+ *   clientMetadata: string
+ *   triggerPrice?: string
+ *   timeInForce: 'GTT' | 'FOK' | 'IOC'
+ *   status: 'OPEN' | 'UNTRIGGERED' // We only filter for these statuses.
+ *   postOnly: boolean
+ *   ticker: string
+ *   updatedAt: string
+ *   updatedAtHeight: string
+ *   subaccountNumber: number
+ * }} ProfileOrder - ListOrdersForParentSubaccount from the indexer.
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#getfillsforparentsubaccount}
+ *
+ * @typedef {{
+ *   pageSize: number
+ *   totalResults: number
+ *   offset: number
+ *   fills: Array<ProfileTradeFill>
+ * }} ProfileTrade
+ */
+
+/**
+ * @typedef {{
+ *   id: string
+ *   side: 'BUY' | 'SELL'
+ *   liquidity: 'MAKER' | 'TAKER'
+ *   type: FillType
+ *   market: string
+ *   marketType: 'PERPETUAL' | 'SPOT'
+ *   price: string
+ *   size: string
+ *   fee: string
+ *   createdAt: string
+ *   createdAtHeight: string
+ *   orderId: string
+ *   clientMetadata: string
+ *   subaccountNumber: number
+ * }} ProfileTradeFill
+ */
+
+/**
+ * {@link https://docs.dydx.exchange/api_integration-indexer/indexer_api#filltype}
+ *
+ * @typedef {'LIMIT'
+ *   | 'LIQUIDATED'
+ *   | 'LIQUIDATION'
+ *   | 'DELEVERAGED'
+ *   | 'OFFSETTING'
+ * } FillType
  */

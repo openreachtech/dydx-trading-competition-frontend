@@ -5,6 +5,10 @@ import {
 
 import FuroTabLayout from '@openreachtech/furo-nuxt/lib/components/FuroTabLayout.vue'
 
+const EVENT_NAME = {
+  CHANGE_TAB: 'changeTab',
+}
+
 export default defineComponent({
   name: 'AppTabLayout',
 
@@ -13,6 +17,10 @@ export default defineComponent({
   },
 
   inheritAttrs: false,
+
+  emits: [
+    EVENT_NAME.CHANGE_TAB,
+  ],
 
   setup (props) {
     return {
@@ -26,6 +34,7 @@ export default defineComponent({
   <FuroTabLayout
     class="design"
     v-bind="$attrs"
+    @change-tab="$emit('changeTab', $event)"
   >
     <template #contents>
       <slot name="contents" />
@@ -41,7 +50,17 @@ export default defineComponent({
     border-block-end-style: solid;
     border-block-end-color: var(--color-border);
 
-    gap: 2rem;
+    overflow-x: auto;
+
+    gap: 0.75rem;
+
+    @media (30rem < width) {
+      gap: 1rem;
+    }
+
+    @media (60rem < width) {
+      gap: 2rem;
+    }
   }
 
   .furo-layout.tab.design > .tabs > .tab {
@@ -50,16 +69,24 @@ export default defineComponent({
     border-block-end-color: transparent;
 
     padding-block: 0 0.75rem;
-    padding-inline: 1rem;
+    padding-inline: 0.75rem;
 
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-small);
     font-weight: 500;
+
+    white-space: nowrap;
 
     background-color: transparent;
     color: var(--color-text-tertiary);
 
     transition: color 250ms var(--transition-timing-base),
       border-color 150ms var(--transition-timing-base);
+
+    @media (48rem < width) {
+      padding-inline: 1rem;
+
+      font-size: var(--font-size-base);
+    }
   }
 
   .furo-layout.tab.design > .tabs > .tab:hover {

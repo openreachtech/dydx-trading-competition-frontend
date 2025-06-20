@@ -5,11 +5,11 @@ import {
 const MAX_DISPLAYED_DAYS_PER_MONTH = 42
 
 /**
- * AppDatePikcerContext
+ * AppDatePickerContext
  *
  * @extends {BaseFuroContext<null, AppDatePickerProps, 'changeDate'>}
  */
-export default class AppDatePikcerContext extends BaseFuroContext {
+export default class AppDatePickerContext extends BaseFuroContext {
   /**
    * Constructor
    *
@@ -36,7 +36,7 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   /**
    * Factory method to create a new instance of this class.
    *
-   * @template {X extends typeof AppDatePikcerContext ? X : never} T, X
+   * @template {X extends typeof AppDatePickerContext ? X : never} T, X
    * @override
    * @param {AppDatePickerContextFactoryParams} params - Parameters of this factory method.
    * @returns {InstanceType<T>} An instance of this class.
@@ -70,10 +70,9 @@ export default class AppDatePikcerContext extends BaseFuroContext {
   /**
    * Setup component.
    *
-   * @template {X extends AppDatePikcerContext ? X : never} T, X
+   * @template {X extends AppDatePickerContext ? X : never} T, X
    * @override
    * @this {T}
-   * @todo: Fix typo `pikcer` -> `picker`.
    */
   setupComponent () {
     this.watch(
