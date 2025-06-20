@@ -239,6 +239,7 @@ export const MIPD_RDNS_HASH = {
   KEPLR: 'app.keplr',
   COINBASE: 'com.coinbase.wallet',
   METAMASK: 'io.metamask',
+  CRYPTO_COM: 'com.crypto.wallet',
 }
 
 /** @type {Record<string, string>} */

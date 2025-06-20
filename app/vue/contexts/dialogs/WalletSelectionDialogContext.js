@@ -135,6 +135,8 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         // Remove Coinbase injected support because the regular Coinbase connector already supports
         // handling switching between injected/mobile/smart account
         && wallet.details.info.rdns !== MIPD_RDNS_HASH.COINBASE
+        // Remove Crypto.com EVM support since Crypto.com Cosmos is supported
+        && wallet.details.info.rdns !== MIPD_RDNS_HASH.CRYPTO_COM
       )
       .map(wallet => this.normalizeInjectedWallet({
         wallet,
