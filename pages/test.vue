@@ -88,7 +88,7 @@ async function connect () {
       throw new Error('No address found!')
     }
 
-    chainWallet.initOfflineSigner()
+    await chainWallet.initOfflineSigner()
     console.log('Offline signer', chainWallet.offlineSigner)
 
     // const signResult = await chainWallet.client.signArbitrary?.(
