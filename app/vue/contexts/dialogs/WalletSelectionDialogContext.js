@@ -1,5 +1,6 @@
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
+import CosmosConnector from '~/app/wallets/CosmosConnector'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
 
@@ -101,11 +102,13 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     const injectedWallets = this.generateInjectedWallets()
     const phantomWallet = this.generatePhantomWallet()
     const coinbaseWallet = this.generateCoinbaseWallet()
+    const cdcWallet = this.generateCdcWallet()
 
     return [
       ...injectedWallets,
       phantomWallet,
       coinbaseWallet,
+      cdcWallet,
     ]
   }
 
@@ -187,6 +190,20 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       icon: '/img/wallets/coinbase-wallet.svg',
       name: 'Coinbase',
       rdns: MIPD_RDNS_HASH.COINBASE,
+    }
+  }
+
+  /**
+   * Generate CDC (crypto dot com) wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generateCdcWallet () {
+    return {
+      connectorType: CONNECTOR_TYPE.COSMOS,
+      icon: '/img/wallets/crypto-com.png',
+      name: 'Crypto.com',
+      rdns: MIPD_RDNS_HASH.CRYPTO_COM,
     }
   }
 
@@ -290,6 +307,17 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       return
     }
 
+    if (wallet.connectorType === CONNECTOR_TYPE.COSMOS) {
+      const cosmosConnector = await this.createCosmosConnector()
+
+      await cosmosConnector.connect({
+        chainName: 'cosmoshub',
+        walletName: 'cdcwallet-extension',
+      })
+
+      return
+    }
+
     throw new Error('Unknown Connector.')
   }
 
@@ -322,6 +350,17 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
    */
   createPhantomConnector () {
     return PhantomConnector.create({
+      walletStore: this.walletStore,
+    })
+  }
+
+  /**
+   * Create CosmosConnector instance.
+   *
+   * @returns {CosmosConnector}
+   */
+  createCosmosConnector () {
+    return CosmosConnector.createCdcCosmosConnector({
       walletStore: this.walletStore,
     })
   }
