@@ -39,15 +39,14 @@ const cosmosConnector = CosmosConnector.createCdcCosmosConnector({
 async function connect () {
   try {
     const walletName = 'keplr-extension'
-    const mockChainId = 'dydxprotocol-testnet'
     const chainWallet = cosmosConnector.walletClerk.getChainWallet(
       'dydx',
       walletName
     )
+    const mockChainId = chainWallet.chainId
 
     await chainWallet.connect()
-    console.log('username', chainWallet.username)
-    console.log('address', chainWallet.address)
+    console.log('address: ', chainWallet.address)
 
     const pubkey = {
       typeUrl: '/dydx.crypto.secp256k1.PubKey',
@@ -83,32 +82,33 @@ async function connect () {
     const signDocBytes = makeSignBytes(signDoc)
     console.log('signDocBytes', signDocBytes)
     const base64SignDocBytes = toBase64(signDocBytes)
+    console.log('base64SignDocBytes', base64SignDocBytes)
 
     if (!chainWallet.address) {
       throw new Error('No address found!')
     }
 
-    await chainWallet.initOfflineSigner()
-    console.log('Offline signer', chainWallet.offlineSigner)
+    const mainWallet = cosmosConnector.walletClerk.getMainWallet(walletName)
+    await mainWallet.initClient()
 
-    // const signResult = await chainWallet.client.signArbitrary?.(
-    //   mockChainId,
-    //   chainWallet.address,
-    //   signDocBytes
-    // )
-
-    const signResult = await chainWallet.offlineSigner.signAmino(chainWallet.address, signDocBytes)
-
-    console.log(
-      'signResult',
-      signResult
+    const signResult = await mainWallet.client.signArbitrary?.(
+      chainId,
+      chainWallet.address,
+      signDocBytes
     )
+
+    if (!signResult) {
+      throw new Error('Cannot generate signature.')
+    }
+
+    console.log('signResult', signResult)
 
     const resultSignature = signResult.signature
     const resultPubKey = signResult.pub_key.value
 
     const messageHash = sha256(fromBase64(base64SignDocBytes))
     console.log('messageHash', messageHash)
+
     const isValid = await Secp256k1.verifySignature(
       Secp256k1Signature.fromFixedLength(fromBase64(resultSignature)),
       messageHash,
