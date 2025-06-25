@@ -25,6 +25,10 @@ import {
 import Long from 'long'
 import { TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 
+import {
+  verifyADR36Amino,
+} from '@keplr-wallet/cosmos'
+
 const walletStore = useWalletStore()
 
 const cosmosConnector = CosmosConnector.createCdcCosmosConnector({
@@ -40,7 +44,10 @@ const cosmosConnector = CosmosConnector.createCdcCosmosConnector({
  */
 async function connect () {
   try {
-    const walletName = 'keplr-extension'
+    // Uncomment one of these to test target wallet.
+    const walletName = 'cdcwallet-extension'
+    // const walletName = 'keplr-extension'
+
     const chainWallet = cosmosConnector.walletClerk.getChainWallet(
       'dydx',
       walletName
@@ -78,7 +85,7 @@ async function connect () {
     const authInfoBytes = makeAuthInfoBytes(
       [{
         pubkey,
-        sequence: 1,
+        sequence: 0,
       }],
       fee,
       gasLimit,
@@ -121,15 +128,22 @@ async function connect () {
     const resultSignature = signResult.signature
     const resultPubKey = signResult.pub_key.value
 
-    const messageHash = sha256(fromBase64(base64SignDocBytes))
-    console.log('messageHash', messageHash)
-
-    const isValid = await Secp256k1.verifySignature(
-      Secp256k1Signature.fromFixedLength(fromBase64(resultSignature)),
-      messageHash,
-      fromBase64(resultPubKey)
+    const isValidAdr036 = verifyADR36Amino(
+      'dydx',
+      chainWallet.address,
+      signDocBytes,
+      fromBase64(resultPubKey),
+      fromBase64(resultSignature)
     )
-    console.log('isValid', isValid)
+
+    console.log('isValidAdr036', isValidAdr036)
+
+    // const isValid = await Secp256k1.verifySignature(
+    //   Secp256k1Signature.fromFixedLength(fromBase64(resultSignature)),
+    //   messageHash,
+    //   fromBase64(resultPubKey)
+    // )
+    // console.log('isValid', isValid)
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message)
