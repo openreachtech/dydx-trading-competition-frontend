@@ -31,10 +31,12 @@ const cosmosConnector = CosmosConnector.createCdcCosmosConnector({
   walletStore,
 })
 
+/* eslint-disable no-console */
+
 /**
  * Connect
  *
- * @returns {void}
+ * @returns {Promise<void>}
  */
 async function connect () {
   try {
@@ -48,9 +50,22 @@ async function connect () {
     await chainWallet.connect()
     console.log('address: ', chainWallet.address)
 
+    await chainWallet.initOfflineSigner()
+
+    if (!chainWallet.offlineSigner) {
+      return
+    }
+
+    const accounts = await chainWallet.offlineSigner.getAccounts()
+    const firstAccountPubkey = accounts.at(0)?.pubkey
+
+    if (!firstAccountPubkey) {
+      return
+    }
+
     const pubkey = {
       typeUrl: '/dydx.crypto.secp256k1.PubKey',
-      value: chainWallet.address,
+      value: firstAccountPubkey,
     }
     /** @type {Array<import('cosmjs-types/cosmos/base/v1beta1/coin').Coin>} */
     const fee = []
