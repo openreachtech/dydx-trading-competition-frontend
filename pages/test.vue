@@ -40,14 +40,11 @@ const cosmosConnector = CosmosConnector.createCdcCosmosConnector({
 /**
  * Connect
  *
+ * @param {string} walletName
  * @returns {Promise<void>}
  */
-async function connect () {
+async function connect (walletName) {
   try {
-    // Uncomment one of these to test target wallet.
-    const walletName = 'cdcwallet-extension'
-    // const walletName = 'keplr-extension'
-
     const chainWallet = cosmosConnector.walletClerk.getChainWallet(
       'dydx',
       walletName
@@ -158,9 +155,30 @@ async function connect () {
   <div class="unit-page">
     <AppButton
       class="button"
-      @click="connect"
+      @click="connect('keplr-extension')"
     >
-      Connect Cosmos
+      Connect Keplr
+    </AppButton>
+    <AppButton
+      class="button"
+      @click="connect('cdcwallet-extension')"
+    >
+      Connect Crypto.com
+    </AppButton>
+    <AppButton
+      class="button"
+      @click="connect('leap-extension')"
+    >
+      Connect Leap
     </AppButton>
   </div>
 </template>
+
+<style scoped>
+.unit-page {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+}
+</style>

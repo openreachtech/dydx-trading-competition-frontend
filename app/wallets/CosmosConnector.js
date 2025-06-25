@@ -12,6 +12,10 @@ import {
 } from '@cosmos-kit/keplr'
 
 import {
+  wallets as leapWallets,
+} from '@cosmos-kit/leap'
+
+import {
   assetLists as chainAssets,
   chains as cosmosChains,
 } from 'chain-registry'
@@ -82,7 +86,7 @@ export default class CosmosConnector {
 
     return this.create({
       chains: supportedChains,
-      wallets: [...cdcWallets, ...keplrWallets],
+      wallets: [...cdcWallets, ...keplrWallets, ...leapWallets],
       walletStore,
     })
   }
