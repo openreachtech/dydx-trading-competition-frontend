@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.16.0",
+    "@cosmos-kit/keplr": "^2.15.0",
     "@dydxprotocol/v4-client-js": "^1.20.0",
     "@openreachtech/furo-nuxt": "^1.5.0",
     "@openreachtech/jest-constructor-spy": "^1.1.0",
