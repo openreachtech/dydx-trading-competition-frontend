@@ -374,7 +374,7 @@ export default defineComponent({
 
               <AppPagination
                 class="pagination"
-                page-key="leaderboardPage"
+                page-key="pnlLeaderboardPage"
                 :pagination="context.leaderboardPaginationResult"
               />
 

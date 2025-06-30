@@ -579,12 +579,17 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * Extract current page.
    *
+   * @param {{
+   *   pageParamKey?: 'pnlLeaderboardPage' | 'volumeLeaderboardPage'
+   * }} [params] - Parameters.
    * @returns {number} Current page.
    */
-  extractCurrentPage () {
-    const currentPageQuery = Array.isArray(this.route.query.leaderboardPage)
-      ? this.route.query.leaderboardPage[0]
-      : this.route.query.leaderboardPage
+  extractCurrentPage ({
+    pageParamKey = 'pnlLeaderboardPage',
+  } = {}) {
+    const currentPageQuery = Array.isArray(this.route.query[pageParamKey])
+      ? this.route.query[pageParamKey].at(0)
+      : this.route.query[pageParamKey]
     const currentPage = Number(currentPageQuery)
 
     return isNaN(currentPage)
