@@ -245,7 +245,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
-   * get: leaderboardFinalOutcomeHeaderEntries
+   * get: metricLeaderboardHeaderEntries
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
    */
