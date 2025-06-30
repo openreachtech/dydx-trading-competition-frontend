@@ -560,6 +560,53 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       canceled: statusId === COMPETITION_PARTICIPANT_STATUS.CANCELED.ID,
     }
   }
+
+  /**
+   * Format currency.
+   *
+   * @param {{
+   *   figure: string | number
+   * }} params - Parameters.
+   * @returns {string}
+   * @todo Please put this method in `BaseAppFuroContext`.
+   */
+  formatCurrency ({
+    figure,
+  }) {
+    if (this.isNullish({
+      value: figure,
+    })) {
+      return '--'
+    }
+
+    const normalizedFigure = typeof figure === 'string'
+      ? parseFloat(figure)
+      : figure
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(normalizedFigure)
+  }
+
+  /**
+   * Check if a value is null or undefined.
+   *
+   * @param {{
+   *   value: *
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isNullish ({
+    value,
+  }) {
+    return value === null
+      || value === undefined
+  }
 }
 
 /**

@@ -429,6 +429,103 @@ export default defineComponent({
               </AppButton>
             </div>
           </div>
+
+          <div class="unit-leaderboard volume">
+            <AppTable
+              class="table"
+              :header-entries="context.metricLeaderboardTableHeaderEntries"
+              :entries="context.metricLeaderboardTableEntries"
+              :is-loading="context.isLoadingMetricLeaderboard"
+              min-width="50rem"
+            >
+              <template
+                #body-name="{
+                  value,
+                  row,
+                }"
+              >
+                <NuxtLink
+                  :to="context.generateProfileUrl({
+                    address: row.address,
+                  })"
+                  class="unit-column metric name"
+                >
+                  {{ value }}
+                </NuxtLink>
+              </template>
+
+              <template
+                #body-address="{
+                  value,
+                }"
+              >
+                <span class="unit-column metric address">
+                  <span>
+                    {{
+                      context.shortenAddress({
+                        address: value,
+                      })
+                    }}
+                  </span>
+                  <LinkTooltipButton
+                    tooltip-message="View on Mintscan"
+                    :href="context.generateAddressUrl({
+                      address: value,
+                    })"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                </span>
+              </template>
+
+              <template
+                #body-makerVolume="{
+                  value,
+                }"
+              >
+                <span class="unit-column metric makerVolume">
+                  {{
+                    context.formatCurrency({
+                      figure: value,
+                    })
+                  }}
+                </span>
+              </template>
+
+              <template
+                #body-takerVolume="{
+                  value,
+                }"
+              >
+                <span class="unit-column metric takerVolume">
+                  {{
+                    context.formatCurrency({
+                      figure: value,
+                    })
+                  }}
+                </span>
+              </template>
+
+              <template
+                #body-totalVolume="{
+                  value,
+                }"
+              >
+                <span class="unit-column metric totalVolume">
+                  {{
+                    context.formatCurrency({
+                      figure: value,
+                    })
+                  }}
+                </span>
+              </template>
+            </AppTable>
+
+            <AppPagination
+              page-key="volumeLeaderboardPage"
+              :pagination="context.metricLeaderboardPaginationResult"
+            />
+          </div>
         </template>
       </AppTabLayout>
     </div>
@@ -526,8 +623,6 @@ export default defineComponent({
   grid-template-columns: 1fr;
   row-gap: 1.75rem;
   column-gap: 1rem;
-
-  margin-block-start: 1.25rem;
 
   @media (48rem < width) {
     grid-template-columns: 1fr auto 1fr;
@@ -672,6 +767,10 @@ export default defineComponent({
   background-image: linear-gradient(to bottom, #1F1F30E5, #101018);
 }
 
+.unit-leaderboard > .table {
+  margin-block-end: 1.25rem;
+}
+
 /***************** Non-podium rankers ****************/
 .unit-rank:where(.ongoing, .outcome) {
   white-space: nowrap;
@@ -728,6 +827,21 @@ export default defineComponent({
 
 .unit-status.participant.canceled {
   color: var(--color-text-participant-status-canceled);
+}
+
+/***************** Trading volume leaderboard ****************/
+.unit-column.metric.name {
+  color: inherit;
+}
+
+.unit-column.metric.name:hover {
+  text-decoration: underline;
+}
+
+.unit-column.metric.address {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 </style>
 
