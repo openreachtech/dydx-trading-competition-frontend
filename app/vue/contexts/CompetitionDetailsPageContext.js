@@ -39,6 +39,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     toastStore,
     walletStore,
     graphqlClientHash,
+    fetcherHash,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
@@ -53,6 +54,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
@@ -75,6 +77,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     toastStore,
     walletStore,
     graphqlClientHash,
+    fetcherHash,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
@@ -88,6 +91,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         toastStore,
         walletStore,
         graphqlClientHash,
+        fetcherHash,
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
@@ -270,10 +274,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       await this.fetchLeaderboardEntries()
     })
 
+    this.fetchCompetitionTradingMetricsOnMounted()
+
     this.watch(
       () => this.extractCurrentPage(),
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.extractCurrentPage({
+        pageParamKey: 'volumeLeaderboardPage',
+      }),
+      async () => {
+        await this.fetchCompetitionTradingMetricsOnEvent()
       }
     )
 
@@ -548,6 +563,81 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Fetch `competitionTradingMetrics` on mounted.
+   *
+   * @returns {void}
+   */
+  fetchCompetitionTradingMetricsOnMounted () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return
+    }
+
+    const valueHash = this.generateCompetitionTradingMetricsValueHash()
+    if (!valueHash) {
+      return
+    }
+
+    this.fetcherHash
+      .competitionTradingMetrics
+      .fetchCompetitionTradingMetricsOnMounted({
+        valueHash,
+      })
+  }
+
+  /**
+   * Fetch `competitionTradingMetrics` on event.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitionTradingMetricsOnEvent () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return
+    }
+
+    const valueHash = this.generateCompetitionTradingMetricsValueHash()
+    if (!valueHash) {
+      return
+    }
+
+    await this.fetcherHash
+      .competitionTradingMetrics
+      .fetchCompetitionTradingMetricsOnEvent({
+        valueHash,
+      })
+  }
+
+  /**
+   * Generate value hash for `competitionTradingMetrics` fetcher method.
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlPayload').CompetitionTradingMetricsQueryRequestVariables['input'] | null}
+   */
+  generateCompetitionTradingMetricsValueHash () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const currentPage = this.extractCurrentPage({
+      pageParamKey: 'volumeLeaderboardPage',
+    })
+
+    const offset = this.calculatePaginationOffset({
+      limit: PAGINATION.LIMIT,
+      currentPage,
+    })
+
+    return {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset,
+      },
+    }
+  }
+
+  /**
    * Generate refetch hash. Have to be arrow function to conserve `this` scope.
    *
    * @returns {RefetchHash}
@@ -595,6 +685,26 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Calculate pagination offset.
+   *
+   * @param {{
+   *   limit: number
+   *   currentPage: number | null
+   * }} params - Parameters.
+   * @returns {number}
+   */
+  calculatePaginationOffset ({
+    limit,
+    currentPage,
+  }) {
+    if (currentPage === null) {
+      return 0
+    }
+
+    return (currentPage - 1) * limit
   }
 
   /**
@@ -1498,6 +1608,9 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competitionEnrolledParticipantsNumber: GraphqlClient
  *     unregisterFromCompetition: GraphqlClient
  *   }
+ *   fetcherHash: {
+ *     competitionTradingMetrics: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher').default
+ *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
  */
@@ -1514,6 +1627,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
+ *   isLoadingCompetitionTradingMetrics: boolean
  *   isLoadingTopThree: boolean
  *   isLoadingParticipant: boolean
  *   isLoadingEnrolledParticipantsNumber: boolean
