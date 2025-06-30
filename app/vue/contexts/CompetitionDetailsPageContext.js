@@ -39,6 +39,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     toastStore,
     walletStore,
     graphqlClientHash,
+    fetcherHash,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
@@ -53,6 +54,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
@@ -75,6 +77,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
     toastStore,
     walletStore,
     graphqlClientHash,
+    fetcherHash,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
@@ -88,6 +91,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         toastStore,
         walletStore,
         graphqlClientHash,
+        fetcherHash,
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
@@ -241,6 +245,39 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: metricLeaderboardHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get metricLeaderboardHeaderEntries () {
+    return [
+      {
+        key: 'name',
+        label: 'Name',
+      },
+      {
+        key: 'address',
+        label: 'Address',
+      },
+      {
+        key: 'makerVolume',
+        label: 'Maker Volume',
+      },
+      {
+        key: 'takerVolume',
+        label: 'Taker Volume',
+      },
+      {
+        key: 'totalVolume',
+        label: 'Total Volume',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends CompetitionDetailsPageContext ? X : never} T, X
@@ -270,10 +307,21 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       await this.fetchLeaderboardEntries()
     })
 
+    this.fetchCompetitionTradingMetricsOnMounted()
+
     this.watch(
       () => this.extractCurrentPage(),
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.extractCurrentPage({
+        pageParamKey: 'volumeLeaderboardPage',
+      }),
+      async () => {
+        await this.fetchCompetitionTradingMetricsOnEvent()
       }
     )
 
@@ -548,6 +596,102 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Fetch `competitionTradingMetrics` on mounted.
+   *
+   * @returns {void}
+   */
+  fetchCompetitionTradingMetricsOnMounted () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return
+    }
+
+    const valueHash = this.generateCompetitionTradingMetricsValueHash()
+    if (!valueHash) {
+      return
+    }
+
+    this.fetcherHash
+      .competitionTradingMetrics
+      .fetchCompetitionTradingMetricsOnMounted({
+        valueHash,
+      })
+  }
+
+  /**
+   * Fetch `competitionTradingMetrics` on event.
+   *
+   * @returns {Promise<void>}
+   */
+  async fetchCompetitionTradingMetricsOnEvent () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return
+    }
+
+    const valueHash = this.generateCompetitionTradingMetricsValueHash()
+    if (!valueHash) {
+      return
+    }
+
+    await this.fetcherHash
+      .competitionTradingMetrics
+      .fetchCompetitionTradingMetricsOnEvent({
+        valueHash,
+      })
+  }
+
+  /**
+   * Generate value hash for `competitionTradingMetrics` fetcher method.
+   *
+   * @returns {import('~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlPayload').CompetitionTradingMetricsQueryRequestVariables['input'] | null}
+   */
+  generateCompetitionTradingMetricsValueHash () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const currentPage = this.extractCurrentPage({
+      pageParamKey: 'volumeLeaderboardPage',
+    })
+
+    const offset = this.calculatePaginationOffset({
+      limit: PAGINATION.LIMIT,
+      currentPage,
+    })
+
+    return {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset,
+      },
+    }
+  }
+
+  /**
+   * Generate entries of metric leaderboard.
+   *
+   * @returns {Array<MetricLeaderboardEntry>}
+   */
+  generateMetricLeaderboardEntries () {
+    return this.fetcherHash.competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .metrics
+      .map(it => ({
+        name: it.address.name,
+        address: it.address.address,
+        makerFees: it.makerFees,
+        takerFees: it.takerFees,
+        totalFees: it.totalFees,
+        makerVolume: it.makeVolume,
+        takerVolume: it.takerVolume,
+        totalVolume: it.totalVolume,
+      }))
+  }
+
+  /**
    * Generate refetch hash. Have to be arrow function to conserve `this` scope.
    *
    * @returns {RefetchHash}
@@ -579,17 +723,42 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   /**
    * Extract current page.
    *
+   * @param {{
+   *   pageParamKey?: 'pnlLeaderboardPage' | 'volumeLeaderboardPage'
+   * }} [params] - Parameters.
    * @returns {number} Current page.
    */
-  extractCurrentPage () {
-    const currentPageQuery = Array.isArray(this.route.query.leaderboardPage)
-      ? this.route.query.leaderboardPage[0]
-      : this.route.query.leaderboardPage
+  extractCurrentPage ({
+    pageParamKey = 'pnlLeaderboardPage',
+  } = {}) {
+    const currentPageQuery = Array.isArray(this.route.query[pageParamKey])
+      ? this.route.query[pageParamKey].at(0)
+      : this.route.query[pageParamKey]
     const currentPage = Number(currentPageQuery)
 
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Calculate pagination offset.
+   *
+   * @param {{
+   *   limit: number
+   *   currentPage: number | null
+   * }} params - Parameters.
+   * @returns {number}
+   */
+  calculatePaginationOffset ({
+    limit,
+    currentPage,
+  }) {
+    if (currentPage === null) {
+      return 0
+    }
+
+    return (currentPage - 1) * limit
   }
 
   /**
@@ -1000,6 +1169,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingCompetitionTradingMetrics
+   *
+   * @returns {boolean}
+   */
+  get isLoadingCompetitionTradingMetrics () {
+    return this.statusReactive.isLoadingCompetitionTradingMetrics
+  }
+
+  /**
    * get: isLoadingParticipant
    *
    * @returns {boolean}
@@ -1404,6 +1582,29 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Generate pagination result for competition trading metrics.
+   *
+   * @returns {PaginationResult}
+   */
+  generateMetricLeaderboardPaginationResult () {
+    const limit = this.fetcherHash
+      .competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .limit
+      ?? 0
+    const totalRecords = this.fetcherHash
+      .competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .totalCount
+      ?? 0
+
+    return {
+      limit,
+      totalRecords,
+    }
+  }
+
+  /**
    * Extract last leaderboard update timestamp.
    *
    * @returns {string | null} ISO string or `null` if unknown.
@@ -1493,6 +1694,9 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *     competitionEnrolledParticipantsNumber: GraphqlClient
  *     unregisterFromCompetition: GraphqlClient
  *   }
+ *   fetcherHash: {
+ *     competitionTradingMetrics: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher').default
+ *   }
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
  */
@@ -1509,6 +1713,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  * @typedef {{
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
+ *   isLoadingCompetitionTradingMetrics: boolean
  *   isLoadingTopThree: boolean
  *   isLoadingParticipant: boolean
  *   isLoadingEnrolledParticipantsNumber: boolean
@@ -1578,6 +1783,19 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   roi: number
  *   prize: string | null
  * }} NormalizedTopThreeLeaderboardEntry
+ */
+
+/**
+ * @typedef {{
+ *   name: string
+ *   address: string
+ *   makerFees: number
+ *   takerFees: number
+ *   totalFees: number
+ *   makerVolume: number
+ *   takerVolume: number
+ *   totalVolume: number
+ * }} MetricLeaderboardEntry
  */
 
 /**

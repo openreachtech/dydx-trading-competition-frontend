@@ -29,6 +29,52 @@ const SECTION_HEADING_HASH = {
  */
 export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
+   * Constructor
+   *
+   * @param {SectionLeaderboardContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    route,
+    router,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.route = route
+    this.router = router
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof SectionLeaderboardContext ? X : never} T, X
+   * @override
+   * @param {SectionLeaderboardContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    route,
+    router,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        route,
+        router,
+      })
+    )
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {number | null}
@@ -44,6 +90,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   get isLoadingLeaderboard () {
     return this.props.isLoadingLeaderboard
+  }
+
+  /**
+   * get: isLoadingMetricLeaderboard
+   *
+   * @returns {PropsType['isLoadingMetricLeaderboard']}
+   */
+  get isLoadingMetricLeaderboard () {
+    return this.props.isLoadingMetricLeaderboard
   }
 
   /**
@@ -74,12 +129,39 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: metricLeaderboardTableHeaderEntries
+   *
+   * @returns {PropsType['metricLeaderboardTableHeaderEntries']}
+   */
+  get metricLeaderboardTableHeaderEntries () {
+    return this.props.metricLeaderboardTableHeaderEntries
+  }
+
+  /**
+   * get: metricLeaderboardTableEntries
+   *
+   * @returns {PropsType['metricLeaderboardTableEntries']}
+   */
+  get metricLeaderboardTableEntries () {
+    return this.props.metricLeaderboardTableEntries
+  }
+
+  /**
    * get: leaderboardPaginationResult
    *
    * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
    */
   get leaderboardPaginationResult () {
     return this.props.leaderboardPaginationResult
+  }
+
+  /**
+   * get: metricLeaderboardPaginationResult
+   *
+   * @returns {PropsType['metricLeaderboardPaginationResult']} Pagination result.
+   */
+  get metricLeaderboardPaginationResult () {
+    return this.props.metricLeaderboardPaginationResult
   }
 
   /**
@@ -98,6 +180,70 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   get outcomeCsvUrl () {
     return this.props.outcomeCsvUrl
+  }
+
+  /**
+   * get: leaderboardTabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  get leaderboardTabs () {
+    return [
+      {
+        tabKey: 'pnl',
+        label: 'PnL Ranking',
+      },
+      {
+        tabKey: 'metrics',
+        label: 'Volume Ranking',
+      },
+    ]
+  }
+
+  /**
+   * Extract active tab key from route.
+   *
+   * @returns {import('vue-router').LocationQueryValue}
+   */
+  extractActiveTabKeyFromRoute () {
+    const activeTabKey = Array.isArray(this.route.query.leaderboardTab)
+      ? this.route.query.leaderboardTab.at(0)
+      : this.route.query.leaderboardTab
+
+    if (!activeTabKey) {
+      return this.leaderboardTabs
+        .at(0)
+        ?.tabKey
+        ?? null
+    }
+
+    return activeTabKey
+  }
+
+  /**
+   * Change tab.
+   *
+   * @param {{
+   *   fromTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   toTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   tabKey?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async changeTab ({
+    fromTab,
+    toTab,
+    tabKey = 'tab',
+  }) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [tabKey]: toTab.tabKey,
+      },
+    })
   }
 
   /**
@@ -414,32 +560,64 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
       canceled: statusId === COMPETITION_PARTICIPANT_STATUS.CANCELED.ID,
     }
   }
+
+  /**
+   * Format currency.
+   *
+   * @param {{
+   *   figure: string | number
+   * }} params - Parameters.
+   * @returns {string}
+   * @todo Please put this method in `BaseAppFuroContext`.
+   */
+  formatCurrency ({
+    figure,
+  }) {
+    if (this.isNullish({
+      value: figure,
+    })) {
+      return '--'
+    }
+
+    const normalizedFigure = typeof figure === 'string'
+      ? parseFloat(figure)
+      : figure
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+
+    return formatter.format(normalizedFigure)
+  }
+
+  /**
+   * Check if a value is null or undefined.
+   *
+   * @param {{
+   *   value: *
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isNullish ({
+    value,
+  }) {
+    return value === null
+      || value === undefined
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
- *   route: ReturnType<import('#imports').useRoute>
- *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
- *   statusReactive: StatusReactive
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  * }} SectionLeaderboardContextParams
  */
 
 /**
  * @typedef {SectionLeaderboardContextParams} SectionLeaderboardContextFactoryParams
- */
-
-/**
- * @typedef {'competitionLeaderboard'} GraphqlClientHashKeys
- */
-
-/**
- * @typedef {ReturnType<import('@openreachtech/furo-nuxt').useGraphqlClient>} GraphqlClient
- */
-
-/**
- * @typedef {{
- *   isLoading: boolean
- * }} StatusReactive
  */
 
 /**
@@ -453,10 +631,14 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  * @typedef {{
  *   competitionStatusId: number | null
  *   isLoadingLeaderboard: boolean
+ *   isLoadingMetricLeaderboard: boolean
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   metricLeaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
+ *   metricLeaderboardTableEntries: Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').MetricLeaderboardEntry>
  *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
+ *   metricLeaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  *   outcomeCsvUrl: string | null
  * }} PropsType

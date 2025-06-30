@@ -40,6 +40,17 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
   }
 
   /**
+   * get: limit
+   *
+   * @returns {number | null}
+   */
+  get limit () {
+    return this.pagination
+      ?.limit
+      ?? null
+  }
+
+  /**
    * get: totalCount
    *
    * @returns {number | null}
