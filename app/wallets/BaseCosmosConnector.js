@@ -16,6 +16,11 @@ import {
   assetLists as chainRegistryAssets,
 } from 'chain-registry'
 
+/** @type {Record<string, import('@cosmos-kit/core').ChainName>} */
+export const CHAIN_NAME = {
+  DYDX: 'dydx',
+}
+
 export default class BaseCosmosConnector {
   /**
    * Constructor.
@@ -136,7 +141,7 @@ export default class BaseCosmosConnector {
    * @returns {string} Chain name.
    */
   static get chainName () {
-    return 'dydx'
+    return CHAIN_NAME.DYDX
   }
 
   /**
@@ -146,7 +151,7 @@ export default class BaseCosmosConnector {
    */
   static get supportedChains () {
     return [
-      'dydx',
+      CHAIN_NAME.DYDX,
     ]
   }
 
