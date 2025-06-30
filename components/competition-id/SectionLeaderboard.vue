@@ -120,258 +120,260 @@ export default defineComponent({
         {{ context.generateSectionHeading() }}
       </h2>
 
-      <div
-        class="unit-champions"
-        :class="context.generateTopRankerClasses()"
-      >
+      <div class="unit-leaderboard pnl">
         <div
-          v-for="(it, index) of context.generateTopThree()"
-          :key="index"
-          class="champion"
+          class="champions"
+          :class="context.generateTopRankerClasses()"
         >
-          <TopRankingCard
-            :rank-details="it"
-            :should-hide-prize="!context.hasFinishedCompetition()"
-            class="card"
+          <div
+            v-for="(it, index) of context.generateTopThree()"
+            :key="index"
+            class="champion"
+          >
+            <TopRankingCard
+              :rank-details="it"
+              :should-hide-prize="!context.hasFinishedCompetition()"
+              class="card"
+            />
+
+            <div class="tail" />
+          </div>
+        </div>
+
+        <span
+          class="note"
+          :class="context.generateLastUpdateNoteClasses()"
+        >
+          {{ context.formatLastLeaderboardUpdateTimestamp() }}
+        </span>
+
+        <AppTable
+          :header-entries="context.leaderboardTableHeaderEntries"
+          :entries="context.leaderboardTableEntries"
+          :is-loading="context.isLoadingLeaderboard"
+          class="table"
+        >
+          <!-- ** Competition participants list ** -->
+          <template #body-participantName="{ value, row }">
+            <NuxtLink
+              class="unit-name participant"
+              :to="context.generateProfileUrl({
+                address: row.participantAddress,
+              })"
+            >
+              {{ value }}
+            </NuxtLink>
+          </template>
+
+          <template #body-participantAddress="{ value }">
+            <span class="unit-address participant">
+              <span>{{ value }}</span>
+
+              <LinkTooltipButton
+                tooltip-message="View on Mintscan"
+                :href="context.generateAddressUrl({
+                  address: value,
+                })"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </span>
+          </template>
+
+          <template #body-participantEquity="{ value, row }">
+            <span class="unit-column equity">
+              {{ value }}
+            </span>
+          </template>
+
+          <template #body-participantStatus="{ value }">
+            <span
+              class="unit-status participant"
+              :class="context.generateParticipantStatusClasses({
+                statusId: value.statusId,
+              })"
+            >
+              {{
+                context.normalizeStatusName({
+                  statusName: value.name,
+                })
+              }}
+            </span>
+          </template>
+
+          <!-- ** Ongoing competition leaderboard ** -->
+          <template #body-ongoingRank="{ value }">
+            <span class="unit-rank ongoing">
+              <span class="indicator">#</span> {{ value }}
+            </span>
+          </template>
+
+          <template #body-ongoingName="{ value, row }">
+            <NuxtLink
+              class="unit-name ongoing"
+              :to="context.generateProfileUrl({
+                address: row.ongoingAddress,
+              })"
+            >
+              {{ value }}
+            </NuxtLink>
+          </template>
+
+          <template #body-ongoingAddress="{ value }">
+            <span class="unit-address ongoing">
+              <span>
+                {{
+                  context.shortenAddress({
+                    address: value,
+                  })
+                }}
+              </span>
+
+              <LinkTooltipButton
+                tooltip-message="View on Mintscan"
+                :href="context.generateAddressUrl({
+                  address: value,
+                })"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </span>
+          </template>
+
+          <template #body-ongoingBaseline="{ value }">
+            <span class="unit-baseline ongoing">
+              {{
+                context.normalizePerformanceBaseline({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <template #body-ongoingRoi="{ value }">
+            <span class="unit-roi ongoing">
+              {{
+                context.normalizeRoi({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <template #body-ongoingPnl="{ value }">
+            <span class="unit-pnl ongoing">
+              {{
+                context.normalizePnl({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <!-- ** Leaderboard final outcome ** -->
+          <template #body-outcomeRank="{ value }">
+            <span class="unit-rank outcome">
+              <span class="indicator">#</span> {{ value }}
+            </span>
+          </template>
+
+          <template #body-outcomeName="{ value, row }">
+            <NuxtLink
+              class="unit-name outcome"
+              :to="context.generateProfileUrl({
+                address: row.outcomeAddress,
+              })"
+            >
+              {{ value }}
+            </NuxtLink>
+          </template>
+
+          <template #body-outcomeAddress="{ value }">
+            <span class="unit-address outcome">
+              <span>
+                {{
+                  context.shortenAddress({
+                    address: value,
+                  })
+                }}
+              </span>
+
+              <LinkTooltipButton
+                tooltip-message="View on Mintscan"
+                :href="context.generateAddressUrl({
+                  address: value,
+                })"
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            </span>
+          </template>
+
+          <template #body-outcomeBaseline="{ value }">
+            <span class="unit-baseline outcome">
+              {{
+                context.normalizePerformanceBaseline({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <template #body-outcomeRoi="{ value }">
+            <span class="unit-roi outcome">
+              {{
+                context.normalizeRoi({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <template #body-outcomePnl="{ value }">
+            <span class="unit-pnl outcome">
+              {{
+                context.normalizePnl({
+                  figure: value,
+                })
+              }}
+            </span>
+          </template>
+
+          <template #body-outcomePrize="{ value }">
+            <span class="unit-prize outcome">
+              ${{ value }}
+            </span>
+          </template>
+        </AppTable>
+
+        <div class="footer">
+          <div class="empty" />
+
+          <AppPagination
+            class="pagination"
+            page-key="leaderboardPage"
+            :pagination="context.leaderboardPaginationResult"
           />
 
-          <div class="tail" />
+          <AppButton
+            variant="neutral"
+            class="button download-result"
+            :class="{
+              hidden: !context.outcomeCsvUrl,
+            }"
+            @click="context.downloadOutcomeCsv()"
+          >
+            <template #startIcon>
+              <Icon
+                name="heroicons:arrow-down-tray"
+                size="1rem"
+              />
+            </template>
+            <template #default>
+              Download full result
+            </template>
+          </AppButton>
         </div>
-      </div>
-
-      <span
-        class="note"
-        :class="context.generateLastUpdateNoteClasses()"
-      >
-        {{ context.formatLastLeaderboardUpdateTimestamp() }}
-      </span>
-
-      <AppTable
-        :header-entries="context.leaderboardTableHeaderEntries"
-        :entries="context.leaderboardTableEntries"
-        :is-loading="context.isLoadingLeaderboard"
-        class="table"
-      >
-        <!-- ** Competition participants list ** -->
-        <template #body-participantName="{ value, row }">
-          <NuxtLink
-            class="unit-name participant"
-            :to="context.generateProfileUrl({
-              address: row.participantAddress,
-            })"
-          >
-            {{ value }}
-          </NuxtLink>
-        </template>
-
-        <template #body-participantAddress="{ value }">
-          <span class="unit-address participant">
-            <span>{{ value }}</span>
-
-            <LinkTooltipButton
-              tooltip-message="View on Mintscan"
-              :href="context.generateAddressUrl({
-                address: value,
-              })"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          </span>
-        </template>
-
-        <template #body-participantEquity="{ value, row }">
-          <span class="unit-column equity">
-            {{ value }}
-          </span>
-        </template>
-
-        <template #body-participantStatus="{ value }">
-          <span
-            class="unit-status participant"
-            :class="context.generateParticipantStatusClasses({
-              statusId: value.statusId,
-            })"
-          >
-            {{
-              context.normalizeStatusName({
-                statusName: value.name,
-              })
-            }}
-          </span>
-        </template>
-
-        <!-- ** Ongoing competition leaderboard ** -->
-        <template #body-ongoingRank="{ value }">
-          <span class="unit-rank ongoing">
-            <span class="indicator">#</span> {{ value }}
-          </span>
-        </template>
-
-        <template #body-ongoingName="{ value, row }">
-          <NuxtLink
-            class="unit-name ongoing"
-            :to="context.generateProfileUrl({
-              address: row.ongoingAddress,
-            })"
-          >
-            {{ value }}
-          </NuxtLink>
-        </template>
-
-        <template #body-ongoingAddress="{ value }">
-          <span class="unit-address ongoing">
-            <span>
-              {{
-                context.shortenAddress({
-                  address: value,
-                })
-              }}
-            </span>
-
-            <LinkTooltipButton
-              tooltip-message="View on Mintscan"
-              :href="context.generateAddressUrl({
-                address: value,
-              })"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          </span>
-        </template>
-
-        <template #body-ongoingBaseline="{ value }">
-          <span class="unit-baseline ongoing">
-            {{
-              context.normalizePerformanceBaseline({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <template #body-ongoingRoi="{ value }">
-          <span class="unit-roi ongoing">
-            {{
-              context.normalizeRoi({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <template #body-ongoingPnl="{ value }">
-          <span class="unit-pnl ongoing">
-            {{
-              context.normalizePnl({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <!-- ** Leaderboard final outcome ** -->
-        <template #body-outcomeRank="{ value }">
-          <span class="unit-rank outcome">
-            <span class="indicator">#</span> {{ value }}
-          </span>
-        </template>
-
-        <template #body-outcomeName="{ value, row }">
-          <NuxtLink
-            class="unit-name outcome"
-            :to="context.generateProfileUrl({
-              address: row.outcomeAddress,
-            })"
-          >
-            {{ value }}
-          </NuxtLink>
-        </template>
-
-        <template #body-outcomeAddress="{ value }">
-          <span class="unit-address outcome">
-            <span>
-              {{
-                context.shortenAddress({
-                  address: value,
-                })
-              }}
-            </span>
-
-            <LinkTooltipButton
-              tooltip-message="View on Mintscan"
-              :href="context.generateAddressUrl({
-                address: value,
-              })"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          </span>
-        </template>
-
-        <template #body-outcomeBaseline="{ value }">
-          <span class="unit-baseline outcome">
-            {{
-              context.normalizePerformanceBaseline({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <template #body-outcomeRoi="{ value }">
-          <span class="unit-roi outcome">
-            {{
-              context.normalizeRoi({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <template #body-outcomePnl="{ value }">
-          <span class="unit-pnl outcome">
-            {{
-              context.normalizePnl({
-                figure: value,
-              })
-            }}
-          </span>
-        </template>
-
-        <template #body-outcomePrize="{ value }">
-          <span class="unit-prize outcome">
-            ${{ value }}
-          </span>
-        </template>
-      </AppTable>
-
-      <div class="unit-footer">
-        <div class="empty" />
-
-        <AppPagination
-          class="pagination"
-          page-key="leaderboardPage"
-          :pagination="context.leaderboardPaginationResult"
-        />
-
-        <AppButton
-          variant="neutral"
-          class="button download-result"
-          :class="{
-            hidden: !context.outcomeCsvUrl,
-          }"
-          @click="context.downloadOutcomeCsv()"
-        >
-          <template #startIcon>
-            <Icon
-              name="heroicons:arrow-down-tray"
-              size="1rem"
-            />
-          </template>
-          <template #default>
-            Download full result
-          </template>
-        </AppButton>
       </div>
     </div>
   </section>
@@ -439,7 +441,7 @@ export default defineComponent({
   display: none;
 }
 
-.unit-section > .inner > .note {
+.unit-leaderboard > .note {
   align-self: end;
   text-align: end;
 
@@ -449,11 +451,11 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-section > .inner > .note.hidden {
+.unit-leaderboard > .note.hidden {
   display: none;
 }
 
-.unit-section > .inner > .table {
+.unit-leaderboard > .table {
   margin-block-start: 1rem;
 
   font-size: var(--font-size-base);
@@ -463,7 +465,7 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-footer {
+.unit-leaderboard > .footer {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 1.75rem;
@@ -476,7 +478,7 @@ export default defineComponent({
   }
 }
 
-.unit-footer > .empty {
+.unit-leaderboard > .footer > .empty {
   display: none;
 
   @media (48rem < width) {
@@ -484,7 +486,7 @@ export default defineComponent({
   }
 }
 
-.unit-footer > .button.download-result {
+.unit-leaderboard > .footer > .button.download-result {
   justify-self: center;
 
   @media (48rem < width) {
@@ -492,12 +494,12 @@ export default defineComponent({
   }
 }
 
-.unit-footer > .button.download-result.hidden {
+.unit-leaderboard > .footer > .button.download-result.hidden {
   display: none;
 }
 
 /***************** Top 3 rankers ****************/
-.unit-champions {
+.unit-leaderboard > .champions {
   margin-block-end: 3rem;
 
   display: flex;
@@ -513,11 +515,11 @@ export default defineComponent({
   }
 }
 
-.unit-champions.hidden {
+.unit-leaderboard > .champions.hidden {
   display: none;
 }
 
-.unit-champions > .champion {
+.unit-leaderboard > .champions > .champion {
   display: flex;
   flex-direction: column;
 
@@ -526,7 +528,7 @@ export default defineComponent({
   }
 }
 
-.unit-champions > .champion:first-of-type {
+.unit-leaderboard > .champions > .champion:first-of-type {
   @media (48rem < width) {
     order: 1;
 
@@ -538,7 +540,7 @@ export default defineComponent({
   }
 }
 
-.unit-champions > .champion:nth-of-type(2) {
+.unit-leaderboard > .champions > .champion:nth-of-type(2) {
   @media (48rem < width) {
     margin-block-start: 15rem;
 
@@ -550,11 +552,11 @@ export default defineComponent({
   }
 }
 
-.unit-champions > .champion > .card {
+.unit-leaderboard > .champions > .champion > .card {
   z-index: calc(var(--value-z-index-layer-content) + 0);
 }
 
-.unit-champions > .champion:last-of-type {
+.unit-leaderboard > .champions > .champion:last-of-type {
   @media (48rem < width) {
     margin-block-start: 15.5rem;
 
@@ -566,7 +568,7 @@ export default defineComponent({
   }
 }
 
-.unit-champions > .champion > .tail {
+.unit-leaderboard > .champions > .champion > .tail {
   display: none;
 
   flex: 1;
@@ -578,7 +580,7 @@ export default defineComponent({
   }
 }
 
-.unit-champions > .champion:first-of-type > .tail {
+.unit-leaderboard > .champions > .champion:first-of-type > .tail {
   clip-path: polygon(
     0.18% 0%,
     100% 0%,
@@ -588,7 +590,7 @@ export default defineComponent({
   background-image: linear-gradient(to bottom, #1F1F30E5, #101018);
 }
 
-.unit-champions > .champion:nth-of-type(2) > .tail {
+.unit-leaderboard > .champions > .champion:nth-of-type(2) > .tail {
   margin-inline-start: -6rem;
 
   clip-path: polygon(
@@ -601,7 +603,7 @@ export default defineComponent({
   background-image: linear-gradient(to bottom, #1F1F30E5, #101018);
 }
 
-.unit-champions > .champion:last-of-type > .tail {
+.unit-leaderboard > .champions > .champion:last-of-type > .tail {
   margin-inline-end: -6.5rem;
 
   clip-path: polygon(
