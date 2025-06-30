@@ -245,6 +245,39 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: leaderboardFinalOutcomeHeaderEntries
+   *
+   * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
+   */
+  get metricLeaderboardHeaderEntries () {
+    return [
+      {
+        key: 'name',
+        label: 'Name',
+      },
+      {
+        key: 'address',
+        label: 'Address',
+      },
+      {
+        key: 'makerVolume',
+        label: 'Maker Volume',
+      },
+      {
+        key: 'takerVolume',
+        label: 'Total Volume',
+      },
+      {
+        key: 'totalVolume',
+        label: 'Total Volume',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
+    ]
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends CompetitionDetailsPageContext ? X : never} T, X
@@ -635,6 +668,27 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
         offset,
       },
     }
+  }
+
+  /**
+   * Generate entries of metric leaderboard.
+   *
+   * @returns {Array<MetricLeaderboardEntry>}
+   */
+  generateMetricLeaderboardEntries () {
+    return this.fetcherHash.competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .metrics
+      .map(it => ({
+        name: it.address.name,
+        address: it.address.address,
+        makerFees: it.makerFees,
+        takerFees: it.takerFees,
+        totalFees: it.totalFees,
+        makerVolume: it.makeVolume,
+        takerVolume: it.takerVolume,
+        totalVolume: it.totalVolume,
+      }))
   }
 
   /**
@@ -1115,6 +1169,15 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingCompetitionTradingMetrics
+   *
+   * @returns {boolean}
+   */
+  get isLoadingCompetitionTradingMetrics () {
+    return this.statusReactive.isLoadingCompetitionTradingMetrics
+  }
+
+  /**
    * get: isLoadingParticipant
    *
    * @returns {boolean}
@@ -1519,6 +1582,29 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
   }
 
   /**
+   * Generate pagination result for competition trading metrics.
+   *
+   * @returns {PaginationResult}
+   */
+  generateMetricLeaderboardPaginationResult () {
+    const limit = this.fetcherHash
+      .competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .limit
+      ?? 0
+    const totalRecords = this.fetcherHash
+      .competitionTradingMetrics
+      .competitionTradingMetricsCapsule
+      .totalCount
+      ?? 0
+
+    return {
+      limit,
+      totalRecords,
+    }
+  }
+
+  /**
    * Extract last leaderboard update timestamp.
    *
    * @returns {string | null} ISO string or `null` if unknown.
@@ -1697,6 +1783,19 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
  *   roi: number
  *   prize: string | null
  * }} NormalizedTopThreeLeaderboardEntry
+ */
+
+/**
+ * @typedef {{
+ *   name: string
+ *   address: string
+ *   makerFees: number
+ *   takerFees: number
+ *   totalFees: number
+ *   makerVolume: number
+ *   takerVolume: number
+ *   totalVolume: number
+ * }} MetricLeaderboardEntry
  */
 
 /**
