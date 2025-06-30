@@ -29,6 +29,52 @@ const SECTION_HEADING_HASH = {
  */
 export default class SectionLeaderboardContext extends BaseFuroContext {
   /**
+   * Constructor
+   *
+   * @param {SectionLeaderboardContextParams} params - Parameters of this constructor.
+   */
+  constructor ({
+    props,
+    componentContext,
+
+    route,
+    router,
+  }) {
+    super({
+      props,
+      componentContext,
+    })
+
+    this.route = route
+    this.router = router
+  }
+
+  /**
+   * Factory method to create a new instance of this class.
+   *
+   * @template {X extends typeof SectionLeaderboardContext ? X : never} T, X
+   * @override
+   * @param {SectionLeaderboardContextFactoryParams} params - Parameters of this factory method.
+   * @returns {InstanceType<T>} An instance of this class.
+   * @this {T}
+   */
+  static create ({
+    props,
+    componentContext,
+    route,
+    router,
+  }) {
+    return /** @type {InstanceType<T>} */ (
+      new this({
+        props,
+        componentContext,
+        route,
+        router,
+      })
+    )
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {number | null}
@@ -98,6 +144,70 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
    */
   get outcomeCsvUrl () {
     return this.props.outcomeCsvUrl
+  }
+
+  /**
+   * get: leaderboardTabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  get leaderboardTabs () {
+    return [
+      {
+        tabKey: 'pnl',
+        label: 'PnL Ranking',
+      },
+      {
+        tabKey: 'metrics',
+        label: 'Volume Ranking',
+      },
+    ]
+  }
+
+  /**
+   * Extract active tab key from route.
+   *
+   * @returns {import('vue-router').LocationQueryValue}
+   */
+  extractActiveTabKeyFromRoute () {
+    const activeTabKey = Array.isArray(this.route.query.leaderboardTab)
+      ? this.route.query.leaderboardTab.at(0)
+      : this.route.query.leaderboardTab
+
+    if (!activeTabKey) {
+      return this.leaderboardTabs
+        .at(0)
+        ?.tabKey
+        ?? null
+    }
+
+    return activeTabKey
+  }
+
+  /**
+   * Change tab.
+   *
+   * @param {{
+   *   fromTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   toTab: import('@openreachtech/furo-nuxt/lib/contexts/concretes/FuroTabItemContext').default
+   *   tabKey?: string
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async changeTab ({
+    fromTab,
+    toTab,
+    tabKey = 'tab',
+  }) {
+    await this.router.replace({
+      query: {
+        ...this.route.query,
+        [tabKey]: toTab.tabKey,
+      },
+    })
   }
 
   /**
@@ -418,28 +528,13 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
- *   route: ReturnType<import('#imports').useRoute>
- *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
- *   statusReactive: StatusReactive
+ *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  * }} SectionLeaderboardContextParams
  */
 
 /**
  * @typedef {SectionLeaderboardContextParams} SectionLeaderboardContextFactoryParams
- */
-
-/**
- * @typedef {'competitionLeaderboard'} GraphqlClientHashKeys
- */
-
-/**
- * @typedef {ReturnType<import('@openreachtech/furo-nuxt').useGraphqlClient>} GraphqlClient
- */
-
-/**
- * @typedef {{
- *   isLoading: boolean
- * }} StatusReactive
  */
 
 /**
