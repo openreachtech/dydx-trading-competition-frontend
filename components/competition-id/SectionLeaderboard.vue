@@ -135,6 +135,7 @@ export default defineComponent({
       <AppTabLayout
         :tabs="context.leaderboardTabs"
         :active-tab-key="context.extractActiveTabKeyFromRoute()"
+        class="leaderboard"
         @change-tab="context.changeTab({
           fromTab: $event.fromTab,
           toTab: $event.toTab,
@@ -696,5 +697,64 @@ export default defineComponent({
 
 .unit-status.participant.canceled {
   color: var(--color-text-participant-status-canceled);
+}
+</style>
+
+<style>
+@layer {
+  .furo-layout.tab.leaderboard {
+    --color-background-tab: var(--palette-layer-0);
+    --color-background-tab-active: var(--palette-layer-4);
+
+    --color-text-tab: var(--color-text-placeholder);
+    --color-text-tab-active: var(--color-text-primary);
+
+    --size-tab-min-width: 10rem;
+  }
+
+  .furo-layout.tab.leaderboard > .tabs {
+    gap: 0;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    margin-block-end: 4rem;
+    margin-inline: auto;
+
+    inline-size: fit-content;
+
+    padding-block: 0.2rem;
+    padding-inline: 0.2rem;
+
+    background-color: var(--color-background-tab);
+  }
+
+  .furo-layout.tab.leaderboard > .tabs > .tab {
+    border: none;
+    border-radius: 0.375rem;
+
+    min-width: var(--size-tab-min-width);
+
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+
+    line-height: 1.3;
+
+    color: var(--color-text-tab);
+
+    transition: color 250ms var(--transition-timing-base),
+      background-color 150ms var(--transition-timing-base);
+  }
+
+  .furo-layout.tab.leaderboard > .tabs > .tab:hover {
+    color: var(--color-text-tab-active);
+  }
+
+  .furo-layout.tab.leaderboard > .tabs > .tab.active {
+    background-color: var(--color-background-tab-active);
+    color: var(--color-text-tab-active);
+
+    pointer-events: none;
+  }
 }
 </style>
