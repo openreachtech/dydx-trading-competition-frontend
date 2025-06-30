@@ -13,7 +13,7 @@ import {
 } from '@cosmos-kit/core'
 
 import {
-  assetLists as chainAssets,
+  assetLists as chainRegistryAssets,
 } from 'chain-registry'
 
 export default class BaseCosmosConnector {
