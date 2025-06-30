@@ -265,7 +265,7 @@ export default class CompetitionDetailsPageContext extends BaseFuroContext {
       },
       {
         key: 'takerVolume',
-        label: 'Total Volume',
+        label: 'Taker Volume',
       },
       {
         key: 'totalVolume',
