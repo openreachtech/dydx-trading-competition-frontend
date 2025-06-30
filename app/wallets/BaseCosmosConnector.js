@@ -28,12 +28,14 @@ export default class BaseCosmosConnector {
     mainWallet,
     chainName,
     walletName,
+    chainAssets,
   }) {
     this.walletClerk = walletClerk
     this.chainWallet = chainWallet
     this.mainWallet = mainWallet
     this.chainName = chainName
     this.walletName = walletName
+    this.chainAssets = chainAssets
   }
 
   /**
@@ -48,6 +50,7 @@ export default class BaseCosmosConnector {
     wallets = this.wallets,
     chainName = this.chainName,
     walletName = this.walletName,
+    chainAssets = this.chainAssets,
   } = {}) {
     const walletClerk = this.createWalletClerk({
       wallets,
@@ -65,6 +68,7 @@ export default class BaseCosmosConnector {
         mainWallet,
         chainName,
         walletName,
+        chainAssets,
       })
     )
   }
@@ -89,8 +93,7 @@ export default class BaseCosmosConnector {
       false,
       false,
       [],
-      // @ts-expect-error: Upstream type mismatch.
-      chainAssets
+      this.chainAssets
     )
   }
 
@@ -145,6 +148,15 @@ export default class BaseCosmosConnector {
     return [
       'dydx',
     ]
+  }
+
+  /**
+   * get: chainAssets
+   *
+   * @returns {Array<import('@chain-registry/types').AssetList>}
+   */
+  static get chainAssets () {
+    return /** @type {*} */ (chainRegistryAssets)
   }
 
   /**
@@ -253,6 +265,7 @@ export default class BaseCosmosConnector {
  *   mainWallet: import('@cosmos-kit/core').MainWalletBase
  *   chainName: string
  *   walletName: string
+ *   chainAssets: Array<import('@chain-registry/types').AssetList>
  * }} BaseCosmosConnectorParams
  */
 
@@ -261,5 +274,6 @@ export default class BaseCosmosConnector {
  *   wallets?: Array<import('@cosmos-kit/core').MainWalletBase>
  *   chainName?: string
  *   walletName?: string
+ *   chainAssets?: Array<import('@chain-registry/types').AssetList>
  * }} BaseCosmosConnectorFactoryParams
  */
