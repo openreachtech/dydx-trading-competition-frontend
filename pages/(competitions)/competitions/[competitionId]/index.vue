@@ -204,8 +204,12 @@ export default defineComponent({
       :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
+      :metric-leaderboard-table-header-entries="context.metricLeaderboardHeaderEntries"
+      :metric-leaderboard-table-entries="context.generateMetricLeaderboardEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"
+      :is-loading-metric-leaderboard="context.isLoadingCompetitionTradingMetrics"
       :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
+      :metric-leaderboard-pagination-result="context.generateMetricLeaderboardPaginationResult()"
       :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
       :outcome-csv-url="context.competitionOutcomeCsvUrl"
     />

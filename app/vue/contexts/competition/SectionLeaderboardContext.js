@@ -93,6 +93,15 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: isLoadingMetricLeaderboard
+   *
+   * @returns {PropsType['isLoadingMetricLeaderboard']}
+   */
+  get isLoadingMetricLeaderboard () {
+    return this.props.isLoadingMetricLeaderboard
+  }
+
+  /**
    * get: leaderboardTableHeaderEntries
    *
    * @returns {PropsType['leaderboardTableHeaderEntries']} Header entries.
@@ -120,12 +129,39 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
   }
 
   /**
+   * get: metricLeaderboardTableHeaderEntries
+   *
+   * @returns {PropsType['metricLeaderboardTableHeaderEntries']}
+   */
+  get metricLeaderboardTableHeaderEntries () {
+    return this.props.metricLeaderboardTableHeaderEntries
+  }
+
+  /**
+   * get: metricLeaderboardTableEntries
+   *
+   * @returns {PropsType['metricLeaderboardTableEntries']}
+   */
+  get metricLeaderboardTableEntries () {
+    return this.props.metricLeaderboardTableEntries
+  }
+
+  /**
    * get: leaderboardPaginationResult
    *
    * @returns {PropsType['leaderboardPaginationResult']} Pagination result.
    */
   get leaderboardPaginationResult () {
     return this.props.leaderboardPaginationResult
+  }
+
+  /**
+   * get: metricLeaderboardPaginationResult
+   *
+   * @returns {PropsType['metricLeaderboardPaginationResult']} Pagination result.
+   */
+  get metricLeaderboardPaginationResult () {
+    return this.props.metricLeaderboardPaginationResult
   }
 
   /**
@@ -548,10 +584,14 @@ export default class SectionLeaderboardContext extends BaseFuroContext {
  * @typedef {{
  *   competitionStatusId: number | null
  *   isLoadingLeaderboard: boolean
+ *   isLoadingMetricLeaderboard: boolean
  *   leaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
  *   leaderboardTableEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries
+ *   metricLeaderboardTableHeaderEntries: Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>
+ *   metricLeaderboardTableEntries: Array<import('~/app/vue/contexts/CompetitionDetailsPageContext').MetricLeaderboardEntry>
  *   topThreeLeaderboardEntries: import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries
  *   leaderboardPaginationResult: PaginationResult
+ *   metricLeaderboardPaginationResult: PaginationResult
  *   lastLeaderboardUpdateTimestamp: string | null
  *   outcomeCsvUrl: string | null
  * }} PropsType

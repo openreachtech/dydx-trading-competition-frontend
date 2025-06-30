@@ -46,6 +46,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    isLoadingMetricLeaderboard: {
+      type: Boolean,
+      required: true,
+    },
     leaderboardTableHeaderEntries: {
       /**
        * @type {import('vue').PropType<
@@ -73,10 +77,37 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    metricLeaderboardTableHeaderEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['metricLeaderboardTableHeaderEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
+    metricLeaderboardTableEntries: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['metricLeaderboardTableEntries']
+       * >}
+       */
+      type: Array,
+      required: true,
+    },
     leaderboardPaginationResult: {
       /**
        * @type {import('vue').PropType<
        *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['leaderboardPaginationResult']
+       * >}
+       */
+      type: Object,
+      required: true,
+    },
+    metricLeaderboardPaginationResult: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['metricLeaderboardPaginationResult']
        * >}
        */
       type: Object,
