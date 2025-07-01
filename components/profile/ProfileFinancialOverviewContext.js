@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const TRADE_SIDE_SYMBOL_HASH = {
   LONG: 'B',
@@ -10,9 +8,9 @@ const TRADE_SIDE_SYMBOL_HASH = {
 /**
  * ProfileFinancialOverviewContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class ProfileFinancialOverviewContext extends BaseFuroContext {
+export default class ProfileFinancialOverviewContext extends BaseAppContext {
   /**
    * get: profileOverview
    *

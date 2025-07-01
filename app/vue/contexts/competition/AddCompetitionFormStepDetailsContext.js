@@ -1,15 +1,13 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const FALLBACK_COMPETITION_IMAGE_URL = '/img/badges/league-badge-placeholder.png'
 
 /**
  * AddCompetitionFormStepDetailsContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class AddCompetitionFormStepDetailsContext extends BaseFuroContext {
+export default class AddCompetitionFormStepDetailsContext extends BaseAppContext {
   /**
    * Constructor
    *

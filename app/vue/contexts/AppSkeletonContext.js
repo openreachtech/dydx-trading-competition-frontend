@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AppSkeletonContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AppSkeletonContext extends BaseFuroContext {
+export default class AppSkeletonContext extends BaseAppContext {
   /**
    * get: isRounded
    *

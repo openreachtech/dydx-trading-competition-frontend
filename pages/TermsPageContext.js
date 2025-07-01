@@ -1,12 +1,10 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * TermsPageContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, {}, null>}
  */
-export default class TermsPageContext extends BaseFuroContext {
+export default class TermsPageContext extends BaseAppContext {
 
 }

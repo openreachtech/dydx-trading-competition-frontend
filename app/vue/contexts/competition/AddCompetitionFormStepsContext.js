@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   EVENT_NAME,
@@ -9,9 +7,9 @@ import {
 /**
  * AddCompetitionFormStepsContext
  *
- * @extends {BaseFuroContext<null, PropsType, (typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
+ * @extends {BaseAppContext<null, PropsType, (typeof EVENT_NAME)[keyof typeof EVENT_NAME]>}
  */
-export default class AddCompetitionFormStepsContext extends BaseFuroContext {
+export default class AddCompetitionFormStepsContext extends BaseAppContext {
   /** @override */
   static get EMIT_EVENT_NAME () {
     return EVENT_NAME

@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * Context class for AppBadge component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseAppContext<null>} - Base class.
  */
-export default class AppBadgeContext extends BaseFuroContext {
+export default class AppBadgeContext extends BaseAppContext {
   /**
    * get: sharedProps
    * Shared props for sibling components.

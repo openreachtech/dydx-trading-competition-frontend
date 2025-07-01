@@ -2,9 +2,7 @@ import {
   useRoute,
 } from 'vue-router'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   SCHEDULE_CATEGORY,
@@ -38,9 +36,9 @@ const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
 /**
  * Context class for SectionLeague component.
  *
- * @extends {BaseFuroContext<null, PropsType, null>} - Base class.
+ * @extends {BaseAppContext<null, PropsType, null>} - Base class.
  */
-export default class SectionLeagueContext extends BaseFuroContext {
+export default class SectionLeagueContext extends BaseAppContext {
 /**
  * Constructor
  *

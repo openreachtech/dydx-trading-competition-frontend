@@ -1,15 +1,13 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const MAX_DISPLAYED_DAYS_PER_MONTH = 42
 
 /**
  * AppDatePickerContext
  *
- * @extends {BaseFuroContext<null, AppDatePickerProps, 'changeDate'>}
+ * @extends {BaseAppContext<null, AppDatePickerProps, 'changeDate'>}
  */
-export default class AppDatePickerContext extends BaseFuroContext {
+export default class AppDatePickerContext extends BaseAppContext {
   /**
    * Constructor
    *

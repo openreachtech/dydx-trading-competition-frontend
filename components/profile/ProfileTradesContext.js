@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const ORDER_SIDE = {
   BUY: 'BUY',
@@ -10,9 +8,9 @@ const ORDER_SIDE = {
 /**
  * ProfileTradesContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class ProfileTradesContext extends BaseFuroContext {
+export default class ProfileTradesContext extends BaseAppContext {
   /**
    * get: profileTrades
    *

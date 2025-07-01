@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   ONBOARDING_STATUS,
@@ -9,9 +7,9 @@ import {
 /**
  * AppOnboardingControlContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AppOnboardingControlContext extends BaseFuroContext {
+export default class AppOnboardingControlContext extends BaseAppContext {
   /**
    * Constructor
    *

@@ -2,9 +2,7 @@ import {
   useRoute,
 } from 'vue-router'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
@@ -17,9 +15,9 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
 /**
  * ProfileLeagueHistoryContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class ProfileLeagueHistoryContext extends BaseFuroContext {
+export default class ProfileLeagueHistoryContext extends BaseAppContext {
   /**
    * Constructor
    *

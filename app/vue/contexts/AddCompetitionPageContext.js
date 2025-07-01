@@ -7,16 +7,14 @@ import {
   navigateTo,
 } from '#imports'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AddCompetitionPageContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AddCompetitionPageContext extends BaseFuroContext {
+export default class AddCompetitionPageContext extends BaseAppContext {
   /**
    * Constructor
    *

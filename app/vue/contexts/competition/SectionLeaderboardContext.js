@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
@@ -25,9 +23,9 @@ const SECTION_HEADING_HASH = {
 /**
  * SectionLeaderboardContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class SectionLeaderboardContext extends BaseFuroContext {
+export default class SectionLeaderboardContext extends BaseAppContext {
   /**
    * Constructor
    *

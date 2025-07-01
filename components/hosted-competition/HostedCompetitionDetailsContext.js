@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   ORDINAL_SUFFIX_HASH,
@@ -10,9 +8,9 @@ import {
 /**
  * HostedCompetitionDetailsContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class HostedCompetitionDetailsContext extends BaseFuroContext {
+export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * get: competition
    *

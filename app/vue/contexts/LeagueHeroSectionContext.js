@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * LeagueHeroSectionContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class LeagueHeroSectionContext extends BaseFuroContext {
+export default class LeagueHeroSectionContext extends BaseAppContext {
   /**
    * Constructor
    *

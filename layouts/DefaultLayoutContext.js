@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   DYDX_TRADE_CTA_URL,
@@ -9,9 +7,9 @@ import {
 /**
  * DefaultLayoutContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, {}, null>}
  */
-export default class DefaultLayoutContext extends BaseFuroContext {
+export default class DefaultLayoutContext extends BaseAppContext {
   /**
    * get: dydxTradeCtaUrl
    *

@@ -10,9 +10,7 @@ import {
   useHead,
 } from '@unhead/vue'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   BASE_PAGE_TITLE,
@@ -23,9 +21,9 @@ import {
 /**
  * Context class for `pages/competitions/[competitionId]` page.
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class CompetitionDetailsPageContext extends BaseFuroContext {
+export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * Constructor.
    *

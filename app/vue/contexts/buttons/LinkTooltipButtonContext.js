@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * LinkTooltipButton
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class LinkTooltipButton extends BaseFuroContext {
+export default class LinkTooltipButton extends BaseAppContext {
   /**
    * get: tooltipMessage
    *

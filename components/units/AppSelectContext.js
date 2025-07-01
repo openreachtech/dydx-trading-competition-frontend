@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * Props context class for AppSelect component.
  *
- * @extends {BaseFuroContext<null, AppSelectContextProps, null>} - Base class <Accessor, Props, Emit>
+ * @extends {BaseAppContext<null, AppSelectContextProps, null>} - Base class <Accessor, Props, Emit>
  */
-export default class AppSelectContext extends BaseFuroContext {
+export default class AppSelectContext extends BaseAppContext {
   /**
    * Constructor.
    *

@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   COMPETITION_PARTICIPANT_STATUS,
@@ -9,9 +7,9 @@ import {
 /**
  * HostedCompetitionParticipantsContext
  *
- * @extends {BaseFuroContext<null, PropsType, 'bulkUpdateParticipantStatus'>}
+ * @extends {BaseAppContext<null, PropsType, 'bulkUpdateParticipantStatus'>}
  */
-export default class HostedCompetitionParticipantsContext extends BaseFuroContext {
+export default class HostedCompetitionParticipantsContext extends BaseAppContext {
   /**
    * Constructor
    *

@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   SCHEDULE_CATEGORY,
@@ -9,9 +7,9 @@ import {
 /**
  * AddCompetitionFormStepTimelineContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class AddCompetitionFormStepTimelineContext extends BaseFuroContext {
+export default class AddCompetitionFormStepTimelineContext extends BaseAppContext {
   /**
    * Constructor
    *

@@ -2,18 +2,16 @@ import {
   computed,
 } from 'vue'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const MAX_PRIZE_RULE_COUNT = 6
 
 /**
  * AddCompetitionFormStepPrizeContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class AddCompetitionFormStepPrizeContext extends BaseFuroContext {
+export default class AddCompetitionFormStepPrizeContext extends BaseAppContext {
   /**
    * Constructor
    *

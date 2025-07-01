@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   PAGINATION,
@@ -17,9 +15,9 @@ const ACTION_HASH = /** @type {const} */ ({
 /**
  * HostedCompetitionsPageContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, {}, null>}
  */
-export default class HostedCompetitionsPageContext extends BaseFuroContext {
+export default class HostedCompetitionsPageContext extends BaseAppContext {
   /**
    * Constructor
    *
