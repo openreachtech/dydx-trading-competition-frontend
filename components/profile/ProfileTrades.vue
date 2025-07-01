@@ -208,8 +208,14 @@ export default defineComponent({
           <span class="type">
             {{ row.type.toLowerCase() }}
           </span>
-          <span class="size">
-            {{ row.size }}
+
+          <span class="fill">
+            <span class="size">
+              {{ row.size }}
+            </span>
+            <span class="market">
+              {{ row.market }}
+            </span>
           </span>
         </span>
       </template>
@@ -338,10 +344,25 @@ export default defineComponent({
   text-transform: capitalize;
 }
 
-.unit-column.mobile.type-size > .size {
+.unit-column.mobile.type-size > .fill > .size {
   font-size: var(--font-size-small);
 
   color: var(--color-text-tertiary);
+}
+
+.unit-column.mobile.type-size > .fill > .market {
+  --color-background-market: var(--palette-layer-6);
+
+  margin-inline-start: 0.25rem;
+
+  border-radius: 0.25rem;
+
+  padding-block: 0.125rem;
+  padding-inline: 0.25rem;
+
+  font-size: var(--font-size-mini);
+
+  background-color: var(--color-background-market);
 }
 
 .unit-column.mobile.price-fee {
