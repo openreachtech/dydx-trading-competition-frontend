@@ -11,5 +11,40 @@ import {
  * @extends {BaseFuroContext<A, P, EE>}
  */
 export default class BaseAppContext extends BaseFuroContext {
+  /**
+   * Format number.
+   *
+   * @param {{
+   *   value: string | number | null
+   *   fallbackValue?: string
+   *   locale?: string
+   *   options?: Intl.NumberFormatOptions
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  formatNumber ({
+    value,
+    fallbackValue = '--',
+    locale = 'en-US',
+    options = {},
+  }) {
+    if (value === null) {
+      return fallbackValue
+    }
 
+    const parsedValue = typeof value === 'string'
+      ? parseFloat(value)
+      : value
+
+    if (isNaN(parsedValue)) {
+      return fallbackValue
+    }
+
+    const formatter = new Intl.NumberFormat(
+      locale,
+      options
+    )
+
+    return formatter.format(parsedValue)
+  }
 }
