@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * Props context class for AppTextarea component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseAppContext<null>} - Base class.
  */
-export default class AppTextareaContext extends BaseFuroContext {
+export default class AppTextareaContext extends BaseAppContext {
   /**
    * get: hasError
    *

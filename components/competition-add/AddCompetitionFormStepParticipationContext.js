@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AddCompetitionFormStepParticipationContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class AddCompetitionFormStepParticipationContext extends BaseFuroContext {
+export default class AddCompetitionFormStepParticipationContext extends BaseAppContext {
   /**
    * get: validationMessage
    *

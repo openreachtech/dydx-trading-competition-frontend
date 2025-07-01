@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * Props context class for AppButton component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseAppContext<null>} - Base class.
  */
-export default class AppButtonContext extends BaseFuroContext {
+export default class AppButtonContext extends BaseAppContext {
   /**
    * Is disabled or not.
    *

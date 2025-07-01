@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   SCHEDULE_CATEGORY,
@@ -19,9 +17,9 @@ const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24
 /**
  * AppLeagueCountdownContext
  *
- * @extends {BaseFuroContext<null, AppLeagueCountdownProps, null>}
+ * @extends {BaseAppContext<null, AppLeagueCountdownProps, null>}
  */
-export default class AppLeagueCountdownContext extends BaseFuroContext {
+export default class AppLeagueCountdownContext extends BaseAppContext {
   /**
    * get: shouldHideIcon
    *

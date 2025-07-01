@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   PAGINATION,
@@ -10,9 +8,9 @@ import {
 /**
  * Context class for `pages/competitions/index` page.
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class CompetitionsPageContext extends BaseFuroContext {
+export default class CompetitionsPageContext extends BaseAppContext {
   /**
    * Constructor.
    *

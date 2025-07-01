@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * CopyButtonContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class CopyButtonContext extends BaseFuroContext {
+export default class CopyButtonContext extends BaseAppContext {
   /**
    * Constructor
    *

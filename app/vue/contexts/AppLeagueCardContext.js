@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
@@ -11,9 +9,9 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
 /**
  * Context class for AppLeagueCard component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseAppContext<null>} - Base class.
  */
-export default class AppLeagueCardContext extends BaseFuroContext {
+export default class AppLeagueCardContext extends BaseAppContext {
   /**
    * Extract competition.
    *

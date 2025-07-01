@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   PAGINATION,
@@ -9,9 +7,9 @@ import {
 /**
  * AddressesSearchBarContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AddressesSearchBarContext extends BaseFuroContext {
+export default class AddressesSearchBarContext extends BaseAppContext {
   /**
    * Constructor
    *

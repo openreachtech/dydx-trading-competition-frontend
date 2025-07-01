@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AppCheckboxContext
  *
- * @extends {BaseFuroContext<null, AppCheckboxContextProps, null>} - Base class <Accessor, Props, Emit>
+ * @extends {BaseAppContext<null, AppCheckboxContextProps, null>} - Base class <Accessor, Props, Emit>
  */
-export default class AppCheckboxContext extends BaseFuroContext {
+export default class AppCheckboxContext extends BaseAppContext {
   /**
    * Constructor
    *
