@@ -1,5 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
+import RelativeTimeFormatter from '~/app/RelativeTimeFormatter'
+
 import {
   SCHEDULE_CATEGORY,
 } from '~/app/constants'
@@ -11,8 +13,6 @@ const COUNTDOWN_PREFIX_MESSAGE_HASH = {
   [SCHEDULE_CATEGORY.COMPETITION_END.ID]: 'Competition ends',
   [SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID]: 'Prize distribution starts',
 }
-
-const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24
 
 /**
  * AppLeagueCountdownContext
@@ -93,17 +93,15 @@ export default class AppLeagueCountdownContext extends BaseAppContext {
       return '...'
     }
 
-    const today = new Date()
-    const endTimestamp = currentPhase.nextDate.schedulesDatetime.getTime()
-    const remainingTime = endTimestamp - today.getTime()
-    const remainingTimeInDays = Math.round(remainingTime / MILLISECONDS_PER_DAY)
-
-    const formatter = new Intl.RelativeTimeFormat('en-US', {
-      style: 'long',
-      numeric: 'auto',
+    const relativeTimeFormatter = RelativeTimeFormatter.create({
+      targetTime: currentPhase.nextDate.schedulesDatetime,
+      formatOptions: {
+        style: 'long',
+        numeric: 'auto',
+      },
     })
 
-    return formatter.format(remainingTimeInDays, 'day')
+    return relativeTimeFormatter.formatRelativeTime()
   }
 
   /**
