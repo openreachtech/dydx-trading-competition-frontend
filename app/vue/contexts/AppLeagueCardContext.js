@@ -200,36 +200,14 @@ export default class AppLeagueCardContext extends BaseAppContext {
    * @returns {string} Normalized minimum deposit.
    */
   normalizeMinimumDeposit () {
-    const normalizedFigure = this.normalizeNumber({
+    const normalizedFigure = this.formatNumber({
       value: this.minimumDeposit,
+      options: {
+        trailingZeroDisplay: 'stripIfInteger',
+      },
     })
 
     return `${normalizedFigure} USDC`
-  }
-
-  /**
-   * Normalize number.
-   *
-   * @param {{
-   *   value: number | null
-   *   options?: Intl.NumberFormatOptions
-   * }} params - Parameters.
-   * @returns {string} Normalized number string.
-   */
-  normalizeNumber ({
-    value,
-    options = {},
-  }) {
-    if (!value) {
-      return '--'
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      trailingZeroDisplay: 'stripIfInteger',
-      ...options,
-    })
-
-    return formatter.format(value)
   }
 
   /**
@@ -245,11 +223,12 @@ export default class AppLeagueCardContext extends BaseAppContext {
     value,
     options = {},
   }) {
-    return this.normalizeNumber({
+    return this.formatNumber({
       value,
       options: {
         style: 'currency',
         currency: 'USD',
+        trailingZeroDisplay: 'stripIfInteger',
         ...options,
       },
     })
