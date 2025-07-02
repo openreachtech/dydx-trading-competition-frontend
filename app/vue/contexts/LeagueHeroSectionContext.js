@@ -159,44 +159,6 @@ export default class LeagueHeroSectionContext extends BaseAppContext {
 
     await this.router.push('/competitions/add')
   }
-
-  /**
-   * Format number.
-   *
-   * @param {{
-   *   value: string | number | null
-   *   options?: Intl.NumberFormatOptions
-   *   fallbackValue?: string
-   * }} params - Parameters.
-   * @returns {string} Formatted number string.
-   */
-  formatNumber ({
-    value,
-    options = {},
-    fallbackValue = '--',
-  }) {
-    if (
-      value === null
-      || value === undefined
-    ) {
-      return fallbackValue
-    }
-
-    const parsedValue = typeof value === 'string'
-      ? parseFloat(value)
-      : value
-
-    if (isNaN(parsedValue)) {
-      return fallbackValue
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      trailingZeroDisplay: 'stripIfInteger',
-      ...options,
-    })
-
-    return formatter.format(parsedValue)
-  }
 }
 
 /**
