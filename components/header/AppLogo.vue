@@ -27,7 +27,7 @@ export default defineComponent({
       class="icon"
     />
 
-    <img src="/img/logo-medium.png">
+    <img src="/img/logo-trading-arena.svg">
   </NuxtLink>
 </template>
 
