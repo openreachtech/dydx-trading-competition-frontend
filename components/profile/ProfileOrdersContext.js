@@ -1,5 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
+import RelativeTimeFormatter from '~/app/RelativeTimeFormatter'
+
 const ORDER_SIDE = {
   BUY: 'BUY',
   SELL: 'SELL',
@@ -290,45 +292,16 @@ export default class ProfileOrdersContext extends BaseAppContext {
       return '--'
     }
 
-    const date = new Date(timestamp)
-    const remainingTime = date.getTime() - Date.now()
-    const remainingDayCount = Math.floor(remainingTime / (1000 * 60 * 60 * 24))
-
-    const formatter = new Intl.RelativeTimeFormat('en-US', {
-      numeric: 'always',
-      style: 'narrow',
-    })
-    const unit = this.generateRelativeTimeUnit({
-      remainingDayCount,
+    const relativeTimeFormatter = RelativeTimeFormatter.create({
+      targetTime: timestamp,
+      formatOptions: {
+        style: 'narrow',
+        numeric: 'auto',
+      },
     })
 
-    return formatter.format(
-      remainingDayCount,
-      unit
-    )
+    return relativeTimeFormatter.formatRelativeTime()
       .replace('in ', '')
-  }
-
-  /**
-   * Generate relative time unit.
-   *
-   * @param {{
-   *   remainingDayCount: number
-   * }} params - Parameters.
-   * @returns {Intl.RelativeTimeFormatUnit}
-   */
-  generateRelativeTimeUnit ({
-    remainingDayCount,
-  }) {
-    if (remainingDayCount >= 30) {
-      return 'month'
-    }
-
-    if (remainingDayCount >= 7) {
-      return 'week'
-    }
-
-    return 'day'
   }
 
   /**
