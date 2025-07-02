@@ -27,7 +27,10 @@ export default defineComponent({
       class="icon"
     />
 
-    <img src="/img/logo-trading-arena.svg">
+    <img
+      src="/img/logo-trading-arena.svg"
+      alt="dYdX Trading Arena Logo"
+    >
   </NuxtLink>
 </template>
 
