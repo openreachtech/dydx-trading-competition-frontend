@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AppTableContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AppTableContext extends BaseFuroContext {
+export default class AppTableContext extends BaseAppContext {
   /**
    * get: entries
    *

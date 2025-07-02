@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 export const EMIT_EVENT_NAME = /** @type {const} */ ({
   SEARCH: 'search',
@@ -13,9 +11,9 @@ export const EMIT_EVENT_NAME = /** @type {const} */ ({
 /**
  * AppSearchBarContext
  *
- * @extends {BaseFuroContext<(typeof EMIT_EVENT_NAME)[keyof typeof EMIT_EVENT_NAME]>}
+ * @extends {BaseAppContext<(typeof EMIT_EVENT_NAME)[keyof typeof EMIT_EVENT_NAME]>}
  */
-export default class AppSearchBarContext extends BaseFuroContext {
+export default class AppSearchBarContext extends BaseAppContext {
   /**
    * Constructor
    *

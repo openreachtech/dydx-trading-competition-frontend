@@ -21,9 +21,12 @@ import CompetitionLeaderboardQueryGraphqlLauncher from '~/app/graphql/client/que
 import CompetitionFinalOutcomeQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlLauncher'
 import CompetitionParticipantsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlLauncher'
 import CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionEnrolledParticipantsNumber/CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher'
+import CompetitionTradingMetricsQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlLauncher'
 import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/unregisterFromCompetition/UnregisterFromCompetitionMutationGraphqlLauncher'
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
+
+import CompetitionTradingMetricsFetcher from '~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher'
 
 import {
   useRoute,
@@ -78,6 +81,7 @@ export default defineComponent({
     const competitionFinalOutcomeGraphqlClient = useGraphqlClient(CompetitionFinalOutcomeQueryGraphqlLauncher)
     const competitionParticipantsGraphqlClient = useGraphqlClient(CompetitionParticipantsQueryGraphqlLauncher)
     const competitionEnrolledParticipantsNumberGraphqlClient = useGraphqlClient(CompetitionEnrolledParticipantsNumberQueryGraphqlLauncher)
+    const competitionTradingMetricsGraphqlClient = useGraphqlClient(CompetitionTradingMetricsQueryGraphqlLauncher)
     const unregisterFromCompetitionGraphqlClient = useGraphqlClient(UnregisterFromCompetitionMutationGraphqlLauncher)
 
     const joinCompetitionFormClerk = useAppFormClerk({
@@ -91,6 +95,7 @@ export default defineComponent({
     const statusReactive = reactive({
       isLoading: false,
       isLoadingLeaderboard: true,
+      isLoadingCompetitionTradingMetrics: true,
       isLoadingTopThree: true,
       isLoadingParticipant: true,
       isLoadingEnrolledParticipantsNumber: true,
@@ -98,6 +103,13 @@ export default defineComponent({
     })
     const mutationStatusReactive = reactive({
       isJoining: false,
+    })
+
+    const competitionTradingMetricsFetcher = CompetitionTradingMetricsFetcher.create({
+      graphqlClientHash: {
+        competitionTradingMetrics: competitionTradingMetricsGraphqlClient,
+      },
+      statusReactive,
     })
 
     const args = {
@@ -118,6 +130,9 @@ export default defineComponent({
         competitionParticipants: competitionParticipantsGraphqlClient,
         competitionEnrolledParticipantsNumber: competitionEnrolledParticipantsNumberGraphqlClient,
         unregisterFromCompetition: unregisterFromCompetitionGraphqlClient,
+      },
+      fetcherHash: {
+        competitionTradingMetrics: competitionTradingMetricsFetcher,
       },
       statusReactive,
     }
@@ -189,8 +204,12 @@ export default defineComponent({
       :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"
       :leaderboard-table-header-entries="context.generateLeaderboardHeaderEntries()"
+      :metric-leaderboard-table-header-entries="context.metricLeaderboardHeaderEntries"
+      :metric-leaderboard-table-entries="context.generateMetricLeaderboardEntries()"
       :is-loading-leaderboard="context.isLoadingLeaderboard"
+      :is-loading-metric-leaderboard="context.isLoadingCompetitionTradingMetrics"
       :leaderboard-pagination-result="context.generateLeaderboardPaginationResult()"
+      :metric-leaderboard-pagination-result="context.generateMetricLeaderboardPaginationResult()"
       :last-leaderboard-update-timestamp="context.extractLastLeaderboardUpdateTimestamp()"
       :outcome-csv-url="context.competitionOutcomeCsvUrl"
     />

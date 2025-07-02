@@ -107,7 +107,14 @@ export default defineComponent({
             />
 
             <span class="count">
-              {{ context.normalizeNumber({ value: context.participantUpperLimit }) }}
+              {{
+                context.formatNumber({
+                  value: context.participantUpperLimit,
+                  options: {
+                    trailingZeroDisplay: 'stripIfInteger',
+                  },
+                })
+              }}
             </span>
           </span>
 

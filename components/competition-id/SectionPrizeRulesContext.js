@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   ORDINAL_SUFFIX_HASH,
@@ -9,9 +7,9 @@ import {
 /**
  * SectionPrizeRulesContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class SectionPrizeRulesContext extends BaseFuroContext {
+export default class SectionPrizeRulesContext extends BaseAppContext {
   /**
    * get: prizeRules
    *

@@ -5,9 +5,7 @@ import {
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   CONNECTOR_TYPE,
@@ -18,9 +16,9 @@ import {
 /**
  * AppWalletAccountContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AppWalletAccountContext extends BaseFuroContext {
+export default class AppWalletAccountContext extends BaseAppContext {
   /**
    * Constructor
    *

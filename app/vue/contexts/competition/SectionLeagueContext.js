@@ -2,9 +2,7 @@ import {
   useRoute,
 } from 'vue-router'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   SCHEDULE_CATEGORY,
@@ -38,9 +36,9 @@ const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
 /**
  * Context class for SectionLeague component.
  *
- * @extends {BaseFuroContext<null, PropsType, null>} - Base class.
+ * @extends {BaseAppContext<null, PropsType, null>} - Base class.
  */
-export default class SectionLeagueContext extends BaseFuroContext {
+export default class SectionLeagueContext extends BaseAppContext {
 /**
  * Constructor
  *
@@ -179,8 +177,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string}
    */
   normalizeEnrolledParticipantsNumber () {
-    return this.normalizeNumber({
+    return this.formatNumber({
       value: this.enrolledParticipantsNumber,
+      options: {
+        trailingZeroDisplay: 'stripIfInteger',
+      },
     })
   }
 
@@ -289,8 +290,11 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string}
    */
   normalizeParticipantUpperLimit () {
-    return this.normalizeNumber({
+    return this.formatNumber({
       value: this.participantUpperLimit,
+      options: {
+        trailingZeroDisplay: 'stripIfInteger',
+      },
     })
   }
 
@@ -566,37 +570,14 @@ export default class SectionLeagueContext extends BaseFuroContext {
    * @returns {string} Normalized minimum deposit.
    */
   normalizeMinimumDeposit () {
-    const normalizedFigure = this.normalizeNumber({
+    const normalizedFigure = this.formatNumber({
       value: this.minimumDeposit,
+      options: {
+        trailingZeroDisplay: 'stripIfInteger',
+      },
     })
 
     return `${normalizedFigure} USDC`
-  }
-
-  /**
-   * Normalize number.
-   *
-   * @param {{
-   *   value: number | null
-   *   options?: Intl.NumberFormatOptions
-   * }} params - Parameters.
-   * @returns {string} Normalized number string.
-   * @todo Put this method inside BaseAppContext
-   */
-  normalizeNumber ({
-    value,
-    options = {},
-  }) {
-    if (value === null) {
-      return '--'
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      trailingZeroDisplay: 'stripIfInteger',
-      ...options,
-    })
-
-    return formatter.format(value)
   }
 
   /**
@@ -612,11 +593,12 @@ export default class SectionLeagueContext extends BaseFuroContext {
     value,
     options = {},
   }) {
-    return this.normalizeNumber({
+    return this.formatNumber({
       value,
       options: {
         style: 'currency',
         currency: 'USD',
+        trailingZeroDisplay: 'stripIfInteger',
         ...options,
       },
     })

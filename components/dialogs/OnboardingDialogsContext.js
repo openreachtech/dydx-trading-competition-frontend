@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * OnboardingDialogsContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, {}, null>}
  */
-export default class OnboardingDialogsContext extends BaseFuroContext {
+export default class OnboardingDialogsContext extends BaseAppContext {
   /**
    * Constructor
    *

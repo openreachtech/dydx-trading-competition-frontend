@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AppTimelineContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class AppTimelineContext extends BaseFuroContext {
+export default class AppTimelineContext extends BaseAppContext {
   /**
    * get: timeline
    *

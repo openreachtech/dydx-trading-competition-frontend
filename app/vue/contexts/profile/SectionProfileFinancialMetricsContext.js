@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * SectionProfileFinancialMetricsContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class SectionProfileFinancialMetricsContext extends BaseFuroContext {
+export default class SectionProfileFinancialMetricsContext extends BaseAppContext {
   /**
    * get: metrics
    *

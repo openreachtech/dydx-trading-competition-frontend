@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
@@ -11,9 +9,9 @@ import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeC
 /**
  * Context class for AppLeagueCard component.
  *
- * @extends {BaseFuroContext<null>} - Base class.
+ * @extends {BaseAppContext<null>} - Base class.
  */
-export default class AppLeagueCardContext extends BaseFuroContext {
+export default class AppLeagueCardContext extends BaseAppContext {
   /**
    * Extract competition.
    *
@@ -202,36 +200,14 @@ export default class AppLeagueCardContext extends BaseFuroContext {
    * @returns {string} Normalized minimum deposit.
    */
   normalizeMinimumDeposit () {
-    const normalizedFigure = this.normalizeNumber({
+    const normalizedFigure = this.formatNumber({
       value: this.minimumDeposit,
+      options: {
+        trailingZeroDisplay: 'stripIfInteger',
+      },
     })
 
     return `${normalizedFigure} USDC`
-  }
-
-  /**
-   * Normalize number.
-   *
-   * @param {{
-   *   value: number | null
-   *   options?: Intl.NumberFormatOptions
-   * }} params - Parameters.
-   * @returns {string} Normalized number string.
-   */
-  normalizeNumber ({
-    value,
-    options = {},
-  }) {
-    if (!value) {
-      return '--'
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-      trailingZeroDisplay: 'stripIfInteger',
-      ...options,
-    })
-
-    return formatter.format(value)
   }
 
   /**
@@ -247,11 +223,12 @@ export default class AppLeagueCardContext extends BaseFuroContext {
     value,
     options = {},
   }) {
-    return this.normalizeNumber({
+    return this.formatNumber({
       value,
       options: {
         style: 'currency',
         currency: 'USD',
+        trailingZeroDisplay: 'stripIfInteger',
         ...options,
       },
     })

@@ -3,16 +3,14 @@ import {
   onBeforeUnmount,
 } from 'vue'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * AppToastContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class AppToastContext extends BaseFuroContext {
+export default class AppToastContext extends BaseAppContext {
   /**
    * Constructor
    *

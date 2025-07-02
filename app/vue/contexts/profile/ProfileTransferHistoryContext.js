@@ -2,9 +2,7 @@ import {
   useRoute,
 } from 'vue-router'
 
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   TRANSFER_CATEGORY,
@@ -14,9 +12,9 @@ import {
 /**
  * ProfileTransferHistoryContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class ProfileTransferHistoryContext extends BaseFuroContext {
+export default class ProfileTransferHistoryContext extends BaseAppContext {
   /**
    * Constructor
    *

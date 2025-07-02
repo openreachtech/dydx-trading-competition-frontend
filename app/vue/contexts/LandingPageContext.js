@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * LandingPageContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class LandingPageContext extends BaseFuroContext {
+export default class LandingPageContext extends BaseAppContext {
   /**
    * get: purposes
    *

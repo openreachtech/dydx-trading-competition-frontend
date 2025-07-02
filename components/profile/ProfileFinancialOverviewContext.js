@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 const TRADE_SIDE_SYMBOL_HASH = {
   LONG: 'B',
@@ -10,9 +8,9 @@ const TRADE_SIDE_SYMBOL_HASH = {
 /**
  * ProfileFinancialOverviewContext
  *
- * @extends {BaseFuroContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class ProfileFinancialOverviewContext extends BaseFuroContext {
+export default class ProfileFinancialOverviewContext extends BaseAppContext {
   /**
    * get: profileOverview
    *
@@ -111,46 +109,42 @@ export default class ProfileFinancialOverviewContext extends BaseFuroContext {
     return Object.values(openPerpetualPositions)
       .map(it => ({
         ...it,
-        entryPrice: this.normalizeNumber({
-          numberString: it.entryPrice,
+        entryPrice: this.formatNumber({
+          value: it.entryPrice,
+          options: {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          },
         }),
-        size: this.normalizeNumber({
-          numberString: it.size,
+        size: this.formatNumber({
+          value: it.size,
+          options: {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          },
         }),
-        realizedPnl: this.normalizeNumber({
-          numberString: it.realizedPnl,
+        realizedPnl: this.formatNumber({
+          value: it.realizedPnl,
+          options: {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          },
         }),
-        unrealizedPnl: this.normalizeNumber({
-          numberString: it.unrealizedPnl,
+        unrealizedPnl: this.formatNumber({
+          value: it.unrealizedPnl,
+          options: {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          },
         }),
-        netFunding: this.normalizeNumber({
-          numberString: it.netFunding,
+        netFunding: this.formatNumber({
+          value: it.netFunding,
+          options: {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          },
         }),
       }))
-  }
-
-  /**
-   * Normalize number.
-   *
-   * @param {{
-   *   numberString: string | null
-   * }} params - Parameters.
-   * @returns {string} Normalized number string.
-   */
-  normalizeNumber ({
-    numberString,
-  }) {
-    if (!numberString) {
-      return '--'
-    }
-
-    const figure = parseFloat(numberString)
-    const formatter = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 2,
-    })
-
-    return formatter.format(figure)
   }
 
   /**

@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * CompetitionDetailsPageMutationContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, {}, null>}
  */
-export default class CompetitionDetailsPageMutationContext extends BaseFuroContext {
+export default class CompetitionDetailsPageMutationContext extends BaseAppContext {
   /**
    * Constructor
    *

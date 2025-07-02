@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 
@@ -11,9 +9,9 @@ import {
 /**
  * SectionProfileOverviewContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class SectionProfileOverviewContext extends BaseFuroContext {
+export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * Constructor
    *

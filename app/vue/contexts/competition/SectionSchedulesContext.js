@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   SCHEDULE_ID_GROUP,
@@ -13,9 +11,9 @@ import {
 /**
  * SectionSchedulesContext
  *
- * @extends {BaseFuroContext<null>}
+ * @extends {BaseAppContext<null>}
  */
-export default class SectionSchedulesContext extends BaseFuroContext {
+export default class SectionSchedulesContext extends BaseAppContext {
   /**
    * get: schedules
    *

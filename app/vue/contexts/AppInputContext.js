@@ -1,13 +1,11 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
  * Props context class for AppInput component.
  *
- * @extends {BaseFuroContext<null, AppInputProps, 'value-update'>} - Base class.
+ * @extends {BaseAppContext<null, AppInputProps, 'value-update'>} - Base class.
  */
-export default class AppInputContext extends BaseFuroContext {
+export default class AppInputContext extends BaseAppContext {
   /**
    * get: hasError
    *
