@@ -31,7 +31,10 @@ export default defineComponent({
     },
     competition: {
       /** @type {import('vue').PropType<import('./CompetitionEnrollmentDialogContext').PropsType['competition']>} */
-      type: Object,
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
     initialUsername: {
