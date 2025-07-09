@@ -32,7 +32,10 @@ export default defineComponent({
       default: 'top',
     },
     href: {
-      type: String,
+      type: [
+        String,
+        null,
+      ],
       required: true,
     },
     iconName: {
