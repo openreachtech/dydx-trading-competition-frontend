@@ -381,13 +381,13 @@ export default class SectionLeagueContext extends BaseAppContext {
   /**
    * Generate host's address url.
    *
-   * @returns {string | null} The host's wallet address URL on Mintscan.
+   * @returns {string} The host's wallet address URL on Mintscan.
    */
   generateHostAddressUrl () {
     const { address } = this.host ?? {}
 
     if (!address) {
-      return null
+      return ''
     }
 
     return `https://www.mintscan.io/dydx/address/${address}`
