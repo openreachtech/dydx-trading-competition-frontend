@@ -27,7 +27,7 @@ export default class LinkTooltipButton extends BaseAppContext {
   /**
    * get: href
    *
-   * @returns {string}
+   * @returns {string | null}
    */
   get href () {
     return this.props.href
@@ -49,5 +49,15 @@ export default class LinkTooltipButton extends BaseAppContext {
    */
   get iconSize () {
     return this.props.iconSize
+  }
+
+  /**
+   * Normalize href.
+   *
+   * @returns {string}
+   */
+  normalizeHref () {
+    return this.href
+      ?? ''
   }
 }

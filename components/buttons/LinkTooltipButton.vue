@@ -80,7 +80,7 @@ export default defineComponent({
   >
     <template #contents>
       <NuxtLink
-        :to="context.href"
+        :to="context.normalizeHref()"
         class="link"
         v-bind="$attrs"
       >
