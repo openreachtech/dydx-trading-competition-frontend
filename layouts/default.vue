@@ -91,7 +91,13 @@ export default {
       <div class="unit-footer">
         <p class="copyright">
           <span>
-            © 2025 CLC. All rights reserved.
+            © 2025 <NuxtLink
+              to="https://cryptolearningclub.org"
+              external
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link"
+            >CLC</NuxtLink>. All rights reserved.
           </span><NuxtLink
             to="/terms"
             target="_blank"
@@ -215,12 +221,12 @@ export default {
   color: var(--color-text-placeholder);
 }
 
-.unit-footer > .copyright > .link {
+.unit-footer > .copyright .link {
   font-weight: 500;
   color: var(--color-text-tertiary);
 }
 
-.unit-footer > .copyright > .link:hover {
+.unit-footer > .copyright .link:hover {
   text-decoration: underline;
 }
 

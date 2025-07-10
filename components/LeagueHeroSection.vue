@@ -4,6 +4,10 @@ import {
   ref,
 } from 'vue'
 
+import {
+  NuxtLink,
+} from '#components'
+
 import AppButton from '~/components/units/AppButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
 
@@ -17,6 +21,7 @@ import LeagueHeroSectionContext from '~/app/vue/contexts/LeagueHeroSectionContex
 
 export default defineComponent({
   components: {
+    NuxtLink,
     AppButton,
     OnboardingDialogs,
   },
@@ -67,11 +72,19 @@ export default defineComponent({
     <div class="headline">
       <span class="note">
         <span>Powered by</span>
-        <img
-          src="~/assets/img/logos/clc-text.svg"
-          alt="CLC logo"
-          class="image"
+        <NuxtLink
+          to="https://cryptolearningclub.org"
+          class="link"
+          external
+          rel="noopener noreferrer"
+          target="_blank"
         >
+          <img
+            src="~/assets/img/logos/clc-text.svg"
+            alt="CLC logo"
+            class="image"
+          >
+        </NuxtLink>
       </span>
 
       <h1 class="heading">
@@ -178,7 +191,7 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-section > .headline > .note > .image {
+.unit-section > .headline > .note > .link > .image {
   height: var(--font-size-extra);
 }
 
