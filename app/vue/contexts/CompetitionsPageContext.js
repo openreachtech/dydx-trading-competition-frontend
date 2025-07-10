@@ -260,7 +260,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
             value: COMPETITION_STATUS.CREATED.ID,
           },
           {
-            label: 'Registration Ended',
+            label: 'Awaiting Deposit',
             value: COMPETITION_STATUS.REGISTRATION_ENDED.ID,
           },
           {

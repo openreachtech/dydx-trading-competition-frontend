@@ -33,8 +33,8 @@ export const COMPETITION_STATUS = {
   },
   REGISTRATION_ENDED: {
     ID: 2,
-    NAME: 'registration_ended',
-    DESCRIPTION: 'Registration period has ended',
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Deposit period active',
   },
   IN_PROGRESS: {
     ID: 3,
