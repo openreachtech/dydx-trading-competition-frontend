@@ -256,7 +256,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
         caption: 'Status',
         options: [
           {
-            label: 'Created',
+            label: 'Registration Open',
             value: COMPETITION_STATUS.CREATED.ID,
           },
           {
