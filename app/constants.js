@@ -28,13 +28,13 @@ export const ORDINAL_SUFFIX_HASH = {
 export const COMPETITION_STATUS = {
   CREATED: {
     ID: 1,
-    NAME: 'created',
-    DESCRIPTION: 'Competition has been created',
+    NAME: 'registration_open',
+    DESCRIPTION: 'Registration period active',
   },
   REGISTRATION_ENDED: {
     ID: 2,
-    NAME: 'registration_ended',
-    DESCRIPTION: 'Registration period has ended',
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Deposit period active',
   },
   IN_PROGRESS: {
     ID: 3,
