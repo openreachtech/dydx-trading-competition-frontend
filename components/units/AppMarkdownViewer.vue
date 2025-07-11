@@ -151,6 +151,7 @@ export default defineComponent({
 /* Blockquotes */
 .markdown blockquote {
   margin-block: 1rem;
+  margin-inline: 0;
 
   border-inline-start-width: 0.25rem;
   border-inline-start-style: solid;
