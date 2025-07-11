@@ -194,7 +194,7 @@ export default defineComponent({
           </div>
         </div>
 
-        <p class="description">
+        <div class="description">
           <AppMarkdownViewer
             :content="context.normalizeDescription()"
             :class="[
@@ -202,14 +202,23 @@ export default defineComponent({
               $style['arena-description'],
             ]"
           />
+        </div>
 
-          <button
-            class="button"
-            @click="context.toggleDescriptionExpansion()"
-          >
+        <AppButton
+          class="button expand"
+          @click="context.toggleDescriptionExpansion()"
+        >
+          <template #startIcon>
+            <Icon
+              name="heroicons:chevron-up-down"
+              size="1.5rem"
+            />
+          </template>
+
+          <template #default>
             {{ context.generateDescriptionExpansionButtonLabel() }}
-          </button>
-        </p>
+          </template>
+        </AppButton>
 
         <span class="balance">
           <Icon
@@ -533,20 +542,31 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-details > .description > .button {
-  font-size: inherit;
+.unit-details > .button.expand {
+  --color-text-hover: var(--palette-purple-lighter);
+
+  display: block;
+
+  border: none;
+
+  padding-block: 0.5rem;
+  padding-inline: 0;
+
+  font-size: var(--font-size-base);
   font-weight: 500;
 
   color: inherit;
+  background-color: transparent;
 
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-details > .description > .button:not(:disabled):hover {
-  color: var(--color-text-primary);
+.unit-details > .button.expand:not(:disabled):hover {
+  color: var(--color-text-hover);
+  background-color: transparent;
 }
 
-.unit-details:not(.expandable-description) > .description > .button {
+.unit-details:not(.expandable-description) > .button.expand {
   display: none;
 }
 
