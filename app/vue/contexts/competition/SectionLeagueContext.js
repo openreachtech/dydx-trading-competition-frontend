@@ -1,4 +1,8 @@
 import {
+  nextTick,
+} from 'vue'
+
+import {
   useRoute,
 } from 'vue-router'
 
@@ -31,8 +35,6 @@ const ENROLLMENT_ACTION_TEXT = {
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
 
-const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
-
 /**
  * Context class for SectionLeague component.
  *
@@ -50,6 +52,7 @@ export default class SectionLeagueContext extends BaseAppContext {
 
     walletStore,
     onboardingDialogsComponentRef,
+    descriptionElementShallowRef,
     statusReactive,
   }) {
     super({
@@ -59,6 +62,7 @@ export default class SectionLeagueContext extends BaseAppContext {
 
     this.walletStore = walletStore
     this.onboardingDialogsComponentRef = onboardingDialogsComponentRef
+    this.descriptionElementShallowRef = descriptionElementShallowRef
     this.statusReactive = statusReactive
   }
 
@@ -76,6 +80,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     componentContext,
     walletStore,
     onboardingDialogsComponentRef,
+    descriptionElementShallowRef,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -84,6 +89,7 @@ export default class SectionLeagueContext extends BaseAppContext {
         componentContext,
         walletStore,
         onboardingDialogsComponentRef,
+        descriptionElementShallowRef,
         statusReactive,
       })
     )
@@ -98,12 +104,79 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * Setup component.
+   *
+   * @template {X extends SectionLeagueContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.watch(
+      () => this.description,
+      () => {
+        nextTick(() => {
+          this.statusReactive.isDescriptionExpandable = this.descriptionElementScrollHeight > this.descriptionElementClientHeight
+        })
+      },
+      {
+        immediate: true,
+      }
+    )
+
+    return this
+  }
+
+  /**
+   * get: isDescriptionExpandable
+   *
+   * @returns {boolean}
+   */
+  get isDescriptionExpandable () {
+    return this.statusReactive.isDescriptionExpandable
+  }
+
+  /**
    * get: isDescriptionExpanded
    *
    * @returns {boolean}
    */
   get isDescriptionExpanded () {
     return this.statusReactive.isDescriptionExpanded
+  }
+
+  /**
+   * get: descriptionElement
+   *
+   * @returns {HTMLDivElement | null}
+   */
+  get descriptionElement () {
+    return this.descriptionElementShallowRef.value
+  }
+
+  /**
+   * get: descriptionElementScrollHeight
+   *
+   * @returns {number}
+   */
+  get descriptionElementScrollHeight () {
+    if (this.descriptionElement === null) {
+      return 0
+    }
+
+    return this.descriptionElement.scrollHeight
+  }
+
+  /**
+   * get: descriptionElementClientHeight
+   *
+   * @returns {number}
+   */
+  get descriptionElementClientHeight () {
+    if (this.descriptionElement === null) {
+      return 0
+    }
+
+    return this.descriptionElement.clientHeight
   }
 
   /**
@@ -340,14 +413,7 @@ export default class SectionLeagueContext extends BaseAppContext {
       return '----'
     }
 
-    if (
-      !this.hasDescriptionExceededPreviewLength()
-      || this.isDescriptionExpanded
-    ) {
-      return this.description
-    }
-
-    return `${this.description.slice(0, MAX_DESCRIPTION_PREVIEW_LENGTH)}...`
+    return this.description
   }
 
   /**
@@ -611,7 +677,7 @@ export default class SectionLeagueContext extends BaseAppContext {
    */
   generateLeagueDetailClasses () {
     return {
-      'expandable-description': this.hasDescriptionExceededPreviewLength(),
+      'expandable-description': this.isDescriptionExpandable,
     }
   }
 
@@ -779,19 +845,6 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
-   * Whether description is expandable or not.
-   *
-   * @returns {boolean} `true` if description is long enough to be expandable.
-   */
-  hasDescriptionExceededPreviewLength () {
-    if (!this.description) {
-      return false
-    }
-
-    return this.description.length > MAX_DESCRIPTION_PREVIEW_LENGTH
-  }
-
-  /**
    * Initiate action dialog. Open the correct dialog based on enrollment status.
    *
    * @returns {void}
@@ -924,7 +977,9 @@ export default class SectionLeagueContext extends BaseAppContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   onboardingDialogsComponentRef: import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>
+ *   descriptionElementShallowRef: import('vue').ShallowRef<HTMLDivElement | null>
  *   statusReactive: import('vue').Reactive<{
+ *     isDescriptionExpandable: boolean
  *     isDescriptionExpanded: boolean
  *   }>
  * }} SectionLeagueContextParams

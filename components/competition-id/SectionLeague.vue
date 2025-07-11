@@ -1,8 +1,9 @@
 <script>
 import {
   defineComponent,
-  ref,
   reactive,
+  ref,
+  shallowRef,
 } from 'vue'
 
 import {
@@ -103,7 +104,11 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
     const onboardingDialogsComponentRef = ref(null)
+    /** @type {import('vue').ShallowRef<HTMLDivElement | null>} */
+    const descriptionElementShallowRef = shallowRef(null)
+
     const statusReactive = reactive({
+      isDescriptionExpandable: false,
       isDescriptionExpanded: false,
     })
 
@@ -112,6 +117,7 @@ export default defineComponent({
       componentContext,
       walletStore,
       onboardingDialogsComponentRef,
+      descriptionElementShallowRef,
       statusReactive,
     }
     const context = SectionLeagueContext.create(args)
@@ -194,22 +200,41 @@ export default defineComponent({
           </div>
         </div>
 
-        <p class="description">
-          <AppMarkdownViewer
-            :content="context.normalizeDescription()"
-            :class="[
-              $style.markdown,
-              $style['arena-description'],
-            ]"
-          />
-
-          <button
-            class="button"
-            @click="context.toggleDescriptionExpansion()"
+        <div
+          class="description"
+          :class="{
+            expanded: context.isDescriptionExpanded,
+          }"
+        >
+          <div
+            :ref="context.descriptionElementShallowRef"
+            class="content"
           >
+            <AppMarkdownViewer
+              :content="context.normalizeDescription()"
+              :class="[
+                $style.markdown,
+                $style['arena-description'],
+              ]"
+            />
+          </div>
+        </div>
+
+        <AppButton
+          class="button expand"
+          @click="context.toggleDescriptionExpansion()"
+        >
+          <template #startIcon>
+            <Icon
+              name="heroicons:chevron-up-down"
+              size="1.5rem"
+            />
+          </template>
+
+          <template #default>
             {{ context.generateDescriptionExpansionButtonLabel() }}
-          </button>
-        </p>
+          </template>
+        </AppButton>
 
         <span class="balance">
           <Icon
@@ -526,6 +551,8 @@ export default defineComponent({
 }
 
 .unit-details > .description {
+  display: grid;
+
   margin-block-start: 1.5rem;
 
   font-size: var(--font-size-medium);
@@ -533,20 +560,47 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-details > .description > .button {
-  font-size: inherit;
+.unit-details > .description > * {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+.unit-details > .description > .content {
+  --size-description-collapsed-max-height: 12rem;
+
+  max-block-size: var(--size-description-collapsed-max-height);
+  overflow: hidden;
+}
+
+.unit-details > .description.expanded > .content {
+  max-block-size: 100%;
+}
+
+.unit-details > .button.expand {
+  --color-text-hover: var(--palette-purple-lighter);
+
+  display: block;
+
+  border: none;
+
+  padding-block: 0.5rem;
+  padding-inline: 0;
+
+  font-size: var(--font-size-base);
   font-weight: 500;
 
   color: inherit;
+  background-color: transparent;
 
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-details > .description > .button:not(:disabled):hover {
-  color: var(--color-text-primary);
+.unit-details > .button.expand:not(:disabled):hover {
+  color: var(--color-text-hover);
+  background-color: transparent;
 }
 
-.unit-details:not(.expandable-description) > .description > .button {
+.unit-details:not(.expandable-description) > .button.expand {
   display: none;
 }
 
