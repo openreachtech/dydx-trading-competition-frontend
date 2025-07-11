@@ -534,6 +534,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-text-roi: var(--palette-green);
+
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -827,6 +829,10 @@ export default defineComponent({
 
 .unit-status.participant.canceled {
   color: var(--color-text-participant-status-canceled);
+}
+
+.unit-roi {
+  color: var(--color-text-roi);
 }
 
 /***************** Trading volume leaderboard ****************/

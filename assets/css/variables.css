@@ -38,7 +38,7 @@
   /* Backgrounds */
   --color-background: var(--palette-layer-1);
 
-  --color-background-header: var(--palette-layer-1);
+  --color-background-header: #10101840;
   --color-background-footer: var(--palette-layer-1);
 
   --color-background-nav: var(--palette-layer-2);

@@ -146,6 +146,8 @@ export default defineComponent({
 
   background-color: var(--color-background-header);
 
+  backdrop-filter: blur(0.6rem);
+
   z-index: calc(var(--value-z-index-layer-staying) + 0);
 }
 
