@@ -1,8 +1,9 @@
 <script>
 import {
   defineComponent,
-  ref,
   reactive,
+  ref,
+  shallowRef,
 } from 'vue'
 
 import {
@@ -103,7 +104,11 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/components/dialogs/OnboardingDialogs.vue').default | null>} */
     const onboardingDialogsComponentRef = ref(null)
+    /** @type {import('vue').ShallowRef<HTMLDivElement | null>} */
+    const descriptionElementShallowRef = shallowRef(null)
+
     const statusReactive = reactive({
+      isDescriptionExpandable: false,
       isDescriptionExpanded: false,
     })
 
@@ -112,6 +117,7 @@ export default defineComponent({
       componentContext,
       walletStore,
       onboardingDialogsComponentRef,
+      descriptionElementShallowRef,
       statusReactive,
     }
     const context = SectionLeagueContext.create(args)
@@ -194,14 +200,24 @@ export default defineComponent({
           </div>
         </div>
 
-        <div class="description">
-          <AppMarkdownViewer
-            :content="context.normalizeDescription()"
-            :class="[
-              $style.markdown,
-              $style['arena-description'],
-            ]"
-          />
+        <div
+          class="description"
+          :class="{
+            expanded: context.isDescriptionExpanded,
+          }"
+        >
+          <div
+            :ref="context.descriptionElementShallowRef"
+            class="content"
+          >
+            <AppMarkdownViewer
+              :content="context.normalizeDescription()"
+              :class="[
+                $style.markdown,
+                $style['arena-description'],
+              ]"
+            />
+          </div>
         </div>
 
         <AppButton
@@ -535,11 +551,29 @@ export default defineComponent({
 }
 
 .unit-details > .description {
+  display: grid;
+
   margin-block-start: 1.5rem;
 
   font-size: var(--font-size-medium);
 
   color: var(--color-text-tertiary);
+}
+
+.unit-details > .description > * {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+.unit-details > .description > .content {
+  --size-description-collapsed-max-height: 12rem;
+
+  max-block-size: var(--size-description-collapsed-max-height);
+  overflow: hidden;
+}
+
+.unit-details > .description.expanded > .content {
+  max-block-size: 100%;
 }
 
 .unit-details > .button.expand {
