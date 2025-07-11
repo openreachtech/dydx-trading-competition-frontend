@@ -131,28 +131,8 @@ export default defineComponent({
 }
 
 .markdown ul {
-  list-style: none;
-}
-
-.markdown ul li {
-  --size-bullet-point: 0.4rem;
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.6rem;
-}
-
-.markdown ul li::before {
-  content: '';
-
-  margin-block-start: 0.5em;
-
-  border-radius: 100vh;
-
-  block-size: var(--size-bullet-point);
-  inline-size: var(--size-bullet-point);
-
-  background-color: var(--color-text-secondary);
+  list-style-position: inside;
+  list-style-type: disc;
 }
 
 .markdown ol li {
