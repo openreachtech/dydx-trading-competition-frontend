@@ -686,7 +686,7 @@ export default class SectionLeagueContext extends BaseAppContext {
    */
   generateLeagueDetailClasses () {
     return {
-      'expandable-description': this.hasDescriptionExceededPreviewLength(),
+      'expandable-description': this.isDescriptionExpandable,
     }
   }
 
