@@ -865,12 +865,12 @@ export default defineComponent({
   font-size: inherit;
 }
 
-.markdown.markdown.arena-description h1,
-.markdown.markdown.arena-description h2,
-.markdown.markdown.arena-description h3,
-.markdown.markdown.arena-description h4,
-.markdown.markdown.arena-description h5,
-.markdown.markdown.arena-description h6 {
+.markdown.arena-description h1,
+.markdown.arena-description h2,
+.markdown.arena-description h3,
+.markdown.arena-description h4,
+.markdown.arena-description h5,
+.markdown.arena-description h6 {
   margin-block: 0;
 }
 
