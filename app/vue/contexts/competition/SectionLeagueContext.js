@@ -35,8 +35,6 @@ const ENROLLMENT_ACTION_TEXT = {
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
 
-const MAX_DESCRIPTION_PREVIEW_LENGTH = 180
-
 /**
  * Context class for SectionLeague component.
  *
@@ -415,14 +413,7 @@ export default class SectionLeagueContext extends BaseAppContext {
       return '----'
     }
 
-    if (
-      !this.hasDescriptionExceededPreviewLength()
-      || this.isDescriptionExpanded
-    ) {
-      return this.description
-    }
-
-    return `${this.description.slice(0, MAX_DESCRIPTION_PREVIEW_LENGTH)}...`
+    return this.description
   }
 
   /**
@@ -851,19 +842,6 @@ export default class SectionLeagueContext extends BaseAppContext {
       COMPETITION_STATUS.CANCELED.ID,
     ]
       .includes(this.competitionStatusId)
-  }
-
-  /**
-   * Whether description is expandable or not.
-   *
-   * @returns {boolean} `true` if description is long enough to be expandable.
-   */
-  hasDescriptionExceededPreviewLength () {
-    if (!this.description) {
-      return false
-    }
-
-    return this.description.length > MAX_DESCRIPTION_PREVIEW_LENGTH
   }
 
   /**
