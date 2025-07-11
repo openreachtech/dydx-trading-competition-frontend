@@ -14,6 +14,7 @@ import AppBadge from '~/components/units/AppBadge.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
+import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
@@ -36,6 +37,7 @@ export default defineComponent({
     AppIconBadge,
     AppButton,
     AppLeagueCountdown,
+    AppMarkdownViewer,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
@@ -193,9 +195,15 @@ export default defineComponent({
         </div>
 
         <p class="description">
-          <span>
-            {{ context.normalizeDescription() }}
-          </span> <button
+          <AppMarkdownViewer
+            :content="context.normalizeDescription()"
+            :class="[
+              $style.markdown,
+              $style['arena-description'],
+            ]"
+          />
+
+          <button
             class="button"
             @click="context.toggleDescriptionExpansion()"
           >
@@ -843,5 +851,30 @@ export default defineComponent({
 .unit-statistics > .entry > .details.prize > .note {
   font-size: var(--font-size-base);
   font-weight: 500;
+}
+</style>
+
+<style module>
+.markdown.arena-description {
+  font-size: var(--font-size-base);
+
+  line-height: var(--size-line-height-base);
+}
+
+.markdown.arena-description * {
+  font-size: inherit;
+}
+
+.markdown.arena-description h1,
+.markdown.arena-description h2,
+.markdown.arena-description h3,
+.markdown.arena-description h4,
+.markdown.arena-description h5,
+.markdown.arena-description h6 {
+  margin-block: 0;
+}
+
+.markdown.arena-description hr {
+  margin-block: 0;
 }
 </style>
