@@ -156,6 +156,44 @@ export default defineComponent({
           {{ context.normalizeTitle() }}
         </h2>
 
+        <div class="actions">
+          <AppButton
+            class="button enroll"
+            :disabled="context.shouldDisableEnrollButton()"
+            :variant="context.generateEnrollButtonVariant()"
+            :class="context.generateEnrollButtonClasses()"
+            @click="context.initiateActionDialog()"
+          >
+            <template #startIcon>
+              <Icon
+                name="heroicons:check-circle"
+                size="1.25rem"
+                class="icon enrolled"
+              />
+
+              <Icon
+                name="heroicons:user-minus"
+                size="1.25rem"
+                class="icon unregister"
+              />
+            </template>
+
+            <template #default>
+              <span class="content">
+                {{ context.generateEnrollButtonLabel() }}
+              </span>
+              <span class="action unregister">
+                Unregister
+              </span>
+            </template>
+          </AppButton>
+
+          <AppLeagueCountdown
+            class="note"
+            :schedules="context.schedules"
+          />
+        </div>
+
         <div class="unit-status">
           <AppIconBadge
             :severity="context.generateBadgeSeverity()"
@@ -247,37 +285,6 @@ export default defineComponent({
         </span>
 
         <div class="actions">
-          <AppButton
-            class="button enroll"
-            :disabled="context.shouldDisableEnrollButton()"
-            :variant="context.generateEnrollButtonVariant()"
-            :class="context.generateEnrollButtonClasses()"
-            @click="context.initiateActionDialog()"
-          >
-            <template #startIcon>
-              <Icon
-                name="heroicons:check-circle"
-                size="1.25rem"
-                class="icon enrolled"
-              />
-
-              <Icon
-                name="heroicons:user-minus"
-                size="1.25rem"
-                class="icon unregister"
-              />
-            </template>
-
-            <template #default>
-              <span class="content">
-                {{ context.generateEnrollButtonLabel() }}
-              </span>
-              <span class="action unregister">
-                Unregister
-              </span>
-            </template>
-          </AppButton>
-
           <span class="unit-participants">
             <Icon
               name="heroicons:users"
@@ -289,11 +296,6 @@ export default defineComponent({
             <span>already enrolled</span>
           </span>
         </div>
-
-        <AppLeagueCountdown
-          class="note"
-          :schedules="context.schedules"
-        />
       </div>
 
       <div class="unit-meta">
@@ -627,12 +629,12 @@ export default defineComponent({
 }
 
 .unit-details > .actions {
-  margin-block-start: 1.5rem;
-
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.75rem;
+  gap: 0.75rem;
+
+  margin-block-end: 1.5rem;
 }
 
 .unit-details > .actions > .button.enroll {
