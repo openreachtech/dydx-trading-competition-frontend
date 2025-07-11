@@ -274,17 +274,19 @@ export default defineComponent({
           </template>
         </AppButton>
 
-        <span class="balance">
-          <Icon
-            name="heroicons:wallet"
-            class="icon"
-            size="1.125rem"
-          />
+        <div class="meta">
+          <span class="balance">
+            <Icon
+              name="heroicons:wallet"
+              class="icon"
+              size="1.125rem"
+            />
 
-          {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
-        </span>
+            <span>
+              {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
+            </span>
+          </span>
 
-        <div class="actions">
           <span class="unit-participants">
             <Icon
               name="heroicons:users"
@@ -606,9 +608,15 @@ export default defineComponent({
   display: none;
 }
 
-.unit-details > .balance {
-  margin-block-start: 0.75rem;
+.unit-details > .meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 
+  margin-block-start: 0.75rem;
+}
+
+.unit-details > .meta > .balance {
   display: inline-flex;
   align-items: center;
 
@@ -618,11 +626,11 @@ export default defineComponent({
   color: var(--color-text-tertiary)
 }
 
-.unit-details > .balance > .icon {
+.unit-details > .meta > .balance > .icon {
   margin-inline-end: 0.5rem;
 }
 
-.unit-details > .balance > .note {
+.unit-details > .meta > .balance > .note {
   margin-inline-start: 0.25rem;
 
   font-weight: 400;
