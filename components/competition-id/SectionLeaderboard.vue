@@ -308,10 +308,10 @@ export default defineComponent({
                 <span
                   class="unit-roi ongoing"
                   :class="{
-                    positive: context.isRoiPositive({
+                    positive: context.isPositiveRoi({
                       value,
                     }),
-                    negative: context.isRoiNegative({
+                    negative: context.isNegativeRoi({
                       value,
                     }),
                   }"
@@ -387,10 +387,10 @@ export default defineComponent({
                 <span
                   class="unit-roi outcome"
                   :class="{
-                    positive: context.isRoiPositive({
+                    positive: context.isPositiveRoi({
                       value,
                     }),
-                    negative: context.isRoiNegative({
+                    negative: context.isNegativeRoi({
                       value,
                     }),
                   }"

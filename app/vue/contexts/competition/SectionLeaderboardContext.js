@@ -511,7 +511,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
    * }} params - Parameters.
    * @returns {boolean}
    */
-  isRoiPositive ({
+  isPositiveRoi ({
     value,
   }) {
     if (value === null) {
@@ -529,7 +529,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
    * }} params - Parameters.
    * @returns {boolean}
    */
-  isRoiNegative ({
+  isNegativeRoi ({
     value,
   }) {
     if (value === null) {
