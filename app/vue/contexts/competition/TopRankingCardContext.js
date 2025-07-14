@@ -144,12 +144,12 @@ export default class TopRankingCardContext extends BaseAppContext {
    *
    * @returns {string}
    */
-  generatePrize () {
-    if (this.prize === null) {
-      return '--'
-    }
+  generateDisplayedPrize () {
+    const formattedPrize = this.formatNumber({
+      value: this.prize,
+    })
 
-    return `$${this.prize}`
+    return `Prize: $${formattedPrize}`
   }
 
   /**
