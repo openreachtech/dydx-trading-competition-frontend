@@ -59,7 +59,7 @@ export default defineComponent({
           size="1.25rem"
         />
         <span class="label">
-          Arena Host:
+          Arena Captain:
         </span>
         <span class="name">
           {{ context.generateDisplayedHostName() }}
