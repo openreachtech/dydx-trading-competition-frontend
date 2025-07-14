@@ -133,7 +133,7 @@ export default defineComponent({
 
         <p class="description">
           Follow the journey of a dYdX trading arena from start to finish,
-          with clear roles for hosts, traders, and the platform system.
+          with clear roles for captains, traders, and the platform system.
         </p>
 
         <div class="unit-timeline">

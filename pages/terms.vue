@@ -150,7 +150,7 @@ export default defineComponent({
         trading league or competition ("T&Cs") that you desire to join or participate in and to comply with any local
         laws or regulations which you may be subjected to as a result of your continued use of the Site and/or your
         participation in a trading competition. You further acknowledge that each T&Cs of a trading competition are set
-        at the sole discretion of the respective host of the trading league and that CLC or any other third parties do
+        at the sole discretion of the respective captain of the trading league and that CLC or any other third parties do
         not have any control or discretion over those T&Cs or the design and implementation of trading competitions.
       </p>
 
