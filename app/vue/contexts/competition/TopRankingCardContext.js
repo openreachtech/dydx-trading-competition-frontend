@@ -238,6 +238,32 @@ export default class TopRankingCardContext extends BaseAppContext {
       `top-${this.rank}`,
     ]
   }
+
+  /**
+   * Check if ROI is positive.
+   *
+   * @returns {boolean}
+   */
+  isPositiveRoi () {
+    if (this.roi === null) {
+      return false
+    }
+
+    return this.roi > 0
+  }
+
+  /**
+   * Check if ROI is negative.
+   *
+   * @returns {boolean}
+   */
+  isNegativeRoi () {
+    if (this.roi === null) {
+      return false
+    }
+
+    return this.roi < 0
+  }
 }
 
 /**

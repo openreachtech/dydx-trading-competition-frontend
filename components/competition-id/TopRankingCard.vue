@@ -116,7 +116,13 @@ export default defineComponent({
           <dt class="term">
             ROI
           </dt>
-          <dd class="figure">
+          <dd
+            class="figure roi"
+            :class="{
+              positive: context.isPositiveRoi(),
+              negative: context.isNegativeRoi(),
+            }"
+          >
             {{ context.generateRoi() }}
           </dd>
         </div>
@@ -327,6 +333,7 @@ export default defineComponent({
 .unit-content > .profit > .entry {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.25rem;
 }
 
@@ -346,7 +353,27 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
+.unit-content > .profit > .entry > .figure.roi {
+  --color-text-roi-positive: var(--palette-green);
+  --color-text-roi-negative: var(--palette-red);
+
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+
+  line-height: var(--size-line-height-medium);
+}
+
+.unit-content > .profit > .entry > .figure.roi.positive {
+  color: var(--color-text-roi-positive);
+}
+
+.unit-content > .profit > .entry > .figure.roi.negative {
+  color: var(--color-text-roi-negative);
+}
+
 .unit-content > .profit > .entry > .figure.pnl {
   font-weight: 700;
+
+  color: var(--color-text-tertiary);
 }
 </style>
