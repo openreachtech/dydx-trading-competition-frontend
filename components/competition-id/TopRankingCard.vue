@@ -62,6 +62,15 @@ export default defineComponent({
       class="unit-content"
       :class="context.generateCardClasses()"
     >
+      <div
+        class="prize"
+        :class="{
+          hidden: context.shouldHidePrize,
+        }"
+      >
+        <span>{{ context.generateDisplayedPrize() }}</span>
+      </div>
+
       <div class="details">
         <div class="unit-meta">
           <span class="rank">
@@ -120,18 +129,6 @@ export default defineComponent({
             {{ context.generatePnl() }}
           </dd>
         </div>
-
-        <div
-          class="entry"
-          :class="context.generatePrizeClasses()"
-        >
-          <dt class="term">
-            Prize
-          </dt>
-          <dd class="figure prize">
-            {{ context.generatePrize() }}
-          </dd>
-        </div>
       </dl>
     </div>
   </div>
@@ -181,7 +178,7 @@ export default defineComponent({
 
   border-radius: 1.5rem;
 
-  padding-block: 1.25rem;
+  padding-block: 1rem 1.25rem;
   padding-inline: 1.25rem;
 
   color: var(--color-text-tertiary);
@@ -193,6 +190,46 @@ export default defineComponent({
   background-size: 150% 180%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.unit-content > .prize {
+  --color-background-prize-top-1: var(--palette-yellow-faded);
+  --color-background-prize-top-2: var(--palette-layer-5);
+  --color-background-prize-top-3: var(--palette-green-faded);
+
+  --color-text-prize-top-1: var(--palette-yellow);
+  --color-text-prize-top-2: var(--color-text-secondary);
+  --color-text-prize-top-3: var(--palette-green);
+
+  margin-block-end: 0.75rem;
+
+  border-radius: 100vh;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.unit-content > .prize.hidden {
+  display: none;
+}
+
+.unit-content.top-1 > .prize {
+  background-color: var(--color-background-prize-top-1);
+  color: var(--color-text-prize-top-1);
+}
+
+.unit-content.top-2 > .prize {
+  background-color: var(--color-background-prize-top-2);
+  color: var(--color-text-prize-top-2);
+}
+
+.unit-content.top-3 > .prize {
+  background-color: var(--color-background-prize-top-3);
+  color: var(--color-text-prize-top-3);
 }
 
 .unit-content > .details {
