@@ -238,17 +238,6 @@ export default class TopRankingCardContext extends BaseAppContext {
       `top-${this.rank}`,
     ]
   }
-
-  /**
-   * Generate CSS classes for prize.
-   *
-   * @returns {Record<string, boolean>} CSS classes.
-   */
-  generatePrizeClasses () {
-    return {
-      hidden: this.shouldHidePrize,
-    }
-  }
 }
 
 /**

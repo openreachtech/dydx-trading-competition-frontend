@@ -330,10 +330,6 @@ export default defineComponent({
   gap: 0.25rem;
 }
 
-.unit-content > .profit > .entry.hidden {
-  display: none;
-}
-
 .unit-content > .profit > .entry:nth-of-type(2n) {
   text-align: end;
 }
