@@ -62,6 +62,15 @@ export default defineComponent({
       class="unit-content"
       :class="context.generateCardClasses()"
     >
+      <div
+        class="prize"
+        :class="{
+          hidden: context.shouldHidePrize,
+        }"
+      >
+        <span>{{ context.generateDisplayedPrize() }}</span>
+      </div>
+
       <div class="details">
         <div class="unit-meta">
           <span class="rank">
@@ -107,7 +116,13 @@ export default defineComponent({
           <dt class="term">
             ROI
           </dt>
-          <dd class="figure">
+          <dd
+            class="figure roi"
+            :class="{
+              positive: context.isPositiveRoi(),
+              negative: context.isNegativeRoi(),
+            }"
+          >
             {{ context.generateRoi() }}
           </dd>
         </div>
@@ -118,18 +133,6 @@ export default defineComponent({
           </dt>
           <dd class="figure pnl">
             {{ context.generatePnl() }}
-          </dd>
-        </div>
-
-        <div
-          class="entry"
-          :class="context.generatePrizeClasses()"
-        >
-          <dt class="term">
-            Prize
-          </dt>
-          <dd class="figure prize">
-            {{ context.generatePrize() }}
           </dd>
         </div>
       </dl>
@@ -181,7 +184,7 @@ export default defineComponent({
 
   border-radius: 1.5rem;
 
-  padding-block: 1.25rem;
+  padding-block: 1rem 1.25rem;
   padding-inline: 1.25rem;
 
   color: var(--color-text-tertiary);
@@ -193,6 +196,46 @@ export default defineComponent({
   background-size: 150% 180%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.unit-content > .prize {
+  --color-background-prize-top-1: var(--palette-yellow-faded);
+  --color-background-prize-top-2: var(--palette-layer-5);
+  --color-background-prize-top-3: var(--palette-green-faded);
+
+  --color-text-prize-top-1: var(--palette-yellow);
+  --color-text-prize-top-2: var(--color-text-secondary);
+  --color-text-prize-top-3: var(--palette-green);
+
+  margin-block-end: 0.75rem;
+
+  border-radius: 100vh;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.unit-content > .prize.hidden {
+  display: none;
+}
+
+.unit-content.top-1 > .prize {
+  background-color: var(--color-background-prize-top-1);
+  color: var(--color-text-prize-top-1);
+}
+
+.unit-content.top-2 > .prize {
+  background-color: var(--color-background-prize-top-2);
+  color: var(--color-text-prize-top-2);
+}
+
+.unit-content.top-3 > .prize {
+  background-color: var(--color-background-prize-top-3);
+  color: var(--color-text-prize-top-3);
 }
 
 .unit-content > .details {
@@ -290,11 +333,8 @@ export default defineComponent({
 .unit-content > .profit > .entry {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.25rem;
-}
-
-.unit-content > .profit > .entry.hidden {
-  display: none;
 }
 
 .unit-content > .profit > .entry:nth-of-type(2n) {
@@ -313,7 +353,27 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
+.unit-content > .profit > .entry > .figure.roi {
+  --color-text-roi-positive: var(--palette-green);
+  --color-text-roi-negative: var(--palette-red);
+
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+
+  line-height: var(--size-line-height-medium);
+}
+
+.unit-content > .profit > .entry > .figure.roi.positive {
+  color: var(--color-text-roi-positive);
+}
+
+.unit-content > .profit > .entry > .figure.roi.negative {
+  color: var(--color-text-roi-negative);
+}
+
 .unit-content > .profit > .entry > .figure.pnl {
   font-weight: 700;
+
+  color: var(--color-text-tertiary);
 }
 </style>
