@@ -89,23 +89,23 @@ export default defineComponent({
   <section class="unit-section">
     <div class="headline">
       <h2 class="heading">
-        1. League Details
+        1. Arena Details
       </h2>
 
       <p class="description">
-        Basic information about your league
+        Basic information about your arena
       </p>
     </div>
 
     <label class="unit-label">
       <span class="label">
-        League title
+        Arena title
       </span>
 
       <AppInput
         name="title"
         :value="context.initialTitle"
-        placeholder="Give your league a name (max 30 characters)"
+        placeholder="Give your arena a name (max 30 characters)"
         :has-error="Boolean(context.validationMessage.title)"
         :error-message="context.validationMessage.title"
       />
@@ -120,7 +120,7 @@ export default defineComponent({
         name="description"
         rows="10"
         :value="context.initialDescription"
-        placeholder="Describe your league (max 250 characters)"
+        placeholder="Describe your arena (max 250 characters)"
         :has-error="Boolean(context.validationMessage.description)"
         :error-message="context.validationMessage.description"
       />
@@ -128,11 +128,11 @@ export default defineComponent({
 
     <div class="unit-badge">
       <label class="label">
-        League Badge<span class="note">(Optional)</span>
+        Arena Badge<span class="note">(Optional)</span>
       </label>
 
       <p class="description">
-        An image to represent your league - which will be displayed to all participants
+        An image to represent your arena - which will be displayed to all participants
       </p>
 
       <div class="uploader">
@@ -155,7 +155,7 @@ export default defineComponent({
 
         <img
           :src="context.generateCompetitionImageUrl()"
-          alt="League badge"
+          alt="Arena badge"
           class="image"
           @load="context.releaseImageObjectUrl()"
         >
