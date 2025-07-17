@@ -93,7 +93,7 @@ export default defineComponent({
     </div>
 
     <p class="description">
-      Join the league, test your skills and <b class="highlight yellow">earn rewards</b>. <br>
+      Join the arena, test your skills and <b class="highlight yellow">earn rewards</b>. <br>
       Or, create your own and <b class="highlight purple">challenge others</b>.
     </p>
 
@@ -102,7 +102,7 @@ export default defineComponent({
         class="button"
         @click="context.hostLeague()"
       >
-        Host a league
+        Host a Trading Arena
       </AppButton>
     </div>
 
@@ -112,7 +112,7 @@ export default defineComponent({
           {{ context.generateTotalHostedCompetitionsNumber() }}
         </dt>
         <dd class="label">
-          Leagues hosted
+          Arenas hosted
         </dd>
       </div>
 
