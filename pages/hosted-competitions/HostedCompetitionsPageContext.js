@@ -322,7 +322,7 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
         iconName: 'heroicons-outline:eye',
       },
       {
-        label: 'Edit League',
+        label: 'Edit Arena',
         value: ACTION_HASH.EDIT_LEAGUE,
         iconName: 'heroicons:pencil-square',
       },
