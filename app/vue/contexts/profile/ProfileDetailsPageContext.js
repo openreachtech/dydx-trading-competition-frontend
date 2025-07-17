@@ -110,7 +110,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
       },
       {
         tabKey: 'past-competitions',
-        label: 'League History',
+        label: 'Arena History',
       },
       {
         tabKey: 'orders',

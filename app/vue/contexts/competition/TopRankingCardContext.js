@@ -144,12 +144,12 @@ export default class TopRankingCardContext extends BaseAppContext {
    *
    * @returns {string}
    */
-  generatePrize () {
-    if (this.prize === null) {
-      return '--'
-    }
+  generateDisplayedPrize () {
+    const formattedPrize = this.formatNumber({
+      value: this.prize,
+    })
 
-    return `$${this.prize}`
+    return `Prize: $${formattedPrize}`
   }
 
   /**
@@ -240,14 +240,29 @@ export default class TopRankingCardContext extends BaseAppContext {
   }
 
   /**
-   * Generate CSS classes for prize.
+   * Check if ROI is positive.
    *
-   * @returns {Record<string, boolean>} CSS classes.
+   * @returns {boolean}
    */
-  generatePrizeClasses () {
-    return {
-      hidden: this.shouldHidePrize,
+  isPositiveRoi () {
+    if (this.roi === null) {
+      return false
     }
+
+    return this.roi > 0
+  }
+
+  /**
+   * Check if ROI is negative.
+   *
+   * @returns {boolean}
+   */
+  isNegativeRoi () {
+    if (this.roi === null) {
+      return false
+    }
+
+    return this.roi < 0
   }
 }
 

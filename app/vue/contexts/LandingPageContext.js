@@ -94,9 +94,9 @@ export default class LandingPageContext extends BaseAppContext {
         phaseName: 'Before Competition',
         timeline: [
           {
-            actor: 'host',
+            actor: 'captain',
             title: 'Competition Creation',
-            description: 'The host initiates a new competition by filling in required details and signing through wallet integration.',
+            description: 'The captain initiates a new competition by filling in required details and signing through wallet integration.',
             characteristics: [
               'Define competition title and description',
               'Set minimum deposit requirement',
@@ -209,9 +209,9 @@ export default class LandingPageContext extends BaseAppContext {
             ],
           },
           {
-            actor: 'host',
+            actor: 'captain',
             title: 'Prize Verification & Export',
-            description: 'The host exports detailed competition results to verify prize allocations before distribution.',
+            description: 'The captain exports detailed competition results to verify prize allocations before distribution.',
             characteristics: [
               'Export comprehensive CSV of final results',
               'Verify accuracy of calculated prize amounts',
@@ -220,9 +220,9 @@ export default class LandingPageContext extends BaseAppContext {
             ],
           },
           {
-            actor: 'host',
+            actor: 'captain',
             title: 'Prize Distribution',
-            description: 'The host distributes prizes to winners according to the final competition results.',
+            description: 'The captain distributes prizes to winners according to the final competition results.',
             characteristics: [
               'Process payments to winning traders',
               'Transfer exact prize amounts per CSV data',
@@ -300,7 +300,7 @@ export default class LandingPageContext extends BaseAppContext {
  * @typedef {Array<{
  *   phaseName: string
  *   timeline: Array<{
- *     actor: 'host' | 'trader' | 'system'
+ *     actor: 'captain' | 'trader' | 'system'
  *     title: string
  *     description: string
  *     characteristics: Array<string>

@@ -305,7 +305,17 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingRoi="{ value }">
-                <span class="unit-roi ongoing">
+                <span
+                  class="unit-roi ongoing"
+                  :class="{
+                    positive: context.isPositiveRoi({
+                      value,
+                    }),
+                    negative: context.isNegativeRoi({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizeRoi({
                       figure: value,
@@ -374,7 +384,17 @@ export default defineComponent({
               </template>
 
               <template #body-outcomeRoi="{ value }">
-                <span class="unit-roi outcome">
+                <span
+                  class="unit-roi outcome"
+                  :class="{
+                    positive: context.isPositiveRoi({
+                      value,
+                    }),
+                    negative: context.isNegativeRoi({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizeRoi({
                       figure: value,
@@ -534,8 +554,6 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
-  --color-text-roi: var(--palette-green);
-
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -832,7 +850,16 @@ export default defineComponent({
 }
 
 .unit-roi {
-  color: var(--color-text-roi);
+  --color-text-roi-positive: var(--palette-green);
+  --color-text-roi-negative: var(--palette-red);
+}
+
+.unit-roi.positive {
+  color: var(--color-text-roi-positive);
+}
+
+.unit-roi.negative {
+  color: var(--color-text-roi-negative);
 }
 
 /***************** Trading volume leaderboard ****************/

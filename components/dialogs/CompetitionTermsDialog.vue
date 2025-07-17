@@ -301,8 +301,8 @@ export default defineComponent({
               <span class="bullet" />
 
               <p class="content">
-                Participants acknowledge that responsibility for prize distribution lies solely with the competition host,
-                and by participating, they are trusting the host to fulfill distribution obligations.
+                Participants acknowledge that responsibility for prize distribution lies solely with the competition captain,
+                and by participating, they are trusting the captain to fulfill distribution obligations.
               </p>
             </li>
             <li class="entry">

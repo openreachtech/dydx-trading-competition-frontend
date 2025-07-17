@@ -130,7 +130,7 @@ export default class AppWalletAccountContext extends BaseAppContext {
       {
         href: this.generateProfileUrl(),
         iconName: 'heroicons:user',
-        label: 'My league profile',
+        label: 'My arena profile',
       },
       {
         href: this.generateMyHostedCompetitionsUrl(),

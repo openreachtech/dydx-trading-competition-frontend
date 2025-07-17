@@ -276,7 +276,7 @@ export default class AddCompetitionPageContext extends BaseAppContext {
    */
   generateNextStepButtonLabel () {
     return this.isLastStep()
-      ? 'Host New League'
+      ? 'Create a New Arena'
       : 'Save & Continue'
   }
 

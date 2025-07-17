@@ -504,6 +504,42 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Check if ROI is negative.
+   *
+   * @param {{
+   *   value: number | null
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isPositiveRoi ({
+    value,
+  }) {
+    if (value === null) {
+      return false
+    }
+
+    return value > 0
+  }
+
+  /**
+   * Check if ROI is negative.
+   *
+   * @param {{
+   *   value: number | null
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isNegativeRoi ({
+    value,
+  }) {
+    if (value === null) {
+      return false
+    }
+
+    return value < 0
+  }
+
+  /**
    * Generate section heading CSS classes.
    *
    * @returns {Record<string, boolean>}

@@ -1,6 +1,6 @@
 # dYdX Trading Competition Frontend
 
-The dYdX Trading Competition Frontend provides a transparent interface for traders to compete in verifiable trading contests on dYdX's decentralized exchange. It enables competition hosts to create and manage events, offers real-time performance tracking with on-chain verification, and delivers an accessible platform for traders of all skill levels to showcase their abilities.
+The dYdX Trading Competition Frontend provides a transparent interface for traders to compete in verifiable trading contests on dYdX's decentralized exchange. It enables competition captains to create and manage events, offers real-time performance tracking with on-chain verification, and delivers an accessible platform for traders of all skill levels to showcase their abilities.
 
 Live Application: https://dydxarena.com
 
