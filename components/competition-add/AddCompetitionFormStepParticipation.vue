@@ -102,7 +102,7 @@ export default defineComponent({
       </div>
 
       <p class="note">
-        Smaller leagues (10-25) offer an intense competitive experience. Larger leagues
+        Smaller arenas (10-25) offer an intense competitive experience. Larger arenas
         (100+ or 1000+) attract a wider audience and can support bigger prize pools.
       </p>
     </div>

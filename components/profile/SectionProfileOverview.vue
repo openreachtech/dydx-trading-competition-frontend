@@ -155,7 +155,7 @@ export default defineComponent({
         <dl class="unit-description">
           <div class="entry">
             <dt class="term">
-              League Participating
+              Arena Participating
             </dt>
 
             <dd class="description participation">

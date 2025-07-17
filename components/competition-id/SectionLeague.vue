@@ -334,7 +334,7 @@ export default defineComponent({
         <dl class="unit-statistics">
           <div class="entry">
             <dt class="term">
-              League Host
+              Arena Captain
             </dt>
 
             <dd class="details host">
