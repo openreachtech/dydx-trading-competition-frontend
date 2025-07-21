@@ -794,7 +794,9 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       return formattedMetrics
     }
 
-    const isInLeaderboard = metrics.some(it => it.address.address === this.localWalletAddress)
+    const isInLeaderboard = metrics.some(it =>
+      it.address.address === myMetric.address.address
+    )
     if (isInLeaderboard) {
       return formattedMetrics
     }
