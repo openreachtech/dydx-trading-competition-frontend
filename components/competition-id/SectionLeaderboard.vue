@@ -361,11 +361,17 @@ export default defineComponent({
               <template #body-outcomeName="{ value, row }">
                 <NuxtLink
                   class="unit-name outcome"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.outcomeAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.outcomeAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
