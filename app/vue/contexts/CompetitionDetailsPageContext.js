@@ -1068,6 +1068,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeLeaderboardFinalOutcomeEntries({
           outcomes: capsule.outcomes,
+          myOutcome: capsule.myOutcome,
         })
       },
     }
@@ -1200,21 +1201,58 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *
    * @param {{
    *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   myOutcome: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome | null
    * }} params - Parameters.
    * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
    */
   normalizeLeaderboardFinalOutcomeEntries ({
     outcomes,
+    myOutcome,
   }) {
-    return outcomes.map(it => ({
-      outcomeRank: it.ranking,
-      outcomeName: it.address.name,
-      outcomeAddress: it.address.address,
-      outcomeBaseline: it.performanceBaseline,
-      outcomePnl: it.pnl,
-      outcomeRoi: it.roi,
-      outcomePrize: it.prizeUsdAmount,
+    const formattedOutcomeEntries = outcomes.map(it => this.formatLeaderboardFinalOutcomeEntry({
+      entry: it,
     }))
+
+    if (myOutcome === null) {
+      return formattedOutcomeEntries
+    }
+
+    const isInCurrentLeaderboard = outcomes.some(it => it.ranking === myOutcome.ranking)
+    if (isInCurrentLeaderboard) {
+      return formattedOutcomeEntries
+    }
+
+    const myFormattedOutcome = this.formatLeaderboardFinalOutcomeEntry({
+      entry: myOutcome,
+    })
+
+    return [
+      ...formattedOutcomeEntries,
+      myFormattedOutcome,
+    ]
+      .toSorted((entryA, entryB) => entryA.outcomeRank - entryB.outcomeRank)
+  }
+
+  /**
+   * Format leaderboard final outcome entry.
+   *
+   * @param {{
+   *   entry: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome
+   * }} params - Parameters.
+   * @returns {NormalizedLeaderboardFinalOutcomeEntry}
+   */
+  formatLeaderboardFinalOutcomeEntry ({
+    entry,
+  }) {
+    return {
+      outcomeRank: entry.ranking,
+      outcomeName: entry.address.name,
+      outcomeAddress: entry.address.address,
+      outcomeBaseline: entry.performanceBaseline,
+      outcomePnl: entry.pnl,
+      outcomeRoi: entry.roi,
+      outcomePrize: entry.prizeUsdAmount,
+    }
   }
 
   /**
