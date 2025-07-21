@@ -308,7 +308,10 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.fetchCompetitionTradingMetricsOnMounted()
 
     this.watch(
-      () => this.extractCurrentPage(),
+      [
+        () => this.extractCurrentPage(),
+        () => this.localWalletAddress,
+      ],
       async () => {
         await this.fetchLeaderboardEntries()
       }
@@ -490,20 +493,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchOngoingLeaderboard () {
+    const variables = this.generateFetchOngoingLeaderboardVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionLeaderboard
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionLeaderboardLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchOngoingLeaderboard`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchOngoingLeaderboardVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
