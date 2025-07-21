@@ -318,9 +318,12 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     )
 
     this.watch(
-      () => this.extractCurrentPage({
-        pageParamKey: 'volumeLeaderboardPage',
-      }),
+      [
+        () => this.extractCurrentPage({
+          pageParamKey: 'volumeLeaderboardPage',
+        }),
+        () => this.localWalletAddress,
+      ],
       async () => {
         await this.fetchCompetitionTradingMetricsOnEvent()
       }
