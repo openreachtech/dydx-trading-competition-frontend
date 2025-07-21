@@ -11,6 +11,19 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
     return /* GraphQL */ `
       query CompetitionParticipantsQuery ($input: CompetitionParticipantsInput!) {
         competitionParticipants (input: $input) {
+          myParticipation {
+            competitionParticipantId
+            address {
+              address
+              name
+            }
+            status {
+              statusId
+              name
+              phasedAt
+            }
+            equity
+          }
           participants {
             competitionParticipantId
             address {
@@ -40,6 +53,7 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
  *   input: {
  *     competitionId: number
  *     statusId?: number
+ *     address?: string
  *     pagination: {
  *       limit: number
  *       offset: number
