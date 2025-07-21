@@ -1071,7 +1071,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       ...formattedRankings,
       formattedMyRanking,
     ]
-      .toSorted((alpha, beta) => alpha.ongoingRank - beta.ongoingRank)
+      .toSorted((entryA, entryB) => entryA.ongoingRank - entryB.ongoingRank)
   }
 
   /**
