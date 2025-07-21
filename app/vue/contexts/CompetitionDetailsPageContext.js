@@ -977,6 +977,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeOngoingLeaderboardEntries({
           rankings: capsule.rankings,
+          myRanking: capsule.myRanking,
         })
       },
     }
@@ -1039,20 +1040,61 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *   rankings: import(
    *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
    *   ).ResponseContent['competitionLeaderboard']['rankings']
+   *   myRanking: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking | null
    * }} params - Parameters.
    * @returns {Array<NormalizedOngoingLeaderboardEntry>}
    */
   normalizeOngoingLeaderboardEntries ({
     rankings,
+    myRanking,
   }) {
-    return rankings.map(it => ({
-      ongoingRank: it.ranking,
-      ongoingName: it.address.name ?? '----',
-      ongoingAddress: it.address.address,
-      ongoingBaseline: it.performanceBaseline,
-      ongoingRoi: it.roi,
-      ongoingPnl: it.pnl,
+    const formattedRankings = rankings.map(it => this.formatOnGoingLeaderboardEntry({
+      entry: it,
     }))
+
+    if (myRanking === null) {
+      return formattedRankings
+    }
+
+    const isInCurrentLeaderboard = rankings.some(it => it.ranking === myRanking.ranking)
+    if (isInCurrentLeaderboard) {
+      return formattedRankings
+    }
+
+    const formattedMyRanking = this.formatOnGoingLeaderboardEntry({
+      entry: myRanking,
+    })
+
+    return [
+      ...formattedRankings,
+      formattedMyRanking,
+    ]
+      .toSorted((alpha, beta) => alpha.ongoingRank - beta.ongoingRank)
+  }
+
+  /**
+   * Format ongoing leaderboard entry.
+   *
+   * @param {{
+   *   entry: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking
+   * }} params - Parameters.
+   * @returns {NormalizedOngoingLeaderboardEntry}
+   */
+  formatOnGoingLeaderboardEntry ({
+    entry,
+  }) {
+    return {
+      ongoingRank: entry.ranking,
+      ongoingName: entry.address.name ?? '----',
+      ongoingAddress: entry.address.address,
+      ongoingBaseline: entry.performanceBaseline,
+      ongoingRoi: entry.roi,
+      ongoingPnl: entry.pnl,
+    }
   }
 
   /**
