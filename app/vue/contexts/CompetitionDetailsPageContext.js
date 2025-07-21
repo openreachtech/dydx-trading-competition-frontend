@@ -752,12 +752,21 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       currentPage,
     })
 
-    return {
+    const requiredInput = {
       competitionId,
       pagination: {
         limit: PAGINATION.LIMIT,
         offset,
       },
+    }
+
+    if (!this.localWalletAddress) {
+      return requiredInput
+    }
+
+    return {
+      ...requiredInput,
+      address: this.localWalletAddress,
     }
   }
 
