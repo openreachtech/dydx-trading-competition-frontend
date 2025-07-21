@@ -471,20 +471,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchCompetitionParticipants () {
+    const variables = this.generateFetchCompetitionParticipantsVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionParticipants
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionParticipantsLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchCompetitionParticipants`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchCompetitionParticipantsVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
