@@ -1050,7 +1050,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     rankings,
     myRanking,
   }) {
-    const formattedRankings = rankings.map(it => this.formatOnGoingLeaderboardEntry({
+    const formattedRankings = rankings.map(it => this.formatOngoingLeaderboardEntry({
       entry: it,
     }))
 
@@ -1063,7 +1063,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       return formattedRankings
     }
 
-    const formattedMyRanking = this.formatOnGoingLeaderboardEntry({
+    const formattedMyRanking = this.formatOngoingLeaderboardEntry({
       entry: myRanking,
     })
 
@@ -1084,7 +1084,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * }} params - Parameters.
    * @returns {NormalizedOngoingLeaderboardEntry}
    */
-  formatOnGoingLeaderboardEntry ({
+  formatOngoingLeaderboardEntry ({
     entry,
   }) {
     return {
