@@ -776,19 +776,58 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Array<MetricLeaderboardEntry>}
    */
   generateMetricLeaderboardEntries () {
-    return this.fetcherHash.competitionTradingMetrics
+    const {
+      myMetric,
+      metrics,
+    } = this.fetcherHash
+      .competitionTradingMetrics
       .competitionTradingMetricsCapsule
-      .metrics
-      .map(it => ({
-        name: it.address.name,
-        address: it.address.address,
-        makerFees: it.makerFees,
-        takerFees: it.takerFees,
-        totalFees: it.totalFees,
-        makerVolume: it.makeVolume,
-        takerVolume: it.takerVolume,
-        totalVolume: it.totalVolume,
-      }))
+
+    const formattedMetrics = metrics.map(it => this.formatMetricLeaderboardEntry({
+      entry: it,
+    }))
+
+    if (!myMetric) {
+      return formattedMetrics
+    }
+
+    const isInLeaderboard = metrics.some(it => it.address.address === this.localWalletAddress)
+    if (isInLeaderboard) {
+      return formattedMetrics
+    }
+
+    const myFormattedMetric = this.formatMetricLeaderboardEntry({
+      entry: myMetric,
+    })
+
+    return [
+      ...formattedMetrics,
+      myFormattedMetric,
+    ]
+      .toSorted((entryA, entryB) => entryB.totalVolume - entryA.totalVolume)
+  }
+
+  /**
+   * Format metric leaderboard entry.
+   *
+   * @param {{
+   *   entry: import('~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlCapsule').TradingMetric
+   * }} params - Parameters.
+   * @returns {MetricLeaderboardEntry}
+   */
+  formatMetricLeaderboardEntry ({
+    entry,
+  }) {
+    return {
+      name: entry.address.name,
+      address: entry.address.address,
+      makerFees: entry.makerFees,
+      takerFees: entry.takerFees,
+      totalFees: entry.totalFees,
+      makerVolume: entry.makeVolume,
+      takerVolume: entry.takerVolume,
+      totalVolume: entry.totalVolume,
+    }
   }
 
   /**
