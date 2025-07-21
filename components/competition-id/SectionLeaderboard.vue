@@ -13,6 +13,8 @@ import {
   useRouter,
 } from 'vue-router'
 
+import useWalletStore from '~/stores/wallet'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
@@ -137,11 +139,14 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
+    const walletStore = useWalletStore()
+
     const args = {
       props,
       componentContext,
       route,
       router,
+      walletStore,
     }
     const context = SectionLeaderboardContext.create(args)
       .setupComponent()
@@ -265,11 +270,17 @@ export default defineComponent({
               <template #body-ongoingName="{ value, row }">
                 <NuxtLink
                   class="unit-name ongoing"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.ongoingAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.ongoingAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -812,6 +823,14 @@ export default defineComponent({
 
 .unit-name:where(.participant, .ongoing, .outcome)[href]:hover {
   color: var(--color-text-highlight-purple);
+}
+
+.unit-name:where(.participant, .ongoing, .outcome) > .note {
+  color: var(--color-text-tertiary);
+}
+
+.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .note {
+  display: none;
 }
 
 .unit-address:where(.participant, .ongoing, .outcome) {
