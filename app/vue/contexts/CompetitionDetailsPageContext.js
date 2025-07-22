@@ -1219,11 +1219,31 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       entry: myRanking,
     })
 
-    return [
+    const sortedEntries = [
       ...formattedRankings,
       formattedMyRanking,
     ]
       .toSorted((entryA, entryB) => entryA.ongoingRank - entryB.ongoingRank)
+
+    const ongoingSeparatorEntry = {
+      ongoingRank: 0,
+      ongoingName: '----',
+      ongoingAddress: '----',
+      ongoingBaseline: 0,
+      ongoingRoi: 0,
+      ongoingPnl: 0,
+      isSeparator: true,
+    }
+
+    const myRankingIndex = sortedEntries.findIndex(it =>
+      it.ongoingRank === formattedMyRanking.ongoingRank
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: ongoingSeparatorEntry,
+      myEntryIndex: myRankingIndex,
+    })
   }
 
   /**
@@ -1279,11 +1299,32 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       entry: myOutcome,
     })
 
-    return [
+    const sortedEntries = [
       ...formattedOutcomeEntries,
       myFormattedOutcome,
     ]
       .toSorted((entryA, entryB) => entryA.outcomeRank - entryB.outcomeRank)
+
+    const outcomeSeparatorEntry = {
+      outcomeRank: 0,
+      outcomeName: '----',
+      outcomeAddress: '----',
+      outcomeBaseline: 0,
+      outcomePnl: 0,
+      outcomeRoi: 0,
+      outcomePrize: '0',
+      isSeparator: true,
+    }
+
+    const myOutcomeIndex = sortedEntries.findIndex(it =>
+      it.outcomeRank === myFormattedOutcome.outcomeRank
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: outcomeSeparatorEntry,
+      myEntryIndex: myOutcomeIndex,
+    })
   }
 
   /**
@@ -1306,6 +1347,37 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       outcomeRoi: entry.roi,
       outcomePrize: entry.prizeUsdAmount,
     }
+  }
+
+  /**
+   * Insert leaderboard separator entry.
+   *
+   * @template {LeaderboardEntryUnion} T
+   * @param {{
+   *   entries: Array<T>
+   *   separatorEntry: T
+   *   myEntryIndex: number
+   * }} params - Parameters.
+   * @returns {Array<T>}
+   */
+  insertLeaderboardSeparatorEntry ({
+    entries,
+    separatorEntry,
+    myEntryIndex,
+  }) {
+    if (myEntryIndex === 0) {
+      return [
+        ...entries.slice(0, 1),
+        separatorEntry,
+        ...entries.slice(1),
+      ]
+    }
+
+    return [
+      ...entries.slice(0, myEntryIndex),
+      separatorEntry,
+      ...entries.slice(myEntryIndex),
+    ]
   }
 
   /**
@@ -1991,6 +2063,13 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  */
 
 /**
+ * @typedef {NormalizedOngoingLeaderboardEntry
+ *   | NormalizedLeaderboardFinalOutcomeEntry
+ *   | NormalizedCompetitionParticipantEntry
+ * } LeaderboardEntryUnion
+ */
+
+/**
  * @typedef {{
  *   limit: number
  *   totalRecords: number
@@ -2007,6 +2086,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *     name: string
  *     phasedAt: string // ISO string.
  *   }
+ *   isSeparator?: boolean
  * }} NormalizedCompetitionParticipantEntry
  */
 
@@ -2018,6 +2098,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   ongoingBaseline: number
  *   ongoingRoi: number
  *   ongoingPnl: number
+ *   isSeparator?: boolean
  * }} NormalizedOngoingLeaderboardEntry
  */
 
@@ -2030,6 +2111,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   outcomeRoi: number
  *   outcomeBaseline: number
  *   outcomePrize: string
+ *   isSeparator?: boolean
  * }} NormalizedLeaderboardFinalOutcomeEntry
  */
 

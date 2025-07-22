@@ -262,6 +262,22 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Generate slot name for separator row in leaderboard.
+   *
+   * @returns {string | null}
+   */
+  generateLeaderboardSeparatorSlotName () {
+    const separatorIndex = this.leaderboardTableEntries
+      .findIndex(entry => entry.isSeparator)
+
+    if (separatorIndex === -1) {
+      return null
+    }
+
+    return `body-row-${separatorIndex}`
+  }
+
+  /**
    * Download outcome CSV.
    *
    * @returns {Promise<void>}

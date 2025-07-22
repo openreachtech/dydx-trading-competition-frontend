@@ -441,6 +441,17 @@ export default defineComponent({
                   ${{ value }}
                 </span>
               </template>
+
+              <template
+                v-if="context.generateLeaderboardSeparatorSlotName()"
+                #[context.generateLeaderboardSeparatorSlotName()]
+              >
+                <tr class="unit-row separator">
+                  <td class="cell">
+                    ...
+                  </td>
+                </tr>
+              </template>
             </AppTable>
 
             <div class="footer">
@@ -897,6 +908,16 @@ export default defineComponent({
 
 .unit-roi.negative {
   color: var(--color-text-roi-negative);
+}
+
+.unit-row.separator {
+  border-block-end-width: var(--size-thinnest);
+  border-block-end-style: solid;
+  border-block-end-color: var(--color-border-table-row);
+}
+
+.unit-row.separator > .cell {
+  padding-block: 0.75rem;
 }
 
 /***************** Trading volume leaderboard ****************/
