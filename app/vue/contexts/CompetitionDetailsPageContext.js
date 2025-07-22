@@ -308,16 +308,22 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.fetchCompetitionTradingMetricsOnMounted()
 
     this.watch(
-      () => this.extractCurrentPage(),
+      [
+        () => this.extractCurrentPage(),
+        () => this.localWalletAddress,
+      ],
       async () => {
         await this.fetchLeaderboardEntries()
       }
     )
 
     this.watch(
-      () => this.extractCurrentPage({
-        pageParamKey: 'volumeLeaderboardPage',
-      }),
+      [
+        () => this.extractCurrentPage({
+          pageParamKey: 'volumeLeaderboardPage',
+        }),
+        () => this.localWalletAddress,
+      ],
       async () => {
         await this.fetchCompetitionTradingMetricsOnEvent()
       }
@@ -468,20 +474,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchCompetitionParticipants () {
+    const variables = this.generateFetchCompetitionParticipantsVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionParticipants
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionParticipantsLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchCompetitionParticipants`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchCompetitionParticipantsVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
@@ -490,20 +526,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchOngoingLeaderboard () {
+    const variables = this.generateFetchOngoingLeaderboardVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionLeaderboard
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionLeaderboardLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchOngoingLeaderboard`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchOngoingLeaderboardVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
@@ -512,20 +578,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchLeaderboardFinalOutcome () {
+    const variables = this.generateFetchLeaderboardFinalOutcomeVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionFinalOutcome
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionFinalOutcomeLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchLeaderboardFinalOutcome`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchLeaderboardFinalOutcomeVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
@@ -659,12 +755,21 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       currentPage,
     })
 
-    return {
+    const requiredInput = {
       competitionId,
       pagination: {
         limit: PAGINATION.LIMIT,
         offset,
       },
+    }
+
+    if (!this.localWalletAddress) {
+      return requiredInput
+    }
+
+    return {
+      ...requiredInput,
+      address: this.localWalletAddress,
     }
   }
 
@@ -674,19 +779,60 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Array<MetricLeaderboardEntry>}
    */
   generateMetricLeaderboardEntries () {
-    return this.fetcherHash.competitionTradingMetrics
+    const {
+      myMetric,
+      metrics,
+    } = this.fetcherHash
+      .competitionTradingMetrics
       .competitionTradingMetricsCapsule
-      .metrics
-      .map(it => ({
-        name: it.address.name,
-        address: it.address.address,
-        makerFees: it.makerFees,
-        takerFees: it.takerFees,
-        totalFees: it.totalFees,
-        makerVolume: it.makeVolume,
-        takerVolume: it.takerVolume,
-        totalVolume: it.totalVolume,
-      }))
+
+    const formattedMetrics = metrics.map(it => this.formatMetricLeaderboardEntry({
+      entry: it,
+    }))
+
+    if (!myMetric) {
+      return formattedMetrics
+    }
+
+    const isInLeaderboard = metrics.some(it =>
+      it.address.address === myMetric.address.address
+    )
+    if (isInLeaderboard) {
+      return formattedMetrics
+    }
+
+    const myFormattedMetric = this.formatMetricLeaderboardEntry({
+      entry: myMetric,
+    })
+
+    return [
+      ...formattedMetrics,
+      myFormattedMetric,
+    ]
+      .toSorted((entryA, entryB) => entryB.totalVolume - entryA.totalVolume)
+  }
+
+  /**
+   * Format metric leaderboard entry.
+   *
+   * @param {{
+   *   entry: import('~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlCapsule').TradingMetric
+   * }} params - Parameters.
+   * @returns {MetricLeaderboardEntry}
+   */
+  formatMetricLeaderboardEntry ({
+    entry,
+  }) {
+    return {
+      name: entry.address.name,
+      address: entry.address.address,
+      makerFees: entry.makerFees,
+      takerFees: entry.takerFees,
+      totalFees: entry.totalFees,
+      makerVolume: entry.makeVolume,
+      takerVolume: entry.takerVolume,
+      totalVolume: entry.totalVolume,
+    }
   }
 
   /**
@@ -898,6 +1044,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeCompetitionParticipantEntries({
           participants: capsule.participants,
+          myParticipation: capsule.myParticipation,
         })
       },
     }
@@ -944,6 +1091,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeOngoingLeaderboardEntries({
           rankings: capsule.rankings,
+          myRanking: capsule.myRanking,
         })
       },
     }
@@ -973,6 +1121,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeLeaderboardFinalOutcomeEntries({
           outcomes: capsule.outcomes,
+          myOutcome: capsule.myOutcome,
         })
       },
     }
@@ -985,18 +1134,55 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *   participants: Array<import(
    *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
    *   ).Participant>
+   *   myParticipation: import(
+   *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
+   *   ).Participant | null
    * }} params - Parameters.
    * @returns {Array<NormalizedCompetitionParticipantEntry>}
    */
   normalizeCompetitionParticipantEntries ({
     participants,
+    myParticipation,
   }) {
-    return participants.map(it => ({
-      participantName: it.address.name,
-      participantAddress: it.address.address,
-      participantEquity: it.equity,
-      participantStatus: it.status,
+    const formattedParticipants = participants.map(it => this.formatCompetitionParticipantEntry({
+      entry: it,
     }))
+
+    if (myParticipation === null) {
+      return formattedParticipants
+    }
+
+    const formattedMyParticipation = this.formatCompetitionParticipantEntry({
+      entry: myParticipation,
+    })
+    const filteredParticipants = formattedParticipants
+      .filter(it => it.participantAddress !== formattedMyParticipation.participantAddress)
+
+    return [
+      formattedMyParticipation,
+      ...filteredParticipants,
+    ]
+  }
+
+  /**
+   * Format competition participant entry.
+   *
+   * @param {{
+   *   entry: import(
+   *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
+   *   ).Participant
+   * }} params - Parameters.
+   * @returns {NormalizedCompetitionParticipantEntry}
+   */
+  formatCompetitionParticipantEntry ({
+    entry,
+  }) {
+    return {
+      participantName: entry.address.name,
+      participantAddress: entry.address.address,
+      participantEquity: entry.equity,
+      participantStatus: entry.status,
+    }
   }
 
   /**
@@ -1006,20 +1192,81 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *   rankings: import(
    *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
    *   ).ResponseContent['competitionLeaderboard']['rankings']
+   *   myRanking: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking | null
    * }} params - Parameters.
    * @returns {Array<NormalizedOngoingLeaderboardEntry>}
    */
   normalizeOngoingLeaderboardEntries ({
     rankings,
+    myRanking,
   }) {
-    return rankings.map(it => ({
-      ongoingRank: it.ranking,
-      ongoingName: it.address.name ?? '----',
-      ongoingAddress: it.address.address,
-      ongoingBaseline: it.performanceBaseline,
-      ongoingRoi: it.roi,
-      ongoingPnl: it.pnl,
+    const formattedRankings = rankings.map(it => this.formatOngoingLeaderboardEntry({
+      entry: it,
     }))
+
+    if (myRanking === null) {
+      return formattedRankings
+    }
+
+    const isInCurrentLeaderboard = rankings.some(it => it.ranking === myRanking.ranking)
+    if (isInCurrentLeaderboard) {
+      return formattedRankings
+    }
+
+    const formattedMyRanking = this.formatOngoingLeaderboardEntry({
+      entry: myRanking,
+    })
+
+    const sortedEntries = [
+      ...formattedRankings,
+      formattedMyRanking,
+    ]
+      .toSorted((entryA, entryB) => entryA.ongoingRank - entryB.ongoingRank)
+
+    const ongoingSeparatorEntry = {
+      ongoingRank: 0,
+      ongoingName: '----',
+      ongoingAddress: '----',
+      ongoingBaseline: 0,
+      ongoingRoi: 0,
+      ongoingPnl: 0,
+      isSeparator: true,
+    }
+
+    const myRankingIndex = sortedEntries.findIndex(it =>
+      it.ongoingRank === formattedMyRanking.ongoingRank
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: ongoingSeparatorEntry,
+      myEntryIndex: myRankingIndex,
+    })
+  }
+
+  /**
+   * Format ongoing leaderboard entry.
+   *
+   * @param {{
+   *   entry: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking
+   * }} params - Parameters.
+   * @returns {NormalizedOngoingLeaderboardEntry}
+   */
+  formatOngoingLeaderboardEntry ({
+    entry,
+  }) {
+    return {
+      ongoingRank: entry.ranking,
+      ongoingName: entry.address.name ?? '----',
+      ongoingAddress: entry.address.address,
+      ongoingBaseline: entry.performanceBaseline,
+      ongoingRoi: entry.roi,
+      ongoingPnl: entry.pnl,
+    }
   }
 
   /**
@@ -1027,21 +1274,110 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *
    * @param {{
    *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   myOutcome: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome | null
    * }} params - Parameters.
    * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
    */
   normalizeLeaderboardFinalOutcomeEntries ({
     outcomes,
+    myOutcome,
   }) {
-    return outcomes.map(it => ({
-      outcomeRank: it.ranking,
-      outcomeName: it.address.name,
-      outcomeAddress: it.address.address,
-      outcomeBaseline: it.performanceBaseline,
-      outcomePnl: it.pnl,
-      outcomeRoi: it.roi,
-      outcomePrize: it.prizeUsdAmount,
+    const formattedOutcomeEntries = outcomes.map(it => this.formatLeaderboardFinalOutcomeEntry({
+      entry: it,
     }))
+
+    if (myOutcome === null) {
+      return formattedOutcomeEntries
+    }
+
+    const isInCurrentLeaderboard = outcomes.some(it => it.ranking === myOutcome.ranking)
+    if (isInCurrentLeaderboard) {
+      return formattedOutcomeEntries
+    }
+
+    const myFormattedOutcome = this.formatLeaderboardFinalOutcomeEntry({
+      entry: myOutcome,
+    })
+
+    const sortedEntries = [
+      ...formattedOutcomeEntries,
+      myFormattedOutcome,
+    ]
+      .toSorted((entryA, entryB) => entryA.outcomeRank - entryB.outcomeRank)
+
+    const outcomeSeparatorEntry = {
+      outcomeRank: 0,
+      outcomeName: '----',
+      outcomeAddress: '----',
+      outcomeBaseline: 0,
+      outcomePnl: 0,
+      outcomeRoi: 0,
+      outcomePrize: '0',
+      isSeparator: true,
+    }
+
+    const myOutcomeIndex = sortedEntries.findIndex(it =>
+      it.outcomeRank === myFormattedOutcome.outcomeRank
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: outcomeSeparatorEntry,
+      myEntryIndex: myOutcomeIndex,
+    })
+  }
+
+  /**
+   * Format leaderboard final outcome entry.
+   *
+   * @param {{
+   *   entry: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome
+   * }} params - Parameters.
+   * @returns {NormalizedLeaderboardFinalOutcomeEntry}
+   */
+  formatLeaderboardFinalOutcomeEntry ({
+    entry,
+  }) {
+    return {
+      outcomeRank: entry.ranking,
+      outcomeName: entry.address.name,
+      outcomeAddress: entry.address.address,
+      outcomeBaseline: entry.performanceBaseline,
+      outcomePnl: entry.pnl,
+      outcomeRoi: entry.roi,
+      outcomePrize: entry.prizeUsdAmount,
+    }
+  }
+
+  /**
+   * Insert leaderboard separator entry.
+   *
+   * @template {LeaderboardEntryUnion} T
+   * @param {{
+   *   entries: Array<T>
+   *   separatorEntry: T
+   *   myEntryIndex: number
+   * }} params - Parameters.
+   * @returns {Array<T>}
+   */
+  insertLeaderboardSeparatorEntry ({
+    entries,
+    separatorEntry,
+    myEntryIndex,
+  }) {
+    if (myEntryIndex === 0) {
+      return [
+        ...entries.slice(0, 1),
+        separatorEntry,
+        ...entries.slice(1),
+      ]
+    }
+
+    return [
+      ...entries.slice(0, myEntryIndex),
+      separatorEntry,
+      ...entries.slice(myEntryIndex),
+    ]
   }
 
   /**
@@ -1727,6 +2063,13 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  */
 
 /**
+ * @typedef {NormalizedOngoingLeaderboardEntry
+ *   | NormalizedLeaderboardFinalOutcomeEntry
+ *   | NormalizedCompetitionParticipantEntry
+ * } LeaderboardEntryUnion
+ */
+
+/**
  * @typedef {{
  *   limit: number
  *   totalRecords: number
@@ -1737,11 +2080,13 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  * @typedef {{
  *   participantName: string
  *   participantAddress: string
+ *   participantEquity: number
  *   participantStatus: {
  *     statusId: number
  *     name: string
  *     phasedAt: string // ISO string.
  *   }
+ *   isSeparator?: boolean
  * }} NormalizedCompetitionParticipantEntry
  */
 
@@ -1753,6 +2098,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   ongoingBaseline: number
  *   ongoingRoi: number
  *   ongoingPnl: number
+ *   isSeparator?: boolean
  * }} NormalizedOngoingLeaderboardEntry
  */
 
@@ -1765,6 +2111,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   outcomeRoi: number
  *   outcomeBaseline: number
  *   outcomePrize: string
+ *   isSeparator?: boolean
  * }} NormalizedLeaderboardFinalOutcomeEntry
  */
 

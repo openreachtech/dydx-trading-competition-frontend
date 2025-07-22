@@ -13,6 +13,8 @@ import {
   useRouter,
 } from 'vue-router'
 
+import useWalletStore from '~/stores/wallet'
+
 import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
@@ -137,11 +139,14 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
+    const walletStore = useWalletStore()
+
     const args = {
       props,
       componentContext,
       route,
       router,
+      walletStore,
     }
     const context = SectionLeaderboardContext.create(args)
       .setupComponent()
@@ -211,11 +216,17 @@ export default defineComponent({
               <template #body-participantName="{ value, row }">
                 <NuxtLink
                   class="unit-name participant"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.participantAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.participantAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -265,11 +276,17 @@ export default defineComponent({
               <template #body-ongoingName="{ value, row }">
                 <NuxtLink
                   class="unit-name ongoing"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.ongoingAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.ongoingAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -344,11 +361,17 @@ export default defineComponent({
               <template #body-outcomeName="{ value, row }">
                 <NuxtLink
                   class="unit-name outcome"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.outcomeAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.outcomeAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -418,6 +441,17 @@ export default defineComponent({
                   ${{ value }}
                 </span>
               </template>
+
+              <template
+                v-if="context.generateLeaderboardSeparatorSlotName()"
+                #[context.generateLeaderboardSeparatorSlotName()]
+              >
+                <tr class="unit-row separator">
+                  <td class="cell">
+                    ...
+                  </td>
+                </tr>
+              </template>
             </AppTable>
 
             <div class="footer">
@@ -468,9 +502,15 @@ export default defineComponent({
                   :to="context.generateProfileUrl({
                     address: row.address,
                   })"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.address,
+                    }),
+                  }"
                   class="unit-column metric name"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -814,6 +854,14 @@ export default defineComponent({
   color: var(--color-text-highlight-purple);
 }
 
+.unit-name:where(.participant, .ongoing, .outcome) > .note {
+  color: var(--color-text-tertiary);
+}
+
+.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .note {
+  display: none;
+}
+
 .unit-address:where(.participant, .ongoing, .outcome) {
   display: inline-flex;
   align-items: center;
@@ -862,9 +910,27 @@ export default defineComponent({
   color: var(--color-text-roi-negative);
 }
 
+.unit-row.separator {
+  border-block-end-width: var(--size-thinnest);
+  border-block-end-style: solid;
+  border-block-end-color: var(--color-border-table-row);
+}
+
+.unit-row.separator > .cell {
+  padding-block: 0.75rem;
+}
+
 /***************** Trading volume leaderboard ****************/
 .unit-column.metric.name {
   color: inherit;
+}
+
+.unit-column.metric.name > .note {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.metric.name:not(.you) > .note {
+  display: none;
 }
 
 .unit-column.metric.name:hover {
