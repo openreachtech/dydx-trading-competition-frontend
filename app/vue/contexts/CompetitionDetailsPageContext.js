@@ -1299,11 +1299,32 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       entry: myOutcome,
     })
 
-    return [
+    const sortedEntries = [
       ...formattedOutcomeEntries,
       myFormattedOutcome,
     ]
       .toSorted((entryA, entryB) => entryA.outcomeRank - entryB.outcomeRank)
+
+    const outcomeSeparatorEntry = {
+      outcomeRank: 0,
+      outcomeName: '----',
+      outcomeAddress: '----',
+      outcomeBaseline: 0,
+      outcomePnl: 0,
+      outcomeRoi: 0,
+      outcomePrize: '0',
+      isSeparator: true,
+    }
+
+    const myOutcomeIndex = sortedEntries.findIndex(it =>
+      it.outcomeRank === myFormattedOutcome.outcomeRank
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: outcomeSeparatorEntry,
+      myEntryIndex: myOutcomeIndex,
+    })
   }
 
   /**
@@ -2090,6 +2111,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   outcomeRoi: number
  *   outcomeBaseline: number
  *   outcomePrize: string
+ *   isSeparator?: boolean
  * }} NormalizedLeaderboardFinalOutcomeEntry
  */
 
