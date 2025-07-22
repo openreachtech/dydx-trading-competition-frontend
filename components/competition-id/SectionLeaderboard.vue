@@ -491,9 +491,15 @@ export default defineComponent({
                   :to="context.generateProfileUrl({
                     address: row.address,
                   })"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.address,
+                    }),
+                  }"
                   class="unit-column metric name"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
@@ -896,6 +902,14 @@ export default defineComponent({
 /***************** Trading volume leaderboard ****************/
 .unit-column.metric.name {
   color: inherit;
+}
+
+.unit-column.metric.name > .note {
+  color: var(--color-text-tertiary);
+}
+
+.unit-column.metric.name:not(.you) > .note {
+  display: none;
 }
 
 .unit-column.metric.name:hover {

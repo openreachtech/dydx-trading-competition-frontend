@@ -18,6 +18,17 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
   }
 
   /**
+   * get: myMetric
+   *
+   * @returns {TradingMetric | null}
+   */
+  get myMetric () {
+    return this.extractCompetitionTradingMetricsValueHash()
+      ?.myMetric
+      ?? null
+  }
+
+  /**
    * get: metrics
    *
    * @returns {Array<TradingMetric>}
@@ -65,6 +76,7 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
 /**
  * @typedef {{
  *   competitionTradingMetrics: {
+ *     myMetric: TradingMetric | null
  *     metrics: Array<TradingMetric>
  *     pagination: Pagination
  *   }
