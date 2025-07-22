@@ -105,7 +105,7 @@ export default defineComponent({
           <slot
             v-for="(row, index) of context.entries"
             :key="index"
-            :name="`body-row[${index}]`"
+            :name="`body-row-${index}`"
           >
             <tr class="row">
               <td
