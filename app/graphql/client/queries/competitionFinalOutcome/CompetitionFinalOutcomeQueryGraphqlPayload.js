@@ -11,6 +11,17 @@ export default class CompetitionFinalOutcomeQueryGraphqlPayload extends BaseAppG
     return /* GraphQL */ `
       query CompetitionFinalOutcome ($input: CompetitionFinalOutcomeInput!) {
         competitionFinalOutcome (input: $input) {
+          myOutcome {
+            address {
+              address
+              name
+            }
+            ranking
+            performanceBaseline
+            prizeUsdAmount
+            pnl
+            roi
+          }
           outcomes {
             address {
               address
@@ -37,6 +48,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlPayload extends BaseAppG
  * @typedef {{
  *   input: {
  *     competitionId: number
+ *     address?: string
  *     pagination: {
  *       limit: number
  *       offset: number
