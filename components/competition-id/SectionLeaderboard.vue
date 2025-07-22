@@ -216,11 +216,17 @@ export default defineComponent({
               <template #body-participantName="{ value, row }">
                 <NuxtLink
                   class="unit-name participant"
+                  :class="{
+                    you: context.isMyRanking({
+                      address: row.participantAddress,
+                    }),
+                  }"
                   :to="context.generateProfileUrl({
                     address: row.participantAddress,
                   })"
                 >
-                  {{ value }}
+                  <span>{{ value }}</span>
+                  <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
 
