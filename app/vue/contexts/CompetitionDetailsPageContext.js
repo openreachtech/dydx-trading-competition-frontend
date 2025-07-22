@@ -471,20 +471,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchCompetitionParticipants () {
+    const variables = this.generateFetchCompetitionParticipantsVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionParticipants
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionParticipantsLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchCompetitionParticipants`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchCompetitionParticipantsVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
@@ -931,6 +961,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeCompetitionParticipantEntries({
           participants: capsule.participants,
+          myParticipation: capsule.myParticipation,
         })
       },
     }
@@ -1019,18 +1050,55 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *   participants: Array<import(
    *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
    *   ).Participant>
+   *   myParticipation: import(
+   *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
+   *   ).Participant | null
    * }} params - Parameters.
    * @returns {Array<NormalizedCompetitionParticipantEntry>}
    */
   normalizeCompetitionParticipantEntries ({
     participants,
+    myParticipation,
   }) {
-    return participants.map(it => ({
-      participantName: it.address.name,
-      participantAddress: it.address.address,
-      participantEquity: it.equity,
-      participantStatus: it.status,
+    const formattedParticipants = participants.map(it => this.formatCompetitionParticipantEntry({
+      entry: it,
     }))
+
+    if (myParticipation === null) {
+      return formattedParticipants
+    }
+
+    const formattedMyParticipation = this.formatCompetitionParticipantEntry({
+      entry: myParticipation,
+    })
+    const filteredParticipants = formattedParticipants
+      .filter(it => it.participantAddress !== formattedMyParticipation.participantAddress)
+
+    return [
+      formattedMyParticipation,
+      ...filteredParticipants,
+    ]
+  }
+
+  /**
+   * Format competition participant entry.
+   *
+   * @param {{
+   *   entry: import(
+   *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
+   *   ).Participant
+   * }} params - Parameters.
+   * @returns {NormalizedCompetitionParticipantEntry}
+   */
+  formatCompetitionParticipantEntry ({
+    entry,
+  }) {
+    return {
+      participantName: entry.address.name,
+      participantAddress: entry.address.address,
+      participantEquity: entry.equity,
+      participantStatus: entry.status,
+    }
   }
 
   /**
@@ -1812,6 +1880,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  * @typedef {{
  *   participantName: string
  *   participantAddress: string
+ *   participantEquity: number
  *   participantStatus: {
  *     statusId: number
  *     name: string
