@@ -308,7 +308,10 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.fetchCompetitionTradingMetricsOnMounted()
 
     this.watch(
-      () => this.extractCurrentPage(),
+      [
+        () => this.extractCurrentPage(),
+        () => this.localWalletAddress,
+      ],
       async () => {
         await this.fetchLeaderboardEntries()
       }
@@ -490,20 +493,50 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchOngoingLeaderboard () {
+    const variables = this.generateFetchOngoingLeaderboardVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionLeaderboard
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: PAGINATION.LIMIT,
-              offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-            },
-          },
-        },
+        variables,
         hooks: this.competitionLeaderboardLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchOngoingLeaderboard`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchOngoingLeaderboardVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: {
+        limit: PAGINATION.LIMIT,
+        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+      },
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
   }
 
   /**
@@ -944,6 +977,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         this.leaderboardEntriesRef.value = this.normalizeOngoingLeaderboardEntries({
           rankings: capsule.rankings,
+          myRanking: capsule.myRanking,
         })
       },
     }
@@ -1006,20 +1040,61 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    *   rankings: import(
    *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
    *   ).ResponseContent['competitionLeaderboard']['rankings']
+   *   myRanking: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking | null
    * }} params - Parameters.
    * @returns {Array<NormalizedOngoingLeaderboardEntry>}
    */
   normalizeOngoingLeaderboardEntries ({
     rankings,
+    myRanking,
   }) {
-    return rankings.map(it => ({
-      ongoingRank: it.ranking,
-      ongoingName: it.address.name ?? '----',
-      ongoingAddress: it.address.address,
-      ongoingBaseline: it.performanceBaseline,
-      ongoingRoi: it.roi,
-      ongoingPnl: it.pnl,
+    const formattedRankings = rankings.map(it => this.formatOngoingLeaderboardEntry({
+      entry: it,
     }))
+
+    if (myRanking === null) {
+      return formattedRankings
+    }
+
+    const isInCurrentLeaderboard = rankings.some(it => it.ranking === myRanking.ranking)
+    if (isInCurrentLeaderboard) {
+      return formattedRankings
+    }
+
+    const formattedMyRanking = this.formatOngoingLeaderboardEntry({
+      entry: myRanking,
+    })
+
+    return [
+      ...formattedRankings,
+      formattedMyRanking,
+    ]
+      .toSorted((entryA, entryB) => entryA.ongoingRank - entryB.ongoingRank)
+  }
+
+  /**
+   * Format ongoing leaderboard entry.
+   *
+   * @param {{
+   *   entry: import(
+   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
+   *   ).CompetitionRanking
+   * }} params - Parameters.
+   * @returns {NormalizedOngoingLeaderboardEntry}
+   */
+  formatOngoingLeaderboardEntry ({
+    entry,
+  }) {
+    return {
+      ongoingRank: entry.ranking,
+      ongoingName: entry.address.name ?? '----',
+      ongoingAddress: entry.address.address,
+      ongoingBaseline: entry.performanceBaseline,
+      ongoingRoi: entry.roi,
+      ongoingPnl: entry.pnl,
+    }
   }
 
   /**
