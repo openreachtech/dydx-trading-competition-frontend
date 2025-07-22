@@ -18,6 +18,17 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
   }
 
   /**
+   * get: myOutcome
+   *
+   * @returns {Outcome | null}
+   */
+  get myOutcome () {
+    return this.extractCompetitionFinalOutcome()
+      ?.myOutcome
+      ?? null
+  }
+
+  /**
    * get: outcomes
    *
    * @returns {Array<Outcome>} List of outcomes
@@ -76,6 +87,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
 /**
  * @typedef {{
  *   competitionFinalOutcome: {
+ *     myOutcome: Outcome | null
  *     outcomes: Array<Outcome>
  *     pagination: Pagination
  *   }
