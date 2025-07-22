@@ -102,28 +102,30 @@ export default defineComponent({
         </thead>
 
         <tbody class="tbody">
-          <tr
+          <slot
             v-for="(row, index) of context.entries"
             :key="index"
-            class="row"
+            :name="`body-row[${index}]`"
           >
-            <td
-              v-for="entry of context.headerEntries"
-              class="cell"
-              :class="context.generateCellClasses({
-                columnOptions: entry.columnOptions,
-              })"
-            >
-              <slot
-                :name="`body-${entry.key}`"
-                :row="row"
-                :value="row[entry.key]"
-                :index="index"
+            <tr class="row">
+              <td
+                v-for="entry of context.headerEntries"
+                class="cell"
+                :class="context.generateCellClasses({
+                  columnOptions: entry.columnOptions,
+                })"
               >
-                {{ row[entry.key] }}
-              </slot>
-            </td>
-          </tr>
+                <slot
+                  :name="`body-${entry.key}`"
+                  :row="row"
+                  :value="row[entry.key]"
+                  :index="index"
+                >
+                  {{ row[entry.key] }}
+                </slot>
+              </td>
+            </tr>
+          </slot>
         </tbody>
       </table>
     </div>
