@@ -84,6 +84,7 @@ export default defineComponent({
       isLoadingProfileOverview: true,
       isLoadingProfileOrders: true,
       isLoadingProfileTrades: true,
+      isFetchingAddressProfile: false,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,

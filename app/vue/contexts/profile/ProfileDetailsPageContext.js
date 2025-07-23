@@ -744,6 +744,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   isLoadingProfileOverview: boolean
  *   isLoadingProfileOrders: boolean
  *   isLoadingProfileTrades: boolean
+ *   isFetchingAddressProfile: boolean
  * }} StatusReactive
  */
 
