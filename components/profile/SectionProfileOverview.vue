@@ -271,9 +271,7 @@ export default defineComponent({
   @media (48rem < width) {
     padding-block: 2rem 5rem;
 
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1.5rem;
+    gap: 3rem;
   }
 
   @media (60rem < width) {
@@ -366,6 +364,7 @@ export default defineComponent({
 
   /** This is necessary for the text to shrink properly */
   width: 100%;
+  max-width: fit-content;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
