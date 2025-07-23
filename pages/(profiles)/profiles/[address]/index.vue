@@ -28,10 +28,13 @@ import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import AddressProfileQueryGraphqlLauncher from '~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
+
+import AddressProfileFetcher from './AddressProfileFetcher'
 
 import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPageContext'
 import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
@@ -58,6 +61,7 @@ export default defineComponent({
 
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const addressProfileGraphqlClient = useGraphqlClient(AddressProfileQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
     const putAddressNameFormClerk = useAppFormClerk({
@@ -90,6 +94,13 @@ export default defineComponent({
       isRenaming: false,
     })
 
+    const addressProfileFetcher = AddressProfileFetcher.create({
+      statusReactive,
+      graphqlClientHash: {
+        addressProfile: addressProfileGraphqlClient,
+      },
+    })
+
     const args = {
       props,
       componentContext,
@@ -99,6 +110,9 @@ export default defineComponent({
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
         competitionParticipant: competitionParticipantGraphqlClient,
+      },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
       },
       profileOverviewRef,
       profileOrdersRef,
