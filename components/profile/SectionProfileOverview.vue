@@ -147,12 +147,12 @@ export default defineComponent({
       </div>
 
       <div
-        class="meta"
+        class="unit-current-arena"
         :class="{
           hidden: !context.isParticipatingInArena(),
         }"
       >
-        <dl class="unit-description">
+        <dl class="statistics">
           <div class="entry">
             <dt class="term">
               Arena Participating
@@ -388,7 +388,7 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-section > .inner > .meta {
+.unit-current-arena {
   --value-gradient-meta: 180deg, var(--palette-layer-1), var(--palette-layer-2);
   --value-gradient-border-meta: 180deg, var(--palette-purple), transparent;
 
@@ -408,23 +408,23 @@ export default defineComponent({
     linear-gradient(var(--value-gradient-border-meta)) border-box;
 }
 
-.unit-section > .inner > .meta.hidden {
+.unit-current-arena.hidden {
   display: none;
 }
 
-.unit-description {
+.unit-current-arena > .statistics {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.unit-description > .entry {
+.unit-current-arena > .statistics > .entry {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.unit-description > .entry > .term {
+.unit-current-arena > .statistics > .entry > .term {
   font-size: var(--font-size-medium);
   font-weight: 700;
   line-height: var(--size-line-height-medium);
@@ -432,20 +432,20 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation {
+.unit-current-arena > .statistics > .entry > .description.participation {
   display: flex;
   align-items: start;
   gap: 0.75rem;
 }
 
-.unit-description > .entry > .description.participation > .title {
+.unit-current-arena > .statistics > .entry > .description.participation > .title {
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 0.3rem;
 }
 
-.unit-description > .entry > .description.participation > .title > .link {
+.unit-current-arena > .statistics > .entry > .description.participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -453,11 +453,11 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .title > .link[href]:hover {
+.unit-current-arena > .statistics > .entry > .description.participation > .title > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-description > .entry > .description.participation > .title > .status {
+.unit-current-arena > .statistics > .entry > .description.participation > .title > .status {
   --color-text-badge: var(--color-text-secondary);
 
   border-radius: 0.25rem;
@@ -470,11 +470,11 @@ export default defineComponent({
   color: var(--color-text-badge);
 }
 
-.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+.unit-current-arena > .statistics > .entry > .description.participation > .title > .status.awaiting-deposit {
   --color-text-badge: var(--palette-yellow);
 }
 
-.unit-description > .entry > .description.participation > .image {
+.unit-current-arena > .statistics > .entry > .description.participation > .image {
   border-radius: 0.625rem;
 
   width: 3.5rem;
@@ -483,14 +483,14 @@ export default defineComponent({
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-current-arena > .statistics > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
   padding-block: 0.375rem;
   padding-inline: 0.375rem;
 
   object-fit: scale-down;
 }
 
-.unit-description > .entry > .description:where(.baseline, .profit) {
+.unit-current-arena > .statistics > .entry > .description:where(.baseline, .profit) {
   font-size: var(--font-size-medium);
   font-weight: 700;
   line-height: var(--size-line-height-medium);
@@ -498,15 +498,15 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.profit.increased {
+.unit-current-arena > .statistics > .entry > .description.profit.increased {
   color: var(--color-text-increased);
 }
 
-.unit-description > .entry > .description.profit.decreased {
+.unit-current-arena > .statistics > .entry > .description.profit.decreased {
   color: var(--color-text-decreased);
 }
 
-.unit-description > .entry > .description.ranking {
+.unit-current-arena > .statistics > .entry > .description.ranking {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -518,7 +518,7 @@ export default defineComponent({
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.ranking > .icon {
+.unit-current-arena > .statistics > .entry > .description.ranking > .icon {
   color: var(--color-text-tertiary);
 }
 </style>
