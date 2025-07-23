@@ -42,10 +42,6 @@ export default defineComponent({
       ],
       required: true,
     },
-    addressName: {
-      type: String,
-      required: true,
-    },
     competition: {
       /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext.js').Competition>} */
       type: [
