@@ -283,10 +283,6 @@ export default defineComponent({
   padding-block-end: 8rem;
 }
 
-.unit-section > .inner > .meta.hidden {
-  display: none;
-}
-
 .unit-basic {
   margin-block-start: 1rem;
 
@@ -392,26 +388,34 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-description {
-  border-width: var(--size-thinnest);
+.unit-section > .inner > .meta {
+  --value-gradient-meta: 180deg, var(--palette-layer-1), var(--palette-layer-2);
+  --value-gradient-border-meta: 180deg, var(--palette-purple), transparent;
+
+  --box-shadow-meta: 0 -0.25rem 1.25rem 0 var(--palette-purple-faded);
+
+  box-shadow: var(--box-shadow-meta);
+
+  border-width: 0.1rem;
   border-style: solid;
-  border-color: var(--color-border-card);
+  border-color: transparent;
   border-radius: 0.875rem;
 
-  padding-block: 1.25rem 1.5rem;
-  padding-inline: 1.75rem;
+  padding-block: 0.75rem 2rem;
+  padding-inline: 1.25rem;
 
+  background: linear-gradient(var(--value-gradient-meta)) padding-box,
+    linear-gradient(var(--value-gradient-border-meta)) border-box;
+}
+
+.unit-section > .inner > .meta.hidden {
+  display: none;
+}
+
+.unit-description {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
-  background-color: var(--color-background-competition-meta);
-
-  width: 100%;
-
-  @media (48rem < width) {
-    width: 22rem;
-  }
 }
 
 .unit-description > .entry {
