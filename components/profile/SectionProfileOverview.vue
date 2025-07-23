@@ -147,91 +147,91 @@ export default defineComponent({
       </div>
 
       <div
-        class="meta"
+        class="unit-current-arena"
         :class="{
           hidden: !context.isParticipatingInArena(),
         }"
       >
-        <dl class="unit-description">
-          <div class="entry">
-            <dt class="term">
-              Arena Participating
-            </dt>
+        <div class="header">
+          <span class="heading">Participating</span>
+        </div>
 
-            <dd class="description participation">
-              <img
-                class="image"
-                :src="context.imageUrl"
-                :alt="context.generateCompetitionTitle()"
-              >
-
-              <span class="title">
-                <NuxtLink
-                  :to="context.generateCompetitionUrl()"
-                  class="link"
-                >
-                  {{ context.generateCompetitionTitle() }}
-                </NuxtLink>
-                <AppBadge
-                  severity="neutral"
-                  class="status"
-                  :class="{
-                    registered: context.isParticipantRegistered(),
-                    active: context.isParticipantActive(),
-                    'awaiting-deposit': context.isParticipantAwaitingDeposit(),
-                  }"
-                >
-                  <Icon
-                    :name="context.generateParticipantStatusBadgeIcon()"
-                    size="0.875rem"
-                  />
-                  <span>
-                    {{ context.generateParticipantStatusBadgeText() }}
-                  </span>
-                </AppBadge>
-              </span>
-            </dd>
-          </div>
-
-          <div class="entry">
-            <dt class="term">
-              Performance Baseline
-            </dt>
-
-            <dd class="description baseline">
-              {{ context.generatePerformanceBaseline() }}
-            </dd>
-          </div>
-
-          <div class="entry">
-            <dt class="term">
-              PnL & ROI
-            </dt>
-
-            <dd
-              class="description profit"
-              :class="context.generatePnlClasses()"
+        <div class="statistics">
+          <div class="participation">
+            <img
+              class="image"
+              :src="context.imageUrl"
+              :alt="context.generateCompetitionTitle()"
             >
-              {{ context.generatePnlRoi() }}
-            </dd>
+
+            <span class="title">
+              <NuxtLink
+                :to="context.generateCompetitionUrl()"
+                class="link"
+              >
+                {{ context.generateCompetitionTitle() }}
+              </NuxtLink>
+              <AppBadge
+                severity="neutral"
+                class="status"
+                :class="{
+                  registered: context.isParticipantRegistered(),
+                  active: context.isParticipantActive(),
+                  'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                }"
+              >
+                <Icon
+                  :name="context.generateParticipantStatusBadgeIcon()"
+                  size="0.875rem"
+                />
+                <span>
+                  {{ context.generateParticipantStatusBadgeText() }}
+                </span>
+              </AppBadge>
+            </span>
           </div>
 
-          <div class="entry">
-            <dt class="term">
-              Ranking
-            </dt>
+          <dl class="unit-descriptions arena">
+            <div class="entry">
+              <dt class="term">
+                PnL & ROI
+              </dt>
 
-            <dd class="description ranking">
-              <Icon
-                name="heroicons:trophy"
-                size="1.25rem"
-                class="icon"
-              />
+              <dd
+                class="description profit"
+                :class="context.generatePnlClasses()"
+              >
+                {{ context.generatePnlRoi() }}
+              </dd>
+            </div>
 
-              <span>{{ context.generateCurrentRank() }}</span>
-            </dd>
-          </div>
-        </dl>
+            <div class="entry">
+              <dt class="term">
+                Performance Baseline
+              </dt>
+
+              <dd class="description baseline">
+                {{ context.generatePerformanceBaseline() }}
+              </dd>
+            </div>
+
+            <div class="entry">
+              <dt class="term">
+                Ranking
+              </dt>
+
+              <dd class="description ranking">
+                <Icon
+                  name="heroicons:trophy"
+                  size="1.25rem"
+                  class="icon"
+                />
+
+                <span>{{ context.generateCurrentRank() }}</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </div>
   </section>
@@ -271,9 +271,7 @@ export default defineComponent({
   @media (48rem < width) {
     padding-block: 2rem 5rem;
 
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1.5rem;
+    gap: 3rem;
   }
 
   @media (60rem < width) {
@@ -283,10 +281,6 @@ export default defineComponent({
 
 .unit-section > .inner:not(.participating) {
   padding-block-end: 8rem;
-}
-
-.unit-section > .inner > .meta.hidden {
-  display: none;
 }
 
 .unit-basic {
@@ -366,6 +360,7 @@ export default defineComponent({
 
   /** This is necessary for the text to shrink properly */
   width: 100%;
+  max-width: fit-content;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
@@ -393,56 +388,68 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-description {
-  border-width: var(--size-thinnest);
+/* Current arena that the user is participating in. */
+.unit-current-arena {
+  --value-gradient-meta: 180deg, var(--palette-layer-1), var(--palette-layer-2);
+  --value-gradient-border-meta: 180deg, var(--palette-purple), transparent;
+
+  --box-shadow-meta: 0 -0.25rem 1.25rem 0 var(--palette-purple-faded);
+
+  box-shadow: var(--box-shadow-meta);
+
+  border-width: 0.1rem;
   border-style: solid;
-  border-color: var(--color-border-card);
+  border-color: transparent;
   border-radius: 0.875rem;
 
-  padding-block: 1.25rem 1.5rem;
-  padding-inline: 1.75rem;
+  padding-block: 0.75rem 2rem;
+  padding-inline: 1.25rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  background-color: var(--color-background-competition-meta);
-
-  width: 100%;
-
-  @media (48rem < width) {
-    width: 22rem;
-  }
+  background: linear-gradient(var(--value-gradient-meta)) padding-box,
+    linear-gradient(var(--value-gradient-border-meta)) border-box;
 }
 
-.unit-description > .entry {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.unit-current-arena.hidden {
+  display: none;
 }
 
-.unit-description > .entry > .term {
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  line-height: var(--size-line-height-medium);
+.unit-current-arena > .header > .heading {
+  font-weight: 500;
 
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation {
+/* Statistics of current arena. */
+.unit-current-arena > .statistics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  margin-block-start: 1rem;
+
+  @media (48rem < width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (60rem < width) {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+.unit-current-arena > .statistics > .participation {
   display: flex;
   align-items: start;
   gap: 0.75rem;
 }
 
-.unit-description > .entry > .description.participation > .title {
+.unit-current-arena > .statistics > .participation > .title {
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap: 0.3rem;
+  gap: 0.5rem;
 }
 
-.unit-description > .entry > .description.participation > .title > .link {
+.unit-current-arena > .statistics > .participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -450,11 +457,11 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .title > .link[href]:hover {
+.unit-current-arena > .statistics > .participation > .title > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-description > .entry > .description.participation > .title > .status {
+.unit-current-arena > .statistics > .participation > .title > .status {
   --color-text-badge: var(--color-text-secondary);
 
   border-radius: 0.25rem;
@@ -467,11 +474,11 @@ export default defineComponent({
   color: var(--color-text-badge);
 }
 
-.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+.unit-current-arena > .statistics > .participation > .title > .status.awaiting-deposit {
   --color-text-badge: var(--palette-yellow);
 }
 
-.unit-description > .entry > .description.participation > .image {
+.unit-current-arena > .statistics > .participation > .image {
   border-radius: 0.625rem;
 
   width: 3.5rem;
@@ -480,42 +487,50 @@ export default defineComponent({
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-current-arena > .statistics > .participation > .image[src='/img/badges/league-badge-placeholder.png'] {
   padding-block: 0.375rem;
   padding-inline: 0.375rem;
 
   object-fit: scale-down;
 }
 
-.unit-description > .entry > .description:where(.baseline, .profit) {
+/* Arena descriptions */
+.unit-descriptions.arena {
+  display: contents;
+}
+
+.unit-descriptions.arena > .entry > .term {
+  margin-block-end: 0.5rem;
+
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-descriptions.arena > .entry > .description {
   font-size: var(--font-size-medium);
   font-weight: 700;
+
   line-height: var(--size-line-height-medium);
 
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.profit.increased {
+.unit-descriptions.arena > .entry > .description.profit.increased {
   color: var(--color-text-increased);
 }
 
-.unit-description > .entry > .description.profit.decreased {
+.unit-descriptions.arena > .entry > .description.profit.decreased {
   color: var(--color-text-decreased);
 }
 
-.unit-description > .entry > .description.ranking {
+.unit-descriptions.arena > .entry > .description.ranking {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  line-height: var(--size-line-height-medium);
-
-  color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.ranking > .icon {
+.unit-descriptions.arena > .entry > .description.ranking > .icon {
   color: var(--color-text-tertiary);
 }
 </style>
