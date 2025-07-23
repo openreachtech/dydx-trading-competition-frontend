@@ -651,16 +651,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
-   * Normalize address name.
-   *
-   * @returns {string}
-   */
-  normalizeAddressName () {
-    return this.addressName
-      ?? '----'
-  }
-
-  /**
    * get: addressName
    *
    * @returns {string | null}
