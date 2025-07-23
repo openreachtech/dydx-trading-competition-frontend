@@ -32,6 +32,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     route,
     router,
     graphqlClientHash,
+    fetcherHash,
     profileOverviewRef,
     profileOrdersRef,
     profileTradesRef,
@@ -46,6 +47,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     this.route = route
     this.router = router
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
     this.profileOverviewRef = profileOverviewRef
     this.profileOrdersRef = profileOrdersRef
     this.profileTradesRef = profileTradesRef
@@ -68,6 +70,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     route,
     router,
     graphqlClientHash,
+    fetcherHash,
     profileOverviewRef,
     profileOrdersRef,
     profileTradesRef,
@@ -81,6 +84,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
         route,
         router,
         graphqlClientHash,
+        fetcherHash,
         profileOverviewRef,
         profileOrdersRef,
         profileTradesRef,
@@ -141,6 +145,27 @@ export default class ProfileDetailsContext extends BaseAppContext {
     }
 
     return activeTabKey
+  }
+
+  /**
+   * Extract `address` from route.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const addressFromRoute = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    if (!addressFromRoute) {
+      return null
+    }
+
+    return addressFromRoute
   }
 
   /**
@@ -226,6 +251,21 @@ export default class ProfileDetailsContext extends BaseAppContext {
           hooks: this.addressNameLauncherHooks,
         },
       })
+
+    onMounted(async () => {
+      const address = this.extractAddressFromRoute()
+      if (address === null) {
+        return
+      }
+
+      await this.fetcherHash
+        .addressProfile
+        .fetchAddressProfileOnEvent({
+          valueHash: {
+            address,
+          },
+        })
+    })
 
     this.watch(
       () => this.route.params.address,
@@ -714,6 +754,9 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
+ *   fetcherHash: {
+ *     addressProfile: import('~/pages/(profiles)/profiles/[address]/AddressProfileFetcher').default
+ *   }
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
  *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
  *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
