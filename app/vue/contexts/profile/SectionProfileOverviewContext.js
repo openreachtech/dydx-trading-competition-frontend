@@ -213,17 +213,6 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
-   * get: profileAddress
-   *
-   * @returns {string} Profile address.
-   */
-  get profileAddress () {
-    return Array.isArray(this.route.params.address)
-      ? this.route.params.address[0]
-      : this.route.params.address
-  }
-
-  /**
    * Whether is one's own profile or not.
    *
    * @returns {boolean} `true` if it is the user's own profile.
