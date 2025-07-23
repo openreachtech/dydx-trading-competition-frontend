@@ -194,16 +194,6 @@ export default defineComponent({
           <dl class="unit-descriptions arena">
             <div class="entry">
               <dt class="term">
-                Performance Baseline
-              </dt>
-
-              <dd class="description baseline">
-                {{ context.generatePerformanceBaseline() }}
-              </dd>
-            </div>
-
-            <div class="entry">
-              <dt class="term">
                 PnL & ROI
               </dt>
 
@@ -212,6 +202,16 @@ export default defineComponent({
                 :class="context.generatePnlClasses()"
               >
                 {{ context.generatePnlRoi() }}
+              </dd>
+            </div>
+
+            <div class="entry">
+              <dt class="term">
+                Performance Baseline
+              </dt>
+
+              <dd class="description baseline">
+                {{ context.generatePerformanceBaseline() }}
               </dd>
             </div>
 
