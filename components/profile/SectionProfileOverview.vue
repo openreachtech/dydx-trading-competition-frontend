@@ -30,6 +30,18 @@ export default defineComponent({
   },
 
   props: {
+    addressProfile: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/profile/SectionProfileOverviewContext').PropsType['addressProfile']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
     addressName: {
       type: String,
       required: true,
@@ -130,7 +142,7 @@ export default defineComponent({
 
           <div class="actions">
             <CopyButton
-              :content-to-copy="context.profileAddress"
+              :content-to-copy="context.address"
               icon-size="1.25rem"
             />
 
