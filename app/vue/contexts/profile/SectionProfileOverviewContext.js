@@ -9,7 +9,7 @@ import {
 /**
  * SectionProfileOverviewContext
  *
- * @extends {BaseAppContext<null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
 export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
@@ -66,12 +66,56 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * get: addressProfile
+   *
+   * @returns {PropsType['addressProfile']}
+   */
+  get addressProfile () {
+    return this.props.addressProfile
+  }
+
+  /**
+   * get: address
+   *
+   * @returns {string | null}
+   */
+  get address () {
+    return this.addressProfile
+      ?.address
+      ?? '----'
+  }
+
+  /**
    * get: addressName
    *
-   * @returns {string} Address name.
+   * @returns {string | null}
    */
   get addressName () {
-    return this.props.addressName
+    return this.addressProfile
+      ?.name
+      ?? '----'
+  }
+
+  /**
+   * get: addressImageUrl
+   *
+   * @returns {string | null}
+   */
+  get addressImageUrl () {
+    return this.addressProfile
+      ?.addressImageUrl
+      ?? ''
+  }
+
+  /**
+   * get: xAccountUserName
+   *
+   * @returns {string | null}
+   */
+  get xAccountUserName () {
+    return this.addressProfile
+      ?.xAccountUserName
+      ?? null
   }
 
   /**
@@ -306,11 +350,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Profile address url.
    */
   generateProfileAddressUrl () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '#'
     }
 
-    return `https://www.mintscan.io/dydx/address/${this.profileAddress}`
+    return `https://www.mintscan.io/dydx/address/${this.address}`
   }
 
   /**
@@ -333,11 +377,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address first half.
    */
   generateAddressFirstHalf () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '--'
     }
 
-    return this.profileAddress
+    return this.address
       .slice(0, -5)
   }
 
@@ -347,11 +391,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address last five.
    */
   generateAddressLastFive () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '--'
     }
 
-    return this.profileAddress
+    return this.address
       .slice(-5)
   }
 
@@ -467,4 +511,10 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
 /**
  * @typedef {SectionProfileOverviewContextParams} SectionProfileOverviewContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').default | null
+ * }} PropsType
  */

@@ -312,6 +312,18 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
+   * Extract `addressProfile` response content as value hash.
+   *
+   * @returns {import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').AddressProfile | null}
+   */
+  extractAddressProfileValueHash () {
+    return this.fetcherHash
+      .addressProfile
+      .addressProfileCapsule
+      .extractAddressProfileValueHash()
+  }
+
+  /**
    * Refetch address name.
    *
    * @returns {Promise<void>}
