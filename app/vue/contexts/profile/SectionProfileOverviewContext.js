@@ -121,7 +121,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: competition
    *
-   * @returns {Competition} Wallet address.
+   * @returns {PropsType['competition']} Wallet address.
    */
   get competition () {
     return this.props.competition
@@ -130,7 +130,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: competitionParticipantStatusId
    *
-   * @returns {number | null}
+   * @returns {PropsType['competitionParticipantStatusId']}
    */
   get competitionParticipantStatusId () {
     return this.props.competitionParticipantStatusId
@@ -150,7 +150,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: ranking
    *
-   * @returns {Ranking} Wallet address.
+   * @returns {PropsType['ranking']} Wallet address.
    */
   get ranking () {
     return this.props.ranking
@@ -492,7 +492,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
  */
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   route: ReturnType<import('#imports').useRoute>
  * }} SectionProfileOverviewContextParams
@@ -505,5 +505,8 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 /**
  * @typedef {{
  *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').default | null
+ *   competition: Competition | null
+ *   competitionParticipantStatusId: number | null
+ *   ranking: Ranking | null
  * }} PropsType
  */
