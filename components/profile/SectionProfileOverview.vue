@@ -350,7 +350,7 @@ export default defineComponent({
 
 /* User profile's name and edit button. */
 .unit-profile.name {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 1rem;
 
@@ -393,12 +393,9 @@ export default defineComponent({
   padding-block: 0.375rem;
   padding-inline: 1rem;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 1.5rem;
-
-  /** This is necessary for the text to shrink properly */
-  width: 100%;
-  max-width: fit-content;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
