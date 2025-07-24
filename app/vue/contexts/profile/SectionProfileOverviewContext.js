@@ -9,7 +9,7 @@ import {
 /**
  * SectionProfileOverviewContext
  *
- * @extends {BaseAppContext<null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
 export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
@@ -66,18 +66,62 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * get: addressProfile
+   *
+   * @returns {PropsType['addressProfile']}
+   */
+  get addressProfile () {
+    return this.props.addressProfile
+  }
+
+  /**
+   * get: address
+   *
+   * @returns {string | null}
+   */
+  get address () {
+    return this.addressProfile
+      ?.address
+      ?? '----'
+  }
+
+  /**
    * get: addressName
    *
-   * @returns {string} Address name.
+   * @returns {string | null}
    */
   get addressName () {
-    return this.props.addressName
+    return this.addressProfile
+      ?.name
+      ?? '----'
+  }
+
+  /**
+   * get: addressImageUrl
+   *
+   * @returns {string | null}
+   */
+  get addressImageUrl () {
+    return this.addressProfile
+      ?.addressImageUrl
+      ?? ''
+  }
+
+  /**
+   * get: xAccountUserName
+   *
+   * @returns {string | null}
+   */
+  get xAccountUserName () {
+    return this.addressProfile
+      ?.xAccountUserName
+      ?? null
   }
 
   /**
    * get: competition
    *
-   * @returns {Competition} Wallet address.
+   * @returns {PropsType['competition']} Wallet address.
    */
   get competition () {
     return this.props.competition
@@ -86,7 +130,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: competitionParticipantStatusId
    *
-   * @returns {number | null}
+   * @returns {PropsType['competitionParticipantStatusId']}
    */
   get competitionParticipantStatusId () {
     return this.props.competitionParticipantStatusId
@@ -106,7 +150,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: ranking
    *
-   * @returns {Ranking} Wallet address.
+   * @returns {PropsType['ranking']} Wallet address.
    */
   get ranking () {
     return this.props.ranking
@@ -166,17 +210,6 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
     return this.ranking
       ?.performanceBaseline
       ?? null
-  }
-
-  /**
-   * get: profileAddress
-   *
-   * @returns {string} Profile address.
-   */
-  get profileAddress () {
-    return Array.isArray(this.route.params.address)
-      ? this.route.params.address[0]
-      : this.route.params.address
   }
 
   /**
@@ -306,11 +339,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Profile address url.
    */
   generateProfileAddressUrl () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '#'
     }
 
-    return `https://www.mintscan.io/dydx/address/${this.profileAddress}`
+    return `https://www.mintscan.io/dydx/address/${this.address}`
   }
 
   /**
@@ -333,11 +366,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address first half.
    */
   generateAddressFirstHalf () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '--'
     }
 
-    return this.profileAddress
+    return this.address
       .slice(0, -5)
   }
 
@@ -347,11 +380,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address last five.
    */
   generateAddressLastFive () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '--'
     }
 
-    return this.profileAddress
+    return this.address
       .slice(-5)
   }
 
@@ -459,7 +492,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
  */
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   route: ReturnType<import('#imports').useRoute>
  * }} SectionProfileOverviewContextParams
@@ -467,4 +500,13 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
 /**
  * @typedef {SectionProfileOverviewContextParams} SectionProfileOverviewContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').default | null
+ *   competition: Competition | null
+ *   competitionParticipantStatusId: number | null
+ *   ranking: Ranking | null
+ * }} PropsType
  */
