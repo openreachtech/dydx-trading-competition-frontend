@@ -62,6 +62,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   static get EMIT_EVENT_NAME () {
     return {
       SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
+      UPLOAD_IMAGE: 'uploadImage',
     }
   }
 
@@ -157,6 +158,15 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * get: userInterfaceState
+   *
+   * @returns {PropsType['userInterfaceState']}
+   */
+  get userInterfaceState () {
+    return this.props.userInterfaceState
+  }
+
+  /**
    * get: imageUrl
    *
    * @returns {string} Image URL.
@@ -210,6 +220,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
     return this.ranking
       ?.performanceBaseline
       ?? null
+  }
+
+  /**
+   * get: isUploadingAvatar
+   *
+   * @returns {boolean}
+   */
+  get isUploadingAvatar () {
+    return this.userInterfaceState
+      ?.isUploadingAvatar
+      ?? false
   }
 
   /**
@@ -477,6 +498,25 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   isParticipantAwaitingDeposit () {
     return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
+
+  /**
+   * Emit 'uploadImage' event.
+   *
+   * @param {{
+   *   file: File
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  emitUploadImage ({
+    file,
+  }) {
+    this.emit(
+      this.EMIT_EVENT_NAME.UPLOAD_IMAGE,
+      {
+        file,
+      }
+    )
+  }
 }
 
 /**
@@ -508,5 +548,6 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
  *   competition: Competition | null
  *   competitionParticipantStatusId: number | null
  *   ranking: Ranking | null
+ *   userInterfaceState: import('~/app/vue/contexts/profile/ProfileDetailsPageContext').StatusReactive | null
  * }} PropsType
  */
