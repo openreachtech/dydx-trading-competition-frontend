@@ -210,6 +210,15 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
+   * get: isUploadingAvatar
+   *
+   * @returns {boolean}
+   */
+  get isUploadingAvatar () {
+    return this.statusReactive.isUploadingAvatar
+  }
+
+  /**
    * Setup component context.
    *
    * @template {X extends ProfileDetailsContext ? X : never} T, X
@@ -790,6 +799,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   isLoadingProfileOrders: boolean
  *   isLoadingProfileTrades: boolean
  *   isFetchingAddressProfile: boolean
+ *   isUploadingAvatar: boolean
  * }} StatusReactive
  */
 
