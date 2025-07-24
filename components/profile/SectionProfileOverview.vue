@@ -109,47 +109,56 @@ export default defineComponent({
           My Profile
         </span>
 
-        <span class="heading">
+        <div class="details">
           <Icon
             name="heroicons:user"
             class="icon"
             size="2.25rem"
           />
 
-          <span>{{ context.addressName }}</span>
+          <div class="profile">
+            <div
+              class="unit-profile name"
+              :class="{
+                'own-profile': context.isOwnProfile(),
+              }"
+            >
+              <span>{{ context.addressName }}</span>
 
-          <button
-            class="button"
-            @click="context.showProfileRenameDialog()"
-          >
-            <Icon
-              name="heroicons:pencil"
-              size="1.5rem"
-            />
-          </button>
-        </span>
+              <button
+                class="button"
+                @click="context.showProfileRenameDialog()"
+              >
+                <Icon
+                  name="heroicons:pencil"
+                  size="1.5rem"
+                />
+              </button>
+            </div>
 
-        <div class="address">
-          <span class="content">
-            <span class="first-half">
-              {{ context.generateAddressFirstHalf() }}
-            </span><span>{{ context.generateAddressLastFive() }}</span>
-          </span>
+            <div class="unit-profile address">
+              <span class="content">
+                <span class="first-half">
+                  {{ context.generateAddressFirstHalf() }}
+                </span><span>{{ context.generateAddressLastFive() }}</span>
+              </span>
 
-          <div class="actions">
-            <CopyButton
-              :content-to-copy="context.address"
-              icon-size="1.25rem"
-            />
+              <div class="actions">
+                <CopyButton
+                  :content-to-copy="context.address"
+                  icon-size="1.25rem"
+                />
 
-            <LinkTooltipButton
-              :href="context.generateProfileAddressUrl()"
-              aria-label="Go to address on Mintscan"
-              target="_blank"
-              rel="noopener noreferrer"
-              icon-size="1.25rem"
-              tooltip-message="View on Mintscan"
-            />
+                <LinkTooltipButton
+                  :href="context.generateProfileAddressUrl()"
+                  aria-label="Go to address on Mintscan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon-size="1.25rem"
+                  tooltip-message="View on Mintscan"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -298,8 +307,6 @@ export default defineComponent({
   flex-direction: column;
   align-items: start;
   gap: 1.25rem;
-
-  min-width: 0;
 }
 
 .unit-basic > .label {
@@ -316,7 +323,20 @@ export default defineComponent({
   display: inline;
 }
 
-.unit-basic > .heading {
+.unit-basic > .details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.unit-basic > .details > .profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* User profile's name and edit button. */
+.unit-profile.name {
   display: inline-flex;
   align-items: center;
   gap: 1rem;
@@ -326,11 +346,7 @@ export default defineComponent({
   line-height: var(--size-line-height-extra);
 }
 
-.unit-basic > .heading > .icon {
-  color: var(--color-text-tertiary);
-}
-
-.unit-basic > .heading > .button {
+.unit-profile.name > .button {
   border-radius: 100vh;
 
   padding-block: 0.25rem;
@@ -346,15 +362,16 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-basic > .heading > .button:hover {
+.unit-profile.name > .button:hover {
   color: var(--palette-purple-lighter);
 }
 
-.unit-basic:not(.own-profile) > .heading > .button {
+.unit-profile.name:not(.own-profile) > .button {
   display: none;
 }
 
-.unit-basic > .address {
+/* User profile's local wallet address. */
+.unit-profile.address {
   border-radius: 0.5rem;
   border-width: var(--size-thinnest);
   border-style: solid;
@@ -377,7 +394,7 @@ export default defineComponent({
   background-color: var(--color-background-competition-meta);
 }
 
-.unit-basic > .address > .content {
+.unit-profile.address > .content {
   flex: 1;
 
   display: flex;
@@ -385,13 +402,13 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.unit-basic > .address > .content > .first-half {
+.unit-profile.address > .content > .first-half {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.unit-basic > .address > .actions {
+.unit-profile.address > .actions {
   display: flex;
   gap: 0.75rem;
 }
