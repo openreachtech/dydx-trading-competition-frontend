@@ -21,7 +21,7 @@ export default class PutAddressImageMutationGraphqlPayload extends BaseAppSignat
 /**
  * @typedef {{
  *   input: {
- *     addressImageUrl: string
+ *     file: File
  *     signature: {
  *       signDoc: string
  *       signature: string
