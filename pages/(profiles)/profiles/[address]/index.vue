@@ -157,9 +157,9 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <SectionProfileOverview
+      :address-profile="context.extractAddressProfileValueHash()"
       :competition="context.currentCompetition"
       :competition-participant-status-id="context.competitionParticipantStatusId"
-      :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
       @show-profile-rename-dialog="mutationContext.showDialog({
