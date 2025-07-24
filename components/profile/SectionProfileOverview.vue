@@ -68,6 +68,15 @@ export default defineComponent({
       ],
       required: true,
     },
+    userInterfaceState: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext').PropsType['userInterfaceState']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
   },
 
   emits: Object.values(SectionProfileOverviewContext.EMIT_EVENT_NAME),
@@ -112,7 +121,13 @@ export default defineComponent({
         </span>
 
         <div class="details">
-          <ProfileAvatar :default-image-url="context.addressImageUrl" />
+          <ProfileAvatar
+            :default-image-url="context.addressImageUrl"
+            :is-uploading-image="context.isUploadingAvatar"
+            @upload-image="context.emitUploadImage({
+              file: $event.file,
+            })"
+          />
 
           <div class="profile">
             <div
