@@ -15,6 +15,7 @@ import {
 import AppBadge from '~/components/units/AppBadge.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import ProfileAvatar from '~/components/units/ProfileAvatar.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -27,6 +28,7 @@ export default defineComponent({
     AppBadge,
     CopyButton,
     LinkTooltipButton,
+    ProfileAvatar,
   },
 
   props: {
@@ -110,11 +112,7 @@ export default defineComponent({
         </span>
 
         <div class="details">
-          <Icon
-            name="heroicons:user"
-            class="icon"
-            size="2.25rem"
-          />
+          <ProfileAvatar :default-image-url="context.addressImageUrl" />
 
           <div class="profile">
             <div
