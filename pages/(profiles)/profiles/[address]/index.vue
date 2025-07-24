@@ -24,6 +24,7 @@ import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
+import useToastStore from '~/stores/toast'
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
@@ -31,6 +32,7 @@ import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addres
 import AddressProfileQueryGraphqlLauncher from '~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
+import PutAddressImageMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressImage/PutAddressImageMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
 
@@ -38,6 +40,7 @@ import AddressProfileFetcher from './AddressProfileFetcher'
 
 import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPageContext'
 import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
+import PutAddressImageSubmitterContext from './PutAddressImageSubmitterContext'
 
 export default defineComponent({
   components: {
@@ -59,11 +62,16 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
+    const toastStore = useToastStore()
+
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const addressProfileGraphqlClient = useGraphqlClient(AddressProfileQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
+
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
+    const putAddressImageGraphqlClient = useGraphqlClient(PutAddressImageMutationGraphqlLauncher)
+
     const putAddressNameFormClerk = useAppFormClerk({
       FormElementClerk: PutAddressNameFormElementClerk,
       invokeRequestWithFormValueHash: putAddressNameGraphqlClient.invokeRequestWithFormValueHash,
@@ -89,6 +97,7 @@ export default defineComponent({
       isLoadingProfileOrders: true,
       isLoadingProfileTrades: true,
       isFetchingAddressProfile: false,
+      isUploadingAvatar: false,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
@@ -144,11 +153,20 @@ export default defineComponent({
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
       .setupComponent()
 
+    const putAddressImageSubmitterContext = PutAddressImageSubmitterContext.create({
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        putAddressImage: putAddressImageGraphqlClient,
+      },
+    })
+
     return {
       profileRenameDialogRef,
 
       context,
       mutationContext,
+      putAddressImageSubmitterContext,
     }
   },
 })
@@ -162,6 +180,12 @@ export default defineComponent({
       :competition-participant-status-id="context.competitionParticipantStatusId"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
+      :user-interface-state="context.statusReactive"
+      @upload-image="putAddressImageSubmitterContext.putAddressImageOnEvent({
+        valueHash: {
+          file: $event.file,
+        },
+      })"
       @show-profile-rename-dialog="mutationContext.showDialog({
         dialogElement: profileRenameDialogRef,
       })"
