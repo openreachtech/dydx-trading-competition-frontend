@@ -193,33 +193,49 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <AppTabLayout
-      class="tabs"
-      :tabs="context.profileTabs"
-      :active-tab-key="context.extractActiveTabKeyFromRoute()"
-      @change-tab="context.changeTab({
-        fromTab: $event.fromTab,
-        toTab: $event.toTab,
-      })"
+    <section
+      class="section"
+      :class="{
+        hidden: !context.isParticipatingInArena(),
+      }"
     >
-      <template #contents>
-        <ProfileFinancialOverview :profile-overview="context.profileOverview" />
+      <h1 class="heading">
+        Current Arena
+      </h1>
 
-        <ProfileTransferHistory />
+      <AppTabLayout
+        :tabs="context.profileTabs"
+        :active-tab-key="context.extractActiveTabKeyFromRoute()"
+        @change-tab="context.changeTab({
+          fromTab: $event.fromTab,
+          toTab: $event.toTab,
+        })"
+      >
+        <template #contents>
+          <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
-        <ProfileLeagueHistory />
+          <ProfileTransferHistory />
 
-        <ProfileOrders
-          :profile-orders="context.profileOrders"
-          :is-loading="context.isLoadingProfileOrders"
-        />
+          <ProfileOrders
+            :profile-orders="context.profileOrders"
+            :is-loading="context.isLoadingProfileOrders"
+          />
 
-        <ProfileTrades
-          :profile-trades="context.profileTrades"
-          :is-loading="context.isLoadingProfileTrades"
-        />
-      </template>
-    </AppTabLayout>
+          <ProfileTrades
+            :profile-trades="context.profileTrades"
+            :is-loading="context.isLoadingProfileTrades"
+          />
+        </template>
+      </AppTabLayout>
+    </section>
+
+    <section class="section">
+      <h1 class="heading">
+        Arena History
+      </h1>
+
+      <ProfileLeagueHistory />
+    </section>
 
     <ProfileRenameDialog
       ref="profileRenameDialogRef"
@@ -234,6 +250,11 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* Reset base furo stylesheet. */
+section + section {
+  margin-block-start: 0;
+}
+
 .unit-page {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -242,7 +263,7 @@ export default defineComponent({
   }
 }
 
-.unit-page > .tabs {
+.unit-page > .section {
   margin-inline: auto;
 
   padding-block: 2.5rem;
@@ -253,5 +274,16 @@ export default defineComponent({
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
   }
+}
+
+.unit-page > .section.hidden {
+  display: none;
+}
+
+.unit-page > .section > .heading {
+  font-size: var(--font-size-extra);
+  font-weight: 700;
+
+  line-height: var(--size-line-height-extra);
 }
 </style>

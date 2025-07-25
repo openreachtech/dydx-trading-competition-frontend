@@ -113,10 +113,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
         label: 'Transfer History',
       },
       {
-        tabKey: 'past-competitions',
-        label: 'Arena History',
-      },
-      {
         tabKey: 'orders',
         label: 'Orders',
       },
@@ -757,6 +753,15 @@ export default class ProfileDetailsContext extends BaseAppContext {
         value: normalizedPnl,
       },
     ]
+  }
+
+  /**
+   * Check if the user is currently participating in an arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipatingInArena () {
+    return this.currentCompetitionId !== null
   }
 }
 
