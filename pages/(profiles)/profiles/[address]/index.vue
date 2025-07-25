@@ -193,7 +193,12 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <section class="section">
+    <section
+      class="section"
+      :class="{
+        hidden: !context.isParticipatingInArena(),
+      }"
+    >
       <h1 class="heading">
         Current Arena
       </h1>
@@ -269,6 +274,10 @@ section + section {
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
   }
+}
+
+.unit-page > .section.hidden {
+  display: none;
 }
 
 .unit-page > .section > .heading {
