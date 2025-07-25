@@ -754,6 +754,15 @@ export default class ProfileDetailsContext extends BaseAppContext {
       },
     ]
   }
+
+  /**
+   * Check if the user is currently participating in an arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipatingInArena () {
+    return this.currentCompetitionId !== null
+  }
 }
 
 /**
