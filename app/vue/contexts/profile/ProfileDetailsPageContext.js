@@ -113,10 +113,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
         label: 'Transfer History',
       },
       {
-        tabKey: 'past-competitions',
-        label: 'Arena History',
-      },
-      {
         tabKey: 'orders',
         label: 'Orders',
       },

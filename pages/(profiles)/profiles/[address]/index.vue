@@ -211,8 +211,6 @@ export default defineComponent({
 
           <ProfileTransferHistory />
 
-          <ProfileLeagueHistory />
-
           <ProfileOrders
             :profile-orders="context.profileOrders"
             :is-loading="context.isLoadingProfileOrders"
@@ -230,6 +228,8 @@ export default defineComponent({
       <h1 class="heading">
         Arena History
       </h1>
+
+      <ProfileLeagueHistory />
     </section>
 
     <ProfileRenameDialog
