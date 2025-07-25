@@ -226,6 +226,12 @@ export default defineComponent({
       </AppTabLayout>
     </section>
 
+    <section class="section">
+      <h1 class="heading">
+        Arena History
+      </h1>
+    </section>
+
     <ProfileRenameDialog
       ref="profileRenameDialogRef"
       :initial-username="context.addressName"
