@@ -225,6 +225,7 @@ export default defineComponent({
               :entries="context.leaderboardTableEntries"
               :is-loading="context.isLoadingLeaderboard"
               class="table"
+              min-width="50rem"
             >
               <!-- ** Competition participants list ** -->
               <template #body-participantName="{ value, row }">
