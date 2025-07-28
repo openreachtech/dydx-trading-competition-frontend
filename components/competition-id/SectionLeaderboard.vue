@@ -579,6 +579,17 @@ export default defineComponent({
                   }}
                 </span>
               </template>
+
+              <template
+                v-if="context.generateMetricSeparatorSlotName()"
+                #[context.generateMetricSeparatorSlotName()]
+              >
+                <tr class="unit-row separator">
+                  <td class="cell">
+                    ...
+                  </td>
+                </tr>
+              </template>
             </AppTable>
 
             <AppPagination
