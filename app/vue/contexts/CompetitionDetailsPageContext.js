@@ -805,11 +805,28 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       entry: myMetric,
     })
 
-    return [
+    const sortedEntries = [
       ...formattedMetrics,
       myFormattedMetric,
     ]
       .toSorted((entryA, entryB) => entryB.totalVolume - entryA.totalVolume)
+
+    const metricSeparatorEntry = {
+      name: '',
+      address: '',
+      totalVolume: 0,
+      isSeparator: true,
+    }
+
+    const myEntryIndex = sortedEntries.findIndex(it =>
+      it.address === myFormattedMetric.address
+    )
+
+    return this.insertLeaderboardSeparatorEntry({
+      entries: sortedEntries,
+      separatorEntry: metricSeparatorEntry,
+      myEntryIndex,
+    })
   }
 
   /**
@@ -2140,6 +2157,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   makerVolume: number
  *   takerVolume: number
  *   totalVolume: number
+ *   isSeparator?: boolean
  * }} MetricLeaderboardEntry
  */
 
