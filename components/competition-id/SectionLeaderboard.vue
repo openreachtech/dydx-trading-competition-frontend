@@ -325,6 +325,19 @@ export default defineComponent({
                       />
                     </template>
                   </AppTooltip>
+
+                  <AppTooltip
+                    :message="context.generateIneligibleMessage()"
+                    class="tooltip ineligible"
+                  >
+                    <template #contents>
+                      <Icon
+                        class="unit-icon ineligible"
+                        name="heroicons:information-circle"
+                        size="1rem"
+                      />
+                    </template>
+                  </AppTooltip>
                 </span>
               </template>
 
@@ -646,6 +659,7 @@ export default defineComponent({
 <style scoped>
 .unit-section {
   --color-text-eligible: var(--palette-green-darker);
+  --color-text-ineligible: var(--color-text-tertiary);
 
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
@@ -925,7 +939,15 @@ export default defineComponent({
   color: var(--color-text-eligible);
 }
 
+.unit-icon.ineligible {
+  color: var(--color-text-ineligible);
+}
+
 .unit-name:not(.eligible) > .tooltip.eligible {
+  display: none;
+}
+
+.unit-name.eligible > .tooltip.ineligible {
   display: none;
 }
 
@@ -1072,6 +1094,12 @@ export default defineComponent({
 @layer app {
   .unit-name > .tooltip.eligible > .message {
     white-space: nowrap;
+  }
+
+  .unit-name > .tooltip.ineligible > .message {
+    /* NOTE: This is a magic value as I'm not sure how to handle this better. */
+    /* If you could come up with alternative, please fix it. */
+    width: 11rem;
   }
 }
 </style>

@@ -647,6 +647,30 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Format minimum trading volume.
+   *
+   * @returns {string}
+   */
+  formatMinimumTradingVolume () {
+    if (this.minimumTradingVolume === null) {
+      return '--'
+    }
+
+    return this.formatNumber({
+      value: this.minimumTradingVolume,
+    })
+  }
+
+  /**
+   * Generate ineligible message for tooltip.
+   *
+   * @returns {string}
+   */
+  generateIneligibleMessage () {
+    return `${this.formatMinimumTradingVolume()} USDC minimum volume not met`
+  }
+
+  /**
    * Generate section heading CSS classes.
    *
    * @returns {Record<string, boolean>}
