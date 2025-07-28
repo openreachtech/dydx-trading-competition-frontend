@@ -19,6 +19,7 @@ import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import AppTooltip from '~/components/units/AppTooltip.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -32,6 +33,7 @@ export default defineComponent({
     AppTable,
     AppTabLayout,
     AppPagination,
+    AppTooltip,
     TopRankingCard,
     LinkTooltipButton,
   },
@@ -288,7 +290,14 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingName="{ value, row }">
-                <span class="unit-name ongoing">
+                <span
+                  class="unit-name ongoing"
+                  :class="{
+                    eligible: context.isEligibleForPrize({
+                      totalVolume: row.ongoingTotalVolume,
+                    }),
+                  }"
+                >
                   <NuxtLink
                     class="link"
                     :class="{
@@ -303,6 +312,19 @@ export default defineComponent({
                     <span>{{ value }}</span>
                     <span class="note"> (You)</span>
                   </NuxtLink>
+
+                  <AppTooltip
+                    message="Eligible for prize"
+                    class="tooltip eligible"
+                  >
+                    <template #contents>
+                      <Icon
+                        class="unit-icon eligible"
+                        name="heroicons:check-badge"
+                        size="1rem"
+                      />
+                    </template>
+                  </AppTooltip>
                 </span>
               </template>
 
@@ -623,6 +645,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-text-eligible: var(--palette-green-darker);
+
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -871,6 +895,12 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
+.unit-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .unit-name:where(.participant, .ongoing, .outcome) > .link {
   font-weight: 500;
 
@@ -888,6 +918,14 @@ export default defineComponent({
 }
 
 .unit-name:where(.participant, .ongoing, .outcome):not(.you) > .link > .note {
+  display: none;
+}
+
+.unit-icon.eligible {
+  color: var(--color-text-eligible);
+}
+
+.unit-name:not(.eligible) > .tooltip.eligible {
   display: none;
 }
 
@@ -1028,6 +1066,12 @@ export default defineComponent({
     color: var(--color-text-tab-active);
 
     pointer-events: none;
+  }
+}
+
+@layer app {
+  .unit-name > .tooltip.eligible > .message {
+    white-space: nowrap;
   }
 }
 </style>

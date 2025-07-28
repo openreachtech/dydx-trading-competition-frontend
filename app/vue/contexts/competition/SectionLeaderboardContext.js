@@ -194,6 +194,17 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * get: minimumTradingVolume
+   *
+   * @returns {string | null}
+   */
+  get minimumTradingVolume () {
+    return this.competition
+      ?.minimumTradingVolume
+      ?? null
+  }
+
+  /**
    * get: localWalletAddress
    *
    * @returns {string | null}
@@ -613,6 +624,26 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     }
 
     return address === this.localWalletAddress
+  }
+
+  /**
+   * Check if a participant is eligible for prize.
+   *
+   * @param {{
+   *   totalVolume: number
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isEligibleForPrize ({
+    totalVolume,
+  }) {
+    if (this.minimumTradingVolume === null) {
+      return false
+    }
+
+    const parsedMinimumTradingVolume = parseFloat(this.minimumTradingVolume)
+
+    return totalVolume >= parsedMinimumTradingVolume
   }
 
   /**
