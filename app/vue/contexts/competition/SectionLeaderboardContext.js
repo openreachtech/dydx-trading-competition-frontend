@@ -634,7 +634,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
    * }} params - Parameters.
    * @returns {boolean}
    */
-  isEligibleForPrize ({
+  hasMetMinimumTradingVolume ({
     totalVolume,
   }) {
     if (this.minimumTradingVolume === null) {

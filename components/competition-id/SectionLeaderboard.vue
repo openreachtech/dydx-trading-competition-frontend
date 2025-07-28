@@ -293,7 +293,7 @@ export default defineComponent({
                 <span
                   class="unit-name ongoing"
                   :class="{
-                    eligible: context.isEligibleForPrize({
+                    eligible: context.hasMetMinimumTradingVolume({
                       totalVolume: row.ongoingTotalVolume,
                     }),
                   }"
