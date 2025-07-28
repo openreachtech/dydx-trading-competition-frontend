@@ -160,6 +160,13 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
           textAlign: 'end',
         },
       },
+      {
+        key: 'ongoingTotalVolume',
+        label: 'Total Volume',
+        columnOptions: {
+          textAlign: 'end',
+        },
+      },
     ]
   }
 

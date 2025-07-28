@@ -402,6 +402,20 @@ export default defineComponent({
                 </span>
               </template>
 
+              <template
+                #body-ongoingTotalVolume="{
+                  value,
+                }"
+              >
+                <span>
+                  {{
+                    context.formatNumber({
+                      value,
+                    })
+                  }}
+                </span>
+              </template>
+
               <!-- ** Leaderboard final outcome ** -->
               <template #body-outcomeRank="{ value }">
                 <span class="unit-rank outcome">
