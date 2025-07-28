@@ -13,6 +13,7 @@ import {
 } from '#components'
 
 import AppBadge from '~/components/units/AppBadge.vue'
+import AppButton from '~/components/units/AppButton.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import ProfileAvatar from '~/components/units/ProfileAvatar.vue'
@@ -26,6 +27,7 @@ export default defineComponent({
     Icon,
     NuxtLink,
     AppBadge,
+    AppButton,
     CopyButton,
     LinkTooltipButton,
     ProfileAvatar,
@@ -173,6 +175,21 @@ export default defineComponent({
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="x-oauth">
+          <AppButton
+            variant="neutral"
+            class="button connect"
+          >
+            <img
+              src="~/assets/img/logos/x-logo.svg"
+              alt=""
+              class="icon"
+              aria-hidden="true"
+            >
+            <span>Connect X account</span>
+          </AppButton>
         </div>
       </div>
 
@@ -346,6 +363,16 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.unit-basic > .x-oauth > .button.connect {
+  padding-block: 0.38rem;
+  padding-inline: 0.56rem 0.75rem;
+}
+
+.unit-basic > .x-oauth > .button.connect > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 /* User profile's name and edit button. */
