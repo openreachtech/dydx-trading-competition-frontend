@@ -214,20 +214,22 @@ export default defineComponent({
             >
               <!-- ** Competition participants list ** -->
               <template #body-participantName="{ value, row }">
-                <NuxtLink
-                  class="unit-name participant"
-                  :class="{
-                    you: context.isMyRanking({
+                <span class="unit-name participant">
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.participantAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
                       address: row.participantAddress,
-                    }),
-                  }"
-                  :to="context.generateProfileUrl({
-                    address: row.participantAddress,
-                  })"
-                >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+                </span>
               </template>
 
               <template #body-participantAddress="{ value }">
@@ -274,20 +276,22 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingName="{ value, row }">
-                <NuxtLink
-                  class="unit-name ongoing"
-                  :class="{
-                    you: context.isMyRanking({
+                <span class="unit-name ongoing">
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.ongoingAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
                       address: row.ongoingAddress,
-                    }),
-                  }"
-                  :to="context.generateProfileUrl({
-                    address: row.ongoingAddress,
-                  })"
-                >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+                </span>
               </template>
 
               <template #body-ongoingAddress="{ value }">
@@ -359,20 +363,22 @@ export default defineComponent({
               </template>
 
               <template #body-outcomeName="{ value, row }">
-                <NuxtLink
-                  class="unit-name outcome"
-                  :class="{
-                    you: context.isMyRanking({
+                <span class="unit-name outcome">
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.outcomeAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
                       address: row.outcomeAddress,
-                    }),
-                  }"
-                  :to="context.generateProfileUrl({
-                    address: row.outcomeAddress,
-                  })"
-                >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+                </span>
               </template>
 
               <template #body-outcomeAddress="{ value }">
@@ -853,7 +859,7 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome) {
+.unit-name:where(.participant, .ongoing, .outcome) > .link {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -861,15 +867,15 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome)[href]:hover {
+.unit-name:where(.participant, .ongoing, .outcome) > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome) > .note {
+.unit-name:where(.participant, .ongoing, .outcome) > .link > .note {
   color: var(--color-text-tertiary);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .note {
+.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .link > .note {
   display: none;
 }
 
