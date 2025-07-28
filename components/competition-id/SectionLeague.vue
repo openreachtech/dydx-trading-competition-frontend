@@ -282,9 +282,8 @@ export default defineComponent({
               size="1.125rem"
             />
 
-            <span>
-              {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
-            </span>
+            <span>{{ context.normalizeMinimumDeposit() }}</span>
+            <span class="note">(entry balance)</span>
           </span>
 
           <span class="trading-volume">
