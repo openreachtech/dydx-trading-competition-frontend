@@ -1352,7 +1352,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * Insert leaderboard separator entry.
    *
-   * @template {LeaderboardEntryUnion} T
+   * @template {LeaderboardEntryUnion | MetricLeaderboardEntry} T
    * @param {{
    *   entries: Array<T>
    *   separatorEntry: T
