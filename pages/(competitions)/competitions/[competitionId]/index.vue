@@ -200,6 +200,7 @@ export default defineComponent({
     <SectionSchedules :schedules="context.schedules" />
 
     <SectionLeaderboard
+      :competition="context.competition"
       :competition-status-id="context.competitionStatusId"
       :top-three-leaderboard-entries="context.topThreeLeaderboardEntries"
       :leaderboard-table-entries="context.leaderboardEntries"

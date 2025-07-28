@@ -37,6 +37,18 @@ export default defineComponent({
   },
 
   props: {
+    competition: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['competition']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,

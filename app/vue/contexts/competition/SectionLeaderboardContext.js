@@ -77,6 +77,15 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * get: competition
+   *
+   * @returns {PropsType['competition']}
+   */
+  get competition () {
+    return this.props.competition
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {number | null}
@@ -731,6 +740,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
  *   competitionStatusId: number | null
  *   isLoadingLeaderboard: boolean
  *   isLoadingMetricLeaderboard: boolean
