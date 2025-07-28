@@ -294,6 +294,7 @@ export default defineComponent({
               size="1.125rem"
             />
             <span>{{ context.formatMinimumTradingVolume() }}</span>
+            <span class="note">(minimum trading volume)</span>
           </span>
 
           <span class="unit-participants">
