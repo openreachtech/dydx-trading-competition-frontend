@@ -1249,6 +1249,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       ongoingBaseline: 0,
       ongoingRoi: 0,
       ongoingPnl: 0,
+      ongoingTotalVolume: 0,
       isSeparator: true,
     }
 
@@ -1283,6 +1284,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       ongoingBaseline: entry.performanceBaseline,
       ongoingRoi: entry.roi,
       ongoingPnl: entry.pnl,
+      ongoingTotalVolume: entry.totalVolume,
     }
   }
 
@@ -2115,6 +2117,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   ongoingBaseline: number
  *   ongoingRoi: number
  *   ongoingPnl: number
+ *   ongoingTotalVolume: number
  *   isSeparator?: boolean
  * }} NormalizedOngoingLeaderboardEntry
  */
