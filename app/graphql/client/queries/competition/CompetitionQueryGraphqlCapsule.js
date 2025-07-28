@@ -183,6 +183,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   host: Host
  *   totalPrize: number
  *   minimumDeposit: string
+ *   minimumTradingVolume: string
  *   imageUrl?: string
  *   schedules: Array<Schedule>
  *   status: Status
