@@ -278,6 +278,22 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Generate slot name for separator row in metric leaderboard.
+   *
+   * @returns {string | null}
+   */
+  generateMetricSeparatorSlotName () {
+    const separatorIndex = this.metricLeaderboardTableEntries
+      .findIndex(entry => entry.isSeparator)
+
+    if (separatorIndex === -1) {
+      return null
+    }
+
+    return `body-row-${separatorIndex}`
+  }
+
+  /**
    * Download outcome CSV.
    *
    * @returns {Promise<void>}
