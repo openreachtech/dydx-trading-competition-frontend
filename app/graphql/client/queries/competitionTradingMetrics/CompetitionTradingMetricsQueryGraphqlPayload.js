@@ -11,6 +11,19 @@ export default class CompetitionTradingMetricsQueryGraphqlPayload extends BaseAp
     return /* GraphQL */ `
       query CompetitionTradingMetricsQuery ($input: CompetitionTradingMetricsInput!) {
         competitionTradingMetrics (input: $input) {
+          myMetric {
+            address {
+              address
+              name
+            }
+            makerFees
+            takerFees
+            totalFees
+            makeVolume
+            takerVolume
+            totalVolume
+            calculatedAt
+          }
           metrics {
             address {
               address
@@ -39,6 +52,7 @@ export default class CompetitionTradingMetricsQueryGraphqlPayload extends BaseAp
  * @typedef {{
  *   input: {
  *     competitionId: number
+ *     address?: string
  *     pagination: {
  *       limit: number
  *       offset: number

@@ -20,6 +20,17 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
   }
 
   /**
+   * get: myRanking
+   *
+   * @returns {ResponseContent['competitionLeaderboard']['myRanking'] | null}
+   */
+  get myRanking () {
+    return this.extractCompetitionLeaderboardValueHash()
+      ?.myRanking
+      ?? null
+  }
+
+  /**
    * get: rankings
    *
    * @returns {ResponseContent['competitionLeaderboard']['rankings']}
@@ -67,17 +78,8 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
 /**
  * @typedef {{
  *   competitionLeaderboard: {
- *     rankings: Array<{
- *       address: {
- *         address: string
- *         name?: string
- *       }
- *       performanceBaseline: number
- *       ranking: number
- *       roi: number
- *       pnl: number
- *       calculatedAt: string // ISO string
- *     }>
+ *     myRanking: CompetitionRanking
+ *     rankings: Array<CompetitionRanking>
  *     pagination: {
  *       totalCount: number
  *       limit: number
@@ -85,4 +87,18 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
  *     }
  *   }
  * }} ResponseContent
+ */
+
+/**
+ * @typedef {{
+ *   address: {
+ *     address: string
+ *     name?: string
+ *   }
+ *   performanceBaseline: number
+ *   ranking: number
+ *   roi: number
+ *   pnl: number
+ *   calculatedAt: string // ISO string
+ * }} CompetitionRanking
  */

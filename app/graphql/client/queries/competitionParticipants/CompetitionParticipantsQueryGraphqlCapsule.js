@@ -18,6 +18,17 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
   }
 
   /**
+   * get: myParticipation
+   *
+   * @returns {Participant | null}
+   */
+  get myParticipation () {
+    return this.extractCompetitionParticipants()
+      ?.myParticipation
+      ?? null
+  }
+
+  /**
    * get: participants
    *
    * @returns {Array<Participant>} List of participants
@@ -81,6 +92,7 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
 
 /**
  * @typedef {{
+ *   myParticipation: Participant | null
  *   participants: Array<Participant>
  *   pagination: Pagination
  * }} CompetitionParticipants

@@ -11,6 +11,17 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
     return /* GraphQL */ `
       query CompetitionLeaderboardQuery ($input: CompetitionLeaderboardInput!) {
         competitionLeaderboard (input: $input) {
+          myRanking {
+            address {
+              address
+              name
+            }
+            performanceBaseline
+            ranking
+            roi
+            pnl
+            calculatedAt
+          }
           rankings {
             address {
               address
@@ -37,6 +48,7 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
  * @typedef {{
  *   input: {
  *     competitionId: number
+ *     address?: string
  *     pagination: {
  *       limit: number
  *       offset: number

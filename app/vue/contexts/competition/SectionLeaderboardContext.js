@@ -37,6 +37,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
 
     route,
     router,
+    walletStore,
   }) {
     super({
       props,
@@ -45,6 +46,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
 
     this.route = route
     this.router = router
+    this.walletStore = walletStore
   }
 
   /**
@@ -61,6 +63,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     componentContext,
     route,
     router,
+    walletStore,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -68,6 +71,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
         componentContext,
         route,
         router,
+        walletStore,
       })
     )
   }
@@ -181,6 +185,19 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * get: localWalletAddress
+   *
+   * @returns {string | null}
+   */
+  get localWalletAddress () {
+    return this.walletStore
+      .walletStoreRef
+      .value
+      .localWallet
+      .address
+  }
+
+  /**
    * get: leaderboardTabs.
    *
    * @returns {Array<{
@@ -242,6 +259,38 @@ export default class SectionLeaderboardContext extends BaseAppContext {
         [tabKey]: toTab.tabKey,
       },
     })
+  }
+
+  /**
+   * Generate slot name for separator row in leaderboard.
+   *
+   * @returns {string | null}
+   */
+  generateLeaderboardSeparatorSlotName () {
+    const separatorIndex = this.leaderboardTableEntries
+      .findIndex(entry => entry.isSeparator)
+
+    if (separatorIndex === -1) {
+      return null
+    }
+
+    return `body-row-${separatorIndex}`
+  }
+
+  /**
+   * Generate slot name for separator row in metric leaderboard.
+   *
+   * @returns {string | null}
+   */
+  generateMetricSeparatorSlotName () {
+    const separatorIndex = this.metricLeaderboardTableEntries
+      .findIndex(entry => entry.isSeparator)
+
+    if (separatorIndex === -1) {
+      return null
+    }
+
+    return `body-row-${separatorIndex}`
   }
 
   /**
@@ -540,6 +589,24 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Check if an entry is current user's ranking.
+   *
+   * @param {{
+   *   address: string
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isMyRanking ({
+    address,
+  }) {
+    if (!this.localWalletAddress) {
+      return false
+    }
+
+    return address === this.localWalletAddress
+  }
+
+  /**
    * Generate section heading CSS classes.
    *
    * @returns {Record<string, boolean>}
@@ -647,6 +714,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   route: ReturnType<import('vue-router').useRoute>
  *   router: ReturnType<import('vue-router').useRouter>
+ *   walletStore: import('~/stores/wallet').WalletStore
  * }} SectionLeaderboardContextParams
  */
 
