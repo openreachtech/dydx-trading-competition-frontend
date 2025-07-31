@@ -181,6 +181,8 @@ export default defineComponent({
           <AppButton
             variant="neutral"
             class="button connect"
+            :is-loading="context.isGeneratingXaccountOauthUrl"
+            @click="context.emitConnectXAccount()"
           >
             <img
               src="~/assets/img/logos/x-logo.svg"
