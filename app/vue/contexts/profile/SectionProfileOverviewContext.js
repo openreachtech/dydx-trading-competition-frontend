@@ -235,6 +235,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * get: isRevokingXaccountOauth
+   *
+   * @returns {boolean}
+   */
+  get isRevokingXaccountOauth () {
+    return this.userInterfaceState
+      ?.isRevokingXaccountOauth
+      ?? false
+  }
+
+  /**
    * get: isUploadingAvatar
    *
    * @returns {boolean}
