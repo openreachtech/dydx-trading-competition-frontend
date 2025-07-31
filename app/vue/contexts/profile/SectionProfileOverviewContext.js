@@ -512,6 +512,15 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * Check if the user has connected their X account.
+   *
+   * @returns {boolean}
+   */
+  hasConnectedXAccount () {
+    return Boolean(this.xAccountUserName)
+  }
+
+  /**
    * Emit 'connectXAccount' event.
    *
    * @returns {void}
