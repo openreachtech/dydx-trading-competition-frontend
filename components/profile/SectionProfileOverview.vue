@@ -177,7 +177,7 @@ export default defineComponent({
           </div>
         </div>
 
-        <div class="x-oauth">
+        <div class="unit-oauth x">
           <AppButton
             variant="neutral"
             class="button connect"
@@ -367,12 +367,12 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-basic > .x-oauth > .button.connect {
+.unit-oauth.x > .button.connect {
   padding-block: 0.38rem;
   padding-inline: 0.56rem 0.75rem;
 }
 
-.unit-basic > .x-oauth > .button.connect > .icon {
+.unit-oauth.x > .button.connect > .icon {
   width: 1.5rem;
   height: 1.5rem;
 }
