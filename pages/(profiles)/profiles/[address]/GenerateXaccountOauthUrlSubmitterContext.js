@@ -91,7 +91,11 @@ export default class GenerateXaccountOauthUrlSubmitterContext {
           })
 
           this.statusReactive.isGeneratingXaccountOauthUrl = false
+
+          return
         }
+
+        window.location.href = capsule.url
       },
     }
   }
