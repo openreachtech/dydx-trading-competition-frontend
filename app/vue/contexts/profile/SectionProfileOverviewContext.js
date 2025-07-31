@@ -567,7 +567,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
 /**
  * @typedef {{
- *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').default | null
+ *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').AddressProfile | null
  *   competition: Competition | null
  *   competitionParticipantStatusId: number | null
  *   ranking: Ranking | null
