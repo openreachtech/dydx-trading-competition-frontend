@@ -5,13 +5,17 @@ export default class RevokeXaccountOauthSubmitterContext {
    * @param {RevokeXaccountOauthSubmitterContextParams} params - Parameters.
    */
   constructor ({
+    route,
     toastStore,
     statusReactive,
     graphqlClientHash,
+    fetcherHash,
   }) {
+    this.route = route
     this.toastStore = toastStore
     this.statusReactive = statusReactive
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
   }
 
   /**
@@ -23,15 +27,19 @@ export default class RevokeXaccountOauthSubmitterContext {
    * @this {T}
    */
   static create ({
+    route,
     toastStore,
     statusReactive,
     graphqlClientHash,
+    fetcherHash,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
+        route,
         toastStore,
         statusReactive,
         graphqlClientHash,
+        fetcherHash,
       })
     )
   }
@@ -91,6 +99,8 @@ export default class RevokeXaccountOauthSubmitterContext {
             color: 'error',
           })
         }
+
+        await this.onSuccessRevocation()
       },
     }
   }
@@ -107,14 +117,59 @@ export default class RevokeXaccountOauthSubmitterContext {
         hooks: this.revokeXaccountOauthLauncherHooks,
       })
   }
+
+  /**
+   * Handle logic after a successful revocation.
+   *
+   * @returns {Promise<void>}
+   */
+  async onSuccessRevocation () {
+    const address = this.extractAddressFromRoute()
+    if (address === null) {
+      return
+    }
+
+    await this.fetcherHash
+      .addressProfile
+      .fetchAddressProfileOnEvent({
+        valueHash: {
+          address,
+        },
+      })
+  }
+
+  /**
+   * Extract `address` from route.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const addressFromRoute = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    if (!addressFromRoute) {
+      return null
+    }
+
+    return addressFromRoute
+  }
 }
 
 /**
  * @typedef {{
+ *   route: ReturnType<import('vue-router').useRoute>
  *   toastStore: import('~/stores/toast').ToastStore
  *   statusReactive: import('vue').Reactive<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').StatusReactive>
  *   graphqlClientHash: {
  *     revokeXaccountOauth: GraphqlClient
+ *   }
+ *   fetcherHash: {
+ *     addressProfile: import('./AddressProfileFetcher').default
  *   }
  * }} RevokeXaccountOauthSubmitterContextParams
  */
