@@ -62,6 +62,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   static get EMIT_EVENT_NAME () {
     return {
       CONNECT_X_ACCOUNT: 'connectXAccount',
+      DISCONNECT_X_ACCOUNT: 'disconnectXAccount',
       SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
       UPLOAD_IMAGE: 'uploadImage',
     }
@@ -539,6 +540,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   emitConnectXAccount () {
     this.emit(
       this.EMIT_EVENT_NAME.CONNECT_X_ACCOUNT
+    )
+  }
+
+  /**
+   * Emit 'disconnectXAccount' event.
+   *
+   * @returns {void}
+   */
+  emitDisconnectXAccount () {
+    this.emit(
+      this.EMIT_EVENT_NAME.DISCONNECT_X_ACCOUNT
     )
   }
 
