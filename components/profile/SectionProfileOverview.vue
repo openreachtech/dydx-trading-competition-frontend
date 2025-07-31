@@ -213,8 +213,6 @@ export default defineComponent({
             <AppButton
               variant="neutral"
               class="button disconnect"
-              :is-loading="context.isGeneratingXaccountOauthUrl"
-              @click="context.emitConnectXAccount()"
             >
               Disconnect
             </AppButton>
