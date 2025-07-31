@@ -5,9 +5,11 @@ export default class RevokeXaccountOauthSubmitterContext {
    * @param {RevokeXaccountOauthSubmitterContextParams} params - Parameters.
    */
   constructor ({
+    toastStore,
     statusReactive,
     graphqlClientHash,
   }) {
+    this.toastStore = toastStore
     this.statusReactive = statusReactive
     this.graphqlClientHash = graphqlClientHash
   }
@@ -21,11 +23,13 @@ export default class RevokeXaccountOauthSubmitterContext {
    * @this {T}
    */
   static create ({
+    toastStore,
     statusReactive,
     graphqlClientHash,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
+        toastStore,
         statusReactive,
         graphqlClientHash,
       })
@@ -69,6 +73,24 @@ export default class RevokeXaccountOauthSubmitterContext {
       // @ts-expect-error: Upstream type mismatch. Should be resolved in newer furo-nuxt versions.
       afterRequest: async capsule => {
         this.statusReactive.isRevokingXaccountOauth = false
+
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            title: 'Failed to Disconnect X Account',
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          return
+        }
+
+        if (!capsule.success) {
+          this.toastStore.add({
+            title: 'Failed to Disconnect X Account',
+            message: 'Unable to process request. Please try again later.',
+            color: 'error',
+          })
+        }
       },
     }
   }
@@ -89,6 +111,7 @@ export default class RevokeXaccountOauthSubmitterContext {
 
 /**
  * @typedef {{
+ *   toastStore: import('~/stores/toast').ToastStore
  *   statusReactive: import('vue').Reactive<import('~/app/vue/contexts/profile/ProfileDetailsPageContext').StatusReactive>
  *   graphqlClientHash: {
  *     revokeXaccountOauth: GraphqlClient

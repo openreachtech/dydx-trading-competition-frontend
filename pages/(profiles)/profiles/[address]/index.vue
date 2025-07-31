@@ -180,6 +180,7 @@ export default defineComponent({
     })
 
     const revokeXaccountOauthSubmitterContext = RevokeXaccountOauthSubmitterContext.create({
+      toastStore,
       statusReactive,
       graphqlClientHash: {
         revokeXaccountOauth: revokeXaccountOauthGraphqlClient,
