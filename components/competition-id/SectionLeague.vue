@@ -282,9 +282,18 @@ export default defineComponent({
               size="1.125rem"
             />
 
-            <span>
-              {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
-            </span>
+            <span>{{ context.normalizeMinimumDeposit() }}</span>
+            <span class="note">(entry balance)</span>
+          </span>
+
+          <span class="trading-volume">
+            <Icon
+              class="icon"
+              name="heroicons:chart-bar-square"
+              size="1.125rem"
+            />
+            <span>{{ context.formatMinimumTradingVolume() }}</span>
+            <span class="note">(minimum trading volume)</span>
           </span>
 
           <span class="unit-participants">
@@ -616,7 +625,7 @@ export default defineComponent({
   margin-block-start: 0.75rem;
 }
 
-.unit-details > .meta > .balance {
+.unit-details > .meta > :where(.balance, .trading-volume) {
   display: inline-flex;
   align-items: center;
 
@@ -626,11 +635,11 @@ export default defineComponent({
   color: var(--color-text-tertiary)
 }
 
-.unit-details > .meta > .balance > .icon {
+.unit-details > .meta > :where(.balance, .trading-volume) > .icon {
   margin-inline-end: 0.5rem;
 }
 
-.unit-details > .meta > .balance > .note {
+.unit-details > .meta > :where(.balance, .trading-volume) > .note {
   margin-inline-start: 0.25rem;
 
   font-weight: 400;
