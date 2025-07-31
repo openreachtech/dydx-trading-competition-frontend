@@ -180,10 +180,14 @@ export default defineComponent({
     })
 
     const revokeXaccountOauthSubmitterContext = RevokeXaccountOauthSubmitterContext.create({
+      route,
       toastStore,
       statusReactive,
       graphqlClientHash: {
         revokeXaccountOauth: revokeXaccountOauthGraphqlClient,
+      },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
       },
     })
 
