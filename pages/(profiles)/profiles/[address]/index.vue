@@ -160,6 +160,7 @@ export default defineComponent({
       .setupComponent()
 
     const generateXaccountOauthUrlSubmitterContext = GenerateXaccountOauthUrlSubmitterContext.create({
+      toastStore,
       statusReactive,
       graphqlClientHash: {
         generateXaccountOauthUrl: generateXaccountOauthUrlGraphqlClient,

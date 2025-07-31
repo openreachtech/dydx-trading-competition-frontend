@@ -5,9 +5,11 @@ export default class GenerateXaccountOauthUrlSubmitterContext {
    * @param {GenerateXaccountOauthUrlSubmitterContextParams} params - Parameters.
    */
   constructor ({
+    toastStore,
     statusReactive,
     graphqlClientHash,
   }) {
+    this.toastStore = toastStore
     this.statusReactive = statusReactive
     this.graphqlClientHash = graphqlClientHash
   }
@@ -21,11 +23,13 @@ export default class GenerateXaccountOauthUrlSubmitterContext {
    * @this {T}
    */
   static create ({
+    toastStore,
     statusReactive,
     graphqlClientHash,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
+        toastStore,
         statusReactive,
         graphqlClientHash,
       })
@@ -68,7 +72,26 @@ export default class GenerateXaccountOauthUrlSubmitterContext {
        */
       // @ts-expect-error
       afterRequest: async capsule => {
-        this.statusReactive.isGeneratingXaccountOauthUrl = false
+        if (capsule.hasError()) {
+          this.toastStore.add({
+            title: 'X Account Connection Failed',
+            message: capsule.getResolvedErrorMessage(),
+            color: 'error',
+          })
+
+          this.statusReactive.isGeneratingXaccountOauthUrl = false
+
+          return
+        }
+
+        if (capsule.url === null) {
+          this.toastStore.add({
+            message: 'Failed to initiate the connection with X. Please try again or come back later.',
+            color: 'error',
+          })
+
+          this.statusReactive.isGeneratingXaccountOauthUrl = false
+        }
       },
     }
   }
@@ -89,6 +112,7 @@ export default class GenerateXaccountOauthUrlSubmitterContext {
 
 /**
  * @typedef {{
+ *   toastStore: import('~/stores/toast').ToastStore
  *   statusReactive: import('vue').Reactive<{
  *     isGeneratingXaccountOauthUrl: boolean
  *   }>
