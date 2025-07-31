@@ -177,7 +177,12 @@ export default defineComponent({
           </div>
         </div>
 
-        <div class="x-oauth">
+        <div
+          class="unit-oauth x"
+          :class="{
+            connected: context.hasConnectedXAccount(),
+          }"
+        >
           <AppButton
             variant="neutral"
             class="button connect"
@@ -192,6 +197,26 @@ export default defineComponent({
             >
             <span>Connect X account</span>
           </AppButton>
+
+          <div class="account">
+            <div class="details">
+              <img
+                src="~/assets/img/logos/x-logo.svg"
+                alt=""
+                class="icon"
+                aria-hidden="true"
+              >
+              <span class="username">
+                {{ context.xAccountUserName }}
+              </span>
+            </div>
+            <AppButton
+              variant="neutral"
+              class="button disconnect"
+            >
+              Disconnect
+            </AppButton>
+          </div>
         </div>
       </div>
 
@@ -288,6 +313,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-text-x-username: var(--palette-purple-lighter);
+
   background-image: linear-gradient(
     180deg,
     rgba(24, 24, 37, 0.00) 0%,
@@ -367,14 +394,55 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
-.unit-basic > .x-oauth > .button.connect {
+.unit-oauth.x > .button.connect {
   padding-block: 0.38rem;
   padding-inline: 0.56rem 0.75rem;
 }
 
-.unit-basic > .x-oauth > .button.connect > .icon {
+.unit-oauth.x > .button.connect > .icon,
+.unit-oauth.x > .account > .details > .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.unit-oauth.x > .account {
+  display: flex;
+  gap: 0.5rem;
+
+  border-radius: 0.5rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  background-color: var(--color-background-button-muted);
+}
+
+.unit-oauth.x > .account > .details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+}
+
+.unit-oauth.x > .account > .details {
+  font-weight: 500;
+
+  color: var(--color-text-x-username);
+}
+
+.unit-oauth.x > .account > .button.disconnect {
+  padding-block: 0.38rem;
+  padding-inline: 0.56rem 0.75rem;
+}
+
+.unit-oauth.x.connected > .button.connect {
+  display: none;
+}
+
+.unit-oauth.x:not(.connected) > .account {
+  display: none;
 }
 
 /* User profile's name and edit button. */
