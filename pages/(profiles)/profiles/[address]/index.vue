@@ -222,6 +222,7 @@ export default defineComponent({
         dialogElement: profileRenameDialogRef,
       })"
       @connect-x-account="generateXaccountOauthUrlSubmitterContext.generateXaccountOauthUrlOnEvent()"
+      @disconnect-x-account="revokeXaccountOauthSubmitterContext.revokeXaccountOauthOnEvent()"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
