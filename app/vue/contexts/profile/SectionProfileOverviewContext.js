@@ -61,6 +61,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
+      CONNECT_X_ACCOUNT: 'connectXAccount',
       SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
       UPLOAD_IMAGE: 'uploadImage',
     }
@@ -220,6 +221,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
     return this.ranking
       ?.performanceBaseline
       ?? null
+  }
+
+  /**
+   * get: isGeneratingXaccountOauthUrl
+   *
+   * @returns {boolean}
+   */
+  get isGeneratingXaccountOauthUrl () {
+    return this.userInterfaceState
+      ?.isGeneratingXaccountOauthUrl
+      ?? false
   }
 
   /**
@@ -497,6 +509,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    */
   isParticipantAwaitingDeposit () {
     return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
+  }
+
+  /**
+   * Emit 'connectXAccount' event.
+   *
+   * @returns {void}
+   */
+  emitConnectXAccount () {
+    this.emit(
+      this.EMIT_EVENT_NAME.CONNECT_X_ACCOUNT
+    )
   }
 
   /**
