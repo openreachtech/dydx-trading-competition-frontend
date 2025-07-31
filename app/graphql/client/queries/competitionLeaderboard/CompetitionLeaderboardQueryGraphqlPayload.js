@@ -21,6 +21,7 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
             roi
             pnl
             calculatedAt
+            totalVolume
           }
           rankings {
             address {
@@ -32,6 +33,7 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
             roi
             pnl
             calculatedAt
+            totalVolume
           }
           pagination {
             totalCount

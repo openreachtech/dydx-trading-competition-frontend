@@ -100,5 +100,6 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
  *   roi: number
  *   pnl: number
  *   calculatedAt: string // ISO string
+ *   totalVolume: number
  * }} CompetitionRanking
  */

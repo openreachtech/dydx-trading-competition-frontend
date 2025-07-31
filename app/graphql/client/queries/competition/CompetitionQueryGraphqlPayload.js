@@ -23,6 +23,7 @@ export default class CompetitionQueryGraphqlPayload extends BaseAppGraphqlPayloa
             }
             totalPrize
             minimumDeposit
+            minimumTradingVolume
             imageUrl
             schedules {
               category {
