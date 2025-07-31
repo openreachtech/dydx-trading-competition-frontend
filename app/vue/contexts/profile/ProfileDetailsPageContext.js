@@ -804,6 +804,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   isLoadingProfileOrders: boolean
  *   isLoadingProfileTrades: boolean
  *   isFetchingAddressProfile: boolean
+ *   isGeneratingXaccountOauthUrl: boolean
  *   isUploadingAvatar: boolean
  * }} StatusReactive
  */

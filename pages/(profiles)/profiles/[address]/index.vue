@@ -31,6 +31,8 @@ import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 import AddressProfileQueryGraphqlLauncher from '~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
+
+import GenerateXaccountOauthUrlMutationGraphqlLauncher from '~/app/graphql/client/mutations/generateXaccountOauthUrl/GenerateXaccountOauthUrlMutationGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
 import PutAddressImageMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressImage/PutAddressImageMutationGraphqlLauncher'
 
@@ -39,6 +41,8 @@ import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormEle
 import AddressProfileFetcher from './AddressProfileFetcher'
 
 import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPageContext'
+
+import GenerateXaccountOauthUrlSubmitterContext from './GenerateXaccountOauthUrlSubmitterContext'
 import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
 import PutAddressImageSubmitterContext from './PutAddressImageSubmitterContext'
 
@@ -69,6 +73,7 @@ export default defineComponent({
     const addressProfileGraphqlClient = useGraphqlClient(AddressProfileQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
 
+    const generateXaccountOauthUrlGraphqlClient = useGraphqlClient(GenerateXaccountOauthUrlMutationGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
     const putAddressImageGraphqlClient = useGraphqlClient(PutAddressImageMutationGraphqlLauncher)
 
@@ -97,6 +102,7 @@ export default defineComponent({
       isLoadingProfileOrders: true,
       isLoadingProfileTrades: true,
       isFetchingAddressProfile: false,
+      isGeneratingXaccountOauthUrl: false,
       isUploadingAvatar: false,
     })
     const mutationStatusReactive = reactive({
@@ -153,6 +159,14 @@ export default defineComponent({
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
       .setupComponent()
 
+    const generateXaccountOauthUrlSubmitterContext = GenerateXaccountOauthUrlSubmitterContext.create({
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        generateXaccountOauthUrl: generateXaccountOauthUrlGraphqlClient,
+      },
+    })
+
     const putAddressImageSubmitterContext = PutAddressImageSubmitterContext.create({
       toastStore,
       statusReactive,
@@ -166,6 +180,7 @@ export default defineComponent({
 
       context,
       mutationContext,
+      generateXaccountOauthUrlSubmitterContext,
       putAddressImageSubmitterContext,
     }
   },
@@ -189,6 +204,7 @@ export default defineComponent({
       @show-profile-rename-dialog="mutationContext.showDialog({
         dialogElement: profileRenameDialogRef,
       })"
+      @connect-x-account="generateXaccountOauthUrlSubmitterContext.generateXaccountOauthUrlOnEvent()"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
