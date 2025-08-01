@@ -40,6 +40,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    canUpdateImage: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   emits: [
@@ -77,6 +82,7 @@ export default defineComponent({
       class="unit-avatar"
       :class="{
         loading: context.isUploadingImage,
+        'can-update': context.canUpdateImage,
       }"
     >
       <img
@@ -247,5 +253,13 @@ export default defineComponent({
   opacity: 0;
 
   pointer-events: none;
+}
+
+.unit-avatar:not(.can-update) > .button {
+  display: none;
+}
+
+.unit-avatar:not(.can-update) > .input {
+  display: none;
 }
 </style>
