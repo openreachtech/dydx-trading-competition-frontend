@@ -72,64 +72,66 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="unit-avatar"
-    :class="{
-      loading: context.isUploadingImage,
-    }"
-  >
-    <img
-      class="image"
-      :src="context.generateAvatarImageUrl()"
-      :alt="context.alt"
-      :class="{
-        hidden: !context.containsImage(),
-      }"
-    >
-
-    <Icon
-      name="heroicons:user-solid"
-      class="icon fallback"
-      :class="{
-        hidden: context.containsImage(),
-      }"
-    />
-
-    <input
-      :ref="context.inputElementShallowRef"
-      class="input"
-      type="file"
-      accept="image/*"
-      @change="context.onInputChange({
-        changeEvent: $event,
-      })"
-    >
-
-    <!-- Hidden input to use when submitting form. -->
-    <input
-      type="hidden"
-      :name="context.inputName"
-    >
-
-    <button
-      class="button"
-      :disabled="context.isUploadingImage"
-      @click="context.selectFile()"
-    >
-      <Icon
-        name="heroicons:photo-solid"
-        size="2rem"
-      />
-    </button>
-
+  <div class="unit-avatar-container">
     <div
-      class="loader"
-      aria-hidden="true"
+      class="unit-avatar"
+      :class="{
+        loading: context.isUploadingImage,
+      }"
     >
+      <img
+        class="image"
+        :src="context.generateAvatarImageUrl()"
+        :alt="context.alt"
+        :class="{
+          hidden: !context.containsImage(),
+        }"
+      >
+
       <Icon
-        name="svg-spinners:3-dots-move"
-        class="icon"
+        name="heroicons:user-solid"
+        class="icon fallback"
+        :class="{
+          hidden: context.containsImage(),
+        }"
       />
+
+      <input
+        :ref="context.inputElementShallowRef"
+        class="input"
+        type="file"
+        accept="image/*"
+        @change="context.onInputChange({
+          changeEvent: $event,
+        })"
+      >
+
+      <!-- Hidden input to use when submitting form. -->
+      <input
+        type="hidden"
+        :name="context.inputName"
+      >
+
+      <button
+        class="button"
+        :disabled="context.isUploadingImage"
+        @click="context.selectFile()"
+      >
+        <Icon
+          name="heroicons:photo-solid"
+          size="2rem"
+        />
+      </button>
+
+      <div
+        class="loader"
+        aria-hidden="true"
+      >
+        <Icon
+          name="svg-spinners:3-dots-move"
+          class="icon"
+        />
+      </div>
     </div>
   </div>
 </template>
