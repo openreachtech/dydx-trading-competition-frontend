@@ -136,7 +136,7 @@ export default defineComponent({
         <Icon
           class="icon"
           size="1.25rem"
-          name="heroicons:wallet"
+          name="heroicons:chart-bar-square"
         />
 
         <span>Minimum Trading Volume</span>
