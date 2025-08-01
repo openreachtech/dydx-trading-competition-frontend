@@ -538,6 +538,10 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {void}
    */
   emitConnectXAccount () {
+    if (!this.isOwnProfile()) {
+      return
+    }
+
     this.emit(
       this.EMIT_EVENT_NAME.CONNECT_X_ACCOUNT
     )
@@ -549,6 +553,10 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {void}
    */
   emitDisconnectXAccount () {
+    if (!this.isOwnProfile()) {
+      return
+    }
+
     this.emit(
       this.EMIT_EVENT_NAME.DISCONNECT_X_ACCOUNT
     )
