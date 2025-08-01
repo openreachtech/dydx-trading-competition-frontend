@@ -72,80 +72,85 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="unit-avatar"
-    :class="{
-      loading: context.isUploadingImage,
-    }"
-  >
-    <img
-      class="image"
-      :src="context.generateAvatarImageUrl()"
-      :alt="context.alt"
-      :class="{
-        hidden: !context.containsImage(),
-      }"
-    >
-
-    <Icon
-      name="heroicons:user-solid"
-      class="icon fallback"
-      :class="{
-        hidden: context.containsImage(),
-      }"
-    />
-
-    <input
-      :ref="context.inputElementShallowRef"
-      class="input"
-      type="file"
-      accept="image/*"
-      @change="context.onInputChange({
-        changeEvent: $event,
-      })"
-    >
-
-    <!-- Hidden input to use when submitting form. -->
-    <input
-      type="hidden"
-      :name="context.inputName"
-    >
-
-    <button
-      class="button"
-      :disabled="context.isUploadingImage"
-      @click="context.selectFile()"
-    >
-      <Icon
-        name="heroicons:photo-solid"
-        size="2rem"
-      />
-    </button>
-
+  <div class="unit-avatar-container">
     <div
-      class="loader"
-      aria-hidden="true"
+      class="unit-avatar"
+      :class="{
+        loading: context.isUploadingImage,
+      }"
     >
+      <img
+        class="image"
+        :src="context.generateAvatarImageUrl()"
+        :alt="context.alt"
+        :class="{
+          hidden: !context.containsImage(),
+        }"
+      >
+
       <Icon
-        name="svg-spinners:3-dots-move"
-        class="icon"
+        name="heroicons:user-solid"
+        class="icon fallback"
+        :class="{
+          hidden: context.containsImage(),
+        }"
       />
+
+      <input
+        :ref="context.inputElementShallowRef"
+        class="input"
+        type="file"
+        accept="image/*"
+        @change="context.onInputChange({
+          changeEvent: $event,
+        })"
+      >
+
+      <!-- Hidden input to use when submitting form. -->
+      <input
+        type="hidden"
+        :name="context.inputName"
+      >
+
+      <button
+        class="button"
+        :disabled="context.isUploadingImage"
+        @click="context.selectFile()"
+      >
+        <Icon
+          name="heroicons:photo-solid"
+          size="2rem"
+        />
+      </button>
+
+      <div
+        class="loader"
+        aria-hidden="true"
+      >
+        <Icon
+          name="svg-spinners:3-dots-move"
+          class="icon"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.unit-avatar {
+.unit-avatar-container {
   --size-avatar: 6rem;
+  --size-avatar-content: calc(var(--size-avatar) - (var(--size-avatar-border) * 2));
   --size-icon-fallback: 3.75rem;
   --size-icon-loader: 1.5rem;
+  --size-avatar-border: 0.1rem;
 
   --color-background-backdrop: rgba(0, 0, 0, 0.4);
   --color-background-avatar: var(--palette-layer-4);
   --color-border-avatar: var(--palette-layer-4);
 
   display: grid;
-  grid-template-areas: 'stack';
+  justify-content: center;
+  align-items: center;
 
   width: var(--size-avatar);
   height: var(--size-avatar);
@@ -155,13 +160,27 @@ export default defineComponent({
   mask: url('~/assets/img/masks/hexagon-mask.svg') center / contain no-repeat;
 }
 
+.unit-avatar {
+  display: grid;
+  grid-template-areas: 'stack';
+
+  width: var(--size-avatar-content);
+  height: var(--size-avatar-content);
+
+  background-color: var(--color-background-avatar);
+
+  mask: inherit;
+}
+
 .unit-avatar > * {
   grid-area: stack;
 }
 
 .unit-avatar > .image {
-  width: var(--size-avatar);
-  height: var(--size-avatar);
+  width: var(--size-avatar-content);
+  height: var(--size-avatar-content);
+
+  object-fit: cover;
 }
 
 .unit-avatar > .image.hidden {
