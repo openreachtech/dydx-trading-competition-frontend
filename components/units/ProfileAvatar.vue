@@ -139,6 +139,7 @@ export default defineComponent({
 <style scoped>
 .unit-avatar-container {
   --size-avatar: 6rem;
+  --size-avatar-content: calc(var(--size-avatar) - (var(--size-avatar-border) * 2));
   --size-icon-fallback: 3.75rem;
   --size-icon-loader: 1.5rem;
   --size-avatar-border: 0.1rem;
@@ -163,12 +164,8 @@ export default defineComponent({
   display: grid;
   grid-template-areas: 'stack';
 
-  width: calc(
-    var(--size-avatar) - (var(--size-avatar-border) * 2)
-  );
-  height: calc(
-    var(--size-avatar) - (var(--size-avatar-border) * 2)
-  );
+  width: var(--size-avatar-content);
+  height: var(--size-avatar-content);
 
   background-color: var(--color-background-avatar);
 
@@ -180,8 +177,8 @@ export default defineComponent({
 }
 
 .unit-avatar > .image {
-  width: var(--size-avatar);
-  height: var(--size-avatar);
+  width: var(--size-avatar-content);
+  height: var(--size-avatar-content);
 
   object-fit: cover;
 }
