@@ -101,6 +101,15 @@ export default class ProfileAvatarContext extends BaseFuroContext {
   }
 
   /**
+   * get: canUpdateImage
+   *
+   * @returns {PropsType['canUpdateImage']}
+   */
+  get canUpdateImage () {
+    return this.props.canUpdateImage
+  }
+
+  /**
    * Setup component.
    *
    * @template {X extends ProfileAvatarContext ? X : never} T, X
@@ -128,6 +137,10 @@ export default class ProfileAvatarContext extends BaseFuroContext {
   onInputChange ({
     changeEvent,
   }) {
+    if (!this.canUpdateImage) {
+      return
+    }
+
     if (!(changeEvent.target instanceof HTMLInputElement)) {
       return
     }
@@ -225,6 +238,7 @@ export default class ProfileAvatarContext extends BaseFuroContext {
  *   alt: string
  *   isUploadingImage: boolean
  *   defaultImageUrl: string | null
+ *   canUpdateImage: boolean
  * }} PropsType
  */
 
