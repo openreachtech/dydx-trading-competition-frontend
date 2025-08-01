@@ -164,6 +164,8 @@ export default defineComponent({
 .unit-avatar > .image {
   width: var(--size-avatar);
   height: var(--size-avatar);
+
+  object-fit: cover;
 }
 
 .unit-avatar > .image.hidden {
