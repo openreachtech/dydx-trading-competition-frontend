@@ -208,9 +208,15 @@ export default defineComponent({
                 class="icon"
                 aria-hidden="true"
               >
-              <span class="username">
+              <NuxtLink
+                :to="context.generateXProfileUrl()"
+                external
+                target="_blank"
+                rel="noopener noreferrer"
+                class="username"
+              >
                 {{ context.xAccountUserName }}
-              </span>
+              </NuxtLink>
             </div>
             <AppButton
               variant="neutral"
@@ -430,10 +436,16 @@ export default defineComponent({
   padding-inline: 0.5rem;
 }
 
-.unit-oauth.x > .account > .details {
+.unit-oauth.x > .account > .details > .username {
   font-weight: 500;
 
   color: var(--color-text-x-username);
+
+  text-underline-offset: 0.1em;
+}
+
+.unit-oauth.x > .account > .details > .username[href]:hover {
+  text-decoration: underline;
 }
 
 .unit-oauth.x > .account > .button.disconnect {
