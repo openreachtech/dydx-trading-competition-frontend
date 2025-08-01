@@ -25,6 +25,7 @@ export default class UpdateCompetitionLimitsMutationGraphqlPayload extends BaseA
  *     participantUpperLimit: number
  *     participantLowerLimit: number
  *     minimumDeposit: string
+ *     minimumTradingVolume: string
  *     signature: {
  *       signDoc: string
  *       signature: string

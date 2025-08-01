@@ -74,7 +74,14 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
         field: 'minimumDeposit',
         /** @type {furo.ValidationRule} */
         ok: (it, valueHash) => it,
+        // TODO: Reword 'competition' to 'arena'.
         message: 'Competition must have a minimum entry balance',
+      },
+      {
+        field: 'minimumTradingVolume',
+        /** @type {furo.ValidationRule} */
+        ok: (it, valueHash) => it,
+        message: 'Arena must have a minimum trading volume',
       },
 
       // Step 4: Rank & Prize
