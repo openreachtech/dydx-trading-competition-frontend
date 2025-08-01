@@ -434,6 +434,19 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * Generate profile URL for X account.
+   *
+   * @returns {string}
+   */
+  generateXProfileUrl () {
+    if (!this.xAccountUserName) {
+      return ''
+    }
+
+    return `https://x.com/${this.xAccountUserName}`
+  }
+
+  /**
    * Show `profileRenameDialog`
    *
    * @returns {void}
