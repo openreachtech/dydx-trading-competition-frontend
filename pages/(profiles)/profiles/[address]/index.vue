@@ -35,6 +35,7 @@ import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/que
 import GenerateXaccountOauthUrlMutationGraphqlLauncher from '~/app/graphql/client/mutations/generateXaccountOauthUrl/GenerateXaccountOauthUrlMutationGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
 import PutAddressImageMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressImage/PutAddressImageMutationGraphqlLauncher'
+import RevokeXaccountOauthMutationGraphqlLauncher from '~/app/graphql/client/mutations/revokeXaccountOauth/RevokeXaccountOauthMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
 
@@ -45,6 +46,7 @@ import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPage
 import GenerateXaccountOauthUrlSubmitterContext from './GenerateXaccountOauthUrlSubmitterContext'
 import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
 import PutAddressImageSubmitterContext from './PutAddressImageSubmitterContext'
+import RevokeXaccountOauthSubmitterContext from './RevokeXaccountOauthSubmitterContext'
 
 export default defineComponent({
   components: {
@@ -76,6 +78,7 @@ export default defineComponent({
     const generateXaccountOauthUrlGraphqlClient = useGraphqlClient(GenerateXaccountOauthUrlMutationGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
     const putAddressImageGraphqlClient = useGraphqlClient(PutAddressImageMutationGraphqlLauncher)
+    const revokeXaccountOauthGraphqlClient = useGraphqlClient(RevokeXaccountOauthMutationGraphqlLauncher)
 
     const putAddressNameFormClerk = useAppFormClerk({
       FormElementClerk: PutAddressNameFormElementClerk,
@@ -103,6 +106,7 @@ export default defineComponent({
       isLoadingProfileTrades: true,
       isFetchingAddressProfile: false,
       isGeneratingXaccountOauthUrl: false,
+      isRevokingXaccountOauth: false,
       isUploadingAvatar: false,
     })
     const mutationStatusReactive = reactive({
@@ -175,6 +179,18 @@ export default defineComponent({
       },
     })
 
+    const revokeXaccountOauthSubmitterContext = RevokeXaccountOauthSubmitterContext.create({
+      route,
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        revokeXaccountOauth: revokeXaccountOauthGraphqlClient,
+      },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
+      },
+    })
+
     return {
       profileRenameDialogRef,
 
@@ -182,6 +198,7 @@ export default defineComponent({
       mutationContext,
       generateXaccountOauthUrlSubmitterContext,
       putAddressImageSubmitterContext,
+      revokeXaccountOauthSubmitterContext,
     }
   },
 })
@@ -205,6 +222,7 @@ export default defineComponent({
         dialogElement: profileRenameDialogRef,
       })"
       @connect-x-account="generateXaccountOauthUrlSubmitterContext.generateXaccountOauthUrlOnEvent()"
+      @disconnect-x-account="revokeXaccountOauthSubmitterContext.revokeXaccountOauthOnEvent()"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
