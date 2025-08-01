@@ -32,6 +32,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     route,
     router,
     graphqlClientHash,
+    fetcherHash,
     profileOverviewRef,
     profileOrdersRef,
     profileTradesRef,
@@ -46,6 +47,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     this.route = route
     this.router = router
     this.graphqlClientHash = graphqlClientHash
+    this.fetcherHash = fetcherHash
     this.profileOverviewRef = profileOverviewRef
     this.profileOrdersRef = profileOrdersRef
     this.profileTradesRef = profileTradesRef
@@ -68,6 +70,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     route,
     router,
     graphqlClientHash,
+    fetcherHash,
     profileOverviewRef,
     profileOrdersRef,
     profileTradesRef,
@@ -81,6 +84,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
         route,
         router,
         graphqlClientHash,
+        fetcherHash,
         profileOverviewRef,
         profileOrdersRef,
         profileTradesRef,
@@ -107,10 +111,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
       {
         tabKey: 'transfers',
         label: 'Transfer History',
-      },
-      {
-        tabKey: 'past-competitions',
-        label: 'Arena History',
       },
       {
         tabKey: 'orders',
@@ -141,6 +141,27 @@ export default class ProfileDetailsContext extends BaseAppContext {
     }
 
     return activeTabKey
+  }
+
+  /**
+   * Extract `address` from route.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const addressFromRoute = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    if (!addressFromRoute) {
+      return null
+    }
+
+    return addressFromRoute
   }
 
   /**
@@ -182,6 +203,15 @@ export default class ProfileDetailsContext extends BaseAppContext {
    */
   get isLoadingProfileTrades () {
     return this.statusReactive.isLoadingProfileTrades
+  }
+
+  /**
+   * get: isUploadingAvatar
+   *
+   * @returns {boolean}
+   */
+  get isUploadingAvatar () {
+    return this.statusReactive.isUploadingAvatar
   }
 
   /**
@@ -227,6 +257,21 @@ export default class ProfileDetailsContext extends BaseAppContext {
         },
       })
 
+    onMounted(async () => {
+      const address = this.extractAddressFromRoute()
+      if (address === null) {
+        return
+      }
+
+      await this.fetcherHash
+        .addressProfile
+        .fetchAddressProfileOnEvent({
+          valueHash: {
+            address,
+          },
+        })
+    })
+
     this.watch(
       () => this.route.params.address,
       async newLocalAddress => {
@@ -269,6 +314,18 @@ export default class ProfileDetailsContext extends BaseAppContext {
     )
 
     return this
+  }
+
+  /**
+   * Extract `addressProfile` response content as value hash.
+   *
+   * @returns {import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').AddressProfile | null}
+   */
+  extractAddressProfileValueHash () {
+    return this.fetcherHash
+      .addressProfile
+      .addressProfileCapsule
+      .extractAddressProfileValueHash()
   }
 
   /**
@@ -599,16 +656,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
-   * Normalize address name.
-   *
-   * @returns {string}
-   */
-  normalizeAddressName () {
-    return this.addressName
-      ?? '----'
-  }
-
-  /**
    * get: addressName
    *
    * @returns {string | null}
@@ -707,6 +754,15 @@ export default class ProfileDetailsContext extends BaseAppContext {
       },
     ]
   }
+
+  /**
+   * Check if the user is currently participating in an arena.
+   *
+   * @returns {boolean}
+   */
+  isParticipatingInArena () {
+    return this.currentCompetitionId !== null
+  }
 }
 
 /**
@@ -714,6 +770,9 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   router: ReturnType<import('vue-router').useRouter>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
+ *   fetcherHash: {
+ *     addressProfile: import('~/pages/(profiles)/profiles/[address]/AddressProfileFetcher').default
+ *   }
  *   profileOverviewRef: import('vue').Ref<ProfileOverview | null>
  *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
  *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
@@ -744,6 +803,10 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   isLoadingProfileOverview: boolean
  *   isLoadingProfileOrders: boolean
  *   isLoadingProfileTrades: boolean
+ *   isFetchingAddressProfile: boolean
+ *   isGeneratingXaccountOauthUrl: boolean
+ *   isRevokingXaccountOauth: boolean
+ *   isUploadingAvatar: boolean
  * }} StatusReactive
  */
 

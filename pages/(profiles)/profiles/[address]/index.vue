@@ -24,17 +24,29 @@ import {
   useGraphqlClient,
 } from '@openreachtech/furo-nuxt'
 
+import useToastStore from '~/stores/toast'
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
+import AddressProfileQueryGraphqlLauncher from '~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
+
+import GenerateXaccountOauthUrlMutationGraphqlLauncher from '~/app/graphql/client/mutations/generateXaccountOauthUrl/GenerateXaccountOauthUrlMutationGraphqlLauncher'
 import PutAddressNameMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressName/PutAddressNameMutationGraphqlLauncher'
+import PutAddressImageMutationGraphqlLauncher from '~/app/graphql/client/mutations/putAddressImage/PutAddressImageMutationGraphqlLauncher'
+import RevokeXaccountOauthMutationGraphqlLauncher from '~/app/graphql/client/mutations/revokeXaccountOauth/RevokeXaccountOauthMutationGraphqlLauncher'
 
 import PutAddressNameFormElementClerk from '~/app/domClerk/PutAddressNameFormElementClerk'
 
+import AddressProfileFetcher from './AddressProfileFetcher'
+
 import ProfileDetailsContext from '~/app/vue/contexts/profile/ProfileDetailsPageContext'
+
+import GenerateXaccountOauthUrlSubmitterContext from './GenerateXaccountOauthUrlSubmitterContext'
 import ProfileDetailsPageMutationContext from './ProfileDetailsPageMutationContext'
+import PutAddressImageSubmitterContext from './PutAddressImageSubmitterContext'
+import RevokeXaccountOauthSubmitterContext from './RevokeXaccountOauthSubmitterContext'
 
 export default defineComponent({
   components: {
@@ -56,10 +68,18 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
+    const toastStore = useToastStore()
+
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
+    const addressProfileGraphqlClient = useGraphqlClient(AddressProfileQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
+
+    const generateXaccountOauthUrlGraphqlClient = useGraphqlClient(GenerateXaccountOauthUrlMutationGraphqlLauncher)
     const putAddressNameGraphqlClient = useGraphqlClient(PutAddressNameMutationGraphqlLauncher)
+    const putAddressImageGraphqlClient = useGraphqlClient(PutAddressImageMutationGraphqlLauncher)
+    const revokeXaccountOauthGraphqlClient = useGraphqlClient(RevokeXaccountOauthMutationGraphqlLauncher)
+
     const putAddressNameFormClerk = useAppFormClerk({
       FormElementClerk: PutAddressNameFormElementClerk,
       invokeRequestWithFormValueHash: putAddressNameGraphqlClient.invokeRequestWithFormValueHash,
@@ -84,9 +104,20 @@ export default defineComponent({
       isLoadingProfileOverview: true,
       isLoadingProfileOrders: true,
       isLoadingProfileTrades: true,
+      isFetchingAddressProfile: false,
+      isGeneratingXaccountOauthUrl: false,
+      isRevokingXaccountOauth: false,
+      isUploadingAvatar: false,
     })
     const mutationStatusReactive = reactive({
       isRenaming: false,
+    })
+
+    const addressProfileFetcher = AddressProfileFetcher.create({
+      statusReactive,
+      graphqlClientHash: {
+        addressProfile: addressProfileGraphqlClient,
+      },
     })
 
     const args = {
@@ -98,6 +129,9 @@ export default defineComponent({
         addressCurrentCompetition: addressCurrentCompetitionGraphqlClient,
         addressName: addressNameGraphqlClient,
         competitionParticipant: competitionParticipantGraphqlClient,
+      },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
       },
       profileOverviewRef,
       profileOrdersRef,
@@ -129,11 +163,42 @@ export default defineComponent({
     const mutationContext = ProfileDetailsPageMutationContext.create(mutationArgs)
       .setupComponent()
 
+    const generateXaccountOauthUrlSubmitterContext = GenerateXaccountOauthUrlSubmitterContext.create({
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        generateXaccountOauthUrl: generateXaccountOauthUrlGraphqlClient,
+      },
+    })
+
+    const putAddressImageSubmitterContext = PutAddressImageSubmitterContext.create({
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        putAddressImage: putAddressImageGraphqlClient,
+      },
+    })
+
+    const revokeXaccountOauthSubmitterContext = RevokeXaccountOauthSubmitterContext.create({
+      route,
+      toastStore,
+      statusReactive,
+      graphqlClientHash: {
+        revokeXaccountOauth: revokeXaccountOauthGraphqlClient,
+      },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
+      },
+    })
+
     return {
       profileRenameDialogRef,
 
       context,
       mutationContext,
+      generateXaccountOauthUrlSubmitterContext,
+      putAddressImageSubmitterContext,
+      revokeXaccountOauthSubmitterContext,
     }
   },
 })
@@ -142,45 +207,69 @@ export default defineComponent({
 <template>
   <div class="unit-page">
     <SectionProfileOverview
+      :address-profile="context.extractAddressProfileValueHash()"
       :competition="context.currentCompetition"
       :competition-participant-status-id="context.competitionParticipantStatusId"
-      :address-name="context.normalizeAddressName()"
       :ranking="context.currentRanking"
       :is-renaming="mutationContext.isRenaming"
+      :user-interface-state="context.statusReactive"
+      @upload-image="putAddressImageSubmitterContext.putAddressImageOnEvent({
+        valueHash: {
+          file: $event.file,
+        },
+      })"
       @show-profile-rename-dialog="mutationContext.showDialog({
         dialogElement: profileRenameDialogRef,
       })"
+      @connect-x-account="generateXaccountOauthUrlSubmitterContext.generateXaccountOauthUrlOnEvent()"
+      @disconnect-x-account="revokeXaccountOauthSubmitterContext.revokeXaccountOauthOnEvent()"
     />
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <AppTabLayout
-      class="tabs"
-      :tabs="context.profileTabs"
-      :active-tab-key="context.extractActiveTabKeyFromRoute()"
-      @change-tab="context.changeTab({
-        fromTab: $event.fromTab,
-        toTab: $event.toTab,
-      })"
+    <section
+      class="section"
+      :class="{
+        hidden: !context.isParticipatingInArena(),
+      }"
     >
-      <template #contents>
-        <ProfileFinancialOverview :profile-overview="context.profileOverview" />
+      <h1 class="heading">
+        Current Arena
+      </h1>
 
-        <ProfileTransferHistory />
+      <AppTabLayout
+        :tabs="context.profileTabs"
+        :active-tab-key="context.extractActiveTabKeyFromRoute()"
+        @change-tab="context.changeTab({
+          fromTab: $event.fromTab,
+          toTab: $event.toTab,
+        })"
+      >
+        <template #contents>
+          <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
-        <ProfileLeagueHistory />
+          <ProfileTransferHistory />
 
-        <ProfileOrders
-          :profile-orders="context.profileOrders"
-          :is-loading="context.isLoadingProfileOrders"
-        />
+          <ProfileOrders
+            :profile-orders="context.profileOrders"
+            :is-loading="context.isLoadingProfileOrders"
+          />
 
-        <ProfileTrades
-          :profile-trades="context.profileTrades"
-          :is-loading="context.isLoadingProfileTrades"
-        />
-      </template>
-    </AppTabLayout>
+          <ProfileTrades
+            :profile-trades="context.profileTrades"
+            :is-loading="context.isLoadingProfileTrades"
+          />
+        </template>
+      </AppTabLayout>
+    </section>
+
+    <section class="section">
+      <h1 class="heading">
+        Arena History
+      </h1>
+
+      <ProfileLeagueHistory />
+    </section>
 
     <ProfileRenameDialog
       ref="profileRenameDialogRef"
@@ -195,6 +284,11 @@ export default defineComponent({
 </template>
 
 <style scoped>
+/* Reset base furo stylesheet. */
+section + section {
+  margin-block-start: 0;
+}
+
 .unit-page {
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -203,7 +297,7 @@ export default defineComponent({
   }
 }
 
-.unit-page > .tabs {
+.unit-page > .section {
   margin-inline: auto;
 
   padding-block: 2.5rem;
@@ -214,5 +308,16 @@ export default defineComponent({
   @media (30rem < width) {
     padding-inline: var(--size-body-padding-inline-desktop);
   }
+}
+
+.unit-page > .section.hidden {
+  display: none;
+}
+
+.unit-page > .section > .heading {
+  font-size: var(--font-size-extra);
+  font-weight: 700;
+
+  line-height: var(--size-line-height-extra);
 }
 </style>

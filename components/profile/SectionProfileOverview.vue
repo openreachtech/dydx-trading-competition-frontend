@@ -13,8 +13,10 @@ import {
 } from '#components'
 
 import AppBadge from '~/components/units/AppBadge.vue'
+import AppButton from '~/components/units/AppButton.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
+import ProfileAvatar from '~/components/units/ProfileAvatar.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -25,13 +27,23 @@ export default defineComponent({
     Icon,
     NuxtLink,
     AppBadge,
+    AppButton,
     CopyButton,
     LinkTooltipButton,
+    ProfileAvatar,
   },
 
   props: {
-    addressName: {
-      type: String,
+    addressProfile: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/profile/SectionProfileOverviewContext').PropsType['addressProfile']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
       required: true,
     },
     competition: {
@@ -57,6 +69,15 @@ export default defineComponent({
         null,
       ],
       required: true,
+    },
+    userInterfaceState: {
+      /** @type {import('vue').PropType<import('~/app/vue/contexts/profile/SectionProfileOverviewContext').PropsType['userInterfaceState']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
     },
   },
 
@@ -101,137 +122,194 @@ export default defineComponent({
           My Profile
         </span>
 
-        <span class="heading">
-          <Icon
-            name="heroicons:user"
-            class="icon"
-            size="2.25rem"
+        <div class="details">
+          <ProfileAvatar
+            :default-image-url="context.addressImageUrl"
+            :is-uploading-image="context.isUploadingAvatar"
+            :can-update-image="context.isOwnProfile()"
+            @upload-image="context.emitUploadImage({
+              file: $event.file,
+            })"
           />
 
-          <span>{{ context.addressName }}</span>
+          <div class="profile">
+            <div
+              class="unit-profile name"
+              :class="{
+                'own-profile': context.isOwnProfile(),
+              }"
+            >
+              <span>{{ context.addressName }}</span>
 
-          <button
-            class="button"
-            @click="context.showProfileRenameDialog()"
+              <button
+                class="button"
+                @click="context.showProfileRenameDialog()"
+              >
+                <Icon
+                  name="heroicons:pencil"
+                  size="1.5rem"
+                />
+              </button>
+            </div>
+
+            <div class="unit-profile address">
+              <span class="content">
+                <span class="first-half">
+                  {{ context.generateAddressFirstHalf() }}
+                </span><span>{{ context.generateAddressLastFive() }}</span>
+              </span>
+
+              <div class="actions">
+                <CopyButton
+                  :content-to-copy="context.address"
+                  icon-size="1.25rem"
+                />
+
+                <LinkTooltipButton
+                  :href="context.generateProfileAddressUrl()"
+                  aria-label="Go to address on Mintscan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon-size="1.25rem"
+                  tooltip-message="View on Mintscan"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="unit-oauth x"
+          :class="{
+            connected: context.hasConnectedXAccount(),
+            'own-profile': context.isOwnProfile(),
+          }"
+        >
+          <AppButton
+            variant="neutral"
+            class="button connect"
+            :is-loading="context.isGeneratingXaccountOauthUrl"
+            @click="context.emitConnectXAccount()"
           >
-            <Icon
-              name="heroicons:pencil"
-              size="1.5rem"
-            />
-          </button>
-        </span>
+            <img
+              src="~/assets/img/logos/x-logo.svg"
+              alt=""
+              class="icon"
+              aria-hidden="true"
+            >
+            <span>Connect X account</span>
+          </AppButton>
 
-        <div class="address">
-          <span class="content">
-            <span class="first-half">
-              {{ context.generateAddressFirstHalf() }}
-            </span><span>{{ context.generateAddressLastFive() }}</span>
-          </span>
-
-          <div class="actions">
-            <CopyButton
-              :content-to-copy="context.profileAddress"
-              icon-size="1.25rem"
-            />
-
-            <LinkTooltipButton
-              :href="context.generateProfileAddressUrl()"
-              aria-label="Go to address on Mintscan"
-              target="_blank"
-              rel="noopener noreferrer"
-              icon-size="1.25rem"
-              tooltip-message="View on Mintscan"
-            />
+          <div class="account">
+            <div class="details">
+              <img
+                src="~/assets/img/logos/x-logo.svg"
+                alt=""
+                class="icon"
+                aria-hidden="true"
+              >
+              <span class="username">
+                {{ context.xAccountUserName }}
+              </span>
+            </div>
+            <AppButton
+              variant="neutral"
+              class="button disconnect"
+              :is-loading="context.isRevokingXaccountOauth"
+              @click="context.emitDisconnectXAccount()"
+            >
+              Disconnect
+            </AppButton>
           </div>
         </div>
       </div>
 
       <div
-        class="meta"
+        class="unit-current-arena"
         :class="{
           hidden: !context.isParticipatingInArena(),
         }"
       >
-        <dl class="unit-description">
-          <div class="entry">
-            <dt class="term">
-              Arena Participating
-            </dt>
+        <div class="header">
+          <span class="heading">Participating</span>
+        </div>
 
-            <dd class="description participation">
-              <img
-                class="image"
-                :src="context.imageUrl"
-                :alt="context.generateCompetitionTitle()"
-              >
-
-              <span class="title">
-                <NuxtLink
-                  :to="context.generateCompetitionUrl()"
-                  class="link"
-                >
-                  {{ context.generateCompetitionTitle() }}
-                </NuxtLink>
-                <AppBadge
-                  severity="neutral"
-                  class="status"
-                  :class="{
-                    registered: context.isParticipantRegistered(),
-                    active: context.isParticipantActive(),
-                    'awaiting-deposit': context.isParticipantAwaitingDeposit(),
-                  }"
-                >
-                  <Icon
-                    :name="context.generateParticipantStatusBadgeIcon()"
-                    size="0.875rem"
-                  />
-                  <span>
-                    {{ context.generateParticipantStatusBadgeText() }}
-                  </span>
-                </AppBadge>
-              </span>
-            </dd>
-          </div>
-
-          <div class="entry">
-            <dt class="term">
-              Performance Baseline
-            </dt>
-
-            <dd class="description baseline">
-              {{ context.generatePerformanceBaseline() }}
-            </dd>
-          </div>
-
-          <div class="entry">
-            <dt class="term">
-              PnL & ROI
-            </dt>
-
-            <dd
-              class="description profit"
-              :class="context.generatePnlClasses()"
+        <div class="statistics">
+          <div class="participation">
+            <img
+              class="image"
+              :src="context.imageUrl"
+              :alt="context.generateCompetitionTitle()"
             >
-              {{ context.generatePnlRoi() }}
-            </dd>
+
+            <span class="title">
+              <NuxtLink
+                :to="context.generateCompetitionUrl()"
+                class="link"
+              >
+                {{ context.generateCompetitionTitle() }}
+              </NuxtLink>
+              <AppBadge
+                severity="neutral"
+                class="status"
+                :class="{
+                  registered: context.isParticipantRegistered(),
+                  active: context.isParticipantActive(),
+                  'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                }"
+              >
+                <Icon
+                  :name="context.generateParticipantStatusBadgeIcon()"
+                  size="0.875rem"
+                />
+                <span>
+                  {{ context.generateParticipantStatusBadgeText() }}
+                </span>
+              </AppBadge>
+            </span>
           </div>
 
-          <div class="entry">
-            <dt class="term">
-              Ranking
-            </dt>
+          <dl class="unit-descriptions arena">
+            <div class="entry">
+              <dt class="term">
+                PnL & ROI
+              </dt>
 
-            <dd class="description ranking">
-              <Icon
-                name="heroicons:trophy"
-                size="1.25rem"
-                class="icon"
-              />
+              <dd
+                class="description profit"
+                :class="context.generatePnlClasses()"
+              >
+                {{ context.generatePnlRoi() }}
+              </dd>
+            </div>
 
-              <span>{{ context.generateCurrentRank() }}</span>
-            </dd>
-          </div>
-        </dl>
+            <div class="entry">
+              <dt class="term">
+                Performance Baseline
+              </dt>
+
+              <dd class="description baseline">
+                {{ context.generatePerformanceBaseline() }}
+              </dd>
+            </div>
+
+            <div class="entry">
+              <dt class="term">
+                Ranking
+              </dt>
+
+              <dd class="description ranking">
+                <Icon
+                  name="heroicons:trophy"
+                  size="1.25rem"
+                  class="icon"
+                />
+
+                <span>{{ context.generateCurrentRank() }}</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </div>
   </section>
@@ -239,6 +317,8 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-text-x-username: var(--palette-purple-lighter);
+
   background-image: linear-gradient(
     180deg,
     rgba(24, 24, 37, 0.00) 0%,
@@ -271,9 +351,7 @@ export default defineComponent({
   @media (48rem < width) {
     padding-block: 2rem 5rem;
 
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1.5rem;
+    gap: 3rem;
   }
 
   @media (60rem < width) {
@@ -285,10 +363,6 @@ export default defineComponent({
   padding-block-end: 8rem;
 }
 
-.unit-section > .inner > .meta.hidden {
-  display: none;
-}
-
 .unit-basic {
   margin-block-start: 1rem;
 
@@ -296,8 +370,6 @@ export default defineComponent({
   flex-direction: column;
   align-items: start;
   gap: 1.25rem;
-
-  min-width: 0;
 }
 
 .unit-basic > .label {
@@ -314,8 +386,80 @@ export default defineComponent({
   display: inline;
 }
 
-.unit-basic > .heading {
-  display: inline-flex;
+.unit-basic > .details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.unit-basic > .details > .profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.unit-oauth.x > .button.connect {
+  padding-block: 0.38rem;
+  padding-inline: 0.56rem 0.75rem;
+}
+
+.unit-oauth.x > .button.connect > .icon,
+.unit-oauth.x > .account > .details > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.unit-oauth.x > .account {
+  display: flex;
+  gap: 0.5rem;
+
+  border-radius: 0.5rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  background-color: var(--color-background-button-muted);
+}
+
+.unit-oauth.x > .account > .details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.5rem;
+}
+
+.unit-oauth.x > .account > .details {
+  font-weight: 500;
+
+  color: var(--color-text-x-username);
+}
+
+.unit-oauth.x > .account > .button.disconnect {
+  padding-block: 0.38rem;
+  padding-inline: 0.56rem 0.75rem;
+}
+
+.unit-oauth.x.connected > .button.connect {
+  display: none;
+}
+
+.unit-oauth.x:not(.connected) > .account {
+  display: none;
+}
+
+.unit-oauth.x:not(.own-profile) > .button.connect {
+  display: none;
+}
+
+.unit-oauth.x:not(.own-profile) > .account > .button.disconnect {
+  display: none;
+}
+
+/* User profile's name and edit button. */
+.unit-profile.name {
+  display: flex;
   align-items: center;
   gap: 1rem;
 
@@ -324,11 +468,7 @@ export default defineComponent({
   line-height: var(--size-line-height-extra);
 }
 
-.unit-basic > .heading > .icon {
-  color: var(--color-text-tertiary);
-}
-
-.unit-basic > .heading > .button {
+.unit-profile.name > .button {
   border-radius: 100vh;
 
   padding-block: 0.25rem;
@@ -344,15 +484,16 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-basic > .heading > .button:hover {
+.unit-profile.name > .button:hover {
   color: var(--palette-purple-lighter);
 }
 
-.unit-basic:not(.own-profile) > .heading > .button {
+.unit-profile.name:not(.own-profile) > .button {
   display: none;
 }
 
-.unit-basic > .address {
+/* User profile's local wallet address. */
+.unit-profile.address {
   border-radius: 0.5rem;
   border-width: var(--size-thinnest);
   border-style: solid;
@@ -361,11 +502,9 @@ export default defineComponent({
   padding-block: 0.375rem;
   padding-inline: 1rem;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 1.5rem;
-
-  /** This is necessary for the text to shrink properly */
-  width: 100%;
 
   font-size: var(--font-size-medium);
   font-weight: 500;
@@ -374,7 +513,7 @@ export default defineComponent({
   background-color: var(--color-background-competition-meta);
 }
 
-.unit-basic > .address > .content {
+.unit-profile.address > .content {
   flex: 1;
 
   display: flex;
@@ -382,67 +521,79 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.unit-basic > .address > .content > .first-half {
+.unit-profile.address > .content > .first-half {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.unit-basic > .address > .actions {
+.unit-profile.address > .actions {
   display: flex;
   gap: 0.75rem;
 }
 
-.unit-description {
-  border-width: var(--size-thinnest);
+/* Current arena that the user is participating in. */
+.unit-current-arena {
+  --value-gradient-meta: 180deg, var(--palette-layer-1), var(--palette-layer-2);
+  --value-gradient-border-meta: 180deg, var(--palette-purple), transparent;
+
+  --box-shadow-meta: 0 -0.25rem 1.25rem 0 var(--palette-purple-faded);
+
+  box-shadow: var(--box-shadow-meta);
+
+  border-width: 0.1rem;
   border-style: solid;
-  border-color: var(--color-border-card);
+  border-color: transparent;
   border-radius: 0.875rem;
 
-  padding-block: 1.25rem 1.5rem;
-  padding-inline: 1.75rem;
+  padding-block: 0.75rem 2rem;
+  padding-inline: 1.25rem;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  background-color: var(--color-background-competition-meta);
-
-  width: 100%;
-
-  @media (48rem < width) {
-    width: 22rem;
-  }
+  background: linear-gradient(var(--value-gradient-meta)) padding-box,
+    linear-gradient(var(--value-gradient-border-meta)) border-box;
 }
 
-.unit-description > .entry {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.unit-current-arena.hidden {
+  display: none;
 }
 
-.unit-description > .entry > .term {
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  line-height: var(--size-line-height-medium);
+.unit-current-arena > .header > .heading {
+  font-weight: 500;
 
   color: var(--color-text-tertiary);
 }
 
-.unit-description > .entry > .description.participation {
+/* Statistics of current arena. */
+.unit-current-arena > .statistics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  margin-block-start: 1rem;
+
+  @media (48rem < width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (60rem < width) {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+.unit-current-arena > .statistics > .participation {
   display: flex;
   align-items: start;
   gap: 0.75rem;
 }
 
-.unit-description > .entry > .description.participation > .title {
+.unit-current-arena > .statistics > .participation > .title {
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap: 0.3rem;
+  gap: 0.5rem;
 }
 
-.unit-description > .entry > .description.participation > .title > .link {
+.unit-current-arena > .statistics > .participation > .title > .link {
   font-size: var(--font-size-base);
   font-weight: 700;
 
@@ -450,11 +601,11 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-description > .entry > .description.participation > .title > .link[href]:hover {
+.unit-current-arena > .statistics > .participation > .title > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-description > .entry > .description.participation > .title > .status {
+.unit-current-arena > .statistics > .participation > .title > .status {
   --color-text-badge: var(--color-text-secondary);
 
   border-radius: 0.25rem;
@@ -467,11 +618,11 @@ export default defineComponent({
   color: var(--color-text-badge);
 }
 
-.unit-description > .entry > .description.participation > .title > .status.awaiting-deposit {
+.unit-current-arena > .statistics > .participation > .title > .status.awaiting-deposit {
   --color-text-badge: var(--palette-yellow);
 }
 
-.unit-description > .entry > .description.participation > .image {
+.unit-current-arena > .statistics > .participation > .image {
   border-radius: 0.625rem;
 
   width: 3.5rem;
@@ -480,42 +631,50 @@ export default defineComponent({
   background-color: var(--color-background-card);
 }
 
-.unit-description > .entry > .description.participation > .image[src='/img/badges/league-badge-placeholder.png'] {
+.unit-current-arena > .statistics > .participation > .image[src='/img/badges/league-badge-placeholder.png'] {
   padding-block: 0.375rem;
   padding-inline: 0.375rem;
 
   object-fit: scale-down;
 }
 
-.unit-description > .entry > .description:where(.baseline, .profit) {
+/* Arena descriptions */
+.unit-descriptions.arena {
+  display: contents;
+}
+
+.unit-descriptions.arena > .entry > .term {
+  margin-block-end: 0.5rem;
+
+  font-weight: 500;
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-descriptions.arena > .entry > .description {
   font-size: var(--font-size-medium);
   font-weight: 700;
+
   line-height: var(--size-line-height-medium);
 
   color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.profit.increased {
+.unit-descriptions.arena > .entry > .description.profit.increased {
   color: var(--color-text-increased);
 }
 
-.unit-description > .entry > .description.profit.decreased {
+.unit-descriptions.arena > .entry > .description.profit.decreased {
   color: var(--color-text-decreased);
 }
 
-.unit-description > .entry > .description.ranking {
+.unit-descriptions.arena > .entry > .description.ranking {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  line-height: var(--size-line-height-medium);
-
-  color: var(--color-text-primary);
 }
 
-.unit-description > .entry > .description.ranking > .icon {
+.unit-descriptions.arena > .entry > .description.ranking > .icon {
   color: var(--color-text-tertiary);
 }
 </style>
