@@ -126,6 +126,7 @@ export default defineComponent({
           <ProfileAvatar
             :default-image-url="context.addressImageUrl"
             :is-uploading-image="context.isUploadingAvatar"
+            :can-update-image="context.isOwnProfile()"
             @upload-image="context.emitUploadImage({
               file: $event.file,
             })"
