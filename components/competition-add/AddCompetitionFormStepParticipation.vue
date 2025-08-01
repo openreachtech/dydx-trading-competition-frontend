@@ -130,6 +130,26 @@ export default defineComponent({
         Required balance in the DYDX wallet at the time of enrollment.
       </p>
     </div>
+
+    <div class="unit-partition">
+      <h3 class="heading">
+        <Icon
+          class="icon"
+          size="1.25rem"
+          name="heroicons:wallet"
+        />
+
+        <span>Minimum Trading Volume</span>
+      </h3>
+
+      <AppInput
+        name="minimumTradingVolume"
+        placeholder="e.g. 10"
+        :value="context.initialMinimumTradingVolume"
+        :has-error="Boolean(context.validationMessage.minimumTradingVolume)"
+        :error-message="context.validationMessage.minimumTradingVolume"
+      />
+    </div>
   </section>
 </template>
 
