@@ -411,12 +411,13 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address first half.
    */
   generateAddressFirstHalf () {
-    if (!this.address) {
+    const address = this.extractAddressFromRoute()
+
+    if (!address) {
       return '--'
     }
 
-    return this.address
-      .slice(0, -5)
+    return address.slice(0, -5)
   }
 
   /**
@@ -425,12 +426,13 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address last five.
    */
   generateAddressLastFive () {
-    if (!this.address) {
+    const address = this.extractAddressFromRoute()
+
+    if (!address) {
       return '--'
     }
 
-    return this.address
-      .slice(-5)
+    return address.slice(-5)
   }
 
   /**
@@ -543,6 +545,24 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    */
   hasConnectedXAccount () {
     return Boolean(this.xAccountUserName)
+  }
+
+  /**
+   * Extract `address` from website's URL.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const addressFromRoute = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    return addressFromRoute
+      ?? null
   }
 
   /**
