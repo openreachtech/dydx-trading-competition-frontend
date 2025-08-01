@@ -448,6 +448,10 @@ export default defineComponent({
   display: none;
 }
 
+.unit-oauth.x:not(.own-profile) > .button.connect {
+  display: none;
+}
+
 .unit-oauth.x:not(.own-profile) > .account > .button.disconnect {
   display: none;
 }
