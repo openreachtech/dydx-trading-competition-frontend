@@ -181,6 +181,7 @@ export default defineComponent({
           class="unit-oauth x"
           :class="{
             connected: context.hasConnectedXAccount(),
+            'own-profile': context.isOwnProfile(),
           }"
         >
           <AppButton
@@ -213,6 +214,8 @@ export default defineComponent({
             <AppButton
               variant="neutral"
               class="button disconnect"
+              :is-loading="context.isRevokingXaccountOauth"
+              @click="context.emitDisconnectXAccount()"
             >
               Disconnect
             </AppButton>
@@ -442,6 +445,14 @@ export default defineComponent({
 }
 
 .unit-oauth.x:not(.connected) > .account {
+  display: none;
+}
+
+.unit-oauth.x:not(.own-profile) > .button.connect {
+  display: none;
+}
+
+.unit-oauth.x:not(.own-profile) > .account > .button.disconnect {
   display: none;
 }
 
