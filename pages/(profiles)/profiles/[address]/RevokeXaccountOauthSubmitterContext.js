@@ -98,6 +98,8 @@ export default class RevokeXaccountOauthSubmitterContext {
             message: 'Unable to process request. Please try again later.',
             color: 'error',
           })
+
+          return
         }
 
         await this.onSuccessRevocation()
