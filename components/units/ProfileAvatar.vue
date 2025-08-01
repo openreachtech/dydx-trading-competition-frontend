@@ -137,17 +137,19 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.unit-avatar {
+.unit-avatar-container {
   --size-avatar: 6rem;
   --size-icon-fallback: 3.75rem;
   --size-icon-loader: 1.5rem;
+  --size-avatar-border: 0.1rem;
 
   --color-background-backdrop: rgba(0, 0, 0, 0.4);
   --color-background-avatar: var(--palette-layer-4);
   --color-border-avatar: var(--palette-layer-4);
 
   display: grid;
-  grid-template-areas: 'stack';
+  justify-content: center;
+  align-items: center;
 
   width: var(--size-avatar);
   height: var(--size-avatar);
@@ -155,6 +157,22 @@ export default defineComponent({
   background-color: var(--color-background-avatar);
 
   mask: url('~/assets/img/masks/hexagon-mask.svg') center / contain no-repeat;
+}
+
+.unit-avatar {
+  display: grid;
+  grid-template-areas: 'stack';
+
+  width: calc(
+    var(--size-avatar) - (var(--size-avatar-border) * 2)
+  );
+  height: calc(
+    var(--size-avatar) - (var(--size-avatar-border) * 2)
+  );
+
+  background-color: var(--color-background-avatar);
+
+  mask: inherit;
 }
 
 .unit-avatar > * {
