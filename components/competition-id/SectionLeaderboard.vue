@@ -19,6 +19,7 @@ import AppButton from '~/components/units/AppButton.vue'
 import AppTable from '~/components/units/AppTable.vue'
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import AppPagination from '~/components/units/AppPagination.vue'
+import AppTooltip from '~/components/units/AppTooltip.vue'
 import TopRankingCard from '~/components/competition-id/TopRankingCard.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 
@@ -32,11 +33,24 @@ export default defineComponent({
     AppTable,
     AppTabLayout,
     AppPagination,
+    AppTooltip,
     TopRankingCard,
     LinkTooltipButton,
   },
 
   props: {
+    competition: {
+      /**
+       * @type {import('vue').PropType<
+       *   import('~/app/vue/contexts/competition/SectionLeaderboardContext').PropsType['competition']
+       * >}
+       */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
     competitionStatusId: {
       type: [
         Number,
@@ -211,23 +225,26 @@ export default defineComponent({
               :entries="context.leaderboardTableEntries"
               :is-loading="context.isLoadingLeaderboard"
               class="table"
+              min-width="50rem"
             >
               <!-- ** Competition participants list ** -->
               <template #body-participantName="{ value, row }">
-                <NuxtLink
-                  class="unit-name participant"
-                  :class="{
-                    you: context.isMyRanking({
+                <span class="unit-name participant">
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.participantAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
                       address: row.participantAddress,
-                    }),
-                  }"
-                  :to="context.generateProfileUrl({
-                    address: row.participantAddress,
-                  })"
-                >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+                </span>
               </template>
 
               <template #body-participantAddress="{ value }">
@@ -274,20 +291,55 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingName="{ value, row }">
-                <NuxtLink
+                <span
                   class="unit-name ongoing"
                   :class="{
-                    you: context.isMyRanking({
-                      address: row.ongoingAddress,
+                    eligible: context.hasMetMinimumTradingVolume({
+                      totalVolume: row.ongoingTotalVolume,
                     }),
                   }"
-                  :to="context.generateProfileUrl({
-                    address: row.ongoingAddress,
-                  })"
                 >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.ongoingAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
+                      address: row.ongoingAddress,
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+
+                  <AppTooltip
+                    message="Eligible for prize"
+                    class="tooltip eligible"
+                  >
+                    <template #contents>
+                      <Icon
+                        class="unit-icon eligible"
+                        name="heroicons:check-badge"
+                        size="1rem"
+                      />
+                    </template>
+                  </AppTooltip>
+
+                  <AppTooltip
+                    :message="context.generateIneligibleMessage()"
+                    class="tooltip ineligible"
+                  >
+                    <template #contents>
+                      <Icon
+                        class="unit-icon ineligible"
+                        name="heroicons:information-circle"
+                        size="1rem"
+                      />
+                    </template>
+                  </AppTooltip>
+                </span>
               </template>
 
               <template #body-ongoingAddress="{ value }">
@@ -351,6 +403,20 @@ export default defineComponent({
                 </span>
               </template>
 
+              <template
+                #body-ongoingTotalVolume="{
+                  value,
+                }"
+              >
+                <span>
+                  {{
+                    context.formatNumber({
+                      value,
+                    })
+                  }}
+                </span>
+              </template>
+
               <!-- ** Leaderboard final outcome ** -->
               <template #body-outcomeRank="{ value }">
                 <span class="unit-rank outcome">
@@ -359,20 +425,22 @@ export default defineComponent({
               </template>
 
               <template #body-outcomeName="{ value, row }">
-                <NuxtLink
-                  class="unit-name outcome"
-                  :class="{
-                    you: context.isMyRanking({
+                <span class="unit-name outcome">
+                  <NuxtLink
+                    class="link"
+                    :class="{
+                      you: context.isMyRanking({
+                        address: row.outcomeAddress,
+                      }),
+                    }"
+                    :to="context.generateProfileUrl({
                       address: row.outcomeAddress,
-                    }),
-                  }"
-                  :to="context.generateProfileUrl({
-                    address: row.outcomeAddress,
-                  })"
-                >
-                  <span>{{ value }}</span>
-                  <span class="note"> (You)</span>
-                </NuxtLink>
+                    })"
+                  >
+                    <span>{{ value }}</span>
+                    <span class="note"> (You)</span>
+                  </NuxtLink>
+                </span>
               </template>
 
               <template #body-outcomeAddress="{ value }">
@@ -605,6 +673,9 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-text-eligible: var(--palette-green-darker);
+  --color-text-ineligible: var(--color-text-tertiary);
+
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -853,7 +924,13 @@ export default defineComponent({
   color: var(--color-text-secondary);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome) {
+.unit-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.unit-name:where(.participant, .ongoing, .outcome) > .link {
   font-weight: 500;
 
   color: var(--color-text-secondary);
@@ -861,15 +938,31 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome)[href]:hover {
+.unit-name:where(.participant, .ongoing, .outcome) > .link[href]:hover {
   color: var(--color-text-highlight-purple);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome) > .note {
+.unit-name:where(.participant, .ongoing, .outcome) > .link > .note {
   color: var(--color-text-tertiary);
 }
 
-.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .note {
+.unit-name:where(.participant, .ongoing, .outcome):not(.you) > .link > .note {
+  display: none;
+}
+
+.unit-icon.eligible {
+  color: var(--color-text-eligible);
+}
+
+.unit-icon.ineligible {
+  color: var(--color-text-ineligible);
+}
+
+.unit-name:not(.eligible) > .tooltip.eligible {
+  display: none;
+}
+
+.unit-name.eligible > .tooltip.ineligible {
   display: none;
 }
 
@@ -1010,6 +1103,18 @@ export default defineComponent({
     color: var(--color-text-tab-active);
 
     pointer-events: none;
+  }
+}
+
+@layer app {
+  .unit-name > .tooltip.eligible > .message {
+    white-space: nowrap;
+  }
+
+  .unit-name > .tooltip.ineligible > .message {
+    /* NOTE: This is a magic value as I'm not sure how to handle this better. */
+    /* If you could come up with alternative, please fix it. */
+    width: 11rem;
   }
 }
 </style>

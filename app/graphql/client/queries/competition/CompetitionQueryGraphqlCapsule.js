@@ -65,6 +65,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   }
 
   /**
+   * get: minimumTradingVolume
+   *
+   * @returns {string | null}
+   */
+  get minimumTradingVolume () {
+    return this.extractCompetition()
+      ?.minimumTradingVolume
+      ?? null
+  }
+
+  /**
    * get: schedules
    *
    * @returns {CompetitionEntity['schedules']} Schedules as an array.
@@ -183,6 +194,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   host: Host
  *   totalPrize: number
  *   minimumDeposit: string
+ *   minimumTradingVolume: string
  *   imageUrl?: string
  *   schedules: Array<Schedule>
  *   status: Status

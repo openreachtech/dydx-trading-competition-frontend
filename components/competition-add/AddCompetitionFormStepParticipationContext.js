@@ -56,6 +56,17 @@ export default class AddCompetitionFormStepParticipationContext extends BaseAppC
       ?.minimumDeposit
       ?? null
   }
+
+  /**
+   * get: initialMinimumTradingVolume
+   *
+   * @returns {string | null}
+   */
+  get initialMinimumTradingVolume () {
+    return this.initialFormValueHash
+      ?.minimumTradingVolume
+      ?? null
+  }
 }
 
 /**
@@ -70,5 +81,6 @@ export default class AddCompetitionFormStepParticipationContext extends BaseAppC
  *   participantLowerLimit: number | null
  *   participantUpperLimit: number | null
  *   minimumDeposit: string | null
+ *   minimumTradingVolume: string | null
  * }} InitialFormValueHash
  */

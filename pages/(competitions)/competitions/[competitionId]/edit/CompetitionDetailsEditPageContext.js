@@ -151,6 +151,7 @@ export default class CompetitionDetailsEditPageContext extends BaseAppContext {
       participantLowerLimit: this.competitionDetailsEditCapsule.participantLowerLimit,
       participantUpperLimit: this.competitionDetailsEditCapsule.participantUpperLimit,
       minimumDeposit: this.competitionDetailsEditCapsule.minimumDeposit,
+      minimumTradingVolume: this.competitionDetailsEditCapsule.minimumTradingVolume,
     }
   }
 

@@ -77,6 +77,15 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * get: competition
+   *
+   * @returns {PropsType['competition']}
+   */
+  get competition () {
+    return this.props.competition
+  }
+
+  /**
    * get: competitionStatusId
    *
    * @returns {number | null}
@@ -182,6 +191,17 @@ export default class SectionLeaderboardContext extends BaseAppContext {
    */
   get outcomeCsvUrl () {
     return this.props.outcomeCsvUrl
+  }
+
+  /**
+   * get: minimumTradingVolume
+   *
+   * @returns {string | null}
+   */
+  get minimumTradingVolume () {
+    return this.competition
+      ?.minimumTradingVolume
+      ?? null
   }
 
   /**
@@ -607,6 +627,50 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
+   * Check if a participant is eligible for prize.
+   *
+   * @param {{
+   *   totalVolume: number
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  hasMetMinimumTradingVolume ({
+    totalVolume,
+  }) {
+    if (this.minimumTradingVolume === null) {
+      return false
+    }
+
+    const parsedMinimumTradingVolume = parseFloat(this.minimumTradingVolume)
+
+    return totalVolume >= parsedMinimumTradingVolume
+  }
+
+  /**
+   * Format minimum trading volume.
+   *
+   * @returns {string}
+   */
+  formatMinimumTradingVolume () {
+    if (this.minimumTradingVolume === null) {
+      return '--'
+    }
+
+    return this.formatNumber({
+      value: this.minimumTradingVolume,
+    })
+  }
+
+  /**
+   * Generate ineligible message for tooltip.
+   *
+   * @returns {string}
+   */
+  generateIneligibleMessage () {
+    return `${this.formatMinimumTradingVolume()} USDC minimum volume not met`
+  }
+
+  /**
    * Generate section heading CSS classes.
    *
    * @returns {Record<string, boolean>}
@@ -731,6 +795,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
  *   competitionStatusId: number | null
  *   isLoadingLeaderboard: boolean
  *   isLoadingMetricLeaderboard: boolean

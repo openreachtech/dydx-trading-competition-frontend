@@ -156,6 +156,44 @@ export default defineComponent({
           {{ context.normalizeTitle() }}
         </h2>
 
+        <div class="actions">
+          <AppButton
+            class="button enroll"
+            :disabled="context.shouldDisableEnrollButton()"
+            :variant="context.generateEnrollButtonVariant()"
+            :class="context.generateEnrollButtonClasses()"
+            @click="context.initiateActionDialog()"
+          >
+            <template #startIcon>
+              <Icon
+                name="heroicons:check-circle"
+                size="1.25rem"
+                class="icon enrolled"
+              />
+
+              <Icon
+                name="heroicons:user-minus"
+                size="1.25rem"
+                class="icon unregister"
+              />
+            </template>
+
+            <template #default>
+              <span class="content">
+                {{ context.generateEnrollButtonLabel() }}
+              </span>
+              <span class="action unregister">
+                Unregister
+              </span>
+            </template>
+          </AppButton>
+
+          <AppLeagueCountdown
+            class="note"
+            :schedules="context.schedules"
+          />
+        </div>
+
         <div class="unit-status">
           <AppIconBadge
             :severity="context.generateBadgeSeverity()"
@@ -236,47 +274,27 @@ export default defineComponent({
           </template>
         </AppButton>
 
-        <span class="balance">
-          <Icon
-            name="heroicons:wallet"
-            class="icon"
-            size="1.125rem"
-          />
+        <div class="meta">
+          <span class="balance">
+            <Icon
+              name="heroicons:wallet"
+              class="icon"
+              size="1.125rem"
+            />
 
-          {{ context.normalizeMinimumDeposit() }} <span class="note">(entry balance)</span>
-        </span>
+            <span>{{ context.normalizeMinimumDeposit() }}</span>
+            <span class="note">(entry balance)</span>
+          </span>
 
-        <div class="actions">
-          <AppButton
-            class="button enroll"
-            :disabled="context.shouldDisableEnrollButton()"
-            :variant="context.generateEnrollButtonVariant()"
-            :class="context.generateEnrollButtonClasses()"
-            @click="context.initiateActionDialog()"
-          >
-            <template #startIcon>
-              <Icon
-                name="heroicons:check-circle"
-                size="1.25rem"
-                class="icon enrolled"
-              />
-
-              <Icon
-                name="heroicons:user-minus"
-                size="1.25rem"
-                class="icon unregister"
-              />
-            </template>
-
-            <template #default>
-              <span class="content">
-                {{ context.generateEnrollButtonLabel() }}
-              </span>
-              <span class="action unregister">
-                Unregister
-              </span>
-            </template>
-          </AppButton>
+          <span class="trading-volume">
+            <Icon
+              class="icon"
+              name="heroicons:chart-bar-square"
+              size="1.125rem"
+            />
+            <span>{{ context.formatMinimumTradingVolume() }}</span>
+            <span class="note">(minimum trading volume)</span>
+          </span>
 
           <span class="unit-participants">
             <Icon
@@ -289,11 +307,6 @@ export default defineComponent({
             <span>already enrolled</span>
           </span>
         </div>
-
-        <AppLeagueCountdown
-          class="note"
-          :schedules="context.schedules"
-        />
       </div>
 
       <div class="unit-meta">
@@ -604,9 +617,15 @@ export default defineComponent({
   display: none;
 }
 
-.unit-details > .balance {
-  margin-block-start: 0.75rem;
+.unit-details > .meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 
+  margin-block-start: 0.75rem;
+}
+
+.unit-details > .meta > :where(.balance, .trading-volume) {
   display: inline-flex;
   align-items: center;
 
@@ -616,23 +635,23 @@ export default defineComponent({
   color: var(--color-text-tertiary)
 }
 
-.unit-details > .balance > .icon {
+.unit-details > .meta > :where(.balance, .trading-volume) > .icon {
   margin-inline-end: 0.5rem;
 }
 
-.unit-details > .balance > .note {
+.unit-details > .meta > :where(.balance, .trading-volume) > .note {
   margin-inline-start: 0.25rem;
 
   font-weight: 400;
 }
 
 .unit-details > .actions {
-  margin-block-start: 1.5rem;
-
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.75rem;
+  gap: 0.75rem;
+
+  margin-block-end: 1.5rem;
 }
 
 .unit-details > .actions > .button.enroll {

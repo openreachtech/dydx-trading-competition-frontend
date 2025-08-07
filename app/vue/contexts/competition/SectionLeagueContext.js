@@ -314,6 +314,17 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * get: minimumTradingVolume
+   *
+   * @returns {CompetitionEntity['minimumTradingVolume'] | null}
+   */
+  get minimumTradingVolume () {
+    return this.extractCompetition()
+      ?.minimumTradingVolume
+      ?? null
+  }
+
+  /**
    * get: totalPrize
    *
    * @returns {CompetitionEntity['totalPrize'] | null}
@@ -391,6 +402,19 @@ export default class SectionLeagueContext extends BaseAppContext {
     return this.extractCompetition()
       ?.schedules
       ?? []
+  }
+
+  /**
+   * Format minimum trading volume.
+   *
+   * @returns {string}
+   */
+  formatMinimumTradingVolume () {
+    const formattedMinimumTradingVolume = this.formatNumber({
+      value: this.minimumTradingVolume,
+    })
+
+    return `${formattedMinimumTradingVolume} USDC`
   }
 
   /**

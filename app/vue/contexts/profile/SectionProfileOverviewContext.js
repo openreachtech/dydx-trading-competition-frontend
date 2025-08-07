@@ -9,7 +9,7 @@ import {
 /**
  * SectionProfileOverviewContext
  *
- * @extends {BaseAppContext<null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
 export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
@@ -61,23 +61,70 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {
+      CONNECT_X_ACCOUNT: 'connectXAccount',
+      DISCONNECT_X_ACCOUNT: 'disconnectXAccount',
       SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
+      UPLOAD_IMAGE: 'uploadImage',
     }
+  }
+
+  /**
+   * get: addressProfile
+   *
+   * @returns {PropsType['addressProfile']}
+   */
+  get addressProfile () {
+    return this.props.addressProfile
+  }
+
+  /**
+   * get: address
+   *
+   * @returns {string | null}
+   */
+  get address () {
+    return this.addressProfile
+      ?.address
+      ?? '----'
   }
 
   /**
    * get: addressName
    *
-   * @returns {string} Address name.
+   * @returns {string | null}
    */
   get addressName () {
-    return this.props.addressName
+    return this.addressProfile
+      ?.name
+      ?? '----'
+  }
+
+  /**
+   * get: addressImageUrl
+   *
+   * @returns {string | null}
+   */
+  get addressImageUrl () {
+    return this.addressProfile
+      ?.addressImageUrl
+      ?? ''
+  }
+
+  /**
+   * get: xAccountUserName
+   *
+   * @returns {string | null}
+   */
+  get xAccountUserName () {
+    return this.addressProfile
+      ?.xAccountUserName
+      ?? null
   }
 
   /**
    * get: competition
    *
-   * @returns {Competition} Wallet address.
+   * @returns {PropsType['competition']} Wallet address.
    */
   get competition () {
     return this.props.competition
@@ -86,7 +133,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: competitionParticipantStatusId
    *
-   * @returns {number | null}
+   * @returns {PropsType['competitionParticipantStatusId']}
    */
   get competitionParticipantStatusId () {
     return this.props.competitionParticipantStatusId
@@ -106,10 +153,19 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   /**
    * get: ranking
    *
-   * @returns {Ranking} Wallet address.
+   * @returns {PropsType['ranking']} Wallet address.
    */
   get ranking () {
     return this.props.ranking
+  }
+
+  /**
+   * get: userInterfaceState
+   *
+   * @returns {PropsType['userInterfaceState']}
+   */
+  get userInterfaceState () {
+    return this.props.userInterfaceState
   }
 
   /**
@@ -169,14 +225,36 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
-   * get: profileAddress
+   * get: isGeneratingXaccountOauthUrl
    *
-   * @returns {string} Profile address.
+   * @returns {boolean}
    */
-  get profileAddress () {
-    return Array.isArray(this.route.params.address)
-      ? this.route.params.address[0]
-      : this.route.params.address
+  get isGeneratingXaccountOauthUrl () {
+    return this.userInterfaceState
+      ?.isGeneratingXaccountOauthUrl
+      ?? false
+  }
+
+  /**
+   * get: isRevokingXaccountOauth
+   *
+   * @returns {boolean}
+   */
+  get isRevokingXaccountOauth () {
+    return this.userInterfaceState
+      ?.isRevokingXaccountOauth
+      ?? false
+  }
+
+  /**
+   * get: isUploadingAvatar
+   *
+   * @returns {boolean}
+   */
+  get isUploadingAvatar () {
+    return this.userInterfaceState
+      ?.isUploadingAvatar
+      ?? false
   }
 
   /**
@@ -306,11 +384,11 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Profile address url.
    */
   generateProfileAddressUrl () {
-    if (!this.profileAddress) {
+    if (!this.address) {
       return '#'
     }
 
-    return `https://www.mintscan.io/dydx/address/${this.profileAddress}`
+    return `https://www.mintscan.io/dydx/address/${this.address}`
   }
 
   /**
@@ -333,12 +411,13 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address first half.
    */
   generateAddressFirstHalf () {
-    if (!this.profileAddress) {
+    const address = this.extractAddressFromRoute()
+
+    if (!address) {
       return '--'
     }
 
-    return this.profileAddress
-      .slice(0, -5)
+    return address.slice(0, -5)
   }
 
   /**
@@ -347,12 +426,26 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {string} Address last five.
    */
   generateAddressLastFive () {
-    if (!this.profileAddress) {
+    const address = this.extractAddressFromRoute()
+
+    if (!address) {
       return '--'
     }
 
-    return this.profileAddress
-      .slice(-5)
+    return address.slice(-5)
+  }
+
+  /**
+   * Generate profile URL for X account.
+   *
+   * @returns {string}
+   */
+  generateXProfileUrl () {
+    if (!this.xAccountUserName) {
+      return ''
+    }
+
+    return `https://x.com/${this.xAccountUserName}`
   }
 
   /**
@@ -444,6 +537,82 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   isParticipantAwaitingDeposit () {
     return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
+
+  /**
+   * Check if the user has connected their X account.
+   *
+   * @returns {boolean}
+   */
+  hasConnectedXAccount () {
+    return Boolean(this.xAccountUserName)
+  }
+
+  /**
+   * Extract `address` from website's URL.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const addressFromRoute = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    return addressFromRoute
+      ?? null
+  }
+
+  /**
+   * Emit 'connectXAccount' event.
+   *
+   * @returns {void}
+   */
+  emitConnectXAccount () {
+    if (!this.isOwnProfile()) {
+      return
+    }
+
+    this.emit(
+      this.EMIT_EVENT_NAME.CONNECT_X_ACCOUNT
+    )
+  }
+
+  /**
+   * Emit 'disconnectXAccount' event.
+   *
+   * @returns {void}
+   */
+  emitDisconnectXAccount () {
+    if (!this.isOwnProfile()) {
+      return
+    }
+
+    this.emit(
+      this.EMIT_EVENT_NAME.DISCONNECT_X_ACCOUNT
+    )
+  }
+
+  /**
+   * Emit 'uploadImage' event.
+   *
+   * @param {{
+   *   file: File
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  emitUploadImage ({
+    file,
+  }) {
+    this.emit(
+      this.EMIT_EVENT_NAME.UPLOAD_IMAGE,
+      {
+        file,
+      }
+    )
+  }
 }
 
 /**
@@ -459,7 +628,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
  */
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   route: ReturnType<import('#imports').useRoute>
  * }} SectionProfileOverviewContextParams
@@ -467,4 +636,14 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
 /**
  * @typedef {SectionProfileOverviewContextParams} SectionProfileOverviewContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   addressProfile: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').AddressProfile | null
+ *   competition: Competition | null
+ *   competitionParticipantStatusId: number | null
+ *   ranking: Ranking | null
+ *   userInterfaceState: import('~/app/vue/contexts/profile/ProfileDetailsPageContext').StatusReactive | null
+ * }} PropsType
  */
