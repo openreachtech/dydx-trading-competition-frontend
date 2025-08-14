@@ -1,3 +1,4 @@
+import KeplrConnector from '~/app/wallets/KeplrConnector'
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
@@ -8,6 +9,7 @@ import {
   ONBOARDING_STATUS,
   WALLETS,
   CONNECTOR_TYPE,
+  KEPLR_DOWNLOAD_LINK,
 } from '~/app/constants'
 
 /**
@@ -101,9 +103,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     const injectedWallets = this.generateInjectedWallets()
     const phantomWallet = this.generatePhantomWallet()
     const coinbaseWallet = this.generateCoinbaseWallet()
+    const keplrWallet = this.generateKeplrWallet()
 
     return [
       ...injectedWallets,
+      keplrWallet,
       phantomWallet,
       coinbaseWallet,
     ]
@@ -148,6 +152,30 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       ...normalizedInjectedWallets,
     ]
       .filter(it => it !== null)
+  }
+
+  /**
+   * Generate Keplr wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generateKeplrWallet () {
+    const keplrConnector = this.createKeplrConnector()
+
+    const connectorType = keplrConnector.hasKeplrWallet()
+      ? CONNECTOR_TYPE.COSMOS
+      : CONNECTOR_TYPE.DOWNLOAD_WALLET
+    const downloadLink = keplrConnector.hasKeplrWallet()
+      ? null
+      : KEPLR_DOWNLOAD_LINK
+
+    return {
+      connectorType,
+      icon: '/img/wallets/keplr.svg',
+      name: 'Keplr',
+      rdns: MIPD_RDNS_HASH.KEPLR,
+      downloadLink,
+    }
   }
 
   /**
@@ -322,6 +350,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     return PhantomConnector.create({
       walletStore: this.walletStore,
     })
+  }
+
+  /**
+   * Create KeplrConnector instance.
+   *
+   * @returns {KeplrConnector}
+   */
+  createKeplrConnector () {
+    return KeplrConnector.create()
   }
 
   /**
