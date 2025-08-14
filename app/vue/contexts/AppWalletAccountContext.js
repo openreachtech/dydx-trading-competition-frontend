@@ -2,6 +2,7 @@ import {
   onMounted,
 } from 'vue'
 
+import KeplrConnector from '~/app/wallets/KeplrConnector'
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
@@ -197,9 +198,11 @@ export default class AppWalletAccountContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async attemptWalletDisconnection () {
+    const keplrConnector = this.createKeplrConnector()
     const wagmiConnector = this.createWagmiConnector()
     const phantomConnector = this.createPhantomConnector()
 
+    keplrConnector.disconnect()
     wagmiConnector.disconnectFromEvmNetwork()
     phantomConnector.disconnectPhantom()
 
@@ -411,6 +414,15 @@ export default class AppWalletAccountContext extends BaseAppContext {
       'show-dropdown': this.isShowingDropdownRef.value,
       recovered: this.hasRecoveredLocalWallet(),
     }
+  }
+
+  /**
+   * Create a KeplrConnector instance.
+   *
+   * @returns {KeplrConnector}
+   */
+  createKeplrConnector () {
+    return KeplrConnector.create()
   }
 
   /**
