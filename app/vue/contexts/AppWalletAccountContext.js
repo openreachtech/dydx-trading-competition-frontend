@@ -10,8 +10,9 @@ import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   CONNECTOR_TYPE,
-  ONBOARDING_STATUS,
   DYDX_TRADE_CTA_URL,
+  MIPD_RDNS_HASH,
+  ONBOARDING_STATUS,
 } from '~/app/constants'
 
 /**
@@ -253,7 +254,36 @@ export default class AppWalletAccountContext extends BaseAppContext {
       [CONNECTOR_TYPE.COINBASE]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.WALLET_CONNECT]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.PHANTOM_SOLANA]: () => phantomConnector.connectPhantom(),
+      [CONNECTOR_TYPE.COSMOS]: () => this.reconnectCosmosWallet(),
     }
+  }
+
+  /**
+   * Reconnect Cosmos wallet.
+   *
+   * @returns {Promise<boolean>}
+   */
+  async reconnectCosmosWallet () {
+    const lastRdns = this.walletStore
+      .walletStoreRef
+      .value
+      .sourceAccount
+      .walletDetail
+      ?.rdns
+      ?? null
+
+    if (!lastRdns) {
+      return false
+    }
+
+    if (lastRdns === MIPD_RDNS_HASH.KEPLR) {
+      const keplrConnector = this.createKeplrConnector()
+      await keplrConnector.connect()
+
+      return true
+    }
+
+    return false
   }
 
   /**
