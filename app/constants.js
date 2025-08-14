@@ -230,6 +230,7 @@ export const WALLETS = {
   },
 }
 
+export const KEPLR_DOWNLOAD_LINK = 'https://www.keplr.app/get'
 export const PHANTOM_DOWNLOAD_LINK = 'https://phantom.com/download'
 
 // Extension wallet EIP-6963 identifiers
