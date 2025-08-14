@@ -447,6 +447,33 @@ export default class AppWalletAccountContext extends BaseAppContext {
   }
 
   /**
+   * Check if local wallet is the same as source account.
+   *
+   * @returns {boolean}
+   */
+  hasSameAddressAsSource () {
+    const localAddress = this.walletStore
+      .walletStoreRef
+      .value
+      .localWallet
+      .address
+    const sourceAddress = this.walletStore
+      .walletStoreRef
+      .value
+      .sourceAccount
+      .address
+
+    if (
+      !localAddress
+      || !sourceAddress
+    ) {
+      return false
+    }
+
+    return localAddress === sourceAddress
+  }
+
+  /**
    * Create a KeplrConnector instance.
    *
    * @returns {KeplrConnector}
