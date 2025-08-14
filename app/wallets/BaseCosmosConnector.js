@@ -204,7 +204,7 @@ export default class BaseCosmosConnector {
   /**
    * Sign arbitrary message.
    *
-   * @returns {Promise<ArbitrarySigningResult | null>}}
+   * @returns {Promise<ArbitrarySigningResult | null>}
    */
   async signArbitrary () {
     if (!this.address) {
