@@ -193,6 +193,15 @@ export default class BaseCosmosConnector {
   }
 
   /**
+   * Disconnect.
+   *
+   * @returns {Promise<void>}
+   */
+  async disconnect () {
+    await this.chainWallet.disconnect()
+  }
+
+  /**
    * Sign arbitrary message.
    *
    * @returns {Promise<any>}
