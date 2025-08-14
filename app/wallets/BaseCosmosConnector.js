@@ -299,7 +299,7 @@ export default class BaseCosmosConnector {
 
 /**
  * @typedef {{
- *   signDoc: Uint8Array<ArrayBufferLike>
+ *   signDoc: Uint8Array
  *   signature: import('@cosmjs/amino').StdSignature
  * }} ArbitrarySigningResult
  */
