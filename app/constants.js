@@ -191,6 +191,12 @@ export const WALLET_NETWORK_TYPE = {
   SOLANA: 'solana',
 }
 
+export const SIGNATURE_TYPE = {
+  // EVM and Solana share same verification process.
+  EVM: 'evm',
+  COSMOS: 'cosmos',
+}
+
 export const WALLETS = {
   [WALLET_TYPE.METAMASK]: {
     name: WALLET_TYPE.METAMASK,
