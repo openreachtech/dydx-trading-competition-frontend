@@ -31,6 +31,7 @@ import {
   WALLETS_CONFIG_HASH,
   CONNECTOR_TYPE,
   DERIVATION_STATUS_HASH,
+  SIGNATURE_TYPE,
 } from '~/app/constants'
 
 import AppDialogContext from '~/app/vue/contexts/AppDialogContext'
@@ -339,6 +340,7 @@ export default class KeyDerivationDialogContext extends AppDialogContext {
         signature: signedResult.signature.signature,
         publicKey: signedResult.signature.pub_key.value,
         address: firstAccountAddress,
+        signatureType: SIGNATURE_TYPE.EVM,
       },
     })
   }
