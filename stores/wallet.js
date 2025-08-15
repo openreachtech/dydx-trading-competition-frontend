@@ -38,6 +38,7 @@ export default function useWalletStore () {
       signature: null,
       publicKey: null,
       address: null,
+      signatureType: null,
     },
     localWalletNonce: null,
   }
@@ -224,6 +225,7 @@ export default function useWalletStore () {
       signature: null,
       publicKey: null,
       address: null,
+      signatureType: null,
     }
   }
 }
@@ -266,6 +268,7 @@ export default function useWalletStore () {
  *     signature: string | null
  *     publicKey: string | null
  *     address: string | null
+ *     signatureType: string | null
  *   }
  *   localWalletNonce: number | null
  * }} WalletState
