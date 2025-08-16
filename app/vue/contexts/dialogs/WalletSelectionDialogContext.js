@@ -14,6 +14,7 @@ import {
   WALLETS,
   CONNECTOR_TYPE,
   KEPLR_DOWNLOAD_LINK,
+  SIGNATURE_TYPE,
 } from '~/app/constants'
 
 /**
@@ -403,6 +404,7 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         signature: signature.signature,
         publicKey: signature.pub_key.value,
         address,
+        signatureType: SIGNATURE_TYPE.COSMOS,
       },
     })
   }
