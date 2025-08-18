@@ -41,6 +41,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     super({
@@ -56,6 +57,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
+    this.errorMessageHashReactive = errorMessageHashReactive
     this.statusReactive = statusReactive
   }
 
@@ -79,6 +81,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -93,9 +96,19 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
+        errorMessageHashReactive,
         statusReactive,
       })
     )
+  }
+
+  /**
+   * get: fetchCurrentEquityErrorMessage
+   *
+   * @returns {string | null}
+   */
+  get fetchCurrentEquityErrorMessage () {
+    return this.errorMessageHashReactive.fetchCurrentEquity
   }
 
   /**
@@ -1520,6 +1533,15 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * get: isFetchingCurrentEquity
+   *
+   * @returns {boolean}
+   */
+  get isFetchingCurrentEquity () {
+    return this.statusReactive.isFetchingCurrentEquity
+  }
+
+  /**
    * get: isLoadingLeaderboard
    *
    * @returns {boolean}
@@ -2057,6 +2079,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   fetcherHash: {
  *     competitionTradingMetrics: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher').default
  *   }
+ *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
  */
@@ -2071,6 +2094,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   isFetchingCurrentEquity: boolean
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingCompetitionTradingMetrics: boolean
@@ -2180,4 +2204,10 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   | 'leaderboardEntries'
  *   | 'competitionEnrolledParticipantsNumber'
  * } RefetchHashKeys
+ */
+
+/**
+ * @typedef {{
+ *   fetchCurrentEquity: string | null
+ * }} ErrorMessageHash
  */

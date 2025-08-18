@@ -92,7 +92,13 @@ export default defineComponent({
     const mutationErrorMessageHashReactive = reactive({
       joinCompetition: null,
     })
+    /** @type {import('vue').Reactive<import('~/app/vue/contexts/CompetitionDetailsPageContext').ErrorMessageHash>} */
+    const errorMessageHashReactive = reactive({
+      fetchCurrentEquity: null,
+    })
+
     const statusReactive = reactive({
+      isFetchingCurrentEquity: false,
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingCompetitionTradingMetrics: true,
@@ -134,6 +140,7 @@ export default defineComponent({
       fetcherHash: {
         competitionTradingMetrics: competitionTradingMetricsFetcher,
       },
+      errorMessageHashReactive,
       statusReactive,
     }
     const context = CompetitionDetailsPageContext.create(args)
