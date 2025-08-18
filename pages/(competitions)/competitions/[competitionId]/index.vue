@@ -68,6 +68,8 @@ export default defineComponent({
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionCancelationDialogRef = ref(null)
 
+    /** @type {import('vue').Ref<number | null>} */
+    const currentEquityRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries>} */
@@ -124,6 +126,7 @@ export default defineComponent({
       route,
       walletStore,
       toastStore,
+      currentEquityRef,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
