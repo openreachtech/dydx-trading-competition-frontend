@@ -382,6 +382,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.watch(
       () => this.localWalletAddress,
       async () => {
+        this.resetCurrentEquity()
+
         await this.graphqlClientHash
           .competitionParticipant
           .invokeRequestOnEvent({
@@ -888,6 +890,15 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       leaderboardEntries: () => this.fetchLeaderboardEntries(),
       competitionEnrolledParticipantsNumber: () => this.fetchCompetitionEnrolledParticipantsNumber(),
     }
+  }
+
+  /**
+   * Reset current equity.
+   *
+   * @returns {void}
+   */
+  resetCurrentEquity () {
+    this.currentEquityRef.value = null
   }
 
   /**
