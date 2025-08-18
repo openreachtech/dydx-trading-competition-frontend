@@ -2,6 +2,7 @@ import {
   onMounted,
 } from 'vue'
 
+import KeplrConnector from '~/app/wallets/KeplrConnector'
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
@@ -9,8 +10,9 @@ import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   CONNECTOR_TYPE,
-  ONBOARDING_STATUS,
   DYDX_TRADE_CTA_URL,
+  MIPD_RDNS_HASH,
+  ONBOARDING_STATUS,
 } from '~/app/constants'
 
 /**
@@ -197,9 +199,11 @@ export default class AppWalletAccountContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async attemptWalletDisconnection () {
+    const keplrConnector = this.createKeplrConnector()
     const wagmiConnector = this.createWagmiConnector()
     const phantomConnector = this.createPhantomConnector()
 
+    keplrConnector.disconnect()
     wagmiConnector.disconnectFromEvmNetwork()
     phantomConnector.disconnectPhantom()
 
@@ -250,7 +254,36 @@ export default class AppWalletAccountContext extends BaseAppContext {
       [CONNECTOR_TYPE.COINBASE]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.WALLET_CONNECT]: () => wagmiConnector.reconnectToEvmNetwork(),
       [CONNECTOR_TYPE.PHANTOM_SOLANA]: () => phantomConnector.connectPhantom(),
+      [CONNECTOR_TYPE.COSMOS]: () => this.reconnectCosmosWallet(),
     }
+  }
+
+  /**
+   * Reconnect Cosmos wallet.
+   *
+   * @returns {Promise<boolean>}
+   */
+  async reconnectCosmosWallet () {
+    const lastRdns = this.walletStore
+      .walletStoreRef
+      .value
+      .sourceAccount
+      .walletDetail
+      ?.rdns
+      ?? null
+
+    if (!lastRdns) {
+      return false
+    }
+
+    if (lastRdns === MIPD_RDNS_HASH.KEPLR) {
+      const keplrConnector = this.createKeplrConnector()
+      await keplrConnector.connect()
+
+      return true
+    }
+
+    return false
   }
 
   /**
@@ -411,6 +444,42 @@ export default class AppWalletAccountContext extends BaseAppContext {
       'show-dropdown': this.isShowingDropdownRef.value,
       recovered: this.hasRecoveredLocalWallet(),
     }
+  }
+
+  /**
+   * Check if local wallet is the same as source account.
+   *
+   * @returns {boolean}
+   */
+  hasSameAddressAsSource () {
+    const localAddress = this.walletStore
+      .walletStoreRef
+      .value
+      .localWallet
+      .address
+    const sourceAddress = this.walletStore
+      .walletStoreRef
+      .value
+      .sourceAccount
+      .address
+
+    if (
+      !localAddress
+      || !sourceAddress
+    ) {
+      return false
+    }
+
+    return localAddress === sourceAddress
+  }
+
+  /**
+   * Create a KeplrConnector instance.
+   *
+   * @returns {KeplrConnector}
+   */
+  createKeplrConnector () {
+    return KeplrConnector.create()
   }
 
   /**

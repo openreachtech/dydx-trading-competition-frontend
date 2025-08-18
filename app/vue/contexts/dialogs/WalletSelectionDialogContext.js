@@ -1,3 +1,8 @@
+import {
+  toBase64,
+} from '@cosmjs/encoding'
+
+import KeplrConnector from '~/app/wallets/KeplrConnector'
 import WagmiConnector from '~/app/wallets/WagmiConnector'
 import PhantomConnector from '~/app/wallets/PhantomConnector'
 
@@ -8,6 +13,8 @@ import {
   ONBOARDING_STATUS,
   WALLETS,
   CONNECTOR_TYPE,
+  KEPLR_DOWNLOAD_LINK,
+  SIGNATURE_TYPE,
 } from '~/app/constants'
 
 /**
@@ -101,9 +108,11 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
     const injectedWallets = this.generateInjectedWallets()
     const phantomWallet = this.generatePhantomWallet()
     const coinbaseWallet = this.generateCoinbaseWallet()
+    const keplrWallet = this.generateKeplrWallet()
 
     return [
       ...injectedWallets,
+      keplrWallet,
       phantomWallet,
       coinbaseWallet,
     ]
@@ -148,6 +157,30 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       ...normalizedInjectedWallets,
     ]
       .filter(it => it !== null)
+  }
+
+  /**
+   * Generate Keplr wallet.
+   *
+   * @returns {WalletDetails}
+   */
+  generateKeplrWallet () {
+    const keplrConnector = this.createKeplrConnector()
+
+    const connectorType = keplrConnector.hasKeplrWallet()
+      ? CONNECTOR_TYPE.COSMOS
+      : CONNECTOR_TYPE.DOWNLOAD_WALLET
+    const downloadLink = keplrConnector.hasKeplrWallet()
+      ? null
+      : KEPLR_DOWNLOAD_LINK
+
+    return {
+      connectorType,
+      icon: '/img/wallets/keplr.svg',
+      name: 'Keplr',
+      rdns: MIPD_RDNS_HASH.KEPLR,
+      downloadLink,
+    }
   }
 
   /**
@@ -248,6 +281,13 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
         onboardingStatus: ONBOARDING_STATUS.WALLET_CONNECTED,
       })
 
+      if (wallet.connectorType === CONNECTOR_TYPE.COSMOS) {
+        // Cosmos wallets do not need another additional derivation step.
+        this.dismissDialog()
+
+        return
+      }
+
       this.emit(this.EMIT_EVENT_NAME.NEXT_STEP)
     } catch (error) {
       this.errorMessageRef.value = this.resolveErrorMessage({
@@ -288,7 +328,85 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       return
     }
 
+    if (this.isKeplrConnector({
+      wallet,
+    })) {
+      await this.connectKeplrWallet()
+
+      return
+    }
+
     throw new Error('Unknown Connector.')
+  }
+
+  /**
+   * Connect Keplr wallet.
+   *
+   * @returns {Promise<void>}
+   * @throws {Error} Will throw if connection fails.
+   */
+  async connectKeplrWallet () {
+    const keplrConnector = this.createKeplrConnector()
+
+    await keplrConnector.disconnect()
+    await keplrConnector.connect()
+
+    if (keplrConnector.address === null) {
+      throw new Error('Failed to connect to Keplr wallet.')
+    }
+
+    const signResult = await keplrConnector.signArbitrary()
+
+    if (!signResult) {
+      throw new Error('Unable to verify wallet eligibility. Please ensure you sign the verification message to continue.')
+    }
+
+    const {
+      signDoc,
+      signature,
+    } = signResult
+
+    this.saveCosmosWalletDetails({
+      address: keplrConnector.address,
+      chain: keplrConnector.chainId,
+      signDoc,
+      signature,
+    })
+  }
+
+  /**
+   * Save wallet details for wallets from the Cosmos chain.
+   *
+   * @param {import('~/app/wallets/BaseCosmosConnector').ArbitrarySigningResult & {
+   *   address: string
+   *   chain: string
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  saveCosmosWalletDetails ({
+    address,
+    chain,
+    signDoc,
+    signature,
+  }) {
+    this.walletStore.setSourceAddress({
+      address,
+      chain,
+    })
+
+    this.walletStore.setLocalWallet({
+      address,
+    })
+
+    this.walletStore.setCredential({
+      credential: {
+        signDoc: toBase64(signDoc),
+        signature: signature.signature,
+        publicKey: signature.pub_key.value,
+        address,
+        signatureType: SIGNATURE_TYPE.COSMOS,
+      },
+    })
   }
 
   /**
@@ -325,6 +443,15 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
   }
 
   /**
+   * Create KeplrConnector instance.
+   *
+   * @returns {KeplrConnector}
+   */
+  createKeplrConnector () {
+    return KeplrConnector.create()
+  }
+
+  /**
    * Check if is Wagmi connector type.
    *
    * @param {{
@@ -341,6 +468,21 @@ export default class WalletSelectionDialogContext extends AppDialogContext {
       CONNECTOR_TYPE.WALLET_CONNECT,
     ]
       .includes(wallet.connectorType)
+  }
+
+  /**
+   * Check if is Keplr connector.
+   *
+   * @param {{
+   *   wallet: WalletDetails
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isKeplrConnector ({
+    wallet,
+  }) {
+    return wallet.connectorType === CONNECTOR_TYPE.COSMOS
+      && wallet.rdns === MIPD_RDNS_HASH.KEPLR
   }
 
   /**
