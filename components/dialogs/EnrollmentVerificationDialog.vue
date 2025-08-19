@@ -222,7 +222,13 @@ export default defineComponent({
 
           <p class="description">
             Welcome to the Trading Arena. You are all set for
-            <span class="highlight">The Trading Ninja Academy: Sharpen Your Skills</span>
+            <span
+              :class="{
+                highlight: context.hasCompetitionTitle(),
+              }"
+            >
+              {{ context.formatCompetitionTitle() }}
+            </span>
           </p>
 
           <AppButton

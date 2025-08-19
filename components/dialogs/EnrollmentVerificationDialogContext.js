@@ -87,6 +87,17 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * get: competitionTitle
+   *
+   * @returns {string | null}
+   */
+  get competitionTitle () {
+    return this.competition
+      ?.title
+      ?? null
+  }
+
+  /**
    * get: currentEquity
    *
    * @returns {PropsType['currentEquity']}
@@ -220,6 +231,16 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * Format competition title.
+   *
+   * @returns {string}
+   */
+  formatCompetitionTitle () {
+    return this.competitionTitle
+      ?? 'this competition'
+  }
+
+  /**
    * Format current equity.
    *
    * @returns {string} The formatted current equity.
@@ -243,6 +264,15 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
     return this.formatNumber({
       value: this.minimumTradingVolume,
     })
+  }
+
+  /**
+   * Check if competition title exists.
+   *
+   * @returns {boolean}
+   */
+  hasCompetitionTitle () {
+    return Boolean(this.competitionTitle)
   }
 
   /**
