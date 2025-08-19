@@ -138,13 +138,42 @@ export default defineComponent({
             />
           </div>
 
-          <span class="title">
+          <span
+            class="title"
+            :class="{
+              hidden: context.hasNotMadeADeposit(),
+            }"
+          >
             Spot Secured, Almost There!
           </span>
 
-          <p class="description">
+          <span
+            class="title invalid"
+            :class="{
+              hidden: context.hasMadeADeposit(),
+            }"
+          >
+            The Deposit has not been made!
+          </span>
+
+          <p
+            class="description"
+            :class="{
+              hidden: context.hasNotMadeADeposit(),
+            }"
+          >
             You need <span class="highlight">more funds in your wallet</span> to meet
             the Required Entry Balance and unlock your eligibility for Arena Rewards.
+          </p>
+
+          <p
+            class="description"
+            :class="{
+              hidden: context.hasMadeADeposit(),
+            }"
+          >
+            Please <span class="highlight">deposit an amount</span> exceeding the Required
+            Entry Balance to unlock your <span class="highlight">eligibility for Arena Rewards</span>.
           </p>
 
           <div
@@ -311,6 +340,11 @@ export default defineComponent({
   text-align: center;
 
   color: var(--color-text-tertiary);
+}
+
+.unit-contents > .step > .title.hidden,
+.unit-contents > .step > .description.hidden {
+  display: none;
 }
 
 .unit-contents > .step > .description > .highlight {

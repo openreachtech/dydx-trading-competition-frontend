@@ -267,6 +267,24 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * Check if the user has made a deposit.
+   *
+   * @returns {boolean}
+   */
+  hasMadeADeposit () {
+    return !this.hasNotMadeADeposit()
+  }
+
+  /**
+   * Check if the user has not made a deposit.
+   *
+   * @returns {boolean}
+   */
+  hasNotMadeADeposit () {
+    return this.currentEquity === null
+  }
+
+  /**
    * Check if competition title exists.
    *
    * @returns {boolean}
