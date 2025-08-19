@@ -7,6 +7,7 @@ import {
 
 import {
   Icon,
+  NuxtLink,
 } from '#components'
 
 import AppButton from '~/components/units/AppButton.vue'
@@ -21,6 +22,7 @@ import EnrollmentVerificationDialogContext from './EnrollmentVerificationDialogC
 export default defineComponent({
   components: {
     Icon,
+    NuxtLink,
     AppButton,
     AppDialog,
   },
@@ -180,16 +182,19 @@ export default defineComponent({
               appearance="outlined"
               type="button"
               class="button"
+              @click="context.dismissDialog()"
             >
               Deposit later
             </AppButton>
-            <AppButton
-              variant="primary"
+            <NuxtLink
               type="button"
-              class="button"
+              class="button link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :to="context.dydxTradeUtmUrl"
             >
               Deposit now
-            </AppButton>
+            </NuxtLink>
           </div>
         </div>
 
@@ -378,6 +383,35 @@ export default defineComponent({
   justify-content: center;
 
   text-align: center;
+}
+
+.unit-contents > .step.awaiting-deposit > .actions > .button.link {
+  display: grid;
+  align-content: center;
+
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: var(--size-thinnest);
+  border-color: var(--color-border-button);
+
+  color: var(--color-text-primary);
+  background-color: var(--color-background-button-primary);
+
+  text-align: center;
+
+  transition:
+    filter 0.3s var(--transition-timing-base),
+    background-color 0.3s var(--transition-timing-base),
+    border-color 0.3s var(--transition-timing-base),
+    color 0.3s var(--transition-timing-base);
+}
+
+.unit-contents > .step.awaiting-deposit > .actions > .button.link:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-background-button-primary) var(--value-button-hover-overlay-darken-opacity),
+    var(--color-background-button-hover-overlay-darken)
+  );
 }
 
 .unit-contents > .step.awaiting-deposit > .balance.current > .figure > .total {

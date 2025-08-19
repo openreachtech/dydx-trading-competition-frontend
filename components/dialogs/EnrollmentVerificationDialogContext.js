@@ -1,6 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
+  DYDX_TRADE_CTA_URL,
   ENROLLMENT_VERIFICATION_STEP,
 } from '~/app/constants'
 
@@ -54,6 +55,15 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
         dialogComponentShallowRef,
       })
     )
+  }
+
+  /**
+   * get: dydxTradeUtmUrl
+   *
+   * @returns {string}
+   */
+  get dydxTradeUtmUrl () {
+    return DYDX_TRADE_CTA_URL
   }
 
   /**
