@@ -251,6 +251,14 @@ export default defineComponent({
       @unregister-from-competition="context.unregisterFromCompetition()"
     />
 
-    <EnrollmentVerificationDialog :ref="context.enrollmentVerificationDialogShallowRef" />
+    <EnrollmentVerificationDialog
+      :ref="context.enrollmentVerificationDialogShallowRef"
+      :competition="context.competition"
+      :user-interface-state="context.statusReactive"
+      :current-equity="context.currentEquity"
+      @fetch-current-equity="context.fetchCurrentEquity({
+        afterRequestCallback: $event.afterRequestCallback,
+      })"
+    />
   </div>
 </template>

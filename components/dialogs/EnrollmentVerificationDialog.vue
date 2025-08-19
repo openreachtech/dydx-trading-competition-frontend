@@ -25,6 +25,30 @@ export default defineComponent({
     AppDialog,
   },
 
+  props: {
+    competition: {
+      /** @type {import('vue').PropType<import('./EnrollmentVerificationDialogContext').PropsType['competition']>} */
+      type: [
+        Object,
+        null,
+      ],
+      required: true,
+    },
+    currentEquity: {
+      /** @type {import('vue').PropType<import('./EnrollmentVerificationDialogContext').PropsType['currentEquity']>} */
+      type: [
+        Number,
+        null,
+      ],
+      required: true,
+    },
+    userInterfaceState: {
+      /** @type {import('vue').PropType<import('./EnrollmentVerificationDialogContext').PropsType['userInterfaceState']>} */
+      type: Object,
+      required: true,
+    },
+  },
+
   emits: [
     EnrollmentVerificationDialogContext.EMIT_EVENT_NAME.FETCH_CURRENT_EQUITY,
   ],
@@ -91,7 +115,7 @@ export default defineComponent({
               class="icon"
             >
 
-            <span>1,000 USDC</span>
+            <span>{{ context.formatMinimumTradingVolume() }} USDC</span>
           </div>
 
           <span class="note">
@@ -128,7 +152,7 @@ export default defineComponent({
             />
 
             <span class="figure">
-              850.21 <span class="total">/ 1,000 USDC</span>
+              {{ context.formatCurrentEquity() }} <span class="total">/ {{ context.formatMinimumTradingVolume() }} USDC</span>
             </span>
           </div>
 

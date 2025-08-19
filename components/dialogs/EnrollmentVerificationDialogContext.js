@@ -1,6 +1,4 @@
-import {
-  BaseFuroContext,
-} from '@openreachtech/furo-nuxt'
+import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
   ENROLLMENT_VERIFICATION_STEP,
@@ -9,9 +7,9 @@ import {
 /**
  * EnrollmentVerificationDialogContext
  *
- * @extends {BaseFuroContext<null, {}, null>}
+ * @extends {BaseAppContext<null, PropsType, null>}
  */
-export default class EnrollmentVerificationDialogContext extends BaseFuroContext {
+export default class EnrollmentVerificationDialogContext extends BaseAppContext {
   /**
    * Constructor
    *
@@ -56,6 +54,44 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
         dialogComponentShallowRef,
       })
     )
+  }
+
+  /**
+   * get: competition
+   *
+   * @returns {PropsType['competition']}
+   */
+  get competition () {
+    return this.props.competition
+  }
+
+  /**
+   * get: minimumTradingVolume
+   *
+   * @returns {string | null}
+   */
+  get minimumTradingVolume () {
+    return this.competition
+      ?.minimumTradingVolume
+      ?? null
+  }
+
+  /**
+   * get: currentEquity
+   *
+   * @returns {PropsType['currentEquity']}
+   */
+  get currentEquity () {
+    return this.props.currentEquity
+  }
+
+  /**
+   * get: userInterfaceState
+   *
+   * @returns {PropsType['userInterfaceState']}
+   */
+  get userInterfaceState () {
+    return this.props.userInterfaceState
   }
 
   /** @override */
@@ -105,8 +141,34 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
    */
   emitFetchCurrentEquity () {
     this.emit(
-      this.EMIT_EVENT_NAME.FETCH_CURRENT_EQUITY
+      this.EMIT_EVENT_NAME.FETCH_CURRENT_EQUITY, {
+        afterRequestCallback: () => this.processEquityVerificationOutcome(),
+      }
     )
+  }
+
+  /**
+   * Handle event after request.
+   *
+   * @returns {void}
+   */
+  processEquityVerificationOutcome () {
+    if (
+      this.isAtAwaitingAdditionalDepositStep()
+      && this.hasSufficientEquity()
+    ) {
+      this.goToEnrolledActiveStep()
+
+      return
+    }
+
+    if (!this.hasSufficientEquity()) {
+      this.goToAwaitingAdditionalDepositStep()
+
+      return
+    }
+
+    this.dismissDialog()
   }
 
   /**
@@ -132,6 +194,10 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
    */
   showDialog () {
     this.dialogComponent?.showDialog()
+
+    if (this.isAtVerifyingBalanceStep()) {
+      this.emitFetchCurrentEquity()
+    }
   }
 
   /**
@@ -139,6 +205,70 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
    */
   dismissDialog () {
     this.dialogComponent?.dismissDialog()
+
+    this.goToFirstStep()
+  }
+
+  /**
+   * Format current equity.
+   *
+   * @returns {string} The formatted current equity.
+   */
+  formatCurrentEquity () {
+    if (!this.currentEquity) {
+      return '0'
+    }
+
+    return this.formatNumber({
+      value: this.currentEquity,
+    })
+  }
+
+  /**
+   * Format minimum trading volume.
+   *
+   * @returns {string} The formatted minimum trading volume.
+   */
+  formatMinimumTradingVolume () {
+    return this.formatNumber({
+      value: this.minimumTradingVolume,
+    })
+  }
+
+  /**
+   * Check if the user has sufficient equity.
+   *
+   * @returns {boolean}
+   */
+  hasSufficientEquity () {
+    if (
+      this.minimumTradingVolume === null
+      || this.currentEquity === null
+    ) {
+      return false
+    }
+
+    const numericMinimumTradingVolume = parseFloat(this.minimumTradingVolume)
+
+    return this.currentEquity >= numericMinimumTradingVolume
+  }
+
+  /**
+   * Go to `awaitingAdditionalDeposit` step.
+   *
+   * @returns {void}
+   */
+  goToAwaitingAdditionalDepositStep () {
+    this.currentStepRef.value = ENROLLMENT_VERIFICATION_STEP.AWAITING_ADDITIONAL_DEPOSIT
+  }
+
+  /**
+   * Go to `enrolledActive` step.
+   *
+   * @returns {void}
+   */
+  goToEnrolledActiveStep () {
+    this.currentStepRef.value = ENROLLMENT_VERIFICATION_STEP.ENROLLED_ACTIVE
   }
 
   /**
@@ -148,6 +278,15 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
    */
   goToNextStep () {
     this.currentStepRef.value += 1
+  }
+
+  /**
+   * Go to the first step.
+   *
+   * @returns {void}
+   */
+  goToFirstStep () {
+    this.currentStepRef.value = ENROLLMENT_VERIFICATION_STEP.VERIFYING_BALANCE
   }
 
   /**
@@ -179,7 +318,7 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
 }
 
 /**
- * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
+ * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   currentStepRef: import('vue').Ref<(typeof ENROLLMENT_VERIFICATION_STEP)[keyof typeof ENROLLMENT_VERIFICATION_STEP]>
  *   dialogComponentShallowRef: import('vue').ShallowRef<import('~/components/units/AppDialog.vue').default | null>
  * }} EnrollmentVerificationDialogContextParams
@@ -187,4 +326,12 @@ export default class EnrollmentVerificationDialogContext extends BaseFuroContext
 
 /**
  * @typedef {EnrollmentVerificationDialogContextParams} EnrollmentVerificationDialogContextFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   currentEquity: number | null
+ *   userInterfaceState: import('~/app/vue/contexts/CompetitionDetailsPageContext.js').StatusReactive
+ * }} PropsType
  */

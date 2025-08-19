@@ -121,6 +121,15 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * get: currentEquity
+   *
+   * @returns {number | null}
+   */
+  get currentEquity () {
+    return this.currentEquityRef.value
+  }
+
+  /**
    * Generate leaderboard header entries.
    *
    * @returns {Array<import('~/app/vue/contexts/AppTableContext').HeaderEntry>}
@@ -908,9 +917,14 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * Fetch current equity of user.
    *
+   * @param {{
+   *   afterRequestCallback: (...args: any[]) => any | Promise<any>
+   * }} params - Parameters.
    * @returns {Promise<void>}
    */
-  async fetchCurrentEquity () {
+  async fetchCurrentEquity ({
+    afterRequestCallback,
+  }) {
     const resourceUrl = this.generateFetchCurrentEquityResourceUrl()
     if (resourceUrl === null) {
       return
@@ -945,6 +959,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       })
     } finally {
       this.statusReactive.isFetchingCurrentEquity = false
+
+      await afterRequestCallback?.()
     }
   }
 
