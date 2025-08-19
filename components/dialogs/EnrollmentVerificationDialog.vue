@@ -147,7 +147,12 @@ export default defineComponent({
             the Required Entry Balance and unlock your eligibility for Arena Rewards.
           </p>
 
-          <div class="balance current">
+          <div
+            class="balance current"
+            :class="{
+              loading: context.isFetchingCurrentEquity,
+            }"
+          >
             <Icon
               name="heroicons:wallet-solid"
               size="1.125rem"
@@ -223,6 +228,7 @@ export default defineComponent({
           <AppButton
             type="button"
             class="button confirm"
+            @click="context.dismissDialog()"
           >
             Got it!
           </AppButton>
@@ -412,6 +418,14 @@ export default defineComponent({
     var(--color-background-button-primary) var(--value-button-hover-overlay-darken-opacity),
     var(--color-background-button-hover-overlay-darken)
   );
+}
+
+.unit-contents > .step.awaiting-deposit > .balance.current {
+  transition: filter 250ms var(--transition-timing-base);
+}
+
+.unit-contents > .step.awaiting-deposit > .balance.current.loading {
+  filter: opacity(0.6);
 }
 
 .unit-contents > .step.awaiting-deposit > .balance.current > .figure > .total {
