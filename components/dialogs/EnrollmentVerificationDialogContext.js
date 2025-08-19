@@ -172,22 +172,13 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
    * @returns {void}
    */
   processEquityVerificationOutcome () {
-    if (
-      this.isAtAwaitingAdditionalDepositStep()
-      && this.hasSufficientEquity()
-    ) {
+    if (this.hasSufficientEquity()) {
       this.goToEnrolledActiveStep()
 
       return
     }
 
-    if (!this.hasSufficientEquity()) {
-      this.goToAwaitingAdditionalDepositStep()
-
-      return
-    }
-
-    this.dismissDialog()
+    this.goToAwaitingAdditionalDepositStep()
   }
 
   /**
