@@ -94,6 +94,15 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
     return this.props.userInterfaceState
   }
 
+  /**
+   * get: isFetchingCurrentEquity
+   *
+   * @returns {boolean}
+   */
+  get isFetchingCurrentEquity () {
+    return this.userInterfaceState.isFetchingCurrentEquity
+  }
+
   /** @override */
   static get EMIT_EVENT_NAME () {
     return {

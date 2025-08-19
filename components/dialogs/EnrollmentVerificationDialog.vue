@@ -160,6 +160,8 @@ export default defineComponent({
             class="button refetch"
             type="button"
             appearance="outlined"
+            :is-loading="context.isFetchingCurrentEquity"
+            @click="context.emitFetchCurrentEquity()"
           >
             <template #startIcon>
               <Icon
