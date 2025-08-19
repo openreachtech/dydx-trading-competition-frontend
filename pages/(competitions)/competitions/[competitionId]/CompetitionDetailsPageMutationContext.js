@@ -171,13 +171,6 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
 
         this.enrollmentVerificationDialog?.showDialog()
 
-        // TODO: Refactor with fetcherHash and show enrolled arena's name.
-        this.toastStore.add({
-          message: 'You have successfully joined the arena',
-          iconName: 'heroicons:check-circle',
-          color: 'success',
-        })
-
         await Promise.allSettled([
           this.refetchHash.competitionParticipant(),
           this.refetchHash.leaderboardEntries(),
