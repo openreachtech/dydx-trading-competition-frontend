@@ -3,11 +3,13 @@ import {
   defineComponent,
   reactive,
   ref,
+  shallowRef,
 } from 'vue'
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
 import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
 import CompetitionCancelationDialog from '~/components/dialogs/CompetitionCancelationDialog.vue'
+import EnrollmentVerificationDialog from '~/components/dialogs/EnrollmentVerificationDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionPrizeRules from '~/components/competition-id/SectionPrizeRules.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
@@ -47,6 +49,7 @@ export default defineComponent({
     CompetitionTermsDialog,
     CompetitionEnrollmentDialog,
     CompetitionCancelationDialog,
+    EnrollmentVerificationDialog,
     SectionLeague,
     SectionPrizeRules,
     SectionSchedules,
@@ -67,6 +70,8 @@ export default defineComponent({
     const competitionEnrollmentDialogRef = ref(null)
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionCancelationDialogRef = ref(null)
+    /** @type {import('vue').ShallowRef<typeof EnrollmentVerificationDialog | null>} */
+    const enrollmentVerificationDialogShallowRef = shallowRef(null)
 
     /** @type {import('vue').Ref<number | null>} */
     const currentEquityRef = ref(null)
@@ -130,6 +135,7 @@ export default defineComponent({
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
+      enrollmentVerificationDialogShallowRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
@@ -154,6 +160,7 @@ export default defineComponent({
       componentContext,
       toastStore,
       competitionEnrollmentDialogRef,
+      enrollmentVerificationDialogShallowRef,
       refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
         joinCompetition: joinCompetitionGraphqlClient,
@@ -243,5 +250,7 @@ export default defineComponent({
       :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
       @unregister-from-competition="context.unregisterFromCompetition()"
     />
+
+    <EnrollmentVerificationDialog :ref="context.enrollmentVerificationDialogShallowRef" />
   </div>
 </template>

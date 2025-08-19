@@ -43,6 +43,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    enrollmentVerificationDialogShallowRef,
     errorMessageHashReactive,
     statusReactive,
   }) {
@@ -60,6 +61,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
+    this.enrollmentVerificationDialogShallowRef = enrollmentVerificationDialogShallowRef
     this.errorMessageHashReactive = errorMessageHashReactive
     this.statusReactive = statusReactive
   }
@@ -85,6 +87,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    enrollmentVerificationDialogShallowRef,
     errorMessageHashReactive,
     statusReactive,
   }) {
@@ -101,6 +104,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
+        enrollmentVerificationDialogShallowRef,
         errorMessageHashReactive,
         statusReactive,
       })
@@ -2177,6 +2181,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   enrollmentVerificationDialogShallowRef: import('vue').ShallowRef<import('~/components/dialogs/EnrollmentVerificationDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
