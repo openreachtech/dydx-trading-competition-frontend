@@ -17,7 +17,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     props,
     componentContext,
 
-    inputValueRef,
+    displayedInputValueRef,
     isDropdownOpenRef,
     dateReactive,
   }) {
@@ -26,7 +26,7 @@ export default class AppDatePickerContext extends BaseAppContext {
       componentContext,
     })
 
-    this.inputValueRef = inputValueRef
+    this.displayedInputValueRef = displayedInputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
     this.dateReactive = dateReactive
   }
@@ -43,7 +43,7 @@ export default class AppDatePickerContext extends BaseAppContext {
   static create ({
     props,
     componentContext,
-    inputValueRef,
+    displayedInputValueRef,
     isDropdownOpenRef,
     dateReactive,
   }) {
@@ -51,7 +51,7 @@ export default class AppDatePickerContext extends BaseAppContext {
       new this({
         props,
         componentContext,
-        inputValueRef,
+        displayedInputValueRef,
         isDropdownOpenRef,
         dateReactive,
       })
@@ -127,8 +127,8 @@ export default class AppDatePickerContext extends BaseAppContext {
    *
    * @returns {string} Input value.
    */
-  get inputValue () {
-    return this.inputValueRef.value
+  get displayedInputValue () {
+    return this.displayedInputValueRef.value
   }
 
   /**
@@ -151,7 +151,7 @@ export default class AppDatePickerContext extends BaseAppContext {
       return
     }
 
-    this.inputValueRef.value = dateString
+    this.displayedInputValueRef.value = dateString
   }
 
   /**
@@ -420,7 +420,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     selectedDate.setUTCMonth(date.month)
     selectedDate.setUTCDate(date.day)
 
-    this.inputValueRef.value = selectedDate.toISOString()
+    this.displayedInputValueRef.value = selectedDate.toISOString()
       .split('T')
       .at(0)
       ?? ''
@@ -428,7 +428,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     this.emit(
       this.EMIT_EVENT_NAME.CHANGE_DATE,
       {
-        date: this.inputValue,
+        date: this.displayedInputValueRef.value,
       }
     )
 
@@ -514,7 +514,7 @@ export default class AppDatePickerContext extends BaseAppContext {
       selectedYear,
       selectedMonth,
       selectedDate,
-    ] = this.inputValue
+    ] = this.displayedInputValue
       .split('-')
       .map(it => Number(it))
 
@@ -607,7 +607,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
- *   inputValueRef: import('vue').Ref<string>
+ *   displayedInputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
  *   dateReactive: DateReactive
  * }} AppDatePickerContextParams

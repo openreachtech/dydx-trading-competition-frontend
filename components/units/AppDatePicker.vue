@@ -62,7 +62,7 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    const inputValueRef = ref(generateInitialInputValue())
+    const displayedInputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
     /** @type {import('./AppDatePickerContext').DateReactive} */
     const dateReactive = reactive(generateInitialDateReactive())
@@ -70,7 +70,7 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
-      inputValueRef,
+      displayedInputValueRef,
       isDropdownOpenRef,
       dateReactive,
     }
@@ -129,7 +129,7 @@ export default defineComponent({
         type="text"
         class="input"
         v-bind="$attrs"
-        :value="context.inputValue"
+        :value="context.displayedInputValue"
         @click="context.openDropdown()"
       >
 
