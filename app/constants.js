@@ -279,6 +279,12 @@ export const ONBOARDING_STEPS = /** @type {const} */ ({
   KEY_DERIVATION: 'KeyDerivation',
 })
 
+export const ENROLLMENT_VERIFICATION_STEP = /** @type {const} */ ({
+  VERIFYING_BALANCE: 1,
+  AWAITING_ADDITIONAL_DEPOSIT: 2,
+  ENROLLED_ACTIVE: 3,
+})
+
 // ******* Base URLS *******
 
 export const BASE_INDEXER_URL = 'https://indexer.dydx.trade/v4'

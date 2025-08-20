@@ -3,11 +3,13 @@ import {
   defineComponent,
   reactive,
   ref,
+  shallowRef,
 } from 'vue'
 
 import CompetitionTermsDialog from '~/components/dialogs/CompetitionTermsDialog.vue'
 import CompetitionEnrollmentDialog from '~/components/dialogs/CompetitionEnrollmentDialog.vue'
 import CompetitionCancelationDialog from '~/components/dialogs/CompetitionCancelationDialog.vue'
+import EnrollmentVerificationDialog from '~/components/dialogs/EnrollmentVerificationDialog.vue'
 import SectionLeague from '~/components/competition-id/SectionLeague.vue'
 import SectionPrizeRules from '~/components/competition-id/SectionPrizeRules.vue'
 import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
@@ -47,6 +49,7 @@ export default defineComponent({
     CompetitionTermsDialog,
     CompetitionEnrollmentDialog,
     CompetitionCancelationDialog,
+    EnrollmentVerificationDialog,
     SectionLeague,
     SectionPrizeRules,
     SectionSchedules,
@@ -67,7 +70,11 @@ export default defineComponent({
     const competitionEnrollmentDialogRef = ref(null)
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const competitionCancelationDialogRef = ref(null)
+    /** @type {import('vue').ShallowRef<typeof EnrollmentVerificationDialog | null>} */
+    const enrollmentVerificationDialogShallowRef = shallowRef(null)
 
+    /** @type {import('vue').Ref<number | null>} */
+    const currentEquityRef = ref(null)
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').LeaderboardEntries>} */
     const leaderboardEntriesRef = ref([])
     /** @type {import('vue').Ref<import('~/app/vue/contexts/CompetitionDetailsPageContext').TopThreeLeaderboardEntries>} */
@@ -92,7 +99,13 @@ export default defineComponent({
     const mutationErrorMessageHashReactive = reactive({
       joinCompetition: null,
     })
+    /** @type {import('vue').Reactive<import('~/app/vue/contexts/CompetitionDetailsPageContext').ErrorMessageHash>} */
+    const errorMessageHashReactive = reactive({
+      fetchCurrentEquity: null,
+    })
+
     const statusReactive = reactive({
+      isFetchingCurrentEquity: false,
       isLoading: false,
       isLoadingLeaderboard: true,
       isLoadingCompetitionTradingMetrics: true,
@@ -118,9 +131,11 @@ export default defineComponent({
       route,
       walletStore,
       toastStore,
+      currentEquityRef,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
       competitionCancelationDialogRef,
+      enrollmentVerificationDialogShallowRef,
       graphqlClientHash: {
         competition: competitionGraphqlClient,
         addressName: addressNameGraphqlClient,
@@ -134,6 +149,7 @@ export default defineComponent({
       fetcherHash: {
         competitionTradingMetrics: competitionTradingMetricsFetcher,
       },
+      errorMessageHashReactive,
       statusReactive,
     }
     const context = CompetitionDetailsPageContext.create(args)
@@ -144,6 +160,7 @@ export default defineComponent({
       componentContext,
       toastStore,
       competitionEnrollmentDialogRef,
+      enrollmentVerificationDialogShallowRef,
       refetchHash: context.generateRefetchHash(),
       graphqlClientHash: {
         joinCompetition: joinCompetitionGraphqlClient,
@@ -232,6 +249,16 @@ export default defineComponent({
       :competition-name="context.competitionTitle"
       :is-unregistering-from-competition="context.isUnregisteringFromCompetition"
       @unregister-from-competition="context.unregisterFromCompetition()"
+    />
+
+    <EnrollmentVerificationDialog
+      :ref="context.enrollmentVerificationDialogShallowRef"
+      :competition="context.competition"
+      :user-interface-state="context.statusReactive"
+      :current-equity="context.currentEquity"
+      @fetch-current-equity="context.fetchCurrentEquity({
+        afterRequestCallback: $event.afterRequestCallback,
+      })"
     />
   </div>
 </template>
