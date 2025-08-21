@@ -52,7 +52,7 @@ export function handleClickOutside ({
     callback,
   })
 
-  document.addEventListener('click', listener)
+  document.addEventListener('mousedown', listener)
 
   const listenerCleaner = createListenerCleaner({
     listener,
@@ -136,7 +136,7 @@ export function createListenerCleaner ({
    * @returns {void}
    */
   function cleaner () {
-    document.removeEventListener('click', listener)
+    document.removeEventListener('mousedown', listener)
   }
 }
 
