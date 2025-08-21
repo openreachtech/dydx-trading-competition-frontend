@@ -41,6 +41,37 @@ export default class DatePickerTimeItemContext {
   }
 
   /**
+   * Handle event when a key is pressed.
+   *
+   * @param {{
+   *   keyboardEvent: KeyboardEvent
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  onKeyDown ({
+    keyboardEvent,
+  }) {
+    if (keyboardEvent.key === 'Enter') {
+      // Prevent form submission by mistake.
+      keyboardEvent.preventDefault()
+
+      return
+    }
+
+    if (keyboardEvent.key === 'ArrowUp') {
+      keyboardEvent.preventDefault()
+      this.incrementClockTime()
+
+      return
+    }
+
+    if (keyboardEvent.key === 'ArrowDown') {
+      keyboardEvent.preventDefault()
+      this.decrementClockTime()
+    }
+  }
+
+  /**
    * Extract clock time.
    *
    * @returns {number}

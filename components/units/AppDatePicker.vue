@@ -225,6 +225,9 @@ export default defineComponent({
               class="input"
               size="2"
               :value="it.formatClockTime()"
+              @keydown="it.onKeyDown({
+                keyboardEvent: $event,
+              })"
               @input="it.onInputChange({
                 inputEvent: $event,
               })"
