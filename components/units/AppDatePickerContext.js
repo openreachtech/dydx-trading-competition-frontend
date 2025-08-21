@@ -90,6 +90,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     this.watch(
       () => this.initialDate,
       () => {
+        this.syncInitialCurrentViewDate()
         this.syncInitialInputValue()
       },
       {
@@ -143,6 +144,22 @@ export default class AppDatePickerContext extends BaseAppContext {
    */
   get displayedInputValue () {
     return this.displayedInputValueRef.value
+  }
+
+  /**
+   * Sync the initial value of `currentViewDateReactive`.
+   *
+   * @returns {void}
+   */
+  syncInitialCurrentViewDate () {
+    if (this.initialDate === null) {
+      return
+    }
+
+    const normalizedDate = new Date(this.initialDate)
+
+    this.currentViewDateReactive.year = normalizedDate.getFullYear()
+    this.currentViewDateReactive.month = normalizedDate.getMonth()
   }
 
   /**
