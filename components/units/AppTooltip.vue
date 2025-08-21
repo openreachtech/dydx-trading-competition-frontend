@@ -114,6 +114,10 @@ export default defineComponent({
   z-index: calc(var(--value-z-index-layer-content) + 1);
 }
 
+.unit-tooltip:not(.active) > .message {
+  pointer-events: none;
+}
+
 .unit-tooltip > .message::before {
   content: '';
 
