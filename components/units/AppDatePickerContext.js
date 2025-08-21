@@ -1,6 +1,21 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
+import DatePickerTimeItemContext from './DatePickerTimeItemContext'
 
 const MAX_DISPLAYED_DAYS_PER_MONTH = 42
+
+/** @type {Array<ClockTimeMeta>} */
+const CLOCK_TIMES = [
+  {
+    KEY: 'hour',
+    MAX_CLOCK_TIME: 23,
+    MIN_CLOCK_TIME: 0,
+  },
+  {
+    KEY: 'minute',
+    MAX_CLOCK_TIME: 59,
+    MIN_CLOCK_TIME: 0,
+  },
+]
 
 /**
  * AppDatePickerContext
@@ -150,6 +165,22 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
+   * Create an array of `DatePickerTimeItemContext` instances.
+   *
+   * @returns {Array<InstanceType<typeof DatePickerTimeItemContext>>}
+   */
+  createDatePickerTimeItemContexts () {
+    return CLOCK_TIMES.map(it =>
+      DatePickerTimeItemContext.create({
+        selectedDateRef: this.selectedDateRef,
+        key: it.KEY,
+        maxClockTime: it.MAX_CLOCK_TIME,
+        minClockTime: it.MIN_CLOCK_TIME,
+      })
+    )
+  }
+
+  /**
    * Sync the initial value of `selectedDateRef`.
    *
    * @returns {void}
@@ -165,6 +196,8 @@ export default class AppDatePickerContext extends BaseAppContext {
       year: normalizedDate.getFullYear(),
       month: normalizedDate.getMonth(),
       day: normalizedDate.getDate(),
+      hour: normalizedDate.getHours(),
+      minute: normalizedDate.getHours(),
     }
   }
 
@@ -493,6 +526,8 @@ export default class AppDatePickerContext extends BaseAppContext {
       year: today.getFullYear(),
       month: today.getMonth(),
       day: today.getDate(),
+      hour: 0,
+      minute: 0,
     }
   }
 
@@ -543,12 +578,16 @@ export default class AppDatePickerContext extends BaseAppContext {
       year,
       month,
       day,
+      hour,
+      minute,
     } = this.selectedDateRef.value
 
     return new Date(
       year,
       month,
-      day
+      day,
+      hour,
+      minute
     )
   }
 
@@ -736,6 +775,8 @@ export default class AppDatePickerContext extends BaseAppContext {
  *   year: number
  *   month: number
  *   day: number
+ *   hour: number
+ *   minute: number
  * }} SelectedDate
  */
 
@@ -754,4 +795,12 @@ export default class AppDatePickerContext extends BaseAppContext {
  *   shouldStayOnSelect: boolean
  *   rootClass: string
  * }} AppDatePickerProps
+ */
+
+/**
+ * @typedef {{
+ *   KEY: 'hour' | 'minute'
+ *   MAX_CLOCK_TIME: number
+ *   MIN_CLOCK_TIME: number
+ * }} ClockTimeMeta
  */

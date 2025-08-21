@@ -190,6 +190,55 @@ export default defineComponent({
           </span>
         </button>
       </div>
+
+      <div class="time">
+        <template
+          v-for="it of context.createDatePickerTimeItemContexts()"
+          :key="it.key"
+        >
+          <div class="control">
+            <button
+              type="button"
+              class="button increment"
+              @click="it.incrementClockTime()"
+            >
+              <Icon
+                name="heroicons:chevron-up"
+                size="1rem"
+              />
+            </button>
+
+            <input
+              type="text"
+              inputmode="numeric"
+              class="input"
+              size="2"
+              :value="it.formatClockTime()"
+              @input="it.onInputChange({
+                inputEvent: $event,
+              })"
+            >
+
+            <button
+              type="button"
+              class="button decrement"
+              @click="it.decrementClockTime()"
+            >
+              <Icon
+                name="heroicons:chevron-down"
+                size="1rem"
+              />
+            </button>
+          </div>
+
+          <span
+            class="connector"
+            aria-hidden="true"
+          >
+            :
+          </span>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -431,6 +480,70 @@ export default defineComponent({
 
   cursor: not-allowed;
 }
+
+.unit-dropdown > .time {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  margin-block-start: 0.5rem;
+
+  border-block-start-color: var(--color-border-dropdown);
+  border-block-start-width: var(--size-thinnest);
+  border-block-start-style: solid;
+
+  padding-block-start: 0.5rem;
+}
+
+.unit-dropdown > .time > .control {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.25rem;
+}
+
+.unit-dropdown > .time > .control > .button {
+  border-radius: 0.25rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  transition: background-color 250ms var(--transition-timing-base);
+}
+
+.unit-dropdown > .time > .control > .button:hover {
+  background-color: var(--color-background-date-picker-hover);
+}
+
+.unit-dropdown > .time > .control > .input {
+  border-width: 0;
+
+  padding-block: 0;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  line-height: var(--size-line-height-small);
+
+  text-align: center;
+
+  color: var(--color-text-secondary);
+  background-color: transparent;
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-dropdown > .time > .control > .input:focus-visible {
+  outline-width: 0;
+
+  color: var(--color-text-primary);
+}
+
+.unit-dropdown > .time > .connector:last-of-type {
+  display: none;
+}
+
 /********** Animation **********/
 
 /* TODO: Unify fade-in animation */
