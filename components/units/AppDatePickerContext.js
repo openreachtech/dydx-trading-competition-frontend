@@ -17,18 +17,20 @@ export default class AppDatePickerContext extends BaseAppContext {
     props,
     componentContext,
 
-    inputValueRef,
     isDropdownOpenRef,
-    dateReactive,
+    selectedDateRef,
+    currentViewDateReactive,
+    displayedDateFormatter,
   }) {
     super({
       props,
       componentContext,
     })
 
-    this.inputValueRef = inputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
-    this.dateReactive = dateReactive
+    this.selectedDateRef = selectedDateRef
+    this.currentViewDateReactive = currentViewDateReactive
+    this.displayedDateFormatter = displayedDateFormatter
   }
 
   /**
@@ -43,17 +45,27 @@ export default class AppDatePickerContext extends BaseAppContext {
   static create ({
     props,
     componentContext,
-    inputValueRef,
     isDropdownOpenRef,
-    dateReactive,
+    selectedDateRef,
+    currentViewDateReactive,
   }) {
+    const displayedDateFormatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
         componentContext,
-        inputValueRef,
         isDropdownOpenRef,
-        dateReactive,
+        selectedDateRef,
+        currentViewDateReactive,
+        displayedDateFormatter,
       })
     )
   }
@@ -62,6 +74,20 @@ export default class AppDatePickerContext extends BaseAppContext {
   static get EMIT_EVENT_NAME () {
     return {
       CHANGE_DATE: 'changeDate',
+    }
+  }
+
+  /**
+   * Generate initial value for `currentViewDateReactive`.
+   *
+   * @returns {CurrentViewDate}
+   */
+  static generateInitialCurrentViewDate () {
+    const today = new Date()
+
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth(),
     }
   }
 
@@ -76,7 +102,8 @@ export default class AppDatePickerContext extends BaseAppContext {
     this.watch(
       () => this.initialDate,
       () => {
-        this.syncInitialInputValue()
+        this.syncInitialSelectedDate()
+        this.syncInitialCurrentViewDate()
       },
       {
         once: true,
@@ -123,35 +150,38 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
-   * get: inputValue
-   *
-   * @returns {string} Input value.
-   */
-  get inputValue () {
-    return this.inputValueRef.value
-  }
-
-  /**
-   * Sync the initial value of date picker.
+   * Sync the initial value of `selectedDateRef`.
    *
    * @returns {void}
    */
-  syncInitialInputValue () {
+  syncInitialSelectedDate () {
     if (this.initialDate === null) {
       return
     }
 
-    const dateString = new Date(this.initialDate)
-      .toISOString()
-      .split('T')
-      .at(0)
-      ?? null
+    const normalizedDate = new Date(this.initialDate)
 
-    if (!dateString) {
+    this.selectedDateRef.value = {
+      year: normalizedDate.getFullYear(),
+      month: normalizedDate.getMonth(),
+      day: normalizedDate.getDate(),
+    }
+  }
+
+  /**
+   * Sync the initial value of `currentViewDateReactive`.
+   *
+   * @returns {void}
+   */
+  syncInitialCurrentViewDate () {
+    if (this.initialDate === null) {
       return
     }
 
-    this.inputValueRef.value = dateString
+    const normalizedDate = new Date(this.initialDate)
+
+    this.currentViewDateReactive.year = normalizedDate.getFullYear()
+    this.currentViewDateReactive.month = normalizedDate.getMonth()
   }
 
   /**
@@ -216,8 +246,8 @@ export default class AppDatePickerContext extends BaseAppContext {
    */
   generateDisplayedDays () {
     const currentMonthYear = {
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     }
     const previousMonthYear = this.calculatePreviousMonthYear(currentMonthYear)
     const nextMonthYear = this.calculateNextMonthYear(currentMonthYear)
@@ -374,12 +404,12 @@ export default class AppDatePickerContext extends BaseAppContext {
       month,
       year,
     } = this.calculatePreviousMonthYear({
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     })
 
-    this.dateReactive.currentMonth = month
-    this.dateReactive.currentYear = year
+    this.currentViewDateReactive.year = year
+    this.currentViewDateReactive.month = month
   }
 
   /**
@@ -392,12 +422,27 @@ export default class AppDatePickerContext extends BaseAppContext {
       month,
       year,
     } = this.calculateNextMonthYear({
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     })
 
-    this.dateReactive.currentMonth = month
-    this.dateReactive.currentYear = year
+    this.currentViewDateReactive.year = year
+    this.currentViewDateReactive.month = month
+  }
+
+  /**
+   * Normalize the value of underlying hidden input.
+   *
+   * @returns {string | null} ISO string or null if unset.
+   */
+  normalizeInputValue () {
+    const selectedDate = this.generateSelectedDateInstance()
+
+    if (!selectedDate) {
+      return null
+    }
+
+    return selectedDate.toISOString()
   }
 
   /**
@@ -411,24 +456,21 @@ export default class AppDatePickerContext extends BaseAppContext {
   selectDate ({
     date,
   }) {
-    this.dateReactive.currentMonth = date.month
-    this.dateReactive.currentYear = date.year
+    const lastSelectedDate = this.selectedDateRef.value
+      ? this.selectedDateRef.value
+      : this.generateSelectedDateAsToday()
 
-    const selectedDate = new Date()
-
-    selectedDate.setUTCFullYear(date.year)
-    selectedDate.setUTCMonth(date.month)
-    selectedDate.setUTCDate(date.day)
-
-    this.inputValueRef.value = selectedDate.toISOString()
-      .split('T')
-      .at(0)
-      ?? ''
+    this.selectedDateRef.value = {
+      ...lastSelectedDate,
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    }
 
     this.emit(
       this.EMIT_EVENT_NAME.CHANGE_DATE,
       {
-        date: this.inputValue,
+        date: this.normalizeInputValue(),
       }
     )
 
@@ -440,14 +482,29 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
+   * Generate selected date with the value of today.
+   *
+   * @returns {SelectedDate}
+   */
+  generateSelectedDateAsToday () {
+    const today = new Date()
+
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth(),
+      day: today.getDate(),
+    }
+  }
+
+  /**
    * Generate current month and year to display.
    *
    * @returns {string}
    */
   generateDisplayedCurrentMonthYear () {
     const date = new Date(
-      this.dateReactive.currentYear,
-      this.dateReactive.currentMonth
+      this.currentViewDateReactive.year,
+      this.currentViewDateReactive.month
     )
     const formatter = new Intl.DateTimeFormat('en-US', {
       month: 'long',
@@ -455,6 +512,44 @@ export default class AppDatePickerContext extends BaseAppContext {
     })
 
     return formatter.format(date)
+  }
+
+  /**
+   * Format date to display.
+   *
+   * @returns {string}
+   */
+  formatDisplayedDate () {
+    const selectedDate = this.generateSelectedDateInstance()
+
+    if (!selectedDate) {
+      return '__/__/____'
+    }
+
+    return this.displayedDateFormatter.format(selectedDate)
+  }
+
+  /**
+   * Generate a date instance from selected date.
+   *
+   * @returns {Date | null} A 'Date' instance, or null if unset.
+   */
+  generateSelectedDateInstance () {
+    if (!this.selectedDateRef.value) {
+      return null
+    }
+
+    const {
+      year,
+      month,
+      day,
+    } = this.selectedDateRef.value
+
+    return new Date(
+      year,
+      month,
+      day
+    )
   }
 
   /**
@@ -510,17 +605,19 @@ export default class AppDatePickerContext extends BaseAppContext {
   isSelectedDate ({
     date,
   }) {
-    const [
-      selectedYear,
-      selectedMonth,
-      selectedDate,
-    ] = this.inputValue
-      .split('-')
-      .map(it => Number(it))
+    if (!this.selectedDateRef.value) {
+      return false
+    }
 
-    return date.day === selectedDate
-      && date.month === selectedMonth - 1
-      && date.year === selectedYear
+    const {
+      year,
+      month,
+      day,
+    } = this.selectedDateRef.value
+
+    return date.year === year
+      && date.month === month
+      && date.day === day
   }
 
   /**
@@ -552,8 +649,8 @@ export default class AppDatePickerContext extends BaseAppContext {
   isInThisMonth ({
     date,
   }) {
-    return date.month === this.dateReactive.currentMonth
-      && date.year === this.dateReactive.currentYear
+    return date.year === this.currentViewDateReactive.year
+      && date.month === this.currentViewDateReactive.month
   }
 
   /**
@@ -603,25 +700,43 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     return targetDate < today
   }
+
+  /**
+   * Check if a date has been selected.
+   *
+   * @returns {boolean}
+   */
+  hasSelectedDate () {
+    return Boolean(this.selectedDateRef.value)
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
- *   inputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
- *   dateReactive: DateReactive
+ *   selectedDateRef: import('vue').Ref<SelectedDate | null>
+ *   currentViewDateReactive: CurrentViewDate
+ *   displayedDateFormatter: InstanceType<typeof Intl.DateTimeFormat>
  * }} AppDatePickerContextParams
  */
 
 /**
- * @typedef {AppDatePickerContextParams} AppDatePickerContextFactoryParams
+ * @typedef {Omit<AppDatePickerContextParams, 'displayedDateFormatter'>} AppDatePickerContextFactoryParams
  */
 
 /**
  * @typedef {{
- *   currentMonth: number
- *   currentYear: number
- * }} DateReactive
+ *   year: number
+ *   month: number
+ * }} CurrentViewDate
+ */
+
+/**
+ * @typedef {{
+ *   year: number
+ *   month: number
+ *   day: number
+ * }} SelectedDate
  */
 
 /**
