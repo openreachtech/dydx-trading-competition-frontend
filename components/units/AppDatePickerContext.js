@@ -436,23 +436,13 @@ export default class AppDatePickerContext extends BaseAppContext {
    * @returns {string | null} ISO string or null if unset.
    */
   normalizeInputValue () {
-    if (this.selectedDateRef.value === null) {
+    const selectedDate = this.generateSelectedDateInstance()
+
+    if (!selectedDate) {
       return null
     }
 
-    const {
-      year,
-      month,
-      day,
-    } = this.selectedDateRef.value
-
-    const date = new Date(
-      year,
-      month,
-      day
-    )
-
-    return date.toISOString()
+    return selectedDate.toISOString()
   }
 
   /**
@@ -530,8 +520,23 @@ export default class AppDatePickerContext extends BaseAppContext {
    * @returns {string}
    */
   formatDisplayedDate () {
-    if (!this.selectedDateRef.value) {
+    const selectedDate = this.generateSelectedDateInstance()
+
+    if (!selectedDate) {
       return '__/__/____'
+    }
+
+    return this.displayedDateFormatter.format(selectedDate)
+  }
+
+  /**
+   * Generate a date instance from selected date.
+   *
+   * @returns {Date | null} A 'Date' instance, or null if unset.
+   */
+  generateSelectedDateInstance () {
+    if (!this.selectedDateRef.value) {
+      return null
     }
 
     const {
@@ -540,13 +545,11 @@ export default class AppDatePickerContext extends BaseAppContext {
       day,
     } = this.selectedDateRef.value
 
-    const date = new Date(
+    return new Date(
       year,
       month,
       day
     )
-
-    return this.displayedDateFormatter.format(date)
   }
 
   /**
