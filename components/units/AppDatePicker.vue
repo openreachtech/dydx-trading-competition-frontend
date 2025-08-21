@@ -87,39 +87,43 @@ export default defineComponent({
 </script>
 
 <template>
-  <button
+  <div
     v-on-click-outside="() => context.closeDropdown()"
-    type="button"
     class="unit-picker"
     :class="context.generateDatePickerClasses()"
-    @click="context.toggleDropdown()"
   >
-    <span class="unit-input">
-      <span
-        class="date"
-        :class="{
-          selected: context.hasSelectedDate(),
-        }"
-      >
-        {{ context.formatDisplayedDate() }}
-      </span>
+    <button
+      type="button"
+      class="button"
+      @click="context.toggleDropdown()"
+    >
+      <span class="unit-input">
+        <span
+          class="date"
+          :class="{
+            selected: context.hasSelectedDate(),
+          }"
+        >
+          {{ context.formatDisplayedDate() }}
+        </span>
 
-      <input
-        type="text"
-        class="input hidden"
-        :value="context.normalizeInputValue()"
-        v-bind="$attrs"
-      >
+        <input
+          type="text"
+          class="input hidden"
+          :value="context.normalizeInputValue()"
+          v-bind="$attrs"
+        >
 
-      <span class="icon picker">
-        <slot name="inputIcon">
-          <Icon
-            name="heroicons:calendar"
-            size="1rem"
-          />
-        </slot>
+        <span class="icon picker">
+          <slot name="inputIcon">
+            <Icon
+              name="heroicons:calendar"
+              size="1rem"
+            />
+          </slot>
+        </span>
       </span>
-    </span>
+    </button>
 
     <div class="unit-dropdown">
       <div class="header">
@@ -187,7 +191,7 @@ export default defineComponent({
         </button>
       </div>
     </div>
-  </button>
+  </div>
 </template>
 
 <style scoped>
@@ -195,6 +199,10 @@ export default defineComponent({
   --color-background-picker: var(--color-background-input);
   --color-background-picker-hover: var(--palette-layer-4);
 
+  position: relative;
+}
+
+.unit-picker > .button {
   outline-width: 0;
   outline-color: transparent;
 
@@ -207,9 +215,9 @@ export default defineComponent({
 
   background-color: var(--color-background-picker);
 
-  position: relative;
-
   display: inline-block;
+
+  width: 100%;
 
   transition:
     border-color 150ms var(--transition-timing-base),
@@ -217,11 +225,11 @@ export default defineComponent({
     outline-color 150ms var(--transition-timing-base);
 }
 
-.unit-picker:hover {
+.unit-picker > .button:hover {
   background-color: var(--color-background-picker-hover);
 }
 
-.unit-picker.open {
+.unit-picker.open > .button {
   outline-width: var(--size-thinnest);
   outline-style: solid;
   outline-color: var(--color-border-input-focus);
@@ -267,7 +275,7 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-picker:hover > .unit-input > .icon.picker {
+.unit-picker > .button:hover > .unit-input > .icon.picker {
   color: var(--color-text-primary);
 }
 
