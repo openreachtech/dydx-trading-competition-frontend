@@ -132,6 +132,10 @@ export default defineComponent({
   animation: fade-in 250ms var(--transition-timing-base) forwards;
 }
 
+.unit-tooltip:not(.no-hover, .active, :hover) > .message {
+  animation: fade-out 250ms var(--transition-timing-base) forwards;
+}
+
 .unit-tooltip.active > .message {
   display: inline-flex;
 }
@@ -279,6 +283,19 @@ export default defineComponent({
   100% {
     opacity: 1;
     display: inline-flex;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    display: inline-flex;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+    transform: scale(0.9);
   }
 }
 </style>
