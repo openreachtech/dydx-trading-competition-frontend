@@ -87,10 +87,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <span
+  <button
     v-on-click-outside="() => context.closeDropdown()"
+    type="button"
     class="unit-picker"
     :class="context.generateDatePickerClasses()"
+    @click="context.toggleDropdown()"
   >
     <span class="unit-input">
       <span
@@ -98,7 +100,6 @@ export default defineComponent({
         :class="{
           selected: context.hasSelectedDate(),
         }"
-        @click="context.openDropdown()"
       >
         {{ context.formatDisplayedDate() }}
       </span>
@@ -110,18 +111,14 @@ export default defineComponent({
         v-bind="$attrs"
       >
 
-      <button
-        class="button"
-        type="button"
-        @click="context.toggleDropdown()"
-      >
+      <span class="icon picker">
         <slot name="inputIcon">
           <Icon
             name="heroicons:calendar"
             size="1rem"
           />
         </slot>
-      </button>
+      </span>
     </span>
 
     <div class="unit-dropdown">
@@ -190,11 +187,14 @@ export default defineComponent({
         </button>
       </div>
     </div>
-  </span>
+  </button>
 </template>
 
 <style scoped>
 .unit-picker {
+  --color-background-picker: var(--color-background-input);
+  --color-background-picker-hover: var(--palette-layer-4);
+
   outline-width: 0;
   outline-color: transparent;
 
@@ -205,14 +205,20 @@ export default defineComponent({
 
   padding-inline-end: 0.75rem;
 
-  background-color: var(--color-background-input);
+  background-color: var(--color-background-picker);
 
   position: relative;
 
   display: inline-block;
 
-  transition: border-color 150ms var(--transition-timing-base),
+  transition:
+    border-color 150ms var(--transition-timing-base),
+    background-color 150ms var(--transition-timing-base),
     outline-color 150ms var(--transition-timing-base);
+}
+
+.unit-picker:hover {
+  background-color: var(--color-background-picker-hover);
 }
 
 .unit-picker.open {
@@ -224,7 +230,10 @@ export default defineComponent({
 .unit-input {
   display: grid;
   grid-template-columns: 1fr auto;
+  align-items: center;
   gap: 0.5rem;
+
+  text-align: start;
 }
 
 .unit-input > .date {
@@ -248,7 +257,7 @@ export default defineComponent({
   display: none;
 }
 
-.unit-input > .button {
+.unit-input > .icon.picker {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -258,7 +267,7 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-input > .button:hover {
+.unit-picker:hover > .unit-input > .icon.picker {
   color: var(--color-text-primary);
 }
 
