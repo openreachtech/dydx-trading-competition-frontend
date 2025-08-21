@@ -94,6 +94,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     this.watch(
       () => this.initialDate,
       () => {
+        this.syncInitialSelectedDate()
         this.syncInitialCurrentViewDate()
         this.syncInitialInputValue()
       },
@@ -148,6 +149,25 @@ export default class AppDatePickerContext extends BaseAppContext {
    */
   get displayedInputValue () {
     return this.displayedInputValueRef.value
+  }
+
+  /**
+   * Sync the initial value of `selectedDateRef`.
+   *
+   * @returns {void}
+   */
+  syncInitialSelectedDate () {
+    if (this.initialDate === null) {
+      return
+    }
+
+    const normalizedDate = new Date(this.initialDate)
+
+    this.selectedDateRef.value = {
+      year: normalizedDate.getFullYear(),
+      month: normalizedDate.getMonth(),
+      day: normalizedDate.getDate(),
+    }
   }
 
   /**
@@ -433,6 +453,31 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     this.currentViewDateReactive.year = year
     this.currentViewDateReactive.month = month
+  }
+
+  /**
+   * Normalize the value of underlying hidden input.
+   *
+   * @returns {string | null} ISO string or null if unset.
+   */
+  normalizeInputValue () {
+    if (this.selectedDateRef.value === null) {
+      return null
+    }
+
+    const {
+      year,
+      month,
+      day,
+    } = this.selectedDateRef.value
+
+    const date = new Date(
+      year,
+      month,
+      day
+    )
+
+    return date.toISOString()
   }
 
   /**

@@ -115,9 +115,15 @@ export default defineComponent({
       <input
         type="text"
         class="input"
-        v-bind="$attrs"
         :value="context.displayedInputValue"
         @click="context.openDropdown()"
+      >
+
+      <input
+        type="text"
+        class="input hidden"
+        :value="context.normalizeInputValue()"
+        v-bind="$attrs"
       >
 
       <button
@@ -253,6 +259,10 @@ export default defineComponent({
 
 .unit-input > .input::placeholder {
   color: var(--color-text-placeholder);
+}
+
+.unit-input > .input.hidden {
+  display: none;
 }
 
 .unit-input > .button {
