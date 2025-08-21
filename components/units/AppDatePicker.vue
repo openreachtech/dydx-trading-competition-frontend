@@ -93,12 +93,15 @@ export default defineComponent({
     :class="context.generateDatePickerClasses()"
   >
     <span class="unit-input">
-      <input
-        type="text"
-        class="input"
-        :value="context.formatDisplayedDate()"
+      <span
+        class="date"
+        :class="{
+          selected: context.hasSelectedDate(),
+        }"
         @click="context.openDropdown()"
       >
+        {{ context.formatDisplayedDate() }}
+      </span>
 
       <input
         type="text"
@@ -219,26 +222,25 @@ export default defineComponent({
 }
 
 .unit-input {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 0.5rem;
 }
 
-.unit-input > .input {
-  border-width: 0;
-  outline-width: 0;
-
+.unit-input > .date {
   padding-block: 0.625rem;
   padding-inline-start: 0.75rem;
 
-  flex: 1;
-
-  background-color: inherit;
-
   font-size: var(--font-size-base);
+
   line-height: var(--size-line-height-base);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.unit-input > .input::placeholder {
+.unit-input > .date:not(.selected) {
   color: var(--color-text-placeholder);
 }
 

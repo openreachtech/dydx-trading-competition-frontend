@@ -700,6 +700,15 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     return targetDate < today
   }
+
+  /**
+   * Check if a date has been selected.
+   *
+   * @returns {boolean}
+   */
+  hasSelectedDate () {
+    return Boolean(this.selectedDateRef.value)
+  }
 }
 
 /**
