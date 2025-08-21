@@ -19,6 +19,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     displayedInputValueRef,
     isDropdownOpenRef,
+    selectedDateRef,
     currentViewDateReactive,
   }) {
     super({
@@ -28,6 +29,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     this.displayedInputValueRef = displayedInputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
+    this.selectedDateRef = selectedDateRef
     this.currentViewDateReactive = currentViewDateReactive
   }
 
@@ -45,6 +47,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     componentContext,
     displayedInputValueRef,
     isDropdownOpenRef,
+    selectedDateRef,
     currentViewDateReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -53,6 +56,7 @@ export default class AppDatePickerContext extends BaseAppContext {
         componentContext,
         displayedInputValueRef,
         isDropdownOpenRef,
+        selectedDateRef,
         currentViewDateReactive,
       })
     )
@@ -442,14 +446,22 @@ export default class AppDatePickerContext extends BaseAppContext {
   selectDate ({
     date,
   }) {
-    this.currentViewDateReactive.year = date.year
-    this.currentViewDateReactive.month = date.month
+    const selectedDate = new Date(
+      date.year,
+      date.month,
+      date.day
+    )
 
-    const selectedDate = new Date()
+    const lastSelectedDate = this.selectedDateRef.value
+      ? this.selectedDateRef.value
+      : this.generateSelectedDateAsToday()
 
-    selectedDate.setUTCFullYear(date.year)
-    selectedDate.setUTCMonth(date.month)
-    selectedDate.setUTCDate(date.day)
+    this.selectedDateRef.value = {
+      ...lastSelectedDate,
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    }
 
     this.displayedInputValueRef.value = selectedDate.toISOString()
       .split('T')
@@ -468,6 +480,21 @@ export default class AppDatePickerContext extends BaseAppContext {
     }
 
     this.closeDropdown()
+  }
+
+  /**
+   * Generate selected date with the value of today.
+   *
+   * @returns {SelectedDate}
+   */
+  generateSelectedDateAsToday () {
+    const today = new Date()
+
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth(),
+      day: today.getDate(),
+    }
   }
 
   /**
@@ -640,6 +667,7 @@ export default class AppDatePickerContext extends BaseAppContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
  *   displayedInputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
+ *   selectedDateRef: import('vue').Ref<SelectedDate | null>
  *   currentViewDateReactive: CurrentViewDate
  * }} AppDatePickerContextParams
  */
@@ -653,6 +681,14 @@ export default class AppDatePickerContext extends BaseAppContext {
  *   year: number
  *   month: number
  * }} CurrentViewDate
+ */
+
+/**
+ * @typedef {{
+ *   year: number
+ *   month: number
+ *   day: number
+ * }} SelectedDate
  */
 
 /**

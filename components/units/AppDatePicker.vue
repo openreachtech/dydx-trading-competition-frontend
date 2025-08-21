@@ -64,7 +64,9 @@ export default defineComponent({
   ) {
     const displayedInputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
-    /** @type {import('./AppDatePickerContext').CurrentViewDate} */
+    /** @type {import('vue').Ref<import('./AppDatePickerContext').SelectedDate | null>} */
+    const selectedDateRef = ref(null)
+    /** @type {import('vue').Reactive<import('./AppDatePickerContext').CurrentViewDate>} */
     const currentViewDateReactive = reactive(AppDatePickerContext.generateInitialCurrentViewDate())
 
     const args = {
@@ -72,6 +74,7 @@ export default defineComponent({
       componentContext,
       displayedInputValueRef,
       isDropdownOpenRef,
+      selectedDateRef,
       currentViewDateReactive,
     }
     // @ts-expect-error - Type of emit should take a generic. Needs to resolve in furo-nuxt.
