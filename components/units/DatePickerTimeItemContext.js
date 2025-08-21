@@ -175,6 +175,24 @@ export default class DatePickerTimeItemContext {
   }
 
   /**
+   * Generate aria-label for increment button.
+   *
+   * @returns {string}
+   */
+  generateIncrementAriaLabel () {
+    return `Increment ${this.key} by one.`
+  }
+
+  /**
+   * Generate aria-label for decrement button.
+   *
+   * @returns {string}
+   */
+  generateDecrementAriaLabel () {
+    return `Decrement ${this.key} by one.`
+  }
+
+  /**
    * Format clock time.
    *
    * @returns {string}

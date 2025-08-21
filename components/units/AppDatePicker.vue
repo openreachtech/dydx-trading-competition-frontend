@@ -200,6 +200,7 @@ export default defineComponent({
             <button
               type="button"
               class="button increment"
+              :aria-label="it.generateIncrementAriaLabel()"
               @click="it.incrementClockTime()"
             >
               <Icon
@@ -222,6 +223,7 @@ export default defineComponent({
             <button
               type="button"
               class="button decrement"
+              :aria-label="it.generateDecrementAriaLabel()"
               @click="it.decrementClockTime()"
             >
               <Icon
