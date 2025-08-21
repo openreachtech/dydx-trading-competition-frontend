@@ -129,6 +129,15 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
+   * get: canPickTime
+   *
+   * @returns {boolean}
+   */
+  get canPickTime () {
+    return this.props.canPickTime
+  }
+
+  /**
    * get: initialDate
    *
    * @returns {Date | string | null}
@@ -790,6 +799,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   canPickTime: boolean
  *   initialDate: Date | string | null
  *   shouldDisablePastDates: boolean
  *   shouldStayOnSelect: boolean

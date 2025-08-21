@@ -25,6 +25,11 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    canPickTime: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     initialDate: {
       type: [
         Date,
@@ -125,7 +130,12 @@ export default defineComponent({
       </span>
     </button>
 
-    <div class="unit-dropdown">
+    <div
+      class="unit-dropdown"
+      :class="{
+        'can-pick-time': context.canPickTime,
+      }"
+    >
       <div class="header">
         <button
           class="button"
@@ -497,6 +507,10 @@ export default defineComponent({
   border-block-start-style: solid;
 
   padding-block-start: 0.5rem;
+}
+
+.unit-dropdown:not(.can-pick-time) > .time {
+  display: none;
 }
 
 .unit-dropdown > .time > .control {
