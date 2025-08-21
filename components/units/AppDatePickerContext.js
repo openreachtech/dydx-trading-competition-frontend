@@ -19,7 +19,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     displayedInputValueRef,
     isDropdownOpenRef,
-    dateReactive,
+    currentViewDateReactive,
   }) {
     super({
       props,
@@ -28,7 +28,7 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     this.displayedInputValueRef = displayedInputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
-    this.dateReactive = dateReactive
+    this.currentViewDateReactive = currentViewDateReactive
   }
 
   /**
@@ -45,7 +45,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     componentContext,
     displayedInputValueRef,
     isDropdownOpenRef,
-    dateReactive,
+    currentViewDateReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -53,7 +53,7 @@ export default class AppDatePickerContext extends BaseAppContext {
         componentContext,
         displayedInputValueRef,
         isDropdownOpenRef,
-        dateReactive,
+        currentViewDateReactive,
       })
     )
   }
@@ -216,8 +216,8 @@ export default class AppDatePickerContext extends BaseAppContext {
    */
   generateDisplayedDays () {
     const currentMonthYear = {
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     }
     const previousMonthYear = this.calculatePreviousMonthYear(currentMonthYear)
     const nextMonthYear = this.calculateNextMonthYear(currentMonthYear)
@@ -374,12 +374,12 @@ export default class AppDatePickerContext extends BaseAppContext {
       month,
       year,
     } = this.calculatePreviousMonthYear({
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     })
 
-    this.dateReactive.currentMonth = month
-    this.dateReactive.currentYear = year
+    this.currentViewDateReactive.year = year
+    this.currentViewDateReactive.month = month
   }
 
   /**
@@ -392,12 +392,12 @@ export default class AppDatePickerContext extends BaseAppContext {
       month,
       year,
     } = this.calculateNextMonthYear({
-      month: this.dateReactive.currentMonth,
-      year: this.dateReactive.currentYear,
+      year: this.currentViewDateReactive.year,
+      month: this.currentViewDateReactive.month,
     })
 
-    this.dateReactive.currentMonth = month
-    this.dateReactive.currentYear = year
+    this.currentViewDateReactive.year = year
+    this.currentViewDateReactive.month = month
   }
 
   /**
@@ -411,8 +411,8 @@ export default class AppDatePickerContext extends BaseAppContext {
   selectDate ({
     date,
   }) {
-    this.dateReactive.currentMonth = date.month
-    this.dateReactive.currentYear = date.year
+    this.currentViewDateReactive.year = date.year
+    this.currentViewDateReactive.month = date.month
 
     const selectedDate = new Date()
 
@@ -446,8 +446,8 @@ export default class AppDatePickerContext extends BaseAppContext {
    */
   generateDisplayedCurrentMonthYear () {
     const date = new Date(
-      this.dateReactive.currentYear,
-      this.dateReactive.currentMonth
+      this.currentViewDateReactive.year,
+      this.currentViewDateReactive.month
     )
     const formatter = new Intl.DateTimeFormat('en-US', {
       month: 'long',
@@ -552,8 +552,8 @@ export default class AppDatePickerContext extends BaseAppContext {
   isInThisMonth ({
     date,
   }) {
-    return date.month === this.dateReactive.currentMonth
-      && date.year === this.dateReactive.currentYear
+    return date.year === this.currentViewDateReactive.year
+      && date.month === this.currentViewDateReactive.month
   }
 
   /**
@@ -609,7 +609,7 @@ export default class AppDatePickerContext extends BaseAppContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
  *   displayedInputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
- *   dateReactive: DateReactive
+ *   currentViewDateReactive: CurrentViewDate
  * }} AppDatePickerContextParams
  */
 
@@ -619,9 +619,9 @@ export default class AppDatePickerContext extends BaseAppContext {
 
 /**
  * @typedef {{
- *   currentMonth: number
- *   currentYear: number
- * }} DateReactive
+ *   year: number
+ *   month: number
+ * }} CurrentViewDate
  */
 
 /**

@@ -64,15 +64,15 @@ export default defineComponent({
   ) {
     const displayedInputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
-    /** @type {import('./AppDatePickerContext').DateReactive} */
-    const dateReactive = reactive(generateInitialDateReactive())
+    /** @type {import('./AppDatePickerContext').CurrentViewDate} */
+    const currentViewDateReactive = reactive(generateInitialDateReactive())
 
     const args = {
       props,
       componentContext,
       displayedInputValueRef,
       isDropdownOpenRef,
-      dateReactive,
+      currentViewDateReactive,
     }
     // @ts-expect-error - Type of emit should take a generic. Needs to resolve in furo-nuxt.
     const context = AppDatePickerContext.create(args)
@@ -102,7 +102,7 @@ export default defineComponent({
     /**
      * Generate initial `dateReactive`.
      *
-     * @returns {import('./AppDatePickerContext').DateReactive}
+     * @returns {import('./AppDatePickerContext').CurrentViewDate}
      */
     function generateInitialDateReactive () {
       const date = props.initialDate === null
@@ -110,8 +110,8 @@ export default defineComponent({
         : new Date(props.initialDate)
 
       return {
-        currentMonth: date.getMonth(),
-        currentYear: date.getFullYear(),
+        year: date.getFullYear(),
+        month: date.getMonth(),
       }
     }
   },
