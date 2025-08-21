@@ -300,9 +300,13 @@ export default defineComponent({
 .unit-pickers {
   margin-block-start: 0.5rem;
 
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+
+  @media (width < 60rem) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .unit-pickers > .fieldset > .date {
