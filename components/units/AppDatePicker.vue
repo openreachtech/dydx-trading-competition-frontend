@@ -65,7 +65,7 @@ export default defineComponent({
     const displayedInputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
     /** @type {import('./AppDatePickerContext').CurrentViewDate} */
-    const currentViewDateReactive = reactive(generateInitialDateReactive())
+    const currentViewDateReactive = reactive(AppDatePickerContext.generateInitialCurrentViewDate())
 
     const args = {
       props,
@@ -97,22 +97,6 @@ export default defineComponent({
         .split('T')
         .at(0)
         ?? ''
-    }
-
-    /**
-     * Generate initial `dateReactive`.
-     *
-     * @returns {import('./AppDatePickerContext').CurrentViewDate}
-     */
-    function generateInitialDateReactive () {
-      const date = props.initialDate === null
-        ? new Date()
-        : new Date(props.initialDate)
-
-      return {
-        year: date.getFullYear(),
-        month: date.getMonth(),
-      }
     }
   },
 })

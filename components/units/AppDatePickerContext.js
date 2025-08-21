@@ -66,6 +66,20 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
+   * Generate initial value for `currentViewDateReactive`.
+   *
+   * @returns {CurrentViewDate}
+   */
+  static generateInitialCurrentViewDate () {
+    const today = new Date()
+
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth(),
+    }
+  }
+
+  /**
    * Setup component.
    *
    * @template {X extends AppDatePickerContext ? X : never} T, X
