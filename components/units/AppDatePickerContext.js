@@ -21,6 +21,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     isDropdownOpenRef,
     selectedDateRef,
     currentViewDateReactive,
+    displayedDateFormatter,
   }) {
     super({
       props,
@@ -31,6 +32,7 @@ export default class AppDatePickerContext extends BaseAppContext {
     this.isDropdownOpenRef = isDropdownOpenRef
     this.selectedDateRef = selectedDateRef
     this.currentViewDateReactive = currentViewDateReactive
+    this.displayedDateFormatter = displayedDateFormatter
   }
 
   /**
@@ -50,6 +52,15 @@ export default class AppDatePickerContext extends BaseAppContext {
     selectedDateRef,
     currentViewDateReactive,
   }) {
+    const displayedDateFormatter = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+
     return /** @type {InstanceType<T>} */ (
       new this({
         props,
@@ -58,6 +69,7 @@ export default class AppDatePickerContext extends BaseAppContext {
         isDropdownOpenRef,
         selectedDateRef,
         currentViewDateReactive,
+        displayedDateFormatter,
       })
     )
   }
@@ -561,6 +573,31 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
+   * Format date to display.
+   *
+   * @returns {string}
+   */
+  formatDisplayedDate () {
+    if (!this.selectedDateRef.value) {
+      return '__/__/____'
+    }
+
+    const {
+      year,
+      month,
+      day,
+    } = this.selectedDateRef.value
+
+    const date = new Date(
+      year,
+      month,
+      day
+    )
+
+    return this.displayedDateFormatter.format(date)
+  }
+
+  /**
    * Toggle dropdown.
    *
    * @returns {void}
@@ -714,11 +751,12 @@ export default class AppDatePickerContext extends BaseAppContext {
  *   isDropdownOpenRef: import('vue').Ref<boolean>
  *   selectedDateRef: import('vue').Ref<SelectedDate | null>
  *   currentViewDateReactive: CurrentViewDate
+ *   displayedDateFormatter: InstanceType<typeof Intl.DateTimeFormat>
  * }} AppDatePickerContextParams
  */
 
 /**
- * @typedef {AppDatePickerContextParams} AppDatePickerContextFactoryParams
+ * @typedef {Omit<AppDatePickerContextParams, 'displayedDateFormatter'>} AppDatePickerContextFactoryParams
  */
 
 /**
