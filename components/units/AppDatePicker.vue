@@ -62,7 +62,6 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    const displayedInputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
     /** @type {import('vue').Ref<import('./AppDatePickerContext').SelectedDate | null>} */
     const selectedDateRef = ref(null)
@@ -72,7 +71,6 @@ export default defineComponent({
     const args = {
       props,
       componentContext,
-      displayedInputValueRef,
       isDropdownOpenRef,
       selectedDateRef,
       currentViewDateReactive,
@@ -83,23 +81,6 @@ export default defineComponent({
 
     return {
       context,
-    }
-
-    /**
-     * Generate initial input value.
-     *
-     * @returns {string}
-     */
-    function generateInitialInputValue () {
-      if (props.initialDate === null) {
-        return ''
-      }
-
-      return new Date(props.initialDate)
-        .toISOString()
-        .split('T')
-        .at(0)
-        ?? ''
     }
   },
 })
@@ -115,7 +96,7 @@ export default defineComponent({
       <input
         type="text"
         class="input"
-        :value="context.displayedInputValue"
+        :value="context.formatDisplayedDate()"
         @click="context.openDropdown()"
       >
 

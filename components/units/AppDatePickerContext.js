@@ -17,7 +17,6 @@ export default class AppDatePickerContext extends BaseAppContext {
     props,
     componentContext,
 
-    displayedInputValueRef,
     isDropdownOpenRef,
     selectedDateRef,
     currentViewDateReactive,
@@ -28,7 +27,6 @@ export default class AppDatePickerContext extends BaseAppContext {
       componentContext,
     })
 
-    this.displayedInputValueRef = displayedInputValueRef
     this.isDropdownOpenRef = isDropdownOpenRef
     this.selectedDateRef = selectedDateRef
     this.currentViewDateReactive = currentViewDateReactive
@@ -47,7 +45,6 @@ export default class AppDatePickerContext extends BaseAppContext {
   static create ({
     props,
     componentContext,
-    displayedInputValueRef,
     isDropdownOpenRef,
     selectedDateRef,
     currentViewDateReactive,
@@ -65,7 +62,6 @@ export default class AppDatePickerContext extends BaseAppContext {
       new this({
         props,
         componentContext,
-        displayedInputValueRef,
         isDropdownOpenRef,
         selectedDateRef,
         currentViewDateReactive,
@@ -108,7 +104,6 @@ export default class AppDatePickerContext extends BaseAppContext {
       () => {
         this.syncInitialSelectedDate()
         this.syncInitialCurrentViewDate()
-        this.syncInitialInputValue()
       },
       {
         once: true,
@@ -155,15 +150,6 @@ export default class AppDatePickerContext extends BaseAppContext {
   }
 
   /**
-   * get: inputValue
-   *
-   * @returns {string} Input value.
-   */
-  get displayedInputValue () {
-    return this.displayedInputValueRef.value
-  }
-
-  /**
    * Sync the initial value of `selectedDateRef`.
    *
    * @returns {void}
@@ -196,29 +182,6 @@ export default class AppDatePickerContext extends BaseAppContext {
 
     this.currentViewDateReactive.year = normalizedDate.getFullYear()
     this.currentViewDateReactive.month = normalizedDate.getMonth()
-  }
-
-  /**
-   * Sync the initial value of date picker.
-   *
-   * @returns {void}
-   */
-  syncInitialInputValue () {
-    if (this.initialDate === null) {
-      return
-    }
-
-    const dateString = new Date(this.initialDate)
-      .toISOString()
-      .split('T')
-      .at(0)
-      ?? null
-
-    if (!dateString) {
-      return
-    }
-
-    this.displayedInputValueRef.value = dateString
   }
 
   /**
@@ -503,12 +466,6 @@ export default class AppDatePickerContext extends BaseAppContext {
   selectDate ({
     date,
   }) {
-    const selectedDate = new Date(
-      date.year,
-      date.month,
-      date.day
-    )
-
     const lastSelectedDate = this.selectedDateRef.value
       ? this.selectedDateRef.value
       : this.generateSelectedDateAsToday()
@@ -520,15 +477,10 @@ export default class AppDatePickerContext extends BaseAppContext {
       day: date.day,
     }
 
-    this.displayedInputValueRef.value = selectedDate.toISOString()
-      .split('T')
-      .at(0)
-      ?? ''
-
     this.emit(
       this.EMIT_EVENT_NAME.CHANGE_DATE,
       {
-        date: this.displayedInputValueRef.value,
+        date: this.normalizeInputValue(),
       }
     )
 
@@ -650,17 +602,19 @@ export default class AppDatePickerContext extends BaseAppContext {
   isSelectedDate ({
     date,
   }) {
-    const [
-      selectedYear,
-      selectedMonth,
-      selectedDate,
-    ] = this.displayedInputValue
-      .split('-')
-      .map(it => Number(it))
+    if (!this.selectedDateRef.value) {
+      return false
+    }
 
-    return date.day === selectedDate
-      && date.month === selectedMonth - 1
-      && date.year === selectedYear
+    const {
+      year,
+      month,
+      day,
+    } = this.selectedDateRef.value
+
+    return date.year === year
+      && date.month === month
+      && date.day === day
   }
 
   /**
@@ -747,7 +701,6 @@ export default class AppDatePickerContext extends BaseAppContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<AppDatePickerProps> & {
- *   displayedInputValueRef: import('vue').Ref<string>
  *   isDropdownOpenRef: import('vue').Ref<boolean>
  *   selectedDateRef: import('vue').Ref<SelectedDate | null>
  *   currentViewDateReactive: CurrentViewDate
