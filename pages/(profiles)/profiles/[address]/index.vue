@@ -145,16 +145,15 @@ export default defineComponent({
     const mutationArgs = {
       props,
       componentContext,
+      route,
       graphqlClientHash: {
         putAddressName: putAddressNameGraphqlClient,
       },
       formClerkHash: {
         putAddressName: putAddressNameFormClerk,
       },
-      refetchFunctionHash: {
-        addressName: async () => {
-          await context.refetchAddressName()
-        },
+      fetcherHash: {
+        addressProfile: addressProfileFetcher,
       },
       profileRenameDialogRef,
       errorMessageRef: mutationErrorMessageRef,
