@@ -206,7 +206,7 @@ export default class AppDatePickerContext extends BaseAppContext {
       month: normalizedDate.getMonth(),
       day: normalizedDate.getDate(),
       hour: normalizedDate.getHours(),
-      minute: normalizedDate.getHours(),
+      minute: normalizedDate.getMinutes(),
     }
   }
 
