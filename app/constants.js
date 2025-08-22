@@ -191,6 +191,12 @@ export const WALLET_NETWORK_TYPE = {
   SOLANA: 'solana',
 }
 
+export const SIGNATURE_TYPE = {
+  // EVM and Solana share same verification process.
+  EVM: 'evm',
+  COSMOS: 'cosmos',
+}
+
 export const WALLETS = {
   [WALLET_TYPE.METAMASK]: {
     name: WALLET_TYPE.METAMASK,
@@ -230,6 +236,7 @@ export const WALLETS = {
   },
 }
 
+export const KEPLR_DOWNLOAD_LINK = 'https://www.keplr.app/get'
 export const PHANTOM_DOWNLOAD_LINK = 'https://phantom.com/download'
 
 // Extension wallet EIP-6963 identifiers
@@ -270,6 +277,12 @@ export const ONBOARDING_STATE = /** @type {const} */ ({
 export const ONBOARDING_STEPS = /** @type {const} */ ({
   CHOOSE_WALLET: 'ChooseWallet',
   KEY_DERIVATION: 'KeyDerivation',
+})
+
+export const ENROLLMENT_VERIFICATION_STEP = /** @type {const} */ ({
+  VERIFYING_BALANCE: 1,
+  AWAITING_ADDITIONAL_DEPOSIT: 2,
+  ENROLLED_ACTIVE: 3,
 })
 
 // ******* Base URLS *******

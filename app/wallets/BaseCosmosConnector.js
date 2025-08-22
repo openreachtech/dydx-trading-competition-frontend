@@ -193,9 +193,18 @@ export default class BaseCosmosConnector {
   }
 
   /**
+   * Disconnect.
+   *
+   * @returns {Promise<void>}
+   */
+  async disconnect () {
+    await this.chainWallet.disconnect()
+  }
+
+  /**
    * Sign arbitrary message.
    *
-   * @returns {Promise<any>}
+   * @returns {Promise<ArbitrarySigningResult | null>}
    */
   async signArbitrary () {
     if (!this.address) {
@@ -214,13 +223,18 @@ export default class BaseCosmosConnector {
       return null
     }
 
-    return this.mainWallet
+    const arbitrarySignature = await this.mainWallet
       .client
       .signArbitrary(
         this.chainId,
         this.address,
         signDoc
       )
+
+    return {
+      signDoc,
+      signature: arbitrarySignature,
+    }
   }
 
   /**
@@ -281,4 +295,11 @@ export default class BaseCosmosConnector {
  *   walletName?: string
  *   chainAssets?: Array<import('@chain-registry/types').AssetList>
  * }} BaseCosmosConnectorFactoryParams
+ */
+
+/**
+ * @typedef {{
+ *   signDoc: Uint8Array
+ *   signature: import('@cosmjs/amino').StdSignature
+ * }} ArbitrarySigningResult
  */

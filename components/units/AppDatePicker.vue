@@ -25,6 +25,11 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    canPickTime: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     initialDate: {
       type: [
         Date,
@@ -62,17 +67,18 @@ export default defineComponent({
     props,
     componentContext
   ) {
-    const inputValueRef = ref(generateInitialInputValue())
     const isDropdownOpenRef = ref(false)
-    /** @type {import('./AppDatePickerContext').DateReactive} */
-    const dateReactive = reactive(generateInitialDateReactive())
+    /** @type {import('vue').Ref<import('./AppDatePickerContext').SelectedDate | null>} */
+    const selectedDateRef = ref(null)
+    /** @type {import('vue').Reactive<import('./AppDatePickerContext').CurrentViewDate>} */
+    const currentViewDateReactive = reactive(AppDatePickerContext.generateInitialCurrentViewDate())
 
     const args = {
       props,
       componentContext,
-      inputValueRef,
       isDropdownOpenRef,
-      dateReactive,
+      selectedDateRef,
+      currentViewDateReactive,
     }
     // @ts-expect-error - Type of emit should take a generic. Needs to resolve in furo-nuxt.
     const context = AppDatePickerContext.create(args)
@@ -81,73 +87,55 @@ export default defineComponent({
     return {
       context,
     }
-
-    /**
-     * Generate initial input value.
-     *
-     * @returns {string}
-     */
-    function generateInitialInputValue () {
-      if (props.initialDate === null) {
-        return ''
-      }
-
-      return new Date(props.initialDate)
-        .toISOString()
-        .split('T')
-        .at(0)
-        ?? ''
-    }
-
-    /**
-     * Generate initial `dateReactive`.
-     *
-     * @returns {import('./AppDatePickerContext').DateReactive}
-     */
-    function generateInitialDateReactive () {
-      const date = props.initialDate === null
-        ? new Date()
-        : new Date(props.initialDate)
-
-      return {
-        currentMonth: date.getMonth(),
-        currentYear: date.getFullYear(),
-      }
-    }
   },
 })
 </script>
 
 <template>
-  <span
+  <div
     v-on-click-outside="() => context.closeDropdown()"
     class="unit-picker"
     :class="context.generateDatePickerClasses()"
   >
-    <span class="unit-input">
-      <input
-        type="text"
-        class="input"
-        v-bind="$attrs"
-        :value="context.inputValue"
-        @click="context.openDropdown()"
-      >
+    <button
+      type="button"
+      class="button"
+      @click="context.toggleDropdown()"
+    >
+      <span class="unit-input">
+        <span
+          class="date"
+          :class="{
+            selected: context.hasSelectedDate(),
+          }"
+        >
+          {{ context.formatDisplayedDate() }}
+        </span>
 
-      <button
-        class="button"
-        type="button"
-        @click="context.toggleDropdown()"
-      >
-        <slot name="inputIcon">
-          <Icon
-            name="heroicons:calendar"
-            size="1rem"
-          />
-        </slot>
-      </button>
-    </span>
+        <input
+          type="text"
+          class="input hidden"
+          :value="context.normalizeInputValue()"
+          v-bind="$attrs"
+        >
 
-    <div class="unit-dropdown">
+        <span class="icon picker">
+          <slot name="inputIcon">
+            <Icon
+              name="heroicons:calendar"
+              size="1rem"
+            />
+          </slot>
+        </span>
+      </span>
+    </button>
+
+    <div
+      class="unit-dropdown"
+      :class="{
+        'can-pick-time': context.canPickTime,
+      }"
+    >
       <div class="header">
         <button
           class="button"
@@ -212,12 +200,73 @@ export default defineComponent({
           </span>
         </button>
       </div>
+
+      <div class="time">
+        <template
+          v-for="it of context.createDatePickerTimeItemContexts()"
+          :key="it.key"
+        >
+          <div class="control">
+            <button
+              type="button"
+              class="button increment"
+              :aria-label="it.generateIncrementAriaLabel()"
+              @click="it.incrementClockTime()"
+            >
+              <Icon
+                name="heroicons:chevron-up"
+                size="1rem"
+              />
+            </button>
+
+            <input
+              type="text"
+              inputmode="numeric"
+              class="input"
+              size="2"
+              :value="it.formatClockTime()"
+              @keydown="it.onKeyDown({
+                keyboardEvent: $event,
+              })"
+              @input="it.onInputChange({
+                inputEvent: $event,
+              })"
+            >
+
+            <button
+              type="button"
+              class="button decrement"
+              :aria-label="it.generateDecrementAriaLabel()"
+              @click="it.decrementClockTime()"
+            >
+              <Icon
+                name="heroicons:chevron-down"
+                size="1rem"
+              />
+            </button>
+          </div>
+
+          <span
+            class="connector"
+            aria-hidden="true"
+          >
+            :
+          </span>
+        </template>
+      </div>
     </div>
-  </span>
+  </div>
 </template>
 
 <style scoped>
 .unit-picker {
+  --color-background-picker: var(--color-background-input);
+  --color-background-picker-hover: var(--palette-layer-4);
+
+  position: relative;
+}
+
+.unit-picker > .button {
   outline-width: 0;
   outline-color: transparent;
 
@@ -228,47 +277,59 @@ export default defineComponent({
 
   padding-inline-end: 0.75rem;
 
-  background-color: var(--color-background-input);
-
-  position: relative;
+  background-color: var(--color-background-picker);
 
   display: inline-block;
 
-  transition: border-color 150ms var(--transition-timing-base),
+  width: 100%;
+
+  transition:
+    border-color 150ms var(--transition-timing-base),
+    background-color 150ms var(--transition-timing-base),
     outline-color 150ms var(--transition-timing-base);
 }
 
-.unit-picker.open {
+.unit-picker > .button:hover {
+  background-color: var(--color-background-picker-hover);
+}
+
+.unit-picker.open > .button {
   outline-width: var(--size-thinnest);
   outline-style: solid;
   outline-color: var(--color-border-input-focus);
 }
 
 .unit-input {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
   gap: 0.5rem;
+
+  text-align: start;
 }
 
-.unit-input > .input {
-  border-width: 0;
-  outline-width: 0;
-
+.unit-input > .date {
   padding-block: 0.625rem;
   padding-inline-start: 0.75rem;
 
-  flex: 1;
-
-  background-color: inherit;
-
   font-size: var(--font-size-base);
+
   line-height: var(--size-line-height-base);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.unit-input > .input::placeholder {
+.unit-input > .date:not(.selected) {
   color: var(--color-text-placeholder);
 }
 
-.unit-input > .button {
+.unit-input > .input.hidden {
+  display: none;
+}
+
+.unit-input > .icon.picker {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -278,7 +339,7 @@ export default defineComponent({
   transition: color 250ms var(--transition-timing-base);
 }
 
-.unit-input > .button:hover {
+.unit-picker > .button:hover > .unit-input > .icon.picker {
   color: var(--color-text-primary);
 }
 
@@ -434,6 +495,74 @@ export default defineComponent({
 
   cursor: not-allowed;
 }
+
+.unit-dropdown > .time {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+
+  margin-block-start: 0.5rem;
+
+  border-block-start-color: var(--color-border-dropdown);
+  border-block-start-width: var(--size-thinnest);
+  border-block-start-style: solid;
+
+  padding-block-start: 0.5rem;
+}
+
+.unit-dropdown:not(.can-pick-time) > .time {
+  display: none;
+}
+
+.unit-dropdown > .time > .control {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.25rem;
+}
+
+.unit-dropdown > .time > .control > .button {
+  border-radius: 0.25rem;
+
+  padding-block: 0.25rem;
+  padding-inline: 0.25rem;
+
+  transition: background-color 250ms var(--transition-timing-base);
+}
+
+.unit-dropdown > .time > .control > .button:hover {
+  background-color: var(--color-background-date-picker-hover);
+}
+
+.unit-dropdown > .time > .control > .input {
+  border-width: 0;
+
+  padding-block: 0;
+
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  line-height: var(--size-line-height-small);
+
+  text-align: center;
+
+  color: var(--color-text-secondary);
+  background-color: transparent;
+
+  transition: color 250ms var(--transition-timing-base);
+}
+
+.unit-dropdown > .time > .control > .input:focus-visible {
+  outline-width: 0;
+
+  color: var(--color-text-primary);
+}
+
+.unit-dropdown > .time > .connector:last-of-type {
+  display: none;
+}
+
 /********** Animation **********/
 
 /* TODO: Unify fade-in animation */

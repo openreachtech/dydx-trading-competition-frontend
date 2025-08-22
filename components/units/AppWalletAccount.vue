@@ -125,9 +125,19 @@ export default defineComponent({
           </div>
         </div>
 
-        <div class="connector" />
+        <div
+          class="connector"
+          :class="{
+            hidden: context.hasSameAddressAsSource(),
+          }"
+        />
 
-        <div class="unit-chain">
+        <div
+          class="unit-chain"
+          :class="{
+            hidden: context.hasSameAddressAsSource(),
+          }"
+        >
           <img
             :src="context.generateWalletImageUrl()"
             alt="Wallet Icon"
@@ -293,6 +303,10 @@ export default defineComponent({
   height: 1.75rem;
 }
 
+.unit-dropdown > .address > .connector.hidden {
+  display: none;
+}
+
 .unit-dropdown > .reconnect {
   margin-block-start: 1rem;
 
@@ -323,6 +337,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.unit-chain.hidden {
+  display: none;
 }
 
 .unit-chain > .image {

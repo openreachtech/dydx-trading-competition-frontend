@@ -13,6 +13,7 @@ import {
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
+  BASE_INDEXER_URL,
   BASE_PAGE_TITLE,
   COMPETITION_STATUS,
   PAGINATION,
@@ -38,9 +39,12 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     walletStore,
     graphqlClientHash,
     fetcherHash,
+    currentEquityRef,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    enrollmentVerificationDialogShallowRef,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     super({
@@ -53,9 +57,12 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.fetcherHash = fetcherHash
+    this.currentEquityRef = currentEquityRef
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
+    this.enrollmentVerificationDialogShallowRef = enrollmentVerificationDialogShallowRef
+    this.errorMessageHashReactive = errorMessageHashReactive
     this.statusReactive = statusReactive
   }
 
@@ -76,9 +83,12 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     walletStore,
     graphqlClientHash,
     fetcherHash,
+    currentEquityRef,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
     competitionCancelationDialogRef,
+    enrollmentVerificationDialogShallowRef,
+    errorMessageHashReactive,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -90,12 +100,33 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         walletStore,
         graphqlClientHash,
         fetcherHash,
+        currentEquityRef,
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
         competitionCancelationDialogRef,
+        enrollmentVerificationDialogShallowRef,
+        errorMessageHashReactive,
         statusReactive,
       })
     )
+  }
+
+  /**
+   * get: fetchCurrentEquityErrorMessage
+   *
+   * @returns {string | null}
+   */
+  get fetchCurrentEquityErrorMessage () {
+    return this.errorMessageHashReactive.fetchCurrentEquity
+  }
+
+  /**
+   * get: currentEquity
+   *
+   * @returns {number | null}
+   */
+  get currentEquity () {
+    return this.currentEquityRef.value
   }
 
   /**
@@ -364,6 +395,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.watch(
       () => this.localWalletAddress,
       async () => {
+        this.resetCurrentEquity()
+
         await this.graphqlClientHash
           .competitionParticipant
           .invokeRequestOnEvent({
@@ -869,6 +902,94 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       competitionParticipant: () => this.fetchCompetitionParticipant(),
       leaderboardEntries: () => this.fetchLeaderboardEntries(),
       competitionEnrolledParticipantsNumber: () => this.fetchCompetitionEnrolledParticipantsNumber(),
+    }
+  }
+
+  /**
+   * Reset current equity.
+   *
+   * @returns {void}
+   */
+  resetCurrentEquity () {
+    this.currentEquityRef.value = null
+  }
+
+  /**
+   * Fetch current equity of user.
+   *
+   * @param {{
+   *   afterRequestCallback: (...args: any[]) => any | Promise<any>
+   * }} params - Parameters.
+   * @returns {Promise<void>}
+   */
+  async fetchCurrentEquity ({
+    afterRequestCallback,
+  }) {
+    const resourceUrl = this.generateFetchCurrentEquityResourceUrl()
+    if (resourceUrl === null) {
+      return
+    }
+
+    this.statusReactive.isFetchingCurrentEquity = true
+
+    const fetchOptionHash = this.generateFetchCurrentEquityOptionHash()
+
+    try {
+      const response = await fetch(resourceUrl, fetchOptionHash)
+
+      if (!response.ok) {
+        /** @type {FetchCurrentEquityErrorResponse} */
+        const {
+          errors,
+        } = await response.json()
+
+        this.errorMessageHashReactive.fetchCurrentEquity = errors.at(0)
+          ?.msg
+          ?? null
+
+        return
+      }
+
+      const currentEquity = await response.json()
+
+      this.currentEquityRef.value = currentEquity.subaccount.equity
+    } catch (error) {
+      this.errorMessageHashReactive.fetchCurrentEquity = this.resolveErrorMessage({
+        error,
+      })
+    } finally {
+      this.statusReactive.isFetchingCurrentEquity = false
+
+      await afterRequestCallback?.()
+    }
+  }
+
+  /**
+   * Generate resource URL to fetch current equity.
+   *
+   * @returns {string | null}
+   */
+  generateFetchCurrentEquityResourceUrl () {
+    if (this.localWalletAddress === null) {
+      return null
+    }
+
+    const parentSubaccountNumber = 0
+
+    return `${BASE_INDEXER_URL}/addresses/${this.localWalletAddress}/parentSubaccountNumber/${parentSubaccountNumber}`
+  }
+
+  /**
+   * Generate fetch option hash to fetch current equity.
+   *
+   * @returns {RequestInit}
+   */
+  generateFetchCurrentEquityOptionHash () {
+    return {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+      },
     }
   }
 
@@ -1520,6 +1641,15 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * get: isFetchingCurrentEquity
+   *
+   * @returns {boolean}
+   */
+  get isFetchingCurrentEquity () {
+    return this.statusReactive.isFetchingCurrentEquity
+  }
+
+  /**
    * get: isLoadingLeaderboard
    *
    * @returns {boolean}
@@ -2034,6 +2164,28 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     dialogElement.dismissDialog()
   }
+
+  /**
+   * Resolve error message.
+   *
+   * @param {{
+   *   error: unknown
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  resolveErrorMessage ({
+    error,
+  }) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    if (typeof error !== 'string') {
+      return 'Unknown error'
+    }
+
+    return error
+  }
 }
 
 /**
@@ -2041,9 +2193,11 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   route: ReturnType<import('vue-router').useRoute>
  *   toastStore: import('~/stores/toast').ToastStore
  *   walletStore: import('~/stores/wallet').WalletStore
+ *   currentEquityRef: import('vue').Ref<number | null>
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   enrollmentVerificationDialogShallowRef: import('vue').ShallowRef<import('~/components/dialogs/EnrollmentVerificationDialog.vue').default | null>
  *   graphqlClientHash: {
  *     competition: GraphqlClient
  *     addressName: GraphqlClient
@@ -2057,6 +2211,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   fetcherHash: {
  *     competitionTradingMetrics: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher').default
  *   }
+ *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>
  *   statusReactive: StatusReactive
  * }} CompetitionDetailsPageContextParams
  */
@@ -2071,6 +2226,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   isFetchingCurrentEquity: boolean
  *   isLoading: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingCompetitionTradingMetrics: boolean
@@ -2180,4 +2336,18 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   | 'leaderboardEntries'
  *   | 'competitionEnrolledParticipantsNumber'
  * } RefetchHashKeys
+ */
+
+/**
+ * @typedef {{
+ *   fetchCurrentEquity: string | null
+ * }} ErrorMessageHash
+ */
+
+/**
+ * @typedef {{
+ *   errors: Array<{
+ *     msg: string
+ *   }>
+ * }} FetchCurrentEquityErrorResponse
  */

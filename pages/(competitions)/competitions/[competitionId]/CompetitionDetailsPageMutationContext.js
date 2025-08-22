@@ -17,6 +17,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
 
     toastStore,
     competitionEnrollmentDialogRef,
+    enrollmentVerificationDialogShallowRef,
     refetchHash,
     graphqlClientHash,
     formClerkHash,
@@ -30,6 +31,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
 
     this.toastStore = toastStore
     this.competitionEnrollmentDialogRef = competitionEnrollmentDialogRef
+    this.enrollmentVerificationDialogShallowRef = enrollmentVerificationDialogShallowRef
     this.refetchHash = refetchHash
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
@@ -51,6 +53,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
     componentContext,
     toastStore,
     competitionEnrollmentDialogRef,
+    enrollmentVerificationDialogShallowRef,
     refetchHash,
     graphqlClientHash,
     formClerkHash,
@@ -63,6 +66,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
         componentContext,
         toastStore,
         competitionEnrollmentDialogRef,
+        enrollmentVerificationDialogShallowRef,
         refetchHash,
         graphqlClientHash,
         formClerkHash,
@@ -73,12 +77,21 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
   }
 
   /**
-   * get: competitionEnrollmentDialogRef
+   * get: competitionEnrollmentDialog
    *
    * @returns {import('~/components/units/AppDialog.vue').default | null}
    */
   get competitionEnrollmentDialog () {
     return this.competitionEnrollmentDialogRef.value
+  }
+
+  /**
+   * get: enrollmentVerificationDialog
+   *
+   * @returns {import('~/components/dialogs/EnrollmentVerificationDialog.vue').default | null}
+   */
+  get enrollmentVerificationDialog () {
+    return this.enrollmentVerificationDialogShallowRef.value
   }
 
   /**
@@ -156,12 +169,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
           this.competitionEnrollmentDialog.dismissDialog()
         }
 
-        // TODO: Refactor with fetcherHash and show enrolled arena's name.
-        this.toastStore.add({
-          message: 'You have successfully joined the arena',
-          iconName: 'heroicons:check-circle',
-          color: 'success',
-        })
+        this.enrollmentVerificationDialog?.showDialog()
 
         await Promise.allSettled([
           this.refetchHash.competitionParticipant(),
@@ -177,6 +185,7 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   toastStore: import('~/stores/toast').ToastStore
  *   competitionEnrollmentDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   enrollmentVerificationDialogShallowRef: import('vue').ShallowRef<import('~/components/dialogs/EnrollmentVerificationDialog.vue').default | null>
  *   refetchHash: import('~/app/vue/contexts/CompetitionDetailsPageContext').RefetchHash
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
