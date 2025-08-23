@@ -153,6 +153,7 @@ export default defineComponent({
   --color-background-backdrop: rgba(0, 0, 0, 0.4);
   --color-background-avatar: var(--palette-layer-4);
   --color-border-avatar: var(--palette-layer-4);
+  --color-drop-shadow: #00000099;
 
   display: grid;
   justify-content: center;
@@ -160,6 +161,8 @@ export default defineComponent({
 
   width: var(--size-avatar);
   height: var(--size-avatar);
+
+  filter: drop-shadow(0 0.125rem 1.25rem var(--color-drop-shadow));
 }
 
 .unit-avatar {
