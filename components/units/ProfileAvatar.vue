@@ -160,10 +160,6 @@ export default defineComponent({
 
   width: var(--size-avatar);
   height: var(--size-avatar);
-
-  background-color: var(--color-background-avatar);
-
-  mask: url('~/assets/img/masks/hexagon-mask.svg') center / contain no-repeat;
 }
 
 .unit-avatar {
@@ -175,7 +171,7 @@ export default defineComponent({
 
   background-color: var(--color-background-avatar);
 
-  mask: inherit;
+  mask: url('~/assets/img/masks/hexagon-mask.svg') center / contain no-repeat;
 }
 
 .unit-avatar > * {
