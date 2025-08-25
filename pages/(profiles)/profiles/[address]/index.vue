@@ -226,12 +226,7 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <section
-      class="section"
-      :class="{
-        hidden: !context.isParticipatingInArena(),
-      }"
-    >
+    <section class="section">
       <h1 class="heading">
         Current Arena
       </h1>
