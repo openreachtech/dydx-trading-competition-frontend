@@ -135,7 +135,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
    *   label: string
    * }>} Tabs.
    */
-  generateProfileTabs () {
+  generateFilteredProfileTabs () {
     if (this.isParticipatingInArena()) {
       return this.profileTabs
     }
@@ -156,7 +156,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
       : this.route.query.tab
 
     if (!activeTabKey) {
-      return this.generateProfileTabs()
+      return this.generateFilteredProfileTabs()
         .at(0)
         ?.tabKey
         ?? null
