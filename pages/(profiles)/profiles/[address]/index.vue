@@ -228,7 +228,7 @@ export default defineComponent({
 
     <section class="section">
       <h1 class="heading">
-        Current Arena
+        Trade Overview
       </h1>
 
       <AppTabLayout
