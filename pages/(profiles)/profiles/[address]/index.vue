@@ -232,7 +232,7 @@ export default defineComponent({
       </h1>
 
       <AppTabLayout
-        :tabs="context.profileTabs"
+        :tabs="context.generateProfileTabs()"
         :active-tab-key="context.extractActiveTabKeyFromRoute()"
         @change-tab="context.changeTab({
           fromTab: $event.fromTab,
@@ -242,7 +242,7 @@ export default defineComponent({
         <template #contents>
           <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
-          <ProfileTransferHistory />
+          <ProfileTransferHistory v-if="context.isParticipatingInArena()" />
 
           <ProfileOrders
             :profile-orders="context.profileOrders"
