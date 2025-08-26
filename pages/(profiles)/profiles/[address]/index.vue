@@ -226,18 +226,13 @@ export default defineComponent({
 
     <SectionProfileFinancialMetrics :metrics="context.generateFinancialMetrics()" />
 
-    <section
-      class="section"
-      :class="{
-        hidden: !context.isParticipatingInArena(),
-      }"
-    >
+    <section class="section">
       <h1 class="heading">
-        Current Arena
+        Trade Overview
       </h1>
 
       <AppTabLayout
-        :tabs="context.profileTabs"
+        :tabs="context.generateProfileTabs()"
         :active-tab-key="context.extractActiveTabKeyFromRoute()"
         @change-tab="context.changeTab({
           fromTab: $event.fromTab,
@@ -247,7 +242,7 @@ export default defineComponent({
         <template #contents>
           <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
-          <ProfileTransferHistory />
+          <ProfileTransferHistory v-if="context.isParticipatingInArena()" />
 
           <ProfileOrders
             :profile-orders="context.profileOrders"
