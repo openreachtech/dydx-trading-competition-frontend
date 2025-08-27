@@ -232,7 +232,7 @@ export default defineComponent({
       </h1>
 
       <AppTabLayout
-        :tabs="context.generateProfileTabs()"
+        :tabs="context.generateFilteredProfileTabs()"
         :active-tab-key="context.extractActiveTabKeyFromRoute()"
         @change-tab="context.changeTab({
           fromTab: $event.fromTab,
