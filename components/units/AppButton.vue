@@ -23,6 +23,7 @@ import AppButtonContext from '~/app/vue/contexts/AppButtonContext'
  * @typedef {import('vue').PropType<
  *    'filled'
  *    | 'outlined'
+ *    | 'text'
  * >} AppearancePropType
  */
 
@@ -220,6 +221,25 @@ export default defineComponent({
 
 .unit-button.outlined.error {
   border-color: var(--color-border-button-outlined-error);
+}
+
+.unit-button.text {
+  border-width: 0;
+
+  padding-block: 0.5rem;
+  padding-inline: 0.5rem;
+
+  background-color: transparent;
+}
+
+.unit-button.text:hover {
+  --color-background-button: var(--palette-layer-5);
+
+  background-color: color-mix(
+    in srgb,
+    var(--color-background-button) var(--value-button-hover-overlay-darken-opacity),
+    var(--color-background-button-hover-overlay-darken)
+  );
 }
 
 /* Rounded */
