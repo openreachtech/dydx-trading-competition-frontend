@@ -90,13 +90,15 @@ export default defineComponent({
                 columnOptions: headerEntry.columnOptions,
               })"
             >
-              <slot
-                :label="headerEntry.label"
-                :property="headerEntry.key"
-                :name="`head-${headerEntry.key}`"
-              >
-                {{ headerEntry.label }}
-              </slot>
+              <div class="content">
+                <slot
+                  :label="headerEntry.label"
+                  :property="headerEntry.key"
+                  :name="`head-${headerEntry.key}`"
+                >
+                  {{ headerEntry.label }}
+                </slot>
+              </div>
             </th>
           </tr>
         </thead>
@@ -198,6 +200,14 @@ export default defineComponent({
   display: none;
 }
 
+.unit-table > .thead > .row > .cell.head > .content {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .unit-table > .tbody > .row > .cell {
   padding-block: 0.75rem;
 }
@@ -223,12 +233,24 @@ export default defineComponent({
   text-align: start;
 }
 
+.unit-table > .thead > .row > .cell.text-start > .content {
+  justify-content: start;
+}
+
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-end {
   text-align: end;
 }
 
+.unit-table > .thead > .row > .cell.text-end > .content {
+  justify-content: end;
+}
+
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-center {
   text-align: center;
+}
+
+.unit-table > .thead > .row > .cell.text-center > .content {
+  justify-content: center;
 }
 
 .unit-table-container:not(.empty) > .empty-container {
