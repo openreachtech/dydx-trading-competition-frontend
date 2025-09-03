@@ -25,6 +25,14 @@ export const ORDINAL_SUFFIX_HASH = {
   OTHER: 'th',
 }
 
+// 'ASC' and 'DESC' are basic sort options of SQL.
+export const SORT_DIRECTION_OPTION = /** @type {const} */ ({
+  ASC: 'asc',
+  DESC: 'desc',
+})
+
+export const DEFAULT_TABLE_SORT_QUERY_KEY = 'q'
+
 export const COMPETITION_STATUS = {
   CREATED: {
     ID: 1,
