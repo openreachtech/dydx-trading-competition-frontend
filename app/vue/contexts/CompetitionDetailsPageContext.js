@@ -187,7 +187,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingPnl',
         label: 'PnL',
         columnOptions: {
-          width: '15%',
+          width: '16%',
           textAlign: 'end',
         },
         isSortable: true,
@@ -196,7 +196,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingBaseline',
         label: 'Performance Baseline',
         columnOptions: {
-          width: '15%',
+          width: '16%',
           textAlign: 'end',
         },
       },
