@@ -47,4 +47,46 @@ export default class BaseAppContext extends BaseFuroContext {
 
     return formatter.format(parsedValue)
   }
+
+  /**
+   * Shorten wallet address.
+   *
+   * @param {{
+   *   address?: string | null
+   *   delimiter?: string
+   *   truncationThreshold?: number
+   *   firstHalfLength?: number
+   *   secondHalfLength?: number
+   *   fallbackValue?: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  shortenWalletAddress ({
+    address,
+    delimiter = '...',
+    truncationThreshold = 12,
+    firstHalfLength = 7,
+    secondHalfLength = 5,
+    fallbackValue = '--',
+  }) {
+    const isNotString = typeof address !== 'string'
+
+    if (!address || isNotString) {
+      return fallbackValue
+    }
+
+    if (address.length <= truncationThreshold) {
+      return address
+    }
+
+    const normalizedFirstHalfLength = Math.min(firstHalfLength, address.length)
+
+    const remainingCharacters = address.length - normalizedFirstHalfLength
+    const normalizedSecondHalfLength = Math.min(secondHalfLength, remainingCharacters)
+
+    const firstHalf = address.slice(0, normalizedFirstHalfLength)
+    const secondHalf = address.slice(-1 * normalizedSecondHalfLength)
+
+    return `${firstHalf}${delimiter}${secondHalf}`
+  }
 }
