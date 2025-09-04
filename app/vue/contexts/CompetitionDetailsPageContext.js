@@ -757,7 +757,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     const requiredInput = {
       competitionId,
-      pagination: this.generateOngoingLeaderboardPaginationInput(),
+      pagination: this.generateOngoingTopThreePaginationInput(),
     }
 
     if (!this.localWalletAddress) {
