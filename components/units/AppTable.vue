@@ -1,11 +1,22 @@
 <script>
 import {
   defineComponent,
+  reactive,
 } from 'vue'
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
 
 import {
   Icon,
 } from '#components'
+
+import {
+  DEFAULT_TABLE_SORT_QUERY_KEY,
+  SORT_DIRECTION_OPTION,
+} from '~/app/constants'
 
 import AppTableContext from '~/app/vue/contexts/AppTableContext'
 
@@ -43,15 +54,38 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    sortQueryKey: {
+      type: String,
+      required: false,
+      default: DEFAULT_TABLE_SORT_QUERY_KEY,
+    },
   },
+
+  emits: [
+    AppTableContext.EMIT_EVENT_NAME.SORT_COLUMN,
+  ],
 
   setup (
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
+    /** @type {import('vue').Reactive<import('~/app/vue/contexts/AppTableContext').FilterState>} */
+    const filterStateReactive = reactive({
+      sortOption: {
+        targetColumn: null,
+        orderBy: SORT_DIRECTION_OPTION.DESC,
+      },
+    })
+
     const args = {
       props,
       componentContext,
+      route,
+      router,
+      filterStateReactive,
     }
     const context = AppTableContext.create(args)
       .setupComponent()
