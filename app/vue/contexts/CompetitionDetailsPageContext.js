@@ -731,20 +731,72 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchOngoingTopThree () {
+    const variables = this.generateFetchOngoingTopThreeVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionLeaderboard
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: 3,
-              offset: 0,
-            },
-          },
-        },
+        variables,
         hooks: this.ongoingTopThreeLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchOngoingLeaderboard`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchOngoingTopThreeVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: this.generateOngoingLeaderboardPaginationInput(),
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
+  }
+
+  /**
+   * Generate pagination input for ongoing leaderboard.
+   *
+   * @returns {import(
+   *   '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlPayload'
+   * ).CompetitionLeaderboardQueryRequestVariables['input']['pagination']}
+   */
+  generateOngoingTopThreePaginationInput () {
+    const pagination = {
+      limit: 3,
+      offset: 0,
+    }
+    const sort = this.extractOngoingLeaderboardSortFromRoute()
+
+    if (!sort) {
+      // If there is no active sort option, use server-side default sorting configuration.
+      return pagination
+    }
+
+    return {
+      ...pagination,
+      sort,
+    }
   }
 
   /**
