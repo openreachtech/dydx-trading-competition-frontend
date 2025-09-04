@@ -122,6 +122,32 @@ export default class AppTableContext extends BaseAppContext {
   }
 
   /**
+   * Setup component.
+   *
+   * @template {X extends AppTableContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.watch(
+      () => this.extractSortOptionFromRoute(),
+      newSortOption => {
+        if (!newSortOption) {
+          return
+        }
+
+        this.filterStateReactive.sortOption.targetColumn = newSortOption.targetColumn
+        this.filterStateReactive.sortOption.orderBy = newSortOption.orderBy
+      },
+      {
+        immediate: true,
+      }
+    )
+
+    return this
+  }
+
+  /**
    * Check if table is empty.
    *
    * @returns {boolean} `true` if is empty.
@@ -239,6 +265,33 @@ export default class AppTableContext extends BaseAppContext {
       this.EMIT_EVENT_NAME.SORT_COLUMN,
       sortOption
     )
+  }
+
+  /**
+   * Extract sort option from route.
+   *
+   * @returns {SortOption | null}
+   */
+  extractSortOptionFromRoute () {
+    const {
+      [this.sortQueryKey]: sortOptionFromRoute,
+    } = this.route.query
+
+    const sortOption = Array.isArray(sortOptionFromRoute)
+      ? sortOptionFromRoute.at(0)
+      : sortOptionFromRoute
+
+    if (!sortOption) {
+      return null
+    }
+
+    const decodedSortOption = decodeURIComponent(sortOption)
+    const [targetColumn, orderBy] = decodedSortOption.split(':')
+
+    return {
+      targetColumn,
+      orderBy,
+    }
   }
 
   /**
