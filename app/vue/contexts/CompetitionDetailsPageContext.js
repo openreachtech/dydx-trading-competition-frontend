@@ -1174,6 +1174,10 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
           return
         }
 
+        if (this.extractOngoingLeaderboardSortFromRoute()) {
+          return
+        }
+
         if (!capsule.defaultLeaderboardSortOption) {
           return
         }
