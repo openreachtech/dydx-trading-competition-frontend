@@ -1187,7 +1187,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
           string: targetColumn,
         })}`
 
-        await this.router.push({
+        await this.router.replace({
           query: {
             ...this.route.query,
             leaderboardSort: encodeURIComponent(`${normalizedTargetColumn}:${orderBy}`),
