@@ -126,6 +126,9 @@ export default defineComponent({
               :class="context.generateCellClasses({
                 columnOptions: headerEntry.columnOptions,
               })"
+              :style="{
+                width: headerEntry.columnOptions?.width,
+              }"
             >
               <div class="content">
                 <slot
@@ -200,6 +203,9 @@ export default defineComponent({
                 :class="context.generateCellClasses({
                   columnOptions: entry.columnOptions,
                 })"
+                :style="{
+                  width: entry.columnOptions?.width,
+                }"
               >
                 <slot
                   :name="`body-${entry.key}`"
