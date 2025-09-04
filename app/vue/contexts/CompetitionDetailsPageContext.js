@@ -166,21 +166,21 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingRank',
         label: 'Rank',
         columnOptions: {
-          width: '10%',
+          width: '8%',
         },
       },
       {
         key: 'ongoingName',
         label: 'Name',
         columnOptions: {
-          width: '20%',
+          width: '19%',
         },
       },
       {
         key: 'ongoingAddress',
         label: 'Address',
         columnOptions: {
-          width: '15%',
+          width: '16%',
         },
       },
       {
@@ -238,14 +238,14 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'participantAddress',
         label: 'Address',
         columnOptions: {
-          width: '40%',
+          width: '45%',
         },
       },
       {
         key: 'participantEquity',
         label: 'Equity',
         columnOptions: {
-          width: '20%',
+          width: '15%',
         },
       },
       {
@@ -270,7 +270,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeRank',
         label: 'Rank',
         columnOptions: {
-          width: '10%',
+          width: '8%',
         },
       },
       {
@@ -284,14 +284,14 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeAddress',
         label: 'Address',
         columnOptions: {
-          width: '14%',
+          width: '16%',
         },
       },
       {
         key: 'outcomePnl',
         label: 'PnL',
         columnOptions: {
-          width: '14%',
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -299,7 +299,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeBaseline',
         label: 'Performance Baseline',
         columnOptions: {
-          width: '14%',
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -307,7 +307,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeRoi',
         label: 'ROI',
         columnOptions: {
-          width: '14%',
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -315,7 +315,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomePrize',
         label: 'Prize',
         columnOptions: {
-          width: '14%',
+          width: '8%',
           textAlign: 'end',
         },
       },
