@@ -176,6 +176,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         columnOptions: {
           textAlign: 'end',
         },
+        isSortable: true,
       },
       {
         key: 'ongoingBaseline',
@@ -190,6 +191,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         columnOptions: {
           textAlign: 'end',
         },
+        isSortable: true,
       },
       {
         key: 'ongoingTotalVolume',
@@ -352,6 +354,18 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       ],
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.extractOngoingLeaderboardSortFromRoute(),
+      async () => {
+        // Must fetch top three first to have correct pagination result.
+        await this.fetchOngoingTopThree()
+        await this.fetchOngoingLeaderboard()
+      },
+      {
+        deep: true,
       }
     )
 
@@ -592,10 +606,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     const requiredInput = {
       competitionId,
-      pagination: {
-        limit: PAGINATION.LIMIT,
-        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-      },
+      pagination: this.generateOngoingLeaderboardPaginationInput(),
     }
 
     if (!this.localWalletAddress) {
@@ -609,6 +620,31 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         ...requiredInput,
         address: this.localWalletAddress,
       },
+    }
+  }
+
+  /**
+   * Generate pagination input for ongoing leaderboard.
+   *
+   * @returns {import(
+   *   '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlPayload'
+   * ).CompetitionLeaderboardQueryRequestVariables['input']['pagination']}
+   */
+  generateOngoingLeaderboardPaginationInput () {
+    const pagination = {
+      limit: PAGINATION.LIMIT,
+      offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+    }
+    const sort = this.extractOngoingLeaderboardSortFromRoute()
+
+    if (!sort) {
+      // If there is no active sort option, use server-side default sorting configuration.
+      return pagination
+    }
+
+    return {
+      ...pagination,
+      sort,
     }
   }
 
@@ -1028,6 +1064,36 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     return isNaN(currentPage)
       ? 1
       : currentPage
+  }
+
+  /**
+   * Extract ongoing leaderboard's sort option from URL.
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   */
+  extractOngoingLeaderboardSortFromRoute () {
+    const {
+      leaderboardSort,
+    } = this.route.query
+
+    const sortOption = Array.isArray(leaderboardSort)
+      ? leaderboardSort.at(0)
+      : leaderboardSort
+
+    if (!sortOption) {
+      return this.defaultLeaderboardSortOption
+    }
+
+    const decodedSortOption = decodeURIComponent(sortOption)
+    const [targetColumn, orderBy] = decodedSortOption.split(':')
+    const normalizedTargetColumn = targetColumn
+      .replace(/^ongoing/u, '')
+      .toLowerCase()
+
+    return {
+      targetColumn: normalizedTargetColumn,
+      orderBy,
+    }
   }
 
   /**
@@ -1814,6 +1880,17 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     return this.competitionCapsuleRef
       .value
       .outcomeCsvUrl
+  }
+
+  /**
+   * get: defaultLeaderboardSortOption
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   */
+  get defaultLeaderboardSortOption () {
+    return this.competitionCapsuleRef
+      .value
+      .defaultLeaderboardSortOption
   }
 
   /**
