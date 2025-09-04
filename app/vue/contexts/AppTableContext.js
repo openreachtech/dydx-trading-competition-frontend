@@ -142,7 +142,6 @@ export default class AppTableContext extends BaseAppContext {
       {
         deep: true,
         immediate: true,
-        once: true,
       }
     )
 
