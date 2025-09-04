@@ -35,6 +35,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     componentContext,
 
     route,
+    router,
     toastStore,
     walletStore,
     graphqlClientHash,
@@ -53,6 +54,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     })
 
     this.route = route
+    this.router = router
     this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
@@ -79,6 +81,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     props,
     componentContext,
     route,
+    router,
     toastStore,
     walletStore,
     graphqlClientHash,
@@ -96,6 +99,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         props,
         componentContext,
         route,
+        router,
         toastStore,
         walletStore,
         graphqlClientHash,
@@ -1159,8 +1163,36 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         return false
       },
+      /**
+       * @type {(capsule: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default) => Promise<void>}
+       */
+      // @ts-expect-error: Upstream type mismatched. Should be fixed in newer furo-nuxt versions.
       afterRequest: async capsule => {
         this.statusReactive.isLoading = false
+
+        if (capsule.hasError()) {
+          return
+        }
+
+        if (!capsule.defaultLeaderboardSortOption) {
+          return
+        }
+
+        const {
+          targetColumn,
+          orderBy,
+        } = capsule.defaultLeaderboardSortOption
+
+        const normalizedTargetColumn = `ongoing${this.toCapitalizedCase({
+          string: targetColumn,
+        })}`
+
+        await this.router.push({
+          query: {
+            ...this.route.query,
+            leaderboardSort: encodeURIComponent(`${normalizedTargetColumn}:${orderBy}`),
+          },
+        })
       },
     }
   }
@@ -2263,11 +2295,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     return error
   }
+
+  /**
+   * Capitalize a string.
+   *
+   * @param {{
+   *   string: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  toCapitalizedCase ({
+    string,
+  }) {
+    const firstLetter = string.charAt(0)
+    const remainingLetters = string.slice(1)
+
+    return `${firstLetter.toUpperCase()}${remainingLetters}`
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   toastStore: import('~/stores/toast').ToastStore
  *   walletStore: import('~/stores/wallet').WalletStore
  *   currentEquityRef: import('vue').Ref<number | null>
