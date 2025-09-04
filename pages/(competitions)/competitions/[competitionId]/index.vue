@@ -32,6 +32,7 @@ import CompetitionTradingMetricsFetcher from '~/pages/(competitions)/competition
 
 import {
   useRoute,
+  useRouter,
 } from 'vue-router'
 import {
   useGraphqlClient,
@@ -61,6 +62,7 @@ export default defineComponent({
     componentContext
   ) {
     const route = useRoute()
+    const router = useRouter()
     const toastStore = useToastStore()
     const walletStore = useWalletStore()
 
@@ -129,6 +131,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      router,
       walletStore,
       toastStore,
       currentEquityRef,

@@ -174,6 +174,17 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
       ?.outcomeCsvUrl
       ?? null
   }
+
+  /**
+   * get: defaultLeaderboardSortOption
+   *
+   * @returns {SortOption | null}
+   */
+  get defaultLeaderboardSortOption () {
+    return this.extractCompetition()
+      ?.defaultLeaderboardSortOption
+      ?? null
+  }
 }
 
 /**
@@ -200,6 +211,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   status: Status
  *   prizeRules: Array<PrizeRule>
  *   outcomeCsvUrl?: string
+ *   defaultLeaderboardSortOption: SortOption
  * }} CompetitionEntity
  */
 
@@ -235,4 +247,11 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
  *   name: string
  *   phasedAt: string
  * }} Status
+ */
+
+/**
+ * @typedef {{
+ *   targetColumn: string
+ *   orderBy: string
+ * }} SortOption
  */

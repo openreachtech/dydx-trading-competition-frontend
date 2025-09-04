@@ -226,6 +226,7 @@ export default defineComponent({
               :is-loading="context.isLoadingLeaderboard"
               class="table"
               min-width="50rem"
+              sort-query-key="leaderboardSort"
             >
               <!-- ** Competition participants list ** -->
               <template #body-participantName="{ value, row }">
