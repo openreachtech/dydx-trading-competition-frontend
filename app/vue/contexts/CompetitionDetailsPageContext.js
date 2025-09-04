@@ -414,7 +414,21 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     this.watch(
       () => this.extractOngoingLeaderboardSortFromRoute(),
-      async () => {
+      async (newSortOption, oldSortOption) => {
+        // TODO: Vue's watcher triggers on all query parameter changes, not just sort changes.
+        // The manual comparison below prevents unnecessary leaderboard fetches.
+        // Consider using a more specific watcher or computed property to track only sort changes.
+        if (!newSortOption || !oldSortOption) {
+          return
+        }
+
+        const isSameSortOption = newSortOption.targetColumn === oldSortOption.targetColumn
+          && newSortOption.orderBy === oldSortOption.orderBy
+
+        if (isSameSortOption) {
+          return
+        }
+
         // Must fetch top three first to have correct pagination result.
         await this.fetchOngoingTopThree()
         await this.fetchOngoingLeaderboard()
