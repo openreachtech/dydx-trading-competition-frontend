@@ -140,7 +140,9 @@ export default class AppTableContext extends BaseAppContext {
         this.filterStateReactive.sortOption.orderBy = newSortOption.orderBy
       },
       {
+        deep: true,
         immediate: true,
+        once: true,
       }
     )
 
