@@ -13,6 +13,8 @@ import {
   Icon,
 } from '#components'
 
+import AppButton from '~/components/units/AppButton.vue'
+
 import {
   DEFAULT_TABLE_SORT_QUERY_KEY,
   SORT_DIRECTION_OPTION,
@@ -23,6 +25,7 @@ import AppTableContext from '~/app/vue/contexts/AppTableContext'
 export default defineComponent({
   components: {
     Icon,
+    AppButton,
   },
 
   props: {
@@ -131,6 +134,53 @@ export default defineComponent({
                   :name="`head-${headerEntry.key}`"
                 >
                   {{ headerEntry.label }}
+                </slot>
+
+                <slot
+                  :name="context.generateHeaderFilterSlotName({
+                    key: headerEntry.key,
+                  })"
+                >
+                  <div
+                    class="unit-filters head"
+                    :class="{
+                      hidden: !headerEntry.isSortable,
+                    }"
+                  >
+                    <AppButton
+                      type="button"
+                      appearance="text"
+                      class="button sort"
+                      :class="{
+                        asc: context.isAscendinglySorted({
+                          key: headerEntry.key,
+                        }),
+                        desc: context.isDescendinglySorted({
+                          key: headerEntry.key,
+                        }),
+                      }"
+                      is-rounded
+                      @click="context.sortColumn({
+                        key: headerEntry.key,
+                      })"
+                    >
+                      <Icon
+                        name="heroicons:arrows-up-down"
+                        class="icon"
+                        size="1rem"
+                      />
+                      <Icon
+                        name="heroicons:bars-arrow-down"
+                        class="icon desc"
+                        size="1rem"
+                      />
+                      <Icon
+                        name="heroicons:bars-arrow-up"
+                        class="icon asc"
+                        size="1rem"
+                      />
+                    </AppButton>
+                  </div>
                 </slot>
               </div>
             </th>
@@ -337,5 +387,25 @@ export default defineComponent({
   min-height: 14rem;
 
   color: var(--color-text-secondary);
+}
+
+.unit-filters.head.hidden {
+  display: none;
+}
+
+.unit-filters.head > .button.sort.desc .icon:not(.desc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort.asc .icon:not(.asc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort:not(.asc, .desc) .icon:where(.asc, .desc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort:not(.asc, .desc) .icon {
+  color: var(--color-text-tertiary);
 }
 </style>

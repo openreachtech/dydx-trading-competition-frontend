@@ -174,6 +174,20 @@ export default class AppTableContext extends BaseAppContext {
   }
 
   /**
+   * Generate slot name for filter element in header cell.
+   *
+   * @param {{
+   *   key: string
+   * }} params - Parameters
+   * @returns {string}
+   */
+  generateHeaderFilterSlotName ({
+    key,
+  }) {
+    return `head-${key}-filter`
+  }
+
+  /**
    * Sort column.
    *
    * @param {{
@@ -226,6 +240,46 @@ export default class AppTableContext extends BaseAppContext {
       sortOption
     )
   }
+
+  /**
+   * Check if the table is being sorted in ascending direction.
+   *
+   * @param {{
+   *   key: string
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isAscendinglySorted ({
+    key,
+  }) {
+    const {
+      targetColumn,
+      orderBy,
+    } = this.filterStateReactive.sortOption
+
+    return targetColumn === key
+      && orderBy === SORT_DIRECTION_OPTION.ASC
+  }
+
+  /**
+   * Check if the table is being sorted in descending direction.
+   *
+   * @param {{
+   *   key: string
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  isDescendinglySorted ({
+    key,
+  }) {
+    const {
+      targetColumn,
+      orderBy,
+    } = this.filterStateReactive.sortOption
+
+    return targetColumn === key
+      && orderBy === SORT_DIRECTION_OPTION.DESC
+  }
 }
 
 /**
@@ -253,6 +307,7 @@ export default class AppTableContext extends BaseAppContext {
  *   columnOptions?: {
  *     textAlign: 'start' | 'end' | 'center'
  *   }
+ *   isSortable?: boolean
  * }} HeaderEntry
  */
 
