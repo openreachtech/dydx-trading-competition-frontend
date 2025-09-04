@@ -459,11 +459,7 @@ export default class SectionLeagueContext extends BaseAppContext {
   generateHostAddress () {
     const { address } = this.host ?? {}
 
-    if (!address) {
-      return '--'
-    }
-
-    return this.shortenAddress({
+    return this.shortenWalletAddress({
       address,
     })
   }
@@ -631,27 +627,6 @@ export default class SectionLeagueContext extends BaseAppContext {
     })
 
     return dateFormatter.format(date)
-  }
-
-  /**
-   * Shorten wallet address.
-   *
-   * @param {{
-   *   address: string
-   * }} params - Parameters
-   * @returns {string} Shortened address.
-   */
-  shortenAddress ({
-    address,
-  }) {
-    if (address.length <= 12) {
-      return address
-    }
-
-    const firstSevenCharacters = address.slice(0, 7)
-    const lastFiveCharacters = address.slice(-5)
-
-    return `${firstSevenCharacters}...${lastFiveCharacters}`
   }
 
   /**

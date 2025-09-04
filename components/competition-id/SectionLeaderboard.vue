@@ -347,7 +347,7 @@ export default defineComponent({
                 <span class="unit-address ongoing">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}
@@ -448,7 +448,7 @@ export default defineComponent({
                 <span class="unit-address outcome">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}
@@ -591,7 +591,7 @@ export default defineComponent({
                 <span class="unit-column metric address">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}

@@ -358,7 +358,7 @@ export default class AppWalletAccountContext extends BaseAppContext {
    * @returns {string} Source account's address.
    */
   generateLocalAccountAddress () {
-    return this.shortenAddress({
+    return this.shortenWalletAddress({
       address: this.walletStore.walletStoreRef.value
         .localWallet
         ?.address
@@ -372,37 +372,12 @@ export default class AppWalletAccountContext extends BaseAppContext {
    * @returns {string} Source account's address.
    */
   generateSourceAccountAddress () {
-    return this.shortenAddress({
+    return this.shortenWalletAddress({
       address: this.walletStore.walletStoreRef.value
         .sourceAccount
         ?.address
         ?? null,
     })
-  }
-
-  /**
-   * Shorten wallet address.
-   *
-   * @param {{
-   *   address: string | null
-   * }} params - Parameters
-   * @returns {string} Shortened address.
-   */
-  shortenAddress ({
-    address,
-  }) {
-    if (!address) {
-      return '--'
-    }
-
-    if (address.length <= 12) {
-      return address
-    }
-
-    const firstSevenCharacters = address.slice(0, 7)
-    const lastFiveCharacters = address.slice(-5)
-
-    return `${firstSevenCharacters}...${lastFiveCharacters}`
   }
 
   /**
