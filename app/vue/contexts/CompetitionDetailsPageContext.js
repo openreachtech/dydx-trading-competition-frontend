@@ -332,23 +332,38 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'name',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'address',
         label: 'Address',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'makerVolume',
         label: 'Maker Volume',
+        columnOptions: {
+          width: '20%',
+          textAlign: 'end',
+        },
       },
       {
         key: 'takerVolume',
         label: 'Taker Volume',
+        columnOptions: {
+          width: '20%',
+          textAlign: 'end',
+        },
       },
       {
         key: 'totalVolume',
         label: 'Total Volume',
         columnOptions: {
+          width: '20%',
           textAlign: 'end',
         },
       },
