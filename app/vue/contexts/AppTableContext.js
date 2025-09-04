@@ -380,7 +380,8 @@ export default class AppTableContext extends BaseAppContext {
  *   key: string
  *   label: string
  *   columnOptions?: {
- *     textAlign: 'start' | 'end' | 'center'
+ *     textAlign?: 'start' | 'end' | 'center'
+ *     width?: string
  *   }
  *   isSortable?: boolean
  * }} HeaderEntry
