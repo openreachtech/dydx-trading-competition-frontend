@@ -224,13 +224,9 @@ export default class AppTableContext extends BaseAppContext {
   sortColumn ({
     key,
   }) {
-    const {
-      orderBy: currentSortDirection,
-    } = this.filterStateReactive.sortOption
-
-    const newSortDirection = currentSortDirection === SORT_DIRECTION_OPTION.ASC
-      ? SORT_DIRECTION_OPTION.DESC
-      : SORT_DIRECTION_OPTION.ASC
+    const newSortDirection = this.generateNextSortDirection({
+      columnName: key,
+    })
 
     this.filterStateReactive.sortOption.targetColumn = key
     this.filterStateReactive.sortOption.orderBy = newSortDirection
@@ -265,6 +261,31 @@ export default class AppTableContext extends BaseAppContext {
       this.EMIT_EVENT_NAME.SORT_COLUMN,
       sortOption
     )
+  }
+
+  /**
+   * Generate value of what the next sort direction is going to be.
+   *
+   * @param {{
+   *   columnName: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  generateNextSortDirection ({
+    columnName,
+  }) {
+    const {
+      targetColumn,
+      orderBy,
+    } = this.filterStateReactive.sortOption
+
+    if (columnName !== targetColumn) {
+      return SORT_DIRECTION_OPTION.DESC
+    }
+
+    return orderBy === SORT_DIRECTION_OPTION.ASC
+      ? SORT_DIRECTION_OPTION.DESC
+      : SORT_DIRECTION_OPTION.ASC
   }
 
   /**
