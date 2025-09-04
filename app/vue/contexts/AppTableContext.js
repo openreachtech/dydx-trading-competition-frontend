@@ -142,7 +142,6 @@ export default class AppTableContext extends BaseAppContext {
       {
         deep: true,
         immediate: true,
-        once: true,
       }
     )
 
@@ -240,7 +239,7 @@ export default class AppTableContext extends BaseAppContext {
       },
     })
 
-    this.router.push({
+    this.router.replace({
       query: {
         ...this.route.query,
         [this.sortQueryKey]: encodeURIComponent(`${key}:${newSortDirection}`),
