@@ -1,17 +1,31 @@
 <script>
 import {
   defineComponent,
+  reactive,
 } from 'vue'
+
+import {
+  useRoute,
+  useRouter,
+} from 'vue-router'
 
 import {
   Icon,
 } from '#components'
+
+import AppButton from '~/components/units/AppButton.vue'
+
+import {
+  DEFAULT_TABLE_SORT_QUERY_KEY,
+  SORT_DIRECTION_OPTION,
+} from '~/app/constants'
 
 import AppTableContext from '~/app/vue/contexts/AppTableContext'
 
 export default defineComponent({
   components: {
     Icon,
+    AppButton,
   },
 
   props: {
@@ -43,15 +57,38 @@ export default defineComponent({
       required: false,
       default: false,
     },
+    sortQueryKey: {
+      type: String,
+      required: false,
+      default: DEFAULT_TABLE_SORT_QUERY_KEY,
+    },
   },
+
+  emits: [
+    AppTableContext.EMIT_EVENT_NAME.SORT_COLUMN,
+  ],
 
   setup (
     props,
     componentContext
   ) {
+    const route = useRoute()
+    const router = useRouter()
+
+    /** @type {import('vue').Reactive<import('~/app/vue/contexts/AppTableContext').FilterState>} */
+    const filterStateReactive = reactive({
+      sortOption: {
+        targetColumn: null,
+        orderBy: SORT_DIRECTION_OPTION.DESC,
+      },
+    })
+
     const args = {
       props,
       componentContext,
+      route,
+      router,
+      filterStateReactive,
     }
     const context = AppTableContext.create(args)
       .setupComponent()
@@ -90,13 +127,62 @@ export default defineComponent({
                 columnOptions: headerEntry.columnOptions,
               })"
             >
-              <slot
-                :label="headerEntry.label"
-                :property="headerEntry.key"
-                :name="`head-${headerEntry.key}`"
-              >
-                {{ headerEntry.label }}
-              </slot>
+              <div class="content">
+                <slot
+                  :label="headerEntry.label"
+                  :property="headerEntry.key"
+                  :name="`head-${headerEntry.key}`"
+                >
+                  {{ headerEntry.label }}
+                </slot>
+
+                <slot
+                  :name="context.generateHeaderFilterSlotName({
+                    key: headerEntry.key,
+                  })"
+                >
+                  <div
+                    class="unit-filters head"
+                    :class="{
+                      hidden: !headerEntry.isSortable,
+                    }"
+                  >
+                    <AppButton
+                      type="button"
+                      appearance="text"
+                      class="button sort"
+                      :class="{
+                        asc: context.isAscendinglySorted({
+                          key: headerEntry.key,
+                        }),
+                        desc: context.isDescendinglySorted({
+                          key: headerEntry.key,
+                        }),
+                      }"
+                      is-rounded
+                      @click="context.sortColumn({
+                        key: headerEntry.key,
+                      })"
+                    >
+                      <Icon
+                        name="heroicons:arrows-up-down"
+                        class="icon"
+                        size="1rem"
+                      />
+                      <Icon
+                        name="heroicons:bars-arrow-down"
+                        class="icon desc"
+                        size="1rem"
+                      />
+                      <Icon
+                        name="heroicons:bars-arrow-up"
+                        class="icon asc"
+                        size="1rem"
+                      />
+                    </AppButton>
+                  </div>
+                </slot>
+              </div>
             </th>
           </tr>
         </thead>
@@ -198,6 +284,14 @@ export default defineComponent({
   display: none;
 }
 
+.unit-table > .thead > .row > .cell.head > .content {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .unit-table > .tbody > .row > .cell {
   padding-block: 0.75rem;
 }
@@ -223,12 +317,24 @@ export default defineComponent({
   text-align: start;
 }
 
+.unit-table > .thead > .row > .cell.text-start > .content {
+  justify-content: start;
+}
+
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-end {
   text-align: end;
 }
 
+.unit-table > .thead > .row > .cell.text-end > .content {
+  justify-content: end;
+}
+
 .unit-table > :where(.thead, .tbody) > .row > .cell.text-center {
   text-align: center;
+}
+
+.unit-table > .thead > .row > .cell.text-center > .content {
+  justify-content: center;
 }
 
 .unit-table-container:not(.empty) > .empty-container {
@@ -281,5 +387,25 @@ export default defineComponent({
   min-height: 14rem;
 
   color: var(--color-text-secondary);
+}
+
+.unit-filters.head.hidden {
+  display: none;
+}
+
+.unit-filters.head > .button.sort.desc .icon:not(.desc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort.asc .icon:not(.asc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort:not(.asc, .desc) .icon:where(.asc, .desc) {
+  display: none;
+}
+
+.unit-filters.head > .button.sort:not(.asc, .desc) .icon {
+  color: var(--color-text-tertiary);
 }
 </style>
