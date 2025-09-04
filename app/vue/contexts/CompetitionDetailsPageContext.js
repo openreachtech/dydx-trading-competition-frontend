@@ -165,19 +165,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'ongoingRank',
         label: 'Rank',
+        columnOptions: {
+          width: '10%',
+        },
       },
       {
         key: 'ongoingName',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'ongoingAddress',
         label: 'Address',
+        columnOptions: {
+          width: '15%',
+        },
       },
       {
         key: 'ongoingPnl',
         label: 'PnL',
         columnOptions: {
+          width: '15%',
           textAlign: 'end',
         },
         isSortable: true,
@@ -186,6 +196,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingBaseline',
         label: 'Performance Baseline',
         columnOptions: {
+          width: '15%',
           textAlign: 'end',
         },
       },
@@ -193,6 +204,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingRoi',
         label: 'ROI',
         columnOptions: {
+          width: '12%',
           textAlign: 'end',
         },
         isSortable: true,
@@ -201,6 +213,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingTotalVolume',
         label: 'Total Volume',
         columnOptions: {
+          width: '13%',
           textAlign: 'end',
         },
       },
@@ -217,19 +230,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'participantName',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'participantAddress',
         label: 'Address',
+        columnOptions: {
+          width: '40%',
+        },
       },
       {
         key: 'participantEquity',
         label: 'Equity',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'participantStatus',
         label: 'Status',
         columnOptions: {
+          width: '20%',
           textAlign: 'end',
         },
       },
@@ -246,19 +269,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'outcomeRank',
         label: 'Rank',
+        columnOptions: {
+          width: '10%',
+        },
       },
       {
         key: 'outcomeName',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'outcomeAddress',
         label: 'Address',
+        columnOptions: {
+          width: '14%',
+        },
       },
       {
         key: 'outcomePnl',
         label: 'PnL',
         columnOptions: {
+          width: '14%',
           textAlign: 'end',
         },
       },
@@ -266,6 +299,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeBaseline',
         label: 'Performance Baseline',
         columnOptions: {
+          width: '14%',
           textAlign: 'end',
         },
       },
@@ -273,6 +307,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeRoi',
         label: 'ROI',
         columnOptions: {
+          width: '14%',
           textAlign: 'end',
         },
       },
@@ -280,6 +315,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomePrize',
         label: 'Prize',
         columnOptions: {
+          width: '14%',
           textAlign: 'end',
         },
       },
