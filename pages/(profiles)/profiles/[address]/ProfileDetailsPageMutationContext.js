@@ -15,9 +15,10 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
     props,
     componentContext,
 
+    route,
     graphqlClientHash,
     formClerkHash,
-    refetchFunctionHash,
+    fetcherHash,
     profileRenameDialogRef,
     errorMessageRef,
     statusReactive,
@@ -27,9 +28,10 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
       componentContext,
     })
 
+    this.route = route
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
-    this.refetchFunctionHash = refetchFunctionHash
+    this.fetcherHash = fetcherHash
     this.profileRenameDialogRef = profileRenameDialogRef
     this.errorMessageRef = errorMessageRef
     this.statusReactive = statusReactive
@@ -47,9 +49,10 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
   static create ({
     props,
     componentContext,
+    route,
     graphqlClientHash,
     formClerkHash,
-    refetchFunctionHash,
+    fetcherHash,
     profileRenameDialogRef,
     errorMessageRef,
     statusReactive,
@@ -58,9 +61,10 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
       new this({
         props,
         componentContext,
+        route,
         graphqlClientHash,
         formClerkHash,
-        refetchFunctionHash,
+        fetcherHash,
         profileRenameDialogRef,
         errorMessageRef,
         statusReactive,
@@ -117,8 +121,19 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
         hooks: this.putAddressNameLauncherHooks,
       })
 
-    await this.refetchFunctionHash
-      .addressName()
+    const address = this.extractAddressFromRoute()
+
+    if (!address) {
+      return
+    }
+
+    await this.fetcherHash
+      .addressProfile
+      .fetchAddressProfileOnEvent({
+        valueHash: {
+          address,
+        },
+      })
   }
 
   /**
@@ -148,6 +163,23 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
         })
       },
     }
+  }
+
+  /**
+   * Extract profile address from route.
+   *
+   * @returns {string | null}
+   */
+  extractAddressFromRoute () {
+    const {
+      address,
+    } = this.route.params
+
+    const normalizedAddress = Array.isArray(address)
+      ? address.at(0)
+      : address
+
+    return normalizedAddress ?? null
   }
 
   /**
@@ -189,9 +221,12 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
+ *   route: ReturnType<import('vue-router').useRoute>
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
- *   refetchFunctionHash: Record<RefetchFunctionHashKeys, () => Promise<void>>
+ *   fetcherHash: {
+ *     addressProfile: import('./AddressProfileFetcher').default
+ *   }
  *   profileRenameDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   errorMessageRef: import('vue').Ref<string | null>
  *   statusReactive: StatusReactive
@@ -208,10 +243,6 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
 
 /**
  * @typedef {'putAddressName'} FormClerkHashKeys
- */
-
-/**
- * @typedef {'addressName'} RefetchFunctionHashKeys
  */
 
 /**

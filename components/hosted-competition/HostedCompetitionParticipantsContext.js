@@ -199,34 +199,10 @@ export default class HostedCompetitionParticipantsContext extends BaseAppContext
   generateDisplayedParticipantAddress ({
     address,
   }) {
-    if (address === null) {
-      return '----'
-    }
-
-    return this.shortenAddress({
+    return this.shortenWalletAddress({
       address,
+      fallbackValue: '----',
     })
-  }
-
-  /**
-   * Shorten wallet address.
-   *
-   * @param {{
-   *   address: string
-   * }} params - Parameters
-   * @returns {string} Shortened address.
-   */
-  shortenAddress ({
-    address,
-  }) {
-    if (address.length <= 12) {
-      return address
-    }
-
-    const firstSevenCharacters = address.slice(0, 7)
-    const lastFiveCharacters = address.slice(-5)
-
-    return `${firstSevenCharacters}...${lastFiveCharacters}`
   }
 
   /**

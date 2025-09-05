@@ -473,27 +473,6 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
-   * Shorten wallet address.
-   *
-   * @param {{
-   *   address: string
-   * }} params - Parameters
-   * @returns {string} Shortened address.
-   */
-  shortenAddress ({
-    address,
-  }) {
-    if (address.length <= 12) {
-      return address
-    }
-
-    const firstSevenCharacters = address.slice(0, 7)
-    const lastFiveCharacters = address.slice(-5)
-
-    return `${firstSevenCharacters}...${lastFiveCharacters}`
-  }
-
-  /**
    * Generate profile's url.
    *
    * @param {{

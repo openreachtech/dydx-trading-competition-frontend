@@ -102,7 +102,7 @@ export default defineComponent({
 
           <span class="address">
             {{
-              context.shortenAddress({
+              context.shortenWalletAddress({
                 address: value.address,
               })
             }}
@@ -121,7 +121,7 @@ export default defineComponent({
           <span class="hash">
             <span>
               {{
-                context.shortenAddress({
+                context.shortenWalletAddress({
                   address: value,
                 })
               }}

@@ -38,7 +38,7 @@ export default class FinancialMetricNormalizer {
    * @returns {string}
    */
   normalizeAsPnl () {
-    if (!this.figure) {
+    if (this.figure === null) {
       return this.fallbackValue
     }
 
@@ -58,7 +58,7 @@ export default class FinancialMetricNormalizer {
    * @returns {string}
    */
   normalizeAsRoi () {
-    if (!this.figure) {
+    if (this.figure === null) {
       return this.fallbackValue
     }
 
@@ -79,7 +79,7 @@ export default class FinancialMetricNormalizer {
    * @returns {string} Normalized performance baseline.
    */
   normalizeAsPerformanceBaseline () {
-    if (!this.figure) {
+    if (this.figure === null) {
       return this.fallbackValue
     }
 

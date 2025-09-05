@@ -44,6 +44,10 @@ export default class CompetitionQueryGraphqlPayload extends BaseAppGraphqlPayloa
               amount
             }
             outcomeCsvUrl
+            defaultLeaderboardSortOption {
+              targetColumn
+              orderBy
+            }
           }
         }
       }

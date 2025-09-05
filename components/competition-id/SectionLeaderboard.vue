@@ -226,6 +226,7 @@ export default defineComponent({
               :is-loading="context.isLoadingLeaderboard"
               class="table"
               min-width="50rem"
+              sort-query-key="leaderboardSort"
             >
               <!-- ** Competition participants list ** -->
               <template #body-participantName="{ value, row }">
@@ -241,7 +242,7 @@ export default defineComponent({
                       address: row.participantAddress,
                     })"
                   >
-                    <span>{{ value }}</span>
+                    <span class="content">{{ value }}</span>
                     <span class="note"> (You)</span>
                   </NuxtLink>
                 </span>
@@ -310,7 +311,7 @@ export default defineComponent({
                       address: row.ongoingAddress,
                     })"
                   >
-                    <span>{{ value }}</span>
+                    <span class="content">{{ value }}</span>
                     <span class="note"> (You)</span>
                   </NuxtLink>
 
@@ -346,7 +347,7 @@ export default defineComponent({
                 <span class="unit-address ongoing">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}
@@ -437,7 +438,7 @@ export default defineComponent({
                       address: row.outcomeAddress,
                     })"
                   >
-                    <span>{{ value }}</span>
+                    <span class="content">{{ value }}</span>
                     <span class="note"> (You)</span>
                   </NuxtLink>
                 </span>
@@ -447,7 +448,7 @@ export default defineComponent({
                 <span class="unit-address outcome">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}
@@ -577,7 +578,7 @@ export default defineComponent({
                   }"
                   class="unit-column metric name"
                 >
-                  <span>{{ value }}</span>
+                  <span class="content">{{ value }}</span>
                   <span class="note"> (You)</span>
                 </NuxtLink>
               </template>
@@ -590,7 +591,7 @@ export default defineComponent({
                 <span class="unit-column metric address">
                   <span>
                     {{
-                      context.shortenAddress({
+                      context.shortenWalletAddress({
                         address: value,
                       })
                     }}
@@ -930,6 +931,18 @@ export default defineComponent({
   gap: 0.25rem;
 }
 
+.unit-name > .link {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0.25rem;
+}
+
+.unit-name > .link > .content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .unit-name:where(.participant, .ongoing, .outcome) > .link {
   font-weight: 500;
 
@@ -1026,7 +1039,17 @@ export default defineComponent({
 
 /***************** Trading volume leaderboard ****************/
 .unit-column.metric.name {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0.25rem;
+
   color: inherit;
+}
+
+.unit-column.metric.name > .content {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .unit-column.metric.name > .note {

@@ -14,6 +14,10 @@ import {
   BASE_PAGE_TITLE,
 } from '~/app/constants'
 
+const POST_COMPETITION_IGNORED_TABS = [
+  'transfers',
+]
+
 /**
  * ProfileDetailsContext
  *
@@ -124,6 +128,24 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
+   * Generate profile tabs.
+   *
+   * @returns {Array<{
+   *   tabKey: string
+   *   label: string
+   * }>} Tabs.
+   */
+  generateFilteredProfileTabs () {
+    if (this.isParticipatingInArena()) {
+      return this.profileTabs
+    }
+
+    return this.profileTabs.filter(tab =>
+      !POST_COMPETITION_IGNORED_TABS.includes(tab.tabKey)
+    )
+  }
+
+  /**
    * Extract active tab key from route.
    *
    * @returns {import('vue-router').LocationQueryValue}
@@ -134,7 +156,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
       : this.route.query.tab
 
     if (!activeTabKey) {
-      return this.profileTabs
+      return this.generateFilteredProfileTabs()
         .at(0)
         ?.tabKey
         ?? null

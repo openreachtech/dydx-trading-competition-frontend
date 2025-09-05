@@ -35,6 +35,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     componentContext,
 
     route,
+    router,
     toastStore,
     walletStore,
     graphqlClientHash,
@@ -53,6 +54,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     })
 
     this.route = route
+    this.router = router
     this.toastStore = toastStore
     this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
@@ -79,6 +81,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     props,
     componentContext,
     route,
+    router,
     toastStore,
     walletStore,
     graphqlClientHash,
@@ -96,6 +99,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         props,
         componentContext,
         route,
+        router,
         toastStore,
         walletStore,
         graphqlClientHash,
@@ -161,26 +165,38 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'ongoingRank',
         label: 'Rank',
+        columnOptions: {
+          width: '8%',
+        },
       },
       {
         key: 'ongoingName',
         label: 'Name',
+        columnOptions: {
+          width: '19%',
+        },
       },
       {
         key: 'ongoingAddress',
         label: 'Address',
+        columnOptions: {
+          width: '16%',
+        },
       },
       {
         key: 'ongoingPnl',
         label: 'PnL',
         columnOptions: {
+          width: '16%',
           textAlign: 'end',
         },
+        isSortable: true,
       },
       {
         key: 'ongoingBaseline',
         label: 'Performance Baseline',
         columnOptions: {
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -188,13 +204,16 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'ongoingRoi',
         label: 'ROI',
         columnOptions: {
+          width: '12%',
           textAlign: 'end',
         },
+        isSortable: true,
       },
       {
         key: 'ongoingTotalVolume',
         label: 'Total Volume',
         columnOptions: {
+          width: '13%',
           textAlign: 'end',
         },
       },
@@ -211,19 +230,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'participantName',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'participantAddress',
         label: 'Address',
+        columnOptions: {
+          width: '45%',
+        },
       },
       {
         key: 'participantEquity',
         label: 'Equity',
+        columnOptions: {
+          width: '15%',
+        },
       },
       {
         key: 'participantStatus',
         label: 'Status',
         columnOptions: {
+          width: '20%',
           textAlign: 'end',
         },
       },
@@ -240,19 +269,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'outcomeRank',
         label: 'Rank',
+        columnOptions: {
+          width: '8%',
+        },
       },
       {
         key: 'outcomeName',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'outcomeAddress',
         label: 'Address',
+        columnOptions: {
+          width: '16%',
+        },
       },
       {
         key: 'outcomePnl',
         label: 'PnL',
         columnOptions: {
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -260,6 +299,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeBaseline',
         label: 'Performance Baseline',
         columnOptions: {
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -267,6 +307,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomeRoi',
         label: 'ROI',
         columnOptions: {
+          width: '16%',
           textAlign: 'end',
         },
       },
@@ -274,6 +315,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         key: 'outcomePrize',
         label: 'Prize',
         columnOptions: {
+          width: '8%',
           textAlign: 'end',
         },
       },
@@ -290,23 +332,38 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       {
         key: 'name',
         label: 'Name',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'address',
         label: 'Address',
+        columnOptions: {
+          width: '20%',
+        },
       },
       {
         key: 'makerVolume',
         label: 'Maker Volume',
+        columnOptions: {
+          width: '20%',
+          textAlign: 'end',
+        },
       },
       {
         key: 'takerVolume',
         label: 'Taker Volume',
+        columnOptions: {
+          width: '20%',
+          textAlign: 'end',
+        },
       },
       {
         key: 'totalVolume',
         label: 'Total Volume',
         columnOptions: {
+          width: '20%',
           textAlign: 'end',
         },
       },
@@ -352,6 +409,32 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       ],
       async () => {
         await this.fetchLeaderboardEntries()
+      }
+    )
+
+    this.watch(
+      () => this.extractOngoingLeaderboardSortFromRoute(),
+      async (newSortOption, oldSortOption) => {
+        // TODO: Vue's watcher triggers on all query parameter changes, not just sort changes.
+        // The manual comparison below prevents unnecessary leaderboard fetches.
+        // Consider using a more specific watcher or computed property to track only sort changes.
+        if (!newSortOption || !oldSortOption) {
+          return
+        }
+
+        const isSameSortOption = newSortOption.targetColumn === oldSortOption.targetColumn
+          && newSortOption.orderBy === oldSortOption.orderBy
+
+        if (isSameSortOption) {
+          return
+        }
+
+        // Must fetch top three first to have correct pagination result.
+        await this.fetchOngoingTopThree()
+        await this.fetchOngoingLeaderboard()
+      },
+      {
+        deep: true,
       }
     )
 
@@ -592,10 +675,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     const requiredInput = {
       competitionId,
-      pagination: {
-        limit: PAGINATION.LIMIT,
-        offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
-      },
+      pagination: this.generateOngoingLeaderboardPaginationInput(),
     }
 
     if (!this.localWalletAddress) {
@@ -609,6 +689,31 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         ...requiredInput,
         address: this.localWalletAddress,
       },
+    }
+  }
+
+  /**
+   * Generate pagination input for ongoing leaderboard.
+   *
+   * @returns {import(
+   *   '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlPayload'
+   * ).CompetitionLeaderboardQueryRequestVariables['input']['pagination']}
+   */
+  generateOngoingLeaderboardPaginationInput () {
+    const pagination = {
+      limit: PAGINATION.LIMIT,
+      offset: (this.extractCurrentPage() - 1) * PAGINATION.LIMIT,
+    }
+    const sort = this.extractOngoingLeaderboardSortFromRoute()
+
+    if (!sort) {
+      // If there is no active sort option, use server-side default sorting configuration.
+      return pagination
+    }
+
+    return {
+      ...pagination,
+      sort,
     }
   }
 
@@ -691,20 +796,72 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @returns {Promise<void>}
    */
   async fetchOngoingTopThree () {
+    const variables = this.generateFetchOngoingTopThreeVariables()
+    if (!variables) {
+      return
+    }
+
     await this.graphqlClientHash
       .competitionLeaderboard
       .invokeRequestOnEvent({
-        variables: {
-          input: {
-            competitionId: this.extractCompetitionId(),
-            pagination: {
-              limit: 3,
-              offset: 0,
-            },
-          },
-        },
+        variables,
         hooks: this.ongoingTopThreeLauncherHooks,
       })
+  }
+
+  /**
+   * Generate variables for `fetchOngoingLeaderboard`
+   *
+   * @returns {furo.GraphqlRequestVariables | null}
+   */
+  generateFetchOngoingTopThreeVariables () {
+    const competitionId = this.extractCompetitionId()
+    if (competitionId === null) {
+      return null
+    }
+
+    const requiredInput = {
+      competitionId,
+      pagination: this.generateOngoingTopThreePaginationInput(),
+    }
+
+    if (!this.localWalletAddress) {
+      return {
+        input: requiredInput,
+      }
+    }
+
+    return {
+      input: {
+        ...requiredInput,
+        address: this.localWalletAddress,
+      },
+    }
+  }
+
+  /**
+   * Generate pagination input for ongoing leaderboard.
+   *
+   * @returns {import(
+   *   '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlPayload'
+   * ).CompetitionLeaderboardQueryRequestVariables['input']['pagination']}
+   */
+  generateOngoingTopThreePaginationInput () {
+    const pagination = {
+      limit: 3,
+      offset: 0,
+    }
+    const sort = this.extractOngoingLeaderboardSortFromRoute()
+
+    if (!sort) {
+      // If there is no active sort option, use server-side default sorting configuration.
+      return pagination
+    }
+
+    return {
+      ...pagination,
+      sort,
+    }
   }
 
   /**
@@ -1031,6 +1188,36 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * Extract ongoing leaderboard's sort option from URL.
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   */
+  extractOngoingLeaderboardSortFromRoute () {
+    const {
+      leaderboardSort,
+    } = this.route.query
+
+    const sortOption = Array.isArray(leaderboardSort)
+      ? leaderboardSort.at(0)
+      : leaderboardSort
+
+    if (!sortOption) {
+      return this.defaultLeaderboardSortOption
+    }
+
+    const decodedSortOption = decodeURIComponent(sortOption)
+    const [targetColumn, orderBy] = decodedSortOption.split(':')
+    const normalizedTargetColumn = targetColumn
+      .replace(/^ongoing/u, '')
+      .toLowerCase()
+
+    return {
+      targetColumn: normalizedTargetColumn,
+      orderBy,
+    }
+  }
+
+  /**
    * Calculate pagination offset.
    *
    * @param {{
@@ -1093,8 +1280,40 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
         return false
       },
+      /**
+       * @type {(capsule: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').default) => Promise<void>}
+       */
+      // @ts-expect-error: Upstream type mismatched. Should be fixed in newer furo-nuxt versions.
       afterRequest: async capsule => {
         this.statusReactive.isLoading = false
+
+        if (capsule.hasError()) {
+          return
+        }
+
+        if (this.extractOngoingLeaderboardSortFromRoute()) {
+          return
+        }
+
+        if (!capsule.defaultLeaderboardSortOption) {
+          return
+        }
+
+        const {
+          targetColumn,
+          orderBy,
+        } = capsule.defaultLeaderboardSortOption
+
+        const normalizedTargetColumn = `ongoing${this.toCapitalizedCase({
+          string: targetColumn,
+        })}`
+
+        await this.router.replace({
+          query: {
+            ...this.route.query,
+            leaderboardSort: encodeURIComponent(`${normalizedTargetColumn}:${orderBy}`),
+          },
+        })
       },
     }
   }
@@ -1817,6 +2036,17 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * get: defaultLeaderboardSortOption
+   *
+   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   */
+  get defaultLeaderboardSortOption () {
+    return this.competitionCapsuleRef
+      .value
+      .defaultLeaderboardSortOption
+  }
+
+  /**
    * get: participantStatusId
    *
    * @returns {number | null}
@@ -2186,11 +2416,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
 
     return error
   }
+
+  /**
+   * Capitalize a string.
+   *
+   * @param {{
+   *   string: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  toCapitalizedCase ({
+    string,
+  }) {
+    const firstLetter = string.charAt(0)
+    const remainingLetters = string.slice(1)
+
+    return `${firstLetter.toUpperCase()}${remainingLetters}`
+  }
 }
 
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   router: ReturnType<import('vue-router').useRouter>
  *   toastStore: import('~/stores/toast').ToastStore
  *   walletStore: import('~/stores/wallet').WalletStore
  *   currentEquityRef: import('vue').Ref<number | null>
