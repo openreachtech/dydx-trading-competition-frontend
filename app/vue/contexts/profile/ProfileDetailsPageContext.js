@@ -128,7 +128,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
   }
 
   /**
-   * Generate profile tabs.
+   * Generate filtered profile tabs.
    *
    * @returns {Array<{
    *   tabKey: string
@@ -136,10 +136,6 @@ export default class ProfileDetailsContext extends BaseAppContext {
    * }>} Tabs.
    */
   generateFilteredProfileTabs () {
-    if (this.isParticipatingInArena()) {
-      return this.profileTabs
-    }
-
     return this.profileTabs.filter(tab =>
       !POST_COMPETITION_IGNORED_TABS.includes(tab.tabKey)
     )
