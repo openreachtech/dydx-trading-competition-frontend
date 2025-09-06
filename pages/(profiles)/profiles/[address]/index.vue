@@ -232,7 +232,8 @@ export default defineComponent({
       </h1>
 
       <AppTabLayout
-        :tabs="context.generateFilteredProfileTabs()"
+        v-if="context.isParticipatingInArena()"
+        :tabs="context.profileTabs"
         :active-tab-key="context.extractActiveTabKeyFromRoute()"
         @change-tab="context.changeTab({
           fromTab: $event.fromTab,
@@ -242,7 +243,31 @@ export default defineComponent({
         <template #contents>
           <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
-          <ProfileTransferHistory v-if="context.isParticipatingInArena()" />
+          <ProfileTransferHistory />
+
+          <ProfileOrders
+            :profile-orders="context.profileOrders"
+            :is-loading="context.isLoadingProfileOrders"
+          />
+
+          <ProfileTrades
+            :profile-trades="context.profileTrades"
+            :is-loading="context.isLoadingProfileTrades"
+          />
+        </template>
+      </AppTabLayout>
+
+      <AppTabLayout
+        v-if="!context.isParticipatingInArena()"
+        :tabs="context.generateFilteredProfileTabs()"
+        :active-tab-key="context.extractActiveTabKeyFromRoute()"
+        @change-tab="context.changeTab({
+          fromTab: $event.fromTab,
+          toTab: $event.toTab,
+        })"
+      >
+        <template #contents>
+          <ProfileFinancialOverview :profile-overview="context.profileOverview" />
 
           <ProfileOrders
             :profile-orders="context.profileOrders"
