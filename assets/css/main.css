@@ -9,3 +9,8 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-background);
 }
+
+input,
+textarea {
+  font-size: var(--font-size-input-base);
+}
