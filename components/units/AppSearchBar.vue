@@ -344,7 +344,7 @@ export default defineComponent({
 
   background-color: inherit;
 
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-input-base);
   line-height: var(--size-line-height-base);
 }
 
@@ -414,10 +414,6 @@ export default defineComponent({
 
 .unit-search.small > .input-container > .label > .input {
   padding-block: 0.4375rem;
-
-  font-size: var(--font-size-small);
-  line-height: var(--size-line-height-small);
-  font-weight: 500;
 }
 
 .unit-search.small > .input-container > .label > .icon {
