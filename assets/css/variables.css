@@ -255,6 +255,8 @@
   --font-size-tiny: 0.625rem;
   --font-size-regular: 0.75rem;
 
+  --font-size-input-base: 1rem;
+
   /* Sizes */
   --size-thinnest: 1px;
 
