@@ -835,7 +835,6 @@ export default class SectionLeagueContext extends BaseAppContext {
     }
 
     return [
-      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
       COMPETITION_STATUS.IN_PROGRESS.ID,
       COMPETITION_STATUS.COMPLETED.ID,
       COMPETITION_STATUS.CANCELED.ID,
