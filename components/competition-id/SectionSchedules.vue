@@ -184,6 +184,10 @@ export default defineComponent({
   @media (48rem < width) {
     margin-inline: -0.6rem;
   }
+
+  @media (60rem <= width) {
+    margin-inline: -1rem;
+  }
 }
 
 .unit-schedules > .schedule > * {
@@ -211,11 +215,11 @@ export default defineComponent({
 
     clip-path: var(--clip-path);
 
-    padding-inline: 2rem 1.25rem;
+    padding-inline: 3rem 2rem;
   }
 
   @media (60rem < width) {
-    padding-inline: 3rem 1.5rem;
+    padding-inline: 4rem 3rem;
   }
 }
 
