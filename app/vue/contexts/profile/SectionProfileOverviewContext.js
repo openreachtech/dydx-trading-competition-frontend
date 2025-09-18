@@ -517,7 +517,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    * @returns {boolean}
    */
   isParticipantRegistered () {
-    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID
+    return this.competitionParticipantStatusId === COMPETITION_PARTICIPANT_STATUS.REGISTRATION_SUCCESS.ID
   }
 
   /**
