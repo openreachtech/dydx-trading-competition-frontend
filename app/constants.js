@@ -57,10 +57,10 @@ export const COMPETITION_STATUS = {
 }
 
 export const COMPETITION_PARTICIPANT_STATUS = {
-  REGISTERED: {
+  AWAITING_DEPOSIT: {
     ID: 1,
-    NAME: 'registered',
-    DESCRIPTION: 'Participant has registered for competition',
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Participant has awaiting deposit for competition',
   },
   ACTIVE: {
     ID: 2,
@@ -82,10 +82,10 @@ export const COMPETITION_PARTICIPANT_STATUS = {
     NAME: 'canceled',
     DESCRIPTION: 'Participant has canceled their registration',
   },
-  AWAITING_DEPOSIT: {
+  REGISTRATION_SUCCESS: {
     ID: 6,
-    NAME: 'awaiting_deposit',
-    DESCRIPTION: 'Participant has registered and is required to deposit funds to activate participation',
+    NAME: 'registration_success',
+    DESCRIPTION: 'Participant has successfully registered for competition',
   },
 }
 
