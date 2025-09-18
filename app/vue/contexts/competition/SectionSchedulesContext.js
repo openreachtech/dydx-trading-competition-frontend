@@ -29,17 +29,10 @@ export default class SectionSchedulesContext extends BaseAppContext {
    * @returns {ScheduleGroups} Schedule groups.
    */
   generateScheduleGroups () {
-    const registrationSchedules = this.generateRegistrationSchedules()
     const competitionSchedules = this.generateCompetitionSchedules()
     const prizeDistributeSchedules = this.generatePrizeDistributeSchedules()
 
     return [
-      {
-        title: 'Registration Stage',
-        timeline: this.extractTimeline({
-          schedules: registrationSchedules,
-        }),
-      },
       {
         title: 'Competition Stage',
         timeline: this.extractTimeline({
@@ -68,17 +61,6 @@ export default class SectionSchedulesContext extends BaseAppContext {
     return schedules.map(it => ({
       timestamp: it.scheduledDatetime,
     }))
-  }
-
-  /**
-   * Generate registration schedules.
-   *
-   * @returns {CompetitionEntity['schedules']} Registration schedules.
-   */
-  generateRegistrationSchedules () {
-    return this.schedules.filter(
-      it => SCHEDULE_ID_GROUP.REGISTRATION.includes(it.category?.categoryId)
-    )
   }
 
   /**
