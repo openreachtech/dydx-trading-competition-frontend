@@ -695,7 +695,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     statusId,
   }) {
     return {
-      registered: statusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      registered: statusId === COMPETITION_PARTICIPANT_STATUS.REGISTRATION_SUCCESS.ID,
       active: statusId === COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
       disqualified: statusId === COMPETITION_PARTICIPANT_STATUS.DISQUALIFIED.ID,
       completed: statusId === COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,
