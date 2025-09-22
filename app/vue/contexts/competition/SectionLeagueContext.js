@@ -759,6 +759,10 @@ export default class SectionLeagueContext extends BaseAppContext {
    * @returns {boolean}
    */
   shouldDisableEnrollButton () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return true
+    }
+
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
