@@ -719,6 +719,10 @@ export default class SectionLeagueContext extends BaseAppContext {
    * @returns {string}
    */
   generateEnrollButtonLabel () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'Arena canceled'
+    }
+
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return ENROLLMENT_ACTION_TEXT[enrollmentStatus]
