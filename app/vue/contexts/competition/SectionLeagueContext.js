@@ -763,7 +763,6 @@ export default class SectionLeagueContext extends BaseAppContext {
 
     return [
       ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
-      ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
     ]
       .includes(enrollmentStatus)
   }
