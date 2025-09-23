@@ -834,6 +834,23 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * Check if the competition has started.
+   *
+   * @returns {boolean}
+   */
+  hasCompetitionStarted () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+      COMPETITION_STATUS.COMPLETED.ID,
+    ]
+      .includes(this.competitionStatusId)
+  }
+
+  /**
    * Check if enrollment is closed.
    *
    * @returns {boolean}
