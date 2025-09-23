@@ -215,6 +215,12 @@ export default defineComponent({
   font-size: var(--font-size-base);
 }
 
+.unit-select > .trigger {
+  display: grid;
+
+  width: 100%;
+}
+
 .unit-select.opened > .trigger .icon {
   transform: rotate(180deg);
 }
