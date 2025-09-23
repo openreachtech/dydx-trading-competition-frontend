@@ -16,6 +16,7 @@ import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
+import AppSelect from '~/components/units/AppSelect.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
@@ -39,6 +40,7 @@ export default defineComponent({
     AppButton,
     AppLeagueCountdown,
     AppMarkdownViewer,
+    AppSelect,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
@@ -160,21 +162,15 @@ export default defineComponent({
           <AppButton
             class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
+            :appearance="context.generateEnrollButtonAppearance()"
             :variant="context.generateEnrollButtonVariant()"
-            :class="context.generateEnrollButtonClasses()"
-            @click="context.initiateActionDialog()"
+            @click="context.processPrimaryAction()"
           >
             <template #startIcon>
               <Icon
-                name="heroicons:check-circle"
+                :name="context.generateEnrollButtonIconName()"
                 size="1.25rem"
-                class="icon enrolled"
-              />
-
-              <Icon
-                name="heroicons:user-minus"
-                size="1.25rem"
-                class="icon unregister"
+                class="icon"
               />
             </template>
 
@@ -182,17 +178,38 @@ export default defineComponent({
               <span class="content">
                 {{ context.generateEnrollButtonLabel() }}
               </span>
-              <span class="action unregister">
-                Unregister
-              </span>
             </template>
           </AppButton>
 
-          <AppLeagueCountdown
-            class="note"
-            :schedules="context.schedules"
-          />
+          <AppSelect
+            position="right"
+            class="select"
+            dropdown-class="teleported-competition-enroll-options"
+            :items="context.generateEnrollSelectOptions()"
+            @update:model-value="context.selectEnrollOption({
+              optionValue: $event,
+            })"
+          >
+            <template #default>
+              <AppButton
+                type="button"
+                class="slot default"
+                variant="muted"
+                aria-label="View more enroll actions"
+              >
+                <Icon
+                  name="heroicons:ellipsis-vertical"
+                  size="1.75rem"
+                />
+              </AppButton>
+            </template>
+          </AppSelect>
         </div>
+
+        <AppLeagueCountdown
+          class="note"
+          :schedules="context.schedules"
+        />
 
         <div class="unit-status">
           <AppIconBadge
@@ -433,8 +450,28 @@ export default defineComponent({
   </section>
 </template>
 
+<style>
+.teleported-competition-enroll-options.unit-contents {
+  --color-text-action-destructive: var(--palette-red);
+
+  padding-block: 0.5rem;
+}
+
+.teleported-competition-enroll-options.unit-contents > .option.unregister {
+  color: var(--color-text-action-destructive);
+}
+
+.teleported-competition-enroll-options.unit-contents > .option.unregister.disabled {
+  filter: brightness(0.4);
+}
+</style>
+
 <style scoped>
 .unit-section {
+  --color-border-enroll-dropdown: var(--palette-layer-7);
+  --color-border-button-awaiting-deposit: var(--palette-purple);
+  --color-text-button-awaiting-deposit: var(--palette-purple-lighter);
+
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
   padding-block: 4.5rem 9.5rem;
@@ -647,11 +684,8 @@ export default defineComponent({
 
 .unit-details > .actions {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: stretch;
   gap: 0.75rem;
-
-  margin-block-end: 1.5rem;
 }
 
 .unit-details > .actions > .button.enroll {
@@ -663,42 +697,22 @@ export default defineComponent({
   font-weight: 500;
 }
 
-.unit-details > .actions > .button.enroll.neutral:disabled {
+.unit-details > .actions > .button.enroll.outlined {
+  border-color: var(--color-border-button-awaiting-deposit);
+
+  color: var(--color-text-button-awaiting-deposit);
+}
+
+.unit-details > .actions > .button.enroll.neutral:disabled,
+.unit-details > .actions > .button.enroll.muted:disabled {
   filter: none;
 }
 
-.unit-details > .actions > .button.enroll .icon {
-  display: none;
-}
+.unit-details > .actions > .select .slot.default {
+  border-color: var(--color-border-enroll-dropdown);
 
-.unit-details > .actions > .button.enroll .action {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
-  display: inline;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover {
-  border-color: var(--color-border-button-highlight-hover);
-  background-color: var(--color-background-button-highlight-hover);
-  color: var(--color-text-button-highlight-hover);
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .icon.enrolled {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .icon.unregister {
-  display: inline;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .content {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
-  display: inline;
+  padding-block: 0.625rem;
+  padding-inline: 0.625rem;
 }
 
 .unit-participants {
@@ -718,7 +732,7 @@ export default defineComponent({
 }
 
 .unit-details > .note {
-  margin-block-start: 0.75rem;
+  margin-block: 0.75rem 1.5rem;
 }
 
 .unit-meta {
