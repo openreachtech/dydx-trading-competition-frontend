@@ -33,6 +33,24 @@ const ENROLLMENT_ACTION_TEXT = {
   DEFAULT: 'Register now',
 }
 
+const ENROLLMENT_ACTION_ICON_NAME_HASH = {
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'heroicons-outline:arrow-down-circle',
+  [ENROLLMENT_STATUS.ENROLLED]: 'heroicons:check-circle',
+  [ENROLLMENT_STATUS.COMPETING]: 'heroicons:check-circle',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: '',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: '',
+  DEFAULT: '',
+}
+
+const ENROLLMENT_ACTION_BUTTON_VARIANT_HASH = /** @type {const} */ ({
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'primary',
+  [ENROLLMENT_STATUS.ENROLLED]: 'neutral',
+  [ENROLLMENT_STATUS.COMPETING]: 'neutral',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: 'primary',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'primary',
+  DEFAULT: 'primary',
+})
+
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
@@ -725,6 +743,10 @@ export default class SectionLeagueContext extends BaseAppContext {
       return 'Arena canceled'
     }
 
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      return 'Download full result'
+    }
+
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return ENROLLMENT_ACTION_TEXT[enrollmentStatus]
@@ -734,16 +756,36 @@ export default class SectionLeagueContext extends BaseAppContext {
   /**
    * Generate enroll button variant.
    *
-   * @returns {'primary' | 'neutral'}
+   * @returns {'neutral' | 'muted' | 'primary'}
    */
   generateEnrollButtonVariant () {
-    const enrollmentStatus = this.generateEnrollmentStatus()
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'muted'
+    }
 
-    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
       return 'neutral'
     }
 
-    return 'primary'
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return ENROLLMENT_ACTION_BUTTON_VARIANT_HASH[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_BUTTON_VARIANT_HASH.DEFAULT
+  }
+
+  /**
+   * Generate value of "appearance" attribute for enroll button.
+   *
+   * @returns {'filled' | 'outlined'}
+   */
+  generateEnrollButtonAppearance () {
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
+      return 'outlined'
+    }
+
+    return 'filled'
   }
 
   /**
@@ -777,6 +819,26 @@ export default class SectionLeagueContext extends BaseAppContext {
       ENROLLMENT_STATUS.COMPETING,
     ]
       .includes(enrollmentStatus)
+  }
+
+  /**
+   * Generate icon name of enroll button.
+   *
+   * @returns {string}
+   */
+  generateEnrollButtonIconName () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'heroicons:x-mark'
+    }
+
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      return 'heroicons:arrow-down-tray'
+    }
+
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return ENROLLMENT_ACTION_ICON_NAME_HASH[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_ICON_NAME_HASH.DEFAULT
   }
 
   /**

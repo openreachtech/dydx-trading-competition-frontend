@@ -160,6 +160,7 @@ export default defineComponent({
           <AppButton
             class="button enroll"
             :disabled="context.shouldDisableEnrollButton()"
+            :appearance="context.generateEnrollButtonAppearance()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
             @click="context.initiateActionDialog()"
