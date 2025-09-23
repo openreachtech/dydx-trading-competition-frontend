@@ -164,29 +164,19 @@ export default defineComponent({
             :disabled="context.shouldDisableEnrollButton()"
             :appearance="context.generateEnrollButtonAppearance()"
             :variant="context.generateEnrollButtonVariant()"
-            :class="context.generateEnrollButtonClasses()"
             @click="context.processPrimaryAction()"
           >
             <template #startIcon>
               <Icon
-                name="heroicons:check-circle"
+                :name="context.generateEnrollButtonIconName()"
                 size="1.25rem"
-                class="icon enrolled"
-              />
-
-              <Icon
-                name="heroicons:user-minus"
-                size="1.25rem"
-                class="icon unregister"
+                class="icon"
               />
             </template>
 
             <template #default>
               <span class="content">
                 {{ context.generateEnrollButtonLabel() }}
-              </span>
-              <span class="action unregister">
-                Unregister
               </span>
             </template>
           </AppButton>
@@ -716,40 +706,6 @@ export default defineComponent({
 .unit-details > .actions > .button.enroll.neutral:disabled,
 .unit-details > .actions > .button.enroll.muted:disabled {
   filter: none;
-}
-
-.unit-details > .actions > .button.enroll .icon {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll .action {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled .icon.enrolled {
-  display: inline;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover {
-  border-color: var(--color-border-button-highlight-hover);
-  background-color: var(--color-background-button-highlight-hover);
-  color: var(--color-text-button-highlight-hover);
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .icon.enrolled {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .icon.unregister {
-  display: inline;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .content {
-  display: none;
-}
-
-.unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
-  display: inline;
 }
 
 .unit-details > .actions > .select .slot.default {
