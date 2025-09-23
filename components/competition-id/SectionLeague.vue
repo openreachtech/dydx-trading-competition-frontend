@@ -16,6 +16,7 @@ import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
+import AppSelect from '~/components/units/AppSelect.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
@@ -39,6 +40,7 @@ export default defineComponent({
     AppButton,
     AppLeagueCountdown,
     AppMarkdownViewer,
+    AppSelect,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
@@ -188,6 +190,30 @@ export default defineComponent({
               </span>
             </template>
           </AppButton>
+
+          <AppSelect
+            position="right"
+            class="select"
+            dropdown-class="teleported-competition-enroll-options"
+            :items="context.generateEnrollSelectOptions()"
+            @update:model-value="context.selectEnrollOption({
+              optionValue: $event,
+            })"
+          >
+            <template #default>
+              <AppButton
+                type="button"
+                class="slot default"
+                variant="muted"
+                aria-label="View more enroll actions"
+              >
+                <Icon
+                  name="heroicons:ellipsis-vertical"
+                  size="1.75rem"
+                />
+              </AppButton>
+            </template>
+          </AppSelect>
         </div>
 
         <AppLeagueCountdown
@@ -433,6 +459,22 @@ export default defineComponent({
     </div>
   </section>
 </template>
+
+<style>
+.teleported-competition-enroll-options.unit-contents {
+  --color-text-action-destructive: var(--palette-red);
+
+  padding-block: 0.5rem;
+}
+
+.teleported-competition-enroll-options.unit-contents > .option.unregister {
+  color: var(--color-text-action-destructive);
+}
+
+.teleported-competition-enroll-options.unit-contents > .option.unregister.disabled {
+  filter: brightness(0.4);
+}
+</style>
 
 <style scoped>
 .unit-section {

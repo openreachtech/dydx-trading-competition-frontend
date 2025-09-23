@@ -51,6 +51,10 @@ const ENROLLMENT_ACTION_BUTTON_VARIANT_HASH = /** @type {const} */ ({
   DEFAULT: 'primary',
 })
 
+const ENROLLMENT_ACTION_HASH = {
+  UNREGISTER: 'unregister',
+}
+
 /**
  * @import { CompetitionEntity } from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule'
  */
@@ -422,6 +426,63 @@ export default class SectionLeagueContext extends BaseAppContext {
     return this.extractCompetition()
       ?.schedules
       ?? []
+  }
+
+  /**
+   * Select enroll option.
+   *
+   * @param {{
+   *   optionValue: string
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  selectEnrollOption ({
+    optionValue,
+  }) {
+    if (
+      optionValue === ENROLLMENT_ACTION_HASH.UNREGISTER
+      && !this.disablesUnregisterButton()
+    ) {
+      this.showCancelationDialog()
+    }
+  }
+
+  /**
+   * Generate enroll select options.
+   *
+   * @returns {Array<import('~/components/units/AppSelectContext.js').SelectOption>}
+   */
+  generateEnrollSelectOptions () {
+    return [
+      {
+        label: 'Unregister',
+        value: ENROLLMENT_ACTION_HASH.UNREGISTER,
+        iconName: 'heroicons:user-minus-solid',
+        class: 'option unregister',
+        isDisabled: this.disablesUnregisterButton(),
+      },
+    ]
+  }
+
+  /**
+   * Check if we should disable unregister button or not.
+   *
+   * @returns {boolean}
+   */
+  disablesUnregisterButton () {
+    if (this.hasCompetitionStarted()) {
+      return true
+    }
+
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    const hasRegistered = [
+      ENROLLMENT_STATUS.AWAITING_DEPOSIT,
+      ENROLLMENT_STATUS.ENROLLED,
+    ]
+      .includes(enrollmentStatus)
+
+    return !hasRegistered
   }
 
   /**
