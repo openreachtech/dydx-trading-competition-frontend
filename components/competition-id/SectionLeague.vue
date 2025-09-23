@@ -713,7 +713,8 @@ export default defineComponent({
   color: var(--color-text-button-awaiting-deposit);
 }
 
-.unit-details > .actions > .button.enroll.neutral:disabled {
+.unit-details > .actions > .button.enroll.neutral:disabled,
+.unit-details > .actions > .button.enroll.muted:disabled {
   filter: none;
 }
 
