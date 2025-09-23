@@ -12,23 +12,48 @@ import {
   SCHEDULE_CATEGORY,
   COMPETITION_PARTICIPANT_STATUS,
   COMPETITION_STATUS,
+  DYDX_TRADE_CTA_URL,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 const ENROLLMENT_STATUS = {
+  AWAITING_DEPOSIT: 'awaitingDeposit',
   ENROLLED: 'enrolled',
-  NOT_ENROLLED: 'notEnrolled',
-  NOT_ENROLLED_BUT_FULL: 'notEnrolledButFull',
-  ENROLLMENT_CLOSED: 'enrollmentClosed',
+  COMPETING: 'competing',
+  NOT_REGISTERED: 'notEnrolled',
+  NOT_REGISTERED_BUT_FULL: 'notEnrolledButFull',
 }
 
 const ENROLLMENT_ACTION_TEXT = {
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'Deposit Now',
   [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
-  [ENROLLMENT_STATUS.NOT_ENROLLED]: 'Enroll now',
-  [ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL]: 'Max participants reached',
-  [ENROLLMENT_STATUS.ENROLLMENT_CLOSED]: 'Registration ended',
-  DEFAULT: 'Enroll now',
+  [ENROLLMENT_STATUS.COMPETING]: 'You have enrolled',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: 'Register now',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'Max participants reached',
+  DEFAULT: 'Register now',
+}
+
+const ENROLLMENT_ACTION_ICON_NAME_HASH = {
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'heroicons-outline:arrow-down-circle',
+  [ENROLLMENT_STATUS.ENROLLED]: 'heroicons:check-circle',
+  [ENROLLMENT_STATUS.COMPETING]: 'heroicons:check-circle',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: '',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: '',
+  DEFAULT: '',
+}
+
+const ENROLLMENT_ACTION_BUTTON_VARIANT_HASH = /** @type {const} */ ({
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'primary',
+  [ENROLLMENT_STATUS.ENROLLED]: 'neutral',
+  [ENROLLMENT_STATUS.COMPETING]: 'neutral',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: 'primary',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'primary',
+  DEFAULT: 'primary',
+})
+
+const ENROLLMENT_ACTION_HASH = {
+  UNREGISTER: 'unregister',
 }
 
 /**
@@ -405,6 +430,74 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get outcomeCsvUrl () {
+    return this.extractCompetition()
+      ?.outcomeCsvUrl
+      ?? null
+  }
+
+  /**
+   * Select enroll option.
+   *
+   * @param {{
+   *   optionValue: string
+   * }} params - Parameters.
+   * @returns {void}
+   */
+  selectEnrollOption ({
+    optionValue,
+  }) {
+    if (
+      optionValue === ENROLLMENT_ACTION_HASH.UNREGISTER
+      && !this.disablesUnregisterButton()
+    ) {
+      this.showCancelationDialog()
+    }
+  }
+
+  /**
+   * Generate enroll select options.
+   *
+   * @returns {Array<import('~/components/units/AppSelectContext.js').SelectOption>}
+   */
+  generateEnrollSelectOptions () {
+    return [
+      {
+        label: 'Unregister',
+        value: ENROLLMENT_ACTION_HASH.UNREGISTER,
+        iconName: 'heroicons:user-minus-solid',
+        class: 'option unregister',
+        isDisabled: this.disablesUnregisterButton(),
+      },
+    ]
+  }
+
+  /**
+   * Check if we should disable unregister button or not.
+   *
+   * @returns {boolean}
+   */
+  disablesUnregisterButton () {
+    if (this.hasCompetitionStarted()) {
+      return true
+    }
+
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    const hasRegistered = [
+      ENROLLMENT_STATUS.AWAITING_DEPOSIT,
+      ENROLLMENT_STATUS.ENROLLED,
+    ]
+      .includes(enrollmentStatus)
+
+    return !hasRegistered
+  }
+
+  /**
    * Format minimum trading volume.
    *
    * @returns {string}
@@ -719,6 +812,14 @@ export default class SectionLeagueContext extends BaseAppContext {
    * @returns {string}
    */
   generateEnrollButtonLabel () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'Arena canceled'
+    }
+
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      return 'Download full result'
+    }
+
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return ENROLLMENT_ACTION_TEXT[enrollmentStatus]
@@ -728,29 +829,36 @@ export default class SectionLeagueContext extends BaseAppContext {
   /**
    * Generate enroll button variant.
    *
-   * @returns {'primary' | 'neutral'}
+   * @returns {'neutral' | 'muted' | 'primary'}
    */
   generateEnrollButtonVariant () {
-    const enrollmentStatus = this.generateEnrollmentStatus()
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'muted'
+    }
 
-    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
       return 'neutral'
     }
 
-    return 'primary'
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return ENROLLMENT_ACTION_BUTTON_VARIANT_HASH[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_BUTTON_VARIANT_HASH.DEFAULT
   }
 
   /**
-   * Generate CSS classes for enrollment button.
+   * Generate value of "appearance" attribute for enroll button.
    *
-   * @returns {Record<string, boolean>}
+   * @returns {'filled' | 'outlined'}
    */
-  generateEnrollButtonClasses () {
+  generateEnrollButtonAppearance () {
     const enrollmentStatus = this.generateEnrollmentStatus()
 
-    return {
-      enrolled: enrollmentStatus === ENROLLMENT_STATUS.ENROLLED,
+    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
+      return 'outlined'
     }
+
+    return 'filled'
   }
 
   /**
@@ -759,13 +867,38 @@ export default class SectionLeagueContext extends BaseAppContext {
    * @returns {boolean}
    */
   shouldDisableEnrollButton () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return true
+    }
+
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
-      ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
-      ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
+      ENROLLMENT_STATUS.ENROLLED,
+      ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+      ENROLLMENT_STATUS.COMPETING,
     ]
       .includes(enrollmentStatus)
+  }
+
+  /**
+   * Generate icon name of enroll button.
+   *
+   * @returns {string}
+   */
+  generateEnrollButtonIconName () {
+    if (this.competitionStatusId === COMPETITION_STATUS.CANCELED.ID) {
+      return 'heroicons:x-mark'
+    }
+
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      return 'heroicons:arrow-down-tray'
+    }
+
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    return ENROLLMENT_ACTION_ICON_NAME_HASH[enrollmentStatus]
+      ?? ENROLLMENT_ACTION_ICON_NAME_HASH.DEFAULT
   }
 
   /**
@@ -778,7 +911,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     const matchedCase = enrollmentStatusCases.find(it => it.checker())
 
     if (!matchedCase) {
-      return ENROLLMENT_STATUS.NOT_ENROLLED
+      return ENROLLMENT_STATUS.NOT_REGISTERED
     }
 
     return matchedCase.result
@@ -792,18 +925,35 @@ export default class SectionLeagueContext extends BaseAppContext {
   generateEnrollmentStatusCases () {
     return [
       {
+        checker: () => this.isAwaitingDeposit(),
+        result: ENROLLMENT_STATUS.AWAITING_DEPOSIT,
+      },
+      {
+        checker: () => this.hasEnrolled() && this.hasCompetitionStarted(),
+        result: ENROLLMENT_STATUS.COMPETING,
+      },
+      {
         checker: () => this.hasEnrolled(),
         result: ENROLLMENT_STATUS.ENROLLED,
       },
       {
-        checker: () => this.isEnrollmentClosed(),
-        result: ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
-      },
-      {
         checker: () => this.isCompetitionFull,
-        result: ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
       },
     ]
+  }
+
+  /**
+   * Check if we are waiting for the participant to deposit.
+   *
+   * @returns {boolean}
+   */
+  isAwaitingDeposit () {
+    if (this.participantStatusId === null) {
+      return false
+    }
+
+    return this.participantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
 
   /**
@@ -817,11 +967,28 @@ export default class SectionLeagueContext extends BaseAppContext {
     }
 
     return [
-      COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      COMPETITION_PARTICIPANT_STATUS.REGISTRATION_SUCCESS.ID,
       COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
       COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,
     ]
       .includes(this.participantStatusId)
+  }
+
+  /**
+   * Check if the competition has started.
+   *
+   * @returns {boolean}
+   */
+  hasCompetitionStarted () {
+    if (this.competitionStatusId === null) {
+      return false
+    }
+
+    return [
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+      COMPETITION_STATUS.COMPLETED.ID,
+    ]
+      .includes(this.competitionStatusId)
   }
 
   /**
@@ -835,7 +1002,6 @@ export default class SectionLeagueContext extends BaseAppContext {
     }
 
     return [
-      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
       COMPETITION_STATUS.IN_PROGRESS.ID,
       COMPETITION_STATUS.COMPLETED.ID,
       COMPETITION_STATUS.CANCELED.ID,
@@ -844,20 +1010,90 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
-   * Initiate action dialog. Open the correct dialog based on enrollment status.
+   * Process primary action of enroll button.
    *
    * @returns {void}
    */
-  initiateActionDialog () {
-    const enrollmentStatus = this.generateEnrollmentStatus()
-
-    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
-      this.showCancelationDialog()
+  processPrimaryAction () {
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      this.downloadOutcomeCsv()
 
       return
     }
 
-    this.showTermsDialog()
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.NOT_REGISTERED) {
+      this.showTermsDialog()
+
+      return
+    }
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
+      window.open(DYDX_TRADE_CTA_URL, '_blank')
+    }
+  }
+
+  /**
+   * Download outcome CSV.
+   *
+   * @returns {Promise<void>}
+   */
+  async downloadOutcomeCsv () {
+    if (this.outcomeCsvUrl === null) {
+      return
+    }
+
+    const response = await fetch(this.outcomeCsvUrl)
+    const fileBlob = await response.blob()
+    const blobURL = URL.createObjectURL(fileBlob)
+
+    const link = document.createElement('a')
+
+    const filename = this.extractOutcomeCsvFilename({
+      response,
+    })
+
+    link.href = blobURL
+    link.download = filename
+
+    link.click()
+
+    URL.revokeObjectURL(blobURL)
+  }
+
+  /**
+   * Extract outcome CSV filename.
+   *
+   * @param {{
+   *   response: Response
+   * }} params - Parameters.
+   * @returns {string} Filename.
+   */
+  extractOutcomeCsvFilename ({
+    response,
+  }) {
+    const fallbackFilename = 'outcome.csv'
+
+    const contentDisposition = response.headers.get('Content-Disposition')
+    if (!contentDisposition) {
+      return fallbackFilename
+    }
+
+    // Extract filename from Content-Disposition header
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/ui
+    const matchedFilenames = contentDisposition.match(filenameRegex)
+
+    if (!matchedFilenames) {
+      return fallbackFilename
+    }
+
+    // Index 0 is the full match, index 1 is the filename.
+    const firstMatchedFilename = matchedFilenames.at(1)
+
+    return firstMatchedFilename
+      ? firstMatchedFilename.replace(/['"]/ug, '')
+      : fallbackFilename
   }
 
   /**

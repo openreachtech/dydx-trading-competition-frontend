@@ -4,7 +4,6 @@ import {
 
 const SEVERITY_HASH = /** @type {const} */ ({
   [COMPETITION_STATUS.CREATED.ID]: 'success',
-  [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: 'warn',
   [COMPETITION_STATUS.IN_PROGRESS.ID]: 'info',
   [COMPETITION_STATUS.COMPLETED.ID]: 'completed',
   [COMPETITION_STATUS.CANCELED.ID]: 'canceled',
