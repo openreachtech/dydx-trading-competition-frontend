@@ -272,10 +272,17 @@ export default defineComponent({
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+
+  transition:
+    color 250ms var(--transition-timing-base),
+    filter 250ms var(--transition-timing-base);
 }
 
 .unit-contents .item.disabled {
   color: var(--color-text-placeholder);
+
+  filter: brightness(0.7);
+
   pointer-events: none;
 }
 
