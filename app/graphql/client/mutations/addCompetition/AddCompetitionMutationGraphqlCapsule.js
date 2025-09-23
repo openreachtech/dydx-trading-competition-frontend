@@ -31,8 +31,6 @@ export default class AddCompetitionMutationGraphqlCapsule extends BaseAppGraphql
 
 /**
  * @typedef {{
- *   addCompetition: {
- *     competitionId: number
- *   }
+ *   addCompetition: schema.graphql.AddCompetitionResult
  * }} AddCompetitionMutationResponseContent
  */
