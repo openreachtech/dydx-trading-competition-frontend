@@ -478,6 +478,10 @@ export default defineComponent({
 
 <style scoped>
 .unit-section {
+  --color-border-enroll-dropdown: var(--palette-layer-7);
+  --color-border-button-awaiting-deposit: var(--palette-purple);
+  --color-text-button-awaiting-deposit: var(--palette-purple-lighter);
+
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
   padding-block: 4.5rem 9.5rem;
@@ -690,8 +694,7 @@ export default defineComponent({
 
 .unit-details > .actions {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: stretch;
   gap: 0.75rem;
 }
 
@@ -702,6 +705,12 @@ export default defineComponent({
 
   font-size: var(--font-size-medium);
   font-weight: 500;
+}
+
+.unit-details > .actions > .button.enroll.outlined {
+  border-color: var(--color-border-button-awaiting-deposit);
+
+  color: var(--color-text-button-awaiting-deposit);
 }
 
 .unit-details > .actions > .button.enroll.neutral:disabled {
@@ -740,6 +749,13 @@ export default defineComponent({
 
 .unit-details > .actions > .button.enroll.enrolled:hover .action.unregister {
   display: inline;
+}
+
+.unit-details > .actions > .select .slot.default {
+  border-color: var(--color-border-enroll-dropdown);
+
+  padding-block: 0.625rem;
+  padding-inline: 0.625rem;
 }
 
 .unit-participants {
