@@ -801,18 +801,35 @@ export default class SectionLeagueContext extends BaseAppContext {
   generateEnrollmentStatusCases () {
     return [
       {
-        checker: () => this.hasEnrolled(),
-        result: ENROLLMENT_STATUS.ENROLLED,
+        checker: () => this.isAwaitingDeposit(),
+        result: ENROLLMENT_STATUS.AWAITING_DEPOSIT,
       },
       {
-        checker: () => this.isEnrollmentClosed(),
-        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+        checker: () => this.hasEnrolled() && this.hasCompetitionStarted(),
+        result: ENROLLMENT_STATUS.COMPETING,
+      },
+      {
+        checker: () => this.hasEnrolled(),
+        result: ENROLLMENT_STATUS.ENROLLED,
       },
       {
         checker: () => this.isCompetitionFull,
         result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
       },
     ]
+  }
+
+  /**
+   * Check if we are waiting for the participant to deposit.
+   *
+   * @returns {boolean}
+   */
+  isAwaitingDeposit () {
+    if (this.participantStatusId === null) {
+      return false
+    }
+
+    return this.participantStatusId === COMPETITION_PARTICIPANT_STATUS.AWAITING_DEPOSIT.ID
   }
 
   /**
