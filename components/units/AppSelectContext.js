@@ -95,6 +95,15 @@ export default class AppSelectContext extends BaseAppContext {
   }
 
   /**
+   * get: isRounded
+   *
+   * @returns {boolean}
+   */
+  get isRounded () {
+    return this.props.isRounded
+  }
+
+  /**
    * get: isOpenSelect
    *
    * @returns {boolean} `true` if is open select.
@@ -351,6 +360,7 @@ export default class AppSelectContext extends BaseAppContext {
  *   modelValue: string
  *   items: Array<SelectOption>
  *   isDisabled: boolean
+ *   isRounded: boolean
  *   placeholder: string
  *   isLoading: boolean
  *   iconName: string

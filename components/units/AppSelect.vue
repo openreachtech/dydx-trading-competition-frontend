@@ -50,6 +50,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    isRounded: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     placeholder: {
       type: String,
       default: 'Options',
@@ -123,6 +128,7 @@ export default defineComponent({
     >
       <slot name="default">
         <AppButton
+          :is-rounded="context.isRounded"
           variant="muted"
           :disabled="context.isDisabled"
           :is-loading="context.isLoading"
