@@ -165,7 +165,7 @@ export default defineComponent({
             :appearance="context.generateEnrollButtonAppearance()"
             :variant="context.generateEnrollButtonVariant()"
             :class="context.generateEnrollButtonClasses()"
-            @click="context.initiateActionDialog()"
+            @click="context.processPrimaryAction()"
           >
             <template #startIcon>
               <Icon

@@ -12,6 +12,7 @@ import {
   SCHEDULE_CATEGORY,
   COMPETITION_PARTICIPANT_STATUS,
   COMPETITION_STATUS,
+  DYDX_TRADE_CTA_URL,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
@@ -426,6 +427,17 @@ export default class SectionLeagueContext extends BaseAppContext {
     return this.extractCompetition()
       ?.schedules
       ?? []
+  }
+
+  /**
+   * get: outcomeCsvUrl
+   *
+   * @returns {string | null}
+   */
+  get outcomeCsvUrl () {
+    return this.extractCompetition()
+      ?.outcomeCsvUrl
+      ?? null
   }
 
   /**
@@ -1011,20 +1023,90 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
-   * Initiate action dialog. Open the correct dialog based on enrollment status.
+   * Process primary action of enroll button.
    *
    * @returns {void}
    */
-  initiateActionDialog () {
-    const enrollmentStatus = this.generateEnrollmentStatus()
-
-    if (enrollmentStatus === ENROLLMENT_STATUS.ENROLLED) {
-      this.showCancelationDialog()
+  processPrimaryAction () {
+    if (this.competitionStatusId === COMPETITION_STATUS.COMPLETED.ID) {
+      this.downloadOutcomeCsv()
 
       return
     }
 
-    this.showTermsDialog()
+    const enrollmentStatus = this.generateEnrollmentStatus()
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.NOT_REGISTERED) {
+      this.showTermsDialog()
+
+      return
+    }
+
+    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
+      window.open(DYDX_TRADE_CTA_URL, '_blank')
+    }
+  }
+
+  /**
+   * Download outcome CSV.
+   *
+   * @returns {Promise<void>}
+   */
+  async downloadOutcomeCsv () {
+    if (this.outcomeCsvUrl === null) {
+      return
+    }
+
+    const response = await fetch(this.outcomeCsvUrl)
+    const fileBlob = await response.blob()
+    const blobURL = URL.createObjectURL(fileBlob)
+
+    const link = document.createElement('a')
+
+    const filename = this.extractOutcomeCsvFilename({
+      response,
+    })
+
+    link.href = blobURL
+    link.download = filename
+
+    link.click()
+
+    URL.revokeObjectURL(blobURL)
+  }
+
+  /**
+   * Extract outcome CSV filename.
+   *
+   * @param {{
+   *   response: Response
+   * }} params - Parameters.
+   * @returns {string} Filename.
+   */
+  extractOutcomeCsvFilename ({
+    response,
+  }) {
+    const fallbackFilename = 'outcome.csv'
+
+    const contentDisposition = response.headers.get('Content-Disposition')
+    if (!contentDisposition) {
+      return fallbackFilename
+    }
+
+    // Extract filename from Content-Disposition header
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/ui
+    const matchedFilenames = contentDisposition.match(filenameRegex)
+
+    if (!matchedFilenames) {
+      return fallbackFilename
+    }
+
+    // Index 0 is the full match, index 1 is the filename.
+    const firstMatchedFilename = matchedFilenames.at(1)
+
+    return firstMatchedFilename
+      ? firstMatchedFilename.replace(/['"]/ug, '')
+      : fallbackFilename
   }
 
   /**
