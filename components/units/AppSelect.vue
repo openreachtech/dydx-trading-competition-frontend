@@ -33,6 +33,11 @@ export default defineComponent({
   },
 
   props: {
+    dropdownClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
     items: {
       type: /** @type {import('vue').PropType<Array<import('./AppSelectContext').SelectOption>>} */ (Array),
       default: () => [],
@@ -156,6 +161,9 @@ export default defineComponent({
           v-if="context.isOpenSelect"
           v-on-click-outside="() => context.closeSelect()"
           class="unit-contents"
+          :class="[
+            context.dropdownClass,
+          ]"
           :style="context.generateDropdownStyle()"
         >
           <template

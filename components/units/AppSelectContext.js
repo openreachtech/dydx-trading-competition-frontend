@@ -68,6 +68,15 @@ export default class AppSelectContext extends BaseAppContext {
   }
 
   /**
+   * get: dropdownClass
+   *
+   * @returns {AppSelectContextProps['dropdownClass']}
+   */
+  get dropdownClass () {
+    return this.props.dropdownClass
+  }
+
+  /**
    * get: items
    *
    * @returns {Array<SelectOption>} Items.
@@ -338,6 +347,7 @@ export default class AppSelectContext extends BaseAppContext {
 
 /**
  * @typedef {{
+ *   dropdownClass: string
  *   modelValue: string
  *   items: Array<SelectOption>
  *   isDisabled: boolean
