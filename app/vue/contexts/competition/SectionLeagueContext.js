@@ -17,18 +17,20 @@ import {
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
 
 const ENROLLMENT_STATUS = {
+  AWAITING_DEPOSIT: 'awaitingDeposit',
   ENROLLED: 'enrolled',
-  NOT_ENROLLED: 'notEnrolled',
-  NOT_ENROLLED_BUT_FULL: 'notEnrolledButFull',
-  ENROLLMENT_CLOSED: 'enrollmentClosed',
+  COMPETING: 'competing',
+  NOT_REGISTERED: 'notEnrolled',
+  NOT_REGISTERED_BUT_FULL: 'notEnrolledButFull',
 }
 
 const ENROLLMENT_ACTION_TEXT = {
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'Deposit Now',
   [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
-  [ENROLLMENT_STATUS.NOT_ENROLLED]: 'Enroll now',
-  [ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL]: 'Max participants reached',
-  [ENROLLMENT_STATUS.ENROLLMENT_CLOSED]: 'Registration ended',
-  DEFAULT: 'Enroll now',
+  [ENROLLMENT_STATUS.COMPETING]: 'You have enrolled',
+  [ENROLLMENT_STATUS.NOT_REGISTERED]: 'Register now',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'Max participants reached',
+  DEFAULT: 'Register now',
 }
 
 /**
@@ -770,7 +772,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
-      ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
+      ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
     ]
       .includes(enrollmentStatus)
   }
@@ -785,7 +787,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     const matchedCase = enrollmentStatusCases.find(it => it.checker())
 
     if (!matchedCase) {
-      return ENROLLMENT_STATUS.NOT_ENROLLED
+      return ENROLLMENT_STATUS.NOT_REGISTERED
     }
 
     return matchedCase.result
@@ -804,11 +806,11 @@ export default class SectionLeagueContext extends BaseAppContext {
       },
       {
         checker: () => this.isEnrollmentClosed(),
-        result: ENROLLMENT_STATUS.ENROLLMENT_CLOSED,
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
       },
       {
         checker: () => this.isCompetitionFull,
-        result: ENROLLMENT_STATUS.NOT_ENROLLED_BUT_FULL,
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
       },
     ]
   }
