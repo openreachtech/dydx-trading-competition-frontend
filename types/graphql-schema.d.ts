@@ -5,6 +5,7 @@ declare global {
     // Scalar types
     type DateTime = string
     type Upload = File
+    type BigNumber = number
 
     // Common Types
     interface Pagination {
@@ -27,7 +28,7 @@ declare global {
 
     interface AddressSummary {
       address: string
-      name: string
+      name?: string
     }
 
     interface SortOption {
@@ -158,6 +159,38 @@ declare global {
       pnl?: number
     }
 
+    interface AddressCompetition {
+      competition: CompetitionSummary
+      competitionParticipantStatus: StatusPhase
+      competitionParticipantNote?: string
+      ranking?: number
+      performanceBaseline?: number
+      prizeUsdAmount?: string
+      roi?: number
+      pnl?: number
+      totalVolume?: number
+    }
+
+    interface CompetitionPrizeCategory {
+      categoryId: number
+      name: string
+      description: string
+    }
+
+    interface CompetitionDynamicPrizeRuleSummary {
+      targetTradingVolumeUsd: string
+      competitionPrizeCategory: CompetitionPrizeCategory
+      totalCategoryPrizeAmount: string
+    }
+
+    interface CompetitionDynamicPrizeRule {
+      targetTradingVolumeUsd: string
+      competitionPrizeCategory: CompetitionPrizeCategory
+      rankFrom: number
+      rankTo: number
+      amount: string
+    }
+
     // Result Types
     interface CompetitionsResult {
       competitions: Array<CompetitionSummary>
@@ -214,6 +247,15 @@ declare global {
       pagination: Pagination
     }
 
+    interface CompetitionDynamicPrizeRulesResult {
+      prizeRules: Array<CompetitionDynamicPrizeRuleSummary>
+    }
+
+    interface CompetitionCurrentDynamicPrizeRuleResult {
+      currentTradingVolumeUsd: string
+      currentDynamicPrizeRule: Array<CompetitionDynamicPrizeRule>
+    }
+
     interface AddressProfileResult {
       address: string
       name?: string
@@ -234,6 +276,11 @@ declare global {
 
     interface AddressPastCompetitionsResult {
       competitions: Array<AddressPastCompetition>
+      pagination: Pagination
+    }
+
+    interface AddressCompetitionsResult {
+      competitions: Array<AddressCompetition>
       pagination: Pagination
     }
 
@@ -387,6 +434,14 @@ declare global {
       pagination: PaginationInput
     }
 
+    interface CompetitionDynamicPrizeRulesInput {
+      competitionId: number
+    }
+
+    interface CompetitionCurrentDynamicPrizeRuleInput {
+      competitionId: number
+    }
+
     interface CompetitionScheduleInput {
       categoryId: number
       scheduledDatetime: DateTime
@@ -518,6 +573,11 @@ declare global {
     }
 
     interface AddressPastCompetitionsInput {
+      address: string
+      pagination: PaginationInput
+    }
+
+    interface AddressCompetitionsInput {
       address: string
       pagination: PaginationInput
     }
