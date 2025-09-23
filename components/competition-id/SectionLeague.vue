@@ -187,12 +187,12 @@ export default defineComponent({
               </span>
             </template>
           </AppButton>
-
-          <AppLeagueCountdown
-            class="note"
-            :schedules="context.schedules"
-          />
         </div>
+
+        <AppLeagueCountdown
+          class="note"
+          :schedules="context.schedules"
+        />
 
         <div class="unit-status">
           <AppIconBadge
@@ -650,8 +650,6 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 0.75rem;
-
-  margin-block-end: 1.5rem;
 }
 
 .unit-details > .actions > .button.enroll {
@@ -718,7 +716,7 @@ export default defineComponent({
 }
 
 .unit-details > .note {
-  margin-block-start: 0.75rem;
+  margin-block: 0.75rem 1.5rem;
 }
 
 .unit-meta {
