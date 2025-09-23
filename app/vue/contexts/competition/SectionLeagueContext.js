@@ -772,7 +772,9 @@ export default class SectionLeagueContext extends BaseAppContext {
     const enrollmentStatus = this.generateEnrollmentStatus()
 
     return [
+      ENROLLMENT_STATUS.ENROLLED,
       ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+      ENROLLMENT_STATUS.COMPETING,
     ]
       .includes(enrollmentStatus)
   }
