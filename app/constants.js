@@ -31,6 +31,11 @@ export const SORT_DIRECTION_OPTION = /** @type {const} */ ({
   DESC: 'DESC',
 })
 
+export const AVAILABLE_SORT_COLUMN = {
+  ROI: 'roi',
+  PNL: 'pnl',
+}
+
 export const DEFAULT_TABLE_SORT_QUERY_KEY = 'q'
 
 export const COMPETITION_STATUS = {
