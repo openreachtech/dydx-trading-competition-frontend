@@ -156,6 +156,25 @@ export default class CompetitionDetailsEditPageContext extends BaseAppContext {
   }
 
   /**
+   * Generate initial form value hash for step options.
+   *
+   * @returns {import('~/components/competition-add/AddCompetitionFormStepOptionsContext').InitialFormValueHash | null}
+   */
+  generateStepOptionsInitialValueHash () {
+    const {
+      defaultLeaderboardSortOption,
+    } = this.competitionDetailsEditCapsule
+
+    if (!defaultLeaderboardSortOption) {
+      return null
+    }
+
+    return {
+      leaderboardSortOption: defaultLeaderboardSortOption,
+    }
+  }
+
+  /**
    * Generate initial form value hash for step prize.
    *
    * @returns {import('~/components/competition-add/AddCompetitionFormStepPrizeContext').InitialFormValueHash}

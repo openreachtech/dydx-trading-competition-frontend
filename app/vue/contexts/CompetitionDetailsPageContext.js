@@ -146,7 +146,6 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     const headerEntryHash = {
       [COMPETITION_STATUS.CANCELED.ID]: [],
       [COMPETITION_STATUS.CREATED.ID]: this.competitionParticipantHeaderEntries,
-      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.competitionParticipantHeaderEntries,
       [COMPETITION_STATUS.IN_PROGRESS.ID]: this.ongoingLeaderboardHeaderEntries,
       [COMPETITION_STATUS.COMPLETED.ID]: this.leaderboardFinalOutcomeHeaderEntries,
     }
@@ -583,7 +582,6 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     const fetchFunctionHash = {
       [COMPETITION_STATUS.CANCELED.ID]: null,
       [COMPETITION_STATUS.CREATED.ID]: () => this.fetchCompetitionParticipants(),
-      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: () => this.fetchCompetitionParticipants(),
       [COMPETITION_STATUS.IN_PROGRESS.ID]: () => this.fetchOngoingLeaderboard(),
       [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchLeaderboardFinalOutcome(),
     }
@@ -782,7 +780,6 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     const fetchFunctionHash = {
       [COMPETITION_STATUS.CANCELED.ID]: null,
       [COMPETITION_STATUS.CREATED.ID]: null,
-      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: null,
       [COMPETITION_STATUS.IN_PROGRESS.ID]: () => this.fetchOngoingTopThree(),
       [COMPETITION_STATUS.COMPLETED.ID]: () => this.fetchTopThreeFinalOutcome(),
     }
@@ -2235,7 +2232,6 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     const paginationResultHash = {
       [COMPETITION_STATUS.CANCELED.ID]: fallbackPaginationResult,
       [COMPETITION_STATUS.CREATED.ID]: this.generateCompetitionParticipantsPaginationResult(),
-      [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.generateCompetitionParticipantsPaginationResult(),
       [COMPETITION_STATUS.IN_PROGRESS.ID]: this.generateOngoingLeaderboardPaginationResult(),
       [COMPETITION_STATUS.COMPLETED.ID]: this.generateLeaderboardFinalOutcomePaginationResult(),
     }
@@ -2337,7 +2333,6 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     const timestampHash = {
       [COMPETITION_STATUS.CANCELED.ID]: null,
       // [COMPETITION_STATUS.CREATED.ID]: this.extractLastParticipantPhasedAt(),
-      // [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: this.extractLastParticipantPhasedAt(),
       [COMPETITION_STATUS.IN_PROGRESS.ID]: this.extractLastOngoingLeaderboardCalculatedAt(),
       // [COMPETITION_STATUS.COMPLETED.ID]: this.extractLastOutcomeCalculatedAt(),
     }

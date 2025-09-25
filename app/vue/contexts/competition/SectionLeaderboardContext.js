@@ -15,7 +15,6 @@ const HEADING_LABEL = {
 const SECTION_HEADING_HASH = {
   [COMPETITION_STATUS.CANCELED.ID]: null,
   [COMPETITION_STATUS.CREATED.ID]: HEADING_LABEL.REGISTRATION,
-  [COMPETITION_STATUS.REGISTRATION_ENDED.ID]: HEADING_LABEL.REGISTRATION,
   [COMPETITION_STATUS.IN_PROGRESS.ID]: null,
   [COMPETITION_STATUS.COMPLETED.ID]: HEADING_LABEL.OUTCOME,
 }
@@ -458,7 +457,6 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     return [
       COMPETITION_STATUS.CANCELED.ID,
       COMPETITION_STATUS.CREATED.ID,
-      COMPETITION_STATUS.REGISTRATION_ENDED.ID,
     ]
       .includes(this.competitionStatusId)
   }
@@ -697,7 +695,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     statusId,
   }) {
     return {
-      registered: statusId === COMPETITION_PARTICIPANT_STATUS.REGISTERED.ID,
+      registered: statusId === COMPETITION_PARTICIPANT_STATUS.REGISTRATION_SUCCESS.ID,
       active: statusId === COMPETITION_PARTICIPANT_STATUS.ACTIVE.ID,
       disqualified: statusId === COMPETITION_PARTICIPANT_STATUS.DISQUALIFIED.ID,
       completed: statusId === COMPETITION_PARTICIPANT_STATUS.COMPLETED.ID,

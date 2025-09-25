@@ -95,7 +95,7 @@ export default defineComponent({
   padding-block: 0.625rem;
   padding-inline: 0.75rem;
 
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-input-base);
   line-height: var(--size-line-height-base);
 
   color: var(--color-text-primary);

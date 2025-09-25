@@ -33,6 +33,11 @@ export default defineComponent({
   },
 
   props: {
+    dropdownClass: {
+      type: String,
+      required: false,
+      default: '',
+    },
     items: {
       type: /** @type {import('vue').PropType<Array<import('./AppSelectContext').SelectOption>>} */ (Array),
       default: () => [],
@@ -43,6 +48,11 @@ export default defineComponent({
     },
     isLoading: {
       type: Boolean,
+      default: false,
+    },
+    isRounded: {
+      type: Boolean,
+      required: false,
       default: false,
     },
     placeholder: {
@@ -118,6 +128,8 @@ export default defineComponent({
     >
       <slot name="default">
         <AppButton
+          type="button"
+          :is-rounded="context.isRounded"
           variant="muted"
           :disabled="context.isDisabled"
           :is-loading="context.isLoading"
@@ -156,6 +168,9 @@ export default defineComponent({
           v-if="context.isOpenSelect"
           v-on-click-outside="() => context.closeSelect()"
           class="unit-contents"
+          :class="[
+            context.dropdownClass,
+          ]"
           :style="context.generateDropdownStyle()"
         >
           <template
@@ -199,6 +214,12 @@ export default defineComponent({
   position: relative;
   width: fit-content;
   font-size: var(--font-size-base);
+}
+
+.unit-select > .trigger {
+  display: grid;
+
+  width: 100%;
 }
 
 .unit-select.opened > .trigger .icon {
@@ -252,10 +273,17 @@ export default defineComponent({
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+
+  transition:
+    color 250ms var(--transition-timing-base),
+    filter 250ms var(--transition-timing-base);
 }
 
 .unit-contents .item.disabled {
   color: var(--color-text-placeholder);
+
+  filter: brightness(0.7);
+
   pointer-events: none;
 }
 

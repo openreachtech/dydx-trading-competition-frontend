@@ -20,30 +20,6 @@ export default class AddCompetitionMutationGraphqlPayload extends BaseAppSignatu
 
 /**
  * @typedef {{
- *   input: {
- *     title: string
- *     description: string
- *     minimumDeposit: string
- *     minimumTradingVolume: string
- *     totalPrize: string
- *     imageUrl?: string
- *     participantUpperLimit: number
- *     participantLowerLimit: number
- *     schedules: Array<{
- *       categoryId: number
- *       scheduledDatetime: string // ISO string
- *     }>
- *     prizeRules: Array<{
- *       rankFrom: number
- *       rankTo: number
- *       amount: string
- *     }>
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.AddCompetitionInput
  * }} AddCompetitionMutationRequestVariables
  */

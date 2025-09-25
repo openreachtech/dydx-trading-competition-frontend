@@ -31,18 +31,18 @@ export const SORT_DIRECTION_OPTION = /** @type {const} */ ({
   DESC: 'DESC',
 })
 
+export const AVAILABLE_SORT_COLUMN = {
+  ROI: 'roi',
+  PNL: 'pnl',
+}
+
 export const DEFAULT_TABLE_SORT_QUERY_KEY = 'q'
 
 export const COMPETITION_STATUS = {
   CREATED: {
     ID: 1,
-    NAME: 'registration_open',
-    DESCRIPTION: 'Registration period active',
-  },
-  REGISTRATION_ENDED: {
-    ID: 2,
-    NAME: 'awaiting_deposit',
-    DESCRIPTION: 'Deposit period active',
+    NAME: 'created',
+    DESCRIPTION: 'Competition has been created',
   },
   IN_PROGRESS: {
     ID: 3,
@@ -62,10 +62,10 @@ export const COMPETITION_STATUS = {
 }
 
 export const COMPETITION_PARTICIPANT_STATUS = {
-  REGISTERED: {
+  AWAITING_DEPOSIT: {
     ID: 1,
-    NAME: 'registered',
-    DESCRIPTION: 'Participant has registered for competition',
+    NAME: 'awaiting_deposit',
+    DESCRIPTION: 'Participant has awaiting deposit for competition',
   },
   ACTIVE: {
     ID: 2,
@@ -87,10 +87,10 @@ export const COMPETITION_PARTICIPANT_STATUS = {
     NAME: 'canceled',
     DESCRIPTION: 'Participant has canceled their registration',
   },
-  AWAITING_DEPOSIT: {
+  REGISTRATION_SUCCESS: {
     ID: 6,
-    NAME: 'awaiting_deposit',
-    DESCRIPTION: 'Participant has registered and is required to deposit funds to activate participation',
+    NAME: 'registration_success',
+    DESCRIPTION: 'Participant has successfully registered for competition',
   },
 }
 
