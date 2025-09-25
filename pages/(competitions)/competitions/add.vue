@@ -18,6 +18,7 @@ import AddCompetitionFormSteps from '~/components/competition-add/AddCompetition
 import AddCompetitionFormStepDetails from '~/components/competition-add/AddCompetitionFormStepDetails.vue'
 import AddCompetitionFormStepTimeline from '~/components/competition-add/AddCompetitionFormStepTimeline.vue'
 import AddCompetitionFormStepParticipation from '~/components/competition-add/AddCompetitionFormStepParticipation.vue'
+import AddCompetitionFormStepOptions from '~/components/competition-add/AddCompetitionFormStepOptions.vue'
 import AddCompetitionFormStepPrize from '~/components/competition-add/AddCompetitionFormStepPrize.vue'
 
 import AddCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/addCompetition/AddCompetitionMutationGraphqlLauncher'
@@ -45,6 +46,7 @@ export default defineComponent({
     AddCompetitionFormStepDetails,
     AddCompetitionFormStepTimeline,
     AddCompetitionFormStepParticipation,
+    AddCompetitionFormStepOptions,
     AddCompetitionFormStepPrize,
   },
 
@@ -139,13 +141,26 @@ export default defineComponent({
               :validation-message="context.addCompetitionValidationMessage"
             />
 
-            <AddCompetitionFormStepPrize
-              class="step"
+            <div
+              class="unit-form-group step"
               :class="context.generateStepClasses({
                 step: 4,
               })"
-              :validation-message="context.addCompetitionValidationMessage"
-            />
+            >
+              <div class="headline">
+                <h2 class="heading">
+                  4. Rank & Prize
+                </h2>
+
+                <p class="description">
+                  Define the total prize pool and how it will be distributed
+                </p>
+              </div>
+
+              <AddCompetitionFormStepOptions :validation-message="context.addCompetitionValidationMessage" />
+
+              <AddCompetitionFormStepPrize :validation-message="context.addCompetitionValidationMessage" />
+            </div>
           </div>
 
           <div class="unit-actions">
@@ -270,6 +285,30 @@ export default defineComponent({
 
 .unit-form > .steps > .content > .step.hidden {
   visibility: hidden;
+}
+
+.unit-form-group:not(.hidden) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.unit-form-group > .headline > .heading {
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  line-height: var(--size-line-height-medium);
+}
+
+.unit-form-group > .headline > .description {
+  margin-block-start: 0.25rem;
+
+  font-size: var(--font-size-small);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-form-group > .unit-form:last-of-type {
+  flex: 1;
 }
 
 .unit-actions {
