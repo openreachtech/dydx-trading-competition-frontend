@@ -24,6 +24,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
     updateCompetitionFormShallowRef,
     updateCompetitionSchedulesFormShallowRef,
     updateCompetitionLimitsFormShallowRef,
+    updateCompetitionOptionsFormShallowRef,
     updateCompetitionPrizeRulesFormShallowRef,
   }) {
     super({
@@ -40,6 +41,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
     this.updateCompetitionFormShallowRef = updateCompetitionFormShallowRef
     this.updateCompetitionSchedulesFormShallowRef = updateCompetitionSchedulesFormShallowRef
     this.updateCompetitionLimitsFormShallowRef = updateCompetitionLimitsFormShallowRef
+    this.updateCompetitionOptionsFormShallowRef = updateCompetitionOptionsFormShallowRef
     this.updateCompetitionPrizeRulesFormShallowRef = updateCompetitionPrizeRulesFormShallowRef
   }
 
@@ -64,6 +66,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
     updateCompetitionFormShallowRef,
     updateCompetitionSchedulesFormShallowRef,
     updateCompetitionLimitsFormShallowRef,
+    updateCompetitionOptionsFormShallowRef,
     updateCompetitionPrizeRulesFormShallowRef,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -79,6 +82,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
         updateCompetitionFormShallowRef,
         updateCompetitionSchedulesFormShallowRef,
         updateCompetitionLimitsFormShallowRef,
+        updateCompetitionOptionsFormShallowRef,
         updateCompetitionPrizeRulesFormShallowRef,
       })
     )
@@ -236,6 +240,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
   get updateCompetitionLimitsFormElement () {
     return this.updateCompetitionLimitsFormShallowRef
       .value
+  }
+
+  /**
+   * get: updateCompetitionOptionsFormElement
+   *
+   * @returns {HTMLFormElement | null}
+   */
+  get updateCompetitionOptionsFormElement () {
+    return this.updateCompetitionOptionsFormShallowRef.value
   }
 
   /**
@@ -459,6 +472,15 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
   }
 
   /**
+   * Submit the competition options form.
+   *
+   * @returns {void}
+   */
+  submitOptionsForm () {
+    this.updateCompetitionOptionsFormElement?.requestSubmit()
+  }
+
+  /**
    * get: updateCompetitionPrizeRulesLauncherHooks
    *
    * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
@@ -514,6 +536,7 @@ export default class CompetitionDetailsEditMutationContext extends BaseAppContex
  *   updateCompetitionFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  *   updateCompetitionSchedulesFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  *   updateCompetitionLimitsFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
+ *   updateCompetitionOptionsFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  *   updateCompetitionPrizeRulesFormShallowRef: import('vue').ShallowRef<HTMLFormElement | null>
  * }} CompetitionDetailsEditMutationContextParams
  */
