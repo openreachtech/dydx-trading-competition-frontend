@@ -96,16 +96,6 @@ export default defineComponent({
 
 <template>
   <section class="unit-section">
-    <div class="headline">
-      <h2 class="heading">
-        4. Rank & Prize
-      </h2>
-
-      <p class="description">
-        Define the total prize pool and how it will be distributed
-      </p>
-    </div>
-
     <span
       class="message error"
       :class="context.generateErrorMessageClasses({
@@ -288,20 +278,6 @@ export default defineComponent({
 
 .unit-section > .message.error.hidden {
   display: none;
-}
-
-.unit-section > .headline > .heading {
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  line-height: var(--size-line-height-medium);
-}
-
-.unit-section > .headline > .description {
-  margin-block-start: 0.25rem;
-
-  font-size: var(--font-size-small);
-
-  color: var(--color-text-tertiary);
 }
 
 .unit-section > :where(.tier, .pool) > .heading {
