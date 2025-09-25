@@ -128,6 +128,7 @@ export default defineComponent({
     >
       <slot name="default">
         <AppButton
+          type="button"
           :is-rounded="context.isRounded"
           variant="muted"
           :disabled="context.isDisabled"
