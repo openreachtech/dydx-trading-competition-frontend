@@ -76,6 +76,17 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * get: minimumDeposit
+   *
+   * @returns {string | null}
+   */
+  get minimumDeposit () {
+    return this.competition
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
    * get: minimumTradingVolume
    *
    * @returns {string | null}
@@ -252,6 +263,17 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
 
     return this.formatNumber({
       value: this.currentEquity,
+    })
+  }
+
+  /**
+   * Format minimum deposit amount.
+   *
+   * @returns {string} The formatted minimum deposit amount.
+   */
+  formatMinimumDeposit () {
+    return this.formatNumber({
+      value: this.minimumDeposit,
     })
   }
 
