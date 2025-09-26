@@ -322,15 +322,15 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
    */
   hasSufficientEquity () {
     if (
-      this.minimumTradingVolume === null
+      this.minimumDeposit === null
       || this.currentEquity === null
     ) {
       return false
     }
 
-    const numericMinimumTradingVolume = parseFloat(this.minimumTradingVolume)
+    const numericMinimumDeposit = parseFloat(this.minimumDeposit)
 
-    return this.currentEquity >= numericMinimumTradingVolume
+    return this.currentEquity >= numericMinimumDeposit
   }
 
   /**
