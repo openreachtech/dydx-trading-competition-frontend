@@ -188,7 +188,7 @@ export default defineComponent({
             />
 
             <span class="figure">
-              {{ context.formatCurrentEquity() }} <span class="total">/ {{ context.formatMinimumTradingVolume() }} USDC</span>
+              {{ context.formatCurrentEquity() }} <span class="total">/ {{ context.formatMinimumDeposit() }} USDC</span>
             </span>
           </div>
 

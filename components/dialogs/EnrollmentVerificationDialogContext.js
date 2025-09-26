@@ -76,6 +76,17 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * get: minimumDeposit
+   *
+   * @returns {string | null}
+   */
+  get minimumDeposit () {
+    return this.competition
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
    * get: minimumTradingVolume
    *
    * @returns {string | null}
@@ -256,6 +267,17 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * Format minimum deposit amount.
+   *
+   * @returns {string} The formatted minimum deposit amount.
+   */
+  formatMinimumDeposit () {
+    return this.formatNumber({
+      value: this.minimumDeposit,
+    })
+  }
+
+  /**
    * Format minimum trading volume.
    *
    * @returns {string} The formatted minimum trading volume.
@@ -300,15 +322,15 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
    */
   hasSufficientEquity () {
     if (
-      this.minimumTradingVolume === null
+      this.minimumDeposit === null
       || this.currentEquity === null
     ) {
       return false
     }
 
-    const numericMinimumTradingVolume = parseFloat(this.minimumTradingVolume)
+    const numericMinimumDeposit = parseFloat(this.minimumDeposit)
 
-    return this.currentEquity >= numericMinimumTradingVolume
+    return this.currentEquity >= numericMinimumDeposit
   }
 
   /**
