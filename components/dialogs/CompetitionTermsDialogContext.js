@@ -19,6 +19,25 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   }
 
   /**
+   * get: userInterfaceState
+   *
+   * @returns {CompetitionTermsDialogProps['userInterfaceState'] | null}
+   */
+  get userInterfaceState () {
+    return this.props.userInterfaceState
+  }
+
+  /**
+   * get: isFetchingCurrentEquity
+   *
+   * @returns {boolean}
+   */
+  get isFetchingCurrentEquity () {
+    return this.userInterfaceState?.isFetchingCurrentEquity
+      ?? false
+  }
+
+  /**
    * get: competition
    *
    * @returns {CompetitionTermsDialogProps['competition'] | null}
@@ -219,6 +238,7 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
 
 /**
  * @typedef {{
+ *   userInterfaceState: import('~/app/vue/contexts/CompetitionDetailsPageContext.js').StatusReactive
  *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity
  * }} CompetitionTermsDialogProps
  */

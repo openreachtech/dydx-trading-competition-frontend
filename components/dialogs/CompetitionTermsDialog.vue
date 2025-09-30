@@ -16,6 +16,14 @@ export default defineComponent({
   },
 
   props: {
+    userInterfaceState: {
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
     competition: {
       /** @type {import('vue').PropType<import('./CompetitionTermsDialogContext').CompetitionTermsDialogProps['competition']>} */
       type: [
@@ -344,6 +352,7 @@ export default defineComponent({
 
         <div class="unit-actions">
           <AppButton
+            :is-loading="context.isFetchingCurrentEquity"
             class="button"
             type="button"
             @click="context.emitCheckEnrollmentEligibility()"

@@ -212,6 +212,7 @@ export default defineComponent({
     <CompetitionTermsDialog
       ref="competitionTermsDialogRef"
       :competition="context.competition"
+      :user-interface-state="context.statusReactive"
       @check-enrollment-eligibility="context.checkEnrollmentEligibility()"
     />
 
