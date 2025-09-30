@@ -177,6 +177,16 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
+   * Dimiss dialog in success state.
+   *
+   * @returns {void}
+   */
+  dismissSuccessDialog () {
+    this.dismissDialog()
+    this.emitJoinCompetition()
+  }
+
+  /**
    * Emit 'joinCompetition' event.
    *
    * @returns {void}

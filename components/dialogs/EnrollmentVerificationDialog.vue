@@ -264,7 +264,7 @@ export default defineComponent({
           <AppButton
             type="button"
             class="button confirm"
-            @click="context.dismissDialog()"
+            @click="context.dismissSuccessDialog()"
           >
             Enroll now
           </AppButton>
