@@ -173,7 +173,7 @@ export default defineComponent({
             }"
           >
             Please <span class="highlight">deposit an amount</span> exceeding the Required
-            Entry Balance to unlock your <span class="highlight">eligibility for Arena Rewards</span>.
+            Entry Balance to be able <span class="highlight">to enroll in the competition</span>.
           </p>
 
           <div
@@ -218,7 +218,7 @@ export default defineComponent({
               class="button"
               @click="context.dismissDialog()"
             >
-              Deposit later
+              Cancel
             </AppButton>
             <NuxtLink
               type="button"
@@ -246,18 +246,18 @@ export default defineComponent({
           </div>
 
           <span class="title">
-            You're In!
+            You're Eligible!
           </span>
 
           <p class="description">
-            Welcome to the Trading Arena. You are all set for
+            Your equity meets the requirement. You can now proceed to enroll in
             <span
               :class="{
                 highlight: context.hasCompetitionTitle(),
               }"
             >
               {{ context.formatCompetitionTitle() }}
-            </span>
+            </span>.
           </p>
 
           <AppButton
@@ -265,7 +265,7 @@ export default defineComponent({
             class="button confirm"
             @click="context.dismissDialog()"
           >
-            Got it!
+            Enroll now
           </AppButton>
         </div>
       </div>
