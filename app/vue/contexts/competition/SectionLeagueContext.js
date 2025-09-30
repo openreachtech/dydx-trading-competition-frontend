@@ -12,7 +12,6 @@ import {
   SCHEDULE_CATEGORY,
   COMPETITION_PARTICIPANT_STATUS,
   COMPETITION_STATUS,
-  DYDX_TRADE_CTA_URL,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
