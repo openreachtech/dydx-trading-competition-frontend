@@ -26,6 +26,13 @@ export default defineComponent({
     },
   },
 
+  emits: [
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_NEGATIVE_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_NEUTRAL_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_POSITIVE_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CHECK_ENROLLMENT_ELIGIBILITY,
+  ],
+
   setup (
     props,
     componentContext
