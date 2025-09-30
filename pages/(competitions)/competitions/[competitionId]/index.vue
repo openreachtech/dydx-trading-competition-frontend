@@ -263,6 +263,7 @@ export default defineComponent({
       @fetch-current-equity="context.fetchCurrentEquity({
         afterRequestCallback: $event.afterRequestCallback,
       })"
+      @join-competition="context.showCompetitionEnrollmentDialog()"
     />
   </div>
 </template>
