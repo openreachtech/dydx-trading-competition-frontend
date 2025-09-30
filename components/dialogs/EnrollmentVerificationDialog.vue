@@ -53,6 +53,7 @@ export default defineComponent({
 
   emits: [
     EnrollmentVerificationDialogContext.EMIT_EVENT_NAME.FETCH_CURRENT_EQUITY,
+    EnrollmentVerificationDialogContext.EMIT_EVENT_NAME.JOIN_COMPETITION,
   ],
 
   setup (
