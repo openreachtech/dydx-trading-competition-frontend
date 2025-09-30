@@ -26,7 +26,7 @@ const ENROLLMENT_STATUS = {
 }
 
 const ENROLLMENT_ACTION_TEXT = {
-  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'Deposit Now',
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'You have enrolled',
   [ENROLLMENT_STATUS.ENROLLED]: 'You have enrolled',
   [ENROLLMENT_STATUS.COMPETING]: 'You have enrolled',
   [ENROLLMENT_STATUS.NOT_REGISTERED]: 'Register now',
@@ -35,7 +35,7 @@ const ENROLLMENT_ACTION_TEXT = {
 }
 
 const ENROLLMENT_ACTION_ICON_NAME_HASH = {
-  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'heroicons-outline:arrow-down-circle',
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'heroicons:check-circle',
   [ENROLLMENT_STATUS.ENROLLED]: 'heroicons:check-circle',
   [ENROLLMENT_STATUS.COMPETING]: 'heroicons:check-circle',
   [ENROLLMENT_STATUS.NOT_REGISTERED]: '',
@@ -44,7 +44,7 @@ const ENROLLMENT_ACTION_ICON_NAME_HASH = {
 }
 
 const ENROLLMENT_ACTION_BUTTON_VARIANT_HASH = /** @type {const} */ ({
-  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'primary',
+  [ENROLLMENT_STATUS.AWAITING_DEPOSIT]: 'neutral',
   [ENROLLMENT_STATUS.ENROLLED]: 'neutral',
   [ENROLLMENT_STATUS.COMPETING]: 'neutral',
   [ENROLLMENT_STATUS.NOT_REGISTERED]: 'primary',
@@ -849,15 +849,9 @@ export default class SectionLeagueContext extends BaseAppContext {
   /**
    * Generate value of "appearance" attribute for enroll button.
    *
-   * @returns {'filled' | 'outlined'}
+   * @returns {'filled'}
    */
   generateEnrollButtonAppearance () {
-    const enrollmentStatus = this.generateEnrollmentStatus()
-
-    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
-      return 'outlined'
-    }
-
     return 'filled'
   }
 
