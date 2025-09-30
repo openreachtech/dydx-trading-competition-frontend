@@ -261,6 +261,23 @@ export default defineComponent({
             </span>.
           </p>
 
+          <div
+            class="balance current"
+            :class="{
+              loading: context.isFetchingCurrentEquity,
+            }"
+          >
+            <Icon
+              name="heroicons:check-circle-solid"
+              size="1.125rem"
+              class="icon"
+            />
+
+            <span class="figure">
+              {{ context.formatCurrentEquity() }} <span class="total">/ {{ context.formatMinimumDeposit() }} USDC</span>
+            </span>
+          </div>
+
           <AppButton
             type="button"
             class="button confirm"
@@ -461,20 +478,27 @@ export default defineComponent({
   );
 }
 
+.unit-contents > .step.enrolled > .balance.current,
 .unit-contents > .step.awaiting-deposit > .balance.current {
   transition: filter 250ms var(--transition-timing-base);
 }
 
+.unit-contents > .step.enrolled > .balance.current.loading,
 .unit-contents > .step.awaiting-deposit > .balance.current.loading {
   filter: opacity(0.6);
 }
 
+.unit-contents > .step.enrolled > .balance.current > .figure > .total,
 .unit-contents > .step.awaiting-deposit > .balance.current > .figure > .total {
   font-size: var(--font-size-small);
 
   line-height: var(--size-line-height-small);
 
   color: var(--color-text-tertiary);
+}
+
+.unit-contents > .step.enrolled > .balance.current > .icon {
+  color: var(--color-text-message-success);
 }
 
 .unit-contents > .step.enrolled > .icon-container > .icon {
