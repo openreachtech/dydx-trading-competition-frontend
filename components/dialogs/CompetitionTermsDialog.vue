@@ -345,6 +345,7 @@ export default defineComponent({
         <div class="unit-actions">
           <AppButton
             class="button"
+            type="button"
             @click="context.emitCheckEnrollmentEligibility()"
           >
             Agree and Join competition
@@ -353,6 +354,7 @@ export default defineComponent({
           <AppButton
             variant="muted"
             class="button"
+            type="button"
             @click="context.dismissDialog()"
           >
             Cancel
