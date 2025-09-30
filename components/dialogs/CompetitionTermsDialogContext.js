@@ -14,7 +14,7 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   static get EMIT_EVENT_NAME () {
     return {
       ...super.EMIT_EVENT_NAME,
-      SHOW_ENROLLMENT_DIALOG: 'showEnrollmentDialog',
+      CHECK_ENROLLMENT_ELIGIBILITY: 'checkEnrollmentEligibility',
     }
   }
 
@@ -84,14 +84,14 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   }
 
   /**
-   * Show `CompetitionEnrollmentDialog` by emitting an event.
+   * Emit 'checkEnrollmentEligibility` event.
    *
    * @returns {void}
    */
-  showEnrollmentDialog () {
-    this.dismissDialog()
-
-    this.emit(this.EMIT_EVENT_NAME.SHOW_ENROLLMENT_DIALOG)
+  emitCheckEnrollmentEligibility () {
+    this.emit(
+      this.EMIT_EVENT_NAME.CHECK_ENROLLMENT_ELIGIBILITY
+    )
   }
 
   /**

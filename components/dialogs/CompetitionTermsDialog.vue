@@ -338,7 +338,7 @@ export default defineComponent({
         <div class="unit-actions">
           <AppButton
             class="button"
-            @click="context.showEnrollmentDialog()"
+            @click="context.emitCheckEnrollmentEligibility()"
           >
             Agree and Join competition
           </AppButton>
