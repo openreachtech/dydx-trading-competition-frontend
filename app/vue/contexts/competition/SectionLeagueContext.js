@@ -1011,12 +1011,6 @@ export default class SectionLeagueContext extends BaseAppContext {
 
     if (enrollmentStatus === ENROLLMENT_STATUS.NOT_REGISTERED) {
       this.showTermsDialog()
-
-      return
-    }
-
-    if (enrollmentStatus === ENROLLMENT_STATUS.AWAITING_DEPOSIT) {
-      window.open(DYDX_TRADE_CTA_URL, '_blank')
     }
   }
 
