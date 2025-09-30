@@ -177,7 +177,7 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   }
 
   /**
-   * Dimiss dialog in success state.
+   * Dismiss dialog in success state.
    *
    * @returns {void}
    */
