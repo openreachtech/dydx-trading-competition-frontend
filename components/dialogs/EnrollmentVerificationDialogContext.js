@@ -239,9 +239,7 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   showDialog () {
     this.dialogComponent?.showDialog()
 
-    if (this.isAtVerifyingBalanceStep()) {
-      this.emitFetchCurrentEquity()
-    }
+    this.processEquityVerificationOutcome()
   }
 
   /**
