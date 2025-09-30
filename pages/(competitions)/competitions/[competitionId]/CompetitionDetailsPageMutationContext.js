@@ -169,8 +169,6 @@ export default class CompetitionDetailsPageMutationContext extends BaseAppContex
           this.competitionEnrollmentDialog.dismissDialog()
         }
 
-        this.enrollmentVerificationDialog?.showDialog()
-
         await Promise.allSettled([
           this.refetchHash.competitionParticipant(),
           this.refetchHash.leaderboardEntries(),

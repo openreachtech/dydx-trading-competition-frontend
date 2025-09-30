@@ -137,6 +137,8 @@ export default defineComponent({
       currentEquityRef,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
+      competitionTermsDialogRef,
+      competitionEnrollmentDialogRef,
       competitionCancelationDialogRef,
       enrollmentVerificationDialogShallowRef,
       graphqlClientHash: {
@@ -210,9 +212,8 @@ export default defineComponent({
     <CompetitionTermsDialog
       ref="competitionTermsDialogRef"
       :competition="context.competition"
-      @show-enrollment-dialog="context.showDialog({
-        dialogElement: competitionEnrollmentDialogRef,
-      })"
+      :user-interface-state="context.statusReactive"
+      @check-enrollment-eligibility="context.checkEnrollmentEligibility()"
     />
 
     <SectionPrizeRules :prize-rules="context.prizeRules" />
@@ -262,6 +263,7 @@ export default defineComponent({
       @fetch-current-equity="context.fetchCurrentEquity({
         afterRequestCallback: $event.afterRequestCallback,
       })"
+      @join-competition="context.showCompetitionEnrollmentDialog()"
     />
   </div>
 </template>

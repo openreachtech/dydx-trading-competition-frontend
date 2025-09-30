@@ -8,7 +8,7 @@ import {
 /**
  * EnrollmentVerificationDialogContext
  *
- * @extends {BaseAppContext<null, PropsType, null>}
+ * @extends {BaseAppContext<null, PropsType, CompetitionEmitEvents>}
  */
 export default class EnrollmentVerificationDialogContext extends BaseAppContext {
   /**
@@ -139,6 +139,7 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   static get EMIT_EVENT_NAME () {
     return {
       FETCH_CURRENT_EQUITY: 'fetchCurrentEquity',
+      JOIN_COMPETITION: 'joinCompetition',
     }
   }
 
@@ -173,6 +174,27 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
     )
 
     return this
+  }
+
+  /**
+   * Dismiss dialog in success state.
+   *
+   * @returns {void}
+   */
+  dismissSuccessDialog () {
+    this.dismissDialog()
+    this.emitJoinCompetition()
+  }
+
+  /**
+   * Emit 'joinCompetition' event.
+   *
+   * @returns {void}
+   */
+  emitJoinCompetition () {
+    this.emit(
+      this.EMIT_EVENT_NAME.JOIN_COMPETITION
+    )
   }
 
   /**
@@ -227,9 +249,7 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
   showDialog () {
     this.dialogComponent?.showDialog()
 
-    if (this.isAtVerifyingBalanceStep()) {
-      this.emitFetchCurrentEquity()
-    }
+    this.processEquityVerificationOutcome()
   }
 
   /**
@@ -414,4 +434,10 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
  *   currentEquity: number | null
  *   userInterfaceState: import('~/app/vue/contexts/CompetitionDetailsPageContext.js').StatusReactive
  * }} PropsType
+ */
+
+/**
+ * @typedef {'fetchCurrentEquity'
+ *   | 'joinCompetition'
+ * } CompetitionEmitEvents
  */
