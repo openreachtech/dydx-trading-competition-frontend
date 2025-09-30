@@ -137,6 +137,8 @@ export default defineComponent({
       currentEquityRef,
       leaderboardEntriesRef,
       topThreeLeaderboardEntriesRef,
+      competitionTermsDialogRef,
+      competitionEnrollmentDialogRef,
       competitionCancelationDialogRef,
       enrollmentVerificationDialogShallowRef,
       graphqlClientHash: {
@@ -210,9 +212,7 @@ export default defineComponent({
     <CompetitionTermsDialog
       ref="competitionTermsDialogRef"
       :competition="context.competition"
-      @show-enrollment-dialog="context.showDialog({
-        dialogElement: competitionEnrollmentDialogRef,
-      })"
+      @check-enrollment-eligibility="context.checkEnrollmentEligibility()"
     />
 
     <SectionPrizeRules :prize-rules="context.prizeRules" />
