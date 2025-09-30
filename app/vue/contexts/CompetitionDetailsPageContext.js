@@ -43,6 +43,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     currentEquityRef,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
+    competitionTermsDialogRef,
+    competitionEnrollmentDialogRef,
     competitionCancelationDialogRef,
     enrollmentVerificationDialogShallowRef,
     errorMessageHashReactive,
@@ -62,6 +64,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     this.currentEquityRef = currentEquityRef
     this.leaderboardEntriesRef = leaderboardEntriesRef
     this.topThreeLeaderboardEntriesRef = topThreeLeaderboardEntriesRef
+    this.competitionTermsDialogRef = competitionTermsDialogRef
+    this.competitionEnrollmentDialogRef = competitionEnrollmentDialogRef
     this.competitionCancelationDialogRef = competitionCancelationDialogRef
     this.enrollmentVerificationDialogShallowRef = enrollmentVerificationDialogShallowRef
     this.errorMessageHashReactive = errorMessageHashReactive
@@ -89,6 +93,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
     currentEquityRef,
     leaderboardEntriesRef,
     topThreeLeaderboardEntriesRef,
+    competitionTermsDialogRef,
+    competitionEnrollmentDialogRef,
     competitionCancelationDialogRef,
     enrollmentVerificationDialogShallowRef,
     errorMessageHashReactive,
@@ -107,6 +113,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
         currentEquityRef,
         leaderboardEntriesRef,
         topThreeLeaderboardEntriesRef,
+        competitionTermsDialogRef,
+        competitionEnrollmentDialogRef,
         competitionCancelationDialogRef,
         enrollmentVerificationDialogShallowRef,
         errorMessageHashReactive,
@@ -1060,6 +1068,43 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * Check enrollment eligibility.
+   *
+   * @returns {Promise<void>}
+   */
+  async checkEnrollmentEligibility () {
+    await this.fetchCurrentEquity()
+
+    this.dismissCompetitionTermsDialog()
+
+    if (this.hasSufficientEquity()) {
+      this.showCompetitionEnrollmentDialog()
+
+      return
+    }
+
+    this.showEnrollmentVerificationDialog()
+  }
+
+  /**
+   * Check if the user has sufficient equity.
+   *
+   * @returns {boolean}
+   */
+  hasSufficientEquity () {
+    if (
+      this.minimumDeposit === null
+      || this.currentEquity === null
+    ) {
+      return false
+    }
+
+    const numericMinimumDeposit = parseFloat(this.minimumDeposit)
+
+    return this.currentEquity >= numericMinimumDeposit
+  }
+
+  /**
    * Reset current equity.
    *
    * @returns {void}
@@ -1072,13 +1117,13 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Fetch current equity of user.
    *
    * @param {{
-   *   afterRequestCallback: (...args: any[]) => any | Promise<any>
-   * }} params - Parameters.
+   *   afterRequestCallback?: (...args: any[]) => any | Promise<any>
+   * }} [params] - Parameters.
    * @returns {Promise<void>}
    */
   async fetchCurrentEquity ({
     afterRequestCallback,
-  }) {
+  } = {}) {
     const resourceUrl = this.generateFetchCurrentEquityResourceUrl()
     if (resourceUrl === null) {
       return
@@ -2033,6 +2078,17 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * get: minimumDeposit
+   *
+   * @returns {string | null}
+   */
+  get minimumDeposit () {
+    return this.competition
+      ?.minimumDeposit
+      ?? null
+  }
+
+  /**
    * get: defaultLeaderboardSortOption
    *
    * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
@@ -2355,6 +2411,36 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   }
 
   /**
+   * Dismiss competition terms dialog.
+   *
+   * @returns {void}
+   */
+  dismissCompetitionTermsDialog () {
+    this.competitionTermsDialogRef.value
+      ?.dismissDialog()
+  }
+
+  /**
+   * Show enrollment verification dialog.
+   *
+   * @returns {void}
+   */
+  showEnrollmentVerificationDialog () {
+    this.enrollmentVerificationDialogShallowRef.value
+      ?.showDialog()
+  }
+
+  /**
+   * Show competition enrollment dialog.
+   *
+   * @returns {void}
+   */
+  showCompetitionEnrollmentDialog () {
+    this.competitionEnrollmentDialogRef.value
+      ?.showDialog()
+  }
+
+  /**
    * Show wallet selection dialog.
    *
    * @param {{
@@ -2439,6 +2525,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *   currentEquityRef: import('vue').Ref<number | null>
  *   leaderboardEntriesRef: import('vue').Ref<LeaderboardEntries>
  *   topThreeLeaderboardEntriesRef: import('vue').Ref<TopThreeLeaderboardEntries>
+ *   competitionTermsDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
+ *   competitionEnrollmentDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   competitionCancelationDialogRef: import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>
  *   enrollmentVerificationDialogShallowRef: import('vue').ShallowRef<import('~/components/dialogs/EnrollmentVerificationDialog.vue').default | null>
  *   graphqlClientHash: {

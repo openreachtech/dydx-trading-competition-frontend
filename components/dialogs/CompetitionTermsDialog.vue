@@ -16,6 +16,14 @@ export default defineComponent({
   },
 
   props: {
+    userInterfaceState: {
+      type: [
+        Object,
+        null,
+      ],
+      required: false,
+      default: null,
+    },
     competition: {
       /** @type {import('vue').PropType<import('./CompetitionTermsDialogContext').CompetitionTermsDialogProps['competition']>} */
       type: [
@@ -25,6 +33,13 @@ export default defineComponent({
       required: true,
     },
   },
+
+  emits: [
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_NEGATIVE_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_NEUTRAL_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CLICK_POSITIVE_BUTTON,
+    CompetitionTermsDialogContext.EMIT_EVENT_NAME.CHECK_ENROLLMENT_ELIGIBILITY,
+  ],
 
   setup (
     props,
@@ -337,8 +352,10 @@ export default defineComponent({
 
         <div class="unit-actions">
           <AppButton
+            :is-loading="context.isFetchingCurrentEquity"
             class="button"
-            @click="context.showEnrollmentDialog()"
+            type="button"
+            @click="context.emitCheckEnrollmentEligibility()"
           >
             Agree and Join competition
           </AppButton>
@@ -346,6 +363,7 @@ export default defineComponent({
           <AppButton
             variant="muted"
             class="button"
+            type="button"
             @click="context.dismissDialog()"
           >
             Cancel
