@@ -847,15 +847,6 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
-   * Generate value of "appearance" attribute for enroll button.
-   *
-   * @returns {'filled'}
-   */
-  generateEnrollButtonAppearance () {
-    return 'filled'
-  }
-
-  /**
    * Whether to disable enroll button or not.
    *
    * @returns {boolean}
