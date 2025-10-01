@@ -3,10 +3,6 @@ import {
 } from 'vue'
 
 import {
-  useRoute,
-} from 'vue-router'
-
-import {
   useHead,
 } from '@unhead/vue'
 
@@ -139,6 +135,30 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    */
   get currentEquity () {
     return this.currentEquityRef.value
+  }
+
+  /**
+   * get: currentTradingVolumeUsd
+   *
+   * @returns {string | null}
+   */
+  get currentTradingVolumeUsd () {
+    return this.fetcherHash
+      .competitionCurrentDynamicPrizeRule
+      .competitionCurrentDynamicPrizeRuleCapsule
+      .currentTradingVolumeUsd
+  }
+
+  /**
+   * get: dynamicPrizeRules
+   *
+   * @returns {Array<schema.graphql.CompetitionDynamicPrizeRuleSummary>}
+   */
+  get dynamicPrizeRules () {
+    return this.fetcherHash
+      .competitionDynamicPrizeRules
+      .competitionDynamicPrizeRulesCapsule
+      .prizeRules
   }
 
   /**
@@ -385,16 +405,19 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * @this {T}
    */
   setupComponent () {
-    const route = useRoute()
-    const { competitionId } = route.params
+    const competitionId = this.extractCompetitionId()
 
     onMounted(async () => {
+      if (competitionId === null) {
+        return
+      }
+
       await this.graphqlClientHash
         .competition
         .invokeRequestOnEvent({
           variables: {
             input: {
-              competitionId: Number(competitionId),
+              competitionId,
             },
           },
           hooks: this.competitionLauncherHooks,
@@ -475,7 +498,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       .invokeRequestOnMounted({
         variables: {
           input: {
-            competitionId: this.extractCompetitionId(),
+            competitionId,
             address: this.localWalletAddress,
           },
         },
@@ -492,7 +515,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
           .invokeRequestOnEvent({
             variables: {
               input: {
-                competitionId: this.extractCompetitionId(),
+                competitionId,
                 address: this.localWalletAddress,
               },
             },
@@ -531,11 +554,29 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
       .invokeRequestOnMounted({
         variables: {
           input: {
-            competitionId: this.extractCompetitionId(),
+            competitionId,
           },
         },
         hooks: this.competitionEnrolledParticipantsNumberLauncherHooks,
       })
+
+    if (competitionId !== null) {
+      this.fetcherHash
+        .competitionCurrentDynamicPrizeRule
+        .fetchCompetitionCurrentDynamicPrizeRuleOnMounted({
+          valueHash: {
+            competitionId,
+          },
+        })
+
+      this.fetcherHash
+        .competitionDynamicPrizeRules
+        .fetchCompetitionDynamicPrizeRulesOnMounted({
+          valueHash: {
+            competitionId,
+          },
+        })
+    }
 
     return this
   }
@@ -2540,6 +2581,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  *     unregisterFromCompetition: GraphqlClient
  *   }
  *   fetcherHash: {
+ *     competitionCurrentDynamicPrizeRule: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionCurrentDynamicPrizeRuleFetcher').default
+ *     competitionDynamicPrizeRules: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionDynamicPrizeRulesFetcher').default
  *     competitionTradingMetrics: import('~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher').default
  *   }
  *   errorMessageHashReactive: import('vue').Reactive<ErrorMessageHash>
@@ -2559,6 +2602,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  * @typedef {{
  *   isFetchingCurrentEquity: boolean
  *   isLoading: boolean
+ *   isLoadingCompetitionCurrentDynamicPrizeRule: boolean
+ *   isLoadingCompetitionDynamicPrizeRules: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingCompetitionTradingMetrics: boolean
  *   isLoadingTopThree: boolean
