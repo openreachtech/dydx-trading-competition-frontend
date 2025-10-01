@@ -3,10 +3,6 @@ import {
 } from 'vue'
 
 import {
-  useRoute,
-} from 'vue-router'
-
-import {
   useHead,
 } from '@unhead/vue'
 
