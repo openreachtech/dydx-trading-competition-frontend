@@ -109,6 +109,8 @@ export default defineComponent({
     const statusReactive = reactive({
       isFetchingCurrentEquity: false,
       isLoading: false,
+      isLoadingCompetitionCurrentDynamicPrizeRule: false,
+      isLoadingCompetitionDynamicPrizeRules: false,
       isLoadingLeaderboard: true,
       isLoadingCompetitionTradingMetrics: true,
       isLoadingTopThree: true,

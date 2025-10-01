@@ -2559,6 +2559,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
  * @typedef {{
  *   isFetchingCurrentEquity: boolean
  *   isLoading: boolean
+ *   isLoadingCompetitionCurrentDynamicPrizeRule: boolean
+ *   isLoadingCompetitionDynamicPrizeRules: boolean
  *   isLoadingLeaderboard: boolean
  *   isLoadingCompetitionTradingMetrics: boolean
  *   isLoadingTopThree: boolean
