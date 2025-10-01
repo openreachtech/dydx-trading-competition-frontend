@@ -11,10 +11,12 @@ import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 import {
   SCHEDULE_CATEGORY,
   COMPETITION_PARTICIPANT_STATUS,
+  COMPETITION_PRIZE_CATEGORY,
   COMPETITION_STATUS,
 } from '~/app/constants'
 
 import CompetitionBadgeContext from '~/app/vue/contexts/badges/CompetitionBadgeContext'
+import DynamicPrizeItemContext from './DynamicPrizeItemContext'
 
 const ENROLLMENT_STATUS = {
   AWAITING_DEPOSIT: 'awaitingDeposit',
@@ -251,6 +253,24 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * get: currentTradingVolumeUsd
+   *
+   * @returns {PropsType['currentTradingVolumeUsd']}
+   */
+  get currentTradingVolumeUsd () {
+    return this.props.currentTradingVolumeUsd
+  }
+
+  /**
+   * get: dynamicPrizeRules
+   *
+   * @returns {PropsType['dynamicPrizeRules']}
+   */
+  get dynamicPrizeRules () {
+    return this.props.dynamicPrizeRules
+  }
+
+  /**
    * get: isHostOfCompetition
    *
    * @returns {PropsType['isHostOfCompetition']}
@@ -440,6 +460,199 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * get: dynamicPrizeCategories
+   *
+   * @returns {Array<{
+   *   id: number
+   *   label: string
+   *   iconName: string
+   * }>}
+   */
+  get dynamicPrizeCategories () {
+    return [
+      {
+        id: COMPETITION_PRIZE_CATEGORY.TRADING_VOLUME.ID,
+        label: 'Volume Prize',
+        iconName: 'heroicons:chart-bar-square-solid',
+      },
+      {
+        id: COMPETITION_PRIZE_CATEGORY.ROI.ID,
+        label: 'ROI Prize',
+        iconName: 'heroicons:receipt-percent-solid',
+      },
+      {
+        id: COMPETITION_PRIZE_CATEGORY.PNL.ID,
+        label: 'PnL Prize',
+        iconName: 'heroicons:presentation-chart-line-solid',
+      },
+      {
+        id: COMPETITION_PRIZE_CATEGORY.BONUS.ID,
+        label: 'Bonus Prize',
+        iconName: 'heroicons:gift-solid',
+      },
+    ]
+  }
+
+  /**
+   * Create an array of `DynamicPrizeItemContext` instances.
+   *
+   * @returns {Array<DynamicPrizeItemContext>}
+   */
+  createDynamicPrizeItemContexts () {
+    const prizeRules = this.normalizeDynamicPrizeRules()
+    const maximumPrizeAmount = this.extractMaximumPrizeAmount()
+    const currentTradingVolume = this.normalizeCurrentTradingVolumeUsd()
+
+    return prizeRules.map(it => DynamicPrizeItemContext.create({
+      tradingVolumeMilestone: it.tradingVolumeMilestone,
+      prizes: it.prizes,
+      currentTradingVolume,
+      maximumPrizeAmount,
+    }))
+  }
+
+  /**
+   * Generate available prize categories.
+   *
+   * @returns {Array<{
+   *   id: number
+   *   label: string
+   *   iconName: string
+   * }>}
+   */
+  generateAvailablePrizeCategories () {
+    const availablePrizeCategoryIds = this.extractAvailablePrizeCategoryIds()
+
+    return this.dynamicPrizeCategories.filter(category =>
+      availablePrizeCategoryIds.includes(category.id)
+    )
+  }
+
+  /**
+   * Extract the available prize category ids.
+   *
+   * @returns {Array<number>}
+   */
+  extractAvailablePrizeCategoryIds () {
+    const categoryIds = this.dynamicPrizeRules.map(category =>
+      category.competitionPrizeCategory.categoryId
+    )
+
+    const categoryIdSet = new Set(categoryIds)
+
+    return [...categoryIdSet]
+  }
+
+  /**
+   * Calculate progress of trading volume.
+   *
+   * @returns {number}
+   */
+  calculateTradingVolumeProgress () {
+    const maximumPrizeAmount = this.extractMaximumPrizeAmount()
+    if (!maximumPrizeAmount) {
+      return 0
+    }
+
+    const currentTradingVolume = this.normalizeCurrentTradingVolumeUsd()
+    const percentage = currentTradingVolume / maximumPrizeAmount * 100
+
+    return Math.min(percentage, 100)
+  }
+
+  /**
+   * Normalize current trading volume.
+   *
+   * @returns {number}
+   */
+  normalizeCurrentTradingVolumeUsd () {
+    if (!this.currentTradingVolumeUsd) {
+      return 0
+    }
+
+    const parsedCurrentTradingVolume = parseFloat(this.currentTradingVolumeUsd)
+    if (isNaN(parsedCurrentTradingVolume)) {
+      return 0
+    }
+
+    return parsedCurrentTradingVolume
+  }
+
+  /**
+   * Extract the maximum prize amount.
+   *
+   * @returns {number}
+   */
+  extractMaximumPrizeAmount () {
+    const sortedPrizeRules = this.dynamicPrizeRules.toSorted((ruleA, ruleB) =>
+      parseFloat(ruleA.targetTradingVolumeUsd) - parseFloat(ruleB.targetTradingVolumeUsd)
+    )
+    const maximumPrizeAmount = sortedPrizeRules.at(-1)
+      ?.targetTradingVolumeUsd
+
+    if (!maximumPrizeAmount) {
+      return 0
+    }
+
+    return parseFloat(maximumPrizeAmount)
+  }
+
+  /**
+   * Generate normalized dynamic prize rule object.
+   *
+   * @returns {Array<NormalizedDynamicPrizeRule>}
+   */
+  normalizeDynamicPrizeRules () {
+    /**
+     * @type {{
+     *   [tradingVolumeMilestone: string]: Array<PickedDynamicPrizeRuleSummary>
+     * }}
+     */
+    const initialValue = {}
+
+    const dynamicPrizeRuleHash = this.dynamicPrizeRules.reduce((accumulator, rule) => {
+      const {
+        competitionPrizeCategory,
+        targetTradingVolumeUsd,
+        totalCategoryPrizeAmount,
+      } = rule
+
+      const currentMilestoneValue = accumulator[targetTradingVolumeUsd] ?? []
+
+      return {
+        ...accumulator,
+        [targetTradingVolumeUsd]: [
+          ...currentMilestoneValue,
+          {
+            competitionPrizeCategory,
+            totalCategoryPrizeAmount,
+          },
+        ],
+      }
+    }, initialValue)
+
+    return Object.entries(dynamicPrizeRuleHash)
+      .map(([key, value]) => ({
+        tradingVolumeMilestone: parseFloat(key),
+        prizes: value,
+      }))
+      .toSorted((ruleA, ruleB) => ruleA.tradingVolumeMilestone - ruleB.tradingVolumeMilestone)
+  }
+
+  /**
+   * Check if dynamic prize rules are empty or not.
+   *
+   * @returns {boolean}
+   */
+  hasNoDynamicPrizeRules () {
+    if (!this.dynamicPrizeRules) {
+      return true
+    }
+
+    return this.dynamicPrizeRules.length === 0
+  }
+
+  /**
    * Select enroll option.
    *
    * @param {{
@@ -622,6 +835,32 @@ export default class SectionLeagueContext extends BaseAppContext {
     })
 
     return badgeContext.generateIconName()
+  }
+
+  /**
+   * Format currentTradingVolumeUsd.
+   *
+   * @returns {string}
+   */
+  formatCurrentTradingVolumeUsd () {
+    return this.formatNumber({
+      value: this.currentTradingVolumeUsd,
+      options: {
+        style: 'currency',
+        currency: 'USD',
+      },
+    })
+  }
+
+  /**
+   * Format totalPrize.
+   *
+   * @returns {string}
+   */
+  formatTotalPrize () {
+    return this.formatNumber({
+      value: this.totalPrize,
+    })
   }
 
   /**
@@ -1210,6 +1449,8 @@ export default class SectionLeagueContext extends BaseAppContext {
  *   competitionId: number | null
  *   competitionStatusId: number | null
  *   enrolledParticipantsNumber: number | null
+ *   currentTradingVolumeUsd: string | null
+ *   dynamicPrizeRules: Array<schema.graphql.CompetitionDynamicPrizeRuleSummary>
  *   isHostOfCompetition: boolean
  *   isCompetitionFull: boolean
  * }} PropsType
@@ -1220,4 +1461,15 @@ export default class SectionLeagueContext extends BaseAppContext {
  *   checker: () => boolean
  *   result: string
  * }} EnrollmentStatusCase
+ */
+
+/**
+ * @typedef {{
+ *   tradingVolumeMilestone: number
+ *   prizes: Array<PickedDynamicPrizeRuleSummary>
+ * }} NormalizedDynamicPrizeRule
+ */
+
+/**
+ * @typedef {Pick<schema.graphql.CompetitionDynamicPrizeRuleSummary, 'competitionPrizeCategory' | 'totalCategoryPrizeAmount'>} PickedDynamicPrizeRuleSummary
  */
