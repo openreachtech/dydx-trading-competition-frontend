@@ -16,6 +16,8 @@ import SectionSchedules from '~/components/competition-id/SectionSchedules.vue'
 import SectionLeaderboard from '~/components/competition-id/SectionLeaderboard.vue'
 
 import CompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/competition/CompetitionQueryGraphqlLauncher'
+import CompetitionCurrentDynamicPrizeRuleQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionCurrentDynamicPrizeRule/CompetitionCurrentDynamicPrizeRuleQueryGraphqlLauncher'
+import CompetitionDynamicPrizeRulesQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionDynamicPrizeRules/CompetitionDynamicPrizeRulesQueryGraphqlLauncher'
 import JoinCompetitionMutationGraphqlLauncher from '~/app/graphql/client/mutations/joinCompetition/JoinCompetitionMutationGraphqlLauncher'
 import AddressNameQueryGraphqlLauncher from '~/app/graphql/client/queries/addressName/AddressNameQueryGraphqlLauncher'
 import CompetitionParticipantQueryGraphqlLauncher from '~/app/graphql/client/queries/competitionParticipant/CompetitionParticipantQueryGraphqlLauncher'
@@ -28,6 +30,8 @@ import UnregisterFromCompetitionMutationGraphqlLauncher from '~/app/graphql/clie
 
 import JoinCompetitionFormElementClerk from '~/app/domClerk/JoinCompetitionFormElementClerk'
 
+import CompetitionCurrentDynamicPrizeRuleFetcher from './CompetitionCurrentDynamicPrizeRuleFetcher'
+import CompetitionDynamicPrizeRulesFetcher from './CompetitionDynamicPrizeRulesFetcher'
 import CompetitionTradingMetricsFetcher from '~/pages/(competitions)/competitions/[competitionId]/CompetitionTradingMetricsFetcher'
 
 import {
@@ -83,6 +87,8 @@ export default defineComponent({
     const topThreeLeaderboardEntriesRef = ref([])
 
     const competitionGraphqlClient = useGraphqlClient(CompetitionQueryGraphqlLauncher)
+    const competitionCurrentDynamicPrizeRuleGraphqlClient = useGraphqlClient(CompetitionCurrentDynamicPrizeRuleQueryGraphqlLauncher)
+    const competitionDynamicPrizeRulesGraphqlClient = useGraphqlClient(CompetitionDynamicPrizeRulesQueryGraphqlLauncher)
     const joinCompetitionGraphqlClient = useGraphqlClient(JoinCompetitionMutationGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
     const competitionParticipantGraphqlClient = useGraphqlClient(CompetitionParticipantQueryGraphqlLauncher)
@@ -122,6 +128,18 @@ export default defineComponent({
       isJoining: false,
     })
 
+    const competitionCurrentDynamicPrizeRuleFetcher = CompetitionCurrentDynamicPrizeRuleFetcher.create({
+      graphqlClientHash: {
+        competitionCurrentDynamicPrizeRule: competitionCurrentDynamicPrizeRuleGraphqlClient,
+      },
+      statusReactive,
+    })
+    const competitionDynamicPrizeRulesFetcher = CompetitionDynamicPrizeRulesFetcher.create({
+      statusReactive,
+      graphqlClientHash: {
+        competitionDynamicPrizeRules: competitionDynamicPrizeRulesGraphqlClient,
+      },
+    })
     const competitionTradingMetricsFetcher = CompetitionTradingMetricsFetcher.create({
       graphqlClientHash: {
         competitionTradingMetrics: competitionTradingMetricsGraphqlClient,
@@ -154,6 +172,8 @@ export default defineComponent({
         unregisterFromCompetition: unregisterFromCompetitionGraphqlClient,
       },
       fetcherHash: {
+        competitionCurrentDynamicPrizeRule: competitionCurrentDynamicPrizeRuleFetcher,
+        competitionDynamicPrizeRules: competitionDynamicPrizeRulesFetcher,
         competitionTradingMetrics: competitionTradingMetricsFetcher,
       },
       errorMessageHashReactive,
@@ -197,6 +217,8 @@ export default defineComponent({
   <div>
     <SectionLeague
       :competition="context.competition"
+      :current-trading-volume-usd="context.currentTradingVolumeUsd"
+      :dynamic-prize-rules="context.dynamicPrizeRules"
       :participant-status-id="context.participantStatusId"
       :is-host-of-competition="context.isHostOfCompetition()"
       :is-competition-full="context.isCompetitionFull()"
