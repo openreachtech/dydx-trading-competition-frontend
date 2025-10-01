@@ -2,6 +2,12 @@ import {
   BaseFuroContext,
 } from '@openreachtech/furo-nuxt'
 
+const NUMBER_ABBREVIATION_TIERS = [
+  { VALUE: 1e9, SYMBOL: 'b' },
+  { VALUE: 1e6, SYMBOL: 'm' },
+  { VALUE: 1e3, SYMBOL: 'k' },
+]
+
 /**
  * BaseAppContext
  *
@@ -46,6 +52,46 @@ export default class BaseAppContext extends BaseFuroContext {
     )
 
     return formatter.format(parsedValue)
+  }
+
+  /**
+   * Format number with abbreviated suffix.
+   *
+   * @param {{
+   *   value: string | number | null
+   *   fallbackValue?: string
+   * }} params - Parameters.
+   * @returns {string}
+   */
+  abbreviateNumber ({
+    value,
+    fallbackValue = '--',
+  }) {
+    if (value === null) {
+      return fallbackValue
+    }
+
+    const parsedValue = typeof value === 'string'
+      ? parseFloat(value)
+      : value
+
+    if (isNaN(parsedValue)) {
+      return fallbackValue
+    }
+
+    const matchedTier = NUMBER_ABBREVIATION_TIERS.find(tier =>
+      Math.abs(parsedValue) >= tier.VALUE
+    )
+
+    if (!matchedTier) {
+      return parsedValue.toString()
+    }
+
+    const abbreviatedValue = parseFloat(
+      (parsedValue / matchedTier.VALUE).toFixed(1)
+    )
+
+    return `${abbreviatedValue}${matchedTier.SYMBOL}`
   }
 
   /**
