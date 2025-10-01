@@ -94,6 +94,29 @@ export const COMPETITION_PARTICIPANT_STATUS = {
   },
 }
 
+export const COMPETITION_PRIZE_CATEGORY = {
+  ROI: {
+    ID: 1,
+    NAME: 'ROI',
+    DESCRIPTION: 'Prizes for the highest Return on Investment',
+  },
+  TRADING_VOLUME: {
+    ID: 2,
+    NAME: 'TradingVolume',
+    DESCRIPTION: 'Prizes for the highest total trading volume',
+  },
+  PNL: {
+    ID: 3,
+    NAME: 'PnL',
+    DESCRIPTION: 'Prizes for the highest Profit and Loss',
+  },
+  BONUS: {
+    ID: 4,
+    NAME: 'Bonus',
+    DESCRIPTION: 'Bonus prizes for special achievements',
+  },
+}
+
 export const SCHEDULE_CATEGORY = {
   REGISTRATION_START: {
     ID: 1,
