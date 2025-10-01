@@ -83,6 +83,7 @@ export default class CompetitionCurrentDynamicPrizeRuleFetcher {
         variables: {
           input: valueHash,
         },
+        hooks: this.competitionCurrentDynamicPrizeRuleLauncherHooks,
       })
   }
 
@@ -103,6 +104,7 @@ export default class CompetitionCurrentDynamicPrizeRuleFetcher {
         variables: {
           input: valueHash,
         },
+        hooks: this.competitionCurrentDynamicPrizeRuleLauncherHooks,
       })
   }
 }
