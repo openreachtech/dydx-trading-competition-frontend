@@ -1,4 +1,5 @@
 import {
+  DEFAULT_COMPETITION_STATUS_FILTERS,
   PAGINATION,
 } from '~/app/constants'
 
@@ -76,7 +77,7 @@ export default class HostedCompetitionsFetcher {
    */
   async fetchCompetitionsOnEvent () {
     const title = this.extractTitleFromRoute()
-    const statusId = this.extractStatusIdFromRoute()
+    const statusIds = this.extractStatusIdsFromRoute()
     const pagination = this.generatePagination()
 
     await this.graphqlClientHash
@@ -85,7 +86,7 @@ export default class HostedCompetitionsFetcher {
         variables: {
           input: {
             title,
-            statusId,
+            statusIds,
             hostAddress: this.localWalletAddress,
             pagination,
           },
@@ -101,7 +102,7 @@ export default class HostedCompetitionsFetcher {
    */
   fetchCompetitionsOnMounted () {
     const title = this.extractTitleFromRoute()
-    const statusId = this.extractStatusIdFromRoute()
+    const statusIds = this.extractStatusIdsFromRoute()
     const pagination = this.generatePagination()
 
     this.graphqlClientHash
@@ -110,7 +111,7 @@ export default class HostedCompetitionsFetcher {
         variables: {
           input: {
             title,
-            statusId,
+            statusIds,
             hostAddress: this.localWalletAddress,
             pagination,
           },
@@ -152,21 +153,30 @@ export default class HostedCompetitionsFetcher {
   }
 
   /**
-   * Extract status id from route.
+   * Extract `statusIds` from route.
    *
-   * @returns {number | null}
+   * @returns {Array<number>}
    */
-  extractStatusIdFromRoute () {
-    const queryStatusId = Array.isArray(this.route.query.statusId)
-      ? this.route.query.statusId[0]
-      : this.route.query.statusId
+  extractStatusIdsFromRoute () {
+    const {
+      statusId,
+    } = this.route.query
 
-    const statusId = Number(queryStatusId)
-    if (isNaN(statusId)) {
-      return null
+    if (!statusId) {
+      return DEFAULT_COMPETITION_STATUS_FILTERS
     }
 
-    return statusId
+    const statusIds = Array.isArray(statusId)
+      ? statusId
+      : [statusId]
+    const normalizedStatusIds = statusIds.map(it => Number(it))
+      .filter(it => !isNaN(it))
+
+    if (normalizedStatusIds.length === 0) {
+      return DEFAULT_COMPETITION_STATUS_FILTERS
+    }
+
+    return normalizedStatusIds
   }
 
   /**

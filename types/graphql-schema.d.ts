@@ -256,6 +256,10 @@ declare global {
       currentDynamicPrizeRule: Array<CompetitionDynamicPrizeRule>
     }
 
+    interface CompetitionPrizeCategoriesResult {
+      categories: Array<CompetitionPrizeCategory>
+    }
+
     interface AddressProfileResult {
       address: string
       name?: string
@@ -395,7 +399,7 @@ declare global {
 
     interface CompetitionsInput {
       title?: string
-      statusId?: number
+      statusIds: Array<number>
       hostAddress?: string
       pagination: PaginationInput
     }
