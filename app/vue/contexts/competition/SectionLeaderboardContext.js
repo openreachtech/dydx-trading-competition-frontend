@@ -228,7 +228,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
     return [
       {
         tabKey: 'pnl',
-        label: 'PnL Ranking',
+        label: 'PnL/ROI Ranking',
       },
       {
         tabKey: 'metrics',
