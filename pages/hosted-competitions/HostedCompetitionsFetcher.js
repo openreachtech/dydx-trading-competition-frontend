@@ -1,5 +1,5 @@
 import {
-  COMPETITION_STATUS,
+  DEFAULT_COMPETITION_STATUS_FILTERS,
   PAGINATION,
 } from '~/app/constants'
 
@@ -158,18 +158,12 @@ export default class HostedCompetitionsFetcher {
    * @returns {Array<number>}
    */
   extractStatusIdsFromRoute () {
-    const fallbackValue = [
-      COMPETITION_STATUS.COMPLETED.ID,
-      COMPETITION_STATUS.CREATED.ID,
-      COMPETITION_STATUS.IN_PROGRESS.ID,
-    ]
-
     const {
       statusId,
     } = this.route.query
 
     if (!statusId) {
-      return fallbackValue
+      return DEFAULT_COMPETITION_STATUS_FILTERS
     }
 
     const statusIds = Array.isArray(statusId)
@@ -179,7 +173,7 @@ export default class HostedCompetitionsFetcher {
       .filter(it => !isNaN(it))
 
     if (normalizedStatusIds.length === 0) {
-      return fallbackValue
+      return DEFAULT_COMPETITION_STATUS_FILTERS
     }
 
     return normalizedStatusIds

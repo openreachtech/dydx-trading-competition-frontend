@@ -1,7 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
-  COMPETITION_STATUS,
+  DEFAULT_COMPETITION_STATUS_FILTERS,
   PAGINATION,
   SCHEDULE_CATEGORY,
 } from '~/app/constants'
@@ -135,18 +135,12 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
    * @returns {Array<number>}
    */
   extractStatusIdsFromRoute () {
-    const fallbackValue = [
-      COMPETITION_STATUS.COMPLETED.ID,
-      COMPETITION_STATUS.CREATED.ID,
-      COMPETITION_STATUS.IN_PROGRESS.ID,
-    ]
-
     const {
       statusId,
     } = this.route.query
 
     if (!statusId) {
-      return fallbackValue
+      return DEFAULT_COMPETITION_STATUS_FILTERS
     }
 
     const statusIds = Array.isArray(statusId)
@@ -156,7 +150,7 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
       .filter(it => !isNaN(it))
 
     if (normalizedStatusIds.length === 0) {
-      return fallbackValue
+      return DEFAULT_COMPETITION_STATUS_FILTERS
     }
 
     return normalizedStatusIds
