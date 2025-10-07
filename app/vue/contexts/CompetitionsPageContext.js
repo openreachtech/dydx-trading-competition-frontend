@@ -80,7 +80,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
       })
 
     const queryTitle = this.extractQueryTitle()
-    const queryStatusId = this.extractQueryStatusId()
+    const statusIds = this.extractStatusIdsFromRoute()
     const currentPage = this.extractCurrentPage()
 
     this.graphqlClientHash
@@ -90,7 +90,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
           ...this.defaultCompetitionsVariables,
           input: {
             title: queryTitle,
-            statusId: queryStatusId,
+            statusIds,
             pagination: {
               ...this.defaultCompetitionsVariables.input.pagination,
               offset: (currentPage - 1) * PAGINATION.LIMIT,
@@ -103,7 +103,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
     this.watch(
       [
         () => this.extractCurrentPage(),
-        () => this.extractQueryStatusId(),
+        () => this.extractStatusIdsFromRoute(),
       ],
       async () => {
         await this.fetchCompetitions()
@@ -135,7 +135,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
     })
 
     const queryTitle = this.extractQueryTitle()
-    const queryStatusId = this.extractQueryStatusId()
+    const statusIds = this.extractStatusIdsFromRoute()
     const currentPage = this.extractCurrentPage()
 
     await this.graphqlClientHash
@@ -145,7 +145,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
           ...this.defaultCompetitionsVariables,
           input: {
             title: queryTitle,
-            statusId: queryStatusId,
+            statusIds,
             pagination: {
               ...this.defaultCompetitionsVariables.input.pagination,
               offset: (currentPage - 1) * PAGINATION.LIMIT,
@@ -211,21 +211,36 @@ export default class CompetitionsPageContext extends BaseAppContext {
   }
 
   /**
-   * Extract query status id.
+   * Extract `statusIds` from route.
    *
-   * @returns {number | null}
+   * @returns {Array<number>}
    */
-  extractQueryStatusId () {
-    const queryStatusId = Array.isArray(this.route.query.statusId)
-      ? this.route.query.statusId[0]
-      : this.route.query.statusId
+  extractStatusIdsFromRoute () {
+    const fallbackValue = [
+      COMPETITION_STATUS.COMPLETED.ID,
+      COMPETITION_STATUS.CREATED.ID,
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+    ]
 
-    const statusId = Number(queryStatusId)
-    if (isNaN(statusId)) {
-      return null
+    const {
+      statusId,
+    } = this.route.query
+
+    if (!statusId) {
+      return fallbackValue
     }
 
-    return statusId
+    const statusIds = Array.isArray(statusId)
+      ? statusId
+      : [statusId]
+    const normalizedStatusIds = statusIds.map(it => Number(it))
+      .filter(it => !isNaN(it))
+
+    if (normalizedStatusIds.length === 0) {
+      return fallbackValue
+    }
+
+    return normalizedStatusIds
   }
 
   /**
