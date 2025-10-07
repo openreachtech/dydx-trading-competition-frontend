@@ -1,6 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
+  COMPETITION_STATUS,
   PAGINATION,
   SCHEDULE_CATEGORY,
 } from '~/app/constants'
@@ -103,7 +104,7 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
     this.watch(
       [
         () => this.extractTitleFromRoute(),
-        () => this.extractStatusIdFromRoute(),
+        () => this.extractStatusIdsFromRoute(),
         () => this.extractCurrentPageFromRoute(),
       ],
       async () => {
@@ -129,21 +130,36 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
   }
 
   /**
-   * Extract status id from route.
+   * Extract `statusIds` from route.
    *
-   * @returns {number | null}
+   * @returns {Array<number>}
    */
-  extractStatusIdFromRoute () {
-    const queryStatusId = Array.isArray(this.route.query.statusId)
-      ? this.route.query.statusId[0]
-      : this.route.query.statusId
+  extractStatusIdsFromRoute () {
+    const fallbackValue = [
+      COMPETITION_STATUS.COMPLETED.ID,
+      COMPETITION_STATUS.CREATED.ID,
+      COMPETITION_STATUS.IN_PROGRESS.ID,
+    ]
 
-    const statusId = Number(queryStatusId)
-    if (isNaN(statusId)) {
-      return null
+    const {
+      statusId,
+    } = this.route.query
+
+    if (!statusId) {
+      return fallbackValue
     }
 
-    return statusId
+    const statusIds = Array.isArray(statusId)
+      ? statusId
+      : [statusId]
+    const normalizedStatusIds = statusIds.map(it => Number(it))
+      .filter(it => !isNaN(it))
+
+    if (normalizedStatusIds.length === 0) {
+      return fallbackValue
+    }
+
+    return normalizedStatusIds
   }
 
   /**
