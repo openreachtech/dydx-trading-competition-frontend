@@ -61,6 +61,12 @@ export const COMPETITION_STATUS = {
   },
 }
 
+export const DEFAULT_COMPETITION_STATUS_FILTERS = [
+  COMPETITION_STATUS.COMPLETED.ID,
+  COMPETITION_STATUS.CREATED.ID,
+  COMPETITION_STATUS.IN_PROGRESS.ID,
+]
+
 export const COMPETITION_PARTICIPANT_STATUS = {
   AWAITING_DEPOSIT: {
     ID: 1,
@@ -91,6 +97,29 @@ export const COMPETITION_PARTICIPANT_STATUS = {
     ID: 6,
     NAME: 'registration_success',
     DESCRIPTION: 'Participant has successfully registered for competition',
+  },
+}
+
+export const COMPETITION_PRIZE_CATEGORY = {
+  ROI: {
+    ID: 1,
+    NAME: 'ROI',
+    DESCRIPTION: 'Prizes for the highest Return on Investment',
+  },
+  TRADING_VOLUME: {
+    ID: 2,
+    NAME: 'TradingVolume',
+    DESCRIPTION: 'Prizes for the highest total trading volume',
+  },
+  PNL: {
+    ID: 3,
+    NAME: 'PnL',
+    DESCRIPTION: 'Prizes for the highest Profit and Loss',
+  },
+  BONUS: {
+    ID: 4,
+    NAME: 'Bonus',
+    DESCRIPTION: 'Bonus prizes for special achievements',
   },
 }
 

@@ -824,7 +824,7 @@ export default defineComponent({
 
 .unit-leaderboard > .champions > .champion:first-of-type {
   @media (48rem < width) {
-    order: 1;
+    order: 2;
 
     margin-inline: -4rem;
   }
@@ -838,7 +838,7 @@ export default defineComponent({
   @media (48rem < width) {
     margin-block-start: 15rem;
 
-    order: 2;
+    order: 1;
   }
 
   @media (60rem < width) {
@@ -854,7 +854,7 @@ export default defineComponent({
   @media (48rem < width) {
     margin-block-start: 15.5rem;
 
-    order: 0;
+    order: 3;
   }
 
   @media (60rem < width) {

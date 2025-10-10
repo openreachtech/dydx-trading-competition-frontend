@@ -83,6 +83,18 @@ export default defineComponent({
       ],
       required: true,
     },
+    currentTradingVolumeUsd: {
+      type: [
+        String,
+        null,
+      ],
+      required: true,
+    },
+    dynamicPrizeRules: {
+      /** @type {import('vue').PropType<Array<schema.graphql.CompetitionDynamicPrizeRuleSummary>>} */
+      type: Array,
+      required: true,
+    },
     isHostOfCompetition: {
       type: Boolean,
       required: true,
@@ -446,6 +458,169 @@ export default defineComponent({
           </div>
         </dl>
       </div>
+
+      <div class="unit-dynamic-prize">
+        <div class="total">
+          <div
+            class="icon-container"
+            aria-hidden="true"
+          >
+            <img
+              src="~/assets/img/tokens/usdc-prize.png"
+              class="icon usdc"
+            >
+            <div class="blur" />
+          </div>
+
+          <div class="entry prize">
+            <span class="number">
+              {{ context.formatTotalPrize() }}
+            </span>
+            <div class="label">
+              <Icon
+                name="heroicons:trophy-solid"
+                class="icon"
+              />
+              <span class="text">Max Prize (USDC)</span>
+            </div>
+          </div>
+
+          <div
+            class="separator"
+            aria-hidden="true"
+          />
+
+          <div class="entry volume">
+            <span class="number">
+              {{ context.formatCurrentTradingVolumeUsd() }}
+            </span>
+            <div class="label">
+              <Icon
+                name="heroicons:chart-bar-solid"
+                class="icon"
+              />
+              <span class="text">Current Total Trading Vol. (USD)</span>
+            </div>
+          </div>
+
+          <span class="note">
+            <span>The higher the Volume</span>
+            <span>The greater the Prize</span>
+          </span>
+        </div>
+
+        <div
+          class="prize-rules"
+          :class="{
+            hidden: context.hasNoDynamicPrizeRules(),
+          }"
+        >
+          <div class="milestones-scroller">
+            <div class="unit-milestones">
+              <div class="progress-bar">
+                <div
+                  class="filled"
+                  :style="{
+                    '--value-progress': context.calculateTradingVolumeProgress(),
+                  }"
+                />
+              </div>
+
+              <div class="unit-milestone label">
+                <div class="milestone">
+                  <Icon
+                    name="heroicons:chart-bar-solid"
+                    size="1rem"
+                    class="icon"
+                  />
+                  <span>Total Trading Vol.</span>
+                </div>
+
+                <div
+                  class="total-prize"
+                  aria-hidden="true"
+                />
+
+                <div
+                  class="connector"
+                  aria-hidden="true"
+                />
+
+                <ul class="prizes">
+                  <li
+                    v-for="(category, index) of context.generateAvailablePrizeCategories()"
+                    :key="index"
+                    class="prize"
+                  >
+                    <Icon
+                      :name="category.iconName"
+                      size="1rem"
+                      class="icon"
+                    />
+                    <span>{{ category.label }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="entries">
+                <div
+                  v-for="(it, index) of context.createDynamicPrizeItemContexts()"
+                  :key="index"
+                  class="unit-milestone"
+                  :class="{
+                    done: it.hasReachedMilestone(),
+                  }"
+                  :style="{
+                    '--value-horizontal-position': it.calculateHorizontalPosition(),
+                  }"
+                >
+                  <span class="milestone">
+                    {{
+                      context.abbreviateNumber({
+                        value: it.tradingVolumeMilestone,
+                      })
+                    }}
+                  </span>
+
+                  <div class="total-prize">
+                    <Icon
+                      name="heroicons:trophy-solid"
+                      class="icon"
+                    />
+                    <span>
+                      {{
+                        context.abbreviateNumber({
+                          value: it.calculateTotalPrize(),
+                        })
+                      }}
+                    </span>
+                  </div>
+
+                  <div
+                    class="connector"
+                    aria-hidden="true"
+                  />
+
+                  <ul class="prizes">
+                    <li
+                      v-for="(category, categoryIndex) of context.generateAvailablePrizeCategories()"
+                      :key="categoryIndex"
+                    >
+                      {{
+                        context.formatNumber({
+                          value: it.extractPrizeAmount({
+                            categoryId: category.id,
+                          }),
+                        })
+                      }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -471,6 +646,14 @@ export default defineComponent({
   --color-border-enroll-dropdown: var(--palette-layer-7);
   --color-border-button-awaiting-deposit: var(--palette-purple);
   --color-text-button-awaiting-deposit: var(--palette-purple-lighter);
+
+  --size-total-prize-entry: 2.5rem;
+  --size-trading-volume-progress-width: 30rem;
+  --size-meta-panel: 22rem;
+
+  --color-border-total-prize: var(--palette-layer-1);
+  --color-background-total-prize: var(--palette-purple);
+  --color-background-trading-volume-progress: var(--palette-layer-3);
 
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -500,12 +683,14 @@ export default defineComponent({
 
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(0.5rem, 4vw, 5rem);
+  column-gap: clamp(0.5rem, 4vw, 5rem);
+  row-gap: 2rem;
 
   max-width: var(--size-body-max-width);
 
   @media (48rem < width) {
-    grid-template-columns: auto 22rem;
+    grid-template-columns: auto var(--size-meta-panel);
+    row-gap: 3.5rem;
   }
 }
 
@@ -733,6 +918,351 @@ export default defineComponent({
 
 .unit-details > .note {
   margin-block: 0.75rem 1.5rem;
+}
+
+.unit-dynamic-prize {
+  --value-milestone-header-column: 8rem;
+  --value-milestone-column-gap: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  grid-column: 1 / -1;
+
+  border-color: transparent;
+  border-radius: 1rem;
+  border-style: solid;
+  border-width: 0.1rem 0.1rem 0;
+
+  padding-block: 1.25rem 1.5rem;
+  padding-inline: 1.5rem;
+
+  background:
+    linear-gradient(180deg, #0d0d13, var(--palette-layer-2)) no-repeat padding-box,
+    linear-gradient(180deg, var(--palette-purple), transparent) no-repeat border-box;
+
+  box-shadow: 0 -0.25rem 1.25rem 0 #6966ff33;
+
+  @media (width < 48rem) {
+    grid-row: 2 / 3;
+  }
+}
+
+.unit-dynamic-prize > .total {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (48rem <= width) {
+    flex-direction: row;
+    align-items: center;
+    gap: 2.5rem;
+  }
+}
+
+.unit-dynamic-prize > .total > .icon-container {
+  display: grid;
+  grid-template-areas: 'stack';
+
+  user-select: none;
+
+  @media (width < 60rem) {
+    display: none;
+  }
+}
+
+.unit-dynamic-prize > .total > .icon-container > * {
+  grid-area: stack;
+}
+
+.unit-dynamic-prize > .total > .icon-container > .icon.usdc {
+  width: 3.5rem;
+  height: 3.5rem;
+
+  filter: drop-shadow(-0.05rem 0.05rem 0.1rem #00000040);
+}
+
+.unit-dynamic-prize > .total > .icon-container > .blur {
+  --color-background-blur: var(--palette-purple);
+
+  background-color: var(--color-background-blur);
+
+  width: 80%;
+  height: 80%;
+
+  filter: blur(1.7rem);
+}
+
+.unit-dynamic-prize > .total > .entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.unit-dynamic-prize > .total > .entry > .number {
+  font-size: var(--font-size-extra);
+  font-weight: 700;
+
+  line-height: var(--size-line-height-extra);
+}
+
+.unit-dynamic-prize > .total > .entry > .label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  font-size: var(--font-size-small);
+
+  line-height: var(--size-line-height-small);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-dynamic-prize > .total > .entry > .label > .icon {
+  width: 0.875rem;
+  height: 0.875rem;
+
+  color: var(--color-text-placeholder);
+}
+
+.unit-dynamic-prize > .total > .separator {
+  border-inline-end-color: var(--color-border-default);
+  border-inline-end-width: var(--size-thinnest);
+  border-inline-end-style: solid;
+
+  height: 2.5rem;
+
+  @media (width < 48rem) {
+    display: none;
+  }
+}
+
+.unit-dynamic-prize > .total > .note {
+  display: inline-flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  font-size: var(--font-size-small);
+
+  line-height: var(--size-line-height-small);
+
+  text-align: end;
+
+  color: var(--color-text-tertiary);
+
+  @media (width < 60rem) {
+    display: none;
+  }
+}
+
+.unit-dynamic-prize > .prize-rules {
+  display: grid;
+  gap: 1rem;
+}
+
+.unit-dynamic-prize > .prize-rules.hidden {
+  display: none;
+}
+
+.unit-dynamic-prize > .prize-rules > .milestones-scroller {
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.unit-dynamic-prize > .prize-rules > .milestones-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.unit-milestones {
+  display: grid;
+  grid-template-columns: var(--value-milestone-header-column) 1fr;
+  gap: var(--value-milestone-column-gap);
+
+  position: relative;
+
+  width: 100%;
+
+  min-width: var(--size-trading-volume-progress-width);
+}
+
+.unit-milestones > .progress-bar {
+  position: absolute;
+  /* TODO: There must be better way to align progress-bar's position. */
+  top: calc(
+    (var(--size-total-prize-entry) / 2)
+    + 0.25rem /* Layout's gap size */
+    + var(--font-size-mini)
+  );
+
+  border-radius: 100vh;
+
+  width: 100%;
+  height: 0.375rem;
+
+  background-color: var(--color-background-trading-volume-progress);
+
+  overflow: hidden;
+}
+
+.unit-milestones > .progress-bar > .filled {
+  --value-taken-width: calc(var(--value-milestone-header-column) + var(--value-milestone-column-gap));
+  --value-available-width: calc(100% - var(--value-taken-width));
+
+  border-radius: inherit;
+
+  width: calc(
+    var(--value-taken-width)
+    + (var(--value-available-width) * var(--value-progress) / 100)
+  );
+  height: 100%;
+
+  background-image: linear-gradient(90deg, #637fec 0%, #9166ff 100%);
+}
+
+.unit-milestones > .entries {
+  position: relative;
+}
+
+.unit-milestones > .entries > .unit-milestone {
+  position: absolute;
+  left: var(--value-horizontal-position);
+  transform: translateX(-50%);
+}
+
+.unit-milestones > .entries > .unit-milestone:last-of-type {
+  transform: translateX(-100%);
+}
+
+.unit-milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+
+  text-align: center;
+
+  z-index: calc(var(--value-z-index-layer-content) + 0);
+}
+
+.unit-milestone > .milestone {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: var(--font-size-mini);
+
+  line-height: var(--size-line-height-mini);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-milestone:not(.label) > .milestone {
+  text-transform: uppercase;
+}
+
+.unit-milestone.done:not(:has(~ .unit-milestone.done)) > .milestone {
+  color: var(--color-text-primary);
+}
+
+.unit-milestone > .total-prize {
+  display: grid;
+  grid-template-areas: 'stack';
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+
+  border-color: var(--color-border-total-prize);
+  border-radius: 100vh;
+  border-style: solid;
+  border-width: 0.125rem;
+
+  width: var(--size-total-prize-entry);
+  height: var(--size-total-prize-entry);
+
+  font-size: var(--font-size-mini);
+  font-weight: 500;
+
+  line-height: var(--size-line-height-mini);
+
+  text-transform: uppercase;
+
+  color: var(--color-text-primary);
+  background-color: color-mix(
+    in srgb,
+    var(--color-background-total-prize) 20%,
+    #12121bcc
+  );
+}
+
+.unit-milestone > .total-prize > * {
+  grid-area: stack;
+}
+
+.unit-milestone > .total-prize > .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+
+  opacity: 0.16;
+}
+
+.unit-milestone.done > .total-prize {
+  color: var(--color-text-primary);
+  background-color: var(--color-background-total-prize);
+}
+
+.unit-milestone > .connector {
+  border-radius: 100vh;
+
+  width: 0.125rem;
+  height: 0.5rem;
+
+  background-color: var(--color-text-placeholder);
+}
+
+.unit-milestone > .prizes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  margin-block-start: 0.25rem;
+
+  font-size: var(--font-size-mini);
+
+  line-height: var(--size-line-height-mini);
+
+  color: var(--color-text-tertiary);
+}
+
+.unit-milestone.done:not(:has(~ .unit-milestone.done)) > .prizes {
+  color: var(--color-text-primary);
+}
+
+.unit-milestone.label {
+  align-items: start;
+
+  text-align: start;
+}
+
+.unit-milestone.label > .milestone > .icon {
+  color: var(--color-text-placeholder);
+}
+
+.unit-milestone.label > .total-prize,
+.unit-milestone.label > .connector {
+  opacity: 0;
+}
+
+.unit-milestone.label > .prizes > .prize {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unit-milestone.label > .prizes > .prize > .icon {
+  color: var(--color-text-placeholder);
 }
 
 .unit-meta {
