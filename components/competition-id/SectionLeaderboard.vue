@@ -677,6 +677,9 @@ export default defineComponent({
   --color-text-eligible: var(--palette-green-darker);
   --color-text-ineligible: var(--color-text-tertiary);
 
+  --color-text-positive: var(--palette-green);
+  --color-text-negative: var(--palette-red);
+
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
 
@@ -1014,17 +1017,12 @@ export default defineComponent({
   color: var(--color-text-participant-status-canceled);
 }
 
-.unit-roi {
-  --color-text-roi-positive: var(--palette-green);
-  --color-text-roi-negative: var(--palette-red);
-}
-
 .unit-roi.positive {
-  color: var(--color-text-roi-positive);
+  color: var(--color-text-positive);
 }
 
 .unit-roi.negative {
-  color: var(--color-text-roi-negative);
+  color: var(--color-text-negative);
 }
 
 .unit-row.separator {
