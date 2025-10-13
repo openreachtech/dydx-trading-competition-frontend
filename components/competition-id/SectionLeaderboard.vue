@@ -378,10 +378,10 @@ export default defineComponent({
                 <span
                   class="unit-roi ongoing"
                   :class="{
-                    positive: context.isPositiveRoi({
+                    positive: context.isPositiveNumber({
                       value,
                     }),
-                    negative: context.isNegativeRoi({
+                    negative: context.isNegativeNumber({
                       value,
                     }),
                   }"
@@ -395,7 +395,17 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingPnl="{ value }">
-                <span class="unit-pnl ongoing">
+                <span
+                  class="unit-pnl ongoing"
+                  :class="{
+                    positive: context.isPositiveNumber({
+                      value,
+                    }),
+                    negative: context.isNegativeNumber({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizePnl({
                       figure: value,
@@ -479,10 +489,10 @@ export default defineComponent({
                 <span
                   class="unit-roi outcome"
                   :class="{
-                    positive: context.isPositiveRoi({
+                    positive: context.isPositiveNumber({
                       value,
                     }),
-                    negative: context.isNegativeRoi({
+                    negative: context.isNegativeNumber({
                       value,
                     }),
                   }"
@@ -496,7 +506,17 @@ export default defineComponent({
               </template>
 
               <template #body-outcomePnl="{ value }">
-                <span class="unit-pnl outcome">
+                <span
+                  class="unit-pnl outcome"
+                  :class="{
+                    positive: context.isPositiveNumber({
+                      value,
+                    }),
+                    negative: context.isNegativeNumber({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizePnl({
                       figure: value,
@@ -676,6 +696,9 @@ export default defineComponent({
 .unit-section {
   --color-text-eligible: var(--palette-green-darker);
   --color-text-ineligible: var(--color-text-tertiary);
+
+  --color-text-positive: var(--palette-green);
+  --color-text-negative: var(--palette-red);
 
   margin-block-start: 0;
   margin-inline: calc(-1 * var(--size-body-padding-inline-mobile));
@@ -1014,17 +1037,14 @@ export default defineComponent({
   color: var(--color-text-participant-status-canceled);
 }
 
-.unit-roi {
-  --color-text-roi-positive: var(--palette-green);
-  --color-text-roi-negative: var(--palette-red);
+.unit-roi.positive,
+.unit-pnl.positive {
+  color: var(--color-text-positive);
 }
 
-.unit-roi.positive {
-  color: var(--color-text-roi-positive);
-}
-
-.unit-roi.negative {
-  color: var(--color-text-roi-negative);
+.unit-roi.negative,
+.unit-pnl.negative {
+  color: var(--color-text-negative);
 }
 
 .unit-row.separator {
