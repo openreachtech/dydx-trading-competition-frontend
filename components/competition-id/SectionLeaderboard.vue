@@ -395,7 +395,17 @@ export default defineComponent({
               </template>
 
               <template #body-ongoingPnl="{ value }">
-                <span class="unit-pnl ongoing">
+                <span
+                  class="unit-pnl ongoing"
+                  :class="{
+                    positive: context.isPositiveNumber({
+                      value,
+                    }),
+                    negative: context.isNegativeNumber({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizePnl({
                       figure: value,
@@ -496,7 +506,17 @@ export default defineComponent({
               </template>
 
               <template #body-outcomePnl="{ value }">
-                <span class="unit-pnl outcome">
+                <span
+                  class="unit-pnl outcome"
+                  :class="{
+                    positive: context.isPositiveNumber({
+                      value,
+                    }),
+                    negative: context.isNegativeNumber({
+                      value,
+                    }),
+                  }"
+                >
                   {{
                     context.normalizePnl({
                       figure: value,
@@ -1017,11 +1037,13 @@ export default defineComponent({
   color: var(--color-text-participant-status-canceled);
 }
 
-.unit-roi.positive {
+.unit-roi.positive,
+.unit-pnl.positive {
   color: var(--color-text-positive);
 }
 
-.unit-roi.negative {
+.unit-roi.negative,
+.unit-pnl.negative {
   color: var(--color-text-negative);
 }
 
