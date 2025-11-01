@@ -238,7 +238,7 @@ export default defineComponent({
 }
 
 .unit-stage > .connector > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.3125rem;
   padding-inline: 0.3125rem;

@@ -380,7 +380,7 @@ export default defineComponent({
   margin-block-start: 1rem;
 
   border-color: var(--color-border-default);
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
   border-style: solid;
   border-width: var(--size-thinnest);
 

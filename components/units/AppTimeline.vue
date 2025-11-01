@@ -123,7 +123,7 @@ export default defineComponent({
 }
 
 .unit-connector > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   flex-shrink: 0;
 

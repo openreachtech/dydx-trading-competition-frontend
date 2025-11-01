@@ -247,7 +247,7 @@ export default defineComponent({
 }
 
 .unit-host > .wallet > .connector {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   inline-size: 0.1875rem;
   block-size: 0.1875rem;

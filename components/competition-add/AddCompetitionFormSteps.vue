@@ -188,7 +188,7 @@ export default defineComponent({
 }
 
 .unit-step > .step > .button {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
   border-width: 0.125rem;
   border-style: solid;
   border-color: var(--color-border-form-step);
@@ -229,7 +229,7 @@ export default defineComponent({
 }
 
 .unit-step > .step > .button > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   display: flex;
   justify-content: center;

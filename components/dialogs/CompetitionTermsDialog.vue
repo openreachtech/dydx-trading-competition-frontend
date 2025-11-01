@@ -452,7 +452,7 @@ export default defineComponent({
 .unit-list > .entry > .bullet {
   margin-block-start: 0.5rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   flex-shrink: 0;
 

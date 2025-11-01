@@ -452,7 +452,7 @@ export default defineComponent({
 .unit-characteristics > .characteristic > .bullet {
   margin-block-start: 0.375rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   flex-shrink: 0;
 
@@ -489,7 +489,7 @@ export default defineComponent({
 .unit-timeline > .heading {
   margin-block: 1.25rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.5rem;
   padding-inline: 1.5rem;
@@ -568,7 +568,7 @@ export default defineComponent({
 }
 
 .unit-stage > .content > .actor {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.25rem;
   padding-inline: 0.75rem;
@@ -609,7 +609,7 @@ export default defineComponent({
 }
 
 .unit-stage > .connector > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   display: flex;
   justify-content: center;
