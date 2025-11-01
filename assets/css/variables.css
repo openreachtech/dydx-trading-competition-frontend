@@ -260,6 +260,8 @@
   /* Sizes */
   --size-thinnest: 1px;
 
+  --size-radius-rounded: 625rem;
+
   --size-screen-height: 100dvh;
   --size-body-max-width: 75rem;
   --size-header-height: 4.25rem;
