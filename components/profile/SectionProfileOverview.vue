@@ -481,7 +481,7 @@ export default defineComponent({
 }
 
 .unit-profile.name > .button {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.25rem;
   padding-inline: 0.25rem;

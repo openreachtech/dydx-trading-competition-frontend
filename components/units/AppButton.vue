@@ -244,7 +244,7 @@ export default defineComponent({
 
 /* Rounded */
 .unit-button.rounded {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 }
 
 /* Disabled */

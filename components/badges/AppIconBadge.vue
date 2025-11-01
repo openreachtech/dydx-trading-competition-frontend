@@ -74,7 +74,7 @@ export default defineComponent({
 <style>
 /* TODO: Style with @layer */
 .unit-badge > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.125rem;
   padding-inline: 0.125rem;
@@ -88,7 +88,7 @@ export default defineComponent({
 }
 
 .unit-badge > .indicator > .dot {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   width: 0.5rem;
   height: 0.5rem;

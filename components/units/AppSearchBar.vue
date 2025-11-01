@@ -382,7 +382,7 @@ export default defineComponent({
 }
 
 .unit-filter > .button > .indicator {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   align-self: start;
 

@@ -209,7 +209,7 @@ export default defineComponent({
 
   margin-block-end: 0.75rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding-block: 0.25rem;
   padding-inline: 0.5rem;

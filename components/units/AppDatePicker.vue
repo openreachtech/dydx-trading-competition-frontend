@@ -386,7 +386,7 @@ export default defineComponent({
 }
 
 .unit-dropdown > .header > .button {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   display: inline-flex;
   justify-content: center;
@@ -477,7 +477,7 @@ export default defineComponent({
 }
 
 .unit-dropdown > .dates > .date.today > .figure::after {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   position: absolute;
   top: calc(100% + 0.25rem);
