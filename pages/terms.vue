@@ -506,9 +506,9 @@ export default defineComponent({
 
 <style scoped>
 /* Reset default margin block. */
-.heading+*,
-p+p,
-section+section {
+.heading + *,
+p + p,
+section + section {
   margin-block-start: 0;
 }
 
@@ -527,7 +527,7 @@ section+section {
   }
 }
 
-.unit-page>.heading {
+.unit-page > .heading {
   font-size: var(--font-size-title);
   font-family: var(--font-family-heading);
   color: var(--color-text-primary);
@@ -541,14 +541,14 @@ section+section {
   color: var(--color-text-tertiary);
 }
 
-.unit-section>.heading {
+.unit-section > .heading {
   font-size: var(--font-size-extra);
   font-family: var(--font-family-heading);
 
   color: var(--color-text-primary);
 }
 
-.unit-section>.clause>.index {
+.unit-section > .clause > .index {
   margin-inline-end: 0.25rem;
 
   font-size: var(--font-size-medium);
@@ -557,7 +557,7 @@ section+section {
   color: var(--color-text-primary);
 }
 
-.unit-section>.message {
+.unit-section > .message {
   font-size: var(--font-size-base);
   font-weight: 500;
 }
