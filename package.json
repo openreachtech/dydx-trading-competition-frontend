@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
+    "@channel.io/channel-web-sdk-loader": "^2.0.2",
     "@cosmos-kit/core": "^2.16.3",
     "@cosmos-kit/keplr": "^2.15.3",
     "@cosmos-kit/keplr-extension": "^2.15.3",
