@@ -43,11 +43,16 @@ export default class AddressProfileFetcher {
   }
 
   /**
-   * get: addressProfileLauncherHooks
+   * Generate launcher hooks for `addressProfile` query.
    *
+   * @param {{
+   *   onSuccessCallback?: (...args: Array<any>) => Promise<any> | any
+   * }} params - Parameters.
    * @returns {furo.GraphqlLauncherHooks} Launcher hooks.
    */
-  get addressProfileLauncherHooks () {
+  generateAddressProfileLauncherHooks ({
+    onSuccessCallback = () => {},
+  } = {}) {
     return {
       /**
        * @type {(payload: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlPayload').default) => Promise<boolean>}
@@ -63,6 +68,14 @@ export default class AddressProfileFetcher {
       // @ts-expect-error
       afterRequest: async capsule => {
         this.statusReactive.isFetchingAddressProfile = false
+
+        if (capsule.hasError()) {
+          return
+        }
+
+        await onSuccessCallback?.({
+          capsule,
+        })
       },
     }
   }
@@ -73,11 +86,13 @@ export default class AddressProfileFetcher {
    * @param {{
    *   valueHash: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlPayload')
    *     .AddressProfileQueryRequestVariables['input']
+   *   onSuccessCallback?: (...args: Array<any>) => Promise<any> | any
    * }} params - Parameters.
    * @returns {Promise<void>}
    */
   async fetchAddressProfileOnEvent ({
     valueHash,
+    onSuccessCallback,
   }) {
     await this.graphqlClientHash
       .addressProfile
@@ -85,7 +100,9 @@ export default class AddressProfileFetcher {
         variables: {
           input: valueHash,
         },
-        hooks: this.addressProfileLauncherHooks,
+        hooks: this.generateAddressProfileLauncherHooks({
+          onSuccessCallback,
+        }),
       })
   }
 
@@ -95,11 +112,13 @@ export default class AddressProfileFetcher {
    * @param {{
    *   valueHash: import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlPayload')
    *     .AddressProfileQueryRequestVariables['input']
+   *   onSuccessCallback?: (...args: Array<any>) => Promise<any> | any
    * }} params - Parameters.
    * @returns {void}
    */
   fetchAddressProfileOnMounted ({
     valueHash,
+    onSuccessCallback,
   }) {
     this.graphqlClientHash
       .addressProfile
@@ -107,7 +126,9 @@ export default class AddressProfileFetcher {
         variables: {
           input: valueHash,
         },
-        hooks: this.addressProfileLauncherHooks,
+        hooks: this.generateAddressProfileLauncherHooks({
+          onSuccessCallback,
+        }),
       })
   }
 }
