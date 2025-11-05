@@ -1,2 +1,3 @@
 ENDPOINT_URL = http://localhost:3900/graphql-customer
 GTAG_ID = your_gtag_id_here
+CHANNEL_TALK_PLUGIN_KEY =
