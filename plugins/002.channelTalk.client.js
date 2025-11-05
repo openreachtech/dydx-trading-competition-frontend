@@ -19,10 +19,14 @@ import AddressProfileQueryGraphqlLauncher from '~/app/graphql/client/queries/add
 
 export default defineNuxtPlugin({
   async setup () {
-    ChannelService.loadScript()
-
     const runtimeConfig = useRuntimeConfig()
     const pluginKey = runtimeConfig.public.CHANNEL_TALK_PLUGIN_KEY
+
+    if (!pluginKey) {
+      return
+    }
+
+    ChannelService.loadScript()
 
     const walletStore = useWalletStore()
 
