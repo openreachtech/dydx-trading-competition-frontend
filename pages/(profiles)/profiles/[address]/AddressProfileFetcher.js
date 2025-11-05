@@ -73,7 +73,7 @@ export default class AddressProfileFetcher {
           return
         }
 
-        await onSuccessCallback?.({
+        await onSuccessCallback({
           capsule,
         })
       },
