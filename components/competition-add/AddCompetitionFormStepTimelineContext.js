@@ -90,7 +90,7 @@ export default class AddCompetitionFormStepTimelineContext extends BaseAppContex
     return [
       {
         iconName: 'heroicons:rocket-launch-solid',
-        title: 'Registration Stage',
+        title: 'Registration Period',
         startDateInputId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
         initialStartDate: this.extractInitialRegistrationStartDate(),
@@ -100,7 +100,7 @@ export default class AddCompetitionFormStepTimelineContext extends BaseAppContex
       {
         shouldHideIcon: true,
         iconName: 'heroicons:rocket-launch-solid',
-        title: 'Competition Stage',
+        title: 'Competition Period',
         startDateInputId: SCHEDULE_CATEGORY.COMPETITION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
         initialStartDate: this.extractInitialCompetitionStartDate(),
