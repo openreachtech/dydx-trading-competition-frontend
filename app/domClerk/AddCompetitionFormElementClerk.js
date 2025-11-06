@@ -45,7 +45,7 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
           // - Prize distribution schedule is optional. However, should update the form to omit the field if input value is empty.
           const requiredScheduleIds = [
             SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-            SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+            SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
             SCHEDULE_CATEGORY.COMPETITION_START.ID,
             SCHEDULE_CATEGORY.COMPETITION_END.ID,
             SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,

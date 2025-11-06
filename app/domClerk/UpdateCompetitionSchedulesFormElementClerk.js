@@ -27,7 +27,7 @@ export default class UpdateCompetitionSchedulesFormElementClerk extends BaseFilt
         ok: (it, valueHash) => {
           const requiredScheduleIds = [
             SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-            SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+            SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
             SCHEDULE_CATEGORY.COMPETITION_START.ID,
             SCHEDULE_CATEGORY.COMPETITION_END.ID,
             SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
