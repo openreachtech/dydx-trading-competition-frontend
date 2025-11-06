@@ -92,7 +92,7 @@ export default class AddCompetitionFormStepTimelineContext extends BaseAppContex
         iconName: 'heroicons:rocket-launch-solid',
         title: 'Registration Period',
         startDateInputId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-        endDateInputId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+        endDateInputId: SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
         initialStartDate: this.extractInitialRegistrationStartDate(),
         initialEndDate: this.extractInitialRegistrationEndDate(),
         note: '(automatically set to one day before Competition Stage start date)',
