@@ -39,21 +39,9 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
          *   valueHash: Record<string, *>
          * ) => boolean}
          */
-        ok: (it, valueHash) => {
-          // TODO: This logic is not entirely correct. The spec should be:
-          // - The array has at least 4 members (registration start, registration end, competition start, competition end)
-          // - Prize distribution schedule is optional. However, should update the form to omit the field if input value is empty.
-          const requiredScheduleIds = [
-            SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-            SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
-            SCHEDULE_CATEGORY.COMPETITION_START.ID,
-            SCHEDULE_CATEGORY.COMPETITION_END.ID,
-            SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
-          ]
-
-          return it.length >= 4
-            && it.every(schedule => requiredScheduleIds.includes(schedule.categoryId))
-        },
+        ok: (it, valueHash) => this.validateRequiredSchedules({
+          schedules: it,
+        }),
         message: 'Must at least provide schedule for registration and competition periods',
       },
       {
@@ -148,6 +136,32 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
 
         return expectedOrder === actualOrder
       })
+  }
+
+  /**
+   * Validate the required schedules.
+   *
+   * @param {{
+   *   schedules: Schedules
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  static validateRequiredSchedules ({
+    schedules,
+  }) {
+    // TODO: This logic is not entirely correct. The spec should be:
+    // - The array has at least 4 members (registration start, late registration end, competition start, competition end)
+    // - Prize distribution schedule is optional. However, should update the form to omit the field if input value is empty.
+    const requiredScheduleIds = [
+      SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+      SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
+      SCHEDULE_CATEGORY.COMPETITION_START.ID,
+      SCHEDULE_CATEGORY.COMPETITION_END.ID,
+      SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
+    ]
+
+    return schedules.length >= 4
+      && schedules.every(schedule => requiredScheduleIds.includes(schedule.categoryId))
   }
 }
 
