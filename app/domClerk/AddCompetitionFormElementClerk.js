@@ -160,8 +160,10 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
       SCHEDULE_CATEGORY.PRIZE_DISTRIBUTE.ID,
     ]
 
-    return schedules.length >= 4
-      && schedules.every(schedule => requiredScheduleIds.includes(schedule.categoryId))
+    const validSchedules = schedules.filter(it => it.scheduledDatetime)
+
+    return validSchedules.length >= 4
+      && validSchedules.every(schedule => requiredScheduleIds.includes(schedule.categoryId))
   }
 }
 
