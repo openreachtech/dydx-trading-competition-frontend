@@ -34,7 +34,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
 
     return [
       {
-        title: 'Competition Stage',
+        title: 'Competition Period',
         timeline: this.extractTimeline({
           schedules: competitionSchedules,
         }),
