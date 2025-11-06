@@ -1,6 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
+  SCHEDULE_CATEGORY,
   SCHEDULE_ID_GROUP,
 } from '~/app/constants'
 
@@ -34,7 +35,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
 
     return [
       {
-        title: 'Competition Stage',
+        title: 'Competition Period',
         timeline: this.extractTimeline({
           schedules: competitionSchedules,
         }),
@@ -86,6 +87,29 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Format late registration end date.
+   *
+   * @returns {string}
+   */
+  formatLateRegistrationEndDate () {
+    return this.normalizeTimestamp({
+      timestamp: this.extractLateRegistrationEndDateString(),
+    })
+  }
+
+  /**
+   * Extract late registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractLateRegistrationEndDateString () {
+    return this.schedules
+      .find(it => it.category.categoryId === SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
    * Check if the schedule is active.
    *
    * @param {{
@@ -107,7 +131,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
    * Normalize timestamp.
    *
    * @param {{
-   *   timestamp: string
+   *   timestamp: string | null
    * }} params - Parameters.
    * @returns {string} Normalized timestamp.
    */

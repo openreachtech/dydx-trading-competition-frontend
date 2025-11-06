@@ -128,33 +128,44 @@ export const SCHEDULE_CATEGORY = {
     ID: 1,
     NAME: 'registration_start',
     DESCRIPTION: 'Competition registration period starts',
+    ORDER: 1,
   },
   REGISTRATION_END: {
     ID: 2,
     NAME: 'registration_end',
     DESCRIPTION: 'Competition registration period ends',
+    ORDER: null,
   },
   COMPETITION_START: {
     ID: 3,
     NAME: 'competition_start',
     DESCRIPTION: 'Competition trading period starts',
+    ORDER: 2,
   },
   COMPETITION_END: {
     ID: 4,
     NAME: 'competition_end',
     DESCRIPTION: 'Competition trading period ends',
+    ORDER: 4,
   },
   PRIZE_DISTRIBUTE: {
     ID: 5,
     NAME: 'prize_distribute',
     DESCRIPTION: 'Competition prize distribution time',
+    ORDER: 5,
+  },
+  LATE_REGISTRATION_END: {
+    ID: 6,
+    NAME: 'late_registration_end',
+    DESCRIPTION: 'Late registration period ends - no new participants allowed after this time',
+    ORDER: 3,
   },
 }
 
 export const SCHEDULE_ID_GROUP = {
   REGISTRATION: [
     SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-    SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
   ],
   COMPETITION: [
     SCHEDULE_CATEGORY.COMPETITION_START.ID,

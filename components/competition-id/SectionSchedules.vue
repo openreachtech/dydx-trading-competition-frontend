@@ -54,6 +54,10 @@ export default defineComponent({
         Activity Schedule
       </h2>
 
+      <p class="registration-end">
+        Registration period will end on <time class="time">{{ context.formatLateRegistrationEndDate() }}</time>
+      </p>
+
       <div class="unit-schedules">
         <template
           v-for="(it, index) of context.generateScheduleGroups()"
@@ -139,6 +143,33 @@ export default defineComponent({
   text-align: center;
 }
 
+.unit-section > .inner > .registration-end {
+  --color-text-time: var(--palette-yellow);
+
+  margin-block-start: 0.5rem;
+  margin-inline: 2rem;
+
+  font-size: var(--font-size-base);
+
+  line-height: var(--size-line-height-base);
+
+  text-align: center;
+
+  color: var(--color-text-tertiary);
+
+  @media (48rem <= width) {
+    font-size: var(--font-size-medium);
+
+    line-height: var(--size-line-height-medium);
+  }
+}
+
+.unit-section > .inner > .registration-end > .time {
+  font-weight: 500;
+
+  color: var(--color-text-time);
+}
+
 .unit-schedules {
   display: grid;
 
@@ -146,8 +177,12 @@ export default defineComponent({
   grid-auto-rows: 1fr auto;
   gap: 0.5rem;
 
+  margin-block-start: 1.25rem;
+
   @media (48rem < width) {
     grid-template-columns: repeat(2, 1fr);
+
+    margin-block-start: 2rem;
   }
 }
 

@@ -352,13 +352,13 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
 
     return [
       {
-        title: 'Registration Stage',
+        title: 'Registration Period',
         timeline: this.extractTimeline({
           schedules: registrationSchedules,
         }),
       },
       {
-        title: 'Competition Stage',
+        title: 'Competition Period',
         timeline: this.extractTimeline({
           schedules: competitionSchedules,
         }),
