@@ -35,7 +35,7 @@ export default class UpdateCompetitionSchedulesFormElementClerk extends BaseFilt
         ok: (it, valueHash) => this.isValidSchedules({
           schedules: it,
         }),
-        message: 'Schedule must follow the following timeline: Registration Start → Competition Start → Registration End → Competition End → Prize Distribution.',
+        message: 'Schedule must follow the following timeline: Registration Start → Competition Start → Late Registration End → Competition End → Prize Distribution.',
       },
     ]
   }
