@@ -56,6 +56,14 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
         },
         message: 'Must at least provide schedule for registration and competition periods',
       },
+      {
+        field: 'schedules',
+        /** @type {(it: Array<schema.graphql.CompetitionScheduleInput>, valueHash: Record<string, *>) => boolean} */
+        ok: (it, valueHash) => this.isValidSchedules({
+          schedules: it,
+        }),
+        message: 'Schedule must follow the following timeline: Registration Start → Competition Start → Registration End → Competition End → Prize Distribution.',
+      },
 
       // Step 3: Participation
       {
@@ -109,6 +117,37 @@ export default class AddCompetitionFormElementClerk extends BaseFilteredFormElem
         message: 'Total prize must be provided',
       },
     ]
+  }
+
+  /**
+   * Check if the provided schedule is valid.
+   *
+   * @param {{
+   *   schedules: Array<schema.graphql.CompetitionScheduleInput>
+   * }} params - Parameters.
+   * @returns {boolean}
+   */
+  static isValidSchedules ({
+    schedules,
+  }) {
+    return schedules
+      .map(it => ({
+        ...it,
+        scheduledDate: new Date(it.scheduledDatetime),
+      }))
+      .toSorted((scheduleA, scheduleB) =>
+        scheduleA.scheduledDate.getTime() - scheduleB.scheduledDate.getTime()
+      )
+      .every((it, index) => {
+        const expectedOrder = Object.values(SCHEDULE_CATEGORY)
+          .find(category => category.ID === it.categoryId)
+          ?.ORDER
+          ?? null
+
+        const actualOrder = index + 1
+
+        return expectedOrder === actualOrder
+      })
   }
 }
 
