@@ -149,6 +149,12 @@ export const SCHEDULE_CATEGORY = {
     NAME: 'prize_distribute',
     DESCRIPTION: 'Competition prize distribution time',
   },
+  LATE_REGISTRATION_END: {
+    ID: 6,
+    NAME: 'late_registration_end',
+    DESCRIPTION: 'Late registration period ends - no new participants allowed after this time',
+    ORDER: 3,
+  },
 }
 
 export const SCHEDULE_ID_GROUP = {
