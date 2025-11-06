@@ -1296,6 +1296,8 @@ export default defineComponent({
   width: 2.25rem;
   height: 2.25rem;
 
+  object-fit: cover;
+
   background-color: var(--color-background-card);
 }
 
