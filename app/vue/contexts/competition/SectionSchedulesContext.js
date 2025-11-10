@@ -87,14 +87,33 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
-   * Format late registration end date.
+   * Generate registration end label.
    *
    * @returns {string}
    */
-  formatLateRegistrationEndDate () {
-    return this.normalizeTimestamp({
+  generateRegistrationEndLabel () {
+    if (this.hasRegistrationPeriodEnded()) {
+      return 'Registration period has ended on'
+    }
+
+    return 'Registration period will end on'
+  }
+
+  /**
+   * Generate late registration end date timestamp.
+   *
+   * @returns {string}
+   */
+  generateLateRegistrationEndTimestamp () {
+    const normalizedTimestamp = this.normalizeTimestamp({
       timestamp: this.extractLateRegistrationEndDateString(),
     })
+
+    if (this.hasRegistrationPeriodEnded()) {
+      return `${normalizedTimestamp} ⏱️`
+    }
+
+    return normalizedTimestamp
   }
 
   /**

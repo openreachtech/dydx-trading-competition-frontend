@@ -55,7 +55,7 @@ export default defineComponent({
       </h2>
 
       <p class="registration-end">
-        Registration period will end on <time class="time">{{ context.formatLateRegistrationEndDate() }}</time>
+        {{ context.generateRegistrationEndLabel() }} <time class="time">{{ context.generateLateRegistrationEndTimestamp() }}</time>
       </p>
 
       <div class="unit-schedules">
