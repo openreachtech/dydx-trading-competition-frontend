@@ -87,11 +87,11 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
-   * Generate registration end label.
+   * Generate late registration end label.
    *
    * @returns {string}
    */
-  generateRegistrationEndLabel () {
+  generateLateRegistrationEndLabel () {
     if (this.hasRegistrationPeriodEnded()) {
       return 'Registration period has ended on'
     }
@@ -135,11 +135,11 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
-   * Check if registration end date is missing.
+   * Check if late registration end date is missing.
    *
    * @returns {boolean}
    */
-  isRegistrationEndDateMissing () {
+  isLateRegistrationEndDateMissing () {
     const dateString = this.extractLateRegistrationEndDateString()
 
     return !dateString

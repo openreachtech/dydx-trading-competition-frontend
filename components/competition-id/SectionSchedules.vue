@@ -58,10 +58,10 @@ export default defineComponent({
         class="registration-end"
         :class="{
           ended: context.hasRegistrationPeriodEnded(),
-          hidden: context.isRegistrationEndDateMissing(),
+          hidden: context.isLateRegistrationEndDateMissing(),
         }"
       >
-        {{ context.generateRegistrationEndLabel() }} <time class="time">{{ context.generateLateRegistrationEndTimestamp() }}</time>
+        {{ context.generateLateRegistrationEndLabel() }} <time class="time">{{ context.generateLateRegistrationEndTimestamp() }}</time>
       </p>
 
       <div class="unit-schedules">
