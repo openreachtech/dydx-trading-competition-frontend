@@ -98,6 +98,24 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Check if the registration period has ended.
+   *
+   * @returns {boolean}
+   */
+  hasRegistrationPeriodEnded () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    if (!dateString) {
+      return true
+    }
+
+    const now = new Date()
+    const registrationEndDate = new Date(dateString)
+
+    return now > registrationEndDate
+  }
+
+  /**
    * Extract late registration end date.
    *
    * @returns {string | null}
