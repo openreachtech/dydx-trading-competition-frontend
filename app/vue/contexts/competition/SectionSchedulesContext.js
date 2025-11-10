@@ -25,6 +25,15 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Create a Date instance of current time.
+   *
+   * @returns {Date}
+   */
+  createCurrentDatetime () {
+    return new Date()
+  }
+
+  /**
    * Generate schedule groups.
    *
    * @returns {ScheduleGroups} Schedule groups.
@@ -128,7 +137,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
       return true
     }
 
-    const now = new Date()
+    const now = this.createCurrentDatetime()
     const registrationEndDate = new Date(dateString)
 
     return now > registrationEndDate
