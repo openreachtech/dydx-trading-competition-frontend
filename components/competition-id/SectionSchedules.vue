@@ -54,7 +54,12 @@ export default defineComponent({
         Activity Schedule
       </h2>
 
-      <p class="registration-end">
+      <p
+        class="registration-end"
+        :class="{
+          ended: context.hasRegistrationPeriodEnded(),
+        }"
+      >
         {{ context.generateRegistrationEndLabel() }} <time class="time">{{ context.generateLateRegistrationEndTimestamp() }}</time>
       </p>
 
@@ -168,6 +173,10 @@ export default defineComponent({
   font-weight: 500;
 
   color: var(--color-text-time);
+}
+
+.unit-section > .inner > .registration-end.ended > .time {
+  color: var(--color-text-secondary);
 }
 
 .unit-schedules {
