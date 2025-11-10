@@ -58,6 +58,7 @@ export default defineComponent({
         class="registration-end"
         :class="{
           ended: context.hasRegistrationPeriodEnded(),
+          hidden: context.isRegistrationEndDateMissing(),
         }"
       >
         {{ context.generateRegistrationEndLabel() }} <time class="time">{{ context.generateLateRegistrationEndTimestamp() }}</time>
@@ -167,6 +168,10 @@ export default defineComponent({
 
     line-height: var(--size-line-height-medium);
   }
+}
+
+.unit-section > .inner > .registration-end.hidden {
+  display: none;
 }
 
 .unit-section > .inner > .registration-end > .time {

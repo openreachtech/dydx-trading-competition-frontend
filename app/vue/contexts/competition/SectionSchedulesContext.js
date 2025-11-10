@@ -135,6 +135,17 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Check if registration end date is missing.
+   *
+   * @returns {boolean}
+   */
+  isRegistrationEndDateMissing () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    return !dateString
+  }
+
+  /**
    * Extract late registration end date.
    *
    * @returns {string | null}
