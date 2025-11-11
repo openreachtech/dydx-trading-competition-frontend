@@ -14,12 +14,12 @@ import {
 import AppBadge from '~/components/units/AppBadge.vue'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
-import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
 import AppSelect from '~/components/units/AppSelect.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
+import RelativeRegistrationPeriodCaption from '~/components/molecules/RelativeRegistrationPeriodCaption.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -38,12 +38,12 @@ export default defineComponent({
     AppBadge,
     AppIconBadge,
     AppButton,
-    AppLeagueCountdown,
     AppMarkdownViewer,
     AppSelect,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
+    RelativeRegistrationPeriodCaption,
   },
 
   props: {
@@ -218,7 +218,7 @@ export default defineComponent({
           </AppSelect>
         </div>
 
-        <AppLeagueCountdown
+        <RelativeRegistrationPeriodCaption
           class="note"
           :schedules="context.schedules"
         />
@@ -739,6 +739,8 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 1.125rem;
+
+  margin-block-start: 1.5rem;
 }
 
 .unit-status > .badge.host {
@@ -917,7 +919,7 @@ export default defineComponent({
 }
 
 .unit-details > .note {
-  margin-block: 0.75rem 1.5rem;
+  margin-block-start: 0.75rem;
 }
 
 .unit-dynamic-prize {
