@@ -239,8 +239,8 @@ export default defineComponent({
 }
 
 .unit-content > .details {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 0.5rem;
 }
