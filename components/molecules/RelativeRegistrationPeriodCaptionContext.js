@@ -40,16 +40,16 @@ export default class RelativeRegistrationPeriodCaptionContext extends BaseAppCon
       return this.generateTimeTillStartDateCaption()
     }
 
-    return this.generateTimeTillLateEndDateCaption()
+    return this.generateTimeTillEndDateCaption()
   }
 
   /**
-   * Generate caption for relative time till late registration end date.
+   * Generate caption for relative time till registration end date.
    *
    * @returns {string}
    */
-  generateTimeTillLateEndDateCaption () {
-    const endDate = this.extractLateRegistrationEndDate()
+  generateTimeTillEndDateCaption () {
+    const endDate = this.extractAvailableEndDate()
 
     if (!endDate) {
       return ''
@@ -111,6 +111,21 @@ export default class RelativeRegistrationPeriodCaptionContext extends BaseAppCon
   }
 
   /**
+   * Extract available end date.
+   *
+   * @returns {Date | null}
+   */
+  extractAvailableEndDate () {
+    const lateRegistrationDate = this.extractLateRegistrationEndDate()
+
+    if (!lateRegistrationDate) {
+      return this.extractRegistrationEndDate()
+    }
+
+    return lateRegistrationDate
+  }
+
+  /**
    * Extract registration start date.
    *
    * @returns {Date | null}
@@ -118,6 +133,17 @@ export default class RelativeRegistrationPeriodCaptionContext extends BaseAppCon
   extractRegistrationStartDate () {
     return this.extractScheduleByCategoryId({
       categoryId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
+    })
+  }
+
+  /**
+   * Extract registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractRegistrationEndDate () {
+    return this.extractScheduleByCategoryId({
+      categoryId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
     })
   }
 
