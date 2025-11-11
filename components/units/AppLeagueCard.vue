@@ -10,14 +10,14 @@ import {
 
 import AppLeagueCardContext from '~/app/vue/contexts/AppLeagueCardContext'
 import AppIconBadge from '~/components/badges/AppIconBadge.vue'
-import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
+import RelativeRegistrationPeriodCaption from '~/components/molecules/RelativeRegistrationPeriodCaption.vue'
 
 export default defineComponent({
   components: {
     Icon,
     NuxtLink,
-    AppLeagueCountdown,
     AppIconBadge,
+    RelativeRegistrationPeriodCaption,
   },
 
   props: {
@@ -73,7 +73,14 @@ export default defineComponent({
             <!-- TODO: Another badge here? -->
           </div>
 
-          <AppLeagueCountdown :schedules="context.schedules" />
+          <RelativeRegistrationPeriodCaption :schedules="context.schedules">
+            <template #startIcon>
+              <Icon
+                name="heroicons:clock"
+                size="0.88rem"
+              />
+            </template>
+          </RelativeRegistrationPeriodCaption>
         </div>
       </div>
 
