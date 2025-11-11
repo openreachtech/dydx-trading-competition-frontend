@@ -224,6 +224,8 @@ export default defineComponent({
 
   background-color: var(--color-background-card);
 
+  object-fit: cover;
+
   overflow: hidden;
 }
 
