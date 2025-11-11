@@ -12,10 +12,10 @@ import {
 } from '#components'
 
 import AppBadge from '~/components/units/AppBadge.vue'
-import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
 import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
 import AppSelect from '~/components/units/AppSelect.vue'
+import CompetitionStatusBadge from '~/components/molecules/CompetitionStatusBadge.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
@@ -36,10 +36,10 @@ export default defineComponent({
     Icon,
     NuxtLink,
     AppBadge,
-    AppIconBadge,
     AppButton,
     AppMarkdownViewer,
     AppSelect,
+    CompetitionStatusBadge,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
@@ -224,12 +224,7 @@ export default defineComponent({
         />
 
         <div class="unit-status">
-          <AppIconBadge
-            :severity="context.generateBadgeSeverity()"
-            :icon-name="context.generateBadgeIconName()"
-          >
-            {{ context.generateBadgeDescription() }}
-          </AppIconBadge>
+          <CompetitionStatusBadge :status-id="context.competitionStatusId" />
 
           <AppBadge
             severity="neutral"
