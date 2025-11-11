@@ -25,6 +25,15 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Create a Date instance of current time.
+   *
+   * @returns {Date}
+   */
+  createCurrentDatetime () {
+    return new Date()
+  }
+
+  /**
    * Generate schedule groups.
    *
    * @returns {ScheduleGroups} Schedule groups.
@@ -87,14 +96,62 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
-   * Format late registration end date.
+   * Generate late registration end label.
    *
    * @returns {string}
    */
-  formatLateRegistrationEndDate () {
-    return this.normalizeTimestamp({
+  generateLateRegistrationEndLabel () {
+    if (this.hasRegistrationPeriodEnded()) {
+      return 'Registration period has ended on'
+    }
+
+    return 'Registration period will end on'
+  }
+
+  /**
+   * Generate late registration end date timestamp.
+   *
+   * @returns {string}
+   */
+  generateLateRegistrationEndTimestamp () {
+    const normalizedTimestamp = this.normalizeTimestamp({
       timestamp: this.extractLateRegistrationEndDateString(),
     })
+
+    if (this.hasRegistrationPeriodEnded()) {
+      return `${normalizedTimestamp} ⏱️`
+    }
+
+    return normalizedTimestamp
+  }
+
+  /**
+   * Check if the registration period has ended.
+   *
+   * @returns {boolean}
+   */
+  hasRegistrationPeriodEnded () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    if (!dateString) {
+      return true
+    }
+
+    const now = this.createCurrentDatetime()
+    const registrationEndDate = new Date(dateString)
+
+    return now > registrationEndDate
+  }
+
+  /**
+   * Check if late registration end date is missing.
+   *
+   * @returns {boolean}
+   */
+  isLateRegistrationEndDateMissing () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    return !dateString
   }
 
   /**
