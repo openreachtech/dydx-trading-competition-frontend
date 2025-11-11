@@ -9,14 +9,14 @@ import {
 } from '#components'
 
 import AppLeagueCardContext from '~/app/vue/contexts/AppLeagueCardContext'
-import AppIconBadge from '~/components/badges/AppIconBadge.vue'
+import CompetitionStatusBadge from '~/components/molecules/CompetitionStatusBadge.vue'
 import RelativeRegistrationPeriodCaption from '~/components/molecules/RelativeRegistrationPeriodCaption.vue'
 
 export default defineComponent({
   components: {
     Icon,
     NuxtLink,
-    AppIconBadge,
+    CompetitionStatusBadge,
     RelativeRegistrationPeriodCaption,
   },
 
@@ -63,12 +63,7 @@ export default defineComponent({
 
         <div class="unit-status">
           <div>
-            <AppIconBadge
-              :severity="context.generateBadgeSeverity()"
-              :icon-name="context.generateBadgeIconName()"
-            >
-              {{ context.generateBadgeDescription() }}
-            </AppIconBadge>
+            <CompetitionStatusBadge :status-id="context.competitionStatusId" />
 
             <!-- TODO: Another badge here? -->
           </div>
