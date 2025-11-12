@@ -62,28 +62,6 @@ export default defineNuxtPlugin({
         immediate: true,
       }
     )
-
-    watch(
-      walletStore.localAddressComputed,
-      async newAddress => {
-        if (
-          !newAddress
-          || newAddress === walletStore.sourceAddressComputed.value
-        ) {
-          return
-        }
-
-        const name = await fetchAddressName({
-          address: newAddress,
-        })
-
-        ChannelService.updateUser({
-          profile: {
-            name,
-          },
-        })
-      }
-    )
   },
 })
 
