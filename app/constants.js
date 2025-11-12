@@ -676,6 +676,10 @@ export const ERROR_CODE_HASH = {
 
 /** @type {Record<string, string>} */
 export const ERROR_MESSAGE_HASH = {
+  InvalidVariables: 'Some variables are invalid',
+  NetworkError: 'Unable to connect to the network',
+  JsonParseError: 'Failed to parse JSON',
+
   // Standard Error Codes (1XX prefix)
   Unknown: 'Unknown error occurred',
   ConcreteMemberNotFound: 'Member not found',
