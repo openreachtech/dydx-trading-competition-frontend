@@ -341,8 +341,15 @@ export const BASE_INDEXER_URL = 'https://indexer.dydx.trade/v4'
 
 /** @type {Record<string, string | Array<string>>} */
 export const ERROR_CODE_HASH = {
+  InvalidVariables: '191.X000.001',
+  NetworkError: '192.X000.001',
+  JsonParseError: '192.X000.002',
+
   // Standard Error Codes (1XX prefix)
-  Unknown: '100.X000.001',
+  Unknown: [
+    '100.X000.001',
+    '190.X000.001',
+  ],
   ConcreteMemberNotFound: '101.X000.001',
   Unauthenticated: '102.X000.001',
   Unauthorized: '102.X000.002',
