@@ -31,7 +31,7 @@ export default defineNuxtPlugin({
     const walletStore = useWalletStore()
 
     watch(
-      walletStore.sourceAddressComputed,
+      walletStore.localAddressComputed,
       async (newAddress, oldAddress) => {
         if (oldAddress && !newAddress) {
           ChannelService.shutdown()
