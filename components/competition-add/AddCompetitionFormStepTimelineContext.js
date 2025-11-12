@@ -90,17 +90,17 @@ export default class AddCompetitionFormStepTimelineContext extends BaseAppContex
     return [
       {
         iconName: 'heroicons:rocket-launch-solid',
-        title: 'Registration Stage',
+        title: 'Registration Period',
         startDateInputId: SCHEDULE_CATEGORY.REGISTRATION_START.ID,
-        endDateInputId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+        endDateInputId: SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
         initialStartDate: this.extractInitialRegistrationStartDate(),
-        initialEndDate: this.extractInitialRegistrationEndDate(),
+        initialEndDate: this.extractInitialLateRegistrationEndDate(),
         note: '(automatically set to one day before Competition Stage start date)',
       },
       {
         shouldHideIcon: true,
         iconName: 'heroicons:rocket-launch-solid',
-        title: 'Competition Stage',
+        title: 'Competition Period',
         startDateInputId: SCHEDULE_CATEGORY.COMPETITION_START.ID,
         endDateInputId: SCHEDULE_CATEGORY.COMPETITION_END.ID,
         initialStartDate: this.extractInitialCompetitionStartDate(),
@@ -157,6 +157,17 @@ export default class AddCompetitionFormStepTimelineContext extends BaseAppContex
   extractInitialRegistrationEndDate () {
     return this.extractInitialDate({
       scheduleCategoryId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract initial late registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractInitialLateRegistrationEndDate () {
+    return this.extractInitialDate({
+      scheduleCategoryId: SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
     })
   }
 

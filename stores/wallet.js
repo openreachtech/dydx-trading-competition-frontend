@@ -1,4 +1,5 @@
 import {
+  computed,
   watch,
 } from 'vue'
 
@@ -56,8 +57,24 @@ export default function useWalletStore () {
     }
   )
 
+  const sourceAddressComputed = computed(() =>
+    walletStateRef.value
+      .sourceAccount
+      .address
+  )
+
+  const localAddressComputed = computed(() =>
+    walletStateRef.value
+      .localWallet
+      .address
+  )
+
   return {
     walletStoreRef: walletStateRef,
+
+    // Getters
+    sourceAddressComputed,
+    localAddressComputed,
 
     // Actions
     clearLocalWallet,
@@ -233,6 +250,8 @@ export default function useWalletStore () {
 /**
  * @typedef {{
  *   walletStoreRef: import('vue').Ref<WalletState>
+ *   sourceAddressComputed: import('vue').ComputedRef<string | null>
+ *   localAddressComputed: import('vue').ComputedRef<string | null>
  *   clearCredential: () => void
  *   clearLocalWallet: () => void
  *   clearSourceAccount: () => void

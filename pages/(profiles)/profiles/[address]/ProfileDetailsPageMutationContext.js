@@ -1,3 +1,5 @@
+import * as ChannelService from '@channel.io/channel-web-sdk-loader'
+
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 /**
@@ -16,6 +18,7 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
     componentContext,
 
     route,
+    walletStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -29,6 +32,7 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
     })
 
     this.route = route
+    this.walletStore = walletStore
     this.graphqlClientHash = graphqlClientHash
     this.formClerkHash = formClerkHash
     this.fetcherHash = fetcherHash
@@ -50,6 +54,7 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
     props,
     componentContext,
     route,
+    walletStore,
     graphqlClientHash,
     formClerkHash,
     fetcherHash,
@@ -62,6 +67,7 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
         props,
         componentContext,
         route,
+        walletStore,
         graphqlClientHash,
         formClerkHash,
         fetcherHash,
@@ -100,6 +106,26 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
   }
 
   /**
+   * get: sourceAddress
+   *
+   * @returns {string | null}
+   */
+  get sourceAddress () {
+    return this.walletStore.sourceAddressComputed
+      .value
+  }
+
+  /**
+   * get: localAddress
+   *
+   * @returns {string | null}
+   */
+  get localAddress () {
+    return this.walletStore.localAddressComputed
+      .value
+  }
+
+  /**
    * Update username.
    *
    * @param {{
@@ -132,6 +158,16 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
       .fetchAddressProfileOnEvent({
         valueHash: {
           address,
+        },
+        onSuccessCallback: ({
+          capsule,
+        }) => {
+          ChannelService.updateUser({
+            profile: {
+              address: this.sourceAddress,
+              name: capsule.name,
+            },
+          })
         },
       })
   }
@@ -222,6 +258,7 @@ export default class ProfileDetailsPageMutationContext extends BaseAppContext {
 /**
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<{}> & {
  *   route: ReturnType<import('vue-router').useRoute>
+ *   walletStore: import('~/stores/wallet').WalletStore
  *   graphqlClientHash: Record<GraphqlClientHashKeys, GraphqlClient>
  *   formClerkHash: Record<FormClerkHashKeys, FormClerk>
  *   fetcherHash: {

@@ -186,11 +186,7 @@ export default defineComponent({
             </AppTimeline>
           </div>
 
-          <Icon
-            class="connector schedule"
-            name="heroicons:chevron-down"
-            size="2rem"
-          />
+          <div class="connector" />
         </template>
       </div>
     </div>
@@ -247,7 +243,7 @@ export default defineComponent({
 }
 
 .unit-host > .wallet > .connector {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   inline-size: 0.1875rem;
   block-size: 0.1875rem;
@@ -432,7 +428,7 @@ export default defineComponent({
   row-gap: 1.5rem;
   column-gap: 1rem;
 
-  @media (60rem < width) {
+  @media (60rem <= width) {
     grid-template-columns: repeat(3, 1fr auto);
   }
 }
@@ -461,16 +457,33 @@ export default defineComponent({
   color: var(--color-text-tertiary);
 }
 
-.connector.schedule {
-  color: var(--color-text-tertiary);
+.unit-schedules > .connector {
+  --color-border-connector: var(--palette-layer-4);
+
   align-self: center;
 
-  @media (60rem < width) {
-    rotate: -90deg;
+  border-radius: var(--size-radius-rounded);
+
+  border-block-end-color: var(--color-border-connector);
+  border-block-end-style: solid;
+  border-block-end-width: calc(var(--size-thinnest) * 1.5);
+
+  width: 3.75rem;
+
+  @media (60rem <= width) {
+    border-width: 0;
+    border-radius: var(--size-radius-rounded);
+
+    border-inline-end-color: var(--color-border-connector);
+    border-inline-end-style: solid;
+    border-inline-end-width: calc(var(--size-thinnest) * 1.5);
+
+    width: 0;
+    height: 3.75rem;
   }
 }
 
-.connector.schedule:last-of-type {
+.unit-schedules > .connector:last-of-type {
   display: none;
 }
 

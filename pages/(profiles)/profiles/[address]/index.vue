@@ -25,6 +25,7 @@ import {
 } from '@openreachtech/furo-nuxt'
 
 import useToastStore from '~/stores/toast'
+import useWalletStore from '~/stores/wallet'
 import useAppFormClerk from '~/composables/useAppFormClerk'
 
 import AddressCurrentCompetitionQueryGraphqlLauncher from '~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlLauncher'
@@ -69,6 +70,7 @@ export default defineComponent({
     const router = useRouter()
 
     const toastStore = useToastStore()
+    const walletStore = useWalletStore()
 
     const addressCurrentCompetitionGraphqlClient = useGraphqlClient(AddressCurrentCompetitionQueryGraphqlLauncher)
     const addressNameGraphqlClient = useGraphqlClient(AddressNameQueryGraphqlLauncher)
@@ -146,6 +148,7 @@ export default defineComponent({
       props,
       componentContext,
       route,
+      walletStore,
       graphqlClientHash: {
         putAddressName: putAddressNameGraphqlClient,
       },

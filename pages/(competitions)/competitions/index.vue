@@ -164,6 +164,7 @@ export default defineComponent({
 
   display: grid;
   grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
   justify-content: center;
   gap: 2rem;
 

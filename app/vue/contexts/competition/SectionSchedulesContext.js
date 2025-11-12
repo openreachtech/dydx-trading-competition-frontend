@@ -1,6 +1,7 @@
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import {
+  SCHEDULE_CATEGORY,
   SCHEDULE_ID_GROUP,
 } from '~/app/constants'
 
@@ -24,6 +25,15 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Create a Date instance of current time.
+   *
+   * @returns {Date}
+   */
+  createCurrentDatetime () {
+    return new Date()
+  }
+
+  /**
    * Generate schedule groups.
    *
    * @returns {ScheduleGroups} Schedule groups.
@@ -34,7 +44,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
 
     return [
       {
-        title: 'Competition Stage',
+        title: 'Competition Period',
         timeline: this.extractTimeline({
           schedules: competitionSchedules,
         }),
@@ -86,6 +96,77 @@ export default class SectionSchedulesContext extends BaseAppContext {
   }
 
   /**
+   * Generate late registration end label.
+   *
+   * @returns {string}
+   */
+  generateLateRegistrationEndLabel () {
+    if (this.hasRegistrationPeriodEnded()) {
+      return 'Registration period has ended on'
+    }
+
+    return 'Registration period will end on'
+  }
+
+  /**
+   * Generate late registration end date timestamp.
+   *
+   * @returns {string}
+   */
+  generateLateRegistrationEndTimestamp () {
+    const normalizedTimestamp = this.normalizeTimestamp({
+      timestamp: this.extractLateRegistrationEndDateString(),
+    })
+
+    if (this.hasRegistrationPeriodEnded()) {
+      return `${normalizedTimestamp} ⏱️`
+    }
+
+    return normalizedTimestamp
+  }
+
+  /**
+   * Check if the registration period has ended.
+   *
+   * @returns {boolean}
+   */
+  hasRegistrationPeriodEnded () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    if (!dateString) {
+      return true
+    }
+
+    const now = this.createCurrentDatetime()
+    const registrationEndDate = new Date(dateString)
+
+    return now > registrationEndDate
+  }
+
+  /**
+   * Check if late registration end date is missing.
+   *
+   * @returns {boolean}
+   */
+  isLateRegistrationEndDateMissing () {
+    const dateString = this.extractLateRegistrationEndDateString()
+
+    return !dateString
+  }
+
+  /**
+   * Extract late registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractLateRegistrationEndDateString () {
+    return this.schedules
+      .find(it => it.category.categoryId === SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
    * Check if the schedule is active.
    *
    * @param {{
@@ -107,7 +188,7 @@ export default class SectionSchedulesContext extends BaseAppContext {
    * Normalize timestamp.
    *
    * @param {{
-   *   timestamp: string
+   *   timestamp: string | null
    * }} params - Parameters.
    * @returns {string} Normalized timestamp.
    */

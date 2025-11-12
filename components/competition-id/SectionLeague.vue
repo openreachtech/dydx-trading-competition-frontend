@@ -12,14 +12,14 @@ import {
 } from '#components'
 
 import AppBadge from '~/components/units/AppBadge.vue'
-import AppIconBadge from '~/components/badges/AppIconBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
-import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
 import AppMarkdownViewer from '~/components/units/AppMarkdownViewer.vue'
 import AppSelect from '~/components/units/AppSelect.vue'
+import CompetitionStatusBadge from '~/components/molecules/CompetitionStatusBadge.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import OnboardingDialogs from '~/components/dialogs/OnboardingDialogs.vue'
+import RelativeRegistrationPeriodCaption from '~/components/molecules/RelativeRegistrationPeriodCaption.vue'
 
 import useWalletStore from '~/stores/wallet'
 
@@ -36,14 +36,14 @@ export default defineComponent({
     Icon,
     NuxtLink,
     AppBadge,
-    AppIconBadge,
     AppButton,
-    AppLeagueCountdown,
     AppMarkdownViewer,
     AppSelect,
+    CompetitionStatusBadge,
     CopyButton,
     LinkTooltipButton,
     OnboardingDialogs,
+    RelativeRegistrationPeriodCaption,
   },
 
   props: {
@@ -218,18 +218,13 @@ export default defineComponent({
           </AppSelect>
         </div>
 
-        <AppLeagueCountdown
+        <RelativeRegistrationPeriodCaption
           class="note"
           :schedules="context.schedules"
         />
 
         <div class="unit-status">
-          <AppIconBadge
-            :severity="context.generateBadgeSeverity()"
-            :icon-name="context.generateBadgeIconName()"
-          >
-            {{ context.generateBadgeDescription() }}
-          </AppIconBadge>
+          <CompetitionStatusBadge :status-id="context.competitionStatusId" />
 
           <AppBadge
             severity="neutral"
@@ -739,6 +734,8 @@ export default defineComponent({
   align-items: center;
   flex-wrap: wrap;
   gap: 1.125rem;
+
+  margin-block-start: 1.5rem;
 }
 
 .unit-status > .badge.host {
@@ -777,7 +774,7 @@ export default defineComponent({
 .unit-status > .timeline > .period > .connector {
   margin-inline-end: 0.25rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   width: 0.75rem;
   height: 0.1rem;
@@ -917,7 +914,7 @@ export default defineComponent({
 }
 
 .unit-details > .note {
-  margin-block: 0.75rem 1.5rem;
+  margin-block-start: 0.75rem;
 }
 
 .unit-dynamic-prize {
@@ -1097,7 +1094,7 @@ export default defineComponent({
     + var(--font-size-mini)
   );
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   width: 100%;
   height: 0.375rem;
@@ -1175,7 +1172,7 @@ export default defineComponent({
   align-items: center;
 
   border-color: var(--color-border-total-prize);
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
   border-style: solid;
   border-width: 0.125rem;
 
@@ -1214,7 +1211,7 @@ export default defineComponent({
 }
 
 .unit-milestone > .connector {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   width: 0.125rem;
   height: 0.5rem;
@@ -1295,6 +1292,8 @@ export default defineComponent({
 
   width: 2.25rem;
   height: 2.25rem;
+
+  object-fit: cover;
 
   background-color: var(--color-background-card);
 }
@@ -1418,7 +1417,7 @@ export default defineComponent({
 .unit-statistics > .entry > .details.host > .wallet > .connector {
   margin-inline: 0.5rem 0.25rem;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   width: 0.1875rem;
   height: 0.1875rem;

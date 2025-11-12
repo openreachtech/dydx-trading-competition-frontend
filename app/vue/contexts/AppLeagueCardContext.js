@@ -35,6 +35,16 @@ export default class AppLeagueCardContext extends BaseAppContext {
   }
 
   /**
+   * get: competitionStatusId
+   *
+   * @returns {number | null}
+   */
+  get competitionStatusId () {
+    return this.competitionStatus?.statusId
+      ?? null
+  }
+
+  /**
    * get: title
    *
    * @returns {CompetitionEntity['title'] | null}

@@ -196,7 +196,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
 
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   padding: 0.5rem;
 }
@@ -239,7 +239,7 @@ export default defineComponent({
 }
 
 .unit-hash > .hash > .button {
-  border-radius: 100vh;
+  border-radius: var(--size-radius-rounded);
 
   display: inline-flex;
   justify-content: center;

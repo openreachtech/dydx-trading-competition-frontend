@@ -550,14 +550,14 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
-   * Check if ROI is negative.
+   * Check if a number is positive.
    *
    * @param {{
    *   value: number | null
    * }} params - Parameters.
    * @returns {boolean}
    */
-  isPositiveRoi ({
+  isPositiveNumber ({
     value,
   }) {
     if (value === null) {
@@ -568,14 +568,14 @@ export default class SectionLeaderboardContext extends BaseAppContext {
   }
 
   /**
-   * Check if ROI is negative.
+   * Check if a number is negative.
    *
    * @param {{
    *   value: number | null
    * }} params - Parameters.
    * @returns {boolean}
    */
-  isNegativeRoi ({
+  isNegativeNumber ({
     value,
   }) {
     if (value === null) {

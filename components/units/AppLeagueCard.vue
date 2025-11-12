@@ -9,15 +9,15 @@ import {
 } from '#components'
 
 import AppLeagueCardContext from '~/app/vue/contexts/AppLeagueCardContext'
-import AppIconBadge from '~/components/badges/AppIconBadge.vue'
-import AppLeagueCountdown from '~/components/units/AppLeagueCountdown.vue'
+import CompetitionStatusBadge from '~/components/molecules/CompetitionStatusBadge.vue'
+import RelativeRegistrationPeriodCaption from '~/components/molecules/RelativeRegistrationPeriodCaption.vue'
 
 export default defineComponent({
   components: {
     Icon,
     NuxtLink,
-    AppLeagueCountdown,
-    AppIconBadge,
+    CompetitionStatusBadge,
+    RelativeRegistrationPeriodCaption,
   },
 
   props: {
@@ -63,17 +63,19 @@ export default defineComponent({
 
         <div class="unit-status">
           <div>
-            <AppIconBadge
-              :severity="context.generateBadgeSeverity()"
-              :icon-name="context.generateBadgeIconName()"
-            >
-              {{ context.generateBadgeDescription() }}
-            </AppIconBadge>
+            <CompetitionStatusBadge :status-id="context.competitionStatusId" />
 
             <!-- TODO: Another badge here? -->
           </div>
 
-          <AppLeagueCountdown :schedules="context.schedules" />
+          <RelativeRegistrationPeriodCaption :schedules="context.schedules">
+            <template #startIcon>
+              <Icon
+                name="heroicons:clock"
+                size="0.88rem"
+              />
+            </template>
+          </RelativeRegistrationPeriodCaption>
         </div>
       </div>
 
@@ -221,6 +223,8 @@ export default defineComponent({
   height: 3.25rem;
 
   background-color: var(--color-background-card);
+
+  object-fit: cover;
 
   overflow: hidden;
 }
