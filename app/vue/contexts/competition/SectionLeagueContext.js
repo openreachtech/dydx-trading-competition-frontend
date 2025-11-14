@@ -512,6 +512,15 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * Create a Date instance of current time.
+   *
+   * @returns {Date}
+   */
+  createCurrentDatetime () {
+    return new Date()
+  }
+
+  /**
    * Generate available prize categories.
    *
    * @returns {Array<{
@@ -1370,7 +1379,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     startDateId,
     endDateId,
   }) {
-    const now = new Date()
+    const now = this.createCurrentDatetime()
     const start = this.extractScheduleById({
       id: startDateId,
     })
