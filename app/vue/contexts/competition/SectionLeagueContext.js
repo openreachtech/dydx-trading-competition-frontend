@@ -1172,12 +1172,12 @@ export default class SectionLeagueContext extends BaseAppContext {
         result: ENROLLMENT_STATUS.ENROLLED,
       },
       {
-        checker: () => this.isCompetitionFull,
-        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
-      },
-      {
         checker: () => this.hasRegistrationEnded(),
         result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED,
+      },
+      {
+        checker: () => this.isCompetitionFull,
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
       },
     ]
   }
