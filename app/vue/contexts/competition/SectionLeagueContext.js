@@ -1243,6 +1243,66 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * Extract available registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractAvailableRegistrationEndDate () {
+    const lateRegistrationDate = this.extractLateRegistrationEndDate()
+
+    if (!lateRegistrationDate) {
+      return this.extractRegistrationEndDate()
+    }
+
+    return lateRegistrationDate
+  }
+
+  /**
+   * Extract registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractRegistrationEndDate () {
+    return this.extractScheduleByCategoryId({
+      categoryId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract late registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractLateRegistrationEndDate () {
+    return this.extractScheduleByCategoryId({
+      categoryId: SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract schedule timestamp based on category id.
+   *
+   * @param {{
+   *   categoryId: number
+   * }} params - Parameters.
+   * @returns {Date | null}
+   */
+  extractScheduleByCategoryId ({
+    categoryId,
+  }) {
+    const dateString = this.schedules
+      .find(it => it.category.categoryId === categoryId)
+      ?.scheduledDatetime
+      ?? null
+
+    if (!dateString) {
+      return null
+    }
+
+    return new Date(dateString)
+  }
+
+  /**
    * Process primary action of enroll button.
    *
    * @returns {void}
