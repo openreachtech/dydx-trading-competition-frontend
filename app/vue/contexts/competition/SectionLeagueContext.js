@@ -24,6 +24,7 @@ const ENROLLMENT_STATUS = {
   COMPETING: 'competing',
   NOT_REGISTERED: 'notEnrolled',
   NOT_REGISTERED_BUT_FULL: 'notEnrolledButFull',
+  NOT_REGISTERED_BUT_ENDED: 'notEnrolledButEnded',
 }
 
 const ENROLLMENT_ACTION_TEXT = {
@@ -32,6 +33,7 @@ const ENROLLMENT_ACTION_TEXT = {
   [ENROLLMENT_STATUS.COMPETING]: 'You have enrolled',
   [ENROLLMENT_STATUS.NOT_REGISTERED]: 'Register now',
   [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'Max participants reached',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED]: 'Registration ended',
   DEFAULT: 'Register now',
 }
 
@@ -509,6 +511,15 @@ export default class SectionLeagueContext extends BaseAppContext {
       currentTradingVolume,
       maximumPrizeAmount,
     }))
+  }
+
+  /**
+   * Create a Date instance of current time.
+   *
+   * @returns {Date}
+   */
+  createCurrentDatetime () {
+    return new Date()
   }
 
   /**
@@ -1100,6 +1111,7 @@ export default class SectionLeagueContext extends BaseAppContext {
       ENROLLMENT_STATUS.AWAITING_DEPOSIT,
       ENROLLMENT_STATUS.ENROLLED,
       ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+      ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED,
       ENROLLMENT_STATUS.COMPETING,
     ]
       .includes(enrollmentStatus)
@@ -1159,6 +1171,10 @@ export default class SectionLeagueContext extends BaseAppContext {
       {
         checker: () => this.hasEnrolled(),
         result: ENROLLMENT_STATUS.ENROLLED,
+      },
+      {
+        checker: () => this.hasRegistrationEnded(),
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED,
       },
       {
         checker: () => this.isCompetitionFull,
@@ -1231,6 +1247,83 @@ export default class SectionLeagueContext extends BaseAppContext {
       COMPETITION_STATUS.CANCELED.ID,
     ]
       .includes(this.competitionStatusId)
+  }
+
+  /**
+   * Check if registration period has ended.
+   *
+   * @returns {boolean}
+   */
+  hasRegistrationEnded () {
+    const endDate = this.extractAvailableRegistrationEndDate()
+
+    if (!endDate) {
+      return false
+    }
+
+    const now = this.createCurrentDatetime()
+
+    return now > endDate
+  }
+
+  /**
+   * Extract available registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractAvailableRegistrationEndDate () {
+    const lateRegistrationDate = this.extractLateRegistrationEndDate()
+
+    if (!lateRegistrationDate) {
+      return this.extractRegistrationEndDate()
+    }
+
+    return lateRegistrationDate
+  }
+
+  /**
+   * Extract registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractRegistrationEndDate () {
+    return this.extractScheduleByCategoryId({
+      categoryId: SCHEDULE_CATEGORY.REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract late registration end date.
+   *
+   * @returns {Date | null}
+   */
+  extractLateRegistrationEndDate () {
+    return this.extractScheduleByCategoryId({
+      categoryId: SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID,
+    })
+  }
+
+  /**
+   * Extract schedule timestamp based on category id.
+   *
+   * @param {{
+   *   categoryId: number
+   * }} params - Parameters.
+   * @returns {Date | null}
+   */
+  extractScheduleByCategoryId ({
+    categoryId,
+  }) {
+    const dateString = this.schedules
+      .find(it => it.category.categoryId === categoryId)
+      ?.scheduledDatetime
+      ?? null
+
+    if (!dateString) {
+      return null
+    }
+
+    return new Date(dateString)
   }
 
   /**
@@ -1370,7 +1463,7 @@ export default class SectionLeagueContext extends BaseAppContext {
     startDateId,
     endDateId,
   }) {
-    const now = new Date()
+    const now = this.createCurrentDatetime()
     const start = this.extractScheduleById({
       id: startDateId,
     })
