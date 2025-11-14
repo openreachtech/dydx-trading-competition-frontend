@@ -33,6 +33,7 @@ const ENROLLMENT_ACTION_TEXT = {
   [ENROLLMENT_STATUS.COMPETING]: 'You have enrolled',
   [ENROLLMENT_STATUS.NOT_REGISTERED]: 'Register now',
   [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL]: 'Max participants reached',
+  [ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED]: 'Registration ended',
   DEFAULT: 'Register now',
 }
 
