@@ -24,6 +24,7 @@ const ENROLLMENT_STATUS = {
   COMPETING: 'competing',
   NOT_REGISTERED: 'notEnrolled',
   NOT_REGISTERED_BUT_FULL: 'notEnrolledButFull',
+  NOT_REGISTERED_BUT_ENDED: 'notEnrolledButEnded',
 }
 
 const ENROLLMENT_ACTION_TEXT = {
@@ -1109,6 +1110,7 @@ export default class SectionLeagueContext extends BaseAppContext {
       ENROLLMENT_STATUS.AWAITING_DEPOSIT,
       ENROLLMENT_STATUS.ENROLLED,
       ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+      ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED,
       ENROLLMENT_STATUS.COMPETING,
     ]
       .includes(enrollmentStatus)
@@ -1172,6 +1174,10 @@ export default class SectionLeagueContext extends BaseAppContext {
       {
         checker: () => this.isCompetitionFull,
         result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_FULL,
+      },
+      {
+        checker: () => this.hasRegistrationEnded(),
+        result: ENROLLMENT_STATUS.NOT_REGISTERED_BUT_ENDED,
       },
     ]
   }
@@ -1240,6 +1246,23 @@ export default class SectionLeagueContext extends BaseAppContext {
       COMPETITION_STATUS.CANCELED.ID,
     ]
       .includes(this.competitionStatusId)
+  }
+
+  /**
+   * Check if registration period has ended.
+   *
+   * @returns {boolean}
+   */
+  hasRegistrationEnded () {
+    const endDate = this.extractAvailableRegistrationEndDate()
+
+    if (!endDate) {
+      return false
+    }
+
+    const now = this.createCurrentDatetime()
+
+    return now > endDate
   }
 
   /**
