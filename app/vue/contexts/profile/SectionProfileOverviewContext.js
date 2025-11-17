@@ -493,7 +493,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
       },
       {
         checker: () => this.isParticipantAwaitingDeposit(),
-        result: 'Waiting Deposit',
+        result: 'Finalizing Your Entry...',
       },
     ]
   }
