@@ -270,9 +270,11 @@ export default defineComponent({
               >
                 <template #contents>
                   <AppButton
+                    type="button"
                     appearance="text"
                     class="unit-button status-badge"
                     :disabled="!context.isParticipantAwaitingDeposit()"
+                    @click="context.showParticipantStatusNoteDialog()"
                   >
                     <AppBadge
                       :severity="context.generateParticipantStatusBadgeSeverity()"

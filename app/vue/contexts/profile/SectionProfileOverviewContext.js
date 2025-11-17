@@ -77,6 +77,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
       DISCONNECT_X_ACCOUNT: 'disconnectXAccount',
       SHOW_PROFILE_RENAME_DIALOG: 'showProfileRenameDialog',
       UPLOAD_IMAGE: 'uploadImage',
+      SHOW_PARTICIPANT_STATUS_NOTE_DIALOG: 'showParticipantStatusNoteDialog',
     }
   }
 
@@ -548,6 +549,17 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
    */
   showProfileRenameDialog () {
     this.emit(this.EMIT_EVENT_NAME.SHOW_PROFILE_RENAME_DIALOG)
+  }
+
+  /**
+   * Show `participantStatusNoteDialog`.
+   *
+   * @returns {void}
+   */
+  showParticipantStatusNoteDialog () {
+    this.emit(
+      this.EMIT_EVENT_NAME.SHOW_PARTICIPANT_STATUS_NOTE_DIALOG
+    )
   }
 
   /**
