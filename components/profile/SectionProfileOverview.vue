@@ -256,7 +256,7 @@ export default defineComponent({
                 {{ context.generateCompetitionTitle() }}
               </NuxtLink>
               <AppBadge
-                severity="neutral"
+                :severity="context.generateParticipantStatusBadgeSeverity()"
                 class="status"
                 :class="{
                   registered: context.isParticipantRegistered(),
@@ -618,8 +618,6 @@ export default defineComponent({
 }
 
 .unit-current-arena > .statistics > .participation > .title > .status {
-  --color-text-badge: var(--color-text-secondary);
-
   border-radius: 0.25rem;
 
   padding-block: var(--size-thinnest);
@@ -631,12 +629,6 @@ export default defineComponent({
   font-weight: 500;
 
   line-height: var(--size-line-height-small);
-
-  color: var(--color-text-badge);
-}
-
-.unit-current-arena > .statistics > .participation > .title > .status.awaiting-deposit {
-  --color-text-badge: var(--palette-yellow);
 }
 
 .unit-current-arena > .statistics > .participation > .image {

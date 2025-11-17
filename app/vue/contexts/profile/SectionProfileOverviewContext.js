@@ -458,6 +458,47 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
   }
 
   /**
+   * Generate severity of participant status badge.
+   *
+   * @returns {'neutral' | 'info' | 'success'}
+   */
+  generateParticipantStatusBadgeSeverity () {
+    const cases = this.generateParticipantStatusBadgeSeverityCases()
+    const matchedCase = cases.find(it => it.checker())
+
+    if (!matchedCase) {
+      return 'neutral'
+    }
+
+    return matchedCase.result
+  }
+
+  /**
+   * Generate cases for participant status badge severity.
+   *
+   * @returns {Array<{
+   *   checker: () => boolean
+   *   result: 'neutral' | 'info' | 'success'
+   * }>}
+   */
+  generateParticipantStatusBadgeSeverityCases () {
+    return [
+      {
+        checker: () => this.isParticipantRegistered(),
+        result: 'neutral',
+      },
+      {
+        checker: () => this.isParticipantActive(),
+        result: 'success',
+      },
+      {
+        checker: () => this.isParticipantAwaitingDeposit(),
+        result: 'info',
+      },
+    ]
+  }
+
+  /**
    * Generate participant status badge text.
    *
    * @returns {string}
