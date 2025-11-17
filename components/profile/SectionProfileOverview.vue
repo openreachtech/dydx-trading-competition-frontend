@@ -1,6 +1,7 @@
 <script>
 import {
   defineComponent,
+  ref,
 } from 'vue'
 
 import {
@@ -14,6 +15,7 @@ import {
 
 import AppBadge from '~/components/units/AppBadge.vue'
 import AppButton from '~/components/units/AppButton.vue'
+import AppTooltip from '~/components/units/AppTooltip.vue'
 import CopyButton from '~/components/buttons/CopyButton.vue'
 import LinkTooltipButton from '~/components/buttons/LinkTooltipButton.vue'
 import ProfileAvatar from '~/components/units/ProfileAvatar.vue'
@@ -28,6 +30,7 @@ export default defineComponent({
     NuxtLink,
     AppBadge,
     AppButton,
+    AppTooltip,
     CopyButton,
     LinkTooltipButton,
     ProfileAvatar,
@@ -90,11 +93,14 @@ export default defineComponent({
     const route = useRoute()
     const walletStore = useWalletStore()
 
+    const showsParticipantStatusNoteRef = ref(false)
+
     const args = {
       props,
       componentContext,
       route,
       walletStore,
+      showsParticipantStatusNoteRef,
     }
     const context = SectionProfileOverviewContext.create(args)
       .setupComponent()
@@ -255,23 +261,39 @@ export default defineComponent({
               >
                 {{ context.generateCompetitionTitle() }}
               </NuxtLink>
-              <AppBadge
-                :severity="context.generateParticipantStatusBadgeSeverity()"
-                class="status"
-                :class="{
-                  registered: context.isParticipantRegistered(),
-                  active: context.isParticipantActive(),
-                  'awaiting-deposit': context.isParticipantAwaitingDeposit(),
-                }"
+              <AppTooltip
+                message="Entry finalizing. You will be active in under 5 minutes."
+                position="bottom"
+                :is-hidden-on-hover="!context.isParticipantAwaitingDeposit()"
+                :is-active="context.showsParticipantStatusNote"
+                @mouseleave="context.onStatusTooltipHover()"
               >
-                <Icon
-                  name="heroicons:user"
-                  size="0.875rem"
-                />
-                <span>
-                  {{ context.generateParticipantStatusBadgeText() }}
-                </span>
-              </AppBadge>
+                <template #contents>
+                  <AppButton
+                    appearance="text"
+                    class="unit-button status-badge"
+                    :disabled="!context.isParticipantAwaitingDeposit()"
+                  >
+                    <AppBadge
+                      :severity="context.generateParticipantStatusBadgeSeverity()"
+                      class="status"
+                      :class="{
+                        registered: context.isParticipantRegistered(),
+                        active: context.isParticipantActive(),
+                        'awaiting-deposit': context.isParticipantAwaitingDeposit(),
+                      }"
+                    >
+                      <Icon
+                        name="heroicons:user"
+                        size="0.875rem"
+                      />
+                      <span>
+                        {{ context.generateParticipantStatusBadgeText() }}
+                      </span>
+                    </AppBadge>
+                  </AppButton>
+                </template>
+              </AppTooltip>
             </span>
           </div>
 
@@ -617,7 +639,20 @@ export default defineComponent({
   color: var(--color-text-highlight-purple);
 }
 
-.unit-current-arena > .statistics > .participation > .title > .status {
+.unit-button.status-badge {
+  border-radius: 0.25rem;
+
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+.unit-button.status-badge:disabled {
+  filter: none;
+
+  cursor: default;
+}
+
+.unit-button.status-badge .status {
   border-radius: 0.25rem;
 
   padding-block: var(--size-thinnest);

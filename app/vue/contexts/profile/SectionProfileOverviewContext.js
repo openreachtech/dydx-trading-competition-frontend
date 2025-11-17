@@ -1,3 +1,7 @@
+import {
+  onUnmounted,
+} from 'vue'
+
 import BaseAppContext from '~/app/vue/contexts/BaseAppContext'
 
 import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
@@ -5,6 +9,8 @@ import FinancialMetricNormalizer from '~/app/FinancialMetricNormalizer'
 import {
   COMPETITION_PARTICIPANT_STATUS,
 } from '~/app/constants'
+
+const STATUS_NOTE_FIRST_VISIBLE_DURATION = 7000
 
 /**
  * SectionProfileOverviewContext
@@ -23,6 +29,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
     route,
     walletStore,
+    showsParticipantStatusNoteRef,
   }) {
     super({
       props,
@@ -31,6 +38,9 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
 
     this.route = route
     this.walletStore = walletStore
+    this.showsParticipantStatusNoteRef = showsParticipantStatusNoteRef
+
+    this.participantStatusNoteTimeout = null
   }
 
   /**
@@ -47,6 +57,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
     componentContext,
     route,
     walletStore,
+    showsParticipantStatusNoteRef,
   }) {
     return /** @type {InstanceType<T>} */ (
       new this({
@@ -54,6 +65,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
         componentContext,
         route,
         walletStore,
+        showsParticipantStatusNoteRef,
       })
     )
   }
@@ -255,6 +267,87 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
     return this.userInterfaceState
       ?.isUploadingAvatar
       ?? false
+  }
+
+  /**
+   * get: showsParticipantStatusNote
+   *
+   * @returns {boolean}
+   */
+  get showsParticipantStatusNote () {
+    return this.showsParticipantStatusNoteRef.value
+  }
+
+  /**
+   * Setup component.
+   *
+   * @template {X extends SectionProfileOverviewContext ? X : never} T, X
+   * @override
+   * @this {T}
+   */
+  setupComponent () {
+    this.watch(
+      () => this.competitionParticipantStatusId,
+      () => {
+        this.initializeParticipantStatusNoteTimeout()
+      },
+      {
+        immediate: true,
+      }
+    )
+
+    onUnmounted(() => {
+      this.clearParticipantStatusNoteTimeout()
+    })
+
+    return this
+  }
+
+  /**
+   * Initialize timeout of participant status note.
+   *
+   * @returns {void}
+   */
+  initializeParticipantStatusNoteTimeout () {
+    if (!this.isParticipantAwaitingDeposit()) {
+      return
+    }
+
+    if (this.participantStatusNoteTimeout !== null) {
+      return
+    }
+
+    this.showsParticipantStatusNoteRef.value = true
+
+    this.participantStatusNoteTimeout = setTimeout(() => {
+      this.showsParticipantStatusNoteRef.value = false
+    }, STATUS_NOTE_FIRST_VISIBLE_DURATION)
+  }
+
+  /**
+   * Clear timeout of participant status note.
+   *
+   * @returns {void}
+   */
+  clearParticipantStatusNoteTimeout () {
+    if (!this.participantStatusNoteTimeout) {
+      return
+    }
+
+    clearTimeout(this.participantStatusNoteTimeout)
+
+    this.participantStatusNoteTimeout = null
+  }
+
+  /**
+   * Handle event when hovering on status tooltip.
+   *
+   * @returns {void}
+   */
+  onStatusTooltipHover () {
+    this.showsParticipantStatusNoteRef.value = false
+
+    this.clearParticipantStatusNoteTimeout()
   }
 
   /**
@@ -659,6 +752,7 @@ export default class SectionProfileOverviewContext extends BaseAppContext {
  * @typedef {import('@openreachtech/furo-nuxt/lib/contexts/BaseFuroContext').BaseFuroContextParams<PropsType> & {
  *   walletStore: import('~/stores/wallet').WalletStore
  *   route: ReturnType<import('#imports').useRoute>
+ *   showsParticipantStatusNoteRef: import('vue').Ref<boolean>
  * }} SectionProfileOverviewContextParams
  */
 
