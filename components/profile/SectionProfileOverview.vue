@@ -627,6 +627,11 @@ export default defineComponent({
 
   gap: 0.375rem;
 
+  font-size: var(--font-size-small);
+  font-weight: 500;
+
+  line-height: var(--size-line-height-small);
+
   color: var(--color-text-badge);
 }
 
