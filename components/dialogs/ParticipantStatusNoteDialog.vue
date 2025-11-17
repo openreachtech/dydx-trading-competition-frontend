@@ -53,7 +53,7 @@ export default defineComponent({
         </span>
 
         <p class="description">
-          Entry finalizing. You will be active in under 5 minutes.
+          Entry finalizing. You will be active soon.
         </p>
 
         <AppButton
