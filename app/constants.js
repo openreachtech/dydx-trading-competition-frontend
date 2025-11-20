@@ -515,7 +515,6 @@ export const ERROR_CODE_HASH = {
     '203.Q013.001',
     '203.Q016.001',
     '203.Q018.001',
-    '203.Q020.001',
     '203.Q021.001',
   ],
   InvalidName: [
@@ -603,7 +602,6 @@ export const ERROR_CODE_HASH = {
     '204.Q011.002',
     '204.Q016.001',
     '204.Q018.001',
-    '204.Q020.001',
     '204.Q021.001',
   ],
   ParticipantLimitExceeded: '204.M002.002',
