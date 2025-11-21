@@ -1045,6 +1045,23 @@ export default class SectionLeagueContext extends BaseAppContext {
   }
 
   /**
+   * Check if we should hide registration caption.
+   *
+   * @returns {boolean}
+   */
+  shouldHideRegistrationCaption () {
+    if (this.competitionStatusId === null) {
+      return true
+    }
+
+    return [
+      COMPETITION_STATUS.CANCELED.ID,
+      COMPETITION_STATUS.COMPLETED.ID,
+    ]
+      .includes(this.competitionStatusId)
+  }
+
+  /**
    * Generate description expansion button label.
    *
    * @returns {string}
