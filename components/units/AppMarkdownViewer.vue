@@ -107,13 +107,16 @@ export default defineComponent({
 
 /* Links */
 .markdown a {
-  --color-text-link-hover: var(--palette-blue);
+  --color-text-link-hover: var(--palette-purple);
 
   text-decoration: none;
 
   color: inherit;
 
-  transition: color 250ms var(--transition-timing-base);
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+
+  transition: color 150ms var(--transition-timing-base);
 }
 
 .markdown a:hover {
