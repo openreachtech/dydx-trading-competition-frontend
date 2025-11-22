@@ -249,6 +249,8 @@ export default defineComponent({
   flex-direction: column;
   gap: 0.75rem;
 
+  min-width: 0;
+
   color: var(--color-text-tertiary);
 }
 
