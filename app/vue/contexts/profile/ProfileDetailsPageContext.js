@@ -41,6 +41,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     profileOrdersRef,
     profileTradesRef,
     errorMessageRef,
+    participantStatusNoteDialogShallowRef,
     statusReactive,
   }) {
     super({
@@ -56,6 +57,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     this.profileOrdersRef = profileOrdersRef
     this.profileTradesRef = profileTradesRef
     this.errorMessageRef = errorMessageRef
+    this.participantStatusNoteDialogShallowRef = participantStatusNoteDialogShallowRef
     this.statusReactive = statusReactive
   }
 
@@ -79,6 +81,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
     profileOrdersRef,
     profileTradesRef,
     errorMessageRef,
+    participantStatusNoteDialogShallowRef,
     statusReactive,
   }) {
     return /** @type {InstanceType<T>} */ (
@@ -93,6 +96,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
         profileOrdersRef,
         profileTradesRef,
         errorMessageRef,
+        participantStatusNoteDialogShallowRef,
         statusReactive,
       })
     )
@@ -781,6 +785,16 @@ export default class ProfileDetailsContext extends BaseAppContext {
   isParticipatingInArena () {
     return this.currentCompetitionId !== null
   }
+
+  /**
+   * Show participant status note dialog.
+   *
+   * @returns {void}
+   */
+  showParticipantStatusNoteDialog () {
+    this.participantStatusNoteDialogShallowRef.value
+      ?.showDialog()
+  }
 }
 
 /**
@@ -795,6 +809,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
  *   profileOrdersRef: import('vue').Ref<Array<ProfileOrder>>
  *   profileTradesRef: import('vue').Ref<Array<ProfileTradeFill>>
  *   errorMessageRef: import('vue').Ref<string | null>
+ *   participantStatusNoteDialogShallowRef: import('vue').ShallowRef<import('~/components/dialogs/ParticipantStatusNoteDialog.vue').default | null>
  *   statusReactive: StatusReactive
  * }} ProfileDetailsContextParams
  */

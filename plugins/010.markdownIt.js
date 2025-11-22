@@ -22,5 +22,7 @@ export default defineNuxtPlugin({
  * @returns {ReturnType<typeof markdownit>}
  */
 function createMarkdownItInstance () {
-  return markdownit()
+  return markdownit({
+    linkify: true,
+  })
 }

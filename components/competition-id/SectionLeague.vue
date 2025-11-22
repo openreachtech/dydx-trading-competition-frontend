@@ -220,6 +220,9 @@ export default defineComponent({
 
         <RelativeRegistrationPeriodCaption
           class="note"
+          :class="{
+            hidden: context.shouldHideRegistrationCaption(),
+          }"
           :schedules="context.schedules"
         />
 
@@ -915,6 +918,10 @@ export default defineComponent({
 
 .unit-details > .note {
   margin-block-start: 0.75rem;
+}
+
+.unit-details > .note.hidden {
+  display: none;
 }
 
 .unit-dynamic-prize {

@@ -3,6 +3,7 @@ import {
   defineComponent,
   reactive,
   ref,
+  shallowRef,
 } from 'vue'
 
 import {
@@ -13,6 +14,7 @@ import {
 import AppTabLayout from '~/components/units/AppTabLayout.vue'
 import SectionProfileOverview from '~/components/profile/SectionProfileOverview.vue'
 import SectionProfileFinancialMetrics from '~/components/profile/SectionProfileFinancialMetrics.vue'
+import ParticipantStatusNoteDialog from '~/components/dialogs/ParticipantStatusNoteDialog.vue'
 import ProfileRenameDialog from '~/components/dialogs/ProfileRenameDialog.vue'
 import ProfileTransferHistory from '~/components/profile/ProfileTransferHistory.vue'
 import ProfileLeagueHistory from '~/components/profile/ProfileLeagueHistory.vue'
@@ -54,6 +56,7 @@ export default defineComponent({
     AppTabLayout,
     SectionProfileOverview,
     SectionProfileFinancialMetrics,
+    ParticipantStatusNoteDialog,
     ProfileRenameDialog,
     ProfileTransferHistory,
     ProfileLeagueHistory,
@@ -89,6 +92,9 @@ export default defineComponent({
 
     /** @type {import('vue').Ref<import('~/components/units/AppDialog.vue').default | null>} */
     const profileRenameDialogRef = ref(null)
+    /** @type {import('vue').ShallowRef<import('~/components/dialogs/ParticipantStatusNoteDialog.vue').default | null>} */
+    const participantStatusNoteDialogShallowRef = shallowRef(null)
+
     /** @type {import('vue').Ref<string | null>} */
     const errorMessageRef = ref(null)
     /** @type {import('vue').Ref<string | null>} */
@@ -136,6 +142,7 @@ export default defineComponent({
         addressProfile: addressProfileFetcher,
       },
       profileOverviewRef,
+      participantStatusNoteDialogShallowRef,
       profileOrdersRef,
       profileTradesRef,
       errorMessageRef,
@@ -223,6 +230,7 @@ export default defineComponent({
       @show-profile-rename-dialog="mutationContext.showDialog({
         dialogElement: profileRenameDialogRef,
       })"
+      @show-participant-status-note-dialog="context.showParticipantStatusNoteDialog()"
       @connect-x-account="generateXaccountOauthUrlSubmitterContext.generateXaccountOauthUrlOnEvent()"
       @disconnect-x-account="revokeXaccountOauthSubmitterContext.revokeXaccountOauthOnEvent()"
     />
@@ -302,6 +310,8 @@ export default defineComponent({
         formElement: $event.formElement,
       })"
     />
+
+    <ParticipantStatusNoteDialog :ref="context.participantStatusNoteDialogShallowRef" />
   </div>
 </template>
 
