@@ -259,6 +259,8 @@ export default defineComponent({
   font-weight: 400;
 
   min-height: calc(var(--font-size-small) * var(--value-golden-ratio) * var(--max-line-count));
+
+  overflow-wrap: anywhere;
 }
 
 /* If line-clamp is supported, use it. Otherwise, min-height is still two lines, which is not ideal but not ugly. */
