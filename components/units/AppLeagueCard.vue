@@ -310,6 +310,10 @@ export default defineComponent({
 .unit-contents > .footer > .prize {
   font-size: var(--font-size-large);
   font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .unit-participants {
