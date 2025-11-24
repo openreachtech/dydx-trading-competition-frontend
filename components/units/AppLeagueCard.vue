@@ -301,8 +301,8 @@ export default defineComponent({
   padding-block: 0.75rem;
   padding-inline: 1.25rem;
 
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 0.5rem;
 }
@@ -310,6 +310,10 @@ export default defineComponent({
 .unit-contents > .footer > .prize {
   font-size: var(--font-size-large);
   font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .unit-participants {
