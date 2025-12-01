@@ -164,6 +164,18 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   }
 
   /**
+   * Extract late registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractLateRegistrationEndDate () {
+    return this.schedules
+      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
    * Extract competition start date.
    *
    * @returns {string} Competition start date.
