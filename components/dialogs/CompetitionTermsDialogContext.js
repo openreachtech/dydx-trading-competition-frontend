@@ -132,6 +132,14 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
    * @returns {string}
    */
   normalizeRegistrationEndDate () {
+    const lateRegistrationEndDate = this.extractLateRegistrationEndDate()
+
+    if (lateRegistrationEndDate) {
+      return this.normalizeDate({
+        dateString: lateRegistrationEndDate,
+      })
+    }
+
     const registrationEndDate = this.extractRegistrationEndDate()
 
     return this.normalizeDate({
