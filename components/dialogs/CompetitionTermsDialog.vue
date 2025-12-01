@@ -109,9 +109,9 @@ export default defineComponent({
 
               <p class="content">
                 Registration period: <span class="highlight">
-                  {{ context.extractRegistrationStartDate() }}
+                  {{ context.normalizeRegistrationStartDate() }}
                 </span> to <span class="highlight">
-                  {{ context.extractRegistrationEndDate() }}
+                  {{ context.normalizeRegistrationEndDate() }}
                 </span>.
               </p>
             </li>
