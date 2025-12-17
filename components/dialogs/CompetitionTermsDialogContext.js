@@ -114,15 +114,12 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   }
 
   /**
-   * Extract registration start date.
+   * Normalize registration start date.
    *
-   * @returns {string} Registration start date.
+   * @returns {string}
    */
-  extractRegistrationStartDate () {
-    const registrationStartDate = this.schedules
-      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.REGISTRATION_START.ID)
-      ?.scheduledDatetime
-      ?? null
+  normalizeRegistrationStartDate () {
+    const registrationStartDate = this.extractRegistrationStartDate()
 
     return this.normalizeDate({
       dateString: registrationStartDate,
@@ -130,19 +127,60 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
   }
 
   /**
-   * Extract registration end date.
+   * Normalize registration end date.
    *
-   * @returns {string} Registration end date.
+   * @returns {string}
    */
-  extractRegistrationEndDate () {
-    const registrationEndDate = this.schedules
-      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.REGISTRATION_END.ID)
-      ?.scheduledDatetime
-      ?? null
+  normalizeRegistrationEndDate () {
+    const lateRegistrationEndDate = this.extractLateRegistrationEndDate()
+
+    if (lateRegistrationEndDate) {
+      return this.normalizeDate({
+        dateString: lateRegistrationEndDate,
+      })
+    }
+
+    const registrationEndDate = this.extractRegistrationEndDate()
 
     return this.normalizeDate({
       dateString: registrationEndDate,
     })
+  }
+
+  /**
+   * Extract registration start date.
+   *
+   * @returns {string | null} Registration start date.
+   */
+  extractRegistrationStartDate () {
+    return this.schedules
+      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.REGISTRATION_START.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Extract registration end date.
+   *
+   * @returns {string | null} Registration end date.
+   */
+  extractRegistrationEndDate () {
+    return this.schedules
+      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.REGISTRATION_END.ID)
+      ?.scheduledDatetime
+      ?? null
+  }
+
+  /**
+   * Extract late registration end date.
+   *
+   * @returns {string | null}
+   */
+  extractLateRegistrationEndDate () {
+    return this.schedules
+      .find(schedule => schedule.category.categoryId === SCHEDULE_CATEGORY.LATE_REGISTRATION_END.ID)
+      ?.scheduledDatetime
+      ?? null
   }
 
   /**
