@@ -164,7 +164,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseAppContext 
   /**
    * get: participants
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>}
+   * @returns {Array<schema.graphql.CompetitionParticipant>}
    */
   get participants () {
     return this.competitionParticipantsCapsule.participants
@@ -222,7 +222,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseAppContext 
   /**
    * Extract `competition.`
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null}
+   * @returns {schema.graphql.Competition | null}
    */
   extractCompetition () {
     return this.competitionCapsule.extractCompetition()
@@ -231,7 +231,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseAppContext 
   /**
    * get: status
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Status | null}
+   * @returns {schema.graphql.StatusPhase | null}
    */
   get status () {
     return this.extractCompetition()
@@ -416,7 +416,7 @@ export default class HostedCompetitionDetailsPageContext extends BaseAppContext 
   /**
    * get: competitionParticipantStatuses
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlCapsule').Status>}
+   * @returns {Array<schema.graphql.Status>}
    */
   get competitionParticipantStatuses () {
     return this.fetcherHash

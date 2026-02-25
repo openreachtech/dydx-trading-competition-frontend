@@ -186,7 +186,7 @@ export default class CompetitionEnrollmentDialogContext extends AppDialogContext
 
 /**
  * @typedef {{
- *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   competition: schema.graphql.Competition | null
  *   initialUsername: string | null
  *   validationMessage: furo.ValidatorHashType['message']
  *   errorMessageHash: import('vue').Reactive<

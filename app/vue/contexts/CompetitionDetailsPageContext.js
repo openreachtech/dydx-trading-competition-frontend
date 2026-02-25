@@ -1076,7 +1076,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Format metric leaderboard entry.
    *
    * @param {{
-   *   entry: import('~/app/graphql/client/queries/competitionTradingMetrics/CompetitionTradingMetricsQueryGraphqlCapsule').TradingMetric
+   *   entry: schema.graphql.CompetitionTradingMetric
    * }} params - Parameters.
    * @returns {MetricLeaderboardEntry}
    */
@@ -1273,7 +1273,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * Extract ongoing leaderboard's sort option from URL.
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   * @returns {schema.graphql.SortOption | null}
    */
   extractOngoingLeaderboardSortFromRoute () {
     const {
@@ -1615,9 +1615,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Format competition participant entry.
    *
    * @param {{
-   *   entry: import(
-   *     '~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule'
-   *   ).Participant
+   *   entry: schema.graphql.CompetitionParticipant
    * }} params - Parameters.
    * @returns {NormalizedCompetitionParticipantEntry}
    */
@@ -1636,12 +1634,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Normalize ongoing leaderboard entries.
    *
    * @param {{
-   *   rankings: import(
-   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
-   *   ).ResponseContent['competitionLeaderboard']['rankings']
-   *   myRanking: import(
-   *     '~/app/graphql/client/queries/competitionLeaderboard/CompetitionLeaderboardQueryGraphqlCapsule'
-   *   ).CompetitionRanking | null
+   *   rankings: Array<schema.graphql.CompetitionRanking>
+   *   myRanking: schema.graphql.CompetitionRanking | null
    * }} params - Parameters.
    * @returns {Array<NormalizedOngoingLeaderboardEntry>}
    */
@@ -1722,8 +1716,8 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Normalize leaderboard final outcome entries.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
-   *   myOutcome: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome | null
+   *   outcomes: Array<schema.graphql.CompetitionFinalOutcome>
+   *   myOutcome: schema.graphql.CompetitionFinalOutcome | null
    * }} params - Parameters.
    * @returns {Array<NormalizedLeaderboardFinalOutcomeEntry>}
    */
@@ -1780,7 +1774,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Format leaderboard final outcome entry.
    *
    * @param {{
-   *   entry: import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome
+   *   entry: schema.graphql.CompetitionFinalOutcome
    * }} params - Parameters.
    * @returns {NormalizedLeaderboardFinalOutcomeEntry}
    */
@@ -1919,7 +1913,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
    * Normalize top three in the final outcome.
    *
    * @param {{
-   *   outcomes: Array<import('~/app/graphql/client/queries/competitionFinalOutcome/CompetitionFinalOutcomeQueryGraphqlCapsule').Outcome>
+   *   outcomes: Array<schema.graphql.CompetitionFinalOutcome>
    * }} params - Parameters.
    * @returns {TopThreeLeaderboardEntries}
    */
@@ -2026,7 +2020,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: competition
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity}
+   * @returns {schema.graphql.Competition}
    */
   get competition () {
     return this.competitionCapsuleRef.value
@@ -2036,7 +2030,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: competitionHost
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host'] | null}
+   * @returns {schema.graphql.Competition['host'] | null}
    */
   get competitionHost () {
     return this.competition
@@ -2047,7 +2041,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: competitionHostAddress
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['address'] | null}
+   * @returns {schema.graphql.Competition['host']['address'] | null}
    */
   get competitionHostAddress () {
     return this.competitionHost
@@ -2058,7 +2052,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: competitionHostName
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['host']['name'] | null}
+   * @returns {schema.graphql.Competition['host']['name'] | null}
    */
   get competitionHostName () {
     return this.competitionHost
@@ -2132,7 +2126,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: defaultLeaderboardSortOption
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').SortOption | null}
+   * @returns {schema.graphql.SortOption | null}
    */
   get defaultLeaderboardSortOption () {
     return this.competitionCapsuleRef
@@ -2162,7 +2156,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: schedules
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['schedules']}
+   * @returns {schema.graphql.Competition['schedules']}
    */
   get schedules () {
     return this.competitionCapsuleRef.value
@@ -2172,7 +2166,7 @@ export default class CompetitionDetailsPageContext extends BaseAppContext {
   /**
    * get: prizeRules
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['prizeRules']}
+   * @returns {schema.graphql.Competition['prizeRules']}
    */
   get prizeRules () {
     return this.competitionCapsuleRef.value
