@@ -31,7 +31,7 @@ export default class CompetitionCurrentDynamicPrizeRuleQueryGraphqlCapsule exten
   /**
    * get: currentDynamicPrizeRule
    *
-   * @returns {Array<CompetitionDynamicPrizeRule>}
+   * @returns {Array<schema.graphql.CompetitionDynamicPrizeRule>}
    * @todo: Should be plural "rules", but keeping the same with Backend for now.
    */
   get currentDynamicPrizeRule () {
@@ -43,31 +43,6 @@ export default class CompetitionCurrentDynamicPrizeRuleQueryGraphqlCapsule exten
 
 /**
  * @typedef {{
- *   competitionCurrentDynamicPrizeRule: {
- *     currentTradingVolumeUsd: string
- *     currentDynamicPrizeRule: Array<CompetitionDynamicPrizeRule>
- *   }
+ *   competitionCurrentDynamicPrizeRule: schema.graphql.CompetitionCurrentDynamicPrizeRuleResult
  * }} CompetitionCurrentDynamicPrizeRuleQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   targetTradingVolumeUsd: string
- *   competitionPrizeCategory: {
- *     categoryId: number
- *     name: string
- *     description: string
- *   }
- *   rankFrom: number
- *   rankTo: number
- *   amount: string
- * }} CompetitionDynamicPrizeRule
- */
-
-/**
- * @typedef {{
- *   categoryId: number
- *   name: string
- *   description: string
- * }} CompetitionPrizeCategory
  */

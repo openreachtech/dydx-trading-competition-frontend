@@ -9,7 +9,7 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
   /**
    * Extract `competitionParticipants`.
    *
-   * @returns {CompetitionParticipants | null}
+   * @returns {schema.graphql.CompetitionParticipantsResult | null}
    */
   extractCompetitionParticipants () {
     return this.extractContent()
@@ -20,7 +20,7 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
   /**
    * get: myParticipation
    *
-   * @returns {Participant | null}
+   * @returns {schema.graphql.CompetitionParticipant | null}
    */
   get myParticipation () {
     return this.extractCompetitionParticipants()
@@ -31,7 +31,7 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
   /**
    * get: participants
    *
-   * @returns {Array<Participant>} List of participants
+   * @returns {Array<schema.graphql.CompetitionParticipant>} List of participants
    */
   get participants () {
     return this.extractCompetitionParticipants()
@@ -42,7 +42,7 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
   /**
    * get: pagination
    *
-   * @returns {Pagination | null} Pagination information
+   * @returns {schema.graphql.Pagination | null} Pagination information
    */
   get pagination () {
     return this.extractCompetitionParticipants()
@@ -86,46 +86,6 @@ export default class CompetitionParticipantsQueryGraphqlCapsule extends BaseAppG
 
 /**
  * @typedef {{
- *   competitionParticipants: CompetitionParticipants
+ *   competitionParticipants: schema.graphql.CompetitionParticipantsResult
  * }} ResponseContent
- */
-
-/**
- * @typedef {{
- *   myParticipation: Participant | null
- *   participants: Array<Participant>
- *   pagination: Pagination
- * }} CompetitionParticipants
- */
-
-/**
- * @typedef {{
- *   competitionParticipantId: number
- *   address: Address
- *   status: Status
- *   equity: number
- * }} Participant
- */
-
-/**
- * @typedef {{
- *   address: string
- *   name: string
- * }} Address
- */
-
-/**
- * @typedef {{
- *   statusId: number
- *   name: string
- *   phasedAt: string
- * }} Status
- */
-
-/**
- * @typedef {{
- *   totalCount: number
- *   limit: number
- *   offset: number
- * }} Pagination
  */

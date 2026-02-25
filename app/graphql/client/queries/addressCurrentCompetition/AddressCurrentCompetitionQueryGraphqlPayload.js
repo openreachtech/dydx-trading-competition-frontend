@@ -57,8 +57,6 @@ export default class AddressCurrentCompetitionQueryGraphqlPayload extends BaseAp
 
 /**
  * @typedef {{
- *   input: {
- *     address: string
- *   }
+ *   input: schema.graphql.AddressCurrentCompetitionInput
  * }} AddressCurrentCompetitionQueryRequestVariables
  */

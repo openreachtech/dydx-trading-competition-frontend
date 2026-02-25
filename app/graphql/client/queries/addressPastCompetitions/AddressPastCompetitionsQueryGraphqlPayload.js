@@ -58,16 +58,6 @@ export default class AddressPastCompetitionsQueryGraphqlPayload extends BaseAppG
 
 /**
  * @typedef {{
- *   input: {
- *     address: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.AddressPastCompetitionsInput
  * }} AddressPastCompetitionsQueryRequestVariables
  */

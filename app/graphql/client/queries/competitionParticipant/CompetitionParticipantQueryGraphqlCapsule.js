@@ -20,7 +20,7 @@ export default class CompetitionParticipantQueryGraphqlCapsule extends BaseAppGr
   /**
    * get: participant
    *
-   * @returns {Participant | null} Participant info
+   * @returns {schema.graphql.CompetitionParticipant | null} Participant info
    */
   get participant () {
     return this.extractCompetitionParticipantValueHash()
@@ -31,7 +31,7 @@ export default class CompetitionParticipantQueryGraphqlCapsule extends BaseAppGr
   /**
    * get: addressValueHash
    *
-   * @returns {Address | null} Participant address value hash
+   * @returns {schema.graphql.AddressSummary | null} Participant address value hash
    */
   get addressValueHash () {
     return this.participant
@@ -64,7 +64,7 @@ export default class CompetitionParticipantQueryGraphqlCapsule extends BaseAppGr
   /**
    * get: statusValueHash
    *
-   * @returns {StatusPhase | null} Participant status value hash
+   * @returns {schema.graphql.StatusPhase | null} Participant status value hash
    */
   get statusValueHash () {
     return this.participant
@@ -108,32 +108,6 @@ export default class CompetitionParticipantQueryGraphqlCapsule extends BaseAppGr
 
 /**
  * @typedef {{
- *   competitionParticipant: {
- *     participant: Participant
- *   }
+ *   competitionParticipant: schema.graphql.CompetitionParticipantResult
  * }} CompetitionParticipantQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   competitionParticipantId: number
- *   address: Address
- *   status: StatusPhase
- *   equity: number
- * }} Participant
- */
-
-/**
- * @typedef {{
- *   address: string
- *   name: string
- * }} Address
- */
-
-/**
- * @typedef {{
- *   statusId: number
- *   name: string
- *   phasedAt: string // ISO String
- * }} StatusPhase
  */

@@ -43,46 +43,6 @@ export default class AddressPastCompetitionsQueryGraphqlCapsule extends BaseAppG
 
 /**
  * @typedef {{
- *   addressPastCompetitions: {
- *     competitions: Array<{
- *       competition: {
- *         competitionId: number
- *         title: string
- *         description: string
- *         participantUpperLimit: number
- *         participantLowerLimit: number
- *         host: {
- *           address: string
- *           name?: string
- *         }
- *         totalPrize: string
- *         minimumDeposit: string
- *         imageUrl?: string
- *         schedules: Array<{
- *           category: {
- *             categoryId: string
- *             name: string
- *             description: string
- *           }
- *           scheduledDatetime: string
- *         }>
- *         status: {
- *           statusId: number
- *           name: string
- *           phasedAt: string // ISO String
- *         }
- *       }
- *       rank: number
- *       prize: string
- *       performanceBaseline: number
- *       roi: number
- *       pnl: number
- *     }>
- *     pagination: {
- *       totalCount: number
- *       limit: number
- *       offset: number
- *     }
- *   }
+ *   addressPastCompetitions: schema.graphql.AddressPastCompetitionsResult
  * }} AddressPastCompetitionsQueryResponseContent
  */

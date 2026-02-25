@@ -20,8 +20,6 @@ export default class CompetitionEnrolledParticipantsNumberQueryGraphqlPayload ex
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *   }
+ *   input: schema.graphql.CompetitionEnrolledParticipantsNumberInput
  * }} CompetitionEnrolledParticipantsNumberQueryRequestVariables
  */

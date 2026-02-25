@@ -20,7 +20,7 @@ export default class CompetitionParticipantStatusesQueryGraphqlCapsule extends B
   /**
    * get: statuses
    *
-   * @returns {Array<Status>}
+   * @returns {Array<schema.graphql.Status>}
    */
   get statuses () {
     return this.extractCompetitionParticipantStatuses()
@@ -31,16 +31,6 @@ export default class CompetitionParticipantStatusesQueryGraphqlCapsule extends B
 
 /**
  * @typedef {{
- *   competitionParticipantStatuses: {
- *     statuses: Array<Status>
- *   }
+ *   competitionParticipantStatuses: schema.graphql.CompetitionParticipantStatusesResult
  * }} ResponseContent
- */
-
-/**
- * @typedef {{
- *   description: string
- *   name: string
- *   statusId: number
- * }} Status
  */

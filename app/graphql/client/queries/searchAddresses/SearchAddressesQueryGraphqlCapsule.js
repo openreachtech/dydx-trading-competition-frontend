@@ -9,7 +9,7 @@ export default class SearchAddressesQueryGraphqlCapsule extends BaseAppGraphqlCa
   /**
    * Extract `searchAddresses`.
    *
-   * @returns {SearchAddresses | null}
+   * @returns {schema.graphql.SearchAddressesResult | null}
    */
   extractSearchAddresses () {
     return this.extractContent()
@@ -20,7 +20,7 @@ export default class SearchAddressesQueryGraphqlCapsule extends BaseAppGraphqlCa
   /**
    * get: addresses
    *
-   * @returns {Array<Address>}
+   * @returns {Array<schema.graphql.AddressSummary>}
    */
   get addresses () {
     return this.extractSearchAddresses()
@@ -31,7 +31,7 @@ export default class SearchAddressesQueryGraphqlCapsule extends BaseAppGraphqlCa
   /**
    * get: pagination
    *
-   * @returns {Pagination | null}
+   * @returns {schema.graphql.Pagination | null}
    */
   get pagination () {
     return this.extractSearchAddresses()
@@ -75,28 +75,6 @@ export default class SearchAddressesQueryGraphqlCapsule extends BaseAppGraphqlCa
 
 /**
  * @typedef {{
- *   searchAddresses: SearchAddresses
+ *   searchAddresses: schema.graphql.SearchAddressesResult
  * }} SearchAddressesQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   addresses: Array<Address>
- *   pagination: Pagination
- * }} SearchAddresses
- */
-
-/**
- * @typedef {{
- *   address: string
- *   name: string
- * }} Address
- */
-
-/**
- * @typedef {{
- *   totalCount: number
- *   limit: number
- *   offset: number
- * }} Pagination
  */

@@ -46,17 +46,6 @@ export default class CompetitionFinalOutcomeQueryGraphqlPayload extends BaseAppG
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     address?: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.CompetitionFinalOutcomeInput
  * }} CompetitionFinalOutcomeRequestVariables
  */

@@ -9,7 +9,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   /**
    * Extract addressCurrentCompetition value hash.
    *
-   * @returns {AddressCurrentCompetitionQueryResponseContent['addressCurrentCompetition'] | null}
+   * @returns {schema.graphql.AddressCurrentCompetitionResult | null}
    */
   extractAddressCurrentCompetitionValueHash () {
     const content = this.extractContent()
@@ -21,7 +21,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   /**
    * get: competition
    *
-   * @returns {Competition}
+   * @returns {schema.graphql.CompetitionSummary | null}
    */
   get competition () {
     return this.extractAddressCurrentCompetitionValueHash()
@@ -43,7 +43,7 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
   /**
    * get: ranking
    *
-   * @returns {Ranking}
+   * @returns {schema.graphql.CompetitionRanking | null}
    */
   get ranking () {
     return this.extractAddressCurrentCompetitionValueHash()
@@ -54,53 +54,6 @@ export default class AddressCurrentCompetitionQueryGraphqlCapsule extends BaseAp
 
 /**
  * @typedef {{
- *   addressCurrentCompetition: {
- *     competition?: Competition
- *     ranking?: Ranking
- *   }
+ *   addressCurrentCompetition: schema.graphql.AddressCurrentCompetitionResult
  * }} AddressCurrentCompetitionQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   competitionId: number
- *   title: string
- *   description: string
- *   participantUpperLimit: number
- *   participantLowerLimit: number
- *   host: {
- *     address: string
- *     name?: string
- *   }
- *   totalPrize: string
- *   minimumDeposit: string
- *   imageUrl?: string
- *   schedules: Array<{
- *     category: {
- *       categoryId: number
- *       name: string
- *       description: string
- *     }
- *     scheduledDatetime: string
- *   }>
- *   status: {
- *     statusId: number
- *     name: string
- *     phasedAt: string // ISO String
- *   }
- * } | null} Competition
- */
-
-/**
- * @typedef {{
- *   address: Array<{
- *     address: string
- *     name: string
- *   }>
- *   performanceBaseline: number
- *   ranking: number
- *   roi: number
- *   pnl: number
- *   calculatedAt: string // ISO String
- * } | null} Ranking
  */

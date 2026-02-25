@@ -9,7 +9,7 @@ export default class AddressProfileQueryGraphqlCapsule extends BaseAppGraphqlCap
   /**
    * Extract `addressProfile` response content as value hash.
    *
-   * @returns {AddressProfile | null} `addressProfile` value hash.
+   * @returns {schema.graphql.AddressProfileResult | null} `addressProfile` value hash.
    */
   extractAddressProfileValueHash () {
     return this.extractContent()
@@ -64,15 +64,6 @@ export default class AddressProfileQueryGraphqlCapsule extends BaseAppGraphqlCap
 
 /**
  * @typedef {{
- *   addressProfile: AddressProfile
+ *   addressProfile: schema.graphql.AddressProfileResult
  * }} AddressProfileQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   address: string
- *   name?: string
- *   addressImageUrl?: string
- *   xAccountUserName?: string
- * }} AddressProfile
  */

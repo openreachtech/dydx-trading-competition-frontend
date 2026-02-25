@@ -9,7 +9,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * Extract competition.
    *
-   * @returns {CompetitionEntity | null} Competition object.
+   * @returns {schema.graphql.Competition | null} Competition object.
    */
   extractCompetition () {
     const content = this.extractContent()
@@ -78,7 +78,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * get: schedules
    *
-   * @returns {CompetitionEntity['schedules']} Schedules as an array.
+   * @returns {Array<schema.graphql.CompetitionSchedule>} Schedules as an array.
    */
   get schedules () {
     return this.extractCompetition()
@@ -89,7 +89,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * get: prizeRules
    *
-   * @returns {CompetitionEntity['prizeRules']} Prize rules as an array.
+   * @returns {Array<schema.graphql.CompetitionPrizeRule>} Prize rules as an array.
    */
   get prizeRules () {
     return this.extractCompetition()
@@ -134,7 +134,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * get: host
    *
-   * @returns {Host | null}
+   * @returns {schema.graphql.AddressSummary | null}
    */
   get host () {
     return this.extractCompetition()
@@ -178,7 +178,7 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * get: defaultLeaderboardSortOption
    *
-   * @returns {SortOption | null}
+   * @returns {schema.graphql.SortOption | null}
    */
   get defaultLeaderboardSortOption () {
     return this.extractCompetition()
@@ -189,69 +189,6 @@ export default class CompetitionQueryGraphqlCapsule extends BaseAppGraphqlCapsul
 
 /**
  * @typedef {{
- *   competition: {
- *     competition: CompetitionEntity
- *   }
+ *   competition: schema.graphql.CompetitionResult
  * }} CompetitionQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   competitionId: number
- *   title: string
- *   description: string
- *   participantUpperLimit: number
- *   participantLowerLimit: number
- *   host: Host
- *   totalPrize: number
- *   minimumDeposit: string
- *   minimumTradingVolume: string
- *   imageUrl?: string
- *   schedules: Array<Schedule>
- *   status: Status
- *   prizeRules: Array<PrizeRule>
- *   outcomeCsvUrl?: string
- *   defaultLeaderboardSortOption: SortOption
- * }} CompetitionEntity
- */
-
-/**
- * @typedef {{
- *   address: string
- *   name: string
- * }} Host
- */
-
-/**
- * @typedef {{
- *   category: {
- *     categoryId: number
- *     name: string
- *     description: string
- *   }
- *   scheduledDatetime: string
- * }} Schedule
- */
-
-/**
- * @typedef {{
- *   rankFrom: number
- *   rankTo: number
- *   amount: string
- * }} PrizeRule
- */
-
-/**
- * @typedef {{
- *   statusId: number
- *   name: string
- *   phasedAt: string
- * }} Status
- */
-
-/**
- * @typedef {{
- *   targetColumn: string
- *   orderBy: string
- * }} SortOption
  */

@@ -20,7 +20,7 @@ export default class ParticipantsCurrentEquitiesQueryGraphqlCapsule extends Base
   /**
    * get: equities
    *
-   * @returns {Array<Equity>} List of equities
+   * @returns {Array<schema.graphql.ParticipantEquity>} List of equities
    */
   get equities () {
     return this.extractParticipantsCurrentEquities()
@@ -31,15 +31,6 @@ export default class ParticipantsCurrentEquitiesQueryGraphqlCapsule extends Base
 
 /**
  * @typedef {{
- *   participantsCurrentEquities: {
- *     equities: Array<Equity>
- *   }
+ *   participantsCurrentEquities: schema.graphql.ParticipantsCurrentEquitiesResult
  * }} ResponseContent
- */
-
-/**
- * @typedef {{
- *   competitionParticipantId: number
- *   equity: string
- * }} Equity
  */

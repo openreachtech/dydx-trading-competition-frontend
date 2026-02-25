@@ -50,17 +50,6 @@ export default class CompetitionTradingMetricsQueryGraphqlPayload extends BaseAp
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     address?: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.CompetitionTradingMetricsInput
  * }} CompetitionTradingMetricsQueryRequestVariables
  */

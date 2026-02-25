@@ -20,7 +20,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
   /**
    * get: myOutcome
    *
-   * @returns {Outcome | null}
+   * @returns {schema.graphql.CompetitionFinalOutcome | null}
    */
   get myOutcome () {
     return this.extractCompetitionFinalOutcome()
@@ -31,7 +31,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
   /**
    * get: outcomes
    *
-   * @returns {Array<Outcome>} List of outcomes
+   * @returns {Array<schema.graphql.CompetitionFinalOutcome>} List of outcomes
    */
   get outcomes () {
     return this.extractCompetitionFinalOutcome()
@@ -42,7 +42,7 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
   /**
    * get: pagination
    *
-   * @returns {Pagination | null} Pagination information
+   * @returns {schema.graphql.Pagination | null} Pagination information
    */
   get pagination () {
     return this.extractCompetitionFinalOutcome()
@@ -86,32 +86,6 @@ export default class CompetitionFinalOutcomeQueryGraphqlCapsule extends BaseAppG
 
 /**
  * @typedef {{
- *   competitionFinalOutcome: {
- *     myOutcome: Outcome | null
- *     outcomes: Array<Outcome>
- *     pagination: Pagination
- *   }
+ *   competitionFinalOutcome: schema.graphql.CompetitionFinalOutcomeResult
  * }} CompetitionFinalOutcomeResponseContent
- */
-
-/**
- * @typedef {{
- *   address: {
- *     address: string
- *     name: string
- *   }
- *   ranking: number
- *   performanceBaseline: number
- *   prizeUsdAmount: string
- *   pnl: number
- *   roi: number
- * }} Outcome
- */
-
-/**
- * @typedef {{
- *   totalCount: number
- *   limit: number
- *   offset: number
- * }} Pagination
  */

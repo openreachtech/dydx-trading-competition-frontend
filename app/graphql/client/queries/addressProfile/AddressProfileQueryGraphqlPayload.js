@@ -23,8 +23,6 @@ export default class AddressProfileQueryGraphqlPayload extends BaseAppGraphqlPay
 
 /**
  * @typedef {{
- *   input: {
- *     address: string
- *   }
+ *   input: schema.graphql.AddressProfileInput
  * }} AddressProfileQueryRequestVariables
  */

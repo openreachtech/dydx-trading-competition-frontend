@@ -28,16 +28,6 @@ export default class SearchAddressesQueryGraphqlPayload extends BaseAppGraphqlPa
 
 /**
  * @typedef {{
- *   input: {
- *     query: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.SearchAddressesInput
  * }} SearchAddressesQueryRequestVariables
  */
