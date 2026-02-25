@@ -33,8 +33,6 @@ export default class BulkUpdateParticipantStatusMutationGraphqlCapsule extends B
 
 /**
  * @typedef {{
- *   bulkUpdateParticipantStatus: {
- *     success: boolean
- *   }
+ *   bulkUpdateParticipantStatus: schema.graphql.BulkUpdateParticipantStatusResult
  * }} ResponseContent
  */

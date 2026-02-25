@@ -20,18 +20,6 @@ export default class UpdateCompetitionSchedulesMutationGraphqlPayload extends Ba
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     schedules: Array<{
- *       categoryId: number
- *       scheduledDatetime: string
- *     }>
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UpdateCompetitionSchedulesInput
  * }} UpdateCompetitionSchedulesMutationRequestVariables
  */

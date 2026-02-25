@@ -39,14 +39,6 @@ export default class PutAddressNameMutationGraphqlPayload extends BaseAppSignatu
 
 /**
  * @typedef {{
- *   input: {
- *     name: string
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.putAddressNameInput
  * }} PutAddressNameMutationRequestVariables
  */

@@ -20,18 +20,6 @@ export default class UpdateCompetitionLimitsMutationGraphqlPayload extends BaseA
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     participantUpperLimit: number
- *     participantLowerLimit: number
- *     minimumDeposit: string
- *     minimumTradingVolume: string
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UpdateCompetitionLimitsInput
  * }} UpdateCompetitionLimitsMutationRequestVariables
  */

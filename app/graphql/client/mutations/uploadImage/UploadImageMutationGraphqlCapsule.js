@@ -64,11 +64,6 @@ export default class UploadImageMutationGraphqlCapsule extends BaseAppGraphqlCap
 
 /**
  * @typedef {{
- *   uploadImage: {
- *     imageId: number
- *     contentType: string
- *     image: string
- *     imageUrl: string
- *   }
+ *   uploadImage: schema.graphql.UploadImageResult
  * }} UploadImageMutationResponseContent
  */

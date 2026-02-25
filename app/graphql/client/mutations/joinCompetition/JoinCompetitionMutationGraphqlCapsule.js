@@ -31,8 +31,6 @@ export default class JoinCompetitionMutationGraphqlCapsule extends BaseAppGraphq
 
 /**
  * @typedef {{
- *   joinCompetition: {
- *     competitionId: number
- *   }
+ *   joinCompetition: schema.graphql.JoinCompetitionResult
  * }} JoinCompetitionMutationResponseContent
  */

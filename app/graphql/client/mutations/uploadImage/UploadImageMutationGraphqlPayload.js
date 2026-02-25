@@ -23,8 +23,6 @@ export default class UploadImageMutationGraphqlPayload extends BaseAppGraphqlPay
 
 /**
  * @typedef {{
- *   input: {
- *     file: File
- *   }
+ *   input: schema.graphql.UploadImageInput
  * }} UploadImageMutationRequestVariables
  */

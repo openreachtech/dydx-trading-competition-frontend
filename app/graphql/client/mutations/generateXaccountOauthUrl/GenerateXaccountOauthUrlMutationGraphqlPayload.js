@@ -20,13 +20,6 @@ export default class GenerateXaccountOauthUrlMutationGraphqlPayload extends Base
 
 /**
  * @typedef {{
- *   input: {
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.GenerateXaccountOauthUrlInput
  * }} GenerateXaccountOauthUrlMutationRequestVariables
  */
