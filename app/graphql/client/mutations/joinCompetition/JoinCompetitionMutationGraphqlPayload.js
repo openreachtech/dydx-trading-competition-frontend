@@ -39,15 +39,6 @@ export default class JoinCompetitionMutationGraphqlPayload extends BaseAppSignat
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     name: string
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.JoinCompetitionInput
  * }} JoinCompetitionMutationRequestVariables
  */

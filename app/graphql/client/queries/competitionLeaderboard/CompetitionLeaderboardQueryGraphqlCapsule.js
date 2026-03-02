@@ -77,29 +77,6 @@ export default class CompetitionLeaderboardQueryGraphqlCapsule extends BaseAppGr
 
 /**
  * @typedef {{
- *   competitionLeaderboard: {
- *     myRanking: CompetitionRanking
- *     rankings: Array<CompetitionRanking>
- *     pagination: {
- *       totalCount: number
- *       limit: number
- *       offset: number
- *     }
- *   }
+ *   competitionLeaderboard: schema.graphql.CompetitionLeaderboardResult
  * }} ResponseContent
- */
-
-/**
- * @typedef {{
- *   address: {
- *     address: string
- *     name?: string
- *   }
- *   performanceBaseline: number
- *   ranking: number
- *   roi: number
- *   pnl: number
- *   calculatedAt: string // ISO string
- *   totalVolume: number
- * }} CompetitionRanking
  */

@@ -44,16 +44,6 @@ export default class SearchAddressesByNameQueryGraphqlCapsule extends BaseAppGra
 
 /**
  * @typedef {{
- *   searchAddressesByName: {
- *     addresses: Array<{
- *       address: string
- *       name?: string
- *     }>
- *     pagination: {
- *       totalCount: number
- *       limit: number
- *       offset: number
- *     }
- *   }
+ *   searchAddressesByName: schema.graphql.SearchAddressesByNameResult
  * }} ResponseContent
  */

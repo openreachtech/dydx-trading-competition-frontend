@@ -20,21 +20,6 @@ export default class UpdateCompetitionMutationGraphqlPayload extends BaseAppSign
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     title: string
- *     description: string
- *     minimumDeposit: string
- *     totalPrize: string
- *     imageUrl?: string
- *     participantLowerLimit: number
- *     participantUpperLimit: number
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UpdateCompetitionInput
  * }} UpdateCompetitionMutationRequestVariables
  */

@@ -26,9 +26,7 @@ import useWalletStore from '~/stores/wallet'
 import SectionLeagueContext from '~/app/vue/contexts/competition/SectionLeagueContext'
 
 /**
- * @typedef {import('vue').PropType<
- *   import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity
- * >} CompetitionPropType
+ * @typedef {import('vue').PropType<schema.graphql.Competition>} CompetitionPropType
  */
 
 export default defineComponent({

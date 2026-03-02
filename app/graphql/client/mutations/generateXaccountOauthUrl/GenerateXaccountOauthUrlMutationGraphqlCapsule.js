@@ -31,8 +31,6 @@ export default class GenerateXaccountOauthUrlMutationGraphqlCapsule extends Base
 
 /**
  * @typedef {{
- *   generateXaccountOauthUrl: {
- *     url: string
- *   }
+ *   generateXaccountOauthUrl: schema.graphql.GenerateXaccountOauthUrlResult
  * }} GenerateXaccountOauthUrlMutationResponseContent
  */

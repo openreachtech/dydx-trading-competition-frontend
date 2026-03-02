@@ -31,8 +31,6 @@ export default class UpdateCompetitionLimitsMutationGraphqlCapsule extends BaseA
 
 /**
  * @typedef {{
- *   updateCompetitionLimits: {
- *     competitionId: number
- *   }
+ *   updateCompetitionLimits: schema.graphql.UpdateCompetitionLimitsResult
  * }} UpdateCompetitionLimitsMutationResponseContent
  */

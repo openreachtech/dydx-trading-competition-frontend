@@ -51,18 +51,6 @@ export default class CompetitionsQueryGraphqlPayload extends BaseAppGraphqlPaylo
 
 /**
  * @typedef {{
- *   input: {
- *     title?: string
- *     statusId?: number
- *     hostAddress?: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.CompetitionsInput
  * }} CompetitionsQueryRequestVariables
  */

@@ -37,16 +37,6 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlPayload exten
 
 /**
  * @typedef {{
- *   input: {
- *     address: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.AddressCurrentCompetitionTransfersInput
  * }} AddressCurrentCompetitionTransfersQueryRequestVariables
  */

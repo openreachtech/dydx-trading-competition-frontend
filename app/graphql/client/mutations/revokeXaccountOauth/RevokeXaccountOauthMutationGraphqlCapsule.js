@@ -42,9 +42,6 @@ export default class RevokeXaccountOauthMutationGraphqlCapsule extends BaseAppGr
 
 /**
  * @typedef {{
- *   revokeXaccountOauth: {
- *     success: boolean
- *     revokedTokens: Array<string>
- *   }
+ *   revokeXaccountOauth: schema.graphql.RevokeXaccountOauthResult
  * }} RevokeXaccountOauthMutationResponseContent
  */

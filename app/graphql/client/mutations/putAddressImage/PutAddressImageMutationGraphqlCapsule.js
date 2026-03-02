@@ -9,7 +9,7 @@ export default class PutAddressImageMutationGraphqlCapsule extends BaseAppGraphq
   /**
    * Extract `putAddressImage` response content as value hash.
    *
-   * @returns {PutAddressImage | null}
+   * @returns {schema.graphql.PutAddressImageResult | null}
    */
   extractPutAddressImageValueHash () {
     return this.extractContent()
@@ -31,12 +31,6 @@ export default class PutAddressImageMutationGraphqlCapsule extends BaseAppGraphq
 
 /**
  * @typedef {{
- *   putAddressImage: PutAddressImage
+ *   putAddressImage: schema.graphql.PutAddressImageResult
  * }} PutAddressImageMutationResponseContent
- */
-
-/**
- * @typedef {{
- *   addressImageUrl: string
- * }} PutAddressImage
  */

@@ -9,7 +9,7 @@ export default class AddressNameQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * Extract `addressName` value hash.
    *
-   * @returns {AddressNameQueryResponseContent['addressName'] | null}
+   * @returns {schema.graphql.AddressNameResult | null}
    */
   extractAddressNameValueHash () {
     return this.extractContent()
@@ -20,7 +20,7 @@ export default class AddressNameQueryGraphqlCapsule extends BaseAppGraphqlCapsul
   /**
    * get: name
    *
-   * @returns {AddressNameQueryResponseContent['addressName']['name']}
+   * @returns {string | null}
    */
   get name () {
     return this.extractAddressNameValueHash()
@@ -31,8 +31,6 @@ export default class AddressNameQueryGraphqlCapsule extends BaseAppGraphqlCapsul
 
 /**
  * @typedef {{
- *   addressName: {
- *     name: string | null
- *   }
+ *   addressName: schema.graphql.AddressNameResult
  * }} AddressNameQueryResponseContent
  */

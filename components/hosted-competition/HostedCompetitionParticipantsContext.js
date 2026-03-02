@@ -520,10 +520,10 @@ export default class HostedCompetitionParticipantsContext extends BaseAppContext
 
 /**
  * @typedef {{
- *   participants: Array<import('~/app/graphql/client/queries/competitionParticipants/CompetitionParticipantsQueryGraphqlCapsule').Participant>
+ *   participants: Array<schema.graphql.CompetitionParticipant>
  *   pagination: Pagination
  *   isBulkUpdatingParticipantStatus: boolean
- *   competitionParticipantStatuses: Array<import('~/app/graphql/client/queries/competitionParticipantStatuses/CompetitionParticipantStatusesQueryGraphqlCapsule').Status>
+ *   competitionParticipantStatuses: Array<schema.graphql.Status>
  * }} PropsType
  */
 

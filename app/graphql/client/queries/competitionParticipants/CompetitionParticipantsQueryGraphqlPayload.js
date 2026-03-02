@@ -50,18 +50,6 @@ export default class CompetitionParticipantsQueryGraphqlPayload extends BaseAppG
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     statusId?: number
- *     address?: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         limit: number
- *         offset: number
- *       }
- *     }
- *   }
+ *   input: schema.graphql.CompetitionParticipantsInput
  * }} CompetitionParticipantsQueryRequestVariables
  */

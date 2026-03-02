@@ -23,9 +23,6 @@ export default class ParticipantsCurrentEquitiesQueryGraphqlPayload extends Base
 
 /**
  * @typedef {{
- *   input: {
- *     competitionParticipantIds: Array<number>
- *     timestamp: string
- *   }
+ *   input: schema.graphql.ParticipantsCurrentEquitiesInput
  * }} ParticipantsCurrentEquitiesQueryRequestVariables
  */

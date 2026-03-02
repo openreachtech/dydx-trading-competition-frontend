@@ -48,17 +48,6 @@ export default class CompetitionLeaderboardQueryGraphqlPayload extends BaseAppGr
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     address?: string
- *     pagination: {
- *       limit: number
- *       offset: number
- *       sort?: {
- *         targetColumn: string
- *         orderBy: string
- *       }
- *     }
- *   }
+ *   input: schema.graphql.CompetitionLeaderboardInput
  * }} CompetitionLeaderboardQueryRequestVariables
  */

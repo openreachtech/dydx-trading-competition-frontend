@@ -9,7 +9,7 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
   /**
    * Extract addressCurrentCompetitionTransfers value hash.
    *
-   * @returns {ResponseContent['addressCurrentCompetitionTransfers'] | null}
+   * @returns {schema.graphql.AddressCurrentCompetitionTransfersResult | null}
    */
   extractAddressCurrentCompetitionTransfersValueHash () {
     const content = this.extractContent()
@@ -21,7 +21,7 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
   /**
    * get: transfers
    *
-   * @returns {ResponseContent['addressCurrentCompetitionTransfers']['transfers']}
+   * @returns {Array<schema.graphql.CompetitionTransfer>}
    */
   get transfers () {
     return this.extractAddressCurrentCompetitionTransfersValueHash()
@@ -32,7 +32,7 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
   /**
    * get: pagination
    *
-   * @returns {ResponseContent['addressCurrentCompetitionTransfers']['pagination'] | null}
+   * @returns {schema.graphql.Pagination | null}
    */
   get pagination () {
     return this.extractAddressCurrentCompetitionTransfersValueHash()
@@ -43,7 +43,7 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
   /**
    * get: totalCount
    *
-   * @returns {ResponseContent['addressCurrentCompetitionTransfers']['pagination']['totalCount'] | null}
+   * @returns {number | null}
    */
   get totalCount () {
     return this.pagination
@@ -54,25 +54,6 @@ export default class AddressCurrentCompetitionTransfersQueryGraphqlCapsule exten
 
 /**
  * @typedef {{
- *   addressCurrentCompetitionTransfers: {
- *     transfers: Array<{
- *       blockHeight: number
- *       blockTime: string // ISO String
- *       category: {
- *         categoryId: number
- *         name: string
- *         description: string
- *       }
- *       amount: string
- *       senderAddress: string
- *       recipientAddress: string
- *       transactionHash: string
- *     }>
- *     pagination: {
- *       totalCount: number
- *       limit: number
- *       offset: number
- *     }
- *   }
+ *   addressCurrentCompetitionTransfers: schema.graphql.AddressCurrentCompetitionTransfersResult
  * }} ResponseContent
  */

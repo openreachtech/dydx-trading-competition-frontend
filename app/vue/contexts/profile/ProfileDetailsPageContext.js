@@ -341,7 +341,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
   /**
    * Extract `addressProfile` response content as value hash.
    *
-   * @returns {import('~/app/graphql/client/queries/addressProfile/AddressProfileQueryGraphqlCapsule').AddressProfile | null}
+   * @returns {schema.graphql.AddressProfileResult | null}
    */
   extractAddressProfileValueHash () {
     return this.fetcherHash
@@ -691,7 +691,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
   /**
    * get: currentCompetition
    *
-   * @returns {import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').Competition} Current competition.
+   * @returns {schema.graphql.CompetitionSummary | null} Current competition.
    */
   get currentCompetition () {
     return this.addressCurrentCompetitionCapsuleRef.value
@@ -712,7 +712,7 @@ export default class ProfileDetailsContext extends BaseAppContext {
   /**
    * get: currentRanking
    *
-   * @returns {import('~/app/graphql/client/queries/addressCurrentCompetition/AddressCurrentCompetitionQueryGraphqlCapsule').Ranking} Current ranking.
+   * @returns {schema.graphql.CompetitionRanking | null} Current ranking.
    */
   get currentRanking () {
     return this.addressCurrentCompetitionCapsuleRef.value

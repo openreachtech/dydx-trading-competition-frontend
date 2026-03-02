@@ -31,8 +31,6 @@ export default class PutAddressNameMutationGraphqlCapsule extends BaseAppGraphql
 
 /**
  * @typedef {{
- *   putAddressName: {
- *     addressId: number
- *   }
+ *   putAddressName: schema.graphql.putAddressNameResult
  * }} PutAddressNameMutationResponseContent
  */

@@ -21,13 +21,6 @@ export default class RevokeXaccountOauthMutationGraphqlPayload extends BaseAppSi
 
 /**
  * @typedef {{
- *   input: {
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.RevokeXaccountOauthInput
  * }} RevokeXaccountOauthMutationRequestVariables
  */

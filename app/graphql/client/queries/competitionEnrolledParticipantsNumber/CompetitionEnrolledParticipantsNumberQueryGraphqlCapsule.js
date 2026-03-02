@@ -9,7 +9,7 @@ export default class CompetitionEnrolledParticipantsNumberQueryGraphqlCapsule ex
   /**
    * Extract `competitionEnrolledParticipantsNumber`.
    *
-   * @returns {CompetitionEnrolledParticipantsNumber | null}
+   * @returns {schema.graphql.CompetitionEnrolledParticipantsNumberResult | null}
    */
   extractCompetitionEnrolledParticipantsNumber () {
     return this.extractContent()
@@ -31,12 +31,6 @@ export default class CompetitionEnrolledParticipantsNumberQueryGraphqlCapsule ex
 
 /**
  * @typedef {{
- *   competitionEnrolledParticipantsNumber: CompetitionEnrolledParticipantsNumber
+ *   competitionEnrolledParticipantsNumber: schema.graphql.CompetitionEnrolledParticipantsNumberResult
  * }} CompetitionEnrolledParticipantsNumberQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   enrolledParticipantsNumber: number
- * }} CompetitionEnrolledParticipantsNumber
  */

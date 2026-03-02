@@ -20,8 +20,6 @@ export default class AddressNameQueryGraphqlPayload extends BaseAppGraphqlPayloa
 
 /**
  * @typedef {{
- *   input: {
- *     address: string
- *   }
+ *   input: schema.graphql.AddressNameInput
  * }} AddressNameQueryRequestVariables
  */

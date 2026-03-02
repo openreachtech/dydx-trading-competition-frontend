@@ -48,43 +48,6 @@ export default class CompetitionsQueryGraphqlCapsule extends BaseAppGraphqlCapsu
 
 /**
  * @typedef {{
- *   competitions: {
- *     competitions: Array<CompetitionEntity>
- *     pagination: {
- *       totalCount: number
- *       limit: number
- *       offset: number
- *     }
- *   }
+ *   competitions: schema.graphql.CompetitionsResult
  * }} CompetitionsQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   competitionId: number
- *   title: string
- *   description: string
- *   participantUpperLimit: number
- *   participantLowerLimit: number
- *   host: {
- *     address: string
- *     name: string
- *   }
- *   totalPrize: number
- *   minimumDeposit: number
- *   imageUrl?: string
- *   schedules: Array<{
- *     category: {
- *       categoryId: number
- *       name: string
- *       description: string
- *     }
- *     scheduledDatetime: string
- *   }>
- *   status: {
- *     statusId: number
- *     name: string
- *     phasedAt: string
- *   }
- * }} CompetitionEntity
  */

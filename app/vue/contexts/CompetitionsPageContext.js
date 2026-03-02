@@ -289,7 +289,7 @@ export default class CompetitionsPageContext extends BaseAppContext {
   /**
    * get: competitions
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
+   * @returns {Array<schema.graphql.CompetitionSummary>}
    */
   get competitions () {
     return this.competitionsCapsuleRef.value

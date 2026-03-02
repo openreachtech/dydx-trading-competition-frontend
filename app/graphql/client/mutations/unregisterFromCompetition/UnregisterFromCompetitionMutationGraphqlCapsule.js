@@ -40,8 +40,6 @@ export default class UnregisterFromCompetitionMutationGraphqlCapsule extends Bas
 
 /**
  * @typedef {{
- *   unregisterFromCompetition: {
- *     competitionId: number
- *   }
+ *   unregisterFromCompetition: schema.graphql.UnregisterFromCompetitionResult
  * }} ResponseContent
  */

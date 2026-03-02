@@ -20,19 +20,6 @@ export default class UpdateCompetitionPrizeRulesMutationGraphqlPayload extends B
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     prizeRules: Array<{
- *       rankFrom: number
- *       rankTo: number
- *       amount: string
- *     }>
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UpdateCompetitionPrizeRulesInput
  * }} UpdateCompetitionPrizeRulesMutationRequestVariables
  */

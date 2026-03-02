@@ -20,14 +20,6 @@ export default class PutAddressImageMutationGraphqlPayload extends BaseAppSignat
 
 /**
  * @typedef {{
- *   input: {
- *     file: File
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.PutAddressImageInput
  * }} PutAddressImageMutationRequestVariables
  */

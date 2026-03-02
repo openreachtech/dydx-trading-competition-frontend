@@ -20,15 +20,6 @@ export default class BulkUpdateParticipantStatusMutationGraphqlPayload extends B
 
 /**
  * @typedef {{
- *   input: {
- *     competitionParticipantIds: Array<number>
- *     statusId: number
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.BulkUpdateParticipantStatusInput
  * }} BulkUpdateParticipantStatusMutationRequestVariables
  */

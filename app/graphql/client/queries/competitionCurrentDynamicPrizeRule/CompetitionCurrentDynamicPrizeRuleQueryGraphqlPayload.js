@@ -31,8 +31,6 @@ export default class CompetitionCurrentDynamicPrizeRuleQueryGraphqlPayload exten
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *   }
+ *   input: schema.graphql.CompetitionCurrentDynamicPrizeRuleInput
  * }} CompetitionCurrentDynamicPrizeRuleQueryRequestVariables
  */

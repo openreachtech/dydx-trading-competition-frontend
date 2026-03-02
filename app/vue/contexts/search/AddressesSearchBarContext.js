@@ -183,5 +183,5 @@ export default class AddressesSearchBarContext extends BaseAppContext {
  */
 
 /**
- * @typedef {Array<import('~/app/graphql/client/queries/searchAddresses/SearchAddressesQueryGraphqlCapsule').Address>} Addresses
+ * @typedef {Array<schema.graphql.AddressSummary>} Addresses
  */

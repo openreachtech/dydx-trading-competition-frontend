@@ -772,7 +772,7 @@ export default class SectionLeaderboardContext extends BaseAppContext {
 
 /**
  * @typedef {{
- *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   competition: schema.graphql.Competition | null
  *   competitionStatusId: number | null
  *   isLoadingLeaderboard: boolean
  *   isLoadingMetricLeaderboard: boolean

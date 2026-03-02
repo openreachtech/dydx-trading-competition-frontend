@@ -57,8 +57,6 @@ export default class CompetitionQueryGraphqlPayload extends BaseAppGraphqlPayloa
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *   }
+ *   input: schema.graphql.CompetitionInput
  * }} CompetitionQueryRequestVariables
  */

@@ -23,7 +23,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * get: host
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Host | null}
+   * @returns {schema.graphql.AddressSummary | null}
    */
   get host () {
     return this.competition
@@ -100,7 +100,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * get: prizeRules
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').PrizeRule>}
+   * @returns {Array<schema.graphql.CompetitionPrizeRule>}
    */
   get prizeRules () {
     return this.competition
@@ -111,7 +111,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * get: status
    *
-   * @returns {import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Status | null}
+   * @returns {schema.graphql.StatusPhase | null}
    */
   get status () {
     return this.competition
@@ -144,7 +144,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * get: schedules
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Schedule>}
+   * @returns {Array<schema.graphql.CompetitionSchedule>}
    */
   get schedules () {
     return this.competition
@@ -375,7 +375,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
 
   /**
    * @param {{
-   *   schedules: Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Schedule>
+   *   schedules: Array<schema.graphql.CompetitionSchedule>
    * }} params - Parameters.
    * @returns {import('~/components/units/AppTimeline.vue').Timeline}
    */
@@ -390,7 +390,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * Generate registration schedules.
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Schedule>} Registration schedules.
+   * @returns {Array<schema.graphql.CompetitionSchedule>} Registration schedules.
    */
   generateRegistrationSchedules () {
     return this.schedules.filter(
@@ -401,7 +401,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * Generate competition schedules.
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Schedule>} Competition schedules.
+   * @returns {Array<schema.graphql.CompetitionSchedule>} Competition schedules.
    */
   generateCompetitionSchedules () {
     return this.schedules.filter(
@@ -412,7 +412,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
   /**
    * Generate prize distribution schedules.
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').Schedule>} Prize distribution schedules.
+   * @returns {Array<schema.graphql.CompetitionSchedule>} Prize distribution schedules.
    */
   generatePrizeDistributeSchedules () {
     return this.schedules.filter(
@@ -452,7 +452,7 @@ export default class HostedCompetitionDetailsContext extends BaseAppContext {
 
 /**
  * @typedef {{
- *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   competition: schema.graphql.Competition | null
  * }} PropsType
  */
 

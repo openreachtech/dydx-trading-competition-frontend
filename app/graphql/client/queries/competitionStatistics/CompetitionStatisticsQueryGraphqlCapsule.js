@@ -53,10 +53,6 @@ export default class CompetitionStatisticsQueryGraphqlCapsule extends BaseAppGra
 
 /**
  * @typedef {{
- *   competitionStatistics: {
- *     totalHostedCompetitionsNumber: number
- *     totalEnrolledCompetitionParticipantsNumber: number
- *     totalPaidOutPrizesUsdAmount: string
- *   }
+ *   competitionStatistics: schema.graphql.CompetitionStatisticsResult
  * }} CompetitionStatisticsQueryResponseContent
  */

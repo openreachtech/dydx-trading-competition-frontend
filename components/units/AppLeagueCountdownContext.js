@@ -165,7 +165,7 @@ export default class AppLeagueCountdownContext extends BaseAppContext {
  *   shouldHideIcon: boolean
  *   iconName: string
  *   iconSize: string
- *   schedules: import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity['schedules']
+ *   schedules: Array<schema.graphql.CompetitionSchedule>
  * }} AppLeagueCountdownProps
  */
 

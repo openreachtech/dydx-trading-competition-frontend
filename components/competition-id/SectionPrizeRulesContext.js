@@ -117,7 +117,7 @@ export default class SectionPrizeRulesContext extends BaseAppContext {
 
 /**
  * @typedef {{
- *   prizeRules: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity['prizeRules']
+ *   prizeRules: schema.graphql.Competition['prizeRules']
  * }} PropsType
  */
 

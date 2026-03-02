@@ -289,7 +289,7 @@ export default class HostedCompetitionsPageContext extends BaseAppContext {
   /**
    * Extract `competitions`
    *
-   * @returns {Array<import('~/app/graphql/client/queries/competitions/CompetitionsQueryGraphqlCapsule').CompetitionEntity>}
+   * @returns {Array<schema.graphql.CompetitionSummary>}
    */
   extractCompetitions () {
     return this.competitionsCapsule.extractCompetitions()

@@ -20,15 +20,6 @@ export default class UpdateCompetitionStatusMutationGraphqlPayload extends BaseA
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     statusId: number
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UpdateCompetitionStatusInput
  * }} UpdateCompetitionStatusMutationRequestVariables
  */

@@ -277,6 +277,6 @@ export default class CompetitionTermsDialogContext extends AppDialogContext {
 /**
  * @typedef {{
  *   userInterfaceState: import('~/app/vue/contexts/CompetitionDetailsPageContext.js').StatusReactive
- *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity
+ *   competition: schema.graphql.Competition
  * }} CompetitionTermsDialogProps
  */

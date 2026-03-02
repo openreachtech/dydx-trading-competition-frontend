@@ -430,7 +430,7 @@ export default class EnrollmentVerificationDialogContext extends BaseAppContext 
 
 /**
  * @typedef {{
- *   competition: import('~/app/graphql/client/queries/competition/CompetitionQueryGraphqlCapsule').CompetitionEntity | null
+ *   competition: schema.graphql.Competition | null
  *   currentEquity: number | null
  *   userInterfaceState: import('~/app/vue/contexts/CompetitionDetailsPageContext.js').StatusReactive
  * }} PropsType

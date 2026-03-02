@@ -20,14 +20,6 @@ export default class UnregisterFromCompetitionMutationGraphqlPayload extends Bas
 
 /**
  * @typedef {{
- *   input: {
- *     competitionId: number
- *     signature: {
- *       signDoc: string
- *       signature: string
- *       publicKey: string
- *       address: string
- *     }
- *   }
+ *   input: schema.graphql.UnregisterFromCompetitionInput
  * }} UnregisterFromCompetitionMutationRequestVariables
  */

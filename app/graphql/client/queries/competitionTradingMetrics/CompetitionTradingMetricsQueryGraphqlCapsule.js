@@ -20,7 +20,7 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
   /**
    * get: myMetric
    *
-   * @returns {TradingMetric | null}
+   * @returns {schema.graphql.CompetitionTradingMetric | null}
    */
   get myMetric () {
     return this.extractCompetitionTradingMetricsValueHash()
@@ -31,7 +31,7 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
   /**
    * get: metrics
    *
-   * @returns {Array<TradingMetric>}
+   * @returns {Array<schema.graphql.CompetitionTradingMetric>}
    */
   get metrics () {
     return this.extractCompetitionTradingMetricsValueHash()
@@ -42,7 +42,7 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
   /**
    * get: pagination
    *
-   * @returns {Pagination | null}
+   * @returns {schema.graphql.Pagination | null}
    */
   get pagination () {
     return this.extractCompetitionTradingMetricsValueHash()
@@ -75,34 +75,6 @@ export default class CompetitionTradingMetricsQueryGraphqlCapsule extends BaseAp
 
 /**
  * @typedef {{
- *   competitionTradingMetrics: {
- *     myMetric: TradingMetric | null
- *     metrics: Array<TradingMetric>
- *     pagination: Pagination
- *   }
+ *   competitionTradingMetrics: schema.graphql.CompetitionTradingMetricsResult
  * }} CompetitionTradingMetricsQueryResponseContent
- */
-
-/**
- * @typedef {{
- *   address: {
- *     address: string
- *     name: string
- *   }
- *   makerFees: number
- *   takerFees: number
- *   totalFees: number
- *   makeVolume: number
- *   takerVolume: number
- *   totalVolume: number
- *   calculatedAt: string // ISO string
- * }} TradingMetric
- */
-
-/**
- * @typedef {{
- *   totalCount: number
- *   limit: number
- *   offset: number
- * }} Pagination
  */
