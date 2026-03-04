@@ -715,6 +715,8 @@ export default defineComponent({
     110%,
     top;
 
+  overflow-x: clip;
+
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
   }
