@@ -61,6 +61,7 @@ typings/
 # dotenv environment variables file
 .env
 .furo-env
+.furo-env.development
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
