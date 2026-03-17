@@ -663,9 +663,15 @@ export default defineComponent({
       #181825 46.63%,
       rgba(24, 24, 37, 0.00) 100%
     );
-  background-position: top;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-position:
+    center top,
+    center top;
+  background-size:
+    100% auto,
+    100% 100%;
+  background-repeat:
+    no-repeat,
+    no-repeat;
 
   @media (30rem < width) {
     margin-inline: calc(-1 * var(--size-body-padding-inline-desktop));
